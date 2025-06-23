@@ -34,6 +34,7 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+
 div.app {
     display: flex;
     flex-direction: column;
@@ -122,11 +123,17 @@ button.btn-menu-text{
 
 div.confirmationDelete{
     z-index: 15;
-    display: none;
-    width: 100%;
-    height:100vh;
-    position: absolute;
-    background-color: rgba(213, 213, 213, 0.8);
+    display: none; /* affiché dynamiquement */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(212, 212, 212, 0.9);
+    justify-content: center;
+    align-items: center; /* centre verticalement */
+    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
+    box-sizing: border-box;
 }
 
 div.confirmationDelete.show {
@@ -1594,12 +1601,15 @@ div.fullScreenTrophy {
     background-color: rgba(230, 230, 230, 0.9);
     z-index: 2;
     display: none;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    position: absolute;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* centre verticalement */
+    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
+    box-sizing: border-box;
 }
 
 div.fullScreenTrophy.show {
@@ -1785,32 +1795,38 @@ span.gestion{
 /* --------------------------------  FAKE SELECTEUR DE MODELE ------------------------------ */
 
 
-div.fake-select-area {
+/* Overlay semi-transparent plein écran */
+.fake-select-area {
     z-index: 12;
-    display: none;
-    width: 100%;
+    display: none; /* affiché dynamiquement */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    position: absolute;
     background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center; /* centre verticalement */
+    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
+    box-sizing: border-box;
 }
 
-div.fake-option-area {
+
+/* Boîte blanche des options */
+.fake-option-area {
     background-color: white;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    overflow-y: auto; /* Active le scroll si nécessaire */
+    overflow-y: auto;
     box-sizing: border-box;
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    right: 10px;
-    max-height: calc(100vh - 200px); /* 50px en haut et en bas */
-    transform: translateY(-50%);
+    padding: 15px;
+    max-height: 100%; /* limite à l'espace dispo dans le parent */
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
 
 div.fake-opt-item-container {
     width: 100%;          
@@ -2208,15 +2224,34 @@ button.counter{
 /* popup nommage nouveau compteur */
 div.popup-new-counter {
     z-index: 10;
-    display: none;
-    justify-content: center;  /* Centre horizontalement */
-    align-items: center;  /* Centre verticalement */
-    width: 100%;
+    display: none; /* affiché dynamiquement */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    position: absolute;
     background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center; /* centre verticalement */
+    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
+    box-sizing: border-box;
 }
 
+
+div.popup-new-counter-content {
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 15px;
+    max-height: 100%; /* limite à l'espace dispo dans le parent */
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
 
 div.custom-editor-btn-menu{
@@ -2229,15 +2264,6 @@ div.custom-editor-btn-menu{
     gap: 15px; /* Espacement entre les boutons */
 }
 
-
-div.popup-new-counter-content {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border-radius: 10px;
-    min-width: 300px;
-}
 
 div.popup-new-counter-content p{
     text-align: center;
@@ -2311,12 +2337,16 @@ button.btnChooseColor{
 div.popupCreateSession{
     z-index: 10;
     display: none;
-    justify-content: center;  /* Centre horizontalement */
-    align-items: center;  /* Centre verticalement */
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    position: absolute;
     background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center; /* centre verticalement */
+    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
+    box-sizing: border-box;
 }
 
 /* La zone manipulable */
