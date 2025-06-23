@@ -1,0 +1,333 @@
+
+// Tableau des notifications
+
+let notifyTextArray = {
+    delete : {emoji : "🗑️",text: "Activité supprimée !"},
+    creation : {emoji : "👌",text: "Activité créée !"},
+    modification : {emoji : "🛠️",text: "Activité modifiée !"},
+    saveprofil : {emoji : "👤",text: "Profil sauvegardé !"},
+    exportSuccess : {emoji : "🗂️",text: "Données exportées !"},
+    importSuccess : {emoji : "🗂️",text: "Données importées"},
+    saveSetting : {emoji : "🛠️",text: "Paramètres modifiés !"},
+    templateCreation :{emoji : "👌",text: "Modèle créé !"},
+    templateModification : {emoji : "🛠️",text: "Modèle modifié !"},
+    templateDeleted : {emoji : "🗑️",text: "Modèle supprimé !"},
+    counterCreated : {emoji : "👌",text: "Compteur créé !"},
+    counterDeleted : {emoji : "🗑️",text: "Compteur supprimé !"},
+    counterTargetReach : {emoji : "💪",text: "Compteur validé !"},
+    sessionReset : {emoji : "♻️​",text: "Séance réinitialisée !"},
+    activityGenerated : {emoji : "👌",text: "Activité générée !"},
+    inputIncrementEmpty : {emoji : "❗",text: "Valeur manquante !"},
+    planningModified : {emoji :"🛠️" ,text: "Planning modifié !"},
+    purgeOK : {emoji :"🗑️" ,text: "Purge effectuée !"},
+};
+
+
+
+
+
+let animationDuration = 2000;//durée de l'animation
+
+// Popup de notification 
+function onShowNotifyPopup(key) {
+    let divPopup = document.getElementById("popupNotify");
+    divPopup.style.zIndex = "999";
+
+    //emojie
+    let popupImgRef = document.getElementById("divNotifyPopupEmoji");
+    popupImgRef.innerHTML = notifyTextArray[key].emoji;
+
+    // Texte
+    let popupTextRef = document.getElementById("spanPopupNotifyText");
+    popupTextRef.innerHTML = notifyTextArray[key].text;
+
+    divPopup.classList.add('show');
+    setTimeout(() => {
+        divPopup.classList.remove('show');
+
+        divPopup.style.zIndex = "10";//pour le pas géner l'accès au champ "rechercher"
+    }, animationDuration); // Cache le popup après 3 secondes
+};
+
+
+
+
+
+
+
+// -------------------------------------- MOBILE NOTIFICATION -------------------------------------------------------
+
+
+
+// Gestion des éléments DOM
+let pMobileNotifyStatusRef = document.getElementById("pMobileNotifyStatus"),
+    rewardsKeyArrayToNotifyCue = [],//tableau vidé par la boucle de notification au fur et à mesure
+    isMobileNotifyInProgress = false; // pour ne pas lancer la boucle en doublon si traitement en cours
+
+
+
+// Fonction utilitaire pour accéder au plugin de notifications en toute sécurité
+const getLocalNotificationsPlugin = () => {
+    return window.Capacitor?.Plugins?.LocalNotifications || null;
+};
+
+
+
+
+// Demande l'autorisation pour les notifications
+async function requestNotificationPermission() {
+    const LocalNotifications = getLocalNotificationsPlugin();
+if (!LocalNotifications) return; // ou gérer proprement l'absence
+
+    const permission = await LocalNotifications.requestPermissions();
+    localStorage.setItem('MSS_notifyPermission', permission.display); // "granted" ou "denied"
+
+    if (devMode) console.log("[NOTIFY] Permission accordée : ", permission.display);
+
+    updateStatusDisplay();
+    return permission.display;
+}
+
+
+
+function sendRewardMobileNotify(title, body) {
+    const LocalNotifications = getLocalNotificationsPlugin();
+    if (!LocalNotifications) return; // ou gérer proprement l'absence
+
+    LocalNotifications.schedule({
+        notifications: [
+            {
+                title: title,
+                body: body,
+                id: Date.now(), // un ID unique
+                sound: null, // ou un fichier .mp3 si tu en ajoutes plus tard
+                smallIcon: "ic_stat_icon_config", // optionnel (tu peux le configurer dans Android)
+                largeIcon: "Icons/notifyRewardsColor192.png", // facultatif
+            }
+        ]
+    }).then(() => {
+        if (devMode) console.log("[NOTIFY] Notification envoyée : ", title);
+    });
+}
+
+
+function onReceiveNotifyMobileEvent(rewardsKeysArray) {
+    if (localStorage.getItem('MSS_notifyPermission') === 'granted') {
+        
+        // Ajout des nouvelles notifications dans la file d'attente
+        rewardsKeyArrayToNotifyCue.push(...rewardsKeysArray);
+
+        // Ne lance la boucle de traitement que si elle n'est pas encours
+        // Car sinon juste le fait d'alimenter l'arret ci-dessus suffit à la faire continuer son traitement
+        if (!isMobileNotifyInProgress) {
+            // Lancement de la boucle de traitement
+            if (devMode === true){console.log(" [NOTIFY] [MOBILE] Lancement de la boucle de traitement. Activation du boolean");};
+            isMobileNotifyInProgress = true;
+            onTraiteMobileNotify(); 
+        }
+        
+
+    } else if (localStorage.getItem('MSS_notifyPermission') === 'denied') {
+        if (devMode === true){console.log(" [NOTIFY] [MOBILE] Notification NON autorisées ! ");};
+        return
+    } else{
+        eventFirstMobileNotify(rewardsKeysArray);
+    }
+};
+
+
+
+// première notification mobile
+const eventFirstMobileNotify = async (rewardsKeysArray) => {
+
+    if (devMode === true){console.log(" [NOTIFY] [MOBILE] première notication.");};
+
+    // Première récompense
+    const permission = await requestNotificationPermission();
+    if (permission === 'granted') {
+        // Ajout des nouvelles notifications dans la file d'attente
+        rewardsKeyArrayToNotifyCue.push(...rewardsKeysArray);
+        if (devMode === true){console.log(" [NOTIFY] [MOBILE] Lancement de la boucle de traitement. Activation du boolean");};
+        isMobileNotifyInProgress = true;
+        onTraiteMobileNotify();
+    }
+};
+
+
+
+//Boucle de traitement des notifications mobiles REWARDS
+function onTraiteMobileNotify() {
+    // index zero de la file d'attente
+    let rewardKey = rewardsKeyArrayToNotifyCue[0];
+
+
+
+    //Je m'assure que le reward existe dans un des deux objets
+    if (Object.keys(allRewardsObject).includes(rewardKey) || Object.keys(allSpecialEventsRewardsObject).includes(rewardKey)){
+        if (devMode === true){console.log("[NOTIFY] [MOBILE] [REWARD] reward existant");};
+    }else{
+        console.error("ERREUR REWARDS : ",rewardKey);
+        return
+    }
+
+    // Recherche dans quel objet se trouve la récompense (standard ou spécial)
+    let isStandartReward = Object.keys(allRewardsObject).includes(rewardKey);
+    if (isStandartReward) {
+        sendRewardMobileNotify(allRewardsObject[rewardKey].activityName, allRewardsObject[rewardKey].title);
+    }else{
+        sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", allSpecialEventsRewardsObject[rewardKey].title);
+    };
+
+    
+    // Retire l'index zero de la file d'attente
+    rewardsKeyArrayToNotifyCue.shift();
+
+    if (devMode === true){
+        console.log("[NOTIFY] [MOBILE] Traitement pour " + rewardKey);
+        console.log("[NOTIFY] [MOBILE] File d'attente :" + rewardsKeyArrayToNotifyCue);
+    };
+    
+
+    setTimeout(() => {
+        if (rewardsKeyArrayToNotifyCue.length > 0) {            
+            onTraiteMobileNotify();
+        } else {
+            if (devMode === true){console.log("[NOTIFY] [MOBILE] fin de traitement. Libération du boolean");};
+            isMobileNotifyInProgress = false;
+        }
+    }, 2000);
+}
+
+
+
+// Verification des notifications mobile au démarrage
+function onInitMobileNotify() {
+    if (!window.Capacitor || !window.Capacitor.Plugins?.LocalNotifications) {
+        pMobileNotifyStatusRef.innerHTML = 'Notifications non disponibles';
+        return;
+    }
+
+    const savedPermission = localStorage.getItem('MSS_notifyPermission');
+    if (devMode) console.log("[NOTIFY] Permission sauvegardée :", savedPermission);
+    
+    updateStatusDisplay();
+}
+
+
+
+// Met à jour l'état affiché à l'utilisateur
+function updateStatusDisplay() {
+    const permission = localStorage.getItem('MSS_notifyPermission') || 'default';
+
+    if (permission === 'granted') {
+        pMobileNotifyStatusRef.innerHTML = 'Activées';
+    } else if (permission === 'denied') {
+        pMobileNotifyStatusRef.innerHTML = 'Refusées';
+    } else {
+        pMobileNotifyStatusRef.innerHTML = 'Non configurées';
+    }
+}
+
+
+
+
+
+
+// * *  *   *   *   *   * ICS   *   *   **  *   *   *   *   
+
+
+
+
+
+
+
+function onClickAddToCalendar(keyRef) {
+    let activityTarget = allUserActivityArray[keyRef];
+
+    switch (userSetting.agenda) {
+        case "NONE":
+            alert("Veuillez sélectionner un agenda dans 'Paramètres.'");
+            break;
+        case "GOOGLE":
+            let urlGoogle = generateGoogleCalendarLink(activityTarget);
+            window.open(urlGoogle, "_blank"); 
+            break;
+        case "OUTLOOK":
+            let urlOutlook = generateOutlookCalendarLink(activityTarget);
+            window.open(urlOutlook,"_blank");
+            break;
+    
+        default:
+            break;
+    }
+
+}
+
+
+
+
+
+
+
+// GENERATION GOOGLE URL
+function generateGoogleCalendarLink(activityTarget) {
+
+    let title = activityChoiceArray[activityTarget.name].displayName,
+        description = activityTarget.comment,
+        location = activityTarget.location,
+        dateFormated = activityTarget.date.replaceAll("-","");
+        scheduleStartFormated = userSetting.agendaScheduleStart.replaceAll(":","");
+        scheduleEndFormated = userSetting.agendaScheduleEnd.replaceAll(":","");
+
+    description = description + "<br> <br>Mon Suivi Sportif.";//signature
+
+    let dateStart = `${dateFormated}T${scheduleStartFormated}00`,
+        dateEnd = `${dateFormated}T${scheduleEndFormated}00`;
+
+    
+
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+           `&text=${encodeURIComponent(title)}` +
+           `&details=${encodeURIComponent(description)}` +
+           `&location=${encodeURIComponent(location)}` +
+           `&dates=${dateStart}/${dateEnd}` +
+           `&trp=true`;
+}
+
+
+
+// GENERATION OUtLOOK URL
+function generateOutlookCalendarLink(activityTarget) {
+
+    let title = activityChoiceArray[activityTarget.name].displayName,
+        description = convertLineBreaksForOutlook(activityTarget.comment),
+        location = activityTarget.location;
+
+    description = description + "<br> <br>Mon Suivi Sportif.";//signature
+
+    let dateStart = `${activityTarget.date}T${userSetting.agendaScheduleStart}:00`,
+        dateEnd = `${activityTarget.date}T${userSetting.agendaScheduleEnd}:00`;
+
+
+    return `https://outlook.live.com/calendar/0/deeplink/compose?` +
+           `subject=${encodeURIComponent(title)}` +
+           `&body=${encodeURIComponent(description)}` +
+           `&location=${encodeURIComponent(location)}` +
+           `&startdt=${dateStart}` +
+           `&enddt=${dateEnd}` +
+           `&allday=false`;
+}
+
+
+
+function convertLineBreaksForOutlook(description) {
+    return description.replace(/\n/g, "<br>"); // Remplace les retours à la ligne par %0D%0A
+}
+
+
+
+
+
+
+onInitMobileNotify();

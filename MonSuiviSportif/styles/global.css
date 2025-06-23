@@ -1,0 +1,2743 @@
+/* global  */
+
+:root{
+    --colorLightRed : rgb(255, 151, 151);
+    --colorMainTheme1 : #30849e;
+    --colorMainTheme2 : #40cccd;
+    --colorMainTheme6 :#f56b8e;
+    --colorLightGray : #fff;
+    --colorTextBtn: #7F8C8D;
+    --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
+    --boxShadowMoins : 0 2px 5px rgba(0, 0, 0, 0.03);
+    --boxShadowPlus : 0 2px 5px rgba(0, 0, 0, 0.2);
+    --themeGradientBlue : linear-gradient(#26a0b8, #47dbdb);
+    --gradientHeader : linear-gradient(to bottom right, #26a0b8, #47dbdb);
+    --themeGradientPink : linear-gradient(#ff5780,#feaec2);
+    --themeGradientGray : linear-gradient(#929292,#d5d5d5 );
+    --themePinkDark: #ff5780;
+    --themePinkLight: #ffa8be;
+    --inputSize: 16px;
+    --inputBorder : solid 1px rgb(179, 193, 201);
+}
+
+
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url(../Icons/Background-texture.webp);
+    background-repeat: no-repeat; 
+    background-size:cover; 
+    background-position: center top; 
+    background-color: #f4f4f9;
+    font-family: 'Roboto', sans-serif;
+}
+
+div.app {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 75px); /* 100% de la hauteur de la fenêtre - la hauteur de la div menu */
+    overflow: hidden; /* Empêche tout débordement en dehors de l'écran */
+}
+
+
+
+/* Logo d'application */
+
+img.logo{
+    margin-top: 5px;
+    width: 70px;
+}
+
+
+
+/* Style des boutons main menu*/
+button.btn-menu {
+    display: flex;
+    flex-direction: column; /* Place l'image au dessus du texte */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 70px;
+    height: 50px; 
+    border: none;
+    padding: 5px;
+    background: none;
+}
+
+
+
+
+
+/* Ajustement des images */
+button.btn-menu img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px; /* Espace entre l'image et le texte */
+}
+
+/* Ajustement du texte */
+button.btn-menu span {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--colorTextBtn);
+}
+
+/* Spécifique texte bouton menu blanc */
+button.btn-menu span.textWhite{
+    color: white;
+}
+
+
+
+
+
+button.delete > span{
+    color: var(--colorMainTheme6);
+}
+
+button.btnFocus{
+    background-color: var(--colorMainTheme1);
+    width: 100px;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+
+/* Les boutons des menu contenant du texte */
+button.btn-menu-text{
+    text-align: center;
+    margin-left: 5px;margin-right:5px;
+    width: 70px; height: 40px;
+    border-radius: 5px;
+    background-color:#fff;
+    color: var(--colorMainTheme1);
+    border: solid 1px var(--colorMainTheme1);
+    font-weight: bold;
+}
+
+
+
+div.confirmationDelete{
+    z-index: 15;
+    display: none;
+    width: 100%;
+    height:100vh;
+    position: absolute;
+    background-color: rgba(213, 213, 213, 0.8);
+}
+
+div.confirmationDelete.show {
+    display: flex; 
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
+
+button.confirmPopup{
+    background-color: white;
+    margin-bottom: -200px;
+    width: 70px;height: 70px;
+    border-radius: 20px;
+    border: solid 2px var(--colorMainTheme1);
+}
+
+
+/* --------------- ANIMATION DU BOUTON SUPPRIMER --------------------*/
+
+
+@keyframes grow {
+    from {
+        opacity: 0;
+        margin-bottom: -400px;
+    }
+    to {
+        opacity: 1;
+        margin-bottom: -200px;
+    }
+}
+
+/* Appliquez l'animation lorsque .show est présent */
+div.confirmationDelete.show button.confirmPopup {
+    animation: grow 200ms forwards; 
+}
+
+
+button.deleteAnnul{
+    width: 50px;
+    height: 50px;
+}
+
+img.confirmPopup{
+    width: 40px;
+    height: 40px;
+}
+
+
+
+
+div.new-interface {
+    display: none;
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+div.new-interface p {
+    width: 100%; 
+    margin: 0; 
+    padding-bottom: 10px;
+}
+
+div.new-interface select {
+    width: calc(100% - 20px); /* 100% moins 10px de padding de chaque côté */
+    border: var(--inputBorder);
+    border-radius: 10px;
+    color: #555;
+    background-color: var(--colorLightGray);
+    height: 35px;
+    padding: 0 10px; /* Ajoute un padding intérieur comme les autres champs */
+    box-sizing: border-box; /* Assure que les dimensions incluent le padding et les bordures */
+    margin-left: 10px;
+    font-size: var(--inputSize);
+}
+
+
+
+
+/* Les images des activités */
+img.activity{
+    width: 70%;
+}
+
+
+
+
+
+.filter{
+    width: 20px;
+}
+
+
+
+
+
+
+input:not([type="checkbox"]), textarea {
+    width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
+    height: 35px;
+    padding: 0 10px; 
+    margin-left: 10px;
+    border: var(--inputBorder);
+    border-radius: 10px;
+    background-color: var(--colorLightGray);
+    box-sizing: border-box; /* Inclus padding et bordures dans les dimensions */
+    font-size: var(--inputSize);
+    color: #555;
+}
+
+
+/* Les input number */
+div.number-container {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.number-container input {
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border: var(--inputBorder);
+    border-radius: 10px;
+    outline: none;
+    background: white;
+    color: #555;
+}
+
+.number-container input.distance {
+    width: 100px;
+}
+
+
+.number-container input:focus {
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Supprimer les flèches des input number */
+.number-container input::-webkit-outer-spin-button,
+.number-container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.number-container input[type="number"] {
+    /* -moz-appearance: textfield; */
+    appearance: none;      
+}
+
+/* Style pour les ":" */
+span.chrono-separator {
+    font-size: 22px;
+    font-weight: bold;
+    color: #555;
+}
+
+span.input-number-symbol{
+    font-size: 24px;
+    font-weight: bolder;
+    color: var(--colorMainTheme1);
+}
+
+/* fin des input number */
+
+
+
+label{
+    margin-left: 10px;
+    color: var(--colorMainTheme1);
+    display: block;
+    font-weight: bold;
+}
+
+select.conditionUtilisation{
+    margin-left: 10px;
+    width: 95%;
+    background-color: var(--colorLightGray);
+    height: 35px;
+    font-size: 18px;
+    border: var(--inputBorder);
+    border-radius: 10px;
+}
+
+textarea:focus, input:focus, select:focus{
+    outline: none;
+    }
+
+
+
+/* ------------------------------  DIV HOME ----------------------------------*/
+
+
+
+/* --------------- DIV HEADER------------------------------------------- */
+
+/* header prod */
+div.header{
+    width: 100%;   
+    display: flex;
+    justify-content: space-between; /* Espace entre chaque paragraphe */
+    background: var(--gradientHeader);
+    margin-bottom: 10px;
+}
+
+/* header local */
+div.header-dev{
+    background: gray;
+}
+
+
+p.app-title{
+    display: inline;
+    text-align: left;
+    color:  white;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+p.custom-info{
+    display: none;
+    text-align: right;
+    margin-right: 30px;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+/* -----------  div entête des items -------------- */
+
+
+
+
+
+
+
+
+.item-container-head {
+    width: 87%;     
+    display: flex;       
+    /* background: var(--themeGradientPink);  */
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+    border-radius: 12px;
+}
+
+
+/* Selecteur de catégorie */
+div.item-category-selector{
+    width: 80px;
+    border-radius: 5px;
+}
+
+select.item-category-selector{
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    width: 80px;
+    height: 30px;
+    font-weight: bold;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 15px;
+    border:solid 1px var(--colorMainTheme1);
+    color: var(--colorMainTheme1);
+    pointer-events: none;
+    background-color: white;
+}
+
+
+button.btn-sort{
+    font-weight: bold;
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #fff8fd;
+    color: var(--colorMainTheme6);
+    border: 1px solid #f990d4;
+    border-radius: 15px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+button.btn-sort-Non-Selected{
+    background-color: #fff8fd;
+    color: var(--colorMainTheme6);
+    border: 1px solid #f990d4;
+    border-radius: 15px;
+}
+
+button.btn-sort-Selected{
+    border: none;
+    border-radius: 20px;
+    background-color: var(--colorMainTheme6);
+    color: #ffffff;
+}
+
+
+
+
+
+
+
+
+/*  ----------------------------------------- Listes des items -------------------------------------- */
+
+
+
+
+
+
+
+/* Style pour la div principale qui contient les items */
+.items-list {
+    display: flex;
+    flex-direction: column;   /* Empile les items verticalement */
+    gap: 15px;                /* Espace entre chaque item-container */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    overflow-x: hidden;       /* 👈 Évite la scrollbar horizontale liée aux animations */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+    height: 100vh;
+}
+
+
+/* Style pour la div de chaque item */
+.item-container {
+    width: 95%;          
+    display: flex;       
+    background-color: var(--colorLightGray); 
+    padding: 16px 5px;
+    border-radius: 16px;
+    box-shadow: var(--boxShadowMoins);
+}
+
+.item-planned {
+    opacity: 0.7;
+    box-shadow: none;
+    border: dashed 2px var(--colorMainTheme1);
+    background-color: rgb(235, 235, 235);
+}
+
+/*Style pour avoir une marge en dessous du dernier item*/
+.last-container {
+    border-top : solid 1px rgb(220, 220, 220);
+    width: 100%;
+    margin-bottom: 100px;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #909090;
+}
+
+
+
+/* Style pour la partie image (bleue) */
+.item-image-container {
+    width: 50px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Style pour la partie texte (verte) */
+.item-data-container {
+    flex: 1;  
+    display: flex;
+    flex-direction: column; 
+    /* gap: 10px;              */
+    padding-left: 10px;    
+}
+
+.item-data-area1 , .item-data-area2, .item-data-area3{
+    display: flex;                  /* Pour aligner les paragraphes horizontalement */
+    justify-content: space-between; /* Espace entre chaque paragraphe */
+    border-radius: 4px;
+}
+
+.item-data-area3{
+    padding-top: 5px;
+}
+
+
+/* Styles pour les paragraphes */
+.item-data-area1 p, .item-data-area2 p, .item-data-area3 p {
+    flex: 1;                        /* Chaque paragraphe occupe le même espace */
+    margin: 0;                      /* Supprime les marges par défaut des paragraphes */
+    padding: 0px;
+    padding-left: 5px;
+}
+
+/* Alignement du texte */
+p.item-data-distance {
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+}
+p.item-data-distance-planned {
+    text-align: left;
+    color: #333;
+}
+
+
+
+p.item-data-duration {
+    text-align: center;
+    font-weight:bold;
+    color: #333;
+}
+p.item-data-duration-planned {
+    text-align: center;
+    color: #333;
+}
+
+
+p.item-data-date {
+    text-align: right;
+    margin-right: 5px;
+    color: #555;
+}
+
+p.item-data-location{
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    /* font-style: italic; */
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 600;
+
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+    width: 100px;
+    margin-bottom: 2px;
+}
+
+p.item-data-comment-collapse{
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    font-size: 0.8rem;
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+    width: 100px;/*ne pas retirer*/
+    color: #555;
+}
+
+p.item-data-comment-compact{
+    white-space: normal;
+    font-size: 0.8rem;
+    width: 100px;/*ne pas retirer*/
+    color: #555;
+}
+
+p.item-data-comment-expand{
+	white-space: pre-wrap;
+    font-size: 0.8rem;
+    width: 100px;/*ne pas retirer*/
+    color: #555;
+}
+
+
+/* Bouton New Items */
+
+
+button.btnFlottant{
+    background: linear-gradient(rgba(38,160,184,0.8), rgba(64,204,205,0.8));
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.30) 2px 2px 4px;;
+    position: fixed;
+    z-index: 4;
+}
+
+button.newActivity{
+    width: 50px; height: 50px;
+    bottom: 110px;
+    right: 45px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+button.newActivity.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+
+button.new-from-template{
+    width: 42px; height: 42px;
+    bottom: 190px;
+    right: 49px;
+    transition: opacity 0.3s ease, transform 0.5s ease;
+    display: none;
+}
+button.new-from-template.hidden{
+    opacity: 0;
+    transform: translateY(80px);
+    pointer-events: none;
+}
+
+
+
+/* Style de texte pour le bouton "afficher plus" */
+button.moreItem{
+    width: 180px;        
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--colorLightGray); 
+    padding: 5px;
+    border-radius: 15px;
+    min-height: 30px;
+    margin: auto;
+    margin-bottom: 100px;
+    margin-top: 10px;
+    border: solid 1px var(--colorMainTheme1);
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+}
+
+
+
+/* ----------------------------- DIV ITEM EDITOR -----------------------------------*/
+
+
+
+div.activityPreview{
+    text-align: center;
+    width: 100%;
+}
+
+img.activityPreview{
+    width: 35px;
+}
+
+/* Icone de planification */
+div.activityPreview p {
+    padding:0px;
+    font-size: 0.8rem;
+    color:#555;
+}
+
+
+p.activity-editor{
+    margin-bottom: 10px;
+}
+
+
+
+/* div des boutons des menus */
+div.button-editor{
+    display: none;
+    position: fixed;
+    background-color: var(--colorLightGray);
+    width: 100%;
+    height: 50px;
+    bottom: 0px;
+    padding: 10px 2px 10px 2px;
+    text-align: center;
+    border-radius: 0px 0px 10px 10px;
+
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center; /* Centre les boutons verticalement */
+    gap: 15px; /* Espacement entre les boutons */
+
+}
+
+
+textarea {
+    height: 200px;
+    resize: none;
+    padding-bottom: 30px;
+}
+
+textarea.notes{
+    height: 300px;
+}
+
+
+
+
+
+
+/* ------------------------------- MENU PRINCIPAL -----------------------------------*/
+
+
+/* Animation pour le menu sup */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-menu-sup.animate-in {
+    animation: fadeSlideUp 0.3s ease forwards;
+}
+
+
+
+
+div.main-menu{
+    position: fixed;
+    background-color: var(--colorLightGray);
+    width: 100%;
+    height: 50px;
+    bottom: 0px;
+    padding: 10px 2px 10px 2px;
+    text-align: center;
+    border-radius: 0px 0px 10px 10px;
+
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center; /* Centre les boutons verticalement */
+    gap: 15px; /* Espacement entre les boutons */
+}
+
+
+
+
+.main-menu-sup{
+    width: 100%;
+    height: 100vh;
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+    box-sizing: border-box;
+    z-index: 12;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+.main-menu-sup-button-area {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    min-width: 300px;
+    max-width: 400px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+button.btn-menu-sup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100px;
+    aspect-ratio: 1 / 1;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    background: none;
+    color: var(--colorTextBtn);
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+
+button.btn-menu-sup > img{
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+/*---------------------------  MENU FAVORIS -------------------------------*/
+
+
+
+
+
+
+div.div-favoris-list{
+    display: none;
+    height: 100vh;
+    text-align: left;
+
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding-right: 20px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+
+
+li.favoris-list{
+    margin-top: 10px; 
+    height: 40px;
+    border-bottom: solid 1px var(--colorMainTheme1);
+}
+
+
+/* p.favoris-list{
+    margin-top: 2px; margin-bottom: 2px; margin-left: 10px;
+    display: inline-block;
+} */
+
+
+
+
+/* Container li pour utiliser flexbox */
+.favoris-list {
+    display: flex;           /* Utilise flexbox pour les éléments à l'intérieur */
+    align-items: center;     /* Aligne verticalement les éléments */
+    justify-content: flex-start; /* Aligne les éléments à gauche par défaut */
+    position: relative;
+    margin: 10px 0;          /* Ajouter un peu de marge pour espacer les items */
+}
+
+/* Style pour l'image principale de l'activité */
+.favoris-list img {
+    margin-right: 10px;      /* Marge entre l'image et le texte */
+    width: 30px;
+}
+
+/* Alignement spécifique pour l'icône de favoris */
+.favoris {
+    margin-left: auto;       /* Pousse l'icône de favoris à droite */
+    cursor: pointer;        /* Optionnel, pour indiquer que l'icône est cliquable */
+}
+
+
+
+
+
+
+
+/*------------------------------   SETTING / GESTION DATA ------------------------------*/
+
+
+
+div.btn-import-export{
+    text-align: center;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+
+
+button.btn-menu-setting{
+    text-align: center;
+    margin-left: 20px;margin-right: 20px;
+    width: 40px; height: 40px;
+    border: none;
+    /* border: solid 1px var(--colorMainTheme1); */
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    background-color:#fff;
+}
+
+button.import{
+    min-width: 120px;
+    color: var(--colorMainTheme1);
+    font-weight: bold;
+}
+
+button.import img{
+    margin-left: 20px;
+}
+
+
+
+h3.settingCategorie{
+    color: var(--colorMainTheme6);
+    display: flex; margin: auto;
+    margin-bottom: 20px;margin-top: 20px;
+}
+
+
+
+p.settingAlert{
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+
+p.settingAlertComment{
+    margin-left: 10px;
+    padding-left: 10px;
+    font-size: 0.8rem;
+    color: #909090;
+}
+
+span.settingSeparator{
+width: calc(100% - 20px);
+margin-left: 10px; margin-top: 20px;
+display: block;
+border-bottom: solid 1px #acacac;
+}
+
+
+button.delete-data{
+    background: var(--themeGradientPink);
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: white;
+}
+
+button.cancel-delete-data{
+    background-color: var(--colorMainTheme2);
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    padding: 10px;
+    font-weight: bold;
+}
+
+
+
+p.setting-action-result{
+    font-weight: bold;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+
+div.setting-align-center{
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+
+div.confirmationDeleteBdD{
+    z-index: 2;
+    display: none;
+    width: 100%;
+    height:100vh;
+    position: absolute;
+    background-color: #ececec;
+
+}
+
+div.confirmationDeleteBdD.show {
+    display: flex; /* Change display pour l'afficher */
+    flex-direction: column;
+    align-items: center;
+}
+
+
+button.deleteConfirmBdD{
+    background: var(--themeGradientPink);
+    margin-bottom: -200px;
+    width: 70px;
+    height: 70px;
+    color: white;
+    border-radius: 10px;
+}
+
+div.confirmationDeleteBdD p{
+    margin-left: 20px;
+}
+
+select.setting{
+    margin-bottom: 20px;
+}
+
+
+
+
+span.settingCreneau{
+    padding-top: 100px;
+    margin-left: 10px;
+}
+
+
+img.waiting{
+    width: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+p.waiting{
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+}
+
+
+
+
+
+
+
+
+
+/*---------------------- INFO ------------------------------------*/
+div.release-licence{
+    width: calc(100% - 20px);
+    padding-left: 10px;
+}
+
+p.release-licence{
+    text-align: left;
+}
+
+div.center{
+    width: calc(100% - 20px);
+    text-align: center;
+}
+
+img.imgQRcode{
+    width: 150px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+/* -------------------------------- CONDITION D'UTILISATION -------------------- */
+
+
+
+
+
+
+
+
+
+
+.condition-interface{
+    display: none;
+    position: fixed;
+    top: 60px;
+    width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
+    height: 90vh;
+    border-radius:10px 10px;
+    padding-left: 20px;
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+
+.condition-interface p{
+    text-align: justify;
+    margin-left: 10px;
+}
+
+.condition-interface li{
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
+
+
+h3.conditionUtilisation{
+    color: var(--colorMainTheme1);
+}
+
+
+
+div.entete-condition{
+     text-align: center;
+}
+
+div.buttonAcceptation{
+
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center; /* Centre les boutons verticalement */
+}
+
+/* -------------------------------- NOTIFICATION -------------------- */
+
+.popupNotify {
+    min-width: 230px;
+    position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background-color: #4DB6E2; /* bleu plus doux */
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 10;
+
+}
+
+
+.popupNotify.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+    /* Emoji dans cercle blanc */
+div.notify-emoji {
+      background-color: white;
+      color: black;
+      font-size: 20px;
+      padding: 6px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+}
+
+
+
+
+
+/* ---------------------------------------    STAT -----------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+div.stat{
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: var(--boxShadowMoins);
+    margin-top: 20px;
+}
+
+.highlight{
+    color: var(--colorMainTheme6);
+}
+
+div.statGraphique{
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: var(--boxShadowMoins);
+    width: 100%;
+}
+
+
+section.stat{
+    width: calc(100% - 20px); 
+    margin-bottom: 5px;
+}
+
+
+section.stat p {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    color: #555;
+    padding-bottom: 2px;
+}
+
+p.stat{
+    padding-top: 20px;
+    padding-left: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+    justify-content: baseline;
+}
+
+label.stat-activity-choice{
+    color: #555;
+}
+
+h2.stat-title-1{
+    padding-left: 10px;
+    color: var(--colorMainTheme1);
+    justify-content: baseline;
+}
+
+h3.stat{
+    padding-left: 10px;
+    justify-content: baseline;
+}
+h3.stat-title-activity{
+    color: #666;
+}
+
+h3.stat-title-duration{
+    color: var(--colorMainTheme6);
+}
+
+h3.stat-title-distance{
+    color: var(--colorMainTheme1);
+}
+
+
+/* Month Container */
+div.stat-months {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    overflow-x: auto; /* Ajout du scroll horizontal */
+    white-space: nowrap; /* Empêche les éléments de passer à la ligne */
+}
+
+div.stat-month {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    min-width: 40px;
+}
+
+.stat-month span {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    color: #555;
+}
+
+span.StatHigherValueActivity{
+    font-weight: bolder;
+    color: #666;
+}
+
+span.StatHigherValueDuration{
+    font-weight: bolder;
+    color: var(--colorMainTheme6);
+}
+span.StatHigherValueDistance{
+    font-weight: bolder;
+    color: var(--colorMainTheme1);
+}
+
+/* Vertical Progress Bar */
+.stat-progress-bar {
+    position: relative;
+    width: 15px;
+    height: 100px;
+    background: rgb(250, 250, 250);
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.stat-progress-bar::before {
+    content: "";
+    position: relative;
+    width: 100%;
+    height: var(--progress);
+    border-radius: 5px;
+    transition: height 0.3s ease;
+}
+
+
+/* Les couleurs des graphiques de stat */
+.stat-pb-activities::before{
+    background:var(--themeGradientGray);
+}
+
+.stat-pb-duration::before{
+    background:var(--themeGradientPink);
+}
+
+.stat-pb-distance::before{
+    background:var(--themeGradientBlue);
+}
+
+
+
+
+select.graph-stat{
+    margin-top: 20px;
+    display: flex;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+div.statYears{
+    width: 100%;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: var(--boxShadowMoins);
+    margin-top: 20px;
+}
+
+
+
+/* ---------------------------------------- RECOMPENSES ------------------------------ */
+
+
+/* div séparateur des catégories de reward */
+div.reward-category{
+    min-width: 100%;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+div.reward-category > img{
+    margin-left: 10px;
+}
+
+div.reward-category.special{
+    border-bottom: solid 2px var(--colorMainTheme6);
+    color: var(--colorMainTheme6);
+}
+
+div.reward-category.standard{
+    border-bottom: solid 2px var(--colorMainTheme1);
+    color: var(--colorMainTheme1);
+    margin-top: 20px;
+}
+
+
+
+
+
+.popupReward {
+    width: 60px;
+    /* height: 5px; */
+    padding: 5px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    margin: 20px auto;
+    position: absolute;
+    opacity: 0;
+    top : -10px;
+    transition: opacity 0.3s ease;
+    left: 0;
+    right: 0;
+    z-index: 9;
+
+}
+
+
+.popupReward.show {
+    opacity: 1;
+}
+
+.popupReward img{
+    width: 30px;
+}
+
+
+
+
+/* Bouton menu reward */
+
+/* Animation pour faire clignoter le background avec différentes couleurs */
+@keyframes borderBlink {
+    0% {
+        background: "";
+    }
+    50% {
+        background: var(--themePinkLight);
+    }
+    100% {
+        background: "";
+    }
+}
+
+.rewardAvailable{
+    animation: borderBlink 1.5s infinite;
+}
+
+/* FIN Bouton menu reward */
+
+
+
+
+div.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+
+div.reward-card {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    max-width: 110px; 
+}
+
+div.reward-card.unlocked {
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 4px 10px rgba(76, 142, 175, 0.3);
+}
+
+
+
+div.reward-card.locked {
+    opacity: 0.5;
+}
+
+
+
+/* Tremblement pour les récompenses verrouillées */
+div.reward-card.locked.tremble {
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+
+p.reward-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+p.reward-condition {
+    font-size: 14px;
+    color: #666;
+}
+
+
+img.rewardCardEnable {
+    width: 90px;
+}
+
+
+img.rewardCardDisable {
+    width: 50px;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 87, 128, 0.5); /* Lumière dorée */
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(255, 87, 128, 1); /* Lumière dorée */
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 87, 128, 0.5);
+    }
+}
+
+.newRewards{
+    animation: pulse 1.5s infinite;
+}
+
+
+
+img.rewardsListDisable {
+    width: 80px;
+    border: solid 1px rgb(246, 246, 246);
+    border-radius: 10px;
+    margin: 10px;
+    background-color: rgb(246, 246, 246);
+    opacity: 0.1;
+}
+
+
+
+
+@keyframes animRewardVisualisation {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* En plein écran */
+/* Cette div fait également office de bouton pour fermer la vue */
+div.fullScreenTrophy {
+    background-color: rgba(230, 230, 230, 0.9);
+    z-index: 2;
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.fullScreenTrophy.show {
+    display: flex; /* Change display pour l'afficher */
+}
+
+/* La div contenant l'ensemble des éléments du reward */
+div.fullScreenTrophy div.fullScreenRewardContent{
+    border: solid 2px var(--colorMainTheme1);
+    background-color: var(--colorLightGray);
+    border-radius: 20px;
+    animation: animRewardVisualisation 200ms forwards;
+    text-align: center;
+}
+
+
+img.trophyFullScreen{
+    width: 300px;
+    margin: 10px;
+}
+
+
+
+
+p.trophy{
+    border: none;
+    padding: 5px 20px 5px 20px;
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+    text-align: center;
+}
+
+p.trophyDetail{
+    border: none;
+    padding: 5px 20px 5px 20px;
+    text-align: center;
+    padding: 20px;
+    margin-left: 20px;margin-right: 20px;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+
+
+
+
+
+
+
+        /* Couleurs pour chaque groupe */
+        div.nuance-blue-light {
+            border-color: #00A9F4; /* Bleu clair */
+        }
+        
+        div.nuance-turquoise {
+            border-color: #17A2B8; /* turquoise */
+        }
+        
+        div.nuance-green-light {
+            border-color: #03e224; /* Vert clair */
+        }
+        
+        div.nuance-orange {
+            border-color: #ffbd17; /* nuance-orange */
+        }
+        
+        div.nuance-olive {
+            border-color: #4B8B3B; /* Jaune */
+        }
+        
+        div.nuance-pink {
+            border-color: #FF69B4; /* Rose */
+        }
+        
+        div.nuance-purple {
+            border-color: #800080; /* Violet */
+        }
+        
+        div.nuance-red {
+            border-color: #FF6F61; /* Violet */
+        }
+        div.nuance-dark-gray {
+            border-color: #6C757D; /* Gris foncé */
+        }
+        
+        div.nuance-light-bluegray {
+            border-color: #B0C4DE; /* Gris clair */
+        }
+
+
+
+/*Style pour avoir une marge en dessous du dernier item*/
+.info-basDePage {
+    border-top : solid 1px rgb(220, 220, 220);
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #909090;
+}
+
+
+
+
+
+div.checkboxContainer{
+    margin-left: 10px;
+    text-align: center;
+    width: calc(100% - 20px);
+}
+
+input[type="checkbox"]{
+ transform: scale(1.5);
+
+}
+span.spanCheckbox{
+    margin-top: 15px; margin-bottom: 15px;
+    margin-left: 10px;
+    color: var(--colorMainTheme1);
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* pour afficher des items pendant un devellopement qui sont caché par défaut */
+/* Style pour les champs requis */
+input.fieldRequired{
+    border : solid 2px var(--colorMainTheme6);
+}
+
+
+
+/*  ---------------------------------------- TEMPLATE -----------------------------------------------------*/
+
+
+
+div.templateList{
+    width: 100%;
+    overflow-x: hidden;   /* 👈 Évite la scrollbar horizontale liée aux animations */
+    overflow-y: visible; /* ✅ autorise l’expansion verticale (PAS de scroll ici) */
+    flex-shrink: 0;      /* ✅ évite que la div soit compressée si le parent scroll */
+}
+
+.item-template-container {
+    width: 95%;          
+    display: flex;       
+    background-color: var(--colorLightGray); 
+    padding: 10px 5px 10px 10px;
+    border-radius: 10px;
+    box-shadow: var(--boxShadowMoins);
+    margin-bottom: 20px;
+}
+
+
+img.templateList{
+    width: 30px;
+    margin-right: 20px;
+}
+
+
+img.templateListSet{
+    width: 20px;height: 20px;
+    padding-top: 5px;
+    margin-right: 10px;
+    opacity: 0.2;
+}
+
+span.templateList{
+    padding-top: 5px;
+    width: 100%;
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    /* font-size: 0.8rem; */
+    color: var(--colorMainTheme1);
+
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+}
+
+span.gestion{
+    color: #555;
+}
+
+
+/* --------------------------------  FAKE SELECTEUR DE MODELE ------------------------------ */
+
+
+div.fake-select-area {
+    z-index: 12;
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+div.fake-option-area {
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto; /* Active le scroll si nécessaire */
+    box-sizing: border-box;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    max-height: calc(100vh - 200px); /* 50px en haut et en bas */
+    transform: translateY(-50%);
+}
+
+
+div.fake-opt-item-container {
+    width: 100%;          
+    display: flex;       
+    border-bottom: solid 1px #dadada;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div.fake-opt-item-last-container{
+    border-bottom: none;
+}
+
+div.fake-opt-item-last-favourite{
+    border-bottom: dashed 2px;
+    border-color: var(--colorMainTheme1);
+}
+
+
+span.fake-opt-item{
+    padding-top: 5px;
+    width: 100%;
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+}
+
+img.fake-opt-item{
+    width: 30px;height: 30px;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+span.fake-opt-item-favoris{
+    color: var(--colorMainTheme1);
+    font-weight: bold;
+}
+
+span.favouriteSymbol{
+    font-size: 1.2rem;
+    margin-right: 10px; margin-left: 10px;
+    color: var(--colorMainTheme1);
+}
+
+
+
+
+/* Effet bouton désactivé lorsque peut plus faire de modèle */
+button:disabled {
+    opacity: 0.5;  
+    cursor: not-allowed; /* Change le curseur */
+    filter: grayscale(100%); /* Rend l'image en noir et blanc */
+}
+
+button:disabled img {
+    opacity: 0.5; /* Assombrit aussi l'image */
+}
+
+
+
+
+
+/* Le selecteur en lui même */
+div.fake-selector{
+    width:100%;
+    box-sizing: border-box; /* Inclus padding et bordures dans les dimensions */
+}
+
+span.fake-selector{
+    font-size: 0.8rem;
+}
+
+svg.arrow {
+    flex-shrink: 0; /* Empêche la flèche de rétrécir */
+}
+
+
+
+/* BOUTON RADIO FAKE */
+
+.radio-button-fake {
+    width: 15px;   /* Taille fixe */
+    height: 15px;  /* Taille fixe */
+    border-radius: 50%;
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Empêche la déformation */
+}
+
+.radio-button-fake.selected{
+    border: 2px solid var(--colorMainTheme1);
+}
+
+.radio-button-fake.selected::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color:  var(--colorMainTheme1);
+    border-radius: 50%;
+}
+
+
+.select-locked{
+    pointer-events: none;
+}
+
+
+
+button.buttonAddCalendar{
+    height: 30px;width: 30px;
+    padding: 0px;font-size: 1.5rem;
+    border-radius: 2px;
+    border: none;
+}
+
+
+
+
+
+
+/* Pour éviter que l'utilisateur ait le temps de cliquer 2 fois sur le meme bouton */
+div.disabledEvent{
+    pointer-events: none;
+}
+
+
+
+
+
+
+/* ------------------------------------ #Compteur ----------------------------------*/
+
+div.divCounterListArea{
+    width: 100%;
+}
+
+div.endListArea{
+    display: flex;
+    width: 100%;
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;
+}
+
+
+.compteur-content-line-1,
+.compteur-content-line-2,
+.compteur-content-line-3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* A débloquer pour travailler sur les lignes des compteurs */
+/* .compteur-content-line-1{
+    background-color: #47dbdb;
+}
+.compteur-content-line-2{
+    background-color: antiquewhite;
+}
+.compteur-content-line-3{
+    background-color: rgb(211, 255, 205);
+} */
+
+.compteur-container {
+    padding: 15px;
+    position: relative;
+    width: 80%;             
+    /* Le background est set selon la configuration utilisateur */
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--boxShadow);
+    margin-left: 10px;
+}
+
+
+/* Ligne 1 */
+p.compteur-name{
+    font-size: 24px;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+    max-width: 350px;
+}
+
+
+button.btn-counter-setting{
+
+    background: none;
+    border: none;
+
+}
+
+
+/* Ligne 2 */
+span.target-reach{
+    font-size: 40px;
+    font-weight: bold;
+    color:black;
+}
+
+
+/* Animation incrementation */
+@keyframes anim-pop {
+  0% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(1.5);
+    color: rgba(66, 66, 66, 0.6); /* Couleur temporaire pour l'effet */
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+/* Animation monter descendre */
+@keyframes disappearDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes appearUp {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+span.current-serie {
+    height: 40px;
+    font-size: 52px;
+    font-weight: bold;
+    transition: transform 0.3s;
+    display: inline-block; /* OBLIGATOIRE pour le transform */
+}
+span.current-serie.pop-animation {
+  animation: anim-pop 0.3s ease;
+}
+span.current-serie.reset-out {
+  animation: disappearDown 0.30s forwards;
+}
+
+span.current-serie.reset-in {
+  animation: appearUp 0.30s forwards;
+}
+
+span.serie-target{
+        height: 40px;
+        font-size: 30px;
+        padding-top: 25px;
+        margin-left: auto;
+}
+
+
+span.serie-text{
+    color: #666;
+    height: 40px;
+    font-size:18px;
+    padding-top: 25px;
+    margin-left: auto;
+}
+
+
+.counter-total{
+    color: #666;
+    height: 40px;
+    font-size: 18px;
+    padding-top: 25px;
+    margin-left: auto;
+}
+
+
+
+
+/* Pour la ligne 3 : input centré */
+.compteur-content-line-3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.compteur-content-line-3 input.compteur {
+    margin: 0 auto;
+}
+
+
+
+/* rayure lorsque validé */
+img.overlay-image-rayure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ajuste la taille sans déformation */
+    pointer-events: none; /* Permet de cliquer à travers */
+    z-index: 1; /* S'assure que l'image est bien au-dessus */
+    opacity: 0; 
+}
+
+img.counterTargetDone{
+    opacity: 1;
+}
+
+button.btn-counter-reset{
+    width: 40px; height: 40px;
+    border: none;
+    background :none;
+    padding-top: 15px;
+}
+
+
+/* INPUT ET PLACEHOLDER REP */
+.wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.wrapper::after {
+    content: "rép";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+    font-size: 16px;
+}
+
+/* Ajuste le padding de l'input pour éviter que le texte "rep" ne chevauche le chiffre */
+.wrapper .compteur {
+    padding-right: 35px;
+}
+
+
+
+input.compteur {
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    border: var(--inputBorder);
+    border-radius: 15px;
+    outline: none;
+    background: white;
+    color: #555;
+    -moz-appearance: textfield;
+    appearance: none; 
+}
+
+
+input.compteur:focus {
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Supprimer les flèches des input number */
+input.compteur::-webkit-outer-spin-button,
+input.compteur::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+button.counter{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    text-align: center;
+    width: 150px;
+    height: 50px; /* Taille augmentée pour plus d'équilibre */
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    margin-left: 50px;
+}
+
+
+/* popup nommage nouveau compteur */
+div.popup-new-counter {
+    z-index: 10;
+    display: none;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: center;  /* Centre verticalement */
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+
+div.custom-editor-btn-menu{
+    width: 100%;    
+    height: 50px;
+    display: flex;
+
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center; /* Centre les boutons verticalement */
+    gap: 15px; /* Espacement entre les boutons */
+}
+
+
+div.popup-new-counter-content {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 300px;
+}
+
+div.popup-new-counter-content p{
+    text-align: center;
+}
+
+div.popup-new-counter-content label{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.popup-new-counter-content input.counterName{
+    margin-bottom: 10px;
+}
+
+
+div.confirmationDeleteCounter{
+    z-index: 12;
+    display: none;
+    width: 100%;
+    height:100vh;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+div.confirmationDeleteCounter.show {
+    display: flex; /* Change display pour l'afficher */
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
+
+/* Appliquez l'animation lorsque .show est présent */
+div.confirmationDeleteCounter.show button.confirmPopup {
+    animation: grow 200ms forwards; /* Ajoute l'animation explicite */
+}
+
+
+
+/* Les boutons des différents menu */
+
+
+button.btnChooseColor{
+    border: none;
+    border-radius: 10px;
+    margin: 5px;
+    height: 50px;width: 50px;
+    font-size: 0.7rem;
+}
+
+
+
+/* DRAGN DROP */
+.sortable-ghost {
+    opacity: 0.4;
+    background-color: #ccc;
+}
+.drag-handle {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    font-size: 18px;
+    padding: 10px 10px 10px 0px;
+    color: #888;
+    /* background-color: orange; */
+}
+/* ----------------------------------------- Génération de session  ---------------------------*/
+
+
+
+div.popupCreateSession{
+    z-index: 10;
+    display: none;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: center;  /* Centre verticalement */
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* La zone manipulable */
+div.createSessionArea{
+    width: calc(100% - 20px);
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+div.session-list {  
+    height: 60vh;
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #dddddd;
+    /* padding: 8px; */
+    padding-top: 5px;padding-bottom: 5px;
+    text-align: center;
+}
+th {
+    background-color: #f4f4f4;
+}
+.gen-session-col-nom { width: 50%; }
+.gen-session-col-objectif { width:100px;}
+.gen-session-col-serie { width:100px; }
+.gen-session-col-color { width:100px; }
+
+
+/* Les inputs number du générateur de session */
+
+input.numberGenSession { 
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+    border: var(--inputBorder);
+    border-radius: 5px;
+    outline: none;
+    background: white;
+    color: #555;
+    -moz-appearance: textfield;
+    appearance: none; 
+}
+
+input.numberGenSession:focus {
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Supprimer les flèches des input number */
+input.numberGenSession::-webkit-outer-spin-button,
+input.numberGenSession::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+
+input.gen-session-col-nom{
+    width: 90%;
+    border-radius: 5px;
+
+}
+
+input.gen-session-col-series{
+    width: 90%;margin: 0px; padding: 0px;
+}
+
+input.gen-session-col-rep{
+    width: 90%;margin: 0px;padding: 0px;
+}
+
+
+select.gen-session-col-color{
+    width: 80px;
+    border: var(--inputBorder);
+    border-radius: 10px;
+    color: #555;
+    background-color: var(--colorLightGray);
+    height: 35px;
+    padding: 0 10px; /* Ajoute un padding intérieur comme les autres champs */
+    box-sizing: border-box; /* Assure que les dimensions incluent le padding et les bordures */
+    margin-left: 10px;
+    font-size: var(--inputSize);
+}
+
+
+
+
+select.chooseTemplateSession{
+    padding: 10px; margin-bottom: 10px;
+    border-radius: 10px; font-weight: bold;
+    text-align: center; font-size: 16px; 
+    margin-left: 10px;margin-right: 10px;
+    border: solid 1px var(--colorMainTheme1);
+    background-color: var(--colorMainTheme1);
+    color: white;
+}
+
+/* ------------------------------------ FIN Génération session ----------------------------------*/
+
+
+
+
+
+div.divEditorTemplateSessionArea{
+    background-color: #f4f4f9;
+    width: 100%;
+}
+
+
+
+
+
+/*  --------------------------  Recherche ----------------------- */
+p.search-area{
+    display: inline;
+    text-align: right;
+    margin-right: 10px;
+    z-index: 11;
+}
+
+p.search-area  input{
+    border-radius: 10px;
+    height: 25px; font-size: 14px;
+    width: 180px;
+    border : none;
+    color: var(--colorMainTheme1);
+}
+
+
+
+/* Image activity prévious */
+p.custom-info-img-activity-area{
+    display: none;
+    background-color: white;
+    padding-left: 10px;padding-right: 10px;
+    padding-top: 5px;
+    margin: 5px 20px 0px 0px;
+    height: 40px;width: 40px;
+    text-align: center;
+    border-radius: 20px;
+}
+p.custom-info-img-activity-area > img{
+    width: 35px;
+    display: inline;
+    text-align: right;
+
+}
+
+
+
+
+
+
+
+/* ------------------------------------- #PLANNING ----------------------- */
+
+
+
+
+
+
+
+
+
+
+
+div.planning-menu{
+    display: none;
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+
+
+
+.planning-grid {
+    display: grid;
+    grid-template-columns: 48% 48%; /* Deux colonnes de 50% exactement */
+    gap: 10px;
+    max-width: 1000px;
+    width: 100%;  
+}
+
+.planning-grid > div {
+    background-color: white;
+    padding: 15px;
+    min-height: 100px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+
+}
+
+
+
+/* Le jour en cours */
+div.planning-today {
+    border: solid 2px var(--colorMainTheme1);
+}
+
+div.planning-today > p {
+    color: var(--colorMainTheme1);
+}
+
+/* DIMANCHE = toute la ligne */
+.planning-grid .dimanche {
+    grid-column: 1 / -1;
+}
+
+p.planning-day-title {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+p.planning-day-comment{
+    color: #555;
+   font-size: 14px;
+    margin: 10px 0 0;
+}
+
+/* Contenu injecté dynamiquement */
+.planning-content {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.planning-content > img{
+    width: 40px;
+}
+
+
+
+
+/* ------ #PLANNING EDITOR */
+
+
+
+
+
+p.planning-editor-title{
+    font-weight: bold;
+    font-size: 24px;
+    color: #555;
+    text-align: center;
+}
+
+
+div.planning-editor{
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
+    border-radius: 10px;
+    padding-top: 20px;padding-bottom: 20px;
+    text-align: center;
+    gap: 10px;
+    background-color: white;
+}
+
+
+/* Bouton ajouter activité */
+button.dynamic-button-add {
+    height: 45px; min-height: 45px;
+    min-width: 200px;
+    background-color: var(--colorMainTheme1);
+    border: solid 2px var(--colorMainTheme1);
+    border-radius: 10px;
+    /* font-weight: bold; */
+    font-size: 18px;
+    margin: auto;
+    margin-top: 20px;margin-bottom: 20px;
+    color: white;
+}
+p.planningEditorPlus{
+    color: white;
+    display: inline;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+/* Container d'une activité */
+div.editor-activity-item-content{
+    width: 95%;
+    display: flex; 
+    align-items: center;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+div.planning-editor-item-area{
+    width: 100%;
+}
+
+div.editor-activity-item-content > p{
+    font-weight: bold;
+    color: #555;
+    font-size: 18px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+
+
+
+/* Bouton suppression */
+div.editor-activity-item-content > button{
+    background: none;
+    border: none;
+    width: 50px;
+    height: 50px;
+}
+
+
+
+
+
+
+
+
+
+/* -------------- CHECKBOX SWITCH CUSTOM ----------------*/
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  margin-left: 8px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 24px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.4s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: var(--colorMainTheme1); 
+}
+
+input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+
+
+
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px); /* arrive de la droite */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.item-animate-in-horizontal {
+  animation: slideInRight 0.4s ease-out;
+  animation-fill-mode: both;
+  opacity: 0; /* important pour éviter l'apparition brutale */
+}
+
+
+
+
+
+
+
+div.dev{
+ display: flex;
+ background-color: orange;
+}
+
+
