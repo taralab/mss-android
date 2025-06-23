@@ -24,6 +24,8 @@
 body{
     margin: 0;
     padding: 0;
+    padding-top: 40px;
+    box-sizing: border-box;
     background-image: url(../Icons/Background-texture.webp);
     background-repeat: no-repeat; 
     background-size:cover; 
@@ -35,7 +37,7 @@ body{
 div.app {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 75px); /* 100% de la hauteur de la fenêtre - la hauteur de la div menu */
+    height: calc(100vh - 100px); /* 100% de la hauteur de la fenêtre - la hauteur de la div menu */
     overflow: hidden; /* Empêche tout débordement en dehors de l'écran */
 }
 
@@ -185,6 +187,7 @@ div.new-interface {
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+    margin-bottom: 50px;
 }
 
 div.new-interface p {
@@ -460,15 +463,15 @@ button.btn-sort-Selected{
 /* Style pour la div principale qui contient les items */
 .items-list {
     display: flex;
-    flex-direction: column;   /* Empile les items verticalement */
-    gap: 15px;                /* Espace entre chaque item-container */
-    align-items: flex-start;  /* Aligne les items en haut */
-    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
-    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
-    overflow-x: hidden;       /* 👈 Évite la scrollbar horizontale liée aux animations */
-    padding: 10px; /* Ajoute un petit espace intérieur */
-    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
-    height: 100vh;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    margin-bottom: 50px;
+    box-sizing: border-box;
 }
 
 
@@ -618,7 +621,7 @@ button.btnFlottant{
 
 button.newActivity{
     width: 50px; height: 50px;
-    bottom: 110px;
+    bottom: 150px;
     right: 45px;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -633,7 +636,7 @@ button.newActivity.hidden {
 
 button.new-from-template{
     width: 42px; height: 42px;
-    bottom: 190px;
+    bottom: 230px;
     right: 49px;
     transition: opacity 0.3s ease, transform 0.5s ease;
     display: none;
@@ -700,7 +703,7 @@ div.button-editor{
     background-color: var(--colorLightGray);
     width: 100%;
     height: 50px;
-    bottom: 0px;
+    bottom: 40px;
     padding: 10px 2px 10px 2px;
     text-align: center;
     border-radius: 0px 0px 10px 10px;
@@ -754,7 +757,7 @@ div.main-menu{
     background-color: var(--colorLightGray);
     width: 100%;
     height: 50px;
-    bottom: 0px;
+    bottom: 40px;
     padding: 10px 2px 10px 2px;
     text-align: center;
     border-radius: 0px 0px 10px 10px;
@@ -836,7 +839,6 @@ button.btn-menu-sup > img{
 
 div.div-favoris-list{
     display: none;
-    height: 100vh;
     text-align: left;
 
     flex-direction: column;   /* Empile les items verticalement */
@@ -845,6 +847,7 @@ div.div-favoris-list{
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding-right: 20px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+    margin-bottom: 50px;
 }
 
 
@@ -1099,7 +1102,6 @@ img.imgQRcode{
     position: fixed;
     top: 60px;
     width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
-    height: 90vh;
     border-radius:10px 10px;
     padding-left: 20px;
     flex-direction: column;   /* Empile les items verticalement */
@@ -1107,6 +1109,7 @@ img.imgQRcode{
     flex-grow: 1; /* Remplit l'espace restant entre header et footer */
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding: 10px; /* Ajoute un petit espace intérieur */
+    margin-bottom: 50px;
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
 }
 
@@ -2501,6 +2504,7 @@ div.planning-menu{
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+    margin-bottom: 50px;
 }
 
 
