@@ -9,10 +9,15 @@
 </head>
 <body>
 
-    <div class="app">
+    <div class="app-container">
 
+        <!-- Zone de sécurité haut -->
+        <div class="safe-area-top"></div>
+
+
+        <!-- HEADER -->
         <div id="divHeader" class="header">
-            <p id="pMenuTitle" class="app-title">
+            <p id="pMenuTitle" class="header-left">
                 Mon Suivi Sportif
             </p>
             
@@ -27,1202 +32,1208 @@
             </p>
         </div>
 
+        <!-- MAIN -->
+        <div class="main">
 
 
-    <!-------------------------------------- div accueil  -------------------------------------------------->
-       
-        <div id="divFilterSort" class="item-container-head">
-            <div class="item-category-selector" id="divFakeActivitySelectorFilter">
-                <select  class="item-category-selector" name="category" id="selectorCategoryFilter">
-                    <!-- Injection des options-->
-                </select>
-            </div>
-
-            <div class="item-data-container">
-                <div class="item-data-area1" id="divActivtySort">
-                    <button id="btnSortDistance" class="btn-sort" data-sort-parameter="distance">Distance</button>
-                    <button id="btnSortDuration" class="btn-sort" data-sort-parameter="duration">Chrono</button>
-                    <button id="btnSortDate" class="btn-sort" data-sort-parameter="date">Date</button>
-                </div>
-            </div> 
-        </div>          
-
-
-        <!-- Fake selecteur pour le filtre d'activité menu principal -->
-        <div id="divFakeSelectOptFilterActivity" class="fake-select-area">
-            <div id="divFakeSelectOptFilterActivityList" class="fake-option-area">
-                <!-- Injection des éléments -->
-            </div>
-        </div>
-
-        <div id="divItemList" class="items-list">
-            <!-- Injection des items -->
-        </div>
-
-    <!-------------------------------------- FIN div accueil  -------------------------------------------------->
-
-
-
-    <!-- Div Confirmation multiple -->
-    <div id="divGlobalPopupConfirmation" class="confirmationDelete">
-        <p id="pTextConfirmPopup">
-            <!-- Injection du texte de confirmation -->
-        </p>
-        <button id="btnGlobalPopupConfirmation" class="confirmPopup">
-            <img class="confirmPopup" id="imgPopupGlobalConfirmation" src="./Icons/Icon-Delete-color.webp" alt="Icone">
-        </button>
-    </div>
-
-    <!-- ---------------------------------- DIV #Edit activity ------------------------------------------------>
-
-        <div id="divActivityEditor" class="new-interface">
-           
-            <div class="activityPreview">
-                <!-- <img id="imgEditorActivityPreview" src="./images/icon-cap.webp" alt="" srcset="" class="activityPreview"> -->
-                <p id="pEditorActivityPreviewPlannedIcon">🗓️ Cette activité est planifiée.</p>  
-                              
-            </div>
-            <p class="activity-editor">
-                <label for="">Activité : </label>
-            </p>
-
-            <div class="fake-selector" data-fake-editor-type="activityEditor" id="divBtnFakeSelectorActivityEditor">
-                <select class="select-locked" name="category" id="selectorCategoryChoice">
-                    <!-- Injection des options -->
-                </select>
-            </div>
-
-
-            <!-- Switch checkbox -->
-            <p class="activity-editor">
-                <span class="spanCheckbox">Planifiée :</span>
-
-                <label class="switch">
-                    <input id="inputIsPlanned"type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </p>
-
-            <p class="activity-editor">
-                <label for="">Date : </label>
-                <input type="date" id="inputDate">
-            </p>
-
-
-            <p class="activity-editor">
-                <label for="">Lieu : </label>
-                <input id="inputLocation" type="text" maxlength="40">
-            </p>
-
-            <!-- DISTANCE -->
-            <div class="number-container">
-                <span class="input-number-symbol">⟷</span>
-                <input id="inputDistance" type="number" class="distance">
-                <span class="chrono-separator">km</span>
-            </div>
-        
-
-            <!-- CHRONO -->
-            <div class="number-container">
-                <span class="input-number-symbol">⏱️</span>
-                <input type="number" id="inputDurationActivityHours" min="0" max="99" value="00">
-
+            <!-------------------------------------- div accueil  -------------------------------------------------->
             
-                <span class="chrono-separator">:</span>
-                <input type="number" id="inputDurationActivityMinutes" min="0" max="59" value="00">
+            <div id="divFilterSort" class="item-container-head">
+                <div class="item-category-selector" id="divFakeActivitySelectorFilter">
+                    <select  class="item-category-selector" name="category" id="selectorCategoryFilter">
+                        <!-- Injection des options-->
+                    </select>
+                </div>
 
+                <div class="item-data-container">
+                    <div class="item-data-area1" id="divActivtySort">
+                        <button id="btnSortDistance" class="btn-sort" data-sort-parameter="distance">Distance</button>
+                        <button id="btnSortDuration" class="btn-sort" data-sort-parameter="duration">Chrono</button>
+                        <button id="btnSortDate" class="btn-sort" data-sort-parameter="date">Date</button>
+                    </div>
+                </div> 
+            </div>          
+
+
+            <!-- Fake selecteur pour le filtre d'activité menu principal -->
+            <div id="divFakeSelectOptFilterActivity" class="fake-select-area">
+                <div id="divFakeSelectOptFilterActivityList" class="fake-option-area">
+                    <!-- Injection des éléments -->
+                </div>
+            </div>
+
+            <div id="divItemList" class="items-list">
+                <!-- Injection des items -->
+            </div>
+
+            <!-------------------------------------- FIN div accueil  -------------------------------------------------->
+
+            <div class="contenu-scrollable">
+        
+                <!-- Div Confirmation multiple -->
+                <div id="divGlobalPopupConfirmation" class="confirmationDelete">
+                    <p id="pTextConfirmPopup">
+                        <!-- Injection du texte de confirmation -->
+                    </p>
+                    <button id="btnGlobalPopupConfirmation" class="confirmPopup">
+                        <img class="confirmPopup" id="imgPopupGlobalConfirmation" src="./Icons/Icon-Delete-color.webp" alt="Icone">
+                    </button>
+                </div>
+
+                <!-- ---------------------------------- DIV #Edit activity ------------------------------------------------>
+
+                <div id="divActivityEditor" class="new-interface">
+                    
+                        <div class="activityPreview">
+                            <!-- <img id="imgEditorActivityPreview" src="./images/icon-cap.webp" alt="" srcset="" class="activityPreview"> -->
+                            <p id="pEditorActivityPreviewPlannedIcon">🗓️ Cette activité est planifiée.</p>  
+                                        
+                        </div>
+                        <p class="activity-editor">
+                            <label for="">Activité : </label>
+                        </p>
+
+                        <div class="fake-selector" data-fake-editor-type="activityEditor" id="divBtnFakeSelectorActivityEditor">
+                            <select class="select-locked" name="category" id="selectorCategoryChoice">
+                                <!-- Injection des options -->
+                            </select>
+                        </div>
+
+
+                        <!-- Switch checkbox -->
+                        <p class="activity-editor">
+                            <span class="spanCheckbox">Planifiée :</span>
+
+                            <label class="switch">
+                                <input id="inputIsPlanned"type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </p>
+
+                        <p class="activity-editor">
+                            <label for="">Date : </label>
+                            <input type="date" id="inputDate">
+                        </p>
+
+
+                        <p class="activity-editor">
+                            <label for="">Lieu : </label>
+                            <input id="inputLocation" type="text" maxlength="40">
+                        </p>
+
+                        <!-- DISTANCE -->
+                        <div class="number-container">
+                            <span class="input-number-symbol">⟷</span>
+                            <input id="inputDistance" type="number" class="distance">
+                            <span class="chrono-separator">km</span>
+                        </div>
+                    
+
+                        <!-- CHRONO -->
+                        <div class="number-container">
+                            <span class="input-number-symbol">⏱️</span>
+                            <input type="number" id="inputDurationActivityHours" min="0" max="99" value="00">
+
+                        
+                            <span class="chrono-separator">:</span>
+                            <input type="number" id="inputDurationActivityMinutes" min="0" max="59" value="00">
+
+                            
+                            <span class="chrono-separator">:</span>
+                            <input type="number" id="inputDurationActivitySeconds" min="0" max="59" value="00">
+                        </div>
+                    
+                        <p>
+                            <label for="">Commentaire : </label>
+                            <textarea name="" id="textareaComment" maxlength="500"></textarea>
+                        </p>
+                </div>
+
+
+                <!-- ---------------------------------- FIN div edit activity ------------------------------------------------>
+
+                <!-- ----------------------------Div FAKE SELECTOR OPTION -------------------------------------->
+                <div id="divFakeSelectOpt" class="fake-select-area">
+                    <div id="divFakeSelectOptList" class="fake-option-area">
+                        <!-- Injection des éléments -->
+                    </div>
+                </div>
+
+                <!---------------------------  FIN DIV FAKE SELECTOR OPTION  ------------------------------------------->
+            
+
+
+                <!-- ----------------------------------      DIV #SESSION        ------------------------------------------------>
+                <div id="divSession" class="new-interface">
+                    <div id="divSessionCompteurArea" class="divCounterListArea">
+                        <!-- Injection de la liste des compteurs -->
+                    </div>
+                    <!-- Ajouter -->
+                    <div id="divSessionEndList" class="endListArea">
+                        <!-- Injection bouton et info -->
+                    </div>
+                </div>
+
+
+
+                <!-- Div Create new counter POPUP -->
+                <div id="divEditCounter"class="popup-new-counter">
+                    <div id="divEditCounterContent" class="popup-new-counter-content">
+                        <p>
+                            <label for="">Nom du compteur :</label>
+                            <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nouveau compteur" maxlength="30">
+                            <label for="">Nbre de série :</label>
+                            <input class="compteur" type="number" id="inputEditSerieTarget">
+                            <label for="">Nbre de répétition :</label>
+                            <input class="compteur" type="number" id="inputEditRepIncrement">
+                        </p>
+                        <p>
+                            <label for="">Couleur : </label>
+                            <button class="btnChooseColor" type="button" style="background-color: white;" data-btn-counter-color="white">Blanc</button>
+                            <button class="btnChooseColor" type="button" style="background-color: #E7F8F2;" data-btn-counter-color="green">Vert</button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FFFBE5;" data-btn-counter-color="yellow">Jaune</button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FDEBEC;" data-btn-counter-color="red">Rouge</button>
+                        </p>
+                        <p>
+                            <button class="btnChooseColor" type="button" style="background-color: #E6F0FA;" data-btn-counter-color="blue">Bleu</button>
+                            <button class="btnChooseColor" type="button" style="background-color: #F3F0FA;" data-btn-counter-color="violet">Violet</button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FFF1EC;" data-btn-counter-color="orange">Orange</button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FAEFF4;" data-btn-counter-color="rose">Rose</button>          
+                        </p>
+                        
+                        <div class="custom-editor-btn-menu">
+                            <button id="btnReturnCounterEditor" class="btn-menu return">
+                                <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
+                                <span>Retour</span>
+                            </button>
+                            <button id="btnDeleteCounter" class="btn-menu">
+                                <img src="./Icons/Icon-Delete-color.webp" alt="Icone">
+                                <span>Supprimer</span>
+                            </button>
+                            <button id="btnValideCounterEditor" class="btn-menu btnFocus">
+                                Valider
+                            </button>  
+                        </div>
+                    </div>
+                </div>
+                <!-- FIN Div create new counter-->
                 
-                <span class="chrono-separator">:</span>
-                <input type="number" id="inputDurationActivitySeconds" min="0" max="59" value="00">
-            </div>
-           
-            <p>
-                <label for="">Commentaire : </label>
-                <textarea name="" id="textareaComment" maxlength="500"></textarea>
-            </p>
-        </div>
 
 
-    <!-- ---------------------------------- FIN div edit activity ------------------------------------------------>
+                <!-- Fake selecteur pour choix d'envoie vers activité -->
+                <div id="divFakeSelectSession" class="fake-select-area">
+                    <div id="divFakeSelectSessionList" class="fake-option-area">
+                        <!-- Injection des éléments -->
+                    </div>
+                </div>
+
+
+                <!-- popup de création de session -->
+                <div id="divPopCreateSession" class="popupCreateSession">
+                    <!-- zone utilisable -->
+                    <div class="createSessionArea" id="divCreateSessionArea">
+                        <!-- Titre -->
+                        <div class="custom-editor-btn-menu">
+                        <p>
+                            <label>
+                                Générer une séance.
+                            </label>
+                        </p>
+                    </div>
+                        <!-- Le selecteur de modèle -->
+                        <select class="chooseTemplateSession" name="" id="selectSessionTableModelName">
+                            <!-- Injection des options -->
+                        </select>
+                        <div class="session-list">
+
+
+                            <!-- Le tableau de création de session -->
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="gen-session-col-nom">Nom</th>
+                                        <th class="gen-session-col-series">Série</th>
+                                        <th class="gen-session-col-rep">Rép.</th>
+                                        <th class="gen-session-col-color">Color</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bodyTableGenerateSession">
+                                    <!-- Injection des lignes -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Fin de liste de session -->
+
+                        <div class="custom-editor-btn-menu">
+                            <button class="btn-menu return" id="btnCancelCreateSession">
+                                <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
+                                <span>Retour</span>
+                            </button>
+                            <button class="btn-menu btnFocus" id="btnValidCreateSession">
+                                Valider
+                            </button>  
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Menu SUP SESSION -->
+                <div id="divSessionMenuSup" class="main-menu-sup">
+                    <div class="main-menu-sup-button-area">
+                        <button class="btn-menu-sup" id="btnMenuSessionGenerate">
+                            <img src="./Icons/Icon-Session.webp" alt="" srcset="">
+                            <span>Générer une séance</span>
+                        </button>
+                        <button class="btn-menu-sup" id="btnMenuSessionSend">
+                            <img src="./Icons/Icon-Send.webp" alt="" srcset="">
+                            <span>Envoyer vers activité</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ----------------------------------  FIN    DIV SESSION     ------------------------------------------------>
+
+                <!-- ----------------------------------      DIV #PLANNING        ------------------------------------------------>
+                <div id="divPlanning" class="new-interface">
+                    <div class="planning-grid" id="divPlanningGridList">
+                        <!-- Injection des class -->
+                    </div>
+                </div>
+
+
+                <!-- Popup planning editor -->
+                <div id="divPlanningEditor" class="new-interface">
+                    <p id="pPlanningEditorTitle" class="planning-editor-title">Activités pour Lundi</p>
+                    <div class="planning-editor">
+                        <div id="divPlanningActivityList" class="planning-editor-item-area">
+                            <!-- Injection de la liste -->
+                        </div>
+                        
+                        <!-- Ajouter -->
+                        <div id="divPlanningEditorBtnAdd" class="endListArea">
+                            <!-- Injection du bouton -->
+                        </div>
+                        
+                        <!-- Commentaire -->
+                        <label for="">Commentaire :</label>
+                        <input type="text" id="inputPlanningEditorComment" maxlength="40">
+                    </div>
+                    
 
-    <!-- ----------------------------Div FAKE SELECTOR OPTION -------------------------------------->
-    <div id="divFakeSelectOpt" class="fake-select-area">
-        <div id="divFakeSelectOptList" class="fake-option-area">
-            <!-- Injection des éléments -->
-        </div>
-    </div>
+                </div>
 
-    <!---------------------------  FIN DIV FAKE SELECTOR OPTION  ------------------------------------------->
- 
 
 
-    <!-- ----------------------------------      DIV #SESSION        ------------------------------------------------>
-    <div id="divSession" class="new-interface">
-        <div id="divSessionCompteurArea" class="divCounterListArea">
-            <!-- Injection de la liste des compteurs -->
-        </div>
-        <!-- Ajouter -->
-        <div id="divSessionEndList" class="endListArea">
-            <!-- Injection bouton et info -->
-        </div>
-    </div>
+                    <!-- Fake liste pour choix d'une activité dans l'editeur de planning -->
+                <div id="divPlanningActivityChoice" class="fake-select-area">
+                    <div id="divPlanningActivityChoiceList" class="fake-option-area">
+                        <!-- Injection des éléments -->
+                    </div>
+                </div>
 
+                <!-- ----------------------------------  FIN    DIV #PLANNING     ------------------------------------------------>
 
+                <!-- ----------------------------------      DIV MENU #TEMPLATE SESSION        ------------------------------------------------>
+                <div id="divMenuTemplateSession" class="new-interface">
+                    <!-- Contient la liste des template -->
+                    <div id="divTemplateSessionListMenu" class="templateList">
+                        <!-- Injection template liste -->
+                    </div>
+                    <div id="divSessionTemplateEndList" class="endListArea">
+                        <!-- Injection bouton et info -->
+                        TOMATE
+                    </div>
+                </div>
 
-    <!-- Div Create new counter POPUP -->
-    <div id="divEditCounter"class="popup-new-counter">
-        <div id="divEditCounterContent" class="popup-new-counter-content">
-            <p>
-                <label for="">Nom du compteur :</label>
-                <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nouveau compteur" maxlength="30">
-                <label for="">Nbre de série :</label>
-                <input class="compteur" type="number" id="inputEditSerieTarget">
-                <label for="">Nbre de répétition :</label>
-                <input class="compteur" type="number" id="inputEditRepIncrement">
-            </p>
-            <p>
-                <label for="">Couleur : </label>
-                <button class="btnChooseColor" type="button" style="background-color: white;" data-btn-counter-color="white">Blanc</button>
-                <button class="btnChooseColor" type="button" style="background-color: #E7F8F2;" data-btn-counter-color="green">Vert</button>
-                <button class="btnChooseColor" type="button" style="background-color: #FFFBE5;" data-btn-counter-color="yellow">Jaune</button>
-                <button class="btnChooseColor" type="button" style="background-color: #FDEBEC;" data-btn-counter-color="red">Rouge</button>
-            </p>
-            <p>
-                <button class="btnChooseColor" type="button" style="background-color: #E6F0FA;" data-btn-counter-color="blue">Bleu</button>
-                <button class="btnChooseColor" type="button" style="background-color: #F3F0FA;" data-btn-counter-color="violet">Violet</button>
-                <button class="btnChooseColor" type="button" style="background-color: #FFF1EC;" data-btn-counter-color="orange">Orange</button>
-                <button class="btnChooseColor" type="button" style="background-color: #FAEFF4;" data-btn-counter-color="rose">Rose</button>          
-            </p>
-            
-            <div class="custom-editor-btn-menu">
-                <button id="btnReturnCounterEditor" class="btn-menu return">
-                    <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
-                    <span>Retour</span>
-                </button>
-                <button id="btnDeleteCounter" class="btn-menu">
-                    <img src="./Icons/Icon-Delete-color.webp" alt="Icone">
-                    <span>Supprimer</span>
-                </button>
-                <button id="btnValideCounterEditor" class="btn-menu btnFocus">
-                    Valider
-                </button>  
-            </div>
-        </div>
-    </div>
-    <!-- FIN Div create new counter-->
-     
 
 
-    <!-- Fake selecteur pour choix d'envoie vers activité -->
-    <div id="divFakeSelectSession" class="fake-select-area">
-        <div id="divFakeSelectSessionList" class="fake-option-area">
-            <!-- Injection des éléments -->
-        </div>
-    </div>
 
 
-    <!-- popup de création de session -->
-    <div id="divPopCreateSession" class="popupCreateSession">
-        <!-- zone utilisable -->
-        <div class="createSessionArea" id="divCreateSessionArea">
-            <!-- Titre -->
-            <div class="custom-editor-btn-menu">
-             <p>
-                <label>
-                    Générer une séance.
-                </label>
-             </p>
-        </div>
-            <!-- Le selecteur de modèle -->
-            <select class="chooseTemplateSession" name="" id="selectSessionTableModelName">
-                <!-- Injection des options -->
-            </select>
-            <div class="session-list">
 
-
-                <!-- Le tableau de création de session -->
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="gen-session-col-nom">Nom</th>
-                            <th class="gen-session-col-series">Série</th>
-                            <th class="gen-session-col-rep">Rép.</th>
-                            <th class="gen-session-col-color">Color</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyTableGenerateSession">
-                        <!-- Injection des lignes -->
-                    </tbody>
-                </table>
-            </div>
-            <!-- Fin de liste de session -->
-
-            <div class="custom-editor-btn-menu">
-                <button class="btn-menu return" id="btnCancelCreateSession">
-                    <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
-                    <span>Retour</span>
-                </button>
-                <button class="btn-menu btnFocus" id="btnValidCreateSession">
-                    Valider
-                </button>  
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Menu SUP SESSION -->
-    <div id="divSessionMenuSup" class="main-menu-sup">
-        <div class="main-menu-sup-button-area">
-            <button class="btn-menu-sup" id="btnMenuSessionGenerate">
-                <img src="./Icons/Icon-Session.webp" alt="" srcset="">
-                <span>Générer une séance</span>
-            </button>
-            <button class="btn-menu-sup" id="btnMenuSessionSend">
-                <img src="./Icons/Icon-Send.webp" alt="" srcset="">
-                <span>Envoyer vers activité</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- ----------------------------------  FIN    DIV SESSION     ------------------------------------------------>
-
-    <!-- ----------------------------------      DIV #PLANNING        ------------------------------------------------>
-    <div id="divPlanning" class="planning-menu">
-        <div class="planning-grid" id="divPlanningGridList">
-            <!-- Injection des class -->
-        </div>
-    </div>
-
-
-    <!-- Popup planning editor -->
-    <div id="divPlanningEditor" class="new-interface">
-        <p id="pPlanningEditorTitle" class="planning-editor-title">Activités pour Lundi</p>
-        <div class="planning-editor">
-            <div id="divPlanningActivityList" class="planning-editor-item-area">
-                <!-- Injection de la liste -->
-            </div>
-            
-            <!-- Ajouter -->
-            <div id="divPlanningEditorBtnAdd" class="endListArea">
-                <!-- Injection du bouton -->
-            </div>
-            
-            <!-- Commentaire -->
-            <label for="">Commentaire :</label>
-            <input type="text" id="inputPlanningEditorComment" maxlength="40">
-        </div>
-        
-
-    </div>
-
-
-
-    <!-- Fake liste pour choix d'une activité dans l'editeur de planning -->
-    <div id="divPlanningActivityChoice" class="fake-select-area">
-        <div id="divPlanningActivityChoiceList" class="fake-option-area">
-            <!-- Injection des éléments -->
-        </div>
-    </div>
-
-    <!-- ----------------------------------  FIN    DIV #PLANNING     ------------------------------------------------>
-
-    <!-- ----------------------------------      DIV MENU #TEMPLATE SESSION        ------------------------------------------------>
-    <div id="divMenuTemplateSession" class="new-interface">
-        <!-- Contient la liste des template -->
-        <div id="divTemplateSessionListMenu" class="templateList">
-            <!-- Injection template liste -->
-        </div>
-        <div id="divSessionTemplateEndList" class="endListArea">
-            <!-- Injection bouton et info -->
-            TOMATE
-        </div>
-    </div>
-
-
-
-
-
-
-    <!-- ----------------------------------      FIN DIV MENU TEMPLATE SESSION        ------------------------------------------------>
-    
-        <!-- ---------------------------------- DIV edit #TEMPLATE SESSION  ------------------------------------------------>
-
-    <div id="divTemplateSessionEditor" class="new-interface">
-        <div class="divEditorTemplateSessionArea">
-            <!-- Le tableau de création de session -->
-            <label for="">Nom :</label>
-            <input type="text" placeholder="Nom du modèle" id="inputTemplateSessionName" maxlength="30">
-
-            <label for="">Compteurs :</label>
-            <table>
-                <thead>
-                    <tr>
-                        <th class="gen-session-col-nom">Nom</th>
-                        <th class="gen-session-col-series">Série</th>
-                        <th class="gen-session-col-rep">Rép.</th>
-                        <th class="gen-session-col-color">Color</th>
-                    </tr>
-                </thead>
-                <tbody id="bodyTableGenerateSessionEditor">
-                    <!-- Injection des lignes -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-
-    <!-- ---------------------------------- FIN div edit TEMPLATE SESSION ------------------------------------------------>
-
-
-
-
-    <!-- ----------------------------------      DIV #PROFIL        ------------------------------------------------>
-    <div id="divProfil" class="new-interface">
-
-        <p>
-            <label for="inputProfilUserPseudo">Pseudo : </label>
-            <input id="inputProfilUserPseudo" type="text" maxlength="20">
-        </p>
-
-        <p>
-            <label for="textareaCustomNotes">Mes notes :</label>
-            <textarea class="notes" name="" id="textareaCustomNotes" maxlength="250"></textarea>
-        </p>
-    </div>
-    
-    <!-- ----------------------------------  FIN    DIV #PROFIL     ------------------------------------------------>
-
-
-
-
-    <!-- ----------------------------------      DIV #GESTION DONNEES        ------------------------------------------------>
-    <div id="divGestData" class="new-interface">
-
-        <p>
-            <label class="labelSetting" for="fileInputJsonTask">Version base actuelle :</label>
-        </p>
-        <div>
-            <p id="pGestDataVersionImportAccepted" class="settingAlert">
-                <!-- Injection -->
-            </p> 
-        </div>
-
-
-
-        <!-- Exporter des donnes -->
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">EXPORT</h3>
-
-        <p>
-            <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
-        </p>
-        <div>
-            <p id="pGestDataLastExportDate" class="settingAlert">
-                <!-- Injection -->
-            </p> 
-        </div>
-
-
-        <div class="btn-import-export">
-            <button class="btn-menu-setting import" id="btnExportBdDInLocal">Local<img src="./Icons/Icon-Download.webp" alt="Icone"></button>
-        </div>
-
-        <div class="btn-import-export">
-            <button class="btn-menu-setting import" id="btnExportBdDInCloud">
-                Local & Drive
-                <img src="./Icons/Icon-Download.webp" alt="Icone">
-        </div>
-
-        <div class="setting-align-center""> 
-            <p class="settingAlertComment">ℹ️ Emplacement Export local : Fichiers/Documents.</p>
-        </div>
-
-
-         <!-- Import des données -->
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">IMPORT</h3>
-         <p>
-            <label class="labelSetting" for="fileInputJsonTask">Importer des données :</label>
-            <input type="file" id="fileInputJsonTask" accept=".json">
-        </p>
-        <div>
-            <p id="pImportActivityResult" class="setting-action-result">
-                <!-- Injection du texte -->
-            </p>
-        </div>
-
-        <div class="btn-import-export">
-            <button class="btn-menu-setting import" id="btnImportBdD">Importer<img src="./Icons/Icon-Upload-APP.webp" alt="" srcset=""></button>
-        </div>
-
-
-        <!-- Import des données -->
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">GESTION SAUVEGARDES</h3>
-
-        <p>
-            <label class="labelSetting" for="">Nombre de sauvegardes locales : </label>
-        </p>
-        <div>
-            <p id="pLocalBackupCount" class="settingAlert">
-                XX
-                <!-- Injection -->
-            </p> 
-        </div>
-        <div class="btn-import-export">
-            <button class="btn-menu-setting import" id="btnPurgeLocalBackup">Purger</button>
-        </div>
-        <div class="setting-align-center""> 
-            <p class="settingAlertComment">ℹ️ Purger ne conservera que la plus récente.</p>
-        </div>
-
-
-        <!-- Suppression des données -->
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">SUPPRESSION</h3>
-
-        <div>
-            <p><label class="labelSetting" for="">Suppression des données :</label></p>
-        </div>
-        <div class="setting-align-center">
-            <p>
-                <button class="delete-data" id="btnDeteteBdd">Supprimer toutes mes données</button>
-            </p>
-        </div>
-
-    </div>
-
-    <!-- Div confirmation suppression des données -->
-    <div id="divConfirmDeleteDataBase" class="confirmationDeleteBdD">
-        <h2>Suppression des données</h2>
-
-        <p>
-            <u>Cette action est irreversible.</u> En confirmant, les données suivantes seront effacées : 
-            <ul>
-                <li>Pseudo;</li>
-                <li>Favoris;</li>
-                <li>Modèles;</li>
-                <li>Paramètres;</li>
-                <li>Activités;</li>
-                <li>Récompenses.</li>
-            </ul>
-            Etes vous sûr de vouloir supprimer vos données ?
-        </p>
-        <button id="btnConfirmDeleteDataBase" class="btn-menu deleteConfirmBdD">Confirmer</button>
-    </div>
-
-
-
-    <!-- ----------------------------------  FIN    GESTION DONNEES     ------------------------------------------------>
-
-    <!-- ----------------------------------      DIV #SETTING        ------------------------------------------------>
-    <div id="divSetting" class="new-interface">
-        <h3 class="settingCategorie">Affichage</h3>
-
-        <p>
-            <label class="labelSetting" for="">Activité planifiées :</label>
-            <select class="setting" name="" id="selectSettingCommentModePlanned">
-                <option value="Collapse">Réduit</option>
-                    <option value="Compact">Compacté</option>
-                    <option value="Expand">Déployé</option>
-            </select>
-        </p>
-        <p>
-            <label class="labelSetting" for="">Activités réalisées :</label>
-            <select class="setting" name="" id="selectSettingCommentModeDone">
-                <option value="Collapse">Réduit</option>
-                    <option value="Compact">Compacté</option>
-                    <option value="Expand">Déployé</option>
-            </select>
-        </p>
-
-
-
-        <!-- SESSION -->
-        <h3 class="settingCategorie">Séance</h3>
-        <p>
-            <label class="labelSetting" for="">Données envoyées vers activité :</label>
-            <select class="setting" name="" id="selectSettingSessionCommentMode" >
-                <option value="MINIMAL">Minimales</option>
-                <option value="NORMAL">Normales</option>
-                <option value="COMPLETE">Complètes</option>
-                <option value="SERIES">Séries</option>
-            </select>
-        </p>
-            <!-- Test exemple -->
-
-        <div>
-            <p class="settingAlert" id="pSettingSessionCommentModeExemple">
-                <!-- Injection -->
-                Ex: Tractions: 10.
-            </p>
-        </div>
-        
-
-
-
-        <!-- AGENDA -->
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">Agenda</h3>
-        <p>
-            <label class="labelSetting" for="">Type :</label>
-            <select class="setting" name="" id="selectSettingAgenda">
-                <option value="NONE">Aucun</option>
-                <option value="GOOGLE">Google</option>
-                <option value="OUTLOOK">Outlook</option>
-            </select>
-        </p>
-
-        <p>
-            <label class="labelSetting" for="">Créneau par défaut :</label>
-        </p>
-
-        <div>
-            <p class="settingAlert">
-                de :
-            </p>
-        </div>
-        <p>
-            <input type="time" name="" id="inputTimeSettingScheduleStart">
-        </p>
-        <div>
-            <p class="settingAlert">
-                à :
-            </p>
-        </div>
-        <p>
-            <input type="time" name="" id="inputTimeSettingScheduleEnd">
-        </p>
-
-
-        <div class="setting-align-center""> 
-            <p class="settingAlertComment">ℹ️ Paramètrage par défaut lors d'un export agenda.</p>
-        </div>
-        <!-- TRAVAIL AUTO SAVE -->
-        <span class="settingSeparator"></span>
-        <H3 class="settingCategorie">Export automatique</H3>
-
-        <p>
-            <span class="spanCheckbox">Activation : </span>
-
-            <label class="switch">
-                <input id="inputSettingIsAutoSave" type="checkbox">
-                <span class="slider"></span>
-            </label>    
-        </p>
-        <p>
-            <span class="spanCheckbox">Fréquence (en jours) : </span>
-            <input id="inputSettingSaveFrequency" type="number" value="7" max="30">
-        </p>
-        <span class="spanCheckbox">Dernier export auto : </span>
-        <div>
-            <p id="pSettingLastAutoSaveDate" class="settingAlert">
-                <!-- Injection -->
-            </p>
-        </div>
-
-        <div class="setting-align-center""> 
-            <p class="settingAlertComment">ℹ️ Export effectué au lancement de l'application.</p>
-        </div>
-       
-
-        <!-- FIN TRAVAIL AUTO SAVE -->
-
-        <span class="settingSeparator"></span>
-        <H3 class="settingCategorie">Notifications</H3>
-        <div>
-            <p>
-                <label for="">Statut des notifications :</label>
-            </p>
-            
-            <p class="settingAlert" id="pMobileNotifyStatus">Vérification en cours...</p>
-        </div>
-
-        <span class="settingSeparator"></span>
-
-
-        <!-- DIVERS -->
-        <h3 class="settingCategorie">Divers</h3>
-
-        <!-- Animation -->
-        <p>
-            <span class="spanCheckbox">Animation :</span>
-
-            <label class="switch">
-                <input type="checkbox" id="inputCheckboxAnimationStatus">
-                <span class="slider"></span>
-            </label>
-        </p>
-
-        <!-- Mode developpeur -->
-        <p>
-            <span class="spanCheckbox">Mode developpeur :</span>
-
-            <label class="switch">
-                <input type="checkbox" id="inputCheckboxDevMode">
-                <span class="slider"></span>
-            </label>
-        </p>
-
-        <div class="setting-align-center">
-            <p class="settingAlertComment">
-                ⚠️Impact sur les performances !
-            </p>
-        </div>
-
-    </div>
-    
-    <!-- ----------------------------------  FIN    DIV SETTING     ------------------------------------------------>
-    
-
-    <!-- ----------------------------------      DIV #FAVORIS        ------------------------------------------------>
-
-
-        
-
-    <div id="divFavoris" class="div-favoris-list">
-
-        <ul id="ulActivityListParent">
-            <!-- Injection de la liste d'activité -->
-        </ul>
-
-    </div>
-    
-
-    <!-- ----------------------------------  FIN    DIV FAVORIS     ------------------------------------------------>
-
-    <!-- ----------------------------------      DIV #TEMPLATE  GESTION      ------------------------------------------------>
-    <div id="divGestTemplate" class="new-interface">
-        <!-- Contient la liste des template -->
-        <div id="divTemplateListMenu" class="templateList">
-            <!-- Injection de la liste -->
-        </div>
-        <div id="divActivityTemplateEndList" class="endListArea">
-            <!-- Injection bouton et info -->
-             TOMATE
-        </div>
-    </div>
-
-
-    <!-- ----------------------------------  FIN    DIV TEMPLATE GESTION   ------------------------------------------------>
-
-        <!-- ---------------------------------- DIV edit #TEMPLATE  ------------------------------------------------>
-
-        <div id="divTemplateEditor" class="new-interface">
-           
-            <div class="activityPreview">  
-                <p id="pTemplateEditorInfo">📄Modèle d'activité :</p>                   
-            </div>
-
-            <p class="activity-editor">
-                <label for="">Titre : </label>
-                <input type="text" id="inputTemplateTitle" maxlength="40">
-            </p>
-
-            <p class="activity-editor">
-                <label for="">Activité : </label>
-            </p>
-
-            <div class="fake-selector" id="divBtnFakeSelectorActivityTemplateEditor">
-                <select class="select-locked" name="category" id="selectorTemplateCategoryChoice">
-                    <!-- Injection des options -->
-                </select>
-            </div>
-
-            <p class="activity-editor">
-                <span class="spanCheckbox">Planifiée :</span>
-
-                <label class="switch">
-                    <input
-                        id="inputTemplateIsPlanned" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </p>
-
-            <p class="activity-editor">
-                <label for="">Lieu : </label>
-                <input id="inputTemplateLocation" type="text" maxlength="40">
-            </p>
-
-            <!-- DISTANCE -->
-            <div class="number-container">
-                <span class="input-number-symbol">⟷</span>
-                <input id="inputTemplateDistance" type="number" class="distance">
-                <span class="chrono-separator">km</span>
-            </div>
-
-            <!-- CHRONO -->
-            <div class="number-container">
-                <span class="input-number-symbol">⏱️</span>
-                <input type="number" id="inputDurationTemplateHours" min="0" max="99" value="00" class="numberFakeH">
-
-            
-                <span>:</span>
-                <input type="number" id="inputDurationTemplateMinutes" min="0" max="59" value="00" class="numberFakeMS">
-
+                <!-- ----------------------------------      FIN DIV MENU TEMPLATE SESSION        ------------------------------------------------>
                 
-                <span>:</span>
-                <input type="number" id="inputDurationTemplateSeconds" min="0" max="59" value="00" class="numberFakeMS">
-            </div>            
-            <p>
-                <label for="">Commentaire : </label>
-                <textarea name="" id="textareaTemplateComment" maxlength="250"></textarea>
-            </p>
-        </div>
+                    <!-- ---------------------------------- DIV edit #TEMPLATE SESSION  ------------------------------------------------>
 
-    <!-- ---------------------------------- FIN div edit TEMPLATE ------------------------------------------------>
+                <div id="divTemplateSessionEditor" class="new-interface">
+                    <div class="divEditorTemplateSessionArea">
+                        <!-- Le tableau de création de session -->
+                        <label for="">Nom :</label>
+                        <input type="text" placeholder="Nom du modèle" id="inputTemplateSessionName" maxlength="30">
 
-
-    <!-- ----------------------------Div Selection New From template -------------------------------------->
-    <div id="divTemplateChoice" class="fake-select-area">
-        <div id="divTemplateChoiceList" class="fake-option-area">
-            <!-- Injection des éléments -->
-        </div>
-    </div>
-
-    <!---------------------------  FIN Div Selection New From template ------------------------------------------->
-
-
-
-   <!-- ----------------------------------      DIV #STAT        ------------------------------------------------>
-    <div id="divStat" class="new-interface">
-
-        <p>
-            <label class="stat-activity-choice" for="">Choisit une activité :</label>
-        </p>
-        <div class="fake-selector" id="divFakeSelectorStatMenu">
-            <select class="select-locked" id="selectorStat">
-                <!-- Injection des options-->
-            </select>
-        </div>
-
-        
-        <!-- Affichage du résultat -->
-        <div id="stats" class="stat">
-            <!-- Injection -->
-        </div>
-
-
-
-        <!-- STAT GRAPHIQUE -->
-
-        <div id="stats" class="statYears">
-            <p>
-                <select name="" id="selectStatGraphYear"class="graph-stat">
-                    <!-- Injection des années -->
-                </select> 
-            </p>
-
-            <!-- Affichage du résultat général pour l'année sélectionnée -->
-            <section class="stat">
-                <p id="pStatResumeByYear">
-                    <!-- Activité : 120 ; Distance : 140.3km; Heures : 250.3h -->
-                    <!-- Injection -->
-                </p> 
-            </section>
-        </div>
-
-        
-
-        <!-- COUNT -->
-        <div class="statGraphique">
-            <h3 class="stat stat-title-activity">🧍Activités :</h3>
-            <div class="stat-months">
-                <!-- JANVIER -->
-                <div class="stat-month">
-                    <span id="stat-number-january">0</span>
-                    <div id="stat-PB-january" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;" ></div>
-                    <span id="spanGraphCountMonthName-january">Jan</span>
+                        <label for="">Compteurs :</label>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="gen-session-col-nom">Nom</th>
+                                    <th class="gen-session-col-series">Série</th>
+                                    <th class="gen-session-col-rep">Rép.</th>
+                                    <th class="gen-session-col-color">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyTableGenerateSessionEditor">
+                                <!-- Injection des lignes -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <!-- FEVRIER -->
-                <div class="stat-month">
-                    <span id="stat-number-february">0</span>
-                    <div id="stat-PB-february" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-february">Fev</span>
+
+
+
+                <!-- ---------------------------------- FIN div edit TEMPLATE SESSION ------------------------------------------------>
+
+
+
+
+                <!-- ----------------------------------      DIV #PROFIL        ------------------------------------------------>
+                <div id="divProfil" class="new-interface">
+
+                    <p>
+                        <label for="inputProfilUserPseudo">Pseudo : </label>
+                        <input id="inputProfilUserPseudo" type="text" maxlength="20">
+                    </p>
+
+                    <p>
+                        <label for="textareaCustomNotes">Mes notes :</label>
+                        <textarea class="notes" name="" id="textareaCustomNotes" maxlength="250"></textarea>
+                    </p>
                 </div>
-                <!-- MARS -->
-                <div class="stat-month">
-                    <span id="stat-number-march">0</span>
-                    <div id="stat-PB-march" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-march">Mars</span>
+                
+                <!-- ----------------------------------  FIN    DIV #PROFIL     ------------------------------------------------>
+
+
+
+
+                <!-- ----------------------------------      DIV #GESTION DONNEES        ------------------------------------------------>
+                <div id="divGestData" class="new-interface">
+
+                    <p>
+                        <label class="labelSetting" for="fileInputJsonTask">Version base actuelle :</label>
+                    </p>
+                    <div>
+                        <p id="pGestDataVersionImportAccepted" class="settingAlert">
+                            <!-- Injection -->
+                        </p> 
+                    </div>
+
+
+
+                    <!-- Exporter des donnes -->
+                    <span class="settingSeparator"></span>
+                    <h3 class="settingCategorie">EXPORT</h3>
+
+                    <p>
+                        <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
+                    </p>
+                    <div>
+                        <p id="pGestDataLastExportDate" class="settingAlert">
+                            <!-- Injection -->
+                        </p> 
+                    </div>
+
+
+                    <div class="btn-import-export">
+                        <button class="btn-menu-setting import" id="btnExportBdDInLocal">Local<img src="./Icons/Icon-Download.webp" alt="Icone"></button>
+                    </div>
+
+                    <div class="btn-import-export">
+                        <button class="btn-menu-setting import" id="btnExportBdDInCloud">
+                            Local & Drive
+                            <img src="./Icons/Icon-Download.webp" alt="Icone">
+                    </div>
+
+                    <div class="setting-align-center""> 
+                        <p class="settingAlertComment">ℹ️ Emplacement Export local : Fichiers/Documents.</p>
+                    </div>
+
+
+                    <!-- Import des données -->
+                    <span class="settingSeparator"></span>
+                    <h3 class="settingCategorie">IMPORT</h3>
+                    <p>
+                        <label class="labelSetting" for="fileInputJsonTask">Importer des données :</label>
+                        <input type="file" id="fileInputJsonTask" accept=".json">
+                    </p>
+                    <div>
+                        <p id="pImportActivityResult" class="setting-action-result">
+                            <!-- Injection du texte -->
+                        </p>
+                    </div>
+
+                    <div class="btn-import-export">
+                        <button class="btn-menu-setting import" id="btnImportBdD">Importer<img src="./Icons/Icon-Upload-APP.webp" alt="" srcset=""></button>
+                    </div>
+
+
+                    <!-- Import des données -->
+                    <span class="settingSeparator"></span>
+                    <h3 class="settingCategorie">GESTION SAUVEGARDES</h3>
+
+                    <p>
+                        <label class="labelSetting" for="">Nombre de sauvegardes locales : </label>
+                    </p>
+                    <div>
+                        <p id="pLocalBackupCount" class="settingAlert">
+                            XX
+                            <!-- Injection -->
+                        </p> 
+                    </div>
+                    <div class="btn-import-export">
+                        <button class="btn-menu-setting import" id="btnPurgeLocalBackup">Purger</button>
+                    </div>
+                    <div class="setting-align-center""> 
+                        <p class="settingAlertComment">ℹ️ Purger ne conservera que la plus récente.</p>
+                    </div>
+
+
+                    <!-- Suppression des données -->
+                    <span class="settingSeparator"></span>
+                    <h3 class="settingCategorie">SUPPRESSION</h3>
+
+                    <div>
+                        <p><label class="labelSetting" for="">Suppression des données :</label></p>
+                    </div>
+                    <div class="setting-align-center">
+                        <p>
+                            <button class="delete-data" id="btnDeteteBdd">Supprimer toutes mes données</button>
+                        </p>
+                    </div>
+
                 </div>
-                <!-- AVRIL -->
-                <div class="stat-month">
-                    <span id="stat-number-april">0</span>
-                    <div id="stat-PB-april" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-april">Avr</span>
+
+                <!-- Div confirmation suppression des données -->
+                <div id="divConfirmDeleteDataBase" class="confirmationDeleteBdD">
+                    <h2>Suppression des données</h2>
+
+                    <p>
+                        <u>Cette action est irreversible.</u> En confirmant, les données suivantes seront effacées : 
+                        <ul>
+                            <li>Pseudo;</li>
+                            <li>Favoris;</li>
+                            <li>Modèles;</li>
+                            <li>Paramètres;</li>
+                            <li>Activités;</li>
+                            <li>Récompenses.</li>
+                        </ul>
+                        Etes vous sûr de vouloir supprimer vos données ?
+                    </p>
+                    <button id="btnConfirmDeleteDataBase" class="btn-menu deleteConfirmBdD">Confirmer</button>
                 </div>
-                <!-- MAI -->
-                <div class="stat-month">
-                    <span id="stat-number-may">0</span>
-                    <div id="stat-PB-may" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-may">Mai</span>
+
+
+
+                <!-- ----------------------------------  FIN    GESTION DONNEES     ------------------------------------------------>
+
+                <!-- ----------------------------------      DIV #SETTING        ------------------------------------------------>
+                <div id="divSetting" class="new-interface">
+                    <h3 class="settingCategorie">Affichage</h3>
+
+                    <p>
+                        <label class="labelSetting" for="">Activité planifiées :</label>
+                        <select class="setting" name="" id="selectSettingCommentModePlanned">
+                            <option value="Collapse">Réduit</option>
+                                <option value="Compact">Compacté</option>
+                                <option value="Expand">Déployé</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label class="labelSetting" for="">Activités réalisées :</label>
+                        <select class="setting" name="" id="selectSettingCommentModeDone">
+                            <option value="Collapse">Réduit</option>
+                                <option value="Compact">Compacté</option>
+                                <option value="Expand">Déployé</option>
+                        </select>
+                    </p>
+
+
+
+                    <!-- SESSION -->
+                    <h3 class="settingCategorie">Séance</h3>
+                    <p>
+                        <label class="labelSetting" for="">Données envoyées vers activité :</label>
+                        <select class="setting" name="" id="selectSettingSessionCommentMode" >
+                            <option value="MINIMAL">Minimales</option>
+                            <option value="NORMAL">Normales</option>
+                            <option value="COMPLETE">Complètes</option>
+                            <option value="SERIES">Séries</option>
+                        </select>
+                    </p>
+                        <!-- Test exemple -->
+
+                    <div>
+                        <p class="settingAlert" id="pSettingSessionCommentModeExemple">
+                            <!-- Injection -->
+                            Ex: Tractions: 10.
+                        </p>
+                    </div>
+                    
+
+
+
+                    <!-- AGENDA -->
+                    <span class="settingSeparator"></span>
+                    <h3 class="settingCategorie">Agenda</h3>
+                    <p>
+                        <label class="labelSetting" for="">Type :</label>
+                        <select class="setting" name="" id="selectSettingAgenda">
+                            <option value="NONE">Aucun</option>
+                            <option value="GOOGLE">Google</option>
+                            <option value="OUTLOOK">Outlook</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label class="labelSetting" for="">Créneau par défaut :</label>
+                    </p>
+
+                    <div>
+                        <p class="settingAlert">
+                            de :
+                        </p>
+                    </div>
+                    <p>
+                        <input type="time" name="" id="inputTimeSettingScheduleStart">
+                    </p>
+                    <div>
+                        <p class="settingAlert">
+                            à :
+                        </p>
+                    </div>
+                    <p>
+                        <input type="time" name="" id="inputTimeSettingScheduleEnd">
+                    </p>
+
+
+                    <div class="setting-align-center""> 
+                        <p class="settingAlertComment">ℹ️ Paramètrage par défaut lors d'un export agenda.</p>
+                    </div>
+                    <!-- TRAVAIL AUTO SAVE -->
+                    <span class="settingSeparator"></span>
+                    <H3 class="settingCategorie">Export automatique</H3>
+
+                    <p>
+                        <span class="spanCheckbox">Activation : </span>
+
+                        <label class="switch">
+                            <input id="inputSettingIsAutoSave" type="checkbox">
+                            <span class="slider"></span>
+                        </label>    
+                    </p>
+                    <p>
+                        <span class="spanCheckbox">Fréquence (en jours) : </span>
+                        <input id="inputSettingSaveFrequency" type="number" value="7" max="30">
+                    </p>
+                    <span class="spanCheckbox">Dernier export auto : </span>
+                    <div>
+                        <p id="pSettingLastAutoSaveDate" class="settingAlert">
+                            <!-- Injection -->
+                        </p>
+                    </div>
+
+                    <div class="setting-align-center""> 
+                        <p class="settingAlertComment">ℹ️ Export effectué au lancement de l'application.</p>
+                    </div>
+                
+
+                    <!-- FIN TRAVAIL AUTO SAVE -->
+
+                    <span class="settingSeparator"></span>
+                    <H3 class="settingCategorie">Notifications</H3>
+                    <div>
+                        <p>
+                            <label for="">Statut des notifications :</label>
+                        </p>
+                        
+                        <p class="settingAlert" id="pMobileNotifyStatus">Vérification en cours...</p>
+                    </div>
+
+                    <span class="settingSeparator"></span>
+
+
+                    <!-- DIVERS -->
+                    <h3 class="settingCategorie">Divers</h3>
+
+                    <!-- Animation -->
+                    <p>
+                        <span class="spanCheckbox">Animation :</span>
+
+                        <label class="switch">
+                            <input type="checkbox" id="inputCheckboxAnimationStatus">
+                            <span class="slider"></span>
+                        </label>
+                    </p>
+
+                    <!-- Mode developpeur -->
+                    <p>
+                        <span class="spanCheckbox">Mode developpeur :</span>
+
+                        <label class="switch">
+                            <input type="checkbox" id="inputCheckboxDevMode">
+                            <span class="slider"></span>
+                        </label>
+                    </p>
+
+                    <div class="setting-align-center">
+                        <p class="settingAlertComment">
+                            ⚠️Impact sur les performances !
+                        </p>
+                    </div>
+
                 </div>
-                <!-- JUIN -->
-                <div class="stat-month">
-                    <span id="stat-number-june">0</span>
-                    <div id="stat-PB-june" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-june">Juin</span>
+                
+                <!-- ----------------------------------  FIN    DIV SETTING     ------------------------------------------------>
+                
+
+                <!-- ----------------------------------      DIV #FAVORIS        ------------------------------------------------>
+
+
+                    
+
+                <div id="divFavoris" class="div-favoris-list">
+
+                    <ul id="ulActivityListParent">
+                        <!-- Injection de la liste d'activité -->
+                    </ul>
+
                 </div>
-                <!-- JUILLET -->
-                <div class="stat-month">
-                    <span id="stat-number-july">0</span>
-                    <div id="stat-PB-july" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-july">Juil</span>
+                
+
+                <!-- ----------------------------------  FIN    DIV FAVORIS     ------------------------------------------------>
+
+                <!-- ----------------------------------      DIV #TEMPLATE  GESTION      ------------------------------------------------>
+                <div id="divGestTemplate" class="new-interface">
+                    <!-- Contient la liste des template -->
+                    <div id="divTemplateListMenu" class="templateList">
+                        <!-- Injection de la liste -->
+                    </div>
+                    <div id="divActivityTemplateEndList" class="endListArea">
+                        <!-- Injection bouton et info -->
+                        TOMATE
+                    </div>
                 </div>
-                <!-- AOUT -->
-                <div class="stat-month">
-                    <span id="stat-number-august">0</span>
-                    <div id="stat-PB-august" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-august">Aout</span>
+
+
+                <!-- ----------------------------------  FIN    DIV TEMPLATE GESTION   ------------------------------------------------>
+
+                    <!-- ---------------------------------- DIV edit #TEMPLATE  ------------------------------------------------>
+
+                <div id="divTemplateEditor" class="new-interface">
+                
+                    <div class="activityPreview">  
+                        <p id="pTemplateEditorInfo">📄Modèle d'activité :</p>                   
+                    </div>
+
+                    <p class="activity-editor">
+                        <label for="">Titre : </label>
+                        <input type="text" id="inputTemplateTitle" maxlength="40">
+                    </p>
+
+                    <p class="activity-editor">
+                        <label for="">Activité : </label>
+                    </p>
+
+                    <div class="fake-selector" id="divBtnFakeSelectorActivityTemplateEditor">
+                        <select class="select-locked" name="category" id="selectorTemplateCategoryChoice">
+                            <!-- Injection des options -->
+                        </select>
+                    </div>
+
+                    <p class="activity-editor">
+                        <span class="spanCheckbox">Planifiée :</span>
+
+                        <label class="switch">
+                            <input
+                                id="inputTemplateIsPlanned" type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </p>
+
+                    <p class="activity-editor">
+                        <label for="">Lieu : </label>
+                        <input id="inputTemplateLocation" type="text" maxlength="40">
+                    </p>
+
+                    <!-- DISTANCE -->
+                    <div class="number-container">
+                        <span class="input-number-symbol">⟷</span>
+                        <input id="inputTemplateDistance" type="number" class="distance">
+                        <span class="chrono-separator">km</span>
+                    </div>
+
+                    <!-- CHRONO -->
+                    <div class="number-container">
+                        <span class="input-number-symbol">⏱️</span>
+                        <input type="number" id="inputDurationTemplateHours" min="0" max="99" value="00" class="numberFakeH">
+
+                    
+                        <span>:</span>
+                        <input type="number" id="inputDurationTemplateMinutes" min="0" max="59" value="00" class="numberFakeMS">
+
+                        
+                        <span>:</span>
+                        <input type="number" id="inputDurationTemplateSeconds" min="0" max="59" value="00" class="numberFakeMS">
+                    </div>            
+                    <p>
+                        <label for="">Commentaire : </label>
+                        <textarea name="" id="textareaTemplateComment" maxlength="250"></textarea>
+                    </p>
                 </div>
-                <!-- SEPTEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-number-september">0</span>
-                    <div id="stat-PB-september" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-september">Sep</span>
+
+                <!-- ---------------------------------- FIN div edit TEMPLATE ------------------------------------------------>
+
+
+                <!-- ----------------------------Div Selection New From template -------------------------------------->
+                <div id="divTemplateChoice" class="fake-select-area">
+                    <div id="divTemplateChoiceList" class="fake-option-area">
+                        <!-- Injection des éléments -->
+                    </div>
                 </div>
-                <!-- OCTOBRE -->
-                <div class="stat-month">
-                    <span id="stat-number-october">0</span>
-                    <div id="stat-PB-october" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-october">Oct</span>
+
+                <!---------------------------  FIN Div Selection New From template ------------------------------------------->
+
+
+
+                <!-- ----------------------------------      DIV #STAT        ------------------------------------------------>
+                <div id="divStat" class="new-interface">
+
+                    <p>
+                        <label class="stat-activity-choice" for="">Choisit une activité :</label>
+                    </p>
+                    <div class="fake-selector" id="divFakeSelectorStatMenu">
+                        <select class="select-locked" id="selectorStat">
+                            <!-- Injection des options-->
+                        </select>
+                    </div>
+
+                    
+                    <!-- Affichage du résultat -->
+                    <div id="stats" class="stat">
+                        <!-- Injection -->
+                    </div>
+
+
+
+                    <!-- STAT GRAPHIQUE -->
+
+                    <div id="stats" class="statYears">
+                        <p>
+                            <select name="" id="selectStatGraphYear"class="graph-stat">
+                                <!-- Injection des années -->
+                            </select> 
+                        </p>
+
+                        <!-- Affichage du résultat général pour l'année sélectionnée -->
+                        <section class="stat">
+                            <p id="pStatResumeByYear">
+                                <!-- Activité : 120 ; Distance : 140.3km; Heures : 250.3h -->
+                                <!-- Injection -->
+                            </p> 
+                        </section>
+                    </div>
+
+                    
+
+                    <!-- COUNT -->
+                    <div class="statGraphique">
+                        <h3 class="stat stat-title-activity">🧍Activités :</h3>
+                        <div class="stat-months">
+                            <!-- JANVIER -->
+                            <div class="stat-month">
+                                <span id="stat-number-january">0</span>
+                                <div id="stat-PB-january" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;" ></div>
+                                <span id="spanGraphCountMonthName-january">Jan</span>
+                            </div>
+                            <!-- FEVRIER -->
+                            <div class="stat-month">
+                                <span id="stat-number-february">0</span>
+                                <div id="stat-PB-february" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-february">Fev</span>
+                            </div>
+                            <!-- MARS -->
+                            <div class="stat-month">
+                                <span id="stat-number-march">0</span>
+                                <div id="stat-PB-march" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-march">Mars</span>
+                            </div>
+                            <!-- AVRIL -->
+                            <div class="stat-month">
+                                <span id="stat-number-april">0</span>
+                                <div id="stat-PB-april" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-april">Avr</span>
+                            </div>
+                            <!-- MAI -->
+                            <div class="stat-month">
+                                <span id="stat-number-may">0</span>
+                                <div id="stat-PB-may" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-may">Mai</span>
+                            </div>
+                            <!-- JUIN -->
+                            <div class="stat-month">
+                                <span id="stat-number-june">0</span>
+                                <div id="stat-PB-june" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-june">Juin</span>
+                            </div>
+                            <!-- JUILLET -->
+                            <div class="stat-month">
+                                <span id="stat-number-july">0</span>
+                                <div id="stat-PB-july" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-july">Juil</span>
+                            </div>
+                            <!-- AOUT -->
+                            <div class="stat-month">
+                                <span id="stat-number-august">0</span>
+                                <div id="stat-PB-august" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-august">Aout</span>
+                            </div>
+                            <!-- SEPTEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-number-september">0</span>
+                                <div id="stat-PB-september" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-september">Sep</span>
+                            </div>
+                            <!-- OCTOBRE -->
+                            <div class="stat-month">
+                                <span id="stat-number-october">0</span>
+                                <div id="stat-PB-october" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-october">Oct</span>
+                            </div>
+                            <!-- NOVEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-number-november">0</span>
+                                <div id="stat-PB-november" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-november">Nov</span>
+                            </div>
+                            <!-- DECEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-number-december">0</span>
+                                <div id="stat-PB-december" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
+                                <span id="spanGraphCountMonthName-december">Dec</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DUREE -->
+                    <div class="statGraphique">
+                        <h3 class="stat stat-title-duration">⏱️ Durées (heures) :</h3>
+                        <div class="stat-months">
+                            <!-- JANVIER -->
+                            <div class="stat-month">
+                                <span id="stat-duration-january">0</span>
+                                <div id="stat-PB-Duration-january" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;" ></div>
+                                <span id="spanGraphDurationMonthName-january">Jan</span>
+                            </div>
+                            <!-- FEVRIER -->
+                            <div class="stat-month">
+                                <span id="stat-duration-february">0</span>
+                                <div id="stat-PB-Duration-february" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-february">Fev</span>
+                            </div>
+                            <!-- MARS -->
+                            <div class="stat-month">
+                                <span id="stat-duration-march">0</span>
+                                <div id="stat-PB-Duration-march" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-march">Mars</span>
+                            </div>
+                            <!-- AVRIL -->
+                            <div class="stat-month">
+                                <span id="stat-duration-april">0</span>
+                                <div id="stat-PB-Duration-april" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-april">Avr</span>
+                            </div>
+                            <!-- MAI -->
+                            <div class="stat-month">
+                                <span id="stat-duration-may">0</span>
+                                <div id="stat-PB-Duration-may" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-may">Mai</span>
+                            </div>
+                            <!-- JUIN -->
+                            <div class="stat-month">
+                                <span id="stat-duration-june">0</span>
+                                <div id="stat-PB-Duration-june" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-june">Juin</span>
+                            </div>
+                            <!-- JUILLET -->
+                            <div class="stat-month">
+                                <span id="stat-duration-july">0</span>
+                                <div id="stat-PB-Duration-july" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-july">Juil</span>
+                            </div>
+                            <!-- AOUT -->
+                            <div class="stat-month">
+                                <span id="stat-duration-august">0</span>
+                                <div id="stat-PB-Duration-august" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-august">Aout</span>
+                            </div>
+                            <!-- SEPTEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-duration-september">0</span>
+                                <div id="stat-PB-Duration-september" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-september">Sep</span>
+                            </div>
+                            <!-- OCTOBRE -->
+                            <div class="stat-month">
+                                <span id="stat-duration-october">0</span>
+                                <div id="stat-PB-Duration-october" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-october">Oct</span>
+                            </div>
+                            <!-- NOVEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-duration-november">0</span>
+                                <div id="stat-PB-Duration-november" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-november">Nov</span>
+                            </div>
+                            <!-- DECEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-duration-december">0</span>
+                                <div id="stat-PB-Duration-december" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
+                                <span id="spanGraphDurationMonthName-december">Dec</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DISTANCE -->
+                    <div class="statGraphique">
+                        <h3 class="stat stat-title-distance">⟷ Distances (km) :</h3>
+                        <div class="stat-months">
+                            <!-- JANVIER -->
+                            <div class="stat-month">
+                                <span id="stat-distance-january">0</span>
+                                <div id="stat-PB-Distance-january" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;" ></div>
+                                <span id="spanGraphDistanceMonthName-january">Jan</span>
+                            </div>
+                            <!-- FEVRIER -->
+                            <div class="stat-month">
+                                <span id="stat-distance-february">0</span>
+                                <div id="stat-PB-Distance-february" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-february">Fev</span>
+                            </div>
+                            <!-- MARS -->
+                            <div class="stat-month">
+                                <span id="stat-distance-march">0</span>
+                                <div id="stat-PB-Distance-march" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-march">Mars</span>
+                            </div>
+                            <!-- AVRIL -->
+                            <div class="stat-month">
+                                <span id="stat-distance-april">0</span>
+                                <div id="stat-PB-Distance-april" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-april">Avr</span>
+                            </div>
+                            <!-- MAI -->
+                            <div class="stat-month">
+                                <span id="stat-distance-may">0</span>
+                                <div id="stat-PB-Distance-may" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-may">Mai</span>
+                            </div>
+                            <!-- JUIN -->
+                            <div class="stat-month">
+                                <span id="stat-distance-june">0</span>
+                                <div id="stat-PB-Distance-june" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-june">Juin</span>
+                            </div>
+                            <!-- JUILLET -->
+                            <div class="stat-month">
+                                <span id="stat-distance-july">0</span>
+                                <div id="stat-PB-Distance-july" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-july">Juil</span>
+                            </div>
+                            <!-- AOUT -->
+                            <div class="stat-month">
+                                <span id="stat-distance-august">0</span>
+                                <div id="stat-PB-Distance-august" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-august">Aout</span>
+                            </div>
+                            <!-- SEPTEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-distance-september">0</span>
+                                <div id="stat-PB-Distance-september" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-september">Sep</span>
+                            </div>
+                            <!-- OCTOBRE -->
+                            <div class="stat-month">
+                                <span id="stat-distance-october">0</span>
+                                <div id="stat-PB-Distance-october" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-october">Oct</span>
+                            </div>
+                            <!-- NOVEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-distance-november">0</span>
+                                <div id="stat-PB-Distance-november" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-november">Nov</span>
+                            </div>
+                            <!-- DECEMBRE -->
+                            <div class="stat-month">
+                                <span id="stat-distance-december">0</span>
+                                <div id="stat-PB-Distance-december" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
+                                <span id="spanGraphDistanceMonthName-december">Dec</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- FIN STAT GRAPHIQUE -->
+                    <span class="info-basDePage">ℹ️ Activités planifiées exclues des statistiques.</span>
                 </div>
-                <!-- NOVEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-number-november">0</span>
-                    <div id="stat-PB-november" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-november">Nov</span>
+
+
+                <!-- Fake selecteur option activity stat -->
+                <div id="divFakeSelectOptStat" class="fake-select-area">
+                    <div id="divFakeSelectOptStatList" class="fake-option-area">
+                        <!-- Injection des éléments -->
+                    </div>
                 </div>
-                <!-- DECEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-number-december">0</span>
-                    <div id="stat-PB-december" class="stat-progress-bar stat-pb-activities" style="--progress: 0%;"></div>
-                    <span id="spanGraphCountMonthName-december">Dec</span>
+
+                <!-- ----------------------------------  FIN    DIV STAT     ------------------------------------------------>
+
+
+                <!-- ----------------------------------      DIV #INFO        ------------------------------------------------>
+                <div id="divInfo" class="new-interface">
+                    <div class="center">
+                        <img class="imgQRcode" src="./Icons/MSS_Logo_text.webp" alt="" srcset="">
+                    </div>
+                    <div class="release-licence">
+                        <p class="release-licence">Une application pour gérer vos activités physiques.</p>
+                        <p class="release-licence">Uniquement sur Android.</p>
+                        <p class="release-licence" id="pInfoVersion"><strong>Version : </strong>2.0.5</p>
+                        <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
+                        <p class="release-licence"><strong>Collaboration :</strong> Morgane C. <i>Merci pour tes idées et ton enthousiasme tout au long du projet.</i></p>
+                        <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
+                        <p class="release-licence"><strong>Icônes :</strong> créées par Freepik, Smashicons, Icongeek26, Vectorslab, afif fudin, 
+                            alkhalifi design, Mayor Icons, juicy_fish, Google, disponibles sur <a href="https://www.flaticon.com/" target="_blank">Flaticon.</a></p>
+                        <p class="release-licence"><strong>CONDITION D'UTILISATION :</strong></p>
+                        
+                    </div>
+
+                    <!-- Condition d'utilisation -->
+                    <div class="release-licence" id="divConditionDynamicTextInfo">
+                        <!-- Injection des conditions -->
+                    </div>
+
+                    <div class="release-licence">
+                        <p class="release-licence"> © 2025 - taralab - Tous droits réservés.</p>  
+                    </div>
                 </div>
+
+
+
+                <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
+
+                <!-- ----------------------------------      DIV #REWARDS        ------------------------------------------------>
+                <div id="divRewards" class="new-interface">
+                    <!-- Zone spécial event -->
+                    <div class="reward-category special">
+                        <img src="./Icons/Icon-Favoris-Sel.webp" alt="">
+                        <span>Spéciales</span>
+                    </div>
+                    <div class="rewards-grid" id="divSpecialRewardsList">
+                        <!-- Injection des badges speciaux -->
+                    </div>
+
+                    <!-- Zone normale -->
+                    <div class="reward-category standard">
+                        <img src="./Icons/Icon-Trophy.webp" alt="">
+                        <span>Standards</span>
+                    </div>
+                    <div class="rewards-grid" id="divRewardsList">
+                        <!-- Injection des badges utilisateur -->
+                    </div>
+                </div>
+
+
+                <!-- Plein écran -->
+                <div id="divFullScreenRewards" class="fullScreenTrophy">
+                    <div class="fullScreenRewardContent">
+                        <p>
+                            <img id="imgRewardsFullScreen" src="./Badges/Badge-BASKETBALL-A.webp" alt="" class="trophyFullScreen">
+                        </p>
+                        
+                        <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
+                        <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
+
+
+                        <!-- Temporairement désactivé -->
+                        <!-- <div class="custom-editor-btn-menu">
+                            <button class="btn-menu" id="btnRewardShareImage">
+                                <img src="./Icons/Icon-Share.webp" alt="Image Share" srcset="">
+                            </button>
+                        </div> -->
+
+                    </div>
+
+                </div>
+
+
+                <!-- ----------------------------------  FIN    DIV REWARDS     ------------------------------------------------>
+
+
+
+
+
+
+
+                <!-- ----------------------------------      DIV #CONDITION ACCEPTATION      ------------------------------------------------>
+                <div id="divConditionUtilisation" class="condition-interface">
+
+
+                    <div class="entete-condition">
+                        <img class="logo" src="./Icons/Logo_MSS-512.png" alt="" srcset="">
+                        <h3 class="conditionUtilisation">Bienvenue sur "Mon Suivi Sportif"</h3>
+                        <h3>Conditions d'utilisation</h3>
+                    </div>
+                    
+                    <div id="divConditionDynamicText">
+                        <!-- Injection des conditions dynamiques -->
+                    </div>
+
+                    
+                    <select class="conditionUtilisation" name="" id="selectStatusCondition">
+                        <option value="Refused">Je décline.</option>
+                        <option value="Accepted">J'ai compris et j'accepte.</option>
+                    </select> 
+
+                    <div class="buttonAcceptation">
+                        <button  id="launch_btn" class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter-blanc.webp" alt="Icone"></button>  
+                    </div>
+                </div>
+                <!-- ----------------------------------  FIN   DIV #CONDITION ACCEPTATION    ------------------------------------------------>
+
+
             </div>
-        </div>
 
-        <!-- DUREE -->
-        <div class="statGraphique">
-            <h3 class="stat stat-title-duration">⏱️ Durées (heures) :</h3>
-            <div class="stat-months">
-                <!-- JANVIER -->
-                <div class="stat-month">
-                    <span id="stat-duration-january">0</span>
-                    <div id="stat-PB-Duration-january" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;" ></div>
-                    <span id="spanGraphDurationMonthName-january">Jan</span>
-                </div>
-                <!-- FEVRIER -->
-                <div class="stat-month">
-                    <span id="stat-duration-february">0</span>
-                    <div id="stat-PB-Duration-february" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-february">Fev</span>
-                </div>
-                <!-- MARS -->
-                <div class="stat-month">
-                    <span id="stat-duration-march">0</span>
-                    <div id="stat-PB-Duration-march" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-march">Mars</span>
-                </div>
-                <!-- AVRIL -->
-                <div class="stat-month">
-                    <span id="stat-duration-april">0</span>
-                    <div id="stat-PB-Duration-april" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-april">Avr</span>
-                </div>
-                <!-- MAI -->
-                <div class="stat-month">
-                    <span id="stat-duration-may">0</span>
-                    <div id="stat-PB-Duration-may" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-may">Mai</span>
-                </div>
-                <!-- JUIN -->
-                <div class="stat-month">
-                    <span id="stat-duration-june">0</span>
-                    <div id="stat-PB-Duration-june" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-june">Juin</span>
-                </div>
-                <!-- JUILLET -->
-                <div class="stat-month">
-                    <span id="stat-duration-july">0</span>
-                    <div id="stat-PB-Duration-july" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-july">Juil</span>
-                </div>
-                <!-- AOUT -->
-                <div class="stat-month">
-                    <span id="stat-duration-august">0</span>
-                    <div id="stat-PB-Duration-august" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-august">Aout</span>
-                </div>
-                <!-- SEPTEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-duration-september">0</span>
-                    <div id="stat-PB-Duration-september" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-september">Sep</span>
-                </div>
-                <!-- OCTOBRE -->
-                <div class="stat-month">
-                    <span id="stat-duration-october">0</span>
-                    <div id="stat-PB-Duration-october" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-october">Oct</span>
-                </div>
-                <!-- NOVEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-duration-november">0</span>
-                    <div id="stat-PB-Duration-november" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-november">Nov</span>
-                </div>
-                <!-- DECEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-duration-december">0</span>
-                    <div id="stat-PB-Duration-december" class="stat-progress-bar stat-pb-duration" style="--progress: 0%;"></div>
-                    <span id="spanGraphDurationMonthName-december">Dec</span>
-                </div>
+            <!-- ----------------------------------      DIV POPUP NOTIFY     ------------------------------------------------>
+            <div id="popupNotify" class="popupNotify">
+                <div id="divNotifyPopupEmoji" class="notify-emoji">👌</div>
+                <span id="spanPopupNotifyText">Séance réinitialisée !</span>
             </div>
-        </div>
 
-        <!-- DISTANCE -->
-        <div class="statGraphique">
-            <h3 class="stat stat-title-distance">⟷ Distances (km) :</h3>
-            <div class="stat-months">
-                <!-- JANVIER -->
-                <div class="stat-month">
-                    <span id="stat-distance-january">0</span>
-                    <div id="stat-PB-Distance-january" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;" ></div>
-                    <span id="spanGraphDistanceMonthName-january">Jan</span>
-                </div>
-                <!-- FEVRIER -->
-                <div class="stat-month">
-                    <span id="stat-distance-february">0</span>
-                    <div id="stat-PB-Distance-february" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-february">Fev</span>
-                </div>
-                <!-- MARS -->
-                <div class="stat-month">
-                    <span id="stat-distance-march">0</span>
-                    <div id="stat-PB-Distance-march" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-march">Mars</span>
-                </div>
-                <!-- AVRIL -->
-                <div class="stat-month">
-                    <span id="stat-distance-april">0</span>
-                    <div id="stat-PB-Distance-april" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-april">Avr</span>
-                </div>
-                <!-- MAI -->
-                <div class="stat-month">
-                    <span id="stat-distance-may">0</span>
-                    <div id="stat-PB-Distance-may" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-may">Mai</span>
-                </div>
-                <!-- JUIN -->
-                <div class="stat-month">
-                    <span id="stat-distance-june">0</span>
-                    <div id="stat-PB-Distance-june" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-june">Juin</span>
-                </div>
-                <!-- JUILLET -->
-                <div class="stat-month">
-                    <span id="stat-distance-july">0</span>
-                    <div id="stat-PB-Distance-july" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-july">Juil</span>
-                </div>
-                <!-- AOUT -->
-                <div class="stat-month">
-                    <span id="stat-distance-august">0</span>
-                    <div id="stat-PB-Distance-august" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-august">Aout</span>
-                </div>
-                <!-- SEPTEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-distance-september">0</span>
-                    <div id="stat-PB-Distance-september" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-september">Sep</span>
-                </div>
-                <!-- OCTOBRE -->
-                <div class="stat-month">
-                    <span id="stat-distance-october">0</span>
-                    <div id="stat-PB-Distance-october" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-october">Oct</span>
-                </div>
-                <!-- NOVEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-distance-november">0</span>
-                    <div id="stat-PB-Distance-november" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-november">Nov</span>
-                </div>
-                <!-- DECEMBRE -->
-                <div class="stat-month">
-                    <span id="stat-distance-december">0</span>
-                    <div id="stat-PB-Distance-december" class="stat-progress-bar stat-pb-distance" style="--progress: 0%;"></div>
-                    <span id="spanGraphDistanceMonthName-december">Dec</span>
-                </div>
-            </div>
-        </div>
+            <!-- ----------------------------------  FIN   DIV POPUP NOTIFY   ------------------------------------------------>
 
-
-        <!-- FIN STAT GRAPHIQUE -->
-         <span class="info-basDePage">ℹ️ Activités planifiées exclues des statistiques.</span>
-    </div>
-
-
-    <!-- Fake selecteur option activity stat -->
-    <div id="divFakeSelectOptStat" class="fake-select-area">
-        <div id="divFakeSelectOptStatList" class="fake-option-area">
-            <!-- Injection des éléments -->
-        </div>
-    </div>
-
-    <!-- ----------------------------------  FIN    DIV STAT     ------------------------------------------------>
-
-
-    <!-- ----------------------------------      DIV #INFO        ------------------------------------------------>
-    <div id="divInfo" class="new-interface">
-        <div class="center">
-            <img class="imgQRcode" src="./Icons/MSS_Logo_text.webp" alt="" srcset="">
-        </div>
-        <div class="release-licence">
-            <p class="release-licence">Une application pour gérer vos activités physiques.</p>
-            <p class="release-licence">Uniquement sur Android.</p>
-            <p class="release-licence" id="pInfoVersion"><strong>Version : </strong>2.0.5</p>
-            <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
-            <p class="release-licence"><strong>Collaboration :</strong> Morgane C. <i>Merci pour tes idées et ton enthousiasme tout au long du projet.</i></p>
-            <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
-            <p class="release-licence"><strong>Icônes :</strong> créées par Freepik, Smashicons, Icongeek26, Vectorslab, afif fudin, 
-                alkhalifi design, Mayor Icons, juicy_fish, Google, disponibles sur <a href="https://www.flaticon.com/" target="_blank">Flaticon.</a></p>
-            <p class="release-licence"><strong>CONDITION D'UTILISATION :</strong></p>
-              
-        </div>
-
-        <!-- Condition d'utilisation -->
-        <div class="release-licence" id="divConditionDynamicTextInfo">
-            <!-- Injection des conditions -->
-        </div>
-
-        <div class="release-licence">
-            <p class="release-licence"> © 2025 - taralab - Tous droits réservés.</p>  
-        </div>
-    </div>
-
-
-
-    <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
-
-    <!-- ----------------------------------      DIV #REWARDS        ------------------------------------------------>
-    <div id="divRewards" class="new-interface">
-        <!-- Zone spécial event -->
-        <div class="reward-category special">
-            <img src="./Icons/Icon-Favoris-Sel.webp" alt="">
-            <span>Spéciales</span>
-        </div>
-        <div class="rewards-grid" id="divSpecialRewardsList">
-            <!-- Injection des badges speciaux -->
-        </div>
-
-        <!-- Zone normale -->
-        <div class="reward-category standard">
-            <img src="./Icons/Icon-Trophy.webp" alt="">
-            <span>Standards</span>
-        </div>
-        <div class="rewards-grid" id="divRewardsList">
-            <!-- Injection des badges utilisateur -->
-        </div>
-    </div>
-
-
-    <!-- Plein écran -->
-    <div id="divFullScreenRewards" class="fullScreenTrophy">
-        <div class="fullScreenRewardContent">
-            <p>
-                <img id="imgRewardsFullScreen" src="./Badges/Badge-BASKETBALL-A.webp" alt="" class="trophyFullScreen">
-            </p>
-            
-            <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
-            <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
-
-
-            <!-- Temporairement désactivé -->
-            <!-- <div class="custom-editor-btn-menu">
-                <button class="btn-menu" id="btnRewardShareImage">
-                    <img src="./Icons/Icon-Share.webp" alt="Image Share" srcset="">
+            <!------------------------------------- DIV Main Menu ------------------------------------------------------>
+            <button class="btnFlottant newActivity" data-menu-type="NewActivity" id="btnNewActivity"><img src="./Icons/Icon-New.webp" alt="Icone"></button>
+            <button class="btnFlottant new-from-template" data-menu-type="TemplateChoice" id="btnNewFromTemplate"><img src="./Icons/Icon-From-Modele.webp" alt="Icone"></button>
+            <footer id="divMainBtnMenu" class="main-menu">
+                <button class="btn-menu" id="btnMenuPlanning" data-menu-type="Planning">
+                    <img src="./Icons/Icon-Agenda-Hebdo.webp" alt="Icone">
+                    <span>Planning</span>
                 </button>
-            </div> -->
+                <button class="btn-menu" id="btnMenuSession" data-menu-type="Session">
+                    <img src="./Icons/Icon-Session.webp" alt="Icone">
+                    <span>Séance</span>
+                </button>
+                <button class="btn-menu" id="btnMenuStat" data-menu-type="Stat">
+                    <img src="./Icons/Icon-Stat.webp" alt="Icone">
+                    <span>Stats</span>
+                </button>
+                <button class="btn-menu" id="btnMenuRewards" data-menu-type="Rewards">
+                    <img src="./Icons/Icon-Trophy.webp" alt="Icone">
+                    <span>Trophées</span>
+                </button>
+                <button class="btn-menu" id="btnMenuSup">
+                    <img src="./Icons/Icon-Menu-Plus.webp" alt="Icone">
+                    <span>Plus</span>
+                </button>
+            </footer>
 
         </div>
-
-    </div>
-
-
-    <!-- ----------------------------------  FIN    DIV REWARDS     ------------------------------------------------>
-
-
-
-
-
-
-
-    <!-- ----------------------------------      DIV #CONDITION ACCEPTATION      ------------------------------------------------>
-    <div id="divConditionUtilisation" class="condition-interface">
-
-
-        <div class="entete-condition">
-            <img class="logo" src="./Icons/Logo_MSS-512.png" alt="" srcset="">
-            <h3 class="conditionUtilisation">Bienvenue sur "Mon Suivi Sportif"</h3>
-            <h3>Conditions d'utilisation</h3>
-        </div>
-        
-        <div id="divConditionDynamicText">
-            <!-- Injection des conditions dynamiques -->
-        </div>
-
-        
-        <select class="conditionUtilisation" name="" id="selectStatusCondition">
-            <option value="Refused">Je décline.</option>
-            <option value="Accepted">J'ai compris et j'accepte.</option>
-        </select> 
-
-        <div class="buttonAcceptation">
-            <button  id="launch_btn" class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter-blanc.webp" alt="Icone"></button>  
-        </div>
-    </div>
-    <!-- ----------------------------------  FIN   DIV #CONDITION ACCEPTATION    ------------------------------------------------>
-
-
-    <!-- ----------------------------------      DIV POPUP NOTIFY     ------------------------------------------------>
-    <div id="popupNotify" class="popupNotify">
-        <div id="divNotifyPopupEmoji" class="notify-emoji">👌</div>
-        <span id="spanPopupNotifyText">Séance réinitialisée !</span>
-    </div>
-
-    <!-- ----------------------------------  FIN   DIV POPUP NOTIFY   ------------------------------------------------>
-
-    <!------------------------------------- DIV Main Menu ------------------------------------------------------>
-    <button class="btnFlottant newActivity" data-menu-type="NewActivity" id="btnNewActivity"><img src="./Icons/Icon-New.webp" alt="Icone"></button>
-    <button class="btnFlottant new-from-template" data-menu-type="TemplateChoice" id="btnNewFromTemplate"><img src="./Icons/Icon-From-Modele.webp" alt="Icone"></button>
-    <div id="divMainBtnMenu" class="main-menu">
-        <button class="btn-menu" id="btnMenuPlanning" data-menu-type="Planning">
-            <img src="./Icons/Icon-Agenda-Hebdo.webp" alt="Icone">
-            <span>Planning</span>
-        </button>
-        <button class="btn-menu" id="btnMenuSession" data-menu-type="Session">
-            <img src="./Icons/Icon-Session.webp" alt="Icone">
-            <span>Séance</span>
-        </button>
-        <button class="btn-menu" id="btnMenuStat" data-menu-type="Stat">
-            <img src="./Icons/Icon-Stat.webp" alt="Icone">
-            <span>Stats</span>
-        </button>
-        <button class="btn-menu" id="btnMenuRewards" data-menu-type="Rewards">
-            <img src="./Icons/Icon-Trophy.webp" alt="Icone">
-            <span>Trophées</span>
-        </button>
-        <button class="btn-menu" id="btnMenuSup">
-            <img src="./Icons/Icon-Menu-Plus.webp" alt="Icone">
-            <span>Plus</span>
-        </button>
-    </div>
 
     <!-- DIV main menu supplémentaire -->
     <div id="divMainMenuSup" class="main-menu-sup">
@@ -1259,8 +1270,9 @@
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
+    <!-- Zone de sécurité bas -->
+    <div class="safe-area-bottom"></div>
 </div>
-    <!-- <script src="capacitor.js"></script> -->
     <script src="./scripts/pouchdb.min.js?v=9.0.0"></script>
     <script src="./scripts/Sortable.min.js?v=1.15.6"></script>
     <script src="./scripts/globalFunction.js?v=2.0.5"></script>
