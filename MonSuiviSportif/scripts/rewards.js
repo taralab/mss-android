@@ -305,9 +305,23 @@ function onOpenMenuRewards(){
     onLoadUserRewardsList();
     
 
+    //Création du menu principale
+    onCreateMainMenuReward();
 
 };
 
+function onCreateMainMenuReward() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromRewards());
+
+}
+   
+   
 
 
 // Creation des récompenses de l'user dans la liste
@@ -862,7 +876,6 @@ function rewardsEvent(newRewardsList) {
 
     // Changement du style du bouton reward
     document.getElementById("btnMenuRewards").classList.add("rewardAvailable");
-
 }
 
 

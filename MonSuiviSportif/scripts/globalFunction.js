@@ -81,17 +81,31 @@ class Button_add {
 
 
 class Button_main_menu{
-    constructor(isFocus,imgRef,text,functionTarget){
+    constructor(isFocus,imgRef,text,functionTarget,isRewardBtn = false){
         this.isFocus = isFocus;
         this.imgRef = imgRef;
         this.text = text;
         this.functionTarget = functionTarget;
+        this.isRewardBtn = isRewardBtn;
         
         this.button = document.createElement("button");
-        this.button.id = getRandomShortID("mainMenuBtn_");
+        
+
+        // Id selon si c'est le boutton reward ou non
+        if (this.isRewardBtn) {
+            this.button.id = "btnMenuRewards";
+        }else{
+            this.button.id = getRandomShortID("mainMenuBtn_");
+        }
+
         this.button.classList.add("btn-menu");
+        // Focus
         if (this.isFocus) {
             this.button.classList.add("btnFocus");
+        }
+        // Reward disponible
+        if (this.isRewardAvailable) {
+            this.button.classList.add("rewardAvailable");
         }
 
 
@@ -162,7 +176,7 @@ function onGenerateMainMenuApp() {
     //Stats
     new Button_main_menu(false,btnMainMenuData.stats.imgRef,btnMainMenuData.stats.text,()=>onChangeMenu("Stat"));
     //Reward
-    new Button_main_menu(false,btnMainMenuData.reward.imgRef,btnMainMenuData.reward.text,()=>onChangeMenu("Rewards"));
+    new Button_main_menu(false,btnMainMenuData.reward.imgRef,btnMainMenuData.reward.text,()=>onChangeMenu("Rewards"),true);
     //Plus
     new Button_main_menu(false,btnMainMenuData.plus.imgRef,btnMainMenuData.plus.text,()=>onClickMainMenuSup());
 }
@@ -853,8 +867,6 @@ function onChangeMenu(menuTarget) {
             addEventForBtnMenuDouble(onClickReturnFromPlanningEditor,onClickSaveFromPlanningDayEditor);
         break;
 
-
-
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
             pMenuTitleRef.innerHTML = "Statistiques";
@@ -866,15 +878,10 @@ function onChangeMenu(menuTarget) {
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
             pMenuTitleRef.innerHTML = "Récompenses";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divRewards"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divRewards"],[],[],[],[]);
 
-            // Enlève la couleur si il ya un reward en cours
-            if (document.getElementById("btnMenuRewards").classList.contains("rewardAvailable")) {
-                document.getElementById("btnMenuRewards").classList.remove("rewardAvailable");
-            };
             onDisplayCustomInfo();
             onOpenMenuRewards();
-            addEventForSimpleReturnMenu(onClickReturnFromRewards);
         break;
         case "NewActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");};
@@ -1100,8 +1107,9 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
-            onChangeDisplay(["divRewards","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divRewards"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
+            onGenerateMainMenuApp();
         break;
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
@@ -1224,6 +1232,18 @@ function onAddEventForMainMenuButton() {
 
     // Génère le menu principal de l'application
     onGenerateMainMenuApp();
+
+    //Bouton Creation d'une activité
+    let btnNewActivityRef = document.getElementById("btnNewActivity");
+    btnNewActivityRef.addEventListener("click",()=>{
+        onChangeMenu("NewActivity");
+    });
+
+    //bouton nouveau depuis template
+    let btnNewFromTemplate = document.getElementById("btnNewFromTemplate");
+    btnNewFromTemplate.addEventListener("click",()=>{
+        onChangeMenu("TemplateChoice");
+    });
 
 
     // La div menu supplémentaire
