@@ -919,24 +919,21 @@ function onChangeMenu(menuTarget) {
         case "NewActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");};
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuTriple","divActivityEditor"],[],[],["btnMenuTripleDelete"],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onOpenNewActivity();
             onDisplayImgActivityPreview();
-            addEventForBtnMenuTriple(onClickReturnFromActivityEditor,onClickDeleteFromActivityEditor,onClickSaveFromActivityEditor);
         break;
         case "NewActivityFromTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewActivityFromTemplate");};
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuTriple","divActivityEditor"],[],[],["btnMenuTripleDelete"],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
-            addEventForBtnMenuTriple(onClickReturnFromActivityEditor,onClickDeleteFromActivityEditor,onClickSaveFromActivityEditor);
         break;
         case "EditActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");};
             pMenuTitleRef.innerHTML = "Editer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuTriple","divActivityEditor"],[],[],[],["btnMenuTripleDelete"]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
-            addEventForBtnMenuTriple(onClickReturnFromActivityEditor,onClickDeleteFromActivityEditor,onClickSaveFromActivityEditor);
         break;
         case "TemplateChoice":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateChoice");};
@@ -1140,10 +1137,10 @@ function onLeaveMenu(menuTarget) {
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
             onResetBtnRadio();
-            onChangeDisplay(["divActivityEditor","divBtnMenuTriple"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnMenuTriple"],[],[]);
-            onLockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//retire la sécurité double click
+            onChangeDisplay(["divActivityEditor"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor"],[],[]);
+            onUnlockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//retire la sécurité double click
             onHideImgActivityPreview();
-            removeEventForBtnMenuTripple();
+            onGenerateMainMenuApp();
         break;
 
         // Condition utilisateur

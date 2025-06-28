@@ -401,15 +401,22 @@ function onOpenNewActivity() {
 
     // Initialise les éléments
     onResetActivityInputs();
+
+    //création menu principal
+    onCreateMainMenuActivityEditor(false);
     
 };
 
 function onOpenNewActivityFromTemplate(templateItem) {
+
+    activityEditorMode = "creation";
+
     // Initialise les éléments
     onResetActivityInputs();
     onSetBtnRadio(templateItem.activityName);
 
-    activityEditorMode = "creation";
+    //création menu principal
+    onCreateMainMenuActivityEditor(false);
 
     if (devMode === true){
         console.log("ouverture de l'editeur d'activité depuis un template en mode " + activityEditorMode);
@@ -442,6 +449,31 @@ function onOpenNewActivityFromTemplate(templateItem) {
     imgEditorActivityPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
     pEditorActivityPreviewPlannedIconRef.innerHTML = templateItem.isPlanned ? "🗓️ Cette activité est planifiée.":"";
 }
+
+
+
+// Génération du menu principal
+function onCreateMainMenuActivityEditor(isModify) {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromActivityEditor());
+
+    // Apparition du menu 'supprimer'
+    if (isModify) {
+        new Button_main_menu(btnMainMenuData.delete.imgRef,btnMainMenuData.delete.text,() => onClickDeleteFromActivityEditor());
+    }
+
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveFromActivityEditor());
+
+}
+  
+
+
 
 
 // Reset les inputs du menu activité
@@ -653,7 +685,7 @@ function onClickReturnFromActivityEditor() {
 
 function onClickSaveFromActivityEditor() {
     // Verrouillage de la div pour éviter double clic et créer des problèmes
-    onLockDivDoubleClick(["divActivityEditor","divBtnMenuTriple"]);
+    onLockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);
     // Lancement du formatage de l'activité
     onFormatActivity();
 };
@@ -692,6 +724,9 @@ function onClickOnActivity(keyRef) {
     onEditActivity(activityToDisplay);
 
     onChangeMenu("EditActivity");
+
+    //création menu principal
+    onCreateMainMenuActivityEditor(true);
 
 
 };
@@ -761,7 +796,7 @@ function onFormatActivity() {
     if (emptyField === true) {
         if (devMode === true){console.log("[ NEW ACTIVITE ] Champ obligatoire non remplis");};
 
-        onUnlockDivDoubleClick(["divActivityEditor","divBtnMenuTriple"]);//retire la sécurité du clic
+        onUnlockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//retire la sécurité du clic
         return
     };
 
@@ -942,7 +977,7 @@ function onClickDeleteFromActivityEditor() {
     
     if (devMode === true){console.log("demande de suppression d'activité ");};
     
-    onChangeDisplay([],[],[],["divActivityEditor","divBtnMenuTriple"],[],[],[]);
+    onChangeDisplay([],[],[],["divActivityEditor"],[],[],[]);
 
     let confirmText = "Supprimer activité ?";
     addEventForGlobalPopupConfirmation(onAnnulDeleteActivity,onConfirmDeleteActivity,confirmText,"delete");
@@ -953,7 +988,7 @@ function onConfirmDeleteActivity(event){
 
     event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
 
-    onLockDivDoubleClick(["divActivityEditor","divBtnMenuTriple"]);//sécurité double click
+    onLockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//sécurité double click
 
     if (devMode === true){console.log("Confirmation de suppression d'activité ");};
     // retire la class "show" pour la div de confirmation
