@@ -42,18 +42,30 @@ function onOpenMenuInfo(){
     let version = document.getElementById("pInfoVersion").innerHTML;
     document.getElementById("customInfo").innerHTML = version;
 
+    // Creation du menu principal
+    onCreateMainMenuInfo();
+
 }
    
    
    
    
    
+// Génération du menu principal
+
+function onCreateMainMenuInfo() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromInfo());
+
+}
    
    
-   
-   
-   
-   
+
    
    
    

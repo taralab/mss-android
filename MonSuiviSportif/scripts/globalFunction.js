@@ -58,6 +58,129 @@ class Button_add {
 }
 
 
+
+
+
+
+
+
+
+// ---------------------------------------------------- MAIN MENU ---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Button_main_menu{
+    constructor(isFocus,imgRef,text,functionTarget){
+        this.isFocus = isFocus;
+        this.imgRef = imgRef;
+        this.text = text;
+        this.functionTarget = functionTarget;
+        
+        this.button = document.createElement("button");
+        this.button.id = getRandomShortID("mainMenuBtn_");
+        this.button.classList.add("btn-menu");
+        if (this.isFocus) {
+            this.button.classList.add("btnFocus");
+        }
+
+
+        // Rendu
+        this.render();
+        //Insertion
+        let parentRef = document.getElementById("divMainBtnMenu");
+        parentRef.appendChild(this.button);
+        //evènement
+        this.listener();
+
+    }
+
+    render(){
+        this.button.innerHTML = `
+            <img src=${this.imgRef} alt="Icone">
+            <span>${this.text}</span>
+        `;
+    }
+
+    listener(){
+        this.button.addEventListener("click",()=>{
+            this.functionTarget();
+        });
+    }
+}
+
+//les éléments généraux pour bouton main menu
+let btnMainMenuData = {
+    return : {
+        imgRef:"./Icons/Icon-Return-cancel.webp",
+        text:"Retour"
+    },
+    planning : {
+        imgRef:"./Icons/Icon-Agenda-Hebdo.webp",
+        text:"Planning"
+    },
+    seance:{
+        imgRef:"./Icons/Icon-Session.webp",
+        text:"Séance"
+    },
+    stats:{
+        imgRef:"./Icons/Icon-Stat.webp",
+        text:"Stats"
+    },
+    reward:{
+        imgRef:"./Icons/Icon-Trophy.webp",
+        text:"Trophées"
+    },
+    plus:{
+        imgRef:"./Icons/Icon-Menu-Plus.webp",
+        text:"Plus"
+    }
+}
+
+
+
+function onGenerateMainMenuApp() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Planning
+    new Button_main_menu(false,btnMainMenuData.planning.imgRef,btnMainMenuData.planning.text,()=>onChangeMenu("Planning"));
+    //Séance
+    new Button_main_menu(false,btnMainMenuData.seance.imgRef,btnMainMenuData.seance.text,()=>onChangeMenu("Session"));
+    //Stats
+    new Button_main_menu(false,btnMainMenuData.stats.imgRef,btnMainMenuData.stats.text,()=>onChangeMenu("Stat"));
+    //Reward
+    new Button_main_menu(false,btnMainMenuData.reward.imgRef,btnMainMenuData.reward.text,()=>onChangeMenu("Rewards"));
+    //Plus
+    new Button_main_menu(false,btnMainMenuData.plus.imgRef,btnMainMenuData.plus.text,()=>onClickMainMenuSup());
+}
+
+
+
+
+
+// --------------------------------------- FIN MAIN MENU ------------------------------------------------------*
+
+
+
+
+
+
+
+
+
 // Génération des options d'activité dans l'éditeur d'activité
 function onGenerateActivityOptionChoice(selectorChoiceId) {
 
@@ -681,9 +804,9 @@ function onDisplayImgActivityPreview() {
 }
 
 
-let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort","divItemList","pSearchArea"],
+let allDivHomeToDisplayNone = ["btnNewActivity","divFilterSort","divItemList","pSearchArea"],
     allDivHomeToDisplayBlock = ["btnNewActivity"],
-    allDivHomeToDisplayFlex = ["divMainBtnMenu","divFilterSort","divItemList","pSearchArea"];
+    allDivHomeToDisplayFlex = ["divFilterSort","divItemList","pSearchArea"];
 
 
 
@@ -857,10 +980,9 @@ function onChangeMenu(menuTarget) {
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
             pMenuTitleRef.innerHTML = "A propos";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divInfo"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divInfo"],[],[],[],[]);
             onDisplayCustomInfo();
             onOpenMenuInfo();
-            addEventForSimpleReturnMenu(onClickReturnFromInfo);
         break;
 
         default:
@@ -1045,8 +1167,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");};
-            onChangeDisplay(["divInfo","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
-            
+            onChangeDisplay(["divInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
             onHideCustomInfo();
         break;
 
@@ -1100,27 +1222,9 @@ async function updateDocumentInDB(docId, updateCallback) {
 // Bouton menu principal
 function onAddEventForMainMenuButton() {
 
-    // Les boutons lvl1
-    let buttonIdArray = [
-        "btnNewActivity",
-        "btnNewFromTemplate",
-        "btnMenuPlanning",
-        "btnMenuSession",
-        "btnMenuStat",
-        "btnMenuRewards"
-    ];
+    // Génère le menu principal de l'application
+    onGenerateMainMenuApp();
 
-    buttonIdArray.forEach(btnID =>{
-        let buttonRef = document.getElementById(btnID);
-        let menuType = buttonRef.dataset.menuType;
-        buttonRef.addEventListener("click", () => {onChangeMenu(menuType)});
-    });
-    
-    //Le bouton "plus"
-    let btnMenuSupRef = document.getElementById("btnMenuSup");
-    btnMenuSupRef.addEventListener("click", ()=>{
-        onClickMainMenuSup();
-    });
 
     // La div menu supplémentaire
     let divMainMenuSupRef = document.getElementById("divMainMenuSup");

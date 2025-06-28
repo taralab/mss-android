@@ -21,9 +21,12 @@
 }
 
 
-body{
+html, body{
+    height: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
     padding-top: 40px;
     box-sizing: border-box;
     background-image: url(../Icons/Background-texture.webp);
@@ -38,7 +41,7 @@ body{
 div.app {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 100px); /* 100% de la hauteur de la fenêtre - la hauteur de la div menu */
+    flex: 1;
     overflow: hidden; /* Empêche tout débordement en dehors de l'écran */
 }
 
@@ -195,6 +198,7 @@ div.new-interface {
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
     margin-bottom: 50px;
+    background-color: orange;
 }
 
 div.new-interface p {
