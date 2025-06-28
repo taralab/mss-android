@@ -3,7 +3,35 @@ function onOpenMenuFavoris() {
 
     // Chargement de la liste des activité pour visualisation
     onLoadingActivityList();
+
+    //création menu principal
+    onCreateMainMenuFavoris();
 };
+
+
+
+
+
+// Génération du menu principal
+function onCreateMainMenuFavoris() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromFavoris());
+
+}
+  
+
+
+
+
+
+
+
+
 
 
 // Fonction de chargement de la liste d'activité

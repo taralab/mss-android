@@ -73,7 +73,23 @@ function onOpenMenuStat(){
         onAddEventListenerForStatMenu();
     }
 
+    //génération menu principal
+    onCreateMainMenuStat();
 }
+
+
+// Génération du menu principal
+function onCreateMainMenuStat() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromStat());
+
+}
+   
 
 
 

@@ -870,10 +870,9 @@ function onChangeMenu(menuTarget) {
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
             pMenuTitleRef.innerHTML = "Statistiques";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divStat"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divStat"],[],[],[],[]);
             onOpenMenuStat();
             onDisplayImgActivityPreview();
-            addEventForSimpleReturnMenu(onClickReturnFromStat);
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
@@ -924,9 +923,8 @@ function onChangeMenu(menuTarget) {
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
             pMenuTitleRef.innerHTML = "Activités / Favoris";
-            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris"],["divBtnMenuSimpleReturn"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris"],[],[],[],[],[]);
             onOpenMenuFavoris();
-            addEventForSimpleReturnMenu(onClickReturnFromFavoris);
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
@@ -1102,8 +1100,9 @@ function onLeaveMenu(menuTarget) {
         
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");};
-            onChangeDisplay(["divStat","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideImgActivityPreview();
+            onGenerateMainMenuApp();
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
@@ -1138,7 +1137,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Favoris");};
-            onChangeDisplay(["divFavoris","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divFavoris"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
