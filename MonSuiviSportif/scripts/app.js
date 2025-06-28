@@ -22,14 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Optionnel : écoute les événements clavier
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('Clavier ouvert');
-      document.getElementById("divBtnMenuTriple").style.display = "none";
-      document.getElementById("divActivityEditor").style.marginBottom = 0;
+      document.getElementById("divMainBtnMenu").style.display = "none";
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
       console.log('Clavier fermé');
-    //   document.getElementById("divBtnMenuTriple").style.display = "flex";
-      document.getElementById("divActivityEditor").style.marginBottom = "50px";
+    document.getElementById("divMainBtnMenu").style.display = "flex";
     });
   });
 
@@ -65,6 +63,10 @@ function onGenerateConditionUtilisation() {
     locLaunchBtnRef.addEventListener("click",()=>{
         onClickAcceptCondition();
     });
+
+
+    // Masque le main menu
+    document.getElementById("divMainBtnMenu").style.display = "none";
 
 };
 

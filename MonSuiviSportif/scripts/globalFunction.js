@@ -861,6 +861,16 @@ let allDivHomeToDisplayNone = ["btnNewActivity","divFilterSort","divItemList","p
 
 
 
+// Affiche et cache la div scrollable des menus
+function displayDivScrollableMenu() {
+    document.getElementById("mainDivScrollable").style.display = "block";
+}
+
+function hideDivScrollableMenu() {
+    document.getElementById("mainDivScrollable").style.display = "none";
+}
+
+
 
 let dateToday = onFindDateTodayUS(),
     dateYesterday = onFindDateYesterdayUS();
@@ -884,6 +894,7 @@ function onChangeMenu(menuTarget) {
     switch (menuTarget) {
         case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Counter");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Séance";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSession"],[],[],[],[]);
             onOpenMenuSession();
@@ -892,6 +903,7 @@ function onChangeMenu(menuTarget) {
 
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Planning hebdomadaire";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divPlanning"],[],[],[],[]);
             onOpenMenuPlanning();
@@ -903,6 +915,7 @@ function onChangeMenu(menuTarget) {
 
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Statistiques";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divStat"],[],[],[],[]);
             onOpenMenuStat();
@@ -910,6 +923,7 @@ function onChangeMenu(menuTarget) {
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Récompenses";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divRewards"],[],[],[],[]);
 
@@ -918,6 +932,7 @@ function onChangeMenu(menuTarget) {
         break;
         case "NewActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Créer une activité";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onOpenNewActivity();
@@ -925,12 +940,14 @@ function onChangeMenu(menuTarget) {
         break;
         case "NewActivityFromTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewActivityFromTemplate");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Créer une activité";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
         break;
         case "EditActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Editer une activité";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
@@ -946,24 +963,28 @@ function onChangeMenu(menuTarget) {
 
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Mon profil";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Activités / Favoris";
             onChangeDisplay(allDivHomeToDisplayNone,["divFavoris"],[],[],[],[],[]);
             onOpenMenuFavoris();
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Gestion des données";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divGestData"],[],[],[],[]);
             onOpenMenuGestData();
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Modèles d'activités";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divGestTemplate"],[],[],[],[]);
             onOpenMenuGestTemplate();
@@ -983,6 +1004,7 @@ function onChangeMenu(menuTarget) {
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : MenuTemplateSession");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Modèle de séance";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divMenuTemplateSession"],[],[],[],[]);
             onOpenMenuTemplateSession();
@@ -1000,12 +1022,14 @@ function onChangeMenu(menuTarget) {
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Paramètres";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
+            displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "A propos";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divInfo"],[],[],[],[]);
             onDisplayCustomInfo();
@@ -1103,6 +1127,7 @@ function onLeaveMenu(menuTarget) {
 
         case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Session");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
             onGenerateMainMenuApp();
@@ -1110,6 +1135,7 @@ function onLeaveMenu(menuTarget) {
 
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divPlanning"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
             onGenerateMainMenuApp();
@@ -1124,18 +1150,21 @@ function onLeaveMenu(menuTarget) {
         
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideImgActivityPreview();
             onGenerateMainMenuApp();
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divRewards"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
             onGenerateMainMenuApp();
         break;
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
+            hideDivScrollableMenu();
             onResetBtnRadio();
             onChangeDisplay(["divActivityEditor"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor"],[],[]);
             onUnlockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//retire la sécurité double click
@@ -1147,6 +1176,8 @@ function onLeaveMenu(menuTarget) {
 
         case "userCondition":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : UserCondition");};
+            // Masque le main menu
+            document.getElementById("divMainBtnMenu").style.display = "flex";
             onChangeDisplay(["divConditionUtilisation"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
 
@@ -1155,22 +1186,26 @@ function onLeaveMenu(menuTarget) {
 
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divMainBtnMenu","divProfil"]);//Securité double clic
             onGenerateMainMenuApp();
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Favoris");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divFavoris"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divGestData"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestTemplate");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divGestTemplate"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
@@ -1185,6 +1220,7 @@ function onLeaveMenu(menuTarget) {
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : MenuTemplateSession");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divMenuTemplateSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
@@ -1196,12 +1232,14 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divMainBtnMenu","divSetting"]);//retire la sécurité double click
             onGenerateMainMenuApp();
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");};
+            hideDivScrollableMenu();
             onChangeDisplay(["divInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
             onHideCustomInfo();

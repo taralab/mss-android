@@ -68,7 +68,7 @@
 
             <!-------------------------------------- FIN div accueil  -------------------------------------------------->
 
-            <div class="contenu-scrollable">
+            <div class="contenu-scrollable" id="mainDivScrollable">
         
                 <!-- Div Confirmation multiple -->
                 <div id="divGlobalPopupConfirmation" class="confirmationDelete">
@@ -781,14 +781,6 @@
                 <!-- ---------------------------------- FIN div edit TEMPLATE ------------------------------------------------>
 
 
-                <!-- ----------------------------Div Selection New From template -------------------------------------->
-                <div id="divTemplateChoice" class="fake-select-area">
-                    <div id="divTemplateChoiceList" class="fake-option-area">
-                        <!-- Injection des éléments -->
-                    </div>
-                </div>
-
-                <!---------------------------  FIN Div Selection New From template ------------------------------------------->
 
 
 
@@ -1170,31 +1162,6 @@
 
 
 
-                <!-- ----------------------------------      DIV #CONDITION ACCEPTATION      ------------------------------------------------>
-                <div id="divConditionUtilisation" class="condition-interface">
-
-
-                    <div class="entete-condition">
-                        <img class="logo" src="./Icons/Logo_MSS-512.png" alt="" srcset="">
-                        <h3 class="conditionUtilisation">Bienvenue sur "Mon Suivi Sportif"</h3>
-                        <h3>Conditions d'utilisation</h3>
-                    </div>
-                    
-                    <div id="divConditionDynamicText">
-                        <!-- Injection des conditions dynamiques -->
-                    </div>
-
-                    
-                    <select class="conditionUtilisation" name="" id="selectStatusCondition">
-                        <option value="Refused">Je décline.</option>
-                        <option value="Accepted">J'ai compris et j'accepte.</option>
-                    </select> 
-
-                    <div class="buttonAcceptation">
-                        <button  id="launch_btn" class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter-blanc.webp" alt="Icone"></button>  
-                    </div>
-                </div>
-                <!-- ----------------------------------  FIN   DIV #CONDITION ACCEPTATION    ------------------------------------------------>
 
 
             </div>
@@ -1206,6 +1173,40 @@
             </div>
 
             <!-- ----------------------------------  FIN   DIV POPUP NOTIFY   ------------------------------------------------>
+
+            <!-- ----------------------------------      DIV #CONDITION ACCEPTATION      ------------------------------------------------>
+            <div id="divConditionUtilisation" class="condition-interface">
+                <div class="entete-condition">
+                    <img class="logo" src="./Icons/Logo_MSS-512.png" alt="" srcset="">
+                    <h3 class="conditionUtilisation">Bienvenue sur "Mon Suivi Sportif"</h3>
+                    <h3>Conditions d'utilisation</h3>
+                </div>
+                        
+                <div id="divConditionDynamicText">
+                    <!-- Injection des conditions dynamiques -->
+                </div>
+
+                        
+                <select class="conditionUtilisation" name="" id="selectStatusCondition">
+                    <option value="Refused">Je décline.</option>
+                    <option value="Accepted">J'ai compris et j'accepte.</option>
+                </select> 
+
+                <div class="buttonAcceptation">
+                    <button  id="launch_btn" class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter-blanc.webp" alt="Icone"></button>  
+                </div>
+            </div>
+            <!-- ----------------------------------  FIN   DIV #CONDITION ACCEPTATION    ------------------------------------------------>
+
+
+            <!-- ----------------------------Div Selection New From template -------------------------------------->
+            <div id="divTemplateChoice" class="fake-select-area">
+                <div id="divTemplateChoiceList" class="fake-option-area">
+                    <!-- Injection des éléments -->
+                </div>
+            </div>
+
+            <!---------------------------  FIN Div Selection New From template ------------------------------------------->
 
             <!------------------------------------- DIV Main Menu ------------------------------------------------------>
             <button class="btnFlottant newActivity" data-menu-type="NewActivity" id="btnNewActivity"><img src="./Icons/Icon-New.webp" alt="Icone"></button>
