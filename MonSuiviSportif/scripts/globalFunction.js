@@ -186,7 +186,7 @@ let btnMainMenuData = {
     },
     delete:{
         imgRef:"./Icons/Icon-Delete-color.webp",
-        text:"Supprime"
+        text:"Supprimer"
     }
 }
 

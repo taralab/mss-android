@@ -785,7 +785,7 @@ function onCreateMainMenuTemplateEditor() {
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromTemplateEditor());
 
     // Apparition du menu 'supprimer'
-    if (templateEditorMode === "Modification") {
+    if (templateEditorMode === "modification") {
         new Button_main_menu(btnMainMenuData.delete.imgRef,btnMainMenuData.delete.text,() => onClickDeleteFromTemplateEditor());
 
     }
