@@ -66,7 +66,7 @@ function onSetProfilItems() {
 
 // Clique sur save profil
 function onClickSaveProfil() {
-    onLockDivDoubleClick(["divBtnProfil","divProfil"]);//Securité double clic
+    onLockDivDoubleClick(["divMainBtnMenu","divProfil"]);//Securité double clic
 
     // Lancement de sauvegarde du nouveau profil uniquement si modifié
    // Création d'une liste de champs à comparer

@@ -584,7 +584,7 @@ function onGetTableTemplateSessionItem() {
 function onClickDeleteFromTemplateSessionEditor() {
 
     // Rends les div Disabled
-    onChangeDisplay([],[],[],["divTemplateSessionEditor","divBtnMenuTriple"],[],[],[]);
+    onChangeDisplay([],[],[],["divTemplateSessionEditor"],[],[],[]);
 
     let confirmText = "Supprimer le modèle ?";
     addEventForGlobalPopupConfirmation(onAnnulDeleteFromTemplateSessionEditor,eventDeleteTemplateSessionModel,confirmText,"delete");
@@ -594,7 +594,7 @@ function onClickDeleteFromTemplateSessionEditor() {
 function onAnnulDeleteFromTemplateSessionEditor() {
 
     // Rends les div enabled
-    onChangeDisplay([],[],[],[],["divTemplateSessionEditor","divBtnMenuTriple"],[],[]);
+    onChangeDisplay([],[],[],[],["divTemplateSessionEditor"],[],[]);
 
     removeEventForGlobalPopupConfirmation();
 }
@@ -607,7 +607,7 @@ async function eventDeleteTemplateSessionModel() {
     onLeaveMenu("TemplateSessionEditor");
 
     // Rends les div enabled
-    onChangeDisplay([],[],[],[],["divTemplateSessionEditor","divBtnMenuTriple"],[],[]);
+    onChangeDisplay([],[],[],[],["divTemplateSessionEditor"],[],[]);
 
     // supprime en base
     await deleteTemplateSession(currentTemplateSessionID);

@@ -1035,7 +1035,7 @@ function onAnnulDeleteActivity(event) {
     if (devMode === true){console.log("annulation de la suppression d'activité ");};
     // retire la class "show" pour la div de confirmation
     removeEventForGlobalPopupConfirmation();
-    onChangeDisplay([],[],[],[],["divActivityEditor","divBtnMenuTriple"],[],[]);
+    onChangeDisplay([],[],[],[],["divActivityEditor"],[],[]);
 
 };
 

@@ -577,7 +577,7 @@ function onChangeTemplatePlanned(checkBoxValue) {
 
 
 function onClickSaveFromTemplateEditor(){
-    onLockDivDoubleClick(["divBtnMenuTriple","divTemplateEditor"]);
+    onLockDivDoubleClick(["divMainBtnMenu","divTemplateEditor"]);
 
     // Lancement du formatage du modèle
     onFormatTemplate();
@@ -601,7 +601,7 @@ function onFormatTemplate() {
     if (emptyField === true) {
         if (devMode === true){console.log("[TEMPLATE] Champ obligatoire non remplis");};
 
-        onUnlockDivDoubleClick(["divBtnMenuTriple","divTemplateEditor"]);
+        onUnlockDivDoubleClick(["divMainBtnMenu","divTemplateEditor"]);
         return
     };
 
@@ -813,7 +813,7 @@ function onClickDeleteFromTemplateEditor() {
     let confirmText = "Supprimer modèle ?";
     addEventForGlobalPopupConfirmation(onAnnulDeleteTemplate,onConfirmDeleteTemplate,confirmText,"delete");
 
-    onChangeDisplay([],[],[],["divTemplateEditor","divBtnMenuTriple"],[],[],[]);
+    onChangeDisplay([],[],[],["divTemplateEditor"],[],[],[]);
 };
 
 
@@ -822,11 +822,11 @@ function onConfirmDeleteTemplate(event){
     event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
     if (devMode === true){console.log("[TEMPLATE] Confirmation de suppression de template ");};
 
-    onLockDivDoubleClick(["divBtnMenuTriple","divTemplateEditor"]);//met la sécurité double click
+    onLockDivDoubleClick(["divMainBtnMenu","divTemplateEditor"]);//met la sécurité double click
 
     // retire la class "show" pour la div de confirmation
     removeEventForGlobalPopupConfirmation();
-    onChangeDisplay([],[],[],[],["divTemplateEditor","divBtnMenuTriple"],[],[]);
+    onChangeDisplay([],[],[],[],["divTemplateEditor"],[],[]);
 
     eventDeleteTemplate(currentTemplateEditorID);
 
@@ -870,7 +870,7 @@ function onAnnulDeleteTemplate(event) {
     if (devMode === true){console.log("[TEMPLATE] annulation de la suppression de template ");};
     // retire la class "show" pour la div de confirmation
     removeEventForGlobalPopupConfirmation();
-    onChangeDisplay([],[],[],[],["divTemplateEditor","divBtnMenuTriple"],[],[]);
+    onChangeDisplay([],[],[],[],["divTemplateEditor"],[],[]);
 
 };
 

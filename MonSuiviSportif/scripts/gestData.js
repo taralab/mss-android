@@ -650,7 +650,7 @@ function onClickDeleteDataBaseFromGestData() {
 
     document.getElementById("divConfirmDeleteDataBase").classList.add("show");
 
-    onChangeDisplay([],[],[],["divGestData","divBtnMenuSimpleReturn"],[],[],[]);
+    onChangeDisplay([],[],[],["divGestData"],[],[],[]);
 
     // Ajout des écoute d'évènements
     if (!isEventListenerForConfirmDeleteBdD) {
@@ -667,7 +667,7 @@ function onConfirmDeleteDataBase(event) {
     if (devMode === true) {console.log("Confirmation de la demande de suppression des données");};
 
     document.getElementById("divConfirmDeleteDataBase").classList.remove("show");
-    onChangeDisplay([],[],[],[],["divGestData","divBtnMenuSimpleReturn"],[],[]);
+    onChangeDisplay([],[],[],[],["divGestData"],[],[]);
 
     // Verrouillage des boutons du menu Gestion des données
     onSetLockGestDataButton(true);
@@ -743,7 +743,7 @@ function onSetLockGestDataButton(isDisable) {
         "fileInputJsonTask",
         "btnImportBdD",
         "btnDeteteBdd",
-        "btnMenuSimpleReturn",
+        "divMainBtnMenu",
         "btnExportBdDInCloud"
     ];
 
