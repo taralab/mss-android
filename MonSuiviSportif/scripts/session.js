@@ -266,26 +266,6 @@ function onAddEventListenerForMainMenuSession() {
     //Pour action unique
     isAddEventForMainMenuSession = true;
 
-
-    //retour depuis le menu session
-    let locBtnMenuSessionReturnRef = document.getElementById("btnMenuSessionReturn");
-    locBtnMenuSessionReturnRef.addEventListener("click",()=>{
-        onClickReturnFromSession();
-    });
-
-    //reset all counter
-    let locBtnMenuSessionResetAllCounterRef = document.getElementById("btnMenuSessionResetAllCounter");
-    locBtnMenuSessionResetAllCounterRef.addEventListener("click",()=>{
-        onClickResetAllCounter();
-    });
-
-    //Affiche le menu supplémentaire
-    let locBtnMenuSessionDisplayMenuSupRef = document.getElementById("btnMenuSessionDisplayMenuSup");
-    locBtnMenuSessionDisplayMenuSupRef.addEventListener("click",()=>{
-        onClickOpenSessionMenuSup();
-    });
-
-
     // Partie menu supplémentaire
     //annulation
     let locDivSessionMenuSupRef = document.getElementById("divSessionMenuSup");
@@ -409,9 +389,29 @@ async function onOpenMenuSession(){
     // Charge également les listes des modèles et leur clé dans l'ordre alphabétique
     await onLoadTemplateSessionNameFromDB();
 
+    //création menu principal
+    onCreateMainMenuSession();
+
 }
    
    
+   // Génération du menu principal
+function onCreateMainMenuSession() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromSession());
+    //Reset
+    new Button_main_menu(btnMainMenuData.reset.imgRef,btnMainMenuData.reset.text,() => onClickResetAllCounter());
+    //Action
+    new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
+
+
+}
+  
    
 
 

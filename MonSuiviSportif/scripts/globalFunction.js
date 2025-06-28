@@ -187,6 +187,14 @@ let btnMainMenuData = {
     delete:{
         imgRef:"./Icons/Icon-Delete-color.webp",
         text:"Supprimer"
+    },
+    reset:{
+        imgRef:"./Icons/Icon-Reset.webp",
+        text:"Reset"
+    },
+    action:{
+        imgRef:"./Icons/Icon-Autres.webp",
+        text:"Actions"
     }
 }
 
@@ -877,7 +885,7 @@ function onChangeMenu(menuTarget) {
         case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Counter");};
             pMenuTitleRef.innerHTML = "Séance";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnSession","divSession"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divSession"],[],[],[],[]);
             onOpenMenuSession();
             onDisplayCustomInfo();
         break;
@@ -1098,8 +1106,9 @@ function onLeaveMenu(menuTarget) {
 
         case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Session");};
-            onChangeDisplay(["divSession","divBtnSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
+            onGenerateMainMenuApp();
         break;
 
         case "Planning":
