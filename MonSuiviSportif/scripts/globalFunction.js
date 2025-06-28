@@ -183,6 +183,10 @@ let btnMainMenuData = {
     plus:{
         imgRef:"./Icons/Icon-Menu-Plus.webp",
         text:"Plus"
+    },
+    delete:{
+        imgRef:"./Icons/Icon-Delete-color.webp",
+        text:"Supprime"
     }
 }
 
@@ -957,23 +961,20 @@ function onChangeMenu(menuTarget) {
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
             pMenuTitleRef.innerHTML = "Modèles d'activités";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divGestTemplate"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divGestTemplate"],[],[],[],[]);
             onOpenMenuGestTemplate();
-            addEventForSimpleReturnMenu(onClickReturnFromGestTemplate);
         break;
         case "NewTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewTemplate");};
             pMenuTitleRef.innerHTML = "Création modèle d'activité";
-            onChangeDisplay(["divBtnMenuSimpleReturn","divGestTemplate"],[],["divBtnMenuTriple","divTemplateEditor"],[],[],["btnMenuTripleDelete"],[]);
+            onChangeDisplay(["divGestTemplate"],[],["divTemplateEditor"],[],[],[],[]);
             onClickBtnCreateTemplate();
             onDisplayImgActivityPreview();
-            addEventForBtnMenuTriple(onClickReturnFromTemplateEditor,onClickDeleteFromTemplateEditor,onClickSaveFromTemplateEditor);
         break;
         case "ModifyTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateEditor");};
             pMenuTitleRef.innerHTML = "Modification de modèle";
-            onChangeDisplay(["divBtnMenuSimpleReturn","divGestTemplate"],[],["divBtnMenuTriple","divTemplateEditor"],[],[],[],["btnMenuTripleDelete"]);
-            addEventForBtnMenuTriple(onClickReturnFromTemplateEditor,onClickDeleteFromTemplateEditor,onClickSaveFromTemplateEditor);
+            onChangeDisplay(["divGestTemplate"],[],["divTemplateEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
         break;
         case "MenuTemplateSession":
@@ -1136,7 +1137,7 @@ function onLeaveMenu(menuTarget) {
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
             onResetBtnRadio();
             onChangeDisplay(["divActivityEditor","divBtnMenuTriple"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnMenuTriple"],[],[]);
-            onLockDivDoubleClick(["divActivityEditor","divBtnMenuTriple"]);//retire la sécurité double click
+            onLockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//retire la sécurité double click
             onHideImgActivityPreview();
             removeEventForBtnMenuTripple();
         break;
@@ -1154,7 +1155,7 @@ function onLeaveMenu(menuTarget) {
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");};
             onChangeDisplay(["divProfil","divBtnMenuDouble"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
-            onUnlockDivDoubleClick(["divBtnMenuDouble","divProfil"]);//Securité double clic
+            onUnlockDivDoubleClick(["divMainBtnMenu","divProfil"]);//Securité double clic
             removeEventForBtnMenuDouble();
         break;
         case "Favoris":
@@ -1169,16 +1170,17 @@ function onLeaveMenu(menuTarget) {
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestTemplate");};
-            onChangeDisplay(["divGestTemplate","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divGestTemplate"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
         break;
         case "TemplateEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateEditor");};
-            onChangeDisplay(["divBtnMenuTriple","divTemplateEditor"],[],["divBtnMenuSimpleReturn","divGestTemplate"],[],[],[],[]);
-            onUnlockDivDoubleClick(["divBtnMenuTriple","divTemplateEditor"]);//retire la sécurité double click
+            onChangeDisplay(["divTemplateEditor"],[],["divGestTemplate"],[],[],[],[]);
+            onUnlockDivDoubleClick(["divMainBtnMenu","divTemplateEditor"]);//retire la sécurité double click
             pMenuTitleRef.innerHTML = "Modèles d'activités";
             onResetBtnRadio();
             onHideImgActivityPreview();
-            removeEventForBtnMenuTripple();
+            onCreateMainMenuGestTemplate();//car reviens sur menu template
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : MenuTemplateSession");};
@@ -1186,14 +1188,14 @@ function onLeaveMenu(menuTarget) {
         break;
         case "TemplateSessionEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateSessionEditor");};
-            onChangeDisplay(["divBtnMenuTriple","divTemplateSessionEditor"],[],["divBtnMenuSimpleReturn","divMenuTemplateSession"],[],[],[],[]);
+            onChangeDisplay(["divMainBtnMenu","divTemplateSessionEditor"],[],["divBtnMenuSimpleReturn","divMenuTemplateSession"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Modèle de séance";
             removeEventForBtnMenuTripple();
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
             onChangeDisplay(["divSetting","divBtnMenuDouble"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
-            onUnlockDivDoubleClick(["divBtnMenuDouble","divSetting"]);//retire la sécurité double click
+            onUnlockDivDoubleClick(["divMainBtnMenu","divSetting"]);//retire la sécurité double click
             removeEventForBtnMenuDouble();
         break;
         case "Info":

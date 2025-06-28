@@ -198,7 +198,6 @@ div.new-interface {
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
     margin-bottom: 50px;
-    background-color: orange;
 }
 
 div.new-interface p {

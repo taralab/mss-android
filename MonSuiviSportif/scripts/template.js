@@ -365,7 +365,8 @@ function onOpenMenuGestTemplate() {
     // Génération de la liste des modèles
     onCreateTemplateMenuList(userTemplateListKeys);
 
-
+    //Création du menu principal
+    onCreateMainMenuGestTemplate();
     
     // Génère la liste d'activité pour les modèles
     onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");
@@ -374,6 +375,19 @@ function onOpenMenuGestTemplate() {
 }
 
 
+// Génération du menu principal
+function onCreateMainMenuGestTemplate() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromGestTemplate());
+
+
+}
+   
 
 
 
@@ -450,9 +464,13 @@ function onCreateTemplateMenuList(templateKeysList) {
 
 // Lorsque je clique sur un modèle pour le modifier
 async function onClicOnTemplateInTemplateMenu(keyRef) {
-    onResetTemplateInputs();
 
     templateEditorMode = "modification";
+
+
+    onResetTemplateInputs();
+
+
 
     // Recherche du modèle à afficher
     let templateItem = await findTemplateById(keyRef);
@@ -750,10 +768,33 @@ function onResetTemplateInputs() {
         onAddEventListenerForTemplateEditor();
     }
 
+
+    //création du menu principale selon modification ou nouveau
+    onCreateMainMenuTemplateEditor();
 };
 
 
+// Génération du menu principal
+function onCreateMainMenuTemplateEditor() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
 
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromTemplateEditor());
+
+    // Apparition du menu 'supprimer'
+    if (templateEditorMode === "Modification") {
+        new Button_main_menu(btnMainMenuData.delete.imgRef,btnMainMenuData.delete.text,() => onClickDeleteFromTemplateEditor());
+
+    }
+
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveFromTemplateEditor());
+
+}
+   
 
 
 
