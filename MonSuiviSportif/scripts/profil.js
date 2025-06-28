@@ -18,9 +18,27 @@ function onOpenMenuProfil() {
 
     // set les éléments du profils
     onSetProfilItems();
+
+    //création menu principal
+    onCreateMainMenuProfil()
 };
 
+// Génération du menu principal
+function onCreateMainMenuProfil() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
 
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromProfil());
+
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveProfil());
+
+}
+  
+    
 
 // Fonction de référencement des éléments du menu profil
 function onReferenceItemsProfils() {

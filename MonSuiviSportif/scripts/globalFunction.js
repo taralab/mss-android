@@ -942,9 +942,8 @@ function onChangeMenu(menuTarget) {
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");};
             pMenuTitleRef.innerHTML = "Mon profil";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuDouble","divProfil"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
-            addEventForBtnMenuDouble(onClickReturnFromProfil,onClickSaveProfil);
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
@@ -997,9 +996,8 @@ function onChangeMenu(menuTarget) {
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
             pMenuTitleRef.innerHTML = "Paramètres";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuDouble","divSetting"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
-            addEventForBtnMenuDouble(onClickReturnFromSetting,onClickSaveFromSetting);
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
@@ -1151,9 +1149,9 @@ function onLeaveMenu(menuTarget) {
 
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");};
-            onChangeDisplay(["divProfil","divBtnMenuDouble"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divMainBtnMenu","divProfil"]);//Securité double clic
-            removeEventForBtnMenuDouble();
+            onGenerateMainMenuApp();
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Favoris");};
@@ -1192,9 +1190,9 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
-            onChangeDisplay(["divSetting","divBtnMenuDouble"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divMainBtnMenu","divSetting"]);//retire la sécurité double click
-            removeEventForBtnMenuDouble();
+            onGenerateMainMenuApp();
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");};

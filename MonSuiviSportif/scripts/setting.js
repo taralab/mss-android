@@ -62,9 +62,27 @@ function onOpenMenuSetting() {
         onAddEventListenerForSettingMenu();
     }
     
+    // Création menu principal
+    onCreateMainMenuSetting();
+
 };
     
-    
+
+// Génération du menu principal
+function onCreateMainMenuSetting() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromSetting());
+
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveFromSetting());
+
+}
+  
     
     
 
