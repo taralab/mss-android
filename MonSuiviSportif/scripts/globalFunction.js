@@ -929,9 +929,8 @@ function onChangeMenu(menuTarget) {
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
             pMenuTitleRef.innerHTML = "Gestion des données";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divGestData"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divGestData"],[],[],[],[]);
             onOpenMenuGestData();
-            addEventForSimpleReturnMenu(onClickReturnFromGestData);
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
@@ -1142,7 +1141,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
-            onChangeDisplay(["divGestData","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divGestData"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestTemplate");};

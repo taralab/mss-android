@@ -18,8 +18,23 @@ function onOpenMenuGestData() {
         onAddEventListenerForGestDataMenu();
     }
 
+    //Création main menu
+    onCreateMainMenuGestData();
+
 };
 
+// Génération du menu principal
+function onCreateMainMenuGestData() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromGestData());
+
+}
+   
 
 // ----------------------------Ecouteur evènement ----------------------------------------
 
