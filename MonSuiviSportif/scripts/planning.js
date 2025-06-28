@@ -168,7 +168,26 @@ async function onOpenMenuPlanning(){
 
     // Et le remplit
     onSetPlanningItems();
+
+    // Creation du main menu
+    onCreateMainMenuPlanning();
 };
+
+
+
+// Génération du menu principal
+function onCreateMainMenuPlanning() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromPlanning());
+
+}
+   
+
 
 
 // génération des emplacements des jours
@@ -261,7 +280,9 @@ function onEditPlanning(keyTarget) {
     // Ajoute un évènement pour le fake selector
     onAddEventForPlanningFakeSelector();
 
-    
+    //Menu principal
+    onCreateMainMenuPlanningEditor();
+
 
     // Ajoute le bouton
     let btnEndListParentRef = document.getElementById("divPlanningEditorBtnAdd");
@@ -284,6 +305,21 @@ function onEditPlanning(keyTarget) {
     onUpdatePlanningDayEditor(currentPlanningDayKey,tempPlanningEditorDayItems);
 }
 
+
+// Génération du menu principal
+function onCreateMainMenuPlanningEditor() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromPlanningEditor());
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveFromPlanningDayEditor());
+
+}
+   
 
 
 // remplit l'editeur de planning avec les éléments du jour sélectionné

@@ -31,7 +31,7 @@ function onCreateMainMenuGestData() {
 
     //crée les boutons
     //Retour
-    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromGestData());
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromGestData());
 
 }
    

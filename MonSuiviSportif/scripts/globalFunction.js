@@ -65,7 +65,7 @@ class Button_add {
 
 
 
-// ---------------------------------------------------- MAIN MENU ---------------------------------------------------------------------
+// ---------------------------------------------------- #MAIN MENU ---------------------------------------------------------------------
 
 
 
@@ -81,8 +81,7 @@ class Button_add {
 
 
 class Button_main_menu{
-    constructor(isFocus,imgRef,text,functionTarget,isRewardBtn = false){
-        this.isFocus = isFocus;
+    constructor(imgRef,text,functionTarget,isRewardBtn = false){
         this.imgRef = imgRef;
         this.text = text;
         this.functionTarget = functionTarget;
@@ -99,10 +98,7 @@ class Button_main_menu{
         }
 
         this.button.classList.add("btn-menu");
-        // Focus
-        if (this.isFocus) {
-            this.button.classList.add("btnFocus");
-        }
+
         // Reward disponible
         if (this.isRewardAvailable) {
             this.button.classList.add("rewardAvailable");
@@ -132,6 +128,35 @@ class Button_main_menu{
         });
     }
 }
+
+
+class Button_main_menu_Valider{
+    constructor(text,functionTarget){
+        this.text = text;
+        this.functionTarget = functionTarget;
+        
+        this.button = document.createElement("button");
+        this.button.id = getRandomShortID("mainMenuBtn_");
+        this.button.classList.add("btn-menu", "btnFocus");
+        this.button.innerHTML = this.text;
+
+        //Insertion
+        let parentRef = document.getElementById("divMainBtnMenu");
+
+        parentRef.appendChild(this.button);
+        
+        //evènement
+        this.listener();
+
+    }
+
+    listener(){
+        this.button.addEventListener("click",()=>{
+            this.functionTarget();
+        });
+    }
+}
+
 
 //les éléments généraux pour bouton main menu
 let btnMainMenuData = {
@@ -170,15 +195,15 @@ function onGenerateMainMenuApp() {
 
     //crée les boutons
     //Planning
-    new Button_main_menu(false,btnMainMenuData.planning.imgRef,btnMainMenuData.planning.text,()=>onChangeMenu("Planning"));
+    new Button_main_menu(btnMainMenuData.planning.imgRef,btnMainMenuData.planning.text,()=>onChangeMenu("Planning"));
     //Séance
-    new Button_main_menu(false,btnMainMenuData.seance.imgRef,btnMainMenuData.seance.text,()=>onChangeMenu("Session"));
+    new Button_main_menu(btnMainMenuData.seance.imgRef,btnMainMenuData.seance.text,()=>onChangeMenu("Session"));
     //Stats
-    new Button_main_menu(false,btnMainMenuData.stats.imgRef,btnMainMenuData.stats.text,()=>onChangeMenu("Stat"));
+    new Button_main_menu(btnMainMenuData.stats.imgRef,btnMainMenuData.stats.text,()=>onChangeMenu("Stat"));
     //Reward
-    new Button_main_menu(false,btnMainMenuData.reward.imgRef,btnMainMenuData.reward.text,()=>onChangeMenu("Rewards"),true);
+    new Button_main_menu(btnMainMenuData.reward.imgRef,btnMainMenuData.reward.text,()=>onChangeMenu("Rewards"),true);
     //Plus
-    new Button_main_menu(false,btnMainMenuData.plus.imgRef,btnMainMenuData.plus.text,()=>onClickMainMenuSup());
+    new Button_main_menu(btnMainMenuData.plus.imgRef,btnMainMenuData.plus.text,()=>onClickMainMenuSup());
 }
 
 
@@ -856,15 +881,12 @@ function onChangeMenu(menuTarget) {
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
             pMenuTitleRef.innerHTML = "Planning hebdomadaire";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divPlanning"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divPlanning"],[],[],[],[]);
             onOpenMenuPlanning();
-            addEventForSimpleReturnMenu(onClickReturnFromPlanning);
         break;
         case "PlanningEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning editor");};
-            onChangeDisplay(["divBtnMenuSimpleReturn","divPlanning"],[],["divBtnMenuDouble","divPlanningEditor"],[],[],[],[]);
-            //Ajoute les évènements pour le menu du bas
-            addEventForBtnMenuDouble(onClickReturnFromPlanningEditor,onClickSaveFromPlanningDayEditor);
+            onChangeDisplay(["divPlanning"],[],["divPlanningEditor"],[],[],[],[]);
         break;
 
         case "Stat":
@@ -1086,15 +1108,16 @@ function onLeaveMenu(menuTarget) {
 
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
-            onChangeDisplay(["divPlanning","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divPlanning"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
+            onGenerateMainMenuApp();
         break;
         case "PlanningEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning Editor");};
-            onChangeDisplay(["divPlanningEditor","divBtnMenuDouble"],[],["divPlanning","divBtnMenuSimpleReturn"],[],[],[],[]);
+            onChangeDisplay(["divPlanningEditor"],[],["divPlanning"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Planning hebdomadaire";
             document.getElementById("divPlanningActivityChoiceList").innerHtml = "";
-            removeEventForBtnMenuDouble();
+            onCreateMainMenuPlanning();//car reviens sur le menu planning
         break;
         
         case "Stat":

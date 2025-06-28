@@ -60,7 +60,7 @@ function onCreateMainMenuInfo() {
 
     //crée les boutons
     //Retour
-    new Button_main_menu(false,btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromInfo());
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromInfo());
 
 }
    
