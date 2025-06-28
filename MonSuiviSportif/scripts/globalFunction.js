@@ -980,22 +980,19 @@ function onChangeMenu(menuTarget) {
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : MenuTemplateSession");};
             pMenuTitleRef.innerHTML = "Modèle de séance";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuSimpleReturn","divMenuTemplateSession"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divMenuTemplateSession"],[],[],[],[]);
             onOpenMenuTemplateSession();
-            addEventForSimpleReturnMenu(onClickReturnFromMenuTemplateSession);
         break;
         case "NewTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewTemplateSession");};
             pMenuTitleRef.innerHTML = "Création modèle de séance";
-            onChangeDisplay(["divBtnMenuSimpleReturn","divMenuTemplateSession"],[],["divBtnMenuTriple","divTemplateSessionEditor"],[],[],["btnMenuTripleDelete"],[]);
+            onChangeDisplay(["divMenuTemplateSession"],[],["divTemplateSessionEditor"],[],[],[],[]);
             onClickBtnCreateTemplateSession();
-            addEventForBtnMenuTriple(onClickReturnFromTemplateSessionEditor,onClickDeleteFromTemplateSessionEditor,onClickSaveFromTemplateSessionEditor);
         break;
         case "ModifyTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : ModifyTemplateSession");};
             pMenuTitleRef.innerHTML = "Modification de modèle";
-            onChangeDisplay(["divBtnMenuSimpleReturn","divMenuTemplateSession"],[],["divBtnMenuTriple","divTemplateSessionEditor"],[],[],[],["btnMenuTripleDelete"]);
-            addEventForBtnMenuTriple(onClickReturnFromTemplateSessionEditor,onClickDeleteFromTemplateSessionEditor,onClickSaveFromTemplateSessionEditor);
+            onChangeDisplay(["divMenuTemplateSession"],[],["divTemplateSessionEditor"],[],[],[],[]);
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
@@ -1184,13 +1181,14 @@ function onLeaveMenu(menuTarget) {
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : MenuTemplateSession");};
-            onChangeDisplay(["divMenuTemplateSession","divBtnMenuSimpleReturn"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divMenuTemplateSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
         break;
         case "TemplateSessionEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateSessionEditor");};
-            onChangeDisplay(["divMainBtnMenu","divTemplateSessionEditor"],[],["divBtnMenuSimpleReturn","divMenuTemplateSession"],[],[],[],[]);
+            onChangeDisplay(["divTemplateSessionEditor"],[],["divMenuTemplateSession"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Modèle de séance";
-            removeEventForBtnMenuTripple();
+            onCreateMainMenuTemplateSession();//car reviens sur le menu template
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};

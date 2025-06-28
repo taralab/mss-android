@@ -242,9 +242,26 @@ async function onOpenMenuTemplateSession() {
     // Actualisation de la liste d'affichage
     eventUpdateTemplateSessionList();
     
+    //création menu principal
+    onCreateMainMenuTemplateSession();
+
 }
 
 
+
+// Génération du menu principal
+function onCreateMainMenuTemplateSession() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromMenuTemplateSession());
+
+
+}
+   
 
 
 // Sequence d'actualisation de la liste d'affichage des modèles de session
@@ -361,6 +378,10 @@ async function eventOpenTemplateSessionEditor(mode){
         onAddEventListenerForTemplateSessionEditor();
     }
 
+    // Création menu principal
+    onCreateMainMenuTemplateSessionEditor(mode === "modification");
+
+
     // Enlève la notification de champ obligatoire si présent
     document.getElementById("inputTemplateSessionName").classList.remove("fieldRequired");
 
@@ -392,7 +413,26 @@ async function eventOpenTemplateSessionEditor(mode){
 
 }
 
+// Génération du menu principal
+function onCreateMainMenuTemplateSessionEditor(isModify) {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
 
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromTemplateSessionEditor());
+
+    // Apparition du menu 'supprimer'
+    if (isModify) {
+        new Button_main_menu(btnMainMenuData.delete.imgRef,btnMainMenuData.delete.text,() => onClickDeleteFromTemplateSessionEditor());
+    }
+
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveFromTemplateSessionEditor());
+
+}
+  
 
 
 // fonction de génération des lignes du tableau
