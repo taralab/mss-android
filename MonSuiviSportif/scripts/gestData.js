@@ -683,7 +683,7 @@ function onCancelDeleteDataBase(params) {
     if (devMode === true) {console.log("annulation de la demande de suppression des données");};
 
     document.getElementById("divConfirmDeleteDataBase").classList.remove("show");
-    onChangeDisplay([],[],[],[],["divGestData","divBtnMenuSimpleReturn"],[],[]);
+    onChangeDisplay([],[],[],[],["divGestData"],[],[]);
 }
 
 

@@ -65,8 +65,9 @@ function onGenerateConditionUtilisation() {
     });
 
 
-    // Masque le main menu
+    // Masque le main menu et header
     document.getElementById("divMainBtnMenu").style.display = "none";
+    document.getElementById("divHeader").style.display = "none";
 
 };
 

@@ -1176,8 +1176,9 @@ function onLeaveMenu(menuTarget) {
 
         case "userCondition":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : UserCondition");};
-            // Masque le main menu
+            // Affiche à nouveau header et footer
             document.getElementById("divMainBtnMenu").style.display = "flex";
+            document.getElementById("divHeader").style.display = "flex";
             onChangeDisplay(["divConditionUtilisation"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
 
