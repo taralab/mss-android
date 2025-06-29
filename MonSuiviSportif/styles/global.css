@@ -43,12 +43,12 @@ div.app-container {
 
 /* Zones de sécurité */
 .safe-area-top {
-  height: 24px; /* Ajustable si besoin */
+  height: 0px; /* Ajustable si besoin */
   flex-shrink: 0;
 }
 
 .safe-area-bottom {
-  height: 34px; /* Ajustable selon appareil */
+  height: 0px; /* Ajustable selon appareil */
   flex-shrink: 0;
 }
 
