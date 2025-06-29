@@ -1129,6 +1129,8 @@ img.imgQRcode{
     display: none;
     width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
     padding: 10px 30px;
+    flex: 1;
+    overflow-y: auto;
     flex-direction: column;   /* Empile les items verticalement */
     align-items: flex-start;  /* Aligne les items en haut */
 
@@ -1153,6 +1155,9 @@ h3.conditionUtilisation{
 }
 
 
+img.slogan{
+    width: 100%;
+}
 
 div.entete-condition{
      text-align: center;

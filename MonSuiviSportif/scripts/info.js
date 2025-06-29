@@ -18,10 +18,6 @@
                     </li>
                 </ul>
             </p>
-    
-            <p>
-                📌  <b>Chaque effort compte !</b>
-            </p>
 `;
 
 

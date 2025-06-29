@@ -299,7 +299,14 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
 
         // Sauvegarde dans le cloud
         if (isInCloud) {
-            // 6. Partage via boîte de dialogue
+            // 6. copie de nom de fichier dans le presse papier
+            try {
+                await navigator.clipboard.writeText(fileName);
+                console.log("📋 Nom du fichier copié dans le presse-papiers :", fileName);
+            } catch (clipErr) {
+                console.warn("⚠️ Impossible de copier dans le presse-papiers :", clipErr);
+            }
+            // 7. Partage via boîte de dialogue
             await Share.share({
                 title: "Exporter votre sauvegarde",
                 text: "Voici le fichier de votre base de données.",
