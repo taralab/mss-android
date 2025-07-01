@@ -9,11 +9,13 @@ public class MainActivity extends BridgeActivity {
     private SoftInputAssist softInputAssist;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Important : ne pas dessiner sous la barre système
+
+        // Empêche le contenu d’aller sous la status bar (important pour les Samsung récents)
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 
+        // Initialise le gestionnaire de resize pour le clavier
         softInputAssist = new SoftInputAssist(this);
     }
 

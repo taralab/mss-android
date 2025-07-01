@@ -12,6 +12,29 @@ if (envBaseFolder !== "mss") {
 
 
 
+//  ------------------   Gestion action sous apparition clavier------------------------- 
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Keyboard) {
+      window.Capacitor.Plugins.Keyboard.addListener('keyboardWillShow', function (info) {
+
+        // apparition du clavier
+        //Masque menu principal et div safe area bottom
+        document.getElementById("divMainBtnMenu").classList.add("hidden");
+        document.getElementById("divSafeAreaBottom").classList.add("hidden");
+      });
+
+      window.Capacitor.Plugins.Keyboard.addListener('keyboardWillHide', function () {
+        console.log('Clavier caché');
+        // Disparition du clavier
+        //Remet menu principal et div safe area bottom
+        document.getElementById("divMainBtnMenu").classList.remove("hidden");
+        document.getElementById("divSafeAreaBottom").classList.remove("hidden");
+      });
+    } else {
+      console.warn('Plugin Keyboard non disponible');
+    }
+  });
 
 
 // ------------------------- CONDITION D'UTILISATION ---------------------------

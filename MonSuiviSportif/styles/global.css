@@ -35,13 +35,13 @@ html, body {
 
 /* Zones de sécurité */
 .safe-area-top {
-  height: 36px; /* Ajustable si besoin */
+  height:36px; /* Ajustable si besoin */
   flex-shrink: 0;
   background-color: #dcdcdc;
 }
 
 .safe-area-bottom {
-  height: 0px; /* Ajustable selon appareil */
+  height: 50px; /* Ajustable selon appareil */
   flex-shrink: 0;
 }
 
@@ -93,7 +93,9 @@ div.header-dev{
 
 
 
-
+.hidden{
+    display: none !important;
+}
 
 /* Logo d'application */
 
@@ -636,7 +638,7 @@ button.btnFlottant{
 
 button.newActivity{
     width: 50px; height: 50px;
-    bottom: 110px;
+    bottom: 150px;
     right: 45px;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -651,7 +653,7 @@ button.newActivity.hidden {
 
 button.new-from-template{
     width: 42px; height: 42px;
-    bottom: 200px;
+    bottom: 240px;
     right: 49px;
     transition: opacity 0.3s ease, transform 0.5s ease;
     display: none;
@@ -1505,7 +1507,7 @@ div.reward-card {
     text-align: center;
     padding: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
-    max-width: 110px; 
+    max-width: 120px; 
 }
 
 div.reward-card.unlocked {

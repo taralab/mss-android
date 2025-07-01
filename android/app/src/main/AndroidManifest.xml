@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation"
             android:name=".MainActivity"
