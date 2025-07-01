@@ -11,33 +11,6 @@ if (envBaseFolder !== "mss") {
 
 
 
-// ---------------------------- GESTION DU CLAVIER VIRTUEL ---------------------------
-//Permet de remonter la zone de texte si besoin
-document.addEventListener('DOMContentLoaded', () => {
-    const { Keyboard } = window.Capacitor.Plugins;
-
-    // Active le redimensionnement de la vue quand le clavier apparaît
-    Keyboard.setResizeMode({ mode: 'body' }); // ou 'native'
-
-    // Optionnel : écoute les événements clavier
-    Keyboard.addListener('keyboardWillShow', () => {
-      console.log('Clavier ouvert');
-      document.getElementById("divMainBtnMenu").style.display = "none";
-    });
-
-    Keyboard.addListener('keyboardWillHide', () => {
-      console.log('Clavier fermé');
-    document.getElementById("divMainBtnMenu").style.display = "flex";
-    });
-  });
-
-
-
-
-
-
-
-
 
 
 

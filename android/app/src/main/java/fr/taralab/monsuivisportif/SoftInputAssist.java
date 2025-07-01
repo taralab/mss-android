@@ -13,13 +13,11 @@ public class SoftInputAssist {
     private ViewTreeObserver viewTreeObserver;
     private final ViewTreeObserver.OnGlobalLayoutListener listener = this::possiblyResizeChildOfContent;
     private final Rect contentAreaOfWindowBounds = new Rect();
-    private FrameLayout.LayoutParams rootViewLayout;
     private int usableHeightPrevious = 0;
 
     public SoftInputAssist(Activity activity) {
-        contentContainer = (ViewGroup) activity.findViewById(android.R.id.content);
+        contentContainer = activity.findViewById(android.R.id.content);
         rootView = contentContainer.getChildAt(0);
-        rootViewLayout = (FrameLayout.LayoutParams) rootView.getLayoutParams();
     }
 
     public void onPause() {
@@ -36,8 +34,6 @@ public class SoftInputAssist {
     }
 
     public void onDestroy() {
-        rootView = null;
-        contentContainer = null;
         viewTreeObserver = null;
     }
 
@@ -46,8 +42,9 @@ public class SoftInputAssist {
         int usableHeightNow = contentAreaOfWindowBounds.height();
 
         if (usableHeightNow != usableHeightPrevious) {
-            rootViewLayout.height = usableHeightNow;
-            rootView.layout(contentAreaOfWindowBounds.left, contentAreaOfWindowBounds.top, contentAreaOfWindowBounds.right, contentAreaOfWindowBounds.bottom);
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootView.getLayoutParams();
+            params.height = usableHeightNow;
+            rootView.setLayoutParams(params);
             rootView.requestLayout();
 
             usableHeightPrevious = usableHeightNow;

@@ -1,6 +1,7 @@
 package fr.taralab.monsuivisportif;
 
 import android.os.Bundle;
+import androidx.core.view.WindowCompat;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
@@ -10,8 +11,10 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Important : ne pas dessiner sous la barre système
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+
         softInputAssist = new SoftInputAssist(this);
-        softInputAssist.onResume();
     }
 
     @Override
