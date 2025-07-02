@@ -1254,6 +1254,10 @@ async function onSendSessionToActivity(activityTarget) {
                 textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie}*${userCounterList[key].repIncrement}\n`;
 
                 break;
+            case "TITLE":
+                textToAdd = `${nameFormated}\n`;
+
+                break;
         
             default:
                 break;
