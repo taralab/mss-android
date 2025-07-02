@@ -37,7 +37,8 @@ html, body {
 .safe-area-top {
   height:36px; /* Ajustable si besoin */
   flex-shrink: 0;
-  background-color: #dcdcdc;
+  /* background-color: #dcdcdc; Ancien gris qui passe aussi*/
+  background-color: #31b5c4;
 }
 
 .safe-area-bottom {
@@ -52,7 +53,8 @@ html, body {
 div.header{
     display: flex;
     justify-content: space-between; /* Espace entre chaque paragraphe */
-    background: var(--gradientHeader);
+    /* background: var(--gradientHeader); */
+    background-color: #31b5c4;;
     height: 60px;
     flex-shrink: 0;
     align-items: center;
@@ -1174,7 +1176,7 @@ div.buttonAcceptation{
 .popupNotify {
     min-width: 230px;
     position: fixed;
-      top: 20px;
+      top: 30px;
       left: 50%;
       transform: translateX(-50%) translateY(-20px);
       background-color: #4DB6E2; /* bleu plus doux */
