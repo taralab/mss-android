@@ -644,7 +644,7 @@ button.newActivity{
 }
 
 
-button.newActivity.hidden {
+button.newActivity.hiddenBtnFloatting {
     opacity: 0;
     transform: translateY(20px);
     pointer-events: none;
@@ -658,7 +658,7 @@ button.new-from-template{
     transition: opacity 0.3s ease, transform 0.5s ease;
     display: none;
 }
-button.new-from-template.hidden{
+button.new-from-template.hiddenBtnFloatting{
     opacity: 0;
     transform: translateY(80px);
     pointer-events: none;

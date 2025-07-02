@@ -91,18 +91,22 @@ if (!LocalNotifications) return; // ou gérer proprement l'absence
 
 
 function sendRewardMobileNotify(title, body) {
+
     const LocalNotifications = getLocalNotificationsPlugin();
     if (!LocalNotifications) return; // ou gérer proprement l'absence
+
+    const customID = getSafeNotificationId();
 
     LocalNotifications.schedule({
         notifications: [
             {
                 title: title,
                 body: body,
-                id: Date.now(), // un ID unique
-                sound: null, // ou un fichier .mp3 si tu en ajoutes plus tard
-                smallIcon: "ic_stat_icon_config", // optionnel (tu peux le configurer dans Android)
-                largeIcon: "Icons/notifyRewardsColor192.png", // facultatif
+                id: customID, // un ID unique
+                channelId: "default", 
+                sound: "default", 
+                smallIcon: "ic_stat_icon_config", 
+                // largeIcon: "Icons/notifyRewardsColor192.png", 
             }
         ]
     }).then(() => {
@@ -209,7 +213,15 @@ function onInitMobileNotify() {
 
     const savedPermission = localStorage.getItem('MSS_notifyPermission');
     if (devMode) console.log("[NOTIFY] Permission sauvegardée :", savedPermission);
-    
+    const LocalNotifications = getLocalNotificationsPlugin();
+
+    // Création d'un channel
+    LocalNotifications.createChannel({
+        id: "default",
+        name: "Notifications par défaut",
+        importance: 5 // HIGH
+    });
+
     updateStatusDisplay();
 }
 
@@ -330,4 +342,27 @@ function convertLineBreaksForOutlook(description) {
 
 
 
-onInitMobileNotify();
+
+
+
+//crée un id spécifique pour les notifications :
+//doit être court et number
+const usedNotificationIds = new Set();
+
+function getSafeNotificationId() {
+    let id;
+    do {
+        id = Math.floor(Math.random() * 1000000); // Génère un ID entre 0 et 999999
+    } while (usedNotificationIds.has(id));
+    usedNotificationIds.add(id);
+    return id;
+}
+
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    // initialisation lorsque tout est chargé
+    onInitMobileNotify(); 
+});

@@ -151,14 +151,14 @@ let scrollTimeout;
 // Écoute de l'événement scroll sur la div
 divItemListRef.addEventListener('scroll', () => {
     // Cache le bouton dès qu'il y a un mouvement de scroll
-    btnNewActivityRef.classList.add('hidden');
-    btnNewFromTemplateRef.classList.add('hidden');
+    btnNewActivityRef.classList.add('hiddenBtnFloatting');
+    btnNewFromTemplateRef.classList.add('hiddenBtnFloatting');
 
     // Empêche le bouton de réapparaître immédiatement
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-        btnNewActivityRef.classList.remove('hidden');
-        btnNewFromTemplateRef.classList.remove('hidden');
+        btnNewActivityRef.classList.remove('hiddenBtnFloatting');
+        btnNewFromTemplateRef.classList.remove('hiddenBtnFloatting');
     }, 200); // Réapparaît après 200ms une fois le scroll arrêté
 });
 
