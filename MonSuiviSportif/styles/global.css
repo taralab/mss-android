@@ -1824,7 +1824,7 @@ span.gestion{
     background-color: rgba(0, 0, 0, 0.4);
     justify-content: center;
     align-items: center; /* centre verticalement */
-    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
+    padding: 100px 20px; /* ⬅️ ajoute de l'espace cliquable */
     box-sizing: border-box;
 }
 

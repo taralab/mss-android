@@ -398,6 +398,12 @@ function onChangeSettingSettionCommentMode(value) {
             pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 4*12";
             
             break;
+
+        case "TITLE":
+            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions";
+            
+            break;
+
         default:
             break;
     }
