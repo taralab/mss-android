@@ -184,7 +184,8 @@ div.confirmationDelete{
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(212, 212, 212, 0.9);
+    /* background-color: rgba(212, 212, 212, 0.9); */
+    background-color: rgba(61, 61, 61, 0.5);
     justify-content: center;
     align-items: center; /* centre verticalement */
     padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
@@ -199,6 +200,13 @@ div.confirmationDelete.show {
 }
 
 
+div.confirmationDelete p{
+    margin-bottom: 20px;
+    font-weight: bold;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
 button.confirmPopup{
     background-color: white;
     margin-bottom: -200px;
@@ -735,8 +743,10 @@ div.button-editor{
 
 
 textarea {
+    
     height: 200px;
     resize: none;
+    padding-top: 5px;
     padding-bottom: 30px;
 }
 
@@ -773,7 +783,7 @@ textarea.notes{
 
 footer.main-menu{
     background-color: var(--colorLightGray);
-    height: 50px;
+    height: 60px;
     flex-shrink: 0;
     padding: 10px 2px 10px 2px;
     text-align: center;
