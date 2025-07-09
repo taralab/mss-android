@@ -51,6 +51,7 @@ function onAddEventListenerForGestDataMenu() {
     //bouton export local
     let locExportBtn = document.getElementById("btnExportBdDInLocal");
     locExportBtn.addEventListener("click", ()=>{
+        eventActivateGestDataBtn("btnExportBdDInLocal");
         eventSaveData(false,false);
     });
 
@@ -58,6 +59,7 @@ function onAddEventListenerForGestDataMenu() {
     //bouton export local et drive
     let locExportCloud = document.getElementById("btnExportBdDInCloud");
     locExportCloud.addEventListener("click",()=>{
+        eventActivateGestDataBtn("btnExportBdDInCloud");
         eventSaveData(false,true);
     });
 
@@ -76,6 +78,7 @@ function onAddEventListenerForGestDataMenu() {
     //Bouton purge
     let locPurgeBtn = document.getElementById("btnPurgeLocalBackup");
     locPurgeBtn.addEventListener("click", ()=>{
+        eventActivateGestDataBtn("btnPurgeLocalBackup");
         eventPurgeBackupFiles();
     });
 }
@@ -805,6 +808,21 @@ function onDisplayTextDataBaseEvent(isDelete) {
     divGestDataRef.appendChild(newDiv);
 }
 
+
+
+
+//fonction pour rendre une action sur un bouton visible
+function eventActivateGestDataBtn(iDtarget) {
+    let target = document.getElementById(iDtarget);
+
+    target.classList.add("activate");
+    target.disabled = true;
+    setTimeout(() => {
+        target.classList.remove("activate");
+        target.disabled = false;
+    }, 300);
+
+}
 
 // Retour depuis Gestion des données
 function onClickReturnFromGestData() {

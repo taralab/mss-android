@@ -943,6 +943,23 @@ button.import{
     font-weight: bold;
 }
 
+/* Animation */
+@keyframes clickEffect {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+      }
+}
+
+button.activate{
+    animation: clickEffect 0.3s ease;
+}
+
 button.import img{
     margin-left: 20px;
 }
