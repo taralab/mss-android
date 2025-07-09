@@ -195,6 +195,45 @@ async function onPurgeBackupFiles() {
 }
 
 
+
+// Fonction de suppression des fichiers de sauvegardes
+async function onDeleteAllBackupFiles() {
+  const { Filesystem } = Capacitor.Plugins;
+  try {
+    const result = await Filesystem.readdir({
+      path: '',
+      directory: 'DOCUMENTS',
+    });
+
+    // Ne récupère que les fichiers qui commencent par "MSS_" et en format ".json"
+    const backupFiles = result.files.filter(file =>
+      file.name.startsWith('MSS_') && file.name.endsWith('.json')
+    );
+
+    if (backupFiles.length === 0) {
+      console.log("Aucun fichier de sauvegarde à supprimer.");
+      return;
+    }
+
+    // Supprime tout en une seule fois
+    await Promise.all(
+      backupFiles.map(file =>
+        Filesystem.deleteFile({
+          path: file.name,
+          directory: 'DOCUMENTS',
+        }).then(() => console.log(`🗑️ Supprimé : ${file.name}`))
+      )
+    );
+
+    console.log("Suppression des sauvegardes ok");
+  } catch (err) {
+    console.error("Erreur lors de la suppression des sauvegardes :", err);
+  }
+}
+
+
+
+
 // ---------------------     EXPORT -------------------------------------
 
 //Lors d'un export manual ou auto
@@ -708,6 +747,9 @@ async function onDeleteBDD() {
     if (devMode === true) {console.log("Lancement de la suppression");};
     // Le local storage
     onDeleteLocalStorage();
+
+    //Les sauvegardes
+    await onDeleteAllBackupFiles();
 
     // La base de donnée
     await deleteBase();
