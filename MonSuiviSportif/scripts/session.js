@@ -1,5 +1,5 @@
 
-let userCounterList = {
+let userSessionItemsList = {
         "Counter_1": { 
             type: "Counter", name: "Exemple de compteur", 
             currentSerie: 0, serieTarget :0, repIncrement:0, totalCount:0,
@@ -7,16 +7,16 @@ let userCounterList = {
             color : "white"
         }
     },
-    maxCounter = 20,
-    counterSortedKey = [],//array des clé trié par "displayOrder"
-    counterEditorMode, //creation ou modification
-    currentCounterEditorID,//L'id du compteur en cours de modification
+    maxSessionItems = 20,
+    sessionItemsSortedKey = [],//array des clé trié par "displayOrder"
+    sessionItemEditorMode, //creation ou modification
+    currentSessionItemEditorID,//L'id de l'items en cours de modification
     sessionStartTime = "--:--:--",//date-heure du début de session set lorsque clique sur reset all counter, ou générate session
     sessionStorageName = "MSS_sessionCounterList",
     sessionStartTimeStorageName = "MSS_sessionStartTime",
     sortableInstance = null;//instance pour le drag n drop
 
-let counterColor = {
+let sessionItemColors = {
     white: {body:"#fff",button:"grey"},
     green: {body:"#E7F8F2",button:"#4EA88A"},
     yellow: {body:"#FFFBE5",button:"#C8A646"},
@@ -27,7 +27,7 @@ let counterColor = {
     rose: {body:"#FAEFF4",button:"#C57CA5"}
 };
 
-let counterColorSelected = "#fff";//utiliser lors de la création d'un compteur
+let sessionItemColorSelected = "#fff";//utiliser lors de la création d'un compteur
 
 
 
@@ -47,10 +47,10 @@ class Counter {
         // div container
         this.element = document.createElement("div");
         this.element.classList.add("compteur-container");
-        this.element.style.backgroundColor = counterColor[this.colorName].body;
+        this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
         this.element.id = `counterContainer_${id}`;
 
-        this.buttonColor = counterColor[this.colorName].button;
+        this.buttonColor = sessionItemColors[this.colorName].button;
 
         this.render();
     }
@@ -141,8 +141,8 @@ class Counter {
 
 // --------------------------------------- LOCAL STORAGE -----------------------------------------
 
-function onUpdateCounterSessionInStorage() {
-    localStorage.setItem(sessionStorageName, JSON.stringify(userCounterList));
+function onUpdateSessionItemsInStorage() {
+    localStorage.setItem(sessionStorageName, JSON.stringify(userSessionItemsList));
 }
 
 function onUpdateSessionTimeInStorage() {
@@ -151,10 +151,10 @@ function onUpdateSessionTimeInStorage() {
 
 
 
-function getCounterListFromLocalStorage() {
-    userCounterList = {};
+function getSessionItemListFromLocalStorage() {
+    userSessionItemsList = {};
 
-    userCounterList = JSON.parse(localStorage.getItem(sessionStorageName)) || {};
+    userSessionItemsList = JSON.parse(localStorage.getItem(sessionStorageName)) || {};
 
 }
 
@@ -171,7 +171,7 @@ function getSessionStartTimeFromLocalStorage() {
 //Pour le menu compteur editeur
 let isEventListenerForCounterEditor = false;
 
-function onAddEventListenerforCounterEditor() {
+function onAddEventListenerforSessionItemEditor() {
     
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajout les évènements pour l'éditeur de counter");
@@ -186,7 +186,7 @@ function onAddEventListenerforCounterEditor() {
     // LA div générale avec action retour
     let divEditCounterRef = document.getElementById("divEditCounter");
     divEditCounterRef.addEventListener("click",(event)=>{
-        onAnnulCounterEditor(event);
+        onAnnulSessionItemEditor(event);
     });
 
 
@@ -222,9 +222,9 @@ function onAddEventListenerforCounterEditor() {
     // Les couleurs
     let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
     btnColorCounterChoiceArray.forEach(btn=>{
-        let btnColor = btn.dataset.btnCounterColor;
+        let btnColor = btn.dataset.btnSessionItemColor;
         btn.addEventListener("click",()=>{
-            onChooseCounterColor(btnColor);
+            onChooseSessionItemColor(btnColor);
         });
     });
 
@@ -233,19 +233,19 @@ function onAddEventListenerforCounterEditor() {
     //Retour
     let btnReturnRef = document.getElementById("btnReturnCounterEditor");
     btnReturnRef.addEventListener("click", (event)=>{
-        onAnnulCounterEditor(event);
+        onAnnulSessionItemEditor(event);
     });
 
     //Supprimer
     let btnDeleteRef = document.getElementById("btnDeleteCounter");
     btnDeleteRef.addEventListener("click", ()=>{
-        onClickDeleteCounter();
+        onClickDeleteSessionItem();
     });
 
     //Valider
     let btnValideRef = document.getElementById("btnValideCounterEditor");
     btnValideRef.addEventListener("click",(event)=>{
-        onConfirmCounterEditor(event);
+        onConfirmSessionItemEditor(event);
     });
 
 
@@ -366,22 +366,22 @@ async function onOpenMenuSession(){
 
 
     // Récupère les éléments
-    getCounterListFromLocalStorage();
+    getSessionItemListFromLocalStorage();
     getSessionStartTimeFromLocalStorage();
 
     //Ajoutes les écouteurs d'évènement la prémière fois
     if (!isEventListenerForCounterEditor  || !isAddEventForMainMenuSession) {
-        onAddEventListenerforCounterEditor();
+        onAddEventListenerforSessionItemEditor();
         onAddEventListenerForMainMenuSession();
     }
 
 
-    if (devMode === true){console.log("userCounterList", userCounterList)}
+    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
     // set l'heure d'initialisation de session dans le texte
     document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
 
-    onDisplayCounter(userCounterList);
+    onDisplaySessionItems();
 
     // Instancie le system de drag N drop
     onInitSortable("divSessionCompteurArea");
@@ -486,11 +486,11 @@ function onAnnulSessionMenuSup(){
 async function onChangeCounterRepIncrement(idRef) {
 
     // Actualise l'array
-    userCounterList[idRef].repIncrement = parseInt(document.getElementById(`inputRepIncrement_${idRef}`).value) || 0;
+    userSessionItemsList[idRef].repIncrement = parseInt(document.getElementById(`inputRepIncrement_${idRef}`).value) || 0;
 
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 }
 
 
@@ -501,12 +501,12 @@ async function onChangeCounterRepIncrement(idRef) {
 //----------------------------- NOUVEAU COMPTEUR------------------------------------
 
 
-function onClickAddCounter() {
+function onClickAddSessionItem() {
     // Reset les éléments avant set
-    onResetCounterEditor();
+    onResetSessionItemEditor();
 
     // Set le mode d'utilisation de l'éditeur de compteur
-    counterEditorMode = "creation";
+    sessionItemEditorMode = "creation";
     
     // Cache le bouton supprimer
     document.getElementById("btnDeleteCounter").style.visibility = "hidden";
@@ -520,7 +520,7 @@ function onClickAddCounter() {
 
 
 
-function onAnnulCounterEditor(){
+function onAnnulSessionItemEditor(){
     document.getElementById("divEditCounter").style.display = "none";
 }
 
@@ -534,20 +534,20 @@ function onClickDivNewPopupContent(event) {
 
 // Gestion des couleurs
 
-function onChooseCounterColor(color) {
-    document.getElementById("divEditCounterContent").style.backgroundColor = counterColor[color].body;
-    counterColorSelected = color;
+function onChooseSessionItemColor(color) {
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[color].body;
+    sessionItemColorSelected = color;
 }
 
 
 
-function onConfirmCounterEditor() {
+function onConfirmSessionItemEditor() {
     
     // filtre selon le mode d'utilisation de l'éditeur de compteur
-    if (counterEditorMode === "creation"){
-        eventCreateCounter();
-    }else if (counterEditorMode === "modification") {
-        eventSaveModifyCounter();
+    if (sessionItemEditorMode === "creation"){
+        eventCreateSessionItem();
+    }else if (sessionItemEditorMode === "modification") {
+        eventSaveModifySessionItem();
     }else{
         console.log("erreur dans le mode d'édition du compteur");
     }
@@ -555,7 +555,7 @@ function onConfirmCounterEditor() {
 }
 
 
-function eventCreateCounter() {
+function eventCreateSessionItem() {
     
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
@@ -564,13 +564,13 @@ function eventCreateCounter() {
     let counterData = onFormatNewCounter();
 
     // Obtenir le prochain ID
-    let nextId = getRandomShortID("counter_",userCounterList);
+    let nextId = getRandomShortID("counter_",userSessionItemsList);
 
     // Ajout du nouveau compteur à l'array
-    userCounterList[nextId] = counterData;
+    userSessionItemsList[nextId] = counterData;
 
     // Enregistrement
-    eventInsertNewCompteur();
+    eventInsertNewSessionItem();
 
 }
 
@@ -578,15 +578,15 @@ function eventCreateCounter() {
 
 //Séquence d'insertion d'un nouveau compteur
 
-async function eventInsertNewCompteur() {
+async function eventInsertNewSessionItem() {
 
-    if (devMode === true){console.log("userCounterList", userCounterList)}
+    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 
     // fonction de création affichage des compteurs
-    onDisplayCounter(userCounterList);
+    onDisplaySessionItems();
     
 
     // Popup notification
@@ -607,7 +607,7 @@ function onFormatNewCounter() {
 
 
     // formatage du nom. Recherche de doublon
-    let isCounterDoublonName = Object.values(userCounterList).some(counter => counter.name === newCounterName);
+    let isCounterDoublonName = Object.values(userSessionItemsList).some(counter => counter.name === newCounterName);
 
     if (isCounterDoublonName) {
         if (devMode === true){console.log(" [COUNTER] Doublon de nom détecté");}
@@ -621,14 +621,14 @@ function onFormatNewCounter() {
     
 
     // définition du displayOrder
-    let newDisplayOrder = Object.keys(userCounterList).length || 0;
+    let newDisplayOrder = Object.keys(userSessionItemsList).length || 0;
 
 
     let formatedCounter = {
         name: newCounterName, 
         currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : newDisplayOrder,
-        color : counterColorSelected
+        color : sessionItemColorSelected
     };
 
     return formatedCounter;
@@ -640,15 +640,15 @@ function onFormatNewCounter() {
 
 // Modification de compteur
 function onClickModifyCounter(idRef) {
-    counterEditorMode = "modification";
-    currentCounterEditorID = idRef;
+    sessionItemEditorMode = "modification";
+    currentSessionItemEditorID = idRef;
 
     // set les éléments
-    document.getElementById("inputEditCounterName").value = userCounterList[idRef].name;
-    document.getElementById("inputEditSerieTarget").value = userCounterList[idRef].serieTarget;
-    document.getElementById("inputEditRepIncrement").value = userCounterList[idRef].repIncrement;
-    document.getElementById("divEditCounterContent").style.backgroundColor = counterColor[userCounterList[idRef].color].body;
-    counterColorSelected = userCounterList[idRef].color;
+    document.getElementById("inputEditCounterName").value = userSessionItemsList[idRef].name;
+    document.getElementById("inputEditSerieTarget").value = userSessionItemsList[idRef].serieTarget;
+    document.getElementById("inputEditRepIncrement").value = userSessionItemsList[idRef].repIncrement;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
+    sessionItemColorSelected = userSessionItemsList[idRef].color;
 
 
     // rend le bouton supprimer visible
@@ -664,7 +664,7 @@ function onClickModifyCounter(idRef) {
 
 
 
-async function eventSaveModifyCounter() {
+async function eventSaveModifySessionItem() {
 
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
@@ -673,29 +673,29 @@ async function eventSaveModifyCounter() {
     let counterData = onFormatModifyCounter();
 
     // Enregistrement dans l'array
-    userCounterList[currentCounterEditorID].name = counterData.name;
-    userCounterList[currentCounterEditorID].serieTarget = counterData.serieTarget;
-    userCounterList[currentCounterEditorID].repIncrement = counterData.repIncrement;
-    userCounterList[currentCounterEditorID].color = counterData.color;
+    userSessionItemsList[currentSessionItemEditorID].name = counterData.name;
+    userSessionItemsList[currentSessionItemEditorID].serieTarget = counterData.serieTarget;
+    userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
+    userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
 
     // Actualisation de l'affichage
-    document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
-    document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color].body;
-    document.getElementById(`spanSerieTarget_${currentCounterEditorID}`).innerHTML = `/${counterData.serieTarget}`;
-    document.getElementById(`inputRepIncrement_${currentCounterEditorID}`).value = counterData.repIncrement;
-    document.getElementById(`btnRepIncrement_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color].button;
+    document.getElementById(`counterName_${currentSessionItemEditorID}`).innerHTML = counterData.name;
+    document.getElementById(`counterContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].body;
+    document.getElementById(`spanSerieTarget_${currentSessionItemEditorID}`).innerHTML = `/${counterData.serieTarget}`;
+    document.getElementById(`inputRepIncrement_${currentSessionItemEditorID}`).value = counterData.repIncrement;
+    document.getElementById(`btnRepIncrement_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].button;
     
     
 
     if (devMode === true){
-        console.log("userCounterList", userCounterList);
+        console.log("userSessionItemsList", userSessionItemsList);
         console.log("demande de vérification DONE");
     }
     // Met également à jour l'image DONE si nécessaire
-    onCheckTargetReach(currentCounterEditorID);
+    onCheckTargetReach(currentSessionItemEditorID);
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 
 }
 
@@ -717,7 +717,7 @@ function onFormatModifyCounter() {
         name: newCounterName, 
         currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : 0,
-        color : counterColorSelected
+        color : sessionItemColorSelected
     };
 
     return formatedCounter;
@@ -729,7 +729,7 @@ function onFormatModifyCounter() {
 
 // l'affichage des compteurs de fait sur le trie des "displayOrder"
 
-function onDisplayCounter() {
+function onDisplaySessionItems() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");}
 
     // div qui contient les compteurs
@@ -743,27 +743,27 @@ function onDisplayCounter() {
     divSessionEndListRef.innerHTML = "";
 
     // Affichage en cas d'aucune modèle
-    if (Object.keys(userCounterList).length < 1) {
+    if (Object.keys(userSessionItemsList).length < 1) {
         divSessionCompteurAreaRef.innerHTML = "Aucun compteur à afficher !";
 
-        new Button_add("Ajouter un compteur",() => onClickAddCounter(),false,divSessionEndListRef);
+        new Button_add("Ajouter un élément",() => onClickAddSessionItem(),false,divSessionEndListRef);
         return
     }
 
 
     // récupère la liste des clé trié par displayOrder
-    counterSortedKey = [];
+    sessionItemsSortedKey = [];
 
-    counterSortedKey = getSortedKeysByDisplayOrder(userCounterList);
+    sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
 
-    counterSortedKey.forEach((key,index)=>{
+    sessionItemsSortedKey.forEach((key,index)=>{
 
         // Generation
         new Counter(
-            key,userCounterList[key].name,
-            userCounterList[key].currentSerie,userCounterList[key].serieTarget,userCounterList[key].repIncrement,
-            userCounterList[key].displayOrder,divSessionCompteurAreaRef,userCounterList[key].color,
-            userCounterList[key].totalCount
+            key,userSessionItemsList[key].name,
+            userSessionItemsList[key].currentSerie,userSessionItemsList[key].serieTarget,userSessionItemsList[key].repIncrement,
+            userSessionItemsList[key].displayOrder,divSessionCompteurAreaRef,userSessionItemsList[key].color,
+            userSessionItemsList[key].totalCount
         );
 
 
@@ -771,18 +771,18 @@ function onDisplayCounter() {
         onCheckTargetReach(key); 
 
         // Creation de la ligne de fin pour le dernier index
-        if (index === (Object.keys(userCounterList).length - 1)) {
-            let isMaxCounterReach = Object.keys(userCounterList).length >= maxCounter;
-            new Button_add("Ajouter un compteur",() => onClickAddCounter(),isMaxCounterReach,divSessionEndListRef);
+        if (index === (Object.keys(userSessionItemsList).length - 1)) {
+            let ismaxSessionItemsReach = Object.keys(userSessionItemsList).length >= maxSessionItems;
+            new Button_add("Ajouter un élément",() => onClickAddSessionItem(),ismaxSessionItemsReach,divSessionEndListRef);
 
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxCounter} compteurs.`;
+            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxSessionItems} compteurs.`;
             divSessionEndListRef.appendChild(newClotureList);
         }
     });
 
-    if (devMode === true){console.log(" [COUNTER] userCounterList",userCounterList);}
+    if (devMode === true){console.log(" [COUNTER] userSessionItemsList",userSessionItemsList);}
     
 }
 
@@ -812,7 +812,7 @@ function getSortedKeysByDisplayOrder(counterList) {
 async function onClickIncrementeCounter(idRef) {
 
     // Ne fait rien si l'increment est à zero ou vide
-    if (userCounterList[idRef].repIncrement === 0) {
+    if (userSessionItemsList[idRef].repIncrement === 0) {
         if (devMode === true){console.log("[COUNTER] increment vide ne fait rien");}
         onShowNotifyPopup("inputIncrementEmpty");
         return
@@ -827,14 +827,14 @@ async function onClickIncrementeCounter(idRef) {
     
 
     // récupère ancien total et nouvelle valeur
-    let oldValue = userCounterList[idRef].totalCount,
-        newValue = userCounterList[idRef].repIncrement;
+    let oldValue = userSessionItemsList[idRef].totalCount,
+        newValue = userSessionItemsList[idRef].repIncrement;
 
     // Addition
     let newTotal = oldValue + newValue;
 
     // incrémente la série
-    userCounterList[idRef].currentSerie++;  
+    userSessionItemsList[idRef].currentSerie++;  
 
 
     // Set nouveau résultat dans html, variable et update base
@@ -845,12 +845,12 @@ async function onClickIncrementeCounter(idRef) {
 
     // compte total
     spanTotalCountRef.innerHTML = `Total : ${newTotal}`;//le html
-    userCounterList[idRef].totalCount = newTotal;//le tableau
+    userSessionItemsList[idRef].totalCount = newTotal;//le tableau
 
     // compte serie
-    spanCurrentSerieRef.innerHTML = userCounterList[idRef].currentSerie;
+    spanCurrentSerieRef.innerHTML = userSessionItemsList[idRef].currentSerie;
 
-    if (devMode === true){console.log("userCounterList", userCounterList)}
+    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
     // Si objectif atteind
     let isTargetReach = onCheckTargetReach(idRef);
@@ -864,7 +864,7 @@ async function onClickIncrementeCounter(idRef) {
     }
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 
     //déverrouille le bouton pour être a nouveau disponible
     setTimeout(() => {
@@ -882,9 +882,9 @@ function onCheckTargetReach(idRef) {
 
     let targetReach = false;
 
-    if (userCounterList[idRef].serieTarget === 0) {
+    if (userSessionItemsList[idRef].serieTarget === 0) {
        return targetReach;
-    } else if (userCounterList[idRef].currentSerie === userCounterList[idRef].serieTarget){
+    } else if (userSessionItemsList[idRef].currentSerie === userSessionItemsList[idRef].serieTarget){
 
         targetReach = true;
         document.getElementById(`spanSerieTarget_${idRef}`).classList.add("target-reach");
@@ -944,15 +944,15 @@ async function onClickResetCounter(idRef) {
 
 
     // Set les variables
-    userCounterList[idRef].currentSerie = 0;
-    userCounterList[idRef].totalCount = 0;
+    userSessionItemsList[idRef].currentSerie = 0;
+    userSessionItemsList[idRef].totalCount = 0;
 
 
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 
-    if (devMode === true){console.log("userCounterList", userCounterList)};
+    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)};
 
     //retire la classe "reach" si necessaire pour le count target et le slash
     let counterTargetRef = document.getElementById(`spanSerieTarget_${idRef}`);
@@ -993,11 +993,11 @@ async function eventResetAllCounter() {
     
     // Boucle sur la liste des key
     //Pour chaque éléments passe la variable à zero et set le texte
-    counterSortedKey.forEach(key=>{
-        userCounterList[key].currentSerie = 0;
+    sessionItemsSortedKey.forEach(key=>{
+        userSessionItemsList[key].currentSerie = 0;
         document.getElementById(`spanCurrentSerie_${key}`).innerHTML = 0;
 
-        userCounterList[key].totalCount = 0;
+        userSessionItemsList[key].totalCount = 0;
         document.getElementById(`spanTotalCount_${key}`).innerHTML = "Total : 0";
 
          //retire la classe "reach" si necessaire pour le count target et le slash
@@ -1013,7 +1013,7 @@ async function eventResetAllCounter() {
     onSetSessionStartTime();
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
     onUpdateSessionTimeInStorage();
 
     
@@ -1035,51 +1035,51 @@ async function eventResetAllCounter() {
 
 
 
-function onClickDeleteCounter() {
+function onClickDeleteSessionItem() {
 
-    let textToDisplay = `<b>Supprimer : ${userCounterList[currentCounterEditorID].name} ?</b>`;
-    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventDeleteCounter,textToDisplay,"delete");
+    let textToDisplay = `<b>Supprimer : ${userSessionItemsList[currentSessionItemEditorID].name} ?</b>`;
+    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventDeleteSessionItem,textToDisplay,"delete");
 }
 
 
 
-async function eventDeleteCounter(){
+async function eventDeleteSessionItem(){
     // Masque editeur de compteur
     document.getElementById("divEditCounter").style.display = "none";
 
     //suppression dans la variable
-    delete userCounterList[currentCounterEditorID];
+    delete userSessionItemsList[currentSessionItemEditorID];
 
     // traitement display order pour les counters suivants
-    onChangeDisplayOrderFromDelete(currentCounterEditorID);
+    onChangeDisplayOrderFromDelete(currentSessionItemEditorID);
 
-    if (devMode === true){console.log("userCounterList", userCounterList)}
+    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
     // Popup notification
     onShowNotifyPopup("counterDeleted");
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 
     // actualisation de la liste des compteurs
-    onDisplayCounter(userCounterList);
+    onDisplaySessionItems();
 }
 
 
 async function onChangeDisplayOrderFromDelete(idOrigin) {
     // recupère l'index d'origine dans l'array des key
-    let deletedCounterIndex = counterSortedKey.indexOf(idOrigin);
+    let deletedSessionItemIndex = sessionItemsSortedKey.indexOf(idOrigin);
 
-    if (devMode === true){console.log("deletedCounterIndex :",deletedCounterIndex);}
+    if (devMode === true){console.log("deletedSessionItemIndex :",deletedSessionItemIndex);}
 
     // Boucle jusquà la fin et décrémente les displayOrder et stocke en même temps les key to save
-    for (let i = (deletedCounterIndex + 1); i < counterSortedKey.length; i++) {
+    for (let i = (deletedSessionItemIndex + 1); i < sessionItemsSortedKey.length; i++) {
         // Increment
-        userCounterList[counterSortedKey[i]].displayOrder--;
+        userSessionItemsList[sessionItemsSortedKey[i]].displayOrder--;
     }
 
     // retire la key concernée dans l'array
-    counterSortedKey.splice(deletedCounterIndex,1);
+    sessionItemsSortedKey.splice(deletedSessionItemIndex,1);
 
 }
 
@@ -1094,95 +1094,28 @@ async function onChangeDisplayOrderFromDelete(idOrigin) {
 
 
 // Actualisation des display order après drag n drop
-function updateCounterDisplayOrders() {
+function updateSessionItemsDisplayOrders() {
     const container = document.getElementById("divSessionCompteurArea");
     const children = container.querySelectorAll(".compteur-container");
 
     children.forEach((child, index) => {
         const id = child.id.replace("counterContainer_", ""); // extrait l'ID
-        if (userCounterList[id]) {
-            userCounterList[id].displayOrder = index;
+        if (userSessionItemsList[id]) {
+            userSessionItemsList[id].displayOrder = index;
         }
     });
 
     // réaffiche les compteurs
-    onDisplayCounter();
+    onDisplaySessionItems();
 
     // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
 }
-
-
-
-async function onClickCounterNavDecrease(idOrigin) {
-
-    // Fait un switch entre les deux éléments
-
-    // Récupère l'id de l'élément que l'on va devoir incrementer
-    let keyItemToIncrease = onSearchCounterKeyByDisplayOrder(userCounterList[idOrigin].displayOrder -1);
-
-    // Item to decrease
-    userCounterList[idOrigin].displayOrder--;
-
-
-    //Item to increase
-    userCounterList[keyItemToIncrease].displayOrder++;
-
-
-    // réaffiche les compteurs
-    onDisplayCounter();
-
-    // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
-
-
-}
-
-
-async function onClickCounterNavIncrease(idOrigin) {
-
-    // Fait un switch entre les deux éléments
-
-    // Récupère l'id de l'élément que l'on va devoir décrementer
-    let keyItemToDecrease = onSearchCounterKeyByDisplayOrder(userCounterList[idOrigin].displayOrder + 1);
-
-    // Item to Increase
-    userCounterList[idOrigin].displayOrder++;
-
-
-    //Item to decrease
-    userCounterList[keyItemToDecrease].displayOrder--;
-
-
-    // réaffiche les compteurs
-    onDisplayCounter();
-
-    // Sauvegarde en localStorage
-    onUpdateCounterSessionInStorage();
-
-}
-
-
-
-
-// Recherche la key d'un par son display order
-function onSearchCounterKeyByDisplayOrder(displayOrderTarget) {
-    return Object.keys(userCounterList).find(key => userCounterList[key].displayOrder === displayOrderTarget) || null;
-}
-
-
-
-
-
-
-
-
-
 
 
 
 // Reset les éléments de l'éditeur de compteur
-function onResetCounterEditor() {
+function onResetSessionItemEditor() {
     // Reset l'emplacement du nom
     document.getElementById("inputEditCounterName").value = "";
 
@@ -1193,8 +1126,8 @@ function onResetCounterEditor() {
     document.getElementById("inputEditRepIncrement").value = 0;
 
     // remet les éléments dans la couleur par défaut
-    counterColorSelected = "white";
-    document.getElementById("divEditCounterContent").style.backgroundColor = counterColorSelected;
+    sessionItemColorSelected = "white";
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColorSelected;
 }
 
 
@@ -1213,7 +1146,7 @@ function onClickSendSessionToActivity() {
 
     // condition : Avoir au moins 1 compteur
 
-    if (Object.keys(userCounterList).length > 0) {
+    if (Object.keys(userSessionItemsList).length > 0) {
         onGenerateFakeSelectSession();
     }else{
         alert("Vous n'avez aucun compteur à envoyer !");
@@ -1228,10 +1161,10 @@ async function onSendSessionToActivity(activityTarget) {
     let sessionText = "";
 
     //Boucle sur les éléments
-    counterSortedKey.forEach(key=>{
+    sessionItemsSortedKey.forEach(key=>{
 
         // Pour chaque élément crée une ligne avec les données
-        let nameFormated = onSetToLowercase(userCounterList[key].name);
+        let nameFormated = onSetToLowercase(userSessionItemsList[key].name);
         nameFormated = onSetFirstLetterUppercase(nameFormated);
 
         let textToAdd = "";
@@ -1239,19 +1172,19 @@ async function onSendSessionToActivity(activityTarget) {
         // Ecrite le texte selon le mode choisit dans setting
         switch (userSetting.fromSessionToActivityMode) {
             case "MINIMAL":
-                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount}\n`;
+                textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount}\n`;
 
                 break;
             case "NORMAL":
-                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount} (Séries: ${userCounterList[key].currentSerie}*${userCounterList[key].repIncrement} rép.)\n`;
+                textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount} (Séries: ${userSessionItemsList[key].currentSerie}*${userSessionItemsList[key].repIncrement} rép.)\n`;
 
                 break;
             case "COMPLETE":
-                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount} (Séries: ${userCounterList[key].currentSerie}/${userCounterList[key].serieTarget} - ${userCounterList[key].repIncrement} Rép.)\n`;
+                textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount} (Séries: ${userSessionItemsList[key].currentSerie}/${userSessionItemsList[key].serieTarget} - ${userSessionItemsList[key].repIncrement} Rép.)\n`;
 
                 break;
             case "SERIES":
-                textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie}*${userCounterList[key].repIncrement}\n`;
+                textToAdd = `${nameFormated}: ${userSessionItemsList[key].currentSerie}*${userSessionItemsList[key].repIncrement}\n`;
 
                 break;
             case "TITLE":
@@ -1466,7 +1399,7 @@ function onGetSessionDuration(heureDebut, heureFin) {
 
 // ---------------------------- Génération de session ---------------------------------
 
-// tout est basé sur maxcounter
+// tout est basé sur maxSessionItems
 
 
 
@@ -1556,7 +1489,7 @@ function onGenerateSessionTable() {
     parentRef.innerHTML = "";
 
     // Génère le tableau
-    for (let i = 0; i < maxCounter; i++) {
+    for (let i = 0; i < maxSessionItems; i++) {
         new TableLineSession(parentRef,i); 
     }
 
@@ -1579,7 +1512,7 @@ function onGenerateSessionTable() {
 function onGetTableSessionItem() {
     let sessionList = [];
 
-    for (let i = 0; i < maxCounter; i++) {
+    for (let i = 0; i < maxSessionItems; i++) {
 
         // Reférence les éléments
         inputName = document.getElementById(`inputGenSessionNom_${i}`);
@@ -1655,7 +1588,7 @@ async function eventGenerateSessionList(){
     onSetSessionStartTime();
 
     // Sauvegarde la nouvelle session en local storage
-    onUpdateCounterSessionInStorage();
+    onUpdateSessionItemsInStorage();
     onUpdateSessionTimeInStorage();
 
 
@@ -1663,7 +1596,7 @@ async function eventGenerateSessionList(){
     document.getElementById("divPopCreateSession").style.display = "none";
 
     // Affiche les nouveaux compteurs
-    onDisplayCounter();
+    onDisplaySessionItems();
 
 
 }
@@ -1672,14 +1605,14 @@ async function eventGenerateSessionList(){
 function onGenerateMultipleCounter(newSessionList) {
 
     // Vide l'array
-    userCounterList = {};
+    userSessionItemsList = {};
 
 
     // Pour chaque élément de la liste
     newSessionList.forEach((e,index)=>{
 
         // Génération de l'ID
-        let counterId = getRandomShortID("counter_",userCounterList);
+        let counterId = getRandomShortID("counter_",userSessionItemsList);
 
         //formatage du counter (majuscule etc)
         let formatedCounter = {
@@ -1693,12 +1626,12 @@ function onGenerateMultipleCounter(newSessionList) {
         };
 
         // Inserte un nouveau compteur dans l'array
-        userCounterList[counterId] = formatedCounter;
+        userSessionItemsList[counterId] = formatedCounter;
 
     });
 
 
-    if (devMode === true){console.log("userCounterList", userCounterList);}
+    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList);}
 
 
 }
@@ -1720,7 +1653,7 @@ function onChangeColorInGenSessionTable(idRef) {
     let tableDataRef = document.getElementById(`tdGenSessionChooseColor_${idRef}`),
         colorRef = document.getElementById(`selectGenSessionColor_${idRef}`).value;
 
-    tableDataRef.style.backgroundColor = counterColor[colorRef].body;
+    tableDataRef.style.backgroundColor = sessionItemColors[colorRef].body;
 }
 
 
@@ -1764,7 +1697,7 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
     parentRef.innerHTML = "";
 
     // Crée à nouveau une liste vide
-    for (let i = 0; i < maxCounter; i++) {
+    for (let i = 0; i < maxSessionItems; i++) {
         new TableLineSession(parentRef,i); 
     }
 
@@ -1818,7 +1751,7 @@ function onInitSortable(divID) {
         handle: '.drag-handle',
         touchStartThreshold: 10,
         onEnd: function () {
-            updateCounterDisplayOrders();
+            updateSessionItemsDisplayOrders();
         }
     });
 }
