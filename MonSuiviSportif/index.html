@@ -179,26 +179,64 @@
                 <!-- Div Create new counter POPUP -->
                 <div id="divEditCounter"class="popup-new-counter">
                     <div id="divEditCounterContent" class="popup-new-counter-content">
+                        <h2 class="session-item-editor">Nouvel élément</h2>
+
                         <p>
-                            <label for="">Nom du compteur :</label>
-                            <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nouveau compteur" maxlength="30">
-                            <label for="">Nbre de série :</label>
-                            <input class="compteur" type="number" id="inputEditSerieTarget">
-                            <label for="">Nbre de répétition :</label>
-                            <input class="compteur" type="number" id="inputEditRepIncrement">
+                            <select name="" id="selectItemSessionType">
+                                <option value="COUNTER">Compteur</option>
+                                <option value="CHRONO">Chrono</option>
+                                <option value="MINUTEUR">Minuteur</option>
+                            </select>
+                        </p>
+                        <!-- Le nom -->
+                        <p>
+                            <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nom" maxlength="30">    
+                        </p>
+
+                        <!-- ZONE Dynamique -->
+                        <div>
+                        <!-- Counter -->
+                            <div class="session-type-area" id="itemSessionCounterEditor">
+                                <div class="wrapper serial">
+                                    <input class="compteur" type="number" id="inputEditSerieTarget">
+                                </div>
+                                <div class="wrapper rep">
+                                    <input class="compteur" type="number" id="inputEditRepIncrement">
+                                </div>
+                            </div>
+
+                            <!-- Chrono -->
+                            <div class="session-type-area" id="itemSessionChronoEditor" style="display: none;">
+                                <span class="input-number-symbol">⌛</span>
+                            </div>
+
+                            <!-- Minuteur -->
+                            <div class="session-type-area number-container" id="itemSessionMinuteurEditor" style="display: none;">
+                                <span class="input-number-symbol">⏱️</span>
+                                <input type="number" id="" min="0" max="99" value="00">
+
+                            
+                                <span class="chrono-separator">:</span>
+                                <input type="number" id="" min="0" max="59" value="00">
+
+                                
+                                <span class="chrono-separator">:</span>
+                                <input type="number" id="" min="0" max="59" value="00">
+                            </div>
+                        </div>
+                        <!-- FIN ZONE Dynamique -->
+
+                        <p>
+                            <button class="btnChooseColor" type="button" style="background-color: white;" data-btn-session-item-color="white"></button>
+                            <button class="btnChooseColor" type="button" style="background-color: #E7F8F2;" data-btn-session-item-color="green"></button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FFFBE5;" data-btn-session-item-color="yellow"></button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FDEBEC;" data-btn-session-item-color="red"></button>
                         </p>
                         <p>
-                            <label for="">Couleur : </label>
-                            <button class="btnChooseColor" type="button" style="background-color: white;" data-btn-session-item-color="white">Blanc</button>
-                            <button class="btnChooseColor" type="button" style="background-color: #E7F8F2;" data-btn-session-item-color="green">Vert</button>
-                            <button class="btnChooseColor" type="button" style="background-color: #FFFBE5;" data-btn-session-item-color="yellow">Jaune</button>
-                            <button class="btnChooseColor" type="button" style="background-color: #FDEBEC;" data-btn-session-item-color="red">Rouge</button>
-                        </p>
-                        <p>
-                            <button class="btnChooseColor" type="button" style="background-color: #E6F0FA;" data-btn-session-item-color="blue">Bleu</button>
-                            <button class="btnChooseColor" type="button" style="background-color: #F3F0FA;" data-btn-session-item-color="violet">Violet</button>
-                            <button class="btnChooseColor" type="button" style="background-color: #FFF1EC;" data-btn-session-item-color="orange">Orange</button>
-                            <button class="btnChooseColor" type="button" style="background-color: #FAEFF4;" data-btn-session-item-color="rose">Rose</button>          
+                            <button class="btnChooseColor" type="button" style="background-color: #E6F0FA;" data-btn-session-item-color="blue"></button>
+                            <button class="btnChooseColor" type="button" style="background-color: #F3F0FA;" data-btn-session-item-color="violet"></button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FFF1EC;" data-btn-session-item-color="orange"></button>
+                            <button class="btnChooseColor" type="button" style="background-color: #FAEFF4;" data-btn-session-item-color="rose"></button>          
                         </p>
                         
                         <div class="custom-editor-btn-menu">

@@ -1,10 +1,14 @@
 
 let userSessionItemsList = {
-        "Counter_1": { 
-            type: "Counter", name: "Exemple de compteur", 
-            currentSerie: 0, serieTarget :0, repIncrement:0, totalCount:0,
-            displayOrder : 0,
-            color : "white"
+        counter_utkyzqjy0: {
+            name: "NOUVEAU COMPTEUR",
+            type: "counter/chrono/minuteur",
+            currentSerie: 0,
+            serieTarget: 0,
+            repIncrement: 0,
+            totalCount: 0,
+            displayOrder: 0,
+            color: "white"
         }
     },
     maxSessionItems = 20,
@@ -82,7 +86,7 @@ class Counter {
                 <p class="compteur-navigation">
                     <button class="btn-counter-reset" id="btnCountReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 </p>
-                <div class="wrapper">
+                <div class="wrapper rep">
                 <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement}>
                 </div>
                 <button style="background-color: ${this.buttonColor};" class="counter" id="btnRepIncrement_${this.id}">
@@ -197,6 +201,12 @@ function onAddEventListenerforSessionItemEditor() {
     });
 
 
+
+    // Le selecteur pour changer de type d'item
+    let selectItemSessionTypeRef = document.getElementById("selectItemSessionType");
+    selectItemSessionTypeRef.addEventListener("change", (event)=>{
+        onChangeSessionItemType(event.target.value);
+    });
 
     //input number
     let inputNumberIDArray = [
@@ -537,6 +547,26 @@ function onClickDivNewPopupContent(event) {
 function onChooseSessionItemColor(color) {
     document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[color].body;
     sessionItemColorSelected = color;
+}
+
+
+
+// Changement de type d'éléments de session dans l'éditeur
+function onChangeSessionItemType(itemType) {
+    // 1. Masque les 3 zones dynamiques
+    let sessionTypecAreaIDs = {
+        COUNTER : "itemSessionCounterEditor",
+        CHRONO : "itemSessionChronoEditor",
+        MINUTEUR : "itemSessionMinuteurEditor"
+    };
+    let dynamicTypeAreaKeys = Object.keys(sessionTypecAreaIDs);
+    dynamicTypeAreaKeys.forEach(key=>{
+        document.getElementById(sessionTypecAreaIDs[key]).style.display = "none";
+    });
+        
+
+    // 2. Affiche la zone demandée
+    document.getElementById(sessionTypecAreaIDs[itemType]).style.display = "block";
 }
 
 
