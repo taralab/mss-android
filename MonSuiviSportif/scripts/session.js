@@ -33,7 +33,12 @@ let sessionItemColors = {
 
 let sessionItemColorSelected = "#fff";//utiliser lors de la création d'un compteur
 
-
+//Les id des inputs number pour le minuteurs
+let inputNumberMinuteurIdArray = [
+        "inputMinuteurSessionHours",
+        "inputMinuteurSessionMinutes",
+        "inputMinuteurSessionSeconds"
+    ];
 
 // Objet compteur
 class Counter {
@@ -227,7 +232,30 @@ function onAddEventListenerforSessionItemEditor() {
         });
     });
 
+    //input number minuteur
+    inputNumberMinuteurIdArray.forEach(input=>{
+        let inputRef = document.getElementById(input);
+        // onInput
+        let maxHour = parseInt(inputRef.max);
+        inputRef.addEventListener("input",(event)=>{
+            formatNumberInput(event.target, maxHour, 2);
+        });
 
+        //onFocus
+        inputRef.addEventListener("focus",(event)=>{
+            selectAllText(event.target);
+        });
+
+        //onBlur
+        inputRef.addEventListener("blur",(event)=>{
+            formatNumberInput(event.target, maxHour, 2);
+        });
+
+        //onContextMenu
+        inputRef.addEventListener("contextmenu",(event)=>{
+            disableContextMenu(event);
+        });
+    });
 
     // Les couleurs
     let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
@@ -247,7 +275,7 @@ function onAddEventListenerforSessionItemEditor() {
     });
 
     //Supprimer
-    let btnDeleteRef = document.getElementById("btnDeleteCounter");
+    let btnDeleteRef = document.getElementById("btnDeleteSessionItem");
     btnDeleteRef.addEventListener("click", ()=>{
         onClickDeleteSessionItem();
     });
@@ -508,7 +536,7 @@ async function onChangeCounterRepIncrement(idRef) {
 
 
 
-//----------------------------- NOUVEAU COMPTEUR------------------------------------
+//----------------------------- Nouvel ELEMENT ------------------------------------
 
 
 function onClickAddSessionItem() {
@@ -518,8 +546,9 @@ function onClickAddSessionItem() {
     // Set le mode d'utilisation de l'éditeur de compteur
     sessionItemEditorMode = "creation";
     
-    // Cache le bouton supprimer
-    document.getElementById("btnDeleteCounter").style.visibility = "hidden";
+    // Cache le bouton supprimer et active le bouton du choix du type d'item
+    document.getElementById("btnDeleteSessionItem").style.visibility = "hidden";
+    document.getElementById("selectItemSessionType").disabled = false;
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -629,7 +658,7 @@ async function eventInsertNewSessionItem() {
 function onFormatNewCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur";
+    let newCounterName = document.getElementById("inputEditSessionItemName").value || "Nouveau Compteur";
 
     
     // Formatage du nom en majuscule
@@ -674,15 +703,17 @@ function onClickModifyCounter(idRef) {
     currentSessionItemEditorID = idRef;
 
     // set les éléments
-    document.getElementById("inputEditCounterName").value = userSessionItemsList[idRef].name;
+    document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
     document.getElementById("inputEditSerieTarget").value = userSessionItemsList[idRef].serieTarget;
     document.getElementById("inputEditRepIncrement").value = userSessionItemsList[idRef].repIncrement;
     document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
     sessionItemColorSelected = userSessionItemsList[idRef].color;
 
 
-    // rend le bouton supprimer visible
-    document.getElementById("btnDeleteCounter").style.visibility = "visible";
+    // rend le bouton supprimer visible et block le choix du type d'item
+    document.getElementById("btnDeleteSessionItem").style.visibility = "visible";
+    document.getElementById("selectItemSessionType").disabled = true;
+
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -734,7 +765,7 @@ async function eventSaveModifySessionItem() {
 function onFormatModifyCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur";
+    let newCounterName = document.getElementById("inputEditSessionItemName").value || "Nouveau Compteur";
     
     // Formatage du nom en majuscule
     newCounterName = onSetToUppercase(newCounterName);
@@ -1147,13 +1178,19 @@ function updateSessionItemsDisplayOrders() {
 // Reset les éléments de l'éditeur de compteur
 function onResetSessionItemEditor() {
     // Reset l'emplacement du nom
-    document.getElementById("inputEditCounterName").value = "";
+    document.getElementById("inputEditSessionItemName").value = "";
 
     // Reset le nombre de serie
     document.getElementById("inputEditSerieTarget").value = 0;
 
     //Reset le nombre de répétition
     document.getElementById("inputEditRepIncrement").value = 0;
+
+
+    //Reset les inputs du minuteurs
+    inputNumberMinuteurIdArray.forEach(id=>{
+        document.getElementById(id).value = "00";
+    });
 
     // remet les éléments dans la couleur par défaut
     sessionItemColorSelected = "white";

@@ -190,7 +190,7 @@
                         </p>
                         <!-- Le nom -->
                         <p>
-                            <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nom" maxlength="30">    
+                            <input class="counterName" type="text" name="" id="inputEditSessionItemName" placeholder="Nom" maxlength="30">    
                         </p>
 
                         <!-- ZONE Dynamique -->
@@ -213,15 +213,15 @@
                             <!-- Minuteur -->
                             <div class="session-type-area number-container" id="itemSessionMinuteurEditor" style="display: none;">
                                 <span class="input-number-symbol">⏱️</span>
-                                <input type="number" id="" min="0" max="99" value="00">
+                                <input type="number" id="inputMinuteurSessionHours" min="0" max="99" value="00">
 
                             
                                 <span class="chrono-separator">:</span>
-                                <input type="number" id="" min="0" max="59" value="00">
+                                <input type="number" id="inputMinuteurSessionMinutes" min="0" max="59" value="00">
 
                                 
                                 <span class="chrono-separator">:</span>
-                                <input type="number" id="" min="0" max="59" value="00">
+                                <input type="number" id="inputMinuteurSessionSeconds" min="0" max="59" value="00">
                             </div>
                         </div>
                         <!-- FIN ZONE Dynamique -->
@@ -244,7 +244,7 @@
                                 <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
                                 <span>Retour</span>
                             </button>
-                            <button id="btnDeleteCounter" class="btn-menu">
+                            <button id="btnDeleteSessionItem" class="btn-menu">
                                 <img src="./Icons/Icon-Delete-color.webp" alt="Icone">
                                 <span>Supprimer</span>
                             </button>
