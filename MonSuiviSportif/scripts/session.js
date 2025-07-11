@@ -71,9 +71,9 @@ class Counter {
 
         // div container
         this.element = document.createElement("div");
-        this.element.classList.add("compteur-container");
+        this.element.classList.add("item-session-container");
         this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
-        this.element.id = `counterContainer_${id}`;
+        this.element.id = `itemSessionContainer_${id}`;
 
         this.buttonColor = sessionItemColors[this.colorName].button;
 
@@ -172,9 +172,9 @@ class Chrono {
 
         // div container
         this.element = document.createElement("div");
-        this.element.classList.add("compteur-container");
+        this.element.classList.add("item-session-container");
         this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
-        this.element.id = `chronoContainer_${id}`;
+        this.element.id = `itemSessionContainer_${id}`;
 
         this.buttonColor = sessionItemColors[this.colorName].button;
 
@@ -186,7 +186,13 @@ class Chrono {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-            ${this.name}
+             <div class="compteur-content-line-1">
+                <div class="drag-handle">⣿</div>
+                <p class="compteur-name" id="chronoName_${this.id}">${this.name}</p>
+                <button class="btn-counter-setting" id="btnModifyChrono_${this.id}">
+                    <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
+                </button>  
+            </div>
 
              `;
         // Insertion
@@ -208,9 +214,9 @@ class Minuteur {
 
         // div container
         this.element = document.createElement("div");
-        this.element.classList.add("compteur-container");
+        this.element.classList.add("item-session-container");
         this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
-        this.element.id = `minuteurContainer_${id}`;
+        this.element.id = `itemSessionContainer_${id}`;
 
         this.buttonColor = sessionItemColors[this.colorName].button;
 
@@ -222,7 +228,13 @@ class Minuteur {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-            ${this.name}
+             <div class="compteur-content-line-1">
+                <div class="drag-handle">⣿</div>
+                <p class="compteur-name" id="minuteurName_${this.id}">${this.name}</p>
+                <button class="btn-counter-setting" id="btnModifyMinuteur_${this.id}">
+                    <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
+                </button>  
+            </div>
 
              `;
         // Insertion
@@ -1001,7 +1013,7 @@ async function eventSaveModifySessionItem() {
 
             // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
             document.getElementById(`counterName_${currentSessionItemEditorID}`).innerHTML = counterData.name;
-            document.getElementById(`counterContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].body;
+            document.getElementById(`itemSessionContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].body;
             document.getElementById(`spanSerieTarget_${currentSessionItemEditorID}`).innerHTML = `/${counterData.serieTarget}`;
             document.getElementById(`inputRepIncrement_${currentSessionItemEditorID}`).value = counterData.repIncrement;
             document.getElementById(`btnRepIncrement_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].button;
@@ -1437,10 +1449,10 @@ async function onChangeDisplayOrderFromDelete(idOrigin) {
 // Actualisation des display order après drag n drop
 function updateSessionItemsDisplayOrders() {
     const container = document.getElementById("divSessionCompteurArea");
-    const children = container.querySelectorAll(".compteur-container");
+    const children = container.querySelectorAll(".item-session-container");
 
     children.forEach((child, index) => {
-        const id = child.id.replace("counterContainer_", ""); // extrait l'ID
+        const id = child.id.replace("itemSessionContainer_", ""); // extrait l'ID
         if (userSessionItemsList[id]) {
             userSessionItemsList[id].displayOrder = index;
         }

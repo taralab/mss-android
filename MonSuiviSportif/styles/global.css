@@ -2038,7 +2038,7 @@ div.endListArea{
     background-color: rgb(211, 255, 205);
 } */
 
-.compteur-container {
+.item-session-container {
     /* Le background est set selon la configuration utilisateur */
     position: relative;
     padding: 20px;
