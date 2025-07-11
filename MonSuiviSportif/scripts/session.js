@@ -1,14 +1,30 @@
 
 let userSessionItemsList = {
         counter_utkyzqjy0: {
-            name: "NOUVEAU COMPTEUR",
             type: "counter/chrono/minuteur",
+            name: "NOUVEAU COMPTEUR",
+            displayOrder: 0,
             currentSerie: 0,
             serieTarget: 0,
             repIncrement: 0,
             totalCount: 0,
-            displayOrder: 0,
             color: "white"
+        },
+        chrono_abddef:{
+            type : "CHRONO",
+            name:"CHRONO NAME",
+            displayOrder:1,
+            color: "white",
+            currentTime:"00:00:00"//???????
+        },
+        minuteur_abcdef:{
+            type:"MINUTEUR",
+            name: "MINUTEUR NAME",
+            displayOrder : 2,
+            color : "white",
+            initialHour: "00",
+            initialMinutes:"00",
+            initialSeconds:"00"
         }
     },
     maxSessionItems = 20,
@@ -619,14 +635,33 @@ function eventCreateSessionItem() {
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
 
-    // Formatage
-    let counterData = onFormatNewCounter();
 
-    // Obtenir le prochain ID
-    let nextId = getRandomShortID("counter_",userSessionItemsList);
+    //Traitement selon le type d'item
+    let itemType = document.getElementById("selectItemSessionType").value;
 
-    // Ajout du nouveau compteur à l'array
-    userSessionItemsList[nextId] = counterData;
+    switch (itemType) {
+        case "COUNTER":
+            // Formatage
+            let counterData = onFormatNewCounter();
+
+            // Obtenir le prochain ID
+            let nextId = getRandomShortID("counter_",userSessionItemsList);
+
+            // Ajout du nouveau compteur à l'array
+            userSessionItemsList[nextId] = counterData;
+            break;
+        case "CHRONO":
+            alert("chrono");
+            break;
+        case "MINUTEUR":
+            alert("minuteur");
+            break;
+    
+        default:
+            break;
+    }
+
+    
 
     // Enregistrement
     eventInsertNewSessionItem();
@@ -652,6 +687,17 @@ async function eventInsertNewSessionItem() {
     onShowNotifyPopup("counterCreated");
 
 }
+
+
+
+
+
+
+// ------------------------------------- SPECIFIQUE COUNTER -------------------------------------
+
+
+
+
 
 
 
@@ -684,6 +730,7 @@ function onFormatNewCounter() {
 
 
     let formatedCounter = {
+        type : "COUNTER",
         name: newCounterName, 
         currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : newDisplayOrder,
@@ -712,8 +759,12 @@ function onClickModifyCounter(idRef) {
 
     // rend le bouton supprimer visible et block le choix du type d'item
     document.getElementById("btnDeleteSessionItem").style.visibility = "visible";
-    document.getElementById("selectItemSessionType").disabled = true;
 
+    // Gestion du selecteur (grisé et positionné sur le bon type d'item)
+    let selecteurTypeRef = document.getElementById("selectItemSessionType");
+    selecteurTypeRef.disabled = true;
+    selecteurTypeRef.value = userSessionItemsList[idRef].type || "COUNTER";
+    onChangeSessionItemType(userSessionItemsList[idRef].type || "COUNTER");
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -721,6 +772,34 @@ function onClickModifyCounter(idRef) {
 
 }
 
+
+
+
+
+
+function onFormatModifyCounter() {
+
+    // Récupère le nom du compteur ou set un nom par défaut
+    let newCounterName = document.getElementById("inputEditSessionItemName").value || "Nouveau Compteur";
+    
+    // Formatage du nom en majuscule
+    newCounterName = onSetToUppercase(newCounterName);
+
+    // Récupère l'objectif ou set 0
+    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
+        newRepIncrement = parseInt(document.getElementById("inputEditRepIncrement").value) || 0;
+
+    let formatedCounter = {
+        type : "COUNTER",
+        name: newCounterName, 
+        currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
+        displayOrder : 0,
+        color : sessionItemColorSelected
+    };
+
+    return formatedCounter;
+
+}
 
 
 
@@ -734,12 +813,13 @@ async function eventSaveModifySessionItem() {
     let counterData = onFormatModifyCounter();
 
     // Enregistrement dans l'array
+    userSessionItemsList[currentSessionItemEditorID].type = counterData.type;
     userSessionItemsList[currentSessionItemEditorID].name = counterData.name;
     userSessionItemsList[currentSessionItemEditorID].serieTarget = counterData.serieTarget;
     userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
     userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
 
-    // Actualisation de l'affichage
+    // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item
     document.getElementById(`counterName_${currentSessionItemEditorID}`).innerHTML = counterData.name;
     document.getElementById(`counterContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].body;
     document.getElementById(`spanSerieTarget_${currentSessionItemEditorID}`).innerHTML = `/${counterData.serieTarget}`;
@@ -762,29 +842,6 @@ async function eventSaveModifySessionItem() {
 
 
 
-function onFormatModifyCounter() {
-
-    // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("inputEditSessionItemName").value || "Nouveau Compteur";
-    
-    // Formatage du nom en majuscule
-    newCounterName = onSetToUppercase(newCounterName);
-
-    // Récupère l'objectif ou set 0
-    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
-        newRepIncrement = parseInt(document.getElementById("inputEditRepIncrement").value) || 0;
-
-    let formatedCounter = {
-        name: newCounterName, 
-        currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
-        displayOrder : 0,
-        color : sessionItemColorSelected
-    };
-
-    return formatedCounter;
-
-}
-
 
 
 
@@ -803,9 +860,9 @@ function onDisplaySessionItems() {
     let divSessionEndListRef = document.getElementById("divSessionEndList");
     divSessionEndListRef.innerHTML = "";
 
-    // Affichage en cas d'aucune modèle
+    // Affichage en cas d'aucun item
     if (Object.keys(userSessionItemsList).length < 1) {
-        divSessionCompteurAreaRef.innerHTML = "Aucun compteur à afficher !";
+        divSessionCompteurAreaRef.innerHTML = "Aucun élément à afficher !";
 
         new Button_add("Ajouter un élément",() => onClickAddSessionItem(),false,divSessionEndListRef);
         return
@@ -819,13 +876,31 @@ function onDisplaySessionItems() {
 
     sessionItemsSortedKey.forEach((key,index)=>{
 
+        //trie selon le "type" d'élément
+        let itemType = userSessionItemsList[key].type || "COUNTER";
+        console.log("itemType = ", itemType);
+        switch (itemType) {
+            case "COUNTER":
+                new Counter(
+                    key,userSessionItemsList[key].name,
+                    userSessionItemsList[key].currentSerie,userSessionItemsList[key].serieTarget,userSessionItemsList[key].repIncrement,
+                    userSessionItemsList[key].displayOrder,divSessionCompteurAreaRef,userSessionItemsList[key].color,
+                    userSessionItemsList[key].totalCount
+                );
+                break;
+            case "CHRONO":
+                
+                break;
+            case "MINUTEUR":
+                
+                break;
+        
+            default:
+                break;
+        }
+
         // Generation
-        new Counter(
-            key,userSessionItemsList[key].name,
-            userSessionItemsList[key].currentSerie,userSessionItemsList[key].serieTarget,userSessionItemsList[key].repIncrement,
-            userSessionItemsList[key].displayOrder,divSessionCompteurAreaRef,userSessionItemsList[key].color,
-            userSessionItemsList[key].totalCount
-        );
+
 
 
         // control des objectifs atteinds pour chaque compteur généré

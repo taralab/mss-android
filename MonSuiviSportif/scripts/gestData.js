@@ -1,5 +1,5 @@
 
-let currentExportVersion = 1 ;//version actuel des fichers d'import/export
+let currentExportVersion = 2 ;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -309,7 +309,7 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
         const fullExport = {
             formatVersion: currentExportVersion,
             documents: exportedDocs,
-            userCounterList: userCounterList
+            userSessionItemsList: userSessionItemsList
         };
 
         const jsonData = JSON.stringify(fullExport, null, 2);
@@ -473,19 +473,35 @@ async function eventImportBdD(inputRef) {
                 // Détection du formatVersion (_v0 si inexistant = ancien format)
                 const version = jsonData.formatVersion || 0;
                 let importedDocs = [];
-                let importedUserCounterList = {};
+                let importedUserSessionItemsList = {};
 
                 switch (version) {
                     case 0:
+                        console.log("[IMPORT] V0");
                         // Ancien format (tableau direct ou objet sans version)
                         importedDocs = Array.isArray(jsonData) ? jsonData : jsonData.documents || [];
-                        importedUserCounterList = {}; // Pas dispo dans ce format
+                        importedUserSessionItemsList = {}; // Pas dispo dans ce format
                         break;
 
                     case 1:
+                        console.log("[IMPORT] V1");
+                        // Nouveau format structuré avec documents + userCounterList (ancien nom ne pas changer pour V1)
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userCounterList || {};//ne pas changer ancien nom pour V1
+                        //Ajout un "type" à chaque item List pour compatibilité V2
+                        if(Object.keys(importedUserSessionItemsList).length >=1){
+                            console.log("traitement compatilibté item list V2");
+                            Object.keys(importedUserSessionItemsList).forEach(key=>{
+                                importedUserSessionItemsList[key].type = "COUNTER";
+                            });
+                        }
+                        
+                        break;
+                    case 2:
+                        console.log("[IMPORT] V2");
                         // Nouveau format structuré avec documents + userCounterList
                         importedDocs = jsonData.documents || [];
-                        importedUserCounterList = jsonData.userCounterList || {};
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         break;
 
                     default:
@@ -504,10 +520,11 @@ async function eventImportBdD(inputRef) {
                 await onCreateDBStore();
 
                 // 4 Restaurer userCounterList si disponible
-                if (version >= 1 && importedUserCounterList) {
-                    userCounterList = importedUserCounterList;
-                    console.log('[IMPORT] userCounterList restauré :', userCounterList);
-                    onUpdateCounterSessionInStorage();
+                if (version >= 1 && importedUserSessionItemsList) {
+                    userSessionItemsList = importedUserSessionItemsList;
+                    console.log('[IMPORT] userSessionItemsList restauré :', userSessionItemsList);
+                    onUpdateSessionItemsInStorage();
+                    alert("import userCounterList");
                 }
 
 
@@ -749,7 +766,7 @@ async function onDeleteBDD() {
     onDeleteLocalStorage();
 
     //Les sauvegardes
-    await onDeleteAllBackupFiles();
+    // await onDeleteAllBackupFiles();
 
     // La base de donnée
     await deleteBase();
