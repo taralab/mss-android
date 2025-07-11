@@ -196,8 +196,9 @@ class Chrono {
                 </button>  
             </div>
 
-            <div class="compteur-content-line-2">
-                <span class="item-content-chrono">00:00:00</span>
+            <div class="content-line2-minuteur">
+                <span class="item-content-chrono">00:00</span>
+                <span class="item-content-chrono-cent">.00</span>
             </div>
 
             <div class="compteur-content-line-3">
@@ -264,7 +265,7 @@ class Minuteur {
             </div>
 
             <div class="compteur-content-line-2">
-                <span class="item-content-chrono">00:00:00</span>
+                <span class="item-content-chrono">30:00</span>
             </div>
 
             <div class="compteur-content-line-3">
@@ -272,9 +273,10 @@ class Minuteur {
                     <button class="btn-counter-reset" id="btnMinuteurReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 </p>
 
-                <button style="background-color: ${this.buttonColor};" class="counter item-content-chrono" id="btnActionMinuteur_${this.id}">
-                    Start
-                </button>  
+                <button id="" class="minuteur-button">
+                    <span class="progress-bar-minuteur" id="r"></span>
+                    <span id="">Lancer compte à rebours</span>
+                </button>
             </div>
              `;
         // Insertion

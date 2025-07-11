@@ -2231,11 +2231,23 @@ button.btn-counter-reset{
 
 
 /* Pour item session chrono container */
+
+div.content-line2-minuteur{
+    text-align: center;
+}
 span.item-content-chrono{
     color: #666;
     font-size: 40px;
+    font-weight: bold;
     margin: auto;
 }
+
+span.item-content-chrono-cent{
+    color: #666;
+    font-size: 24px;
+    margin: auto;
+}
+
 
 button.item-content-chrono{
     color: white;
@@ -2243,6 +2255,37 @@ button.item-content-chrono{
     font-size: 18px;
 }
 
+/* Minuteur bouton */
+.minuteur-button {
+  position: relative;
+  overflow: hidden;
+  background-color: #007BFF;/*devra être géré par JS*/
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 5px 10px;
+  height: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  min-width: 280px;
+  text-align: center;
+}
+
+.progress-bar-minuteur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+
+.timer-button span#buttonLabel {
+  position: relative;
+  z-index: 2;
+}
 
 
 
