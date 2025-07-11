@@ -246,6 +246,8 @@ class Minuteur {
         this.buttonColor = sessionItemColors[this.colorName].button;
 
         this.render();
+        // Ajout des écouteurs d'évènement
+        this.addEvent();
     }
 
 
@@ -261,12 +263,34 @@ class Minuteur {
                 </button>  
             </div>
 
+            <div class="compteur-content-line-2">
+                <span class="item-content-chrono">00:00:00</span>
+            </div>
+
+            <div class="compteur-content-line-3">
+                <p class="compteur-navigation">
+                    <button class="btn-counter-reset" id="btnMinuteurReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
+                </p>
+
+                <button style="background-color: ${this.buttonColor};" class="counter item-content-chrono" id="btnActionMinuteur_${this.id}">
+                    Start
+                </button>  
+            </div>
              `;
         // Insertion
         this.parentRef.appendChild(this.element);
 
         // Ajout des écouteurs d'évènement
         
+    }
+
+       // Ajout des écouteurs d'évènement
+    addEvent(){
+        // Modifier compteur
+        let btnModifyCounterRef = this.element.querySelector(`#btnModifyMinuteur_${this.id}`);
+        btnModifyCounterRef.addEventListener("click", ()=>{
+            onClickModifyMinuteur(this.id);
+        });
     }
 }
 
@@ -773,7 +797,7 @@ function eventCreateSessionItem() {
             break;
 
         case "MINUTEUR":
-            let minuteurData = onFormatNewMinuteur();
+            let minuteurData = onFormatMinuteur();
 
             // Obtenir le prochain ID
             let minuteurNextId = getRandomShortID("minuteur_",userSessionItemsList);
@@ -836,14 +860,6 @@ function onFormatCounter() {
     // Formatage du nom en majuscule
     newCounterName = onSetToUppercase(newCounterName);
 
-
-    // formatage du nom. Recherche de doublon
-    let isCounterDoublonName = Object.values(userSessionItemsList).some(item => item.name === newCounterName);
-
-    if (isCounterDoublonName) {
-        if (devMode === true){console.log(" [COUNTER] Doublon de nom détecté");}
-        newCounterName += "_1";
-    }
 
     // Récupère l'objectif ou set 0
     let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0,
@@ -908,13 +924,7 @@ function onFormatChrono() {
     // Formatage du nom en majuscule
     newChronoName = onSetToUppercase(newChronoName);
 
-    // formatage du nom. Recherche de doublon
-    let isChronoDoublonName = Object.values(userSessionItemsList).some(item => item.name === newChronoName);
 
-    if (isChronoDoublonName) {
-        if (devMode === true){console.log(" [CHRONO] Doublon de nom détecté");}
-        newChronoName += "_1";
-    }
 
     // définition du displayOrder
     let newDisplayOrder = Object.keys(userSessionItemsList).length || 0;
@@ -933,7 +943,7 @@ function onFormatChrono() {
 
 
 
-// Modification de compteur
+// Modification de chrono
 function onClickModifyChrono(idRef) {
     sessionItemEditorMode = "modification";
     currentSessionItemEditorID = idRef;
@@ -967,20 +977,13 @@ function onClickModifyChrono(idRef) {
 
 
 
-function onFormatNewMinuteur() {
+function onFormatMinuteur() {
     // Récupère le nom du compteur ou set un nom par défaut
     let newMinuteurName = document.getElementById("inputEditSessionItemName").value || "Nouveau Minuteur";
 
     // Formatage du nom en majuscule
     newMinuteurName = onSetToUppercase(newMinuteurName);
 
-    // formatage du nom. Recherche de doublon
-    let isMinuteurDoublonName = Object.values(userSessionItemsList).some(item => item.name === newMinuteurName);
-
-    if (isMinuteurDoublonName) {
-        if (devMode === true){console.log(" [MINUTEUR] Doublon de nom détecté");}
-        newMinuteurName += "_1";
-    }
 
     // définition du displayOrder
     let newDisplayOrder = Object.keys(userSessionItemsList).length || 0;
@@ -999,6 +1002,27 @@ function onFormatNewMinuteur() {
 }
 
 
+
+
+// Modification de minuteur
+function onClickModifyMinuteur(idRef) {
+    sessionItemEditorMode = "modification";
+    currentSessionItemEditorID = idRef;
+
+    // set les éléments
+    document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
+    sessionItemColorSelected = userSessionItemsList[idRef].color;
+
+
+    //gestion affichage commun
+    communModifItemSessionDisplay(userSessionItemsList[idRef].type);
+
+    // Affiche 
+    document.getElementById("divEditCounter").style.display = "flex";
+
+
+}
 
 
 // Les actions communuques aux modifications des items
@@ -1061,7 +1085,17 @@ async function eventSaveModifySessionItem() {
             break;
 
         case "MINUTEUR":
+            // Formatage selon le type d'item
+            let minuteurData = onFormatMinuteur();
+            userSessionItemsList[currentSessionItemEditorID].type = minuteurData.type;
+            userSessionItemsList[currentSessionItemEditorID].name = minuteurData.name;
+            userSessionItemsList[currentSessionItemEditorID].color = minuteurData.color;
 
+            // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
+            document.getElementById(`minuteurName_${currentSessionItemEditorID}`).innerHTML = minuteurData.name;
+            document.getElementById(`itemSessionContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].body;
+            document.getElementById(`btnActionMinuteur_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].button;
+            
             break;
     
         default:
