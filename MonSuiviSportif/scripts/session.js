@@ -194,6 +194,19 @@ class Chrono {
                 </button>  
             </div>
 
+            <div class="compteur-content-line-2">
+                <span class="item-content-chrono">00:00:00</span>
+            </div>
+
+            <div class="compteur-content-line-3">
+                <p class="compteur-navigation">
+                    <button class="btn-counter-reset" id="btnChronoReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
+                </p>
+
+                <button style="background-color: ${this.buttonColor};" class="counter item-content-chrono" id="">
+                    Start
+                </button>  
+            </div>
              `;
         // Insertion
         this.parentRef.appendChild(this.element);

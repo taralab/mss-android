@@ -766,7 +766,7 @@ async function onDeleteBDD() {
     onDeleteLocalStorage();
 
     //Les sauvegardes
-    // await onDeleteAllBackupFiles();
+    await onDeleteAllBackupFiles();
 
     // La base de donnée
     await deleteBase();

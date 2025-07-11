@@ -2149,6 +2149,7 @@ span.serie-text{
 }
 
 
+
 .counter-total{
     color: #666;
     height: 40px;
@@ -2227,6 +2228,23 @@ button.btn-counter-reset{
 .wrapper.serial::after{
     content: "serie";
 }
+
+
+/* Pour item session chrono container */
+span.item-content-chrono{
+    color: #666;
+    font-size: 40px;
+    margin: auto;
+}
+
+button.item-content-chrono{
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+
 
 
 input.compteur {
