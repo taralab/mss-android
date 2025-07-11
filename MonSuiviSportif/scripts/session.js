@@ -179,6 +179,8 @@ class Chrono {
         this.buttonColor = sessionItemColors[this.colorName].button;
 
         this.render();
+        // Ajout des écouteurs d'évènement
+        this.addEvent();
     }
 
 
@@ -203,7 +205,7 @@ class Chrono {
                     <button class="btn-counter-reset" id="btnChronoReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 </p>
 
-                <button style="background-color: ${this.buttonColor};" class="counter item-content-chrono" id="">
+                <button style="background-color: ${this.buttonColor};" class="counter item-content-chrono" id="btnActionChrono_${this.id}">
                     Start
                 </button>  
             </div>
@@ -211,8 +213,18 @@ class Chrono {
         // Insertion
         this.parentRef.appendChild(this.element);
 
-        // Ajout des écouteurs d'évènement
         
+        
+    }
+
+
+    // Ajout des écouteurs d'évènement
+    addEvent(){
+        // Modifier compteur
+        let btnModifyCounterRef = this.element.querySelector(`#btnModifyChrono_${this.id}`);
+        btnModifyCounterRef.addEventListener("click", ()=>{
+            onClickModifyChrono(this.id);
+        });
     }
 }
 
@@ -739,7 +751,7 @@ function eventCreateSessionItem() {
 
         case "COUNTER":
             // Formatage
-            let counterData = onFormatNewCounter();
+            let counterData = onFormatCounter();
 
             // Obtenir le prochain ID
             let counterNextId = getRandomShortID("counter_",userSessionItemsList);
@@ -751,7 +763,7 @@ function eventCreateSessionItem() {
 
         case "CHRONO":
             //formatage
-            let chronoData = onFormatNewChrono();
+            let chronoData = onFormatChrono();
 
             // Obtenir le prochain ID
             let chronoNextId = getRandomShortID("chrono_",userSessionItemsList);
@@ -815,7 +827,7 @@ async function eventInsertNewSessionItem() {
 
 
 
-function onFormatNewCounter() {
+function onFormatCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
     let newCounterName = document.getElementById("inputEditSessionItemName").value || "Nouveau Compteur";
@@ -871,14 +883,8 @@ function onClickModifyCounter(idRef) {
     sessionItemColorSelected = userSessionItemsList[idRef].color;
 
 
-    // rend le bouton supprimer visible et block le choix du type d'item
-    document.getElementById("btnDeleteSessionItem").style.visibility = "visible";
-
-    // Gestion du selecteur (grisé et positionné sur le bon type d'item)
-    let selecteurTypeRef = document.getElementById("selectItemSessionType");
-    selecteurTypeRef.disabled = true;
-    selecteurTypeRef.value = userSessionItemsList[idRef].type || "COUNTER";
-    onChangeSessionItemType(userSessionItemsList[idRef].type || "COUNTER");
+    //gestion affichage commun
+    communModifItemSessionDisplay(userSessionItemsList[idRef].type || "COUNTER");//counter si l'ancien version n'avait pas de "type"
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -891,38 +897,11 @@ function onClickModifyCounter(idRef) {
 
 
 
-function onFormatModifyCounter() {
-
-    // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("inputEditSessionItemName").value || "Nouveau Compteur";
-    
-    // Formatage du nom en majuscule
-    newCounterName = onSetToUppercase(newCounterName);
-
-    // Récupère l'objectif ou set 0
-    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
-        newRepIncrement = parseInt(document.getElementById("inputEditRepIncrement").value) || 0;
-
-    let formatedCounter = {
-        type : "COUNTER",
-        name: newCounterName, 
-        currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
-        displayOrder : 0,
-        color : sessionItemColorSelected
-    };
-
-    return formatedCounter;
-
-}
-
-
-
-
 // ----------------------------- SPECIFIQUE CHRONO ---------------------------------------
 
 
 
-function onFormatNewChrono() {
+function onFormatChrono() {
     // Récupère le nom du compteur ou set un nom par défaut
     let newChronoName = document.getElementById("inputEditSessionItemName").value || "Nouveau Chrono";
 
@@ -952,6 +931,27 @@ function onFormatNewChrono() {
 }
 
 
+
+
+// Modification de compteur
+function onClickModifyChrono(idRef) {
+    sessionItemEditorMode = "modification";
+    currentSessionItemEditorID = idRef;
+
+    // set les éléments
+    document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
+    sessionItemColorSelected = userSessionItemsList[idRef].color;
+
+
+    //gestion affichage commun
+    communModifItemSessionDisplay(userSessionItemsList[idRef].type);
+
+    // Affiche 
+    document.getElementById("divEditCounter").style.display = "flex";
+
+
+}
 
 
 
@@ -1001,6 +1001,17 @@ function onFormatNewMinuteur() {
 
 
 
+// Les actions communuques aux modifications des items
+function communModifItemSessionDisplay(itemType) {
+    // rend le bouton supprimer visible et block le choix du type d'item
+    document.getElementById("btnDeleteSessionItem").style.visibility = "visible";
+
+    // Gestion du selecteur (grisé et positionné sur le bon type d'item)
+    let selecteurTypeRef = document.getElementById("selectItemSessionType");
+    selecteurTypeRef.disabled = true;
+    selecteurTypeRef.value = itemType;
+    onChangeSessionItemType(itemType);
+}
 
 
 
@@ -1015,7 +1026,7 @@ async function eventSaveModifySessionItem() {
     switch (itemType) {
         case "COUNTER":
             // Formatage selon le type d'item
-            let counterData = onFormatModifyCounter();
+            let counterData = onFormatCounter();
 
             // Enregistrement dans l'array
             userSessionItemsList[currentSessionItemEditorID].type = counterData.type;
@@ -1034,9 +1045,21 @@ async function eventSaveModifySessionItem() {
             // Met également à jour l'image DONE si nécessaire
             onCheckCounterTargetReach(currentSessionItemEditorID);
             break;
+
         case "CHRONO":
+            // Formatage selon le type d'item
+            let chronoData = onFormatChrono();
+            userSessionItemsList[currentSessionItemEditorID].type = chronoData.type;
+            userSessionItemsList[currentSessionItemEditorID].name = chronoData.name;
+            userSessionItemsList[currentSessionItemEditorID].color = chronoData.color;
+
+            // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
+            document.getElementById(`chronoName_${currentSessionItemEditorID}`).innerHTML = chronoData.name;
+            document.getElementById(`itemSessionContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[chronoData.color].body;
+            document.getElementById(`btnActionChrono_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[chronoData.color].button;
             
             break;
+
         case "MINUTEUR":
 
             break;
