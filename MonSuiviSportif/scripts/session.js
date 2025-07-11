@@ -162,6 +162,77 @@ class Counter {
     }
 }
 
+class Chrono {
+    constructor(id, name, displayOrder,parentRef,colorName){
+        this.id = id;
+        this.name = name;
+        this.displayOrder = displayOrder;
+        this.parentRef = parentRef;
+        this.colorName = colorName;
+
+        // div container
+        this.element = document.createElement("div");
+        this.element.classList.add("compteur-container");
+        this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
+        this.element.id = `chronoContainer_${id}`;
+
+        this.buttonColor = sessionItemColors[this.colorName].button;
+
+        this.render();
+    }
+
+
+
+    // génération de l'élément
+    render(){
+        this.element.innerHTML = `
+            ${this.name}
+
+             `;
+        // Insertion
+        this.parentRef.appendChild(this.element);
+
+        // Ajout des écouteurs d'évènement
+        
+    }
+}
+
+
+class Minuteur {
+    constructor(id, name, displayOrder,parentRef,colorName){
+        this.id = id;
+        this.name = name;
+        this.displayOrder = displayOrder;
+        this.parentRef = parentRef;
+        this.colorName = colorName;
+
+        // div container
+        this.element = document.createElement("div");
+        this.element.classList.add("compteur-container");
+        this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
+        this.element.id = `minuteurContainer_${id}`;
+
+        this.buttonColor = sessionItemColors[this.colorName].button;
+
+        this.render();
+    }
+
+
+
+    // génération de l'élément
+    render(){
+        this.element.innerHTML = `
+            ${this.name}
+
+             `;
+        // Insertion
+        this.parentRef.appendChild(this.element);
+
+        // Ajout des écouteurs d'évènement
+        
+    }
+}
+
 
 
 // --------------------------------------- LOCAL STORAGE -----------------------------------------
@@ -640,21 +711,39 @@ function eventCreateSessionItem() {
     let itemType = document.getElementById("selectItemSessionType").value;
 
     switch (itemType) {
+
         case "COUNTER":
             // Formatage
             let counterData = onFormatNewCounter();
 
             // Obtenir le prochain ID
-            let nextId = getRandomShortID("counter_",userSessionItemsList);
+            let counterNextId = getRandomShortID("counter_",userSessionItemsList);
 
             // Ajout du nouveau compteur à l'array
-            userSessionItemsList[nextId] = counterData;
+            userSessionItemsList[counterNextId] = counterData;
             break;
+
+
         case "CHRONO":
-            alert("chrono");
+            //formatage
+            let chronoData = onFormatNewChrono();
+
+            // Obtenir le prochain ID
+            let chronoNextId = getRandomShortID("chrono_",userSessionItemsList);
+
+            // Ajout du nouveau compteur à l'array
+            userSessionItemsList[chronoNextId] = chronoData;
             break;
+
         case "MINUTEUR":
-            alert("minuteur");
+            let minuteurData = onFormatNewMinuteur();
+
+            // Obtenir le prochain ID
+            let minuteurNextId = getRandomShortID("minuteur_",userSessionItemsList);
+
+            // Ajout du nouveau compteur à l'array
+            userSessionItemsList[minuteurNextId] = minuteurData;
+
             break;
     
         default:
@@ -663,7 +752,7 @@ function eventCreateSessionItem() {
 
     
 
-    // Enregistrement
+    // Enregistrement global
     eventInsertNewSessionItem();
 
 }
@@ -712,7 +801,7 @@ function onFormatNewCounter() {
 
 
     // formatage du nom. Recherche de doublon
-    let isCounterDoublonName = Object.values(userSessionItemsList).some(counter => counter.name === newCounterName);
+    let isCounterDoublonName = Object.values(userSessionItemsList).some(item => item.name === newCounterName);
 
     if (isCounterDoublonName) {
         if (devMode === true){console.log(" [COUNTER] Doublon de nom détecté");}
@@ -804,36 +893,139 @@ function onFormatModifyCounter() {
 
 
 
+// ----------------------------- SPECIFIQUE CHRONO ---------------------------------------
+
+
+
+function onFormatNewChrono() {
+    // Récupère le nom du compteur ou set un nom par défaut
+    let newChronoName = document.getElementById("inputEditSessionItemName").value || "Nouveau Chrono";
+
+    // Formatage du nom en majuscule
+    newChronoName = onSetToUppercase(newChronoName);
+
+    // formatage du nom. Recherche de doublon
+    let isChronoDoublonName = Object.values(userSessionItemsList).some(item => item.name === newChronoName);
+
+    if (isChronoDoublonName) {
+        if (devMode === true){console.log(" [CHRONO] Doublon de nom détecté");}
+        newChronoName += "_1";
+    }
+
+    // définition du displayOrder
+    let newDisplayOrder = Object.keys(userSessionItemsList).length || 0;
+
+    let formatedChrono = {
+        type : "CHRONO",
+        name: newChronoName,
+        displayOrder: newDisplayOrder,
+        color: sessionItemColorSelected,
+        currentTime:"00:00:00"//???????
+    }
+
+    return formatedChrono;
+}
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------- SPECIFIQUE MINUTEUR -----------------------
+
+
+
+
+
+
+function onFormatNewMinuteur() {
+    // Récupère le nom du compteur ou set un nom par défaut
+    let newMinuteurName = document.getElementById("inputEditSessionItemName").value || "Nouveau Minuteur";
+
+    // Formatage du nom en majuscule
+    newMinuteurName = onSetToUppercase(newMinuteurName);
+
+    // formatage du nom. Recherche de doublon
+    let isMinuteurDoublonName = Object.values(userSessionItemsList).some(item => item.name === newMinuteurName);
+
+    if (isMinuteurDoublonName) {
+        if (devMode === true){console.log(" [MINUTEUR] Doublon de nom détecté");}
+        newMinuteurName += "_1";
+    }
+
+    // définition du displayOrder
+    let newDisplayOrder = Object.keys(userSessionItemsList).length || 0;
+
+    let formatedMinuteur = {
+        type:"MINUTEUR",
+        name: newMinuteurName,
+        displayOrder : newDisplayOrder,
+        color : sessionItemColorSelected,
+        initialHour: "00",
+        initialMinutes:"00",
+        initialSeconds:"00"
+    }
+
+    return formatedMinuteur;
+}
+
+
+
+
+
+
+
 async function eventSaveModifySessionItem() {
 
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
 
-    // Formatage
-    let counterData = onFormatModifyCounter();
+        //Traitement selon le type d'item
+    let itemType = document.getElementById("selectItemSessionType").value;
 
-    // Enregistrement dans l'array
-    userSessionItemsList[currentSessionItemEditorID].type = counterData.type;
-    userSessionItemsList[currentSessionItemEditorID].name = counterData.name;
-    userSessionItemsList[currentSessionItemEditorID].serieTarget = counterData.serieTarget;
-    userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
-    userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
+    switch (itemType) {
+        case "COUNTER":
+            // Formatage selon le type d'item
+            let counterData = onFormatModifyCounter();
 
-    // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item
-    document.getElementById(`counterName_${currentSessionItemEditorID}`).innerHTML = counterData.name;
-    document.getElementById(`counterContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].body;
-    document.getElementById(`spanSerieTarget_${currentSessionItemEditorID}`).innerHTML = `/${counterData.serieTarget}`;
-    document.getElementById(`inputRepIncrement_${currentSessionItemEditorID}`).value = counterData.repIncrement;
-    document.getElementById(`btnRepIncrement_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].button;
+            // Enregistrement dans l'array
+            userSessionItemsList[currentSessionItemEditorID].type = counterData.type;
+            userSessionItemsList[currentSessionItemEditorID].name = counterData.name;
+            userSessionItemsList[currentSessionItemEditorID].serieTarget = counterData.serieTarget;
+            userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
+            userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
+
+            // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
+            document.getElementById(`counterName_${currentSessionItemEditorID}`).innerHTML = counterData.name;
+            document.getElementById(`counterContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].body;
+            document.getElementById(`spanSerieTarget_${currentSessionItemEditorID}`).innerHTML = `/${counterData.serieTarget}`;
+            document.getElementById(`inputRepIncrement_${currentSessionItemEditorID}`).value = counterData.repIncrement;
+            document.getElementById(`btnRepIncrement_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[counterData.color].button;
+            
+            // Met également à jour l'image DONE si nécessaire
+            onCheckCounterTargetReach(currentSessionItemEditorID);
+            break;
+        case "CHRONO":
+            
+            break;
+        case "MINUTEUR":
+
+            break;
     
-    
+        default:
+            break;
+    }
+
 
     if (devMode === true){
         console.log("userSessionItemsList", userSessionItemsList);
         console.log("demande de vérification DONE");
     }
-    // Met également à jour l'image DONE si nécessaire
-    onCheckTargetReach(currentSessionItemEditorID);
+
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -887,12 +1079,26 @@ function onDisplaySessionItems() {
                     userSessionItemsList[key].displayOrder,divSessionCompteurAreaRef,userSessionItemsList[key].color,
                     userSessionItemsList[key].totalCount
                 );
+                // control des objectifs atteinds pour chaque compteur généré
+                onCheckCounterTargetReach(key); 
                 break;
             case "CHRONO":
-                
+                new Chrono(
+                    key,
+                    userSessionItemsList[key].name,
+                    userSessionItemsList[key].displayOrder,
+                    divSessionCompteurAreaRef,
+                    userSessionItemsList[key].color
+                );
                 break;
             case "MINUTEUR":
-                
+                new Minuteur(
+                    key,
+                    userSessionItemsList[key].name,
+                    userSessionItemsList[key].displayOrder,
+                    divSessionCompteurAreaRef,
+                    userSessionItemsList[key].color
+                );
                 break;
         
             default:
@@ -903,8 +1109,7 @@ function onDisplaySessionItems() {
 
 
 
-        // control des objectifs atteinds pour chaque compteur généré
-        onCheckTargetReach(key); 
+
 
         // Creation de la ligne de fin pour le dernier index
         if (index === (Object.keys(userSessionItemsList).length - 1)) {
@@ -989,7 +1194,7 @@ async function onClickIncrementeCounter(idRef) {
     if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
     // Si objectif atteind
-    let isTargetReach = onCheckTargetReach(idRef);
+    let isTargetReach = onCheckCounterTargetReach(idRef);
 
     // ANIMATION
     onPlayIncrementAnimation(isTargetReach,spanCurrentSerieRef,divCounterCurrentSerieRef);
@@ -1014,7 +1219,7 @@ async function onClickIncrementeCounter(idRef) {
 
 
 // Si objectif non égale à zero atteind
-function onCheckTargetReach(idRef) {
+function onCheckCounterTargetReach(idRef) {
 
     let targetReach = false;
 
