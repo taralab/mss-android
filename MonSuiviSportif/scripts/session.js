@@ -22,9 +22,9 @@ let userSessionItemsList = {
             name: "MINUTEUR NAME",
             displayOrder : 2,
             color : "white",
-            initialHour: "00",
             initialMinutes:"00",
-            initialSeconds:"00"
+            initialSeconds:"00",
+            isDone :false
         }
     },
     maxSessionItems = 20,
@@ -51,7 +51,6 @@ let sessionItemColorSelected = "#fff";//utiliser lors de la création d'un compt
 
 //Les id des inputs number pour le minuteurs
 let inputNumberMinuteurIdArray = [
-        "inputMinuteurSessionHours",
         "inputMinuteurSessionMinutes",
         "inputMinuteurSessionSeconds"
     ];
@@ -232,12 +231,15 @@ class Chrono {
 
 
 class Minuteur {
-    constructor(id, name, displayOrder,parentRef,colorName){
+    constructor(id, name, displayOrder,parentRef,colorName,initialMinutes,initialSeconds,isDone){
         this.id = id;
         this.name = name;
         this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.colorName = colorName;
+        this.initialMinutes = initialMinutes;
+        this.initialSeconds = initialSeconds;
+        this.isDone = isDone;
 
         // div container
         this.element = document.createElement("div");
@@ -247,6 +249,8 @@ class Minuteur {
 
         this.buttonColor = sessionItemColors[this.colorName].minuteur;
         this.PBColor = sessionItemColors[this.colorName].button;
+        this.PBValue = this.isDone ? "0%" : "100%"; //set le progress bar en jouant sur le with de la class "progress-bar-minuteur"
+
 
         this.render();
         // Ajout des écouteurs d'évènement
@@ -267,7 +271,7 @@ class Minuteur {
             </div>
 
             <div class="compteur-content-line-2">
-                <span class="item-minuteur-time">00:45</span>
+                <span id="spanSessionMinuteurResult_${this.id}" class="item-minuteur-time">${this.initialMinutes}:${this.initialSeconds}</span>
             </div>
 
             <div class="compteur-content-line-3">
@@ -276,7 +280,7 @@ class Minuteur {
                 </p>
 
                 <button id="btnActionMinuteur_${this.id}" class="minuteur-button" style="background-color: ${this.buttonColor};">
-                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}" style="background-color: ${this.PBColor};"></span>
+                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}" style="background-color: ${this.PBColor}; width:${this.PBValue}"></span>
                     <span class="minuteur-button-text" id="spanMinuteurBtnText_${this.id}">Lancer compte à rebours</span>
                 </button>
             </div>
@@ -992,14 +996,18 @@ function onFormatMinuteur() {
     // définition du displayOrder
     let newDisplayOrder = Object.keys(userSessionItemsList).length || 0;
 
+    // récupère les minutes et secondes
+    let newSessionMinutes = document.getElementById("inputMinuteurSessionMinutes").value || "00",
+        newSessionSecondes = document.getElementById("inputMinuteurSessionSeconds").value || "00";
+
     let formatedMinuteur = {
         type:"MINUTEUR",
         name: newMinuteurName,
         displayOrder : newDisplayOrder,
         color : sessionItemColorSelected,
-        initialHour: "00",
-        initialMinutes:"00",
-        initialSeconds:"00"
+        initialMinutes: newSessionMinutes,
+        initialSeconds: newSessionSecondes,
+        isDone: false
     }
 
     return formatedMinuteur;
@@ -1017,6 +1025,8 @@ function onClickModifyMinuteur(idRef) {
     document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
     document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
     sessionItemColorSelected = userSessionItemsList[idRef].color;
+    document.getElementById("inputMinuteurSessionMinutes").value = userSessionItemsList[idRef].initialMinutes;
+    document.getElementById("inputMinuteurSessionSeconds").value = userSessionItemsList[idRef].initialSeconds;
 
 
     //gestion affichage commun
@@ -1096,11 +1106,15 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].type = minuteurData.type;
             userSessionItemsList[currentSessionItemEditorID].name = minuteurData.name;
             userSessionItemsList[currentSessionItemEditorID].color = minuteurData.color;
+            userSessionItemsList[currentSessionItemEditorID].initialMinutes = minuteurData.initialMinutes;
+            userSessionItemsList[currentSessionItemEditorID].initialSeconds = minuteurData.initialSeconds;
 
             // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
             document.getElementById(`minuteurName_${currentSessionItemEditorID}`).innerHTML = minuteurData.name;
             document.getElementById(`btnActionMinuteur_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].minuteur;
             document.getElementById(`spanPBSessionMinuteur_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].button;
+            document.getElementById(`spanSessionMinuteurResult_${currentSessionItemEditorID}`).innerHTML = `${minuteurData.initialMinutes}:${minuteurData.initialSeconds}`;
+
             break;
     
         default:
@@ -1184,7 +1198,10 @@ function onDisplaySessionItems() {
                     userSessionItemsList[key].name,
                     userSessionItemsList[key].displayOrder,
                     divSessionCompteurAreaRef,
-                    userSessionItemsList[key].color
+                    userSessionItemsList[key].color,
+                    userSessionItemsList[key].initialMinutes,
+                    userSessionItemsList[key].initialSeconds,
+                    userSessionItemsList[key].isDone
                 );
                 break;
         
