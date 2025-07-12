@@ -2312,7 +2312,6 @@ button.item-content-chrono{
 .minuteur-button {
   position: relative;
   overflow: hidden;
-  background-color: #007BFF;/*devra être géré par JS*/
   color: white;
   border: none;
   border-radius: 30px;
@@ -2323,6 +2322,7 @@ button.item-content-chrono{
   cursor: pointer;
   min-width: 280px;
   text-align: center;
+   /* background-color: rgba(255, 255, 255, 0.3);Géré par JS */
 }
 
 .progress-bar-minuteur {
@@ -2331,11 +2331,11 @@ button.item-content-chrono{
   left: 0;
   height: 100%;
   width: 80%;
-  background-color: rgba(255, 255, 255, 0.3);
+   /* background-color: #00A9F4; Géré par JS*/
   z-index: 1;
 }
 
-.timer-button span#buttonLabel {
+.minuteur-button span.minuteur-button-text {
   position: relative;
   z-index: 2;
 }

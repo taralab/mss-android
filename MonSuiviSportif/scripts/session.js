@@ -38,13 +38,13 @@ let userSessionItemsList = {
 
 let sessionItemColors = {
     white: {body:"#fff",button:"grey"},
-    green: {body:"#E7F8F2",button:"#4EA88A"},
-    yellow: {body:"#FFFBE5",button:"#C8A646"},
-    red: {body:"#FDEBEC",button:"#D36868"},
-    blue: {body:"#E6F0FA",button:"#2B7FBF"},
-    violet: {body:"#F3F0FA",button:"#8A7EBF"},
-    orange: {body:"#FFF1EC",button:"#E38B6D"},
-    rose: {body:"#FAEFF4",button:"#C57CA5"}
+    green: {body:"#E7F8F2",button:"#4EA88A",minuteur:"rgba(78, 168, 138, 0.3)"},
+    yellow: {body:"#FFFBE5",button:"#C8A646",minuteur:"rgba(200, 166, 70, 0.3)"},
+    red: {body:"#FDEBEC",button:"#D36868",minuteur:"rgba(211, 104, 104, 0.3)"},
+    blue: {body:"#E6F0FA",button:"#2B7FBF",minuteur:"rgba(43, 127, 191, 0.3)"},
+    violet: {body:"#F3F0FA",button:"#8A7EBF",minuteur:"rgba(138, 126, 191, 0.3)"},
+    orange: {body:"#FFF1EC",button:"#E38B6D",minuteur:"rgba(227, 139, 109, 0.3)"},
+    rose: {body:"#FAEFF4",button:"#C57CA5",minuteur:"rgba(197, 124, 165, 0.3)"}
 };
 
 let sessionItemColorSelected = "#fff";//utiliser lors de la création d'un compteur
@@ -200,7 +200,7 @@ class Chrono {
                 <div class="session-chrono-icon">⏱️</div>
                 <div class="session-chrono-label" id="chronoName_${this.id}">${this.name}</div>
                 <div class="session-chrono-time">
-                    <span id="sessionChronoMin">00</span>:<span id="sessionChronoSec">00</span>.<span class="session-chrono-centis" id="sessionChronoCentis">00</span>
+                    <span id="sessionChronoMin_${this.id}">00</span>:<span id="sessionChronoSec_${this.id}">00</span>.<span class="session-chrono-centis" id="sessionChronoCentis_${this.id}">00</span>
                 </div>
                 <button id="btnActionChrono_${this.id}" class="session-chrono-start" style="background-color: ${this.buttonColor};">Démarrer</button>
             </div>
@@ -245,7 +245,8 @@ class Minuteur {
         this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
-        this.buttonColor = sessionItemColors[this.colorName].button;
+        this.buttonColor = sessionItemColors[this.colorName].minuteur;
+        this.PBColor = sessionItemColors[this.colorName].button;
 
         this.render();
         // Ajout des écouteurs d'évènement
@@ -274,9 +275,9 @@ class Minuteur {
                     <button class="btn-counter-reset" id="btnMinuteurReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 </p>
 
-                <button id="" class="minuteur-button">
-                    <span class="progress-bar-minuteur" id="r"></span>
-                    <span id="">Lancer compte à rebours</span>
+                <button id="btnActionMinuteur_${this.id}" class="minuteur-button" style="background-color: ${this.buttonColor};">
+                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}" style="background-color: ${this.PBColor};"></span>
+                    <span class="minuteur-button-text" id="spanMinuteurBtnText_${this.id}">Lancer compte à rebours</span>
                 </button>
             </div>
              `;
@@ -1098,9 +1099,8 @@ async function eventSaveModifySessionItem() {
 
             // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
             document.getElementById(`minuteurName_${currentSessionItemEditorID}`).innerHTML = minuteurData.name;
-            document.getElementById(`itemSessionContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].body;
-            document.getElementById(`btnActionMinuteur_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].button;
-            
+            document.getElementById(`btnActionMinuteur_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].minuteur;
+            document.getElementById(`spanPBSessionMinuteur_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[minuteurData.color].button;
             break;
     
         default:
@@ -1205,7 +1205,7 @@ function onDisplaySessionItems() {
 
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxSessionItems} compteurs.`;
+            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxSessionItems} éléments.`;
             divSessionEndListRef.appendChild(newClotureList);
         }
     });
