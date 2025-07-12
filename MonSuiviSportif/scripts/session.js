@@ -172,11 +172,12 @@ class Chrono {
 
         // div container
         this.element = document.createElement("div");
-        this.element.classList.add("item-session-container");
-        this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
+        this.element.classList.add("chrono-container");
+        this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
         this.buttonColor = sessionItemColors[this.colorName].button;
+        this.bodyColor =  sessionItemColors[this.colorName].body;
 
         this.render();
         // Ajout des écouteurs d'évènement
@@ -188,28 +189,28 @@ class Chrono {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-             <div class="compteur-content-line-1">
-                <div class="drag-handle">⣿</div>
-                <p class="compteur-name" id="chronoName_${this.id}">${this.name}</p>
+            <div class="chrono-left-buttons">
+                    <div class="drag-handle">⣿</div>
+                    <button class="btn-counter-reset" id="btnChronoReset_${this.id}">
+                        <img src="./Icons/Icon-Reset.webp" alt="" srcset="">
+                    </button>
+            </div>
+
+            <div id="divChronoCenterArea_${this.id}" class="chrono-center-area" style="background-color:${this.bodyColor}; border-color:${this.buttonColor}">
+                <div class="session-chrono-icon">⏱️</div>
+                <div class="session-chrono-label" id="chronoName_${this.id}">${this.name}</div>
+                <div class="session-chrono-time">
+                    <span id="sessionChronoMin">00</span>:<span id="sessionChronoSec">00</span>.<span class="session-chrono-centis" id="sessionChronoCentis">00</span>
+                </div>
+                <button id="btnActionChrono_${this.id}" class="session-chrono-start" style="background-color: ${this.buttonColor};">Démarrer</button>
+            </div>
+
+            <div class="chrono-right-buttons">
                 <button class="btn-counter-setting" id="btnModifyChrono_${this.id}">
                     <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
-                </button>  
+                </button>
             </div>
 
-            <div class="content-line2-minuteur">
-                <span class="item-content-chrono">00:00</span>
-                <span class="item-content-chrono-cent">.00</span>
-            </div>
-
-            <div class="compteur-content-line-3">
-                <p class="compteur-navigation">
-                    <button class="btn-counter-reset" id="btnChronoReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
-                </p>
-
-                <button style="background-color: ${this.buttonColor};" class="counter item-content-chrono" id="btnActionChrono_${this.id}">
-                    Start
-                </button>  
-            </div>
              `;
         // Insertion
         this.parentRef.appendChild(this.element);
@@ -241,7 +242,7 @@ class Minuteur {
         // div container
         this.element = document.createElement("div");
         this.element.classList.add("item-session-container");
-        this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
+        this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
         this.buttonColor = sessionItemColors[this.colorName].button;
@@ -265,7 +266,7 @@ class Minuteur {
             </div>
 
             <div class="compteur-content-line-2">
-                <span class="item-content-chrono">30:00</span>
+                <span class="item-minuteur-time">00:45</span>
             </div>
 
             <div class="compteur-content-line-3">
@@ -1081,9 +1082,11 @@ async function eventSaveModifySessionItem() {
 
             // Actualisation de l'affichage pour une modification, la liste n'est pas réactualisé, uniquement l'item 
             document.getElementById(`chronoName_${currentSessionItemEditorID}`).innerHTML = chronoData.name;
-            document.getElementById(`itemSessionContainer_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[chronoData.color].body;
+
             document.getElementById(`btnActionChrono_${currentSessionItemEditorID}`).style.backgroundColor = sessionItemColors[chronoData.color].button;
-            
+            let divChronoCenterAreaRef = document.getElementById(`divChronoCenterArea_${currentSessionItemEditorID}`);
+            divChronoCenterAreaRef.style.backgroundColor = sessionItemColors[chronoData.color].body;
+            divChronoCenterAreaRef.style.borderColor = sessionItemColors[chronoData.color].button;
             break;
 
         case "MINUTEUR":
@@ -1521,7 +1524,7 @@ async function onChangeDisplayOrderFromDelete(idOrigin) {
 // Actualisation des display order après drag n drop
 function updateSessionItemsDisplayOrders() {
     const container = document.getElementById("divSessionCompteurArea");
-    const children = container.querySelectorAll(".item-session-container");
+    const children = container.querySelectorAll(".item-session-container, .chrono-container");
 
     children.forEach((child, index) => {
         const id = child.id.replace("itemSessionContainer_", ""); // extrait l'ID
