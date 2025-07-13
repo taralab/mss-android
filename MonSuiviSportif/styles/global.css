@@ -2319,7 +2319,6 @@ button.item-content-chrono{
   height: 50px;
   font-size: 1rem;
   font-weight: bold;
-  cursor: pointer;
   min-width: 280px;
   text-align: center;
    /* background-color: rgba(255, 255, 255, 0.3);Géré par JS */
@@ -2334,7 +2333,7 @@ button.item-content-chrono{
    /* background-color: #00A9F4; Géré par JS*/
   z-index: 1;
   transition: width 0s ease; /* Durée et easing personnalisables */
-
+  pointer-events: none;
 }
 
 .minuteur-button span.minuteur-button-text {
@@ -2497,7 +2496,9 @@ button.btnChooseColor{
     height: 30px;width: 30px;
 }
 
-
+button.btnChooseColor.btnColorSelected{
+    border: solid 2px rgb(0, 0, 0);
+}
 
 /* DRAGN DROP */
 .sortable-ghost {

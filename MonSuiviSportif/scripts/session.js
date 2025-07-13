@@ -858,6 +858,16 @@ function onClickDivNewPopupContent(event) {
 function onChooseSessionItemColor(color) {
     document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[color].body;
     sessionItemColorSelected = color;
+
+    // Met en évidence le bouton sélectionné
+    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    btnColorCounterChoiceArray.forEach(btn=>{
+        if (btn.dataset.btnSessionItemColor === sessionItemColorSelected){
+            btn.classList.add("btnColorSelected");
+        }else if (btn.classList.contains("btnColorSelected")){
+            btn.classList.remove("btnColorSelected");
+        }
+    });
 }
 
 
@@ -1034,7 +1044,7 @@ function onClickModifyCounter(idRef) {
 
 
     //gestion affichage commun
-    communModifItemSessionDisplay(userSessionItemsList[idRef].type || "COUNTER");//counter si l'ancien version n'avait pas de "type"
+    communModifItemSessionDisplay(userSessionItemsList[idRef].type || "COUNTER",sessionItemColorSelected);//counter si l'ancien version n'avait pas de "type"
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -1089,7 +1099,7 @@ function onClickModifyChrono(idRef) {
 
 
     //gestion affichage commun
-    communModifItemSessionDisplay(userSessionItemsList[idRef].type);
+    communModifItemSessionDisplay(userSessionItemsList[idRef].type,sessionItemColorSelected);
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -1164,7 +1174,7 @@ function onClickModifyMinuteur(idRef) {
 
 
     //gestion affichage commun
-    communModifItemSessionDisplay(userSessionItemsList[idRef].type);
+    communModifItemSessionDisplay(userSessionItemsList[idRef].type,sessionItemColorSelected);
 
     // Affiche 
     document.getElementById("divEditCounter").style.display = "flex";
@@ -1174,7 +1184,7 @@ function onClickModifyMinuteur(idRef) {
 
 
 // Les actions communuques aux modifications des items
-function communModifItemSessionDisplay(itemType) {
+function communModifItemSessionDisplay(itemType,currentColor = "white") {
     // rend le bouton supprimer visible et block le choix du type d'item
     document.getElementById("btnDeleteSessionItem").style.visibility = "visible";
 
@@ -1183,6 +1193,18 @@ function communModifItemSessionDisplay(itemType) {
     selecteurTypeRef.disabled = true;
     selecteurTypeRef.value = itemType;
     onChangeSessionItemType(itemType);
+
+
+    // et gestion de la couleur en cours
+    // Les couleurs
+    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    btnColorCounterChoiceArray.forEach(btn=>{
+        if (btn.dataset.btnSessionItemColor === currentColor){
+            btn.classList.add("btnColorSelected");
+        }else if (btn.classList.contains("btnColorSelected")){
+            btn.classList.remove("btnColorSelected");
+        }
+    });
 }
 
 
