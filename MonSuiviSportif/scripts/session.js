@@ -278,11 +278,12 @@ class Chrono {
     }
 
 
-    start(){
+    async start(){
         if(timerInUseID === null || timerInUseID === this.id){
             //si c'est libre ou si c'est moi, lance
             //verrouille l'utilisation des timer par mon id
             timerInUseID = this.id;
+            await requestWakeLock();
 
             console.log("Verrouillage timer :",timerInUseID);
         }else{
@@ -304,7 +305,7 @@ class Chrono {
         }, 100);
     }
 
-    pause(){
+    async pause(){
         this._triggerClickEffect(); //effet de click
         this.isRunning = false;
         clearInterval(this.interval);
@@ -314,6 +315,7 @@ class Chrono {
         if (timerInUseID !== null && timerInUseID === this.id) {
             console.log("Libère timer unique");
             timerInUseID = null;
+            await releaseWakeLock();
         }
 
         //sauvegarde la valeur dans l'array et dans localStorage
@@ -486,10 +488,7 @@ class Minuteur {
     }
 
 
-    start(){
-
-
-
+    async start(){
         //ne fait rien si à zero ou terminé par défaut (done)
         if (this.remaningTime <=0 || this.isDone === true) {
             return
@@ -497,6 +496,7 @@ class Minuteur {
             //si c'est libre ou si c'est moi, lance
             //verrouille l'utilisation des timer par mon id
             timerInUseID = this.id;
+            await requestWakeLock();
 
             console.log("Verrouillage timer :",timerInUseID);
         }else{
@@ -524,7 +524,7 @@ class Minuteur {
         }, 1000);
     }
 
-    pause(){
+    async pause(){
         this._triggerClickEffect(); //effet de click
         this.isRunning = false;
         clearInterval(this.interval);
@@ -534,6 +534,7 @@ class Minuteur {
         if (timerInUseID !== null && timerInUseID === this.id) {
             console.log("Libère timer unique");
             timerInUseID = null;
+            await releaseWakeLock();
         }
         
     }
@@ -880,6 +881,10 @@ async function onOpenMenuSession(){
         onAddEventListenerForMainMenuSession();
     }
 
+
+    //ajout l'écouteur d'évènement pour le wakeLock (à chaque fois et retire lorsque quitte le menu)
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    console.log("Ajout Ecouteur visibilitychange pour wakeLock");
 
     if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
@@ -1480,12 +1485,13 @@ async function eventSaveModifySessionItem() {
 
 // l'affichage des compteurs de fait sur le trie des "displayOrder"
 
-function onDisplaySessionItems() {
+async function onDisplaySessionItems() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");}
 
     //Libère l'utilisation des timers
     console.log("Libère timer unique");
     timerInUseID = null; 
+    await releaseWakeLock();
 
     // div qui contient les compteurs
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
@@ -2468,11 +2474,63 @@ function onGenerateMultipleCounter(newSessionList) {
 
 
 
+// ------------------------ fonction du WAKE LOCK------------------------------------
 
 
 
 
 
+let wakeLockInstance = null;
+
+async function requestWakeLock() {
+    try {
+        if ('wakeLock' in navigator) {
+            wakeLockInstance = await navigator.wakeLock.request('screen');
+            console.log("✅ Wake Lock activé");
+
+            // Surveille si le Wake Lock est libéré automatiquement (ex: onglet inactif)
+            wakeLockInstance.addEventListener('release', () => {
+                console.log("⚠️ Wake Lock libéré automatiquement");
+                wakeLockInstance = null;
+            });
+        } else {
+            console.warn("❌ Wake Lock non pris en charge par ce navigateur");
+        }
+    } catch (err) {
+        console.error("❌ Erreur lors de l'activation du Wake Lock :", err);
+    }
+}
+
+
+async function releaseWakeLock() {
+    try {
+        if (wakeLockInstance) {
+            await wakeLockInstance.release();
+            wakeLockInstance = null;
+            console.log("🔓 Wake Lock désactivé manuellement");
+        }else{
+            console.log("🔓 Wake Lock déjà désactivé");
+        }
+    } catch (err) {
+        console.error("❌ Erreur lors de la libération du Wake Lock :", err);
+    }
+}
+
+
+
+//surveillance pour reprise automatique du wakelock si l'utilisateur change d'application
+async function handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+        if (timerInUseID !== null && !wakeLockInstance) {
+            try {
+                await requestWakeLock();
+                console.log("Reprise automatique du wakeLock");
+            } catch (err) {
+                console.warn("Échec du Wake Lock :", err);
+            }
+        }
+    }
+}
 
 
 
@@ -2595,12 +2653,19 @@ function onDestroySortable() {
 
 
 // Retour depuis Info
-function onClickReturnFromSession() {
+async function onClickReturnFromSession() {
 
     //libère le verrouillage timer unique
     console.log("Libère timer unique");
     timerInUseID = null;
+
     //enlève également le wakeLock si active
+    await releaseWakeLock();
+
+    //enlève ecouteur d'évènement visibility pour le wakelock
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+    console.log("Retire Ecouteur visibilitychange pour wakeLock");
+
 
     onDestroySortable();
 
