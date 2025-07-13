@@ -15,14 +15,14 @@ let userSessionItemsList = {
             name:"CHRONO NAME",
             displayOrder:1,
             color: "white",
-            currentTime:"00:00:00"//???????
+            elapsedTime : 0 // en ms
         },
         minuteur_abcdef:{
             type:"MINUTEUR",
             name: "MINUTEUR NAME",
             displayOrder : 2,
             color : "white",
-            duration : 60,
+            duration : 60,//en secondes
             isDone :false
         }
     },
@@ -172,12 +172,22 @@ class Counter {
 }
 
 class Chrono {
-    constructor(id, name, displayOrder,parentRef,colorName){
+    constructor(id, name, displayOrder,parentRef,colorName,elapsedTime){
         this.id = id;
         this.name = name;
         this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.colorName = colorName;
+        this.elapsedTime = elapsedTime;
+
+        this.interval = null;
+        this.isRunning = false;
+
+        //référence
+        this.textMinutesRef = null;
+        this.textSecondsRef = null;
+        this.textCentisRef = null;
+
 
         // div container
         this.element = document.createElement("div");
@@ -191,6 +201,12 @@ class Chrono {
         this.render();
         // Ajout des écouteurs d'évènement
         this.addEvent();
+
+        //référence les boutons pour affichage text resultat
+        this.reference();
+
+        //initialisation de l'affichage des nombres la première fois
+        this.initChrono();
     }
 
 
@@ -232,14 +248,142 @@ class Chrono {
     // Ajout des écouteurs d'évènement
     addEvent(){
         // Modifier compteur
-        let btnModifyCounterRef = this.element.querySelector(`#btnModifyChrono_${this.id}`);
-        btnModifyCounterRef.addEventListener("click", ()=>{
+        let btnModifyChronoRef = this.element.querySelector(`#btnModifyChrono_${this.id}`);
+        btnModifyChronoRef.addEventListener("click", ()=>{
             onClickModifyChrono(this.id);
         });
+
+        //démarrer / pause
+        let btnMinuteurActionRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
+        btnMinuteurActionRef.addEventListener("click", ()=>{
+            this.isRunning ? this.pause() : this.start();
+        });
+
+        //reset
+        let btnResetRef = this.element.querySelector(`#btnChronoReset_${this.id}`);
+        btnResetRef.addEventListener("click",()=>{
+            this.reset();
+        });
+    }
+
+    //référence les élements pour l'affichage des resultats du chrono
+    reference(){
+        this.textMinutesRef = this.element.querySelector(`#sessionChronoMin_${this.id}`);
+        this.textSecondsRef = this.element.querySelector(`#sessionChronoSec_${this.id}`);
+        this.textCentisRef = this.element.querySelector(`#sessionChronoCentis_${this.id}`);
+    }
+
+    initChrono(){
+        this._updateDisplay(this.elapsedTime);
+    }
+
+
+    start(){
+        if(timerInUseID === null || timerInUseID === this.id){
+            //si c'est libre ou si c'est moi, lance
+            //verrouille l'utilisation des timer par mon id
+            timerInUseID = this.id;
+
+            console.log("Verrouillage timer :",timerInUseID);
+        }else{
+            alert("Un timer est déjà en cours");
+            return
+        }
+
+        this._triggerClickEffect(); //effet de click
+
+        this.isRunning = true;
+        this._updateBtnText("Pause");
+
+        // Cycle
+        this.interval = setInterval(() => {
+            this.elapsedTime += 100; 
+
+            //affiche le resultat
+            this._updateDisplay(this.elapsedTime);
+        }, 100);
+    }
+
+    pause(){
+        this._triggerClickEffect(); //effet de click
+        this.isRunning = false;
+        clearInterval(this.interval);
+        this._updateBtnText("Reprendre");
+        
+        //Libère l'utilisation de timer si utilisé par celui-ci
+        if (timerInUseID !== null && timerInUseID === this.id) {
+            console.log("Libère timer unique");
+            timerInUseID = null;
+        }
+
+        //sauvegarde la valeur dans l'array et dans localStorage
+        userSessionItemsList[this.id].elapsedTime = this.elapsedTime;
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+
+    }
+
+    reset(){
+
+        //desactive le bouton
+        let btnResetRef = this.element.querySelector(`#btnChronoReset_${this.id}`);
+        btnResetRef.disabled = true;
+
+
+        //lancement de la sequence de reset
+        this.pause();
+        this.elapsedTime = 0;
+        this._updateDisplay(this.elapsedTime);
+
+        this._updateBtnText("Démarrer");
+
+
+        //met à jour les éléments hors de cette classe
+        userSessionItemsList[this.id].elapsedTime = 0;
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+
+
+        setTimeout(() => {
+            // active le bouton
+            btnResetRef.disabled = false;
+
+        }, 300);
+    }
+
+
+    _updateBtnText(newText){
+        let btnTextRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
+        btnTextRef.textContent = newText;
+    }
+
+    _triggerClickEffect() {
+        const btn = this.element.querySelector(`#btnActionChrono_${this.id}`);
+        btn.classList.add("activate");
+        setTimeout(() => {
+            btn.classList.remove("activate");
+        }, 300); // Durée de l'animation
+    }
+
+     _updateDisplay(newValue) {
+        const totalMs = Math.floor(newValue);
+        const minutes = Math.floor(totalMs / 60000);
+        const seconds = Math.floor((totalMs % 60000) / 1000);
+        const centis = Math.floor((totalMs % 1000) / 10);
+        this.textMinutesRef.textContent = String(minutes).padStart(2, '0');
+        this.textSecondsRef.textContent = String(seconds).padStart(2, '0');
+        this.textCentisRef.textContent = String(centis).padStart(2, '0');
     }
 }
 
 
+
+
+
+
+
+
+//seul l'état "isDone" est sauvegardé pour le minuteur
 class Minuteur {
     constructor(id, name, displayOrder,parentRef,colorName,duration,isDone){
         this.id = id;
@@ -247,7 +391,7 @@ class Minuteur {
         this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.colorName = colorName;
-        this.duration = duration;
+        this.duration = duration;//en secondes
         this.isDone = isDone;
 
         this.remaningTime = duration;
@@ -309,8 +453,8 @@ class Minuteur {
        // Ajout des écouteurs d'évènement
     bindEvent(){
         // Modifier minuteur
-        let btnModifyCounterRef = this.element.querySelector(`#btnModifyMinuteur_${this.id}`);
-        btnModifyCounterRef.addEventListener("click", ()=>{
+        let btnModifyMinuteurRef = this.element.querySelector(`#btnModifyMinuteur_${this.id}`);
+        btnModifyMinuteurRef.addEventListener("click", ()=>{
             onClickModifyMinuteur(this.id);
         });
 
@@ -999,7 +1143,7 @@ function eventCreateSessionItem() {
     
 
     // Enregistrement global
-    eventInsertNewSessionItem();
+    eventInsertNewSessionItem(itemType);
 
 }
 
@@ -1007,7 +1151,7 @@ function eventCreateSessionItem() {
 
 //Séquence d'insertion d'un nouveau compteur
 
-async function eventInsertNewSessionItem() {
+async function eventInsertNewSessionItem(itemType) {
 
     if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
@@ -1018,8 +1162,27 @@ async function eventInsertNewSessionItem() {
     onDisplaySessionItems();
     
 
+    //notification selon le type d'élément créé
+
+    let notifyType = null;
+    switch (itemType) {
+        case "COUNTER":
+            notifyType = "counterCreated";
+            break;
+        case "CHRONO":
+            notifyType = "chronoCreated";
+            break;
+        case "MINUTEUR":
+            notifyType = "minuteurCreated";
+            break;
+    
+        default:
+            break;
+    }
+
+
     // Popup notification
-    onShowNotifyPopup("counterCreated");
+    onShowNotifyPopup(notifyType);
 
 }
 
@@ -1119,7 +1282,7 @@ function onFormatChrono() {
         name: newChronoName,
         displayOrder: newDisplayOrder,
         color: sessionItemColorSelected,
-        currentTime:"00:00:00"//???????
+        elapsedTime : 0
     }
 
     return formatedChrono;
@@ -1370,7 +1533,8 @@ function onDisplaySessionItems() {
                     userSessionItemsList[key].name,
                     userSessionItemsList[key].displayOrder,
                     divSessionCompteurAreaRef,
-                    userSessionItemsList[key].color
+                    userSessionItemsList[key].color,
+                    userSessionItemsList[key].elapsedTime
                 );
                 break;
             case "MINUTEUR":
@@ -1681,7 +1845,7 @@ async function eventDeleteSessionItem(){
     if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
 
     // Popup notification
-    onShowNotifyPopup("counterDeleted");
+    onShowNotifyPopup("itemSessionDeleted");
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -1731,7 +1895,7 @@ function updateSessionItemsDisplayOrders() {
     });
 
     // réaffiche les compteurs
-    onDisplaySessionItems();
+    onDisplaySessionItems();// a regarder si pertinent ou non
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
