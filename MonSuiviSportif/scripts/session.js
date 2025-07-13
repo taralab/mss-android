@@ -1964,34 +1964,49 @@ async function onSendSessionToActivity(activityTarget) {
 
         let textToAdd = "";
 
-        // Ecrite le texte selon le mode choisit dans setting
-        switch (userSetting.fromSessionToActivityMode) {
-            case "MINIMAL":
-                textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount}\n`;
 
-                break;
-            case "NORMAL":
-                textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount} (Séries: ${userSessionItemsList[key].currentSerie}*${userSessionItemsList[key].repIncrement} rép.)\n`;
+        //filtre les actions selon le type d'item
 
-                break;
-            case "COMPLETE":
-                textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount} (Séries: ${userSessionItemsList[key].currentSerie}/${userSessionItemsList[key].serieTarget} - ${userSessionItemsList[key].repIncrement} Rép.)\n`;
 
-                break;
-            case "SERIES":
-                textToAdd = `${nameFormated}: ${userSessionItemsList[key].currentSerie}*${userSessionItemsList[key].repIncrement}\n`;
+        // COUNTER
+        if (userSessionItemsList[key].type === "COUNTER" || userSessionItemsList[key].type === null) {
+            // Ecrite le texte selon le mode choisit dans setting
+            switch (userSetting.fromSessionToActivityMode) {
+                case "MINIMAL":
+                    textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount}\n`;
 
-                break;
-            case "TITLE":
-                textToAdd = `${nameFormated}\n`;
+                    break;
+                case "NORMAL":
+                    textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount} (Séries: ${userSessionItemsList[key].currentSerie}*${userSessionItemsList[key].repIncrement} rép.)\n`;
 
-                break;
+                    break;
+                case "COMPLETE":
+                    textToAdd = `${nameFormated}: ${userSessionItemsList[key].totalCount} (Séries: ${userSessionItemsList[key].currentSerie}/${userSessionItemsList[key].serieTarget} - ${userSessionItemsList[key].repIncrement} Rép.)\n`;
+
+                    break;
+                case "SERIES":
+                    textToAdd = `${nameFormated}: ${userSessionItemsList[key].currentSerie}*${userSessionItemsList[key].repIncrement}\n`;
+
+                    break;
+                case "TITLE":
+                    textToAdd = `${nameFormated}\n`;
+
+                    break;
+            
+                default:
+                    break;
+            }
         
-            default:
-                break;
+        //CHRONO
+        }else if(userSessionItemsList[key].type === "CHRONO"){
+            let chronoText = onConvertChronoResult(userSessionItemsList[key].elapsedTime);
+            textToAdd =`⏱️ ${userSessionItemsList[key].name} : ${chronoText}\n`;
+        //MINUTEUR
+        }else if(userSessionItemsList[key].type === "MINUTEUR"){
+            let minuteurText = onConvertMinuteurResult(userSessionItemsList[key].duration);
+            textToAdd =`⏳ ${userSessionItemsList[key].name} : ${minuteurText}\n`;
         }
-
-
+            
         sessionText = sessionText + textToAdd;
 
     });
@@ -2021,6 +2036,24 @@ async function onSendSessionToActivity(activityTarget) {
     await  eventInsertNewActivity(activityGenerateToInsert,true);
  
 
+}
+
+//convertion chrono
+function onConvertChronoResult(newValue) {
+    const totalMs = Math.floor(newValue);
+    const minutes = Math.floor(totalMs / 60000);
+    const seconds = Math.floor((totalMs % 60000) / 1000);
+    const centis = Math.floor((totalMs % 1000) / 10);
+    let textResult =  `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(centis).padStart(2, '0')}`;
+    return textResult;
+}
+
+//convertion minuteur
+function onConvertMinuteurResult(newValue) {
+    const min = String(Math.floor(newValue / 60)).padStart(2, '0');
+    const sec = String(newValue % 60).padStart(2, '0');
+    let textResult = `${min}:${sec}`;
+    return textResult;
 }
 
 
