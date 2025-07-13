@@ -54,6 +54,17 @@ let inputNumberMinuteurIdArray = [
         "inputMinuteurSessionSeconds"
     ];
 
+
+
+
+//utilisation du chrono ou minuteur 1 à la fois
+//identifier par son ID car seule l'id concerné peut l'arréter
+let timerInUseID = null;
+
+//Gestion du wakelock 
+//activer => lorsqu'un compteur ou minuteur tourne
+//Arréter => ondisplay affichage (par sécurité si tournait), pause, complète.
+
 // Objet compteur
 class Counter {
     constructor(id, name, currentSerie, serieTarget, repIncrement,displayOrder,parentRef,colorName,totalCount){
@@ -332,12 +343,25 @@ class Minuteur {
 
 
     start(){
+
+
+
         //ne fait rien si à zero ou terminé par défaut (done)
         if (this.remaningTime <=0 || this.isDone === true) {
             return
+        }else if(timerInUseID === null || timerInUseID === this.id){
+            //si c'est libre ou si c'est moi, lance
+            //verrouille l'utilisation des timer par mon id
+            timerInUseID = this.id;
+
+            console.log("Verrouillage timer :",timerInUseID);
+        }else{
+            alert("Un timer est déjà en cours");
+            return
         }
 
-        //sinon
+
+
         this._triggerClickEffect(); //effet de click
 
         this.isRunning = true;
@@ -361,6 +385,13 @@ class Minuteur {
         this.isRunning = false;
         clearInterval(this.interval);
         this._updateBtnText("Reprendre");
+        
+        //Libère l'utilisation de timer si utilisé par celui-ci
+        if (timerInUseID !== null && timerInUseID === this.id) {
+            console.log("Libère timer");
+            timerInUseID = null;
+        }
+        
     }
 
     reset(){
@@ -430,12 +461,12 @@ class Minuteur {
     }
 
     _triggerClickEffect() {
-    const btn = this.element.querySelector(`#btnActionMinuteur_${this.id}`);
-    btn.classList.add("activate");
-    setTimeout(() => {
-        btn.classList.remove("activate");
-    }, 300); // Durée de l'animation
-}
+        const btn = this.element.querySelector(`#btnActionMinuteur_${this.id}`);
+        btn.classList.add("activate");
+        setTimeout(() => {
+            btn.classList.remove("activate");
+        }, 300); // Durée de l'animation
+    }
 }
 
 
@@ -1288,6 +1319,9 @@ async function eventSaveModifySessionItem() {
 
 function onDisplaySessionItems() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");}
+
+    //Libère l'utilisation des timers
+    timerInUseID = null; 
 
     // div qui contient les compteurs
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
