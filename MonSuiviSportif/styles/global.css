@@ -2333,11 +2333,14 @@ button.item-content-chrono{
   /* width: 80%; Géré par JS */
    /* background-color: #00A9F4; Géré par JS*/
   z-index: 1;
+  transition: width 0s ease; /* Durée et easing personnalisables */
+
 }
 
 .minuteur-button span.minuteur-button-text {
   position: relative;
   z-index: 2;
+  pointer-events: none;
 }
 
 span.item-minuteur-time{

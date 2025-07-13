@@ -361,6 +361,13 @@ class Minuteur {
     }
 
     reset(){
+
+        //desactive le bouton
+        let btnResetRef = this.element.querySelector(`#btnMinuteurReset_${this.id}`);
+        btnResetRef.disabled = true;
+
+
+        //lancement de la sequence de reset
         this.pause();
         this.remaningTime = this.duration;
         this._updateTimeDisplay(this.remaningTime);
@@ -372,6 +379,13 @@ class Minuteur {
         userSessionItemsList[this.id].isDone = false;
         // Sauvegarde en localStorage
         onUpdateSessionItemsInStorage();
+
+
+        setTimeout(() => {
+            // active le bouton
+            btnResetRef.disabled = false;
+
+        }, 300);
     }
 
     complete(){
