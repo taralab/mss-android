@@ -239,6 +239,9 @@ class Minuteur {
         this.duration = duration;
         this.isDone = isDone;
 
+        this.remaningTime = duration;
+        this.isRunning = false;
+        this.interval = null;
 
 
 
@@ -250,14 +253,15 @@ class Minuteur {
 
         this.buttonColor = sessionItemColors[this.colorName].minuteur;
         this.PBColor = sessionItemColors[this.colorName].button;
-        this.PBValue = this.isDone ? "0%" : "100%"; //set le progress bar en jouant sur le with de la class "progress-bar-minuteur"
-
 
         this.render();
         // Insertion
         this.parentRef.appendChild(this.element);
         // Ajout des écouteurs d'évènement
         this.bindEvent();
+
+        //initialisation
+        this.initMinuteur();
     }
 
 
@@ -283,7 +287,7 @@ class Minuteur {
                 </p>
 
                 <button id="btnActionMinuteur_${this.id}" class="minuteur-button" style="background-color: ${this.buttonColor};">
-                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}" style="background-color: ${this.PBColor}; width:${this.PBValue}"></span>
+                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}" style="background-color: ${this.PBColor};"></span>
                     <span class="minuteur-button-text" id="spanMinuteurBtnText_${this.id}">Lancer compte à rebours</span>
                 </button>
             </div>
@@ -298,8 +302,103 @@ class Minuteur {
         btnModifyCounterRef.addEventListener("click", ()=>{
             onClickModifyMinuteur(this.id);
         });
+
+        //démarrer / pause
+        let btnMinuteurActionRef = this.element.querySelector(`#btnActionMinuteur_${this.id}`);
+        btnMinuteurActionRef.addEventListener("click", ()=>{
+            this.isRunning ? this.pause() : this.start();
+        });
+
+        //reset
+        let btnResetRef = this.element.querySelector(`#btnMinuteurReset_${this.id}`);
+        btnResetRef.addEventListener("click",()=>{
+            this.reset();
+        });
+
+    }
+    
+    // initialisation à la génération du minuteur
+    initMinuteur(){
+        let progressBarRef = this.element.querySelector(`#spanPBSessionMinuteur_${this.id}`);
+
+        if (this.isDone) {
+            progressBarRef.style.width = "0%";
+             this._updateBtnText("Terminé");
+        }else{
+            progressBarRef.style.width = "100%";
+            this._updateBtnText("Lancer compte à rebours");
+        }
     }
 
+
+    start(){
+        //ne fait rien si à zero ou terminé par défaut (done)
+        if (this.remaningTime <=0 || this.isDone === true) {
+            return
+        }
+
+        //sinon
+        this.isRunning = true;
+        this._updateBtnText("Pause");
+
+        // Cycle
+        this.interval = setInterval(() => {
+            this.remaningTime--;
+            this._updateTimeDisplay(this.remaningTime);
+            this._updateProgressBar();
+
+            if (this.remaningTime <= 0) {
+                this.complete();
+            }
+
+        }, 1000);
+    }
+
+    pause(){
+        this.isRunning = false;
+        clearInterval(this.interval);
+        this._updateBtnText("Reprendre");
+    }
+
+    reset(){
+        this.pause();
+        this.remaningTime = this.duration;
+        this._updateTimeDisplay(this.remaningTime);
+        this._updateProgressBar();
+        this._updateBtnText("Lancer compte à rebours");
+        this.isDone = false;
+
+        //met à jour les éléments hors de cette classe
+        userSessionItemsList[this.id].isDone = false;
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+    }
+
+    complete(){
+        this.pause();
+        this.remaningTime = 0;//remet la durée initial comme ça l'utilisateur peux voir ce qu'il avait mis
+        this.isDone = true;
+        this._updateTimeDisplay(this.duration);
+        this._updateProgressBar();
+        this._updateBtnText("Terminé");
+
+        //met à jour les éléments hors de cette classe
+        userSessionItemsList[this.id].isDone = true;
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+    }
+
+
+    _updateTimeDisplay(time){
+        let timeSpanRef = this.element.querySelector(`#spanSessionMinuteurResult_${this.id}`);
+        timeSpanRef.textContent = this._formatTime(time);
+    }
+
+    _updateProgressBar(){
+        let progressBarRef = this.element.querySelector(`#spanPBSessionMinuteur_${this.id}`);
+        let percent = (this.remaningTime / this.duration) *100;
+        progressBarRef.style.width = `${percent}%`;
+    }
 
 
     _formatTime(seconds) {
@@ -307,6 +406,12 @@ class Minuteur {
         const sec = String(seconds % 60).padStart(2, '0');
         return `${min}:${sec}`;
     }
+
+    _updateBtnText(newText){
+        let btnTextRef = this.element.querySelector(`#spanMinuteurBtnText_${this.id}`);
+        btnTextRef.textContent = newText;
+    }
+
 }
 
 
