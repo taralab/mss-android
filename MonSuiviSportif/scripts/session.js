@@ -1969,7 +1969,7 @@ async function onSendSessionToActivity(activityTarget) {
 
 
         // COUNTER
-        if (userSessionItemsList[key].type === "COUNTER" || userSessionItemsList[key].type === null) {
+        if (userSessionItemsList[key].type === "COUNTER" || userSessionItemsList[key].type == null) {
             // Ecrite le texte selon le mode choisit dans setting
             switch (userSetting.fromSessionToActivityMode) {
                 case "MINIMAL":
