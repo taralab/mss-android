@@ -338,6 +338,8 @@ class Minuteur {
         }
 
         //sinon
+        this._triggerClickEffect(); //effet de click
+
         this.isRunning = true;
         this._updateBtnText("Pause");
 
@@ -355,6 +357,7 @@ class Minuteur {
     }
 
     pause(){
+        this._triggerClickEffect(); //effet de click
         this.isRunning = false;
         clearInterval(this.interval);
         this._updateBtnText("Reprendre");
@@ -426,6 +429,13 @@ class Minuteur {
         btnTextRef.textContent = newText;
     }
 
+    _triggerClickEffect() {
+    const btn = this.element.querySelector(`#btnActionMinuteur_${this.id}`);
+    btn.classList.add("activate");
+    setTimeout(() => {
+        btn.classList.remove("activate");
+    }, 300); // Durée de l'animation
+}
 }
 
 
