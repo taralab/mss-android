@@ -388,7 +388,7 @@ class Minuteur {
         
         //Libère l'utilisation de timer si utilisé par celui-ci
         if (timerInUseID !== null && timerInUseID === this.id) {
-            console.log("Libère timer");
+            console.log("Libère timer unique");
             timerInUseID = null;
         }
         
@@ -1321,6 +1321,7 @@ function onDisplaySessionItems() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");}
 
     //Libère l'utilisation des timers
+    console.log("Libère timer unique");
     timerInUseID = null; 
 
     // div qui contient les compteurs
@@ -2398,6 +2399,11 @@ function onDestroySortable() {
 
 // Retour depuis Info
 function onClickReturnFromSession() {
+
+    //libère le verrouillage timer unique
+    console.log("Libère timer unique");
+    timerInUseID = null;
+    //enlève également le wakeLock si active
 
     onDestroySortable();
 
