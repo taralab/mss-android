@@ -303,7 +303,7 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
         // 1. Récupération des données
         const result = await db.allDocs({ include_docs: true });
         const exportedDocs = result.rows.map(row => row.doc);
-        getCounterListFromLocalStorage();
+        getSessionItemListFromLocalStorage();
 
         // 2. Création du contenu
         const fullExport = {
@@ -479,6 +479,7 @@ async function eventImportBdD(inputRef) {
                     case 0:
                         console.log("[IMPORT] V0");
                         // Ancien format (tableau direct ou objet sans version)
+                        // Le fichier ne contient pas d'item session
                         importedDocs = Array.isArray(jsonData) ? jsonData : jsonData.documents || [];
                         importedUserSessionItemsList = {}; // Pas dispo dans ce format
                         break;
@@ -486,6 +487,7 @@ async function eventImportBdD(inputRef) {
                     case 1:
                         console.log("[IMPORT] V1");
                         // Nouveau format structuré avec documents + userCounterList (ancien nom ne pas changer pour V1)
+                        //Le fichier contient les items sessions ancien format (sans "type")
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userCounterList || {};//ne pas changer ancien nom pour V1
                         //Ajout un "type" à chaque item List pour compatibilité V2
@@ -500,6 +502,7 @@ async function eventImportBdD(inputRef) {
                     case 2:
                         console.log("[IMPORT] V2");
                         // Nouveau format structuré avec documents + userCounterList
+                        //le fichier contient les items session avec type
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         break;
@@ -524,7 +527,6 @@ async function eventImportBdD(inputRef) {
                     userSessionItemsList = importedUserSessionItemsList;
                     console.log('[IMPORT] userSessionItemsList restauré :', userSessionItemsList);
                     onUpdateSessionItemsInStorage();
-                    alert("import userCounterList");
                 }
 
 
