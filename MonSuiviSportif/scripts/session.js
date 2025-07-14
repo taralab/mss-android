@@ -54,7 +54,12 @@ let inputNumberMinuteurIdArray = [
         "inputMinuteurSessionSeconds"
     ];
 
-
+let infoSessionTextArray = [
+    `ℹ️ Créer jusqu'à ${maxSessionItems} éléments.`,
+    `ℹ️ Un seul chrono ou minuteur peut être actif.`,
+    `ℹ️ L’écran reste allumé lorsqu'un timer est en cours.`,
+    `ℹ️ Vous pouvez envoyer ces résultats vers une activité.`
+];
 
 
 //utilisation du chrono ou minuteur 1 à la fois
@@ -400,7 +405,11 @@ class Minuteur {
         this.isRunning = false;
         this.interval = null;
 
-
+        //Pour référence
+        this.progressBarRef = null;
+        this.imgDoneRef = null;
+        this.timeSpanRef = null;
+        this.btnTextRef = null;
 
         // div container
         this.element = document.createElement("div");
@@ -412,10 +421,15 @@ class Minuteur {
         this.PBColor = sessionItemColors[this.colorName].button;
 
         this.render();
+
         // Insertion
         this.parentRef.appendChild(this.element);
+
         // Ajout des écouteurs d'évènement
         this.bindEvent();
+
+        //référencement
+        this.reference();
 
         //initialisation
         this.initMinuteur();
@@ -448,6 +462,7 @@ class Minuteur {
                     <span class="minuteur-button-text" id="spanMinuteurBtnText_${this.id}">Lancer compte à rebours</span>
                 </button>
             </div>
+            <img src="./Icons/Icon-Counter-Done.webp" class="overlay-image-rayure" id="imgMinuteurTargetDone_${this.id}" alt="Rature">
              `;
         
     }
@@ -474,16 +489,26 @@ class Minuteur {
 
     }
     
+
+    //référencement
+    reference(){
+        this.progressBarRef = this.element.querySelector(`#spanPBSessionMinuteur_${this.id}`);
+        this.imgDoneRef = this.element.querySelector(`#imgMinuteurTargetDone_${this.id}`);
+        this.timeSpanRef = this.element.querySelector(`#spanSessionMinuteurResult_${this.id}`);
+        this.btnTextRef = this.element.querySelector(`#spanMinuteurBtnText_${this.id}`);
+    }
+
     // initialisation à la génération du minuteur
     initMinuteur(){
-        let progressBarRef = this.element.querySelector(`#spanPBSessionMinuteur_${this.id}`);
 
         if (this.isDone) {
-            progressBarRef.style.width = "0%";
-             this._updateBtnText("Terminé");
+            this.progressBarRef.style.width = "0%";
+            this._updateBtnText("Terminé");
+            this.imgDoneRef.classList.add("counterTargetDone");
         }else{
-            progressBarRef.style.width = "100%";
+            this.progressBarRef.style.width = "100%";
             this._updateBtnText("Lancer compte à rebours");
+            this.imgDoneRef.classList.remove("counterTargetDone");
         }
     }
 
@@ -556,6 +581,10 @@ class Minuteur {
 
         //met à jour les éléments hors de cette classe
         userSessionItemsList[this.id].isDone = false;
+
+        //image DONE retrait
+        this.imgDoneRef.classList.remove("counterTargetDone");
+
         // Sauvegarde en localStorage
         onUpdateSessionItemsInStorage();
 
@@ -575,6 +604,12 @@ class Minuteur {
         this._updateProgressBar();
         this._updateBtnText("Terminé");
 
+        //image DONE
+        this.imgDoneRef.classList.add("counterTargetDone");
+
+        //Notification in app
+        onShowNotifyPopup("minuteurTargetReach");
+
         //met à jour les éléments hors de cette classe
         userSessionItemsList[this.id].isDone = true;
         // Sauvegarde en localStorage
@@ -583,14 +618,12 @@ class Minuteur {
 
 
     _updateTimeDisplay(time){
-        let timeSpanRef = this.element.querySelector(`#spanSessionMinuteurResult_${this.id}`);
-        timeSpanRef.textContent = this._formatTime(time);
+        this.timeSpanRef.textContent = this._formatTime(time);
     }
 
     _updateProgressBar(){
-        let progressBarRef = this.element.querySelector(`#spanPBSessionMinuteur_${this.id}`);
         let percent = (this.remaningTime / this.duration) *100;
-        progressBarRef.style.width = `${percent}%`;
+        this.progressBarRef.style.width = `${percent}%`;
     }
 
 
@@ -601,8 +634,7 @@ class Minuteur {
     }
 
     _updateBtnText(newText){
-        let btnTextRef = this.element.querySelector(`#spanMinuteurBtnText_${this.id}`);
-        btnTextRef.textContent = newText;
+        this.btnTextRef.textContent = newText;
     }
 
     _triggerClickEffect() {
@@ -1458,6 +1490,7 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].name = minuteurData.name;
             userSessionItemsList[currentSessionItemEditorID].color = minuteurData.color;
             userSessionItemsList[currentSessionItemEditorID].duration = minuteurData.duration;
+            userSessionItemsList[currentSessionItemEditorID].isDone = minuteurData.isDone; //A chaque modification reset tout.A retirer si effet non souhaité
 
             onDisplaySessionItems();
             break;
@@ -1572,7 +1605,7 @@ async function onDisplaySessionItems() {
 
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxSessionItems} éléments.`;
+            newClotureList.innerHTML = getRandomSessionInfo(infoSessionTextArray);
             divSessionEndListRef.appendChild(newClotureList);
         }
     });

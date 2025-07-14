@@ -536,7 +536,7 @@ async function eventImportBdD(inputRef) {
                 textResultRef.innerHTML = "Importation réussie !";
             } catch (error) {
                 console.error('[IMPORT] Erreur lors du traitement du JSON:', error);
-                textResultRef.innerHTML = "Erreur d'importation.";
+                textResultRef.innerHTML = `Erreur d'importation."  ${error}`;
             } finally {
                 //onSetLockGestDataButton(false);
             }

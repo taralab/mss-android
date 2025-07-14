@@ -755,6 +755,12 @@ function onFormatDateToFr(dateString) {
 
 
 
+//Pour les informations aléatoires
+//permet d'obtenir un index
+function getRandomSessionInfo(arrayTarget) {
+    const index = Math.floor(Math.random() * arrayTarget.length);
+    return arrayTarget[index];
+}
 
 
 // si la date en entre est après la date du jour
