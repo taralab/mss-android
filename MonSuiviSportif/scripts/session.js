@@ -1835,19 +1835,25 @@ async function eventResetAllSessionItems() {
     // Boucle sur la liste des key
     //Pour chaque éléments passe la variable à zero et set le texte
     sessionItemsSortedKey.forEach(key=>{
-        userSessionItemsList[key].currentSerie = 0;
-        document.getElementById(`spanCurrentSerie_${key}`).innerHTML = 0;
 
-        userSessionItemsList[key].totalCount = 0;
-        document.getElementById(`spanTotalCount_${key}`).innerHTML = "Total : 0";
-
-         //retire la classe "reach" si necessaire pour le count target et le slash
-        let counterTargetRef = document.getElementById(`spanSerieTarget_${key}`);
-
-        if (counterTargetRef.classList.contains("target-reach")) {
-            counterTargetRef.classList.remove("target-reach");
-            document.getElementById(`imgCounterTargetDone_${key}`).classList.remove("counterTargetDone");
+        //filtre selon le type d'item
+        let itemType = userSessionItemsList[key].type || "COUNTER";
+        switch (itemType) {
+            case "COUNTER":
+                userSessionItemsList[key].currentSerie = 0;
+                userSessionItemsList[key].totalCount = 0;
+                break;
+            case "CHRONO":
+                userSessionItemsList[key].elapsedTime = 0;
+                break;
+            case "MINUTEUR":
+                userSessionItemsList[key].isDone = false;
+                break;
+        
+            default:
+                break;
         }
+
     });
 
     // reset également l'heure du début de session
@@ -1857,7 +1863,8 @@ async function eventResetAllSessionItems() {
     onUpdateSessionItemsInStorage();
     onUpdateSessionTimeInStorage();
 
-    
+    // actualisation de la liste des compteurs
+    onDisplaySessionItems();
 
     // Notification utilisateur  
     onShowNotifyPopup("sessionReset");
