@@ -1039,10 +1039,9 @@ div.confirmationDeleteBdD{
     width: 100%;
     height:100vh;
     position: fixed;
-    top : 0px;left: 0px;
+    top : 96px;left: 0px;
     background-color: #ececec;
     padding: 20px;
-
 }
 
 div.confirmationDeleteBdD.show {

@@ -33,7 +33,8 @@ let userSessionItemsList = {
     sessionStartTime = "--:--:--",//date-heure du début de session set lorsque clique sur reset all counter, ou générate session
     sessionStorageName = "MSS_sessionCounterList",
     sessionStartTimeStorageName = "MSS_sessionStartTime",
-    sortableInstance = null;//instance pour le drag n drop
+    sortableInstance = null,//instance pour le drag n drop
+    sessionActivityTypeToSend = null;//utilisé pour stocker le type d'activité à générer
 
 let sessionItemColors = {
     white: {body:"#fff",button:"grey"},
@@ -887,7 +888,19 @@ function onAddEventListenerForSendFakeSelector() {
         onCloseFakeSelectSession(event);
     });
 
+    //choix du lieu de l'activité avant envoie puis envoie
 
+    let btnSendToActivityLocationConfirmRef = document.getElementById("btnSendToActivityLocationConfirm");
+    btnSendToActivityLocationConfirmRef.addEventListener("click", ()=>{
+        //récupère le lieu
+        let sessionLocation = document.getElementById("inputSendSessionToActivityLocation").value;
+
+        //Masque le popup
+        document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
+
+        //lance la génération
+        onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation);
+    });
 }
 
 
@@ -947,7 +960,7 @@ function onCreateMainMenuSession() {
     //Retour
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromSession());
     //Reset
-    new Button_main_menu(btnMainMenuData.reset.imgRef,btnMainMenuData.reset.text,() => onClickResetAllCounter());
+    new Button_main_menu(btnMainMenuData.reset.imgRef,btnMainMenuData.reset.text,() => onClickResetAllSessionItems());
     //Action
     new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
 
@@ -1810,14 +1823,14 @@ async function onClickResetCounter(idRef) {
 // RESET ALL COUNTER
 
 
-function onClickResetAllCounter() {
+function onClickResetAllSessionItems() {
 
     let textToDisplay = `<b>Réinitialiser tous les compteurs ?</b>`;
-    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventResetAllCounter,textToDisplay,"reset");
+    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventResetAllSessionItems,textToDisplay,"reset");
 }
 
 
-async function eventResetAllCounter() {
+async function eventResetAllSessionItems() {
     
     // Boucle sur la liste des key
     //Pour chaque éléments passe la variable à zero et set le texte
@@ -1990,7 +2003,7 @@ function onClickSendSessionToActivity() {
 
 
 
-async function onSendSessionToActivity(activityTarget) {
+async function onSendSessionToActivity(activityTarget,sessionLocation) {
     
     let sessionText = "";
 
@@ -2063,7 +2076,7 @@ async function onSendSessionToActivity(activityTarget) {
     let activityGenerateToInsert = {
         name : activityTarget,
         date : onFindDateTodayUS(),
-        location : "",
+        location : sessionLocation,
         distance : "",
         duration : sessionDuration,
         comment : sessionText,
@@ -2118,7 +2131,7 @@ class fakeOptionSessionBasic {
         // Fonction
         this.element.onclick = (event) => {
             event.stopPropagation();
-            onSendSessionToActivity(this.activityName);
+            onDisplaySendToActivityLocation(this.activityName);
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
         };
@@ -2162,7 +2175,7 @@ class fakeOptionSessionFavourite {
         // Fonction
         this.element.onclick = (event) => {
             event.stopPropagation();
-            onSendSessionToActivity(this.activityName);
+            onDisplaySendToActivityLocation(this.activityName);
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
         };
@@ -2226,14 +2239,25 @@ function onGenerateFakeSelectSession() {
 }
 
 
-
-
 // Annule envoie vers activité
 function onCloseFakeSelectSession(event) {
     document.getElementById("divFakeSelectSession").style.display = "none";
 }
 
 
+//Affiche la div de choix du lieu de l'activité
+function onDisplaySendToActivityLocation(activityTarget) {
+    //Affiche le popup de selection de la location
+    document.getElementById("divSendSessionToActivityLocation").classList.add("show");
+
+    //set l'image de l'activité ciblée
+    let imgTargetRef = document.getElementById("imgSessionToActivityLocationPreview");
+    imgTargetRef.src = activityChoiceArray[activityTarget].imgRef;
+
+    //stocke le type d'activité dans une variable pour la suite
+    sessionActivityTypeToSend = activityTarget;
+
+}
 
 
 function onGetSessionDuration(heureDebut, heureFin) {
