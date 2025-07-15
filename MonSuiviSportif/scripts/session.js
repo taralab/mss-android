@@ -2585,15 +2585,13 @@ async function eventGenerateSessionList(){
     // Centralise les éléments qui été dans le tableau de création
     let itemForSession = onGetDivGenSessionItems();
 
-    console.log(itemForSession);
-    return
 
     if (devMode === true){console.log(itemForSession);}
 
     // Retire le popup
 
     // formate les nouveaux compteur et les sauvegardes
-    onGenerateMultipleCounter(itemForSession);
+    onGenerateMultipleSessionItems(itemForSession);
 
     // reset également l'heure du début de session
     onSetSessionStartTime();
@@ -2613,31 +2611,74 @@ async function eventGenerateSessionList(){
 }
 
 // Fonction de création de la session
-function onGenerateMultipleCounter(newSessionList) {
+function onGenerateMultipleSessionItems(newSessionList) {
 
     // Vide l'array
     userSessionItemsList = {};
 
 
+    //génère l'id
+
     // Pour chaque élément de la liste
     newSessionList.forEach((e,index)=>{
 
-        // Génération de l'ID
-        let counterId = getRandomShortID("counter_",userSessionItemsList);
 
-        //formatage du counter (majuscule etc)
-        let formatedCounter = {
-            name: e.name, 
-            currentSerie: 0, 
-            serieTarget: e.serieTarget, 
-            repIncrement: e.repIncrement, 
-            totalCount: 0,
-            displayOrder : index,
-            color : e.color
-        };
+        //filtre selon le type d'item
+        switch (e.type) {
+            case "COUNTER":
+                // Génération de l'ID
+                let counterId = getRandomShortID("counter_",userSessionItemsList);
 
-        // Inserte un nouveau compteur dans l'array
-        userSessionItemsList[counterId] = formatedCounter;
+                //formatage du counter (majuscule etc)
+                let formatedCounter = {
+                    name: e.name, 
+                    currentSerie: 0, 
+                    serieTarget: e.serieTarget, 
+                    repIncrement: e.repIncrement, 
+                    totalCount: 0,
+                    displayOrder : index,
+                    color : e.color
+                };
+
+                // Inserte un nouveau compteur dans l'array
+                userSessionItemsList[counterId] = formatedCounter;
+                break;
+            case "CHRONO":
+                // Génération de l'ID
+                let chronoId = getRandomShortID("chrono_",userSessionItemsList);
+                let formatedChrono = {
+                    type : "CHRONO",
+                    name: e.name,
+                    displayOrder: index,
+                    color: e.color,
+                    elapsedTime : 0 // en ms
+                };
+
+                // Inserte un nouveau chrono dans l'array
+                userSessionItemsList[chronoId] = formatedChrono;
+                break;
+            case "MINUTEUR":
+                // Génération de l'ID
+                let minuteurId = getRandomShortID("minuteur_",userSessionItemsList);
+                let formatedMinuteur = {
+                    type:"MINUTEUR",
+                    name: e.name,
+                    displayOrder : index,
+                    color : e.color,
+                    duration : e.duration,//en secondes
+                    isDone :false
+                }
+
+                // Inserte un nouveau chrono dans l'array
+                userSessionItemsList[minuteurId] = formatedMinuteur;
+                break;
+        
+            default:
+                console.log("ERREUR de type");
+                break;
+        }
+
+      
 
     });
 
