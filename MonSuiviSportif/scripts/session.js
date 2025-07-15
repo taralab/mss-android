@@ -2316,7 +2316,7 @@ async function onClickMenuCreateSession() {
             onUpdateAndSortTemplateSessionKey();
         }
 
-    onGenerateSessionTable();
+    onGenerateSessionCanvas();
 
     // actualise la liste des modèles dans le tableau
     onGenerateModelSelectList(); 
@@ -2373,22 +2373,143 @@ class TableLineSession{
 }
 
 
+class DivGenItemSession{
+    constructor(parentRef,idNumber,type = "COUNTER"){
+        this.parentRef = parentRef;
+        this.idNumber = idNumber;
+        this.type = type;
+
+        this.element = document.createElement("div");
+
+
+        //contenu dynamique à injecter selon
+        this.dynamicContentData = {
+            COUNTER : 
+                `<div class="wrapper serial">
+                    <input class="compteur" type="number" id="inputSessionEditSerieTarget_${this.idNumber}">
+                </div>
+                <div class="wrapper rep">
+                    <input class="compteur" type="number" id="inputSessionEditRepIncrement_${this.idNumber}">
+                </div>
+                `,
+            CHRONO : `
+                <span class="input-number-symbol">⌛</span>
+                `,
+            MINUTEUR : `
+                <span class="input-number-symbol">⏱️</span>
+                <input type="number" id="inputMinuteurGenSessionMin_${this.idNumber}" min="0" max="59" value="00">
+                <span class="chrono-separator">:</span>
+                <input type="number" id="inputMinuteurGenSessionSec_${this.idNumber}" min="0" max="59" value="00">
+                `
+        };
+
+
+        //référence
+        this.child1 = null;
+        this.selecteurRef = null;
+        this.dynamicAreaRef = null;
+
+        //rendu
+        this.render();
+    
+        //insertion
+        this.parentRef.appendChild(this.element);
+
+        //référence
+        this.reference();
+
+        //ecouteur
+        this.bindEvent();
+
+        //initialisation de départ
+        this.initChild1();
+        this.updateDynamicArea(this.type);
+    }
+
+
+    render(){
+    // Crée la div parent avec innerHTML complet
+        this.element.innerHTML = `
+            <div id="parent">
+                <div id="divGenItemSessionchild1_${this.idNumber}" class="">
+                    <input class="counterName" type="text" name="" id="inputEditSessionItemName" placeholder="Element ${this.idNumber}" maxlength="30">
+                    <select id="selectGenItemSession_${this.idNumber}">
+                        <option value="COUNTER">Compteur</option>
+                        <option value="CHRONO">Chrono</option>
+                        <option value="MINUTEUR">Minuteur</option>
+                    </select>
+                    <select id="selectGenSessionColor_${this.idNumber}" class="gen-session-col-color">
+                        <option value="white">Blanc</option>
+                        <option value="green">Vert</option>
+                        <option value="yellow">Jaune</option>
+                        <option value="red">Rouge</option>
+                        <option value="blue">Bleu</option>
+                        <option value="violet">Violet</option>
+                        <option value="orange">Orange</option>
+                        <option value="rose">Rose</option>
+                    </select>
+                </div>
+                <div id="divGenItemSessionDynamic_${this.idNumber}" class="">
+                    Veuillez choisir une option ci-dessus.
+                </div>
+            </div>
+        `;
+
+
+    }
+
+
+    
+
+    reference(){
+        this.child1 = this.element.querySelector(`#divGenItemSessionchild1_${this.idNumber}`);
+        this.selecteurRef = this.element.querySelector(`#selectGenItemSession_${this.idNumber}`);
+        this.dynamicAreaRef = this.element.querySelector(`#divGenItemSessionDynamic_${this.idNumber}`);
+    }
+
+    //Ecouteur d'évènement
+    bindEvent(){
+        this.selecteurRef.addEventListener("change", (event)=>{
+            //Appel init
+            this.updateDynamicArea(event.target.value);
+        });
+    }
+
+
+    //initialise les éléments de la première ligne
+    initChild1(){
+        this.selecteurRef.value = this.type;
+    }
+
+
+    updateDynamicArea(type) {
+        //reset
+        this.dynamicAreaRef.innerHTML = "";
+
+        //génère
+        this.dynamicAreaRef.innerHTML = this.dynamicContentData[type];
+    }
+
+
+}
+
 
 
 
 
 // Génération du tableau de création de session
-function onGenerateSessionTable() {
+function onGenerateSessionCanvas() {
    
     // Reférence le parent
-    let parentRef = document.getElementById("bodyTableGenerateSession");
+    let parentRef = document.getElementById("divCanvasGenerateSession");
 
     // Reset le contenu du parent
     parentRef.innerHTML = "";
 
     // Génère le tableau
     for (let i = 0; i < maxSessionItems; i++) {
-        new TableLineSession(parentRef,i); 
+        // new TableLineSession(parentRef,i); 
+        new DivGenItemSession(parentRef,i);
     }
 
     // Affiche le popup
@@ -2624,7 +2745,7 @@ function onCancelCreateSession(event) {
     document.getElementById("divPopCreateSession").style.display = "none";
 
     //vide le tableau
-    document.getElementById("bodyTableGenerateSession").innerHTML = "";
+    document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
 
 }
@@ -2643,7 +2764,7 @@ function onCancelCreateSession(event) {
 async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
 
     // vide la liste
-    let parentRef = document.getElementById("bodyTableGenerateSession");
+    let parentRef = document.getElementById("divCanvasGenerateSession");
     parentRef.innerHTML = "";
 
     // Crée à nouveau une liste vide
@@ -2738,7 +2859,7 @@ async function onClickReturnFromSession() {
     divSessionCompteurAreaRef.innerHTML = "";
 
     //vide le tableau
-    document.getElementById("bodyTableGenerateSession").innerHTML = "";
+    document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
     // ferme le menu
     onLeaveMenu("Session");
