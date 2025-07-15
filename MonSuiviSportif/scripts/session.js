@@ -2462,7 +2462,24 @@ class DivGenItemSession{
         //ajout les écouteur d'évènement selon 
         switch (type) {
             case "COUNTER":
-                
+                //input number
+                let inputCounterIDArray = [
+                    `inputSessionGenSerieTarget_${this.idNumber}`,
+                    `inputSessionGenRepIncrement_${this.idNumber}`
+                ];
+
+                //Pour chaque input
+                inputCounterIDArray.forEach(id =>{
+                    //ajout le focus
+                    let inputTarget = document.getElementById(id);
+                    inputTarget.addEventListener("focus", (event)=>{
+                        selectAllText(event.target);
+                    });
+                    //Ajout le context menu
+                    inputTarget.addEventListener("contextmenu",(event)=>{
+                        disableContextMenu(event);
+                    });
+                });
                 break;
             case "CHRONO":
                 
