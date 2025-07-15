@@ -2330,27 +2330,37 @@ class DivGenItemSession{
         this.idNumber = idNumber;
         this.type = type;
 
-        this.element = document.createElement("div");
+        this.color = "white";
 
+
+        this.element = document.createElement("div");
+        this.element.id = `divGenSessionItemContainer_${this.idNumber}`;
+        this.element.classList.add("gen-session-module");
 
         //contenu dynamique à injecter selon
         this.dynamicContentData = {
-            COUNTER : 
-                `<div class="wrapper serial">
-                    <input class="compteur" type="number" id="inputSessionGenSerieTarget_${this.idNumber}">
-                </div>
-                <div class="wrapper rep">
-                    <input class="compteur" type="number" id="inputSessionGenRepIncrement_${this.idNumber}">
+            COUNTER : `
+                <div class="session-type-area">
+                    <div class="wrapper serial">
+                        <input class="compteur" type="number" id="inputSessionGenSerieTarget_${this.idNumber}" value="0">
+                    </div>
+                    <div class="wrapper rep">
+                        <input class="compteur" type="number" id="inputSessionGenRepIncrement_${this.idNumber}" value="0">
+                    </div>
                 </div>
                 `,
             CHRONO : `
-                <span class="input-number-symbol">⌛</span>
+                <div class="session-type-area">
+                    <span class="input-number-symbol">⏱️</span>
+                </div>
                 `,
             MINUTEUR : `
-                <span class="input-number-symbol">⏱️</span>
-                <input type="number" id="inputMinuteurGenSessionMin_${this.idNumber}" min="0" max="59" value="00">
-                <span class="chrono-separator">:</span>
-                <input type="number" id="inputMinuteurGenSessionSec_${this.idNumber}" min="0" max="59" value="00">
+                <div class="session-type-area number-container">
+                    <span class="input-number-symbol">⌛</span>
+                    <input type="number" id="inputMinuteurGenSessionMin_${this.idNumber}" min="0" max="99" value="00">
+                    <span class="chrono-separator">:</span>
+                    <input type="number" id="inputMinuteurGenSessionSec_${this.idNumber}" min="0" max="59" value="00">
+                </div>
                 `
         };
 
@@ -2358,6 +2368,7 @@ class DivGenItemSession{
         //référence
         this.child1 = null;
         this.selecteurTypeRef = null;
+        this.selecteurColorRef = null;
         this.dynamicAreaRef = null;
 
         //rendu
@@ -2375,21 +2386,21 @@ class DivGenItemSession{
         //initialisation de départ
         this.initChild1();
         this.updateDynamicArea(this.type);
+        this.setColor(this.color);
     }
 
 
     render(){
     // Crée la div parent avec innerHTML complet
         this.element.innerHTML = `
-            <div id="parent">
                 <div id="divGenItemSessionchild1_${this.idNumber}" class="">
                     <input class="counterName" type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Element ${this.idNumber}" maxlength="30">
-                    <select id="selectGenItemSessionType_${this.idNumber}">
+                    <select class="session-type-color" id="selectGenItemSessionType_${this.idNumber}">
                         <option value="COUNTER">Compteur</option>
                         <option value="CHRONO">Chrono</option>
                         <option value="MINUTEUR">Minuteur</option>
                     </select>
-                    <select id="selectGenSessionColor_${this.idNumber}" class="gen-session-col-color">
+                    <select class="session-type-color" id="selectGenItemSessionColor_${this.idNumber}">
                         <option value="white">Blanc</option>
                         <option value="green">Vert</option>
                         <option value="yellow">Jaune</option>
@@ -2403,7 +2414,6 @@ class DivGenItemSession{
                 <div id="divGenItemSessionDynamic_${this.idNumber}" class="">
                     Veuillez choisir une option ci-dessus.
                 </div>
-            </div>
         `;
 
 
@@ -2415,6 +2425,7 @@ class DivGenItemSession{
     reference(){
         this.child1 = this.element.querySelector(`#divGenItemSessionchild1_${this.idNumber}`);
         this.selecteurTypeRef = this.element.querySelector(`#selectGenItemSessionType_${this.idNumber}`);
+        this.selecteurColorRef = this.element.querySelector(`#selectGenItemSessionColor_${this.idNumber}`);
         this.dynamicAreaRef = this.element.querySelector(`#divGenItemSessionDynamic_${this.idNumber}`);
     }
 
@@ -2424,8 +2435,16 @@ class DivGenItemSession{
             //Appel init
             this.updateDynamicArea(event.target.value);
         });
+        this.selecteurColorRef.addEventListener("change",(event)=>{
+            this.setColor(event.target.value);
+        });
     }
 
+    //change la couleur du module
+    setColor(colorRef){
+        this.color = colorRef;
+        this.element.style.backgroundColor = sessionItemColors[this.color].body;
+    }
 
     //initialise les éléments de la première ligne
     initChild1(){
@@ -2439,6 +2458,49 @@ class DivGenItemSession{
 
         //génère
         this.dynamicAreaRef.innerHTML = this.dynamicContentData[type];
+
+        //ajout les écouteur d'évènement selon 
+        switch (type) {
+            case "COUNTER":
+                
+                break;
+            case "CHRONO":
+                
+                break;
+            case "MINUTEUR":
+                let allMinuteurInputID = [
+                    `inputMinuteurGenSessionMin_${this.idNumber}`,
+                    `inputMinuteurGenSessionSec_${this.idNumber}`
+                ]
+
+                allMinuteurInputID.forEach(input=>{
+                    let inputRef = document.getElementById(input);
+                    // onInput
+                    let maxDuration = parseInt(inputRef.max);
+                    inputRef.addEventListener("input",(event)=>{
+                        formatNumberInput(event.target, maxDuration, 2);
+                    });
+
+                    //onFocus
+                    inputRef.addEventListener("focus",(event)=>{
+                        selectAllText(event.target);
+                    });
+
+                    //onBlur
+                    inputRef.addEventListener("blur",(event)=>{
+                        formatNumberInput(event.target, maxDuration, 2);
+                    });
+
+                    //onContextMenu
+                    inputRef.addEventListener("contextmenu",(event)=>{
+                        disableContextMenu(event);
+                    });
+                });
+                break;
+        
+            default:
+                break;
+        }
     }
 
 
@@ -2486,7 +2548,7 @@ function onGetDivGenSessionItems() {
 
         //référence les éléments communs
         let inputName = document.getElementById(`inputGenSessionItemName_${i}`),
-            selectColor = document.getElementById(`selectGenSessionColor_${i}`),
+            selectColor = document.getElementById(`selectGenItemSessionColor_${i}`),
             itemType = document.getElementById(`selectGenItemSessionType_${i}`).value;
 
 
@@ -2752,17 +2814,6 @@ async function handleVisibilityChange() {
 
 
 
-// changement de couleur dans le tableau de génération
-function onChangeColorInGenSessionTable(idRef) {
-    let tableDataRef = document.getElementById(`tdGenSessionChooseColor_${idRef}`),
-        colorRef = document.getElementById(`selectGenSessionColor_${idRef}`).value;
-
-    tableDataRef.style.backgroundColor = sessionItemColors[colorRef].body;
-}
-
-
-
-
 
 
 // Fonction pour empecher la div de se ferme lorsqu'on se trouve dans sa zone.
@@ -2833,9 +2884,7 @@ function onSetSessionTableLineFromTemplate(templateData) {
         document.getElementById(`inputGenSessionNom_${index}`).value = counter.counterName;
         document.getElementById(`inputGenSessionSerie_${index}`).value = counter.serieTarget;
         document.getElementById(`inputGenSessionRep_${index}`).value = counter.repIncrement;
-        // Couleur
-        document.getElementById(`selectGenSessionColor_${index}`).value = counter.color;
-        onChangeColorInGenSessionTable(index);
+
     }); 
       
 }

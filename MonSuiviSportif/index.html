@@ -182,7 +182,7 @@
                         <h2 class="session-item-editor">Nouvel élément</h2>
 
                         <p>
-                            <select name="" id="selectItemSessionType">
+                            <select class="session-type-color" name="" id="selectItemSessionType">
                                 <option value="COUNTER">Compteur</option>
                                 <option value="CHRONO">Chrono</option>
                                 <option value="MINUTEUR">Minuteur</option>
@@ -207,13 +207,13 @@
 
                             <!-- Chrono -->
                             <div class="session-type-area" id="itemSessionChronoEditor" style="display: none;">
-                                <span class="input-number-symbol">⌛</span>
+                                <span class="input-number-symbol">⏱️</span>
                             </div>
 
                             <!-- Minuteur -->
                             <div class="session-type-area number-container" id="itemSessionMinuteurEditor" style="display: none;">
-                                <span class="input-number-symbol">⏱️</span>
-                                <input type="number" id="inputMinuteurSessionMinutes" min="0" max="59" value="00">
+                                <span class="input-number-symbol">⌛</span>
+                                <input type="number" id="inputMinuteurSessionMinutes" min="0" max="99" value="00">
                                 <span class="chrono-separator">:</span>
                                 <input type="number" id="inputMinuteurSessionSeconds" min="0" max="59" value="00">
                             </div>

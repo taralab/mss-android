@@ -2448,8 +2448,8 @@ div.popup-new-counter-content input.counterName{
     margin-bottom: 10px;
 }
 
-div.popup-new-counter-content select{
-    min-width: 200px; 
+select.session-type-color{
+    min-width: 100px; 
     border: var(--inputBorder);
     border-radius: 10px;
     color: #555;
@@ -2513,6 +2513,14 @@ button.btnChooseColor.btnColorSelected{
     color: #888;
     /* background-color: orange; */
 }
+
+
+
+
+
+
+
+
 /* ----------------------------------------- Génération de session  ---------------------------*/
 
 
@@ -2547,9 +2555,18 @@ div.session-list {
     align-items: flex-start;  /* Aligne les items en haut */
     flex-grow: 1; /* Remplit l'espace restant entre header et footer */
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
-    
+    padding: 0px 20px;
+    text-align: center;
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
 }
+
+div.gen-session-module{
+    padding: 10px 10px 10px 0px;
+    border: solid 1px gray;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
 
 table {
     width: 100%;
