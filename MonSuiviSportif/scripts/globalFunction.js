@@ -906,6 +906,13 @@ function onChangeMenu(menuTarget) {
             onOpenMenuSession();
             onDisplayCustomInfo();
         break;
+        case "EditSession":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Edit Session");};
+            pMenuTitleRef.innerHTML = "Générer une séance";
+            onChangeDisplay(["divSession"],[],["divEditSession"],[],[],[],[]);
+            onOpenMenuEditSession();
+            onHideCustomInfo();
+        break;
 
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
@@ -1137,6 +1144,12 @@ function onLeaveMenu(menuTarget) {
             onChangeDisplay(["divSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
             onGenerateMainMenuApp();
+        break;
+        case "EditSession":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Edit Session");};
+            onChangeDisplay(["divEditSession"],[],["divSession"],[],[],[],[]);
+            onOpenMenuSession();
+            onDisplayCustomInfo();
         break;
 
         case "Planning":

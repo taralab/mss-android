@@ -2461,6 +2461,7 @@ select.session-type-color{
     margin: 10px 0px;
 }
 
+
 div.confirmationDeleteCounter{
     z-index: 12;
     display: none;
@@ -2524,49 +2525,33 @@ button.btnChooseColor.btnColorSelected{
 /* ----------------------------------------- Génération de session  ---------------------------*/
 
 
+div.canvas-generate-session{
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
 
-div.popupCreateSession{
-    z-index: 10;
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center; /* centre verticalement */
-    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
-    box-sizing: border-box;
-}
-
-/* La zone manipulable */
-div.createSessionArea{
-    width: calc(100% - 20px);
-    background-color: #f4f4f9;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-}
-
-div.session-list {  
-    height: 60vh;
-    flex-direction: column;   /* Empile les items verticalement */
-    align-items: flex-start;  /* Aligne les items en haut */
-    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
-    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
-    padding: 0px 20px;
-    text-align: center;
-    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
 }
 
 div.gen-session-module{
-    padding: 10px 10px 10px 0px;
-    border: solid 1px gray;
+    padding: 10px 5px 5px 0px;
+    border: solid 1px rgb(168, 168, 168);
     border-radius: 20px;
     margin-bottom: 10px;
+    text-align: center;
 }
 
+
+/* Pour le selecteur type */
+select.session-type-color.gen-type{
+    max-width: 100px;
+    padding: 0px;
+}
+/* Pour le selecteur de couleur */
+select.session-type-color.gen-color{
+    padding: 0px;
+    min-width: 80px;
+    width: 80px;
+}
 
 table {
     width: 100%;

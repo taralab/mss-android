@@ -839,17 +839,6 @@ function onAddEventListenerForSessionEditor() {
 
     isAddEventListenerForSessionEditor = true;
 
-    //retour depuis la div
-    let locDivPopCreateSessionRef = document.getElementById("divPopCreateSession");
-    locDivPopCreateSessionRef.addEventListener("click",(event)=>{
-        onCancelCreateSession(event);
-    });
-
-    //Clic dans la zone créate session
-    let locCreateSessionAreaRef = document.getElementById("divCreateSessionArea");
-    locCreateSessionAreaRef.addEventListener("click",(event)=>{
-        onClickOnCreateSessionArea(event);
-    });
 
     //Selecteur de template
     let locSelectSessionTableModelNameRef = document.getElementById("selectSessionTableModelName");
@@ -857,17 +846,7 @@ function onAddEventListenerForSessionEditor() {
         onChangeSelectorChooseTemplateSession(event.target.value)
     });
 
-    //Bouton annuler création session
-    let locBtnCancelCreateSessionRef = document.getElementById("btnCancelCreateSession");
-    locBtnCancelCreateSessionRef.addEventListener("click",(event)=>{
-        onCancelCreateSession(event);
-    });
 
-    // Valider la création de session
-    let locBtnValidCreateSessionRef = document.getElementById("btnValidCreateSession");
-    locBtnValidCreateSessionRef.addEventListener("click",()=>{
-        eventGenerateSessionList();
-    });
 
 }
 
@@ -964,7 +943,6 @@ function onCreateMainMenuSession() {
     //Action
     new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
 
-
 }
   
    
@@ -1003,7 +981,7 @@ function onChooseSessionMenuSup(event,target) {
             onClickSendSessionToActivity();
             break;
         case "generateSession":
-            onClickMenuCreateSession();
+            onChangeMenu("EditSession");
             break;
     
         default:
@@ -2295,7 +2273,17 @@ function onGetSessionDuration(heureDebut, heureFin) {
 
 
 
+
+
+
+
+
 // ---------------------------- Génération de session ---------------------------------
+
+
+
+
+
 
 // tout est basé sur maxSessionItems
 
@@ -2304,7 +2292,7 @@ function onGetSessionDuration(heureDebut, heureFin) {
 
 
 
-async function onClickMenuCreateSession() {    
+async function onOpenMenuEditSession() {    
 
         // La première fois, récupère les templates dans la base
         if (!isTemplateSessionLoadedFromBase) {
@@ -2320,9 +2308,26 @@ async function onClickMenuCreateSession() {
 
     // actualise la liste des modèles dans le tableau
     onGenerateModelSelectList(); 
+
+    onCreateMainMenuEditSession();
 }
 
 
+
+// Génération du menu principal
+function onCreateMainMenuEditSession() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onclickReturnFromEditSession());
+    //Valider
+    new Button_main_menu_Valider("Générer",() => eventGenerateSessionList());
+
+}
+  
 
 class DivGenItemSession{
     constructor(parentRef,idNumber,type = "COUNTER"){
@@ -2394,13 +2399,13 @@ class DivGenItemSession{
     // Crée la div parent avec innerHTML complet
         this.element.innerHTML = `
                 <div id="divGenItemSessionchild1_${this.idNumber}" class="">
-                    <input class="counterName" type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Element ${this.idNumber}" maxlength="30">
-                    <select class="session-type-color" id="selectGenItemSessionType_${this.idNumber}">
+                    <input type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Nom élément ${this.idNumber}" maxlength="30">
+                    <select class="session-type-color gen-type" id="selectGenItemSessionType_${this.idNumber}">
                         <option value="COUNTER">Compteur</option>
                         <option value="CHRONO">Chrono</option>
                         <option value="MINUTEUR">Minuteur</option>
                     </select>
-                    <select class="session-type-color" id="selectGenItemSessionColor_${this.idNumber}">
+                    <select class="session-type-color gen-color" id="selectGenItemSessionColor_${this.idNumber}">
                         <option value="white">Blanc</option>
                         <option value="green">Vert</option>
                         <option value="yellow">Jaune</option>
@@ -2542,8 +2547,6 @@ function onGenerateSessionCanvas() {
         new DivGenItemSession(parentRef,i);
     }
 
-    // Affiche le popup
-    document.getElementById("divPopCreateSession").style.display = "flex";
 
 
     // Ajout les écoute d'évènements
@@ -2679,13 +2682,11 @@ async function eventGenerateSessionList(){
     onUpdateSessionItemsInStorage();
     onUpdateSessionTimeInStorage();
 
+    //vide le tableau
+    document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
-    // masque le popup
-    document.getElementById("divPopCreateSession").style.display = "none";
-
-    // Affiche les nouveaux compteurs
-    onDisplaySessionItems();
-
+    //quitte ce menu pour revenir dans le menu session
+    onLeaveMenu("EditSession");
 
 }
 
@@ -2840,14 +2841,14 @@ function onClickOnCreateSessionArea(event){
 
 
 // Annulation de la création de session
-function onCancelCreateSession(event) {
+function onclickReturnFromEditSession(event) {
 
-    // masque le popup
-    document.getElementById("divPopCreateSession").style.display = "none";
+
 
     //vide le tableau
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
+    onLeaveMenu("EditSession");
 
 }
 
