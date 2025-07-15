@@ -2322,55 +2322,6 @@ async function onClickMenuCreateSession() {
     onGenerateModelSelectList(); 
 }
 
-// Classe d'une ligne de session
-class TableLineSession{
-
-    constructor(parentRef,idNumber){
-        this.parentRef = parentRef;
-        this.idNumber = idNumber;
-
-        // la row
-        this.element = document.createElement("tr");
-        this.render();
-        this.parentRef.appendChild(this.element);
-        this.addEvent();
-    }
-
-    render(){
-        this.element.innerHTML = `
-            <td class="gen-session-col-nom">
-                <input type="text" id="inputGenSessionNom_${this.idNumber}" class="gen-session-col-nom" placeholder="Compteur ${this.idNumber}">
-            </td>
-            <td class="gen-session-col-series">
-                <input type="number" id="inputGenSessionSerie_${this.idNumber}" class="gen-session-col-series numberGenSession" placeholder="0"  onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
-            </td>
-            <td class="gen-session-col-rep">
-                <input type="number" id="inputGenSessionRep_${this.idNumber}" class="gen-session-col-rep numberGenSession" placeholder="0"  onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
-            </td>
-            <td class="gen-session-col-color"  id="tdGenSessionChooseColor_${this.idNumber}">
-                <select id="selectGenSessionColor_${this.idNumber}" class="gen-session-col-color">
-                    <option value="white">Blanc</option>
-                    <option value="green">Vert</option>
-                    <option value="yellow">Jaune</option>
-                    <option value="red">Rouge</option>
-                    <option value="blue">Bleu</option>
-                    <option value="violet">Violet</option>
-                    <option value="orange">Orange</option>
-                    <option value="rose">Rose</option>
-                </select>
-            </td>
-        `;
-
-    };
-
-    addEvent(){
-        let selectRef = document.getElementById(`selectGenSessionColor_${this.idNumber}`);
-        selectRef.addEventListener("change",()=>{
-            onChangeColorInGenSessionTable(this.idNumber);
-        });
-    }
-
-}
 
 
 class DivGenItemSession{
@@ -2386,10 +2337,10 @@ class DivGenItemSession{
         this.dynamicContentData = {
             COUNTER : 
                 `<div class="wrapper serial">
-                    <input class="compteur" type="number" id="inputSessionEditSerieTarget_${this.idNumber}">
+                    <input class="compteur" type="number" id="inputSessionGenSerieTarget_${this.idNumber}">
                 </div>
                 <div class="wrapper rep">
-                    <input class="compteur" type="number" id="inputSessionEditRepIncrement_${this.idNumber}">
+                    <input class="compteur" type="number" id="inputSessionGenRepIncrement_${this.idNumber}">
                 </div>
                 `,
             CHRONO : `
@@ -2406,7 +2357,7 @@ class DivGenItemSession{
 
         //référence
         this.child1 = null;
-        this.selecteurRef = null;
+        this.selecteurTypeRef = null;
         this.dynamicAreaRef = null;
 
         //rendu
@@ -2432,8 +2383,8 @@ class DivGenItemSession{
         this.element.innerHTML = `
             <div id="parent">
                 <div id="divGenItemSessionchild1_${this.idNumber}" class="">
-                    <input class="counterName" type="text" name="" id="inputEditSessionItemName" placeholder="Element ${this.idNumber}" maxlength="30">
-                    <select id="selectGenItemSession_${this.idNumber}">
+                    <input class="counterName" type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Element ${this.idNumber}" maxlength="30">
+                    <select id="selectGenItemSessionType_${this.idNumber}">
                         <option value="COUNTER">Compteur</option>
                         <option value="CHRONO">Chrono</option>
                         <option value="MINUTEUR">Minuteur</option>
@@ -2463,13 +2414,13 @@ class DivGenItemSession{
 
     reference(){
         this.child1 = this.element.querySelector(`#divGenItemSessionchild1_${this.idNumber}`);
-        this.selecteurRef = this.element.querySelector(`#selectGenItemSession_${this.idNumber}`);
+        this.selecteurTypeRef = this.element.querySelector(`#selectGenItemSessionType_${this.idNumber}`);
         this.dynamicAreaRef = this.element.querySelector(`#divGenItemSessionDynamic_${this.idNumber}`);
     }
 
     //Ecouteur d'évènement
     bindEvent(){
-        this.selecteurRef.addEventListener("change", (event)=>{
+        this.selecteurTypeRef.addEventListener("change", (event)=>{
             //Appel init
             this.updateDynamicArea(event.target.value);
         });
@@ -2478,7 +2429,7 @@ class DivGenItemSession{
 
     //initialise les éléments de la première ligne
     initChild1(){
-        this.selecteurRef.value = this.type;
+        this.selecteurTypeRef.value = this.type;
     }
 
 
@@ -2528,29 +2479,67 @@ function onGenerateSessionCanvas() {
 
 // Génération de la session
 // Récupère les éléments créés dans  le tableau
-function onGetTableSessionItem() {
+function onGetDivGenSessionItems() {
     let sessionList = [];
 
-    for (let i = 0; i < maxSessionItems; i++) {
+    for (let i = 0; i < maxSessionItems; i++) {       
 
-        // Reférence les éléments
-        inputName = document.getElementById(`inputGenSessionNom_${i}`);
-        inputSerie = document.getElementById(`inputGenSessionSerie_${i}`);
-        inputRep = document.getElementById(`inputGenSessionRep_${i}`);
-        selectColor = document.getElementById(`selectGenSessionColor_${i}`);
+        //référence les éléments communs
+        let inputName = document.getElementById(`inputGenSessionItemName_${i}`),
+            selectColor = document.getElementById(`selectGenSessionColor_${i}`),
+            itemType = document.getElementById(`selectGenItemSessionType_${i}`).value;
 
-        // Si inputName remplit
+
+        //NE TRAITE QUE SI YA UN NOM
         if (inputName.value != "") {
+                
+             switch (itemType) {
+                case "COUNTER":
+                    console.log("traitement COUNTER");
+                    //référence éléments spécifiques
+                    let inputSerieValue = document.getElementById(`inputSessionGenSerieTarget_${i}`).value,
+                        inputRepValue = document.getElementById(`inputSessionGenRepIncrement_${i}`).value;
 
-            // récupère les éléments de la ligne 
-            sessionList.push( {
-                name: inputName.value, 
-                serieTarget: parseInt(inputSerie.value) || 0,
-                repIncrement: parseInt(inputRep.value) || 0,
-                color : selectColor.value
-            })
+                    // Insertion
+                    sessionList.push( {
+                        type : itemType,
+                        name: inputName.value, 
+                        serieTarget: parseInt(inputSerieValue || 0),
+                        repIncrement: parseInt(inputRepValue || 0),
+                        color : selectColor.value
+                    });
+                    break;
+                case "CHRONO":
+                    console.log("traitement CHRONO");
+                    sessionList.push( {
+                        type : itemType,
+                        name: inputName.value, 
+                        color : selectColor.value
+                    });
+                    break;
+                case "MINUTEUR":
+                    console.log("traitement MINUTEUR");
+                    //référence éléments spécifiques
+                    let minValue = document.getElementById(`inputMinuteurGenSessionMin_${i}`).value || "00",
+                        secValue = document.getElementById(`inputMinuteurGenSessionSec_${i}`).value || "00",
+                        duration = (parseInt(minValue)*60) + parseInt(secValue);
+
+                    sessionList.push( {
+                        type : itemType,
+                        name: inputName.value, 
+                        color : selectColor.value,
+                        duration : duration
+
+                    });
+                    break;
+            
+                default:
+                    console.log("erreur switch case item type :",itemType);
+                    break;
+            }  
         } 
     }
+
 
     return sessionList;
 }
@@ -2594,7 +2583,10 @@ function onGenerateModelSelectList() {
 async function eventGenerateSessionList(){
 
     // Centralise les éléments qui été dans le tableau de création
-    let itemForSession = onGetTableSessionItem();
+    let itemForSession = onGetDivGenSessionItems();
+
+    console.log(itemForSession);
+    return
 
     if (devMode === true){console.log(itemForSession);}
 
