@@ -2337,12 +2337,16 @@ function onCreateMainMenuEditSession() {
   
 
 class DivGenItemSession{
-    constructor(parentRef,idNumber,type = "COUNTER"){
+    constructor(parentRef,idNumber,type = "COUNTER", itemName = "", color = "white", counterSerie = "0", counterRep = "0", minuteurMin = "00", minuteurSec = "00"){
         this.parentRef = parentRef;
         this.idNumber = idNumber;
         this.type = type;
-
-        this.color = "white";
+        this.itemName = itemName;
+        this.color = color;
+        this.counterSerie = counterSerie;
+        this.counterRep = counterRep;
+        this.minuteurMin = minuteurMin;
+        this.minuteurSec = minuteurSec;
 
 
         this.element = document.createElement("div");
@@ -2354,10 +2358,10 @@ class DivGenItemSession{
             COUNTER : `
                 <div class="session-type-area">
                     <div class="wrapper serial">
-                        <input class="compteur" type="number" id="inputSessionGenSerieTarget_${this.idNumber}" value="0">
+                        <input class="compteur" type="number" id="inputSessionGenSerieTarget_${this.idNumber}">
                     </div>
                     <div class="wrapper rep">
-                        <input class="compteur" type="number" id="inputSessionGenRepIncrement_${this.idNumber}" value="0">
+                        <input class="compteur" type="number" id="inputSessionGenRepIncrement_${this.idNumber}">
                     </div>
                 </div>
                 `,
@@ -2369,9 +2373,9 @@ class DivGenItemSession{
             MINUTEUR : `
                 <div class="session-type-area number-container">
                     <span class="input-number-symbol">⌛</span>
-                    <input type="number" id="inputMinuteurGenSessionMin_${this.idNumber}" min="0" max="99" value="00">
+                    <input type="number" id="inputMinuteurGenSessionMin_${this.idNumber}" min="0" max="99">
                     <span class="chrono-separator">:</span>
-                    <input type="number" id="inputMinuteurGenSessionSec_${this.idNumber}" min="0" max="59" value="00">
+                    <input type="number" id="inputMinuteurGenSessionSec_${this.idNumber}" min="0" max="59">
                 </div>
                 `
         };
@@ -2382,6 +2386,7 @@ class DivGenItemSession{
         this.selecteurTypeRef = null;
         this.selecteurColorRef = null;
         this.dynamicAreaRef = null;
+        this.inputNameRef = null;
 
         //rendu
         this.render();
@@ -2439,6 +2444,7 @@ class DivGenItemSession{
         this.selecteurTypeRef = this.element.querySelector(`#selectGenItemSessionType_${this.idNumber}`);
         this.selecteurColorRef = this.element.querySelector(`#selectGenItemSessionColor_${this.idNumber}`);
         this.dynamicAreaRef = this.element.querySelector(`#divGenItemSessionDynamic_${this.idNumber}`);
+        this.inputNameRef = this.element.querySelector(`#inputGenSessionItemName_${this.idNumber}`);
     }
 
     //Ecouteur d'évènement
@@ -2461,6 +2467,8 @@ class DivGenItemSession{
     //initialise les éléments de la première ligne
     initChild1(){
         this.selecteurTypeRef.value = this.type;
+        this.inputNameRef.value = this.itemName;
+        this.selecteurColorRef.value = this.color;
     }
 
 
@@ -2480,7 +2488,7 @@ class DivGenItemSession{
                     `inputSessionGenRepIncrement_${this.idNumber}`
                 ];
 
-                //Pour chaque input
+                //Pour chaque input Ajout les écouteurs
                 inputCounterIDArray.forEach(id =>{
                     //ajout le focus
                     let inputTarget = document.getElementById(id);
@@ -2492,11 +2500,23 @@ class DivGenItemSession{
                         disableContextMenu(event);
                     });
                 });
+
+
+                //Set les valeurs par défaut
+
+                let inputCounterSerieRef = this.element.querySelector(`#inputSessionGenSerieTarget_${this.idNumber}`),
+                    inputCounterRepRef = this.element.querySelector(`#inputSessionGenRepIncrement_${this.idNumber}`);
+
+                    inputCounterSerieRef.value = this.counterSerie;
+                    inputCounterRepRef.value = this.counterRep;
+                    
                 break;
             case "CHRONO":
                 
                 break;
             case "MINUTEUR":
+
+                //ajoute les écouteurs
                 let allMinuteurInputID = [
                     `inputMinuteurGenSessionMin_${this.idNumber}`,
                     `inputMinuteurGenSessionSec_${this.idNumber}`
@@ -2525,12 +2545,22 @@ class DivGenItemSession{
                         disableContextMenu(event);
                     });
                 });
+
+                //set les valeurs par défaut
+                let inputMinuteurMinRef = this.element.querySelector(`#inputMinuteurGenSessionMin_${this.idNumber}`),
+                    inputMinuteurSecRef = this.element.querySelector(`#inputMinuteurGenSessionSec_${this.idNumber}`);
+
+                    inputMinuteurMinRef.value = this.minuteurMin;
+                    inputMinuteurSecRef.value = this.minuteurSec;
+
                 break;
         
             default:
                 break;
         }
     }
+
+
 
 
 }
@@ -2551,7 +2581,7 @@ function onGenerateSessionCanvas() {
     // Génère le tableau
     for (let i = 0; i < maxSessionItems; i++) {
         // new TableLineSession(parentRef,i); 
-        new DivGenItemSession(parentRef,i);
+        new DivGenItemSession(parentRef,i,"COUNTER","Tomate","green","5","12","45","33");
     }
 
 
