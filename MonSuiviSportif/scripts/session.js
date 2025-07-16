@@ -2337,7 +2337,7 @@ function onCreateMainMenuEditSession() {
   
 
 class DivGenItemSession{
-    constructor(parentRef,idNumber,type = "COUNTER", itemName = "", color = "white", counterSerie = "0", counterRep = "0", minuteurMin = "00", minuteurSec = "00"){
+    constructor(parentRef,idNumber,type = "COUNTER", itemName = "", color = "white", counterSerie = "0", counterRep = "0", minuteurDuration = "0"){
         this.parentRef = parentRef;
         this.idNumber = idNumber;
         this.type = type;
@@ -2345,9 +2345,7 @@ class DivGenItemSession{
         this.color = color;
         this.counterSerie = counterSerie;
         this.counterRep = counterRep;
-        this.minuteurMin = minuteurMin;
-        this.minuteurSec = minuteurSec;
-
+        this.minuteurDuration = minuteurDuration;
 
         this.element = document.createElement("div");
         this.element.id = `divGenSessionItemContainer_${this.idNumber}`;
@@ -2550,8 +2548,12 @@ class DivGenItemSession{
                 let inputMinuteurMinRef = this.element.querySelector(`#inputMinuteurGenSessionMin_${this.idNumber}`),
                     inputMinuteurSecRef = this.element.querySelector(`#inputMinuteurGenSessionSec_${this.idNumber}`);
 
-                    inputMinuteurMinRef.value = this.minuteurMin;
-                    inputMinuteurSecRef.value = this.minuteurSec;
+                    //formate
+                    let textMinuteurValue = this._formatMinuteurTime(this.minuteurDuration);
+
+                    //set le resultat
+                    inputMinuteurMinRef.value = textMinuteurValue.minutes;
+                    inputMinuteurSecRef.value = textMinuteurValue.seconds;
 
                 break;
         
@@ -2560,7 +2562,15 @@ class DivGenItemSession{
         }
     }
 
-
+    _formatMinuteurTime(seconds) {
+        const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const sec = String(seconds % 60).padStart(2, '0');
+        const formatedTime = {
+            minutes : min,
+            seconds : sec
+        }
+        return formatedTime;
+    }
 
 
 }
@@ -2581,7 +2591,7 @@ function onGenerateSessionCanvas() {
     // Génère le tableau
     for (let i = 0; i < maxSessionItems; i++) {
         // new TableLineSession(parentRef,i); 
-        new DivGenItemSession(parentRef,i,"COUNTER","Tomate","green","5","12","45","33");
+        new DivGenItemSession(parentRef,i);
     }
 
 
