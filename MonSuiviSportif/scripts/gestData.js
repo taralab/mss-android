@@ -508,7 +508,7 @@ async function eventImportBdD(inputRef) {
                         break;
 
                     default:
-                        throw new Error("⚠️ Format de fichier inconnu. Veuillez mettre à jour l'application.");
+                        throw new Error("⚠️ Format de fichier inconnu.");
                 }
 
                 // 1 Effacer toutes les données existantes dans local storage et PouchDB
