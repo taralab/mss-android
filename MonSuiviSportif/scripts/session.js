@@ -783,8 +783,8 @@ function onAddEventListenerforSessionItemEditor() {
 
     //Valider
     let btnValideRef = document.getElementById("btnValideCounterEditor");
-    btnValideRef.addEventListener("click",(event)=>{
-        onConfirmSessionItemEditor(event);
+    btnValideRef.addEventListener("click",()=>{
+        onConfirmSessionItemEditor();
     });
 
 

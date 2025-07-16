@@ -401,7 +401,7 @@ async function eventOpenTemplateSessionEditor(mode){
             let result = await findTemplateSessionById(currentTemplateSessionID);
             currentTemplateSessionData = {
                 sessionName :result.sessionName,
-                counterList: result.counterList
+                itemList: result.itemList
             };
             // Puis remplit le tableau 
             onSetTemplateSessionTableLine(currentTemplateSessionData);
@@ -459,7 +459,7 @@ function onSetTemplateSessionTableLine(templateData) {
     document.getElementById("inputTemplateSessionName").value = templateData.sessionName;
 
     //Boucle pour remplir les différents compteurs
-    templateData.counterList.forEach((counter,index)=>{
+    templateData.itemList.forEach((counter,index)=>{
         document.getElementById(`inputGenSessionNom_${index}`).value = counter.counterName;
         document.getElementById(`inputGenSessionSerie_${index}`).value = counter.serieTarget;
         document.getElementById(`inputGenSessionRep_${index}`).value = counter.repIncrement;
@@ -490,14 +490,14 @@ async function onClickSaveFromTemplateSessionEditor() {
     onLeaveMenu("TemplateSessionEditor");
 
     // Récupère les éléments de la liste
-    let newCounterList = onGetTableTemplateSessionItem();
+    let newItemsSessionList = onGetDivGenSessionItems();
 
     // Récupère le nom du modele
     let templateSessionName = inputTemplateSessionNameRef.value;
 
     let templateSessionTosave = {
         sessionName: templateSessionName,
-        counterList : newCounterList
+        itemList : newItemsSessionList
     }
     if (devMode === true){console.log(templateSessionTosave);};
 
@@ -547,33 +547,6 @@ async function onClickSaveFromTemplateSessionEditor() {
 
 
 
-// Fonction pour récupérer le contenu du tableau de création de modele de session
-function onGetTableTemplateSessionItem() {
-    let counterList = [];
-
-    for (let i = 0; i < maxSessionItems; i++) {
-
-        // Reférence les éléments
-        inputName = document.getElementById(`inputGenSessionNom_${i}`);
-        inputSerie = document.getElementById(`inputGenSessionSerie_${i}`);
-        inputRep = document.getElementById(`inputGenSessionRep_${i}`);
-        selectColor = document.getElementById(`selectGenSessionColor_${i}`);
-
-        // Si inputName remplit
-        if (inputName.value != "") {
-
-            // récupère les éléments de la ligne 
-            counterList.push( {
-                counterName: inputName.value, 
-                serieTarget: parseInt(inputSerie.value) || 0,
-                repIncrement: parseInt(inputRep.value) || 0,
-                color : selectColor.value
-            })
-        } 
-    }
-
-    return counterList;
-}
 
 
 
