@@ -611,6 +611,9 @@ class Minuteur {
         //Notification in app
         onShowNotifyPopup("minuteurTargetReach");
 
+        //Joue le son de notification
+        document.getElementById("audioSoundMinuteurEnd").play();
+
         //met à jour les éléments hors de cette classe
         userSessionItemsList[this.id].isDone = true;
         // Sauvegarde en localStorage
