@@ -333,7 +333,7 @@ function onSetTemplateSessionNameList() {
 function onClickReturnFromMenuTemplateSession() {
 
     //vide le tableau
-    document.getElementById("bodyTableGenerateSessionEditor").innerHTML = "";
+    document.getElementById("divGenerateTemplateSessionEditor").innerHTML = "";
 
     onLeaveMenu("MenuTemplateSession");
 }
@@ -439,15 +439,15 @@ function onCreateMainMenuTemplateSessionEditor(isModify) {
 function onCreateTemplateSessionTableLine() {
     
     // Reférence le parent
-    let parentRef = document.getElementById("bodyTableGenerateSessionEditor");
+    let parentRef = document.getElementById("divGenerateTemplateSessionEditor");
 
     // Reset le contenu du parent et le nom
     parentRef.innerHTML = "";
     document.getElementById("inputTemplateSessionName").value = "";
 
     // Génère le tableau
-    for (let i = 0; i < maxCounter; i++) {
-        new TableLineSession(parentRef,i); 
+    for (let i = 0; i < maxSessionItems; i++) {
+        new DivGenItemSession(parentRef,i); 
     }
 }
 
@@ -551,7 +551,7 @@ async function onClickSaveFromTemplateSessionEditor() {
 function onGetTableTemplateSessionItem() {
     let counterList = [];
 
-    for (let i = 0; i < maxCounter; i++) {
+    for (let i = 0; i < maxSessionItems; i++) {
 
         // Reférence les éléments
         inputName = document.getElementById(`inputGenSessionNom_${i}`);
@@ -631,7 +631,7 @@ async function eventDeleteTemplateSessionModel() {
 function onClickReturnFromTemplateSessionEditor() {
 
     //vide le tableau
-    document.getElementById("bodyTableGenerateSessionEditor").innerHTML = "";
+    document.getElementById("divGenerateTemplateSessionEditor").innerHTML = "";
 
     onLeaveMenu("TemplateSessionEditor");
 }
