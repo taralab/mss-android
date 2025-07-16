@@ -22,6 +22,17 @@ document.addEventListener('DOMContentLoaded', function () {
         //Masque menu principal et div safe area bottom
         document.getElementById("divMainBtnMenu").classList.add("hidden");
         document.getElementById("divSafeAreaBottom").classList.add("hidden");
+
+        //Et si dans menu principal, masque les boutons flottant selon si template ou non
+        if (isInMainMenu) {
+            //masque le bouton new
+            document.getElementById("btnNewActivity").style.display = "none";
+            if (templateAvailable) {
+                //et masque le bouton new from template si disponible
+                document.getElementById("btnNewFromTemplate").style.display = "none";
+            }
+        }
+
       });
 
       window.Capacitor.Plugins.Keyboard.addListener('keyboardWillHide', function () {
@@ -30,6 +41,16 @@ document.addEventListener('DOMContentLoaded', function () {
         //Remet menu principal et div safe area bottom
         document.getElementById("divMainBtnMenu").classList.remove("hidden");
         document.getElementById("divSafeAreaBottom").classList.remove("hidden");
+
+               //Et si dans menu principal, réaffiche les boutons flottant selon si template ou non
+        if (isInMainMenu) {
+            //réaffiche le bouton new
+            document.getElementById("btnNewActivity").style.display = "block";
+            if (templateAvailable) {
+                //et réaffiche le bouton new from template si disponible
+                document.getElementById("btnNewFromTemplate").style.display = "block";
+            }
+        }
       });
     } else {
       console.warn('Plugin Keyboard non disponible');

@@ -198,9 +198,12 @@ let btnMainMenuData = {
     }
 }
 
-
+let isInMainMenu = true;//pour la gestion du keyboard pour masquer ou non les deux boutons flottant
 
 function onGenerateMainMenuApp() {
+    isInMainMenu = true;
+
+
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
     divMainMenuParentRef.innerHTML = "";
@@ -1128,7 +1131,8 @@ function onAnnulMenuSup(){
 
 
 function onLeaveMenu(menuTarget) {
-
+    isInMainMenu = false; //pour la gestion du masquage des boutons flottant lorsque le clavier est visible
+    
     if (devMode === true){console.log(" [ NAVIGATION ] Demande de changement menu demandé par : " + menuTarget);};
 
     // remet le titre initial du menu
