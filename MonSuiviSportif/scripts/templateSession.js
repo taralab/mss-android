@@ -391,20 +391,19 @@ async function eventOpenTemplateSessionEditor(mode){
     switch (templateSessionEditorMode) {
         case "creation":
             // Demande de création du tableau vide
-            onCreateTemplateSessionTableLine();
+            onCreateTemplateSessionTableLine(false);
             break;
-        case "modification":
-            // Demande de création du tableau vide
-            onCreateTemplateSessionTableLine();
 
+        case "modification":
             // Recherche les éléments dans la base
             let result = await findTemplateSessionById(currentTemplateSessionID);
             currentTemplateSessionData = {
                 sessionName :result.sessionName,
                 itemList: result.itemList
             };
-            // Puis remplit le tableau 
-            onSetTemplateSessionTableLine(currentTemplateSessionData);
+
+            // Demande de création du tableau avec les éléments
+            onCreateTemplateSessionTableLine(true,currentTemplateSessionData);
             break;
     
         default:
@@ -436,40 +435,52 @@ function onCreateMainMenuTemplateSessionEditor(isModify) {
 
 
 // fonction de génération des lignes du tableau
-function onCreateTemplateSessionTableLine() {
+function onCreateTemplateSessionTableLine(isModification,templateData) {
     
     // Reférence le parent
     let parentRef = document.getElementById("divGenerateTemplateSessionEditor");
 
-    // Reset le contenu du parent et le nom
+    // Reset le contenu du parent et le nom ou le set si modification
     parentRef.innerHTML = "";
-    document.getElementById("inputTemplateSessionName").value = "";
+    document.getElementById("inputTemplateSessionName").value = isModification ? templateData.sessionName : "";
 
-    // Génère le tableau
-    for (let i = 0; i < maxSessionItems; i++) {
-        new DivGenItemSession(parentRef,i); 
+    if (isModification) {
+        templateData.itemList.forEach((e,index)=>{
+            //génère selon le type
+            switch (e.type) {
+                case "COUNTER":
+                    new DivGenItemSession(parentRef,index,e.type,e.name,e.color,e.serieTarget,e.repIncrement);
+                    break;
+                case "CHRONO":
+                    new DivGenItemSession(parentRef,index,e.type,e.name,e.color);
+                    break;
+                case "MINUTEUR":
+                    new DivGenItemSession(parentRef,index,e.type,e.name,e.color,null,null,e.duration);
+                    break;
+            
+                default:
+                    break;
+            }
+            
+
+        });
+        //puis génère le reste vide sans dépasser maxSessionItems
+        for (let i = templateData.itemList.length; i < maxSessionItems; i++) {
+            new DivGenItemSession(parentRef,i); 
+        }
+
+
+    }else{
+        // Génère le tableau entier vide
+        for (let i = 0; i < maxSessionItems; i++) {
+            new DivGenItemSession(parentRef,i); 
+        }
     }
-}
 
-// Fonction pour remplir les lignes du tableau
-function onSetTemplateSessionTableLine(templateData) {
-    if (devMode === true){console.log(templateData)};
-
-    // Set le nom de la session
-    document.getElementById("inputTemplateSessionName").value = templateData.sessionName;
-
-    //Boucle pour remplir les différents compteurs
-    templateData.itemList.forEach((counter,index)=>{
-        document.getElementById(`inputGenSessionNom_${index}`).value = counter.counterName;
-        document.getElementById(`inputGenSessionSerie_${index}`).value = counter.serieTarget;
-        document.getElementById(`inputGenSessionRep_${index}`).value = counter.repIncrement;
-        // Couleur
-        document.getElementById(`selectGenSessionColor_${index}`).value = counter.color;
-        onChangeColorInGenSessionTable(index);
-    }); 
-    
     
 }
+
+
 
 
 async function onClickSaveFromTemplateSessionEditor() {
