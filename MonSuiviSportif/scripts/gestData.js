@@ -453,6 +453,8 @@ function eventSaveResult(isAutoSave){
 // -------------------------------- IMPORT -----------------------------------------------------
 
 async function eventImportBdD(inputRef) {
+    let isSaveVersionValid = true;
+
     const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById("pImportActivityResult");
 
@@ -465,7 +467,7 @@ async function eventImportBdD(inputRef) {
 
         reader.onload = async function (e) {
             try {
-                onDisplayTextDataBaseEvent(false);
+                
 
                 // Charger et analyser le JSON
                 const jsonData = JSON.parse(e.target.result);
@@ -477,27 +479,15 @@ async function eventImportBdD(inputRef) {
 
                 switch (version) {
                     case 0:
-                        console.log("[IMPORT] V0");
-                        // Ancien format (tableau direct ou objet sans version)
-                        // Le fichier ne contient pas d'item session
-                        importedDocs = Array.isArray(jsonData) ? jsonData : jsonData.documents || [];
-                        importedUserSessionItemsList = {}; // Pas dispo dans ce format
-                        break;
+                        console.log("[IMPORT] V0 plus supporté");
+
+                        isSaveVersionValid = false;
+                        break
 
                     case 1:
-                        console.log("[IMPORT] V1");
-                        // Nouveau format structuré avec documents + userCounterList (ancien nom ne pas changer pour V1)
-                        //Le fichier contient les items sessions ancien format (sans "type")
-                        importedDocs = jsonData.documents || [];
-                        importedUserSessionItemsList = jsonData.userCounterList || {};//ne pas changer ancien nom pour V1
-                        //Ajout un "type" à chaque item List pour compatibilité V2
-                        if(Object.keys(importedUserSessionItemsList).length >=1){
-                            console.log("traitement compatilibté item list V2");
-                            Object.keys(importedUserSessionItemsList).forEach(key=>{
-                                importedUserSessionItemsList[key].type = "COUNTER";
-                            });
-                        }
+                        console.log("[IMPORT] V1 plus supporté");
                         
+                        isSaveVersionValid = false;
                         break;
                     case 2:
                         console.log("[IMPORT] V2");
@@ -505,11 +495,24 @@ async function eventImportBdD(inputRef) {
                         //le fichier contient les items session avec type
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
                         break;
 
                     default:
                         throw new Error("⚠️ Format de fichier inconnu.");
                 }
+
+                // 0 barrière format de sauvegarde trop ancienne stop l'action
+                if (!isSaveVersionValid) {
+                    alert("Les sauvegardes inférieures à V2 ne sont plus autorisées dans l'application");
+                    textResultRef.innerHTML = "Sauvegardes inférieures à V2 non autorisées !";
+                    onSetLockGestDataButton(false);
+                    return
+                }
+
+                // 0 Bis lance l'affiche si tout est ok
+                onDisplayTextDataBaseEvent(false);
+
 
                 // 1 Effacer toutes les données existantes dans local storage et PouchDB
                 onDeleteLocalStorage();
@@ -523,7 +526,7 @@ async function eventImportBdD(inputRef) {
                 await onCreateDBStore();
 
                 // 4 Restaurer userCounterList si disponible
-                if (version >= 1 && importedUserSessionItemsList) {
+                if (importedUserSessionItemsList) {
                     userSessionItemsList = importedUserSessionItemsList;
                     console.log('[IMPORT] userSessionItemsList restauré :', userSessionItemsList);
                     onUpdateSessionItemsInStorage();
