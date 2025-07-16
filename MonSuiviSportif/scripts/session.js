@@ -1613,8 +1613,8 @@ async function onDisplaySessionItems() {
 }
 
 // Fonction de trie par displayOrder et ne retourner qu'un tableau de clé trié
-function getSortedKeysByDisplayOrder(counterList) {
-    return Object.entries(counterList)
+function getSortedKeysByDisplayOrder(itemList) {
+    return Object.entries(itemList)
         .sort(([, a], [, b]) => a.displayOrder - b.displayOrder)
         .map(([key]) => key);
 }
@@ -2916,43 +2916,54 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
     let parentRef = document.getElementById("divCanvasGenerateSession");
     parentRef.innerHTML = "";
 
-    // Crée à nouveau une liste vide
-    for (let i = 0; i < maxSessionItems; i++) {
-        new TableLineSession(parentRef,i); 
-    }
 
     // pour modèle "personnalisé" ne vas pas plus loin
     if (modelIdTarget === "CUSTOM") {
-        return;
+         // Génère le tableau entier vide
+        for (let i = 0; i < maxSessionItems; i++) {
+            new DivGenItemSession(parentRef,i); 
+        }
+    }else{
+
+        // Récupère les items selon l'ID dans la base
+        let result = await findTemplateSessionById(modelIdTarget);
+        
+        sessionData = {
+            sessionName :result.sessionName,
+            itemList: result.itemList
+        };
+
+        sessionData.itemList.forEach((e,index)=>{
+        //génère selon le type
+        switch (e.type) {
+            case "COUNTER":
+                new DivGenItemSession(parentRef,index,e.type,e.name,e.color,e.serieTarget,e.repIncrement);
+                break;
+            case "CHRONO":
+                new DivGenItemSession(parentRef,index,e.type,e.name,e.color);
+                break;
+            case "MINUTEUR":
+                new DivGenItemSession(parentRef,index,e.type,e.name,e.color,null,null,e.duration);
+                break;
+            
+            default:
+                break;
+            }
+            
+
+        });
+        //puis génère le reste vide sans dépasser maxSessionItems
+        for (let i = sessionData.itemList.length; i < maxSessionItems; i++) {
+            new DivGenItemSession(parentRef,i); 
+        }
     }
 
-    // Récupère les items selon l'ID dans la base
-    let result = await findTemplateSessionById(modelIdTarget);
-    
-    sessionData = {
-        sessionName :result.sessionName,
-        counterList: result.counterList
-    };
-    // Puis remplit le tableau 
-    onSetSessionTableLineFromTemplate(sessionData);
+
+
 
 }
 
 
-
-// Fonction pour remplir les lignes du tableau
-function onSetSessionTableLineFromTemplate(templateData) {
-    if (devMode === true){console.log(templateData)};
-
-    //Boucle pour remplir les différents compteurs
-    templateData.counterList.forEach((counter,index)=>{
-        document.getElementById(`inputGenSessionNom_${index}`).value = counter.counterName;
-        document.getElementById(`inputGenSessionSerie_${index}`).value = counter.serieTarget;
-        document.getElementById(`inputGenSessionRep_${index}`).value = counter.repIncrement;
-
-    }); 
-      
-}
 
 
 
