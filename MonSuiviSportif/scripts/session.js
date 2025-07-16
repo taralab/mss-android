@@ -880,6 +880,13 @@ function onAddEventListenerForSendFakeSelector() {
         //lance la génération
         onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation);
     });
+
+
+    let btnSendToActivityLocationCancelRef = document.getElementById("btnSendToActivityLocationCancel");
+    btnSendToActivityLocationCancelRef.addEventListener("click", ()=>{
+        //Masque le popup
+        document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
+    });
 }
 
 
@@ -1803,7 +1810,7 @@ async function onClickResetCounter(idRef) {
 
 function onClickResetAllSessionItems() {
 
-    let textToDisplay = `<b>Réinitialiser tous les compteurs ?</b>`;
+    let textToDisplay = `<b>Réinitialiser tous les éléments ?</b>`;
     addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventResetAllSessionItems,textToDisplay,"reset");
 }
 
@@ -1981,7 +1988,7 @@ function onClickSendSessionToActivity() {
     if (Object.keys(userSessionItemsList).length > 0) {
         onGenerateFakeSelectSession();
     }else{
-        alert("Vous n'avez aucun compteur à envoyer !");
+        alert("Vous n'avez aucun élément à envoyer !");
     }
 }
 

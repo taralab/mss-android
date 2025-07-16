@@ -1148,6 +1148,7 @@ function onLeaveMenu(menuTarget) {
         case "EditSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Edit Session");};
             onChangeDisplay(["divEditSession"],[],["divSession"],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "Séance";
             onOpenMenuSession();
             onDisplayCustomInfo();
         break;

@@ -2862,8 +2862,11 @@ input:checked + .slider::before {
 
 
 
-
-
+/* Envoyer vers activité confirmation */
+div.button-confirm-send{
+    display: inline-flex;
+    margin-top: 20px;
+}
 
 div.dev{
  display: flex;
