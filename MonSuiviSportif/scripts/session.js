@@ -291,7 +291,7 @@ class Chrono {
             timerInUseID = this.id;
             await requestWakeLock();
 
-            console.log("Verrouillage timer :",timerInUseID);
+           if (devMode === true) {console.log("Verrouillage timer par : ",timerInUseID);} 
         }else{
             alert("Un timer est déjà en cours");
             return
@@ -319,7 +319,7 @@ class Chrono {
         
         //Libère l'utilisation de timer si utilisé par celui-ci
         if (timerInUseID !== null && timerInUseID === this.id) {
-            console.log("Libère timer unique");
+             if (devMode === true) {console.log("Libère timer unique");}
             timerInUseID = null;
             await releaseWakeLock();
         }
@@ -524,7 +524,7 @@ class Minuteur {
             timerInUseID = this.id;
             await requestWakeLock();
 
-            console.log("Verrouillage timer :",timerInUseID);
+             if (devMode === true) {console.log("Verrouillage timer par :",timerInUseID);}
         }else{
             alert("Un timer est déjà en cours");
             return
@@ -558,7 +558,7 @@ class Minuteur {
         
         //Libère l'utilisation de timer si utilisé par celui-ci
         if (timerInUseID !== null && timerInUseID === this.id) {
-            console.log("Libère timer unique");
+             if (devMode === true) {console.log("Libère timer unique");}
             timerInUseID = null;
             await releaseWakeLock();
         }
@@ -918,9 +918,11 @@ async function onOpenMenuSession(){
 
     //ajout l'écouteur d'évènement pour le wakeLock (à chaque fois et retire lorsque quitte le menu)
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    console.log("Ajout Ecouteur visibilitychange pour wakeLock");
 
-    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
+    if (devMode === true){
+        console.log("userSessionItemsList", userSessionItemsList);
+        console.log("Ajout Ecouteur visibilitychange pour wakeLock");
+    }
 
     // set l'heure d'initialisation de session dans le texte
     document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
@@ -1520,10 +1522,12 @@ async function eventSaveModifySessionItem() {
 // l'affichage des compteurs de fait sur le trie des "displayOrder"
 
 async function onDisplaySessionItems() {
-    if (devMode === true){console.log(" [COUNTER] génération de la liste");}
+    if (devMode === true){
+        console.log(" [COUNTER] génération de la liste");
+        console.log("Libère timer unique");
+    }
 
     //Libère l'utilisation des timers
-    console.log("Libère timer unique");
     timerInUseID = null; 
     await releaseWakeLock();
 
@@ -1555,7 +1559,7 @@ async function onDisplaySessionItems() {
 
         //trie selon le "type" d'élément
         let itemType = userSessionItemsList[key].type || "COUNTER";
-        console.log("itemType = ", itemType);
+
         switch (itemType) {
             case "COUNTER":
                 new Counter(
@@ -2627,7 +2631,7 @@ function onGetDivGenSessionItems() {
                 
              switch (itemType) {
                 case "COUNTER":
-                    console.log("traitement COUNTER");
+
                     //référence éléments spécifiques
                     let inputSerieValue = document.getElementById(`inputSessionGenSerieTarget_${i}`).value,
                         inputRepValue = document.getElementById(`inputSessionGenRepIncrement_${i}`).value;
@@ -2642,7 +2646,7 @@ function onGetDivGenSessionItems() {
                     });
                     break;
                 case "CHRONO":
-                    console.log("traitement CHRONO");
+
                     sessionList.push( {
                         type : itemType,
                         name: inputName.value, 
@@ -2650,7 +2654,7 @@ function onGetDivGenSessionItems() {
                     });
                     break;
                 case "MINUTEUR":
-                    console.log("traitement MINUTEUR");
+
                     //référence éléments spécifiques
                     let minValue = document.getElementById(`inputMinuteurGenSessionMin_${i}`).value || "00",
                         secValue = document.getElementById(`inputMinuteurGenSessionSec_${i}`).value || "00",
@@ -2834,11 +2838,11 @@ async function requestWakeLock() {
     try {
         if ('wakeLock' in navigator) {
             wakeLockInstance = await navigator.wakeLock.request('screen');
-            console.log("✅ Wake Lock activé");
+            if (devMode ===true){console.log("✅ Wake Lock activé");}
 
             // Surveille si le Wake Lock est libéré automatiquement (ex: onglet inactif)
             wakeLockInstance.addEventListener('release', () => {
-                console.log("⚠️ Wake Lock libéré automatiquement");
+                if (devMode ===true){console.log("⚠️ Wake Lock libéré automatiquement");}
                 wakeLockInstance = null;
             });
         } else {
@@ -2855,9 +2859,9 @@ async function releaseWakeLock() {
         if (wakeLockInstance) {
             await wakeLockInstance.release();
             wakeLockInstance = null;
-            console.log("🔓 Wake Lock désactivé manuellement");
+            if (devMode ===true){console.log("🔓 Wake Lock désactivé manuellement");}
         }else{
-            console.log("🔓 Wake Lock déjà désactivé");
+            if (devMode ===true){console.log("🔓 Wake Lock déjà désactivé");}
         }
     } catch (err) {
         console.error("❌ Erreur lors de la libération du Wake Lock :", err);
@@ -2872,7 +2876,7 @@ async function handleVisibilityChange() {
         if (timerInUseID !== null && !wakeLockInstance) {
             try {
                 await requestWakeLock();
-                console.log("Reprise automatique du wakeLock");
+                if (devMode ===true){console.log("Reprise automatique du wakeLock");}
             } catch (err) {
                 console.warn("Échec du Wake Lock :", err);
             }
@@ -3002,7 +3006,7 @@ function onDestroySortable() {
 async function onClickReturnFromSession() {
 
     //libère le verrouillage timer unique
-    console.log("Libère timer unique");
+    if (devMode ===true){console.log("Libère timer unique");}
     timerInUseID = null;
 
     //enlève également le wakeLock si active
@@ -3010,7 +3014,7 @@ async function onClickReturnFromSession() {
 
     //enlève ecouteur d'évènement visibility pour le wakelock
     document.removeEventListener("visibilitychange", handleVisibilityChange);
-    console.log("Retire Ecouteur visibilitychange pour wakeLock");
+    if (devMode ===true){console.log("Retire Ecouteur visibilitychange pour wakeLock");}
 
 
     onDestroySortable();
