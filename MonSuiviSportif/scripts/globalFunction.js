@@ -894,10 +894,9 @@ let pMenuTitleRef = document.getElementById("pMenuTitle");
 
 
 function onChangeMenu(menuTarget) {
-
+    isInMainMenu = false; //pour la gestion du masquage des boutons flottant lorsque le clavier est visible
+    
     if (devMode === true){console.log(" [ NAVIGATION ] Demande de changement menu : " + menuTarget);};
-
-
 
 
     switch (menuTarget) {
@@ -1131,7 +1130,6 @@ function onAnnulMenuSup(){
 
 
 function onLeaveMenu(menuTarget) {
-    isInMainMenu = false; //pour la gestion du masquage des boutons flottant lorsque le clavier est visible
     
     if (devMode === true){console.log(" [ NAVIGATION ] Demande de changement menu demandé par : " + menuTarget);};
 
