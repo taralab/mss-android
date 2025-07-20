@@ -67,9 +67,15 @@ let infoSessionTextArray = [
 //identifier par son ID car seule l'id concerné peut l'arréter
 let timerInUseID = null;
 
-//Gestion du wakelock 
+//Gestion du wakelock (un seul timer peux fonctionner à la fois)
 //activer => lorsqu'un compteur ou minuteur tourne
 //Arréter => ondisplay affichage (par sécurité si tournait), pause, complète.
+
+//lorsqu'un chrono tourne si écrans mi en arriere plan, met le chrono en pause et enregistre elapsed time. Pour reprendre automatiquement lors du retour.
+
+
+
+
 
 // Objet compteur
 class Counter {
@@ -1473,7 +1479,6 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
             userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
 
-            onDisplaySessionItems();
             break;
 
         case "CHRONO":
@@ -1483,7 +1488,6 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].name = chronoData.name;
             userSessionItemsList[currentSessionItemEditorID].color = chronoData.color;
 
-            onDisplaySessionItems();
             break;
 
         case "MINUTEUR":
@@ -1495,7 +1499,6 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].duration = minuteurData.duration;
             userSessionItemsList[currentSessionItemEditorID].isDone = minuteurData.isDone; //A chaque modification reset tout.A retirer si effet non souhaité
 
-            onDisplaySessionItems();
             break;
     
         default:
@@ -1508,6 +1511,8 @@ async function eventSaveModifySessionItem() {
         console.log("demande de vérification DONE");
     }
 
+    //Actualise l'affichage
+    onDisplaySessionItems();
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -1946,7 +1951,7 @@ function updateSessionItemsDisplayOrders() {
     });
 
     // réaffiche les compteurs
-    onDisplaySessionItems();// a regarder si pertinent ou non
+    //onDisplaySessionItems(); a regarder si pertinent ou non sinon remetre
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -3023,7 +3028,7 @@ async function onClickReturnFromSession() {
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
     divSessionCompteurAreaRef.innerHTML = "";
 
-    //vide le tableau
+    //vide le tableau de génération
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
     // ferme le menu
