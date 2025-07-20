@@ -2824,7 +2824,6 @@ function onGenerateMultipleSessionItems(newSessionList) {
 
     if (devMode === true){console.log("userSessionItemsList", userSessionItemsList);}
 
-
 }
 
 
