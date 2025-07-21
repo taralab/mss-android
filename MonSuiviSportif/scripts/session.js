@@ -944,12 +944,11 @@ async function onOpenMenuSession(){
     // set l'heure d'initialisation de session dans le texte
     document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
 
-    onDisplaySessionItems();
+    await onDisplaySessionItems();
 
     // Instancie le system de drag N drop avec un petit delay pour laisser la création des items
-    setTimeout(() => {
-        onInitSortable("divSessionCompteurArea");
-    }, 100);
+    onInitSortable("divSessionCompteurArea");
+
 
 
     // Charge également les listes des modèles et leur clé dans l'ordre alphabétique
@@ -1219,7 +1218,7 @@ async function eventInsertNewSessionItem(itemType) {
     onUpdateSessionItemsInStorage();
 
     // fonction de création affichage des compteurs
-    onDisplaySessionItems();
+    await onDisplaySessionItems();
     
 
     //notification selon le type d'élément créé
@@ -1526,7 +1525,7 @@ async function eventSaveModifySessionItem() {
     }
 
     //Actualise l'affichage
-    onDisplaySessionItems();
+    await onDisplaySessionItems();
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -1539,103 +1538,68 @@ async function eventSaveModifySessionItem() {
 
 
 // l'affichage des compteurs de fait sur le trie des "displayOrder"
-
 async function onDisplaySessionItems() {
-    if (devMode === true){
-        console.log(" [SESSION] génération de la liste");
-        console.log("[SESSION] Libère timer unique");
-    }
-
-    //Libère l'utilisation des timers
-    timerInUseID = null; 
-    await releaseWakeLock();
-
-
-    // div qui contient les compteurs
-    let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
-    // Reset
-    divSessionCompteurAreaRef.innerHTML = "";
-
-
-    // div de fin de liste (bouton et info)
-    let divSessionEndListRef = document.getElementById("divSessionEndList");
-    divSessionEndListRef.innerHTML = "";
-
-    // Affichage en cas d'aucun item
-    if (Object.keys(userSessionItemsList).length < 1) {
-        divSessionCompteurAreaRef.innerHTML = "Aucun élément à afficher !";
-
-        new Button_add("Ajouter un élément",() => onClickAddSessionItem(),false,divSessionEndListRef);
-        return
-    }
-
-
-    // récupère la liste des clé trié par displayOrder
-    sessionItemsSortedKey = [];
-
-    sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
-
-    sessionItemsSortedKey.forEach((key,index)=>{
-
-
-        //trie selon le "type" d'élément
-        let itemType = userSessionItemsList[key].type || "COUNTER";
-
-        switch (itemType) {
-            case "COUNTER":
-                new Counter(
-                    key,userSessionItemsList[key].name,
-                    userSessionItemsList[key].currentSerie,userSessionItemsList[key].serieTarget,userSessionItemsList[key].repIncrement,
-                    userSessionItemsList[key].displayOrder,divSessionCompteurAreaRef,userSessionItemsList[key].color,
-                    userSessionItemsList[key].totalCount
-                );
-                // control des objectifs atteinds pour chaque compteur généré
-                onCheckCounterTargetReach(key); 
-                break;
-            case "CHRONO":
-                new Chrono(
-                    key,
-                    userSessionItemsList[key].name,
-                    userSessionItemsList[key].displayOrder,
-                    divSessionCompteurAreaRef,
-                    userSessionItemsList[key].color,
-                    userSessionItemsList[key].elapsedTime
-                );
-                break;
-            case "MINUTEUR":
-                new Minuteur(
-                    key,
-                    userSessionItemsList[key].name,
-                    userSessionItemsList[key].displayOrder,
-                    divSessionCompteurAreaRef,
-                    userSessionItemsList[key].color,
-                    userSessionItemsList[key].duration,
-                    userSessionItemsList[key].isDone
-                );
-                break;
-        
-            default:
-                break;
+    return new Promise(async (resolve) => {
+        if (devMode === true){
+            console.log(" [SESSION] génération de la liste");
         }
 
-        // Generation
+        timerInUseID = null; 
+        await releaseWakeLock();
 
+        const divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
+        divSessionCompteurAreaRef.innerHTML = "";
 
-        // Creation de la ligne de fin pour le dernier index
-        if (index === (Object.keys(userSessionItemsList).length - 1)) {
-            let ismaxSessionItemsReach = Object.keys(userSessionItemsList).length >= maxSessionItems;
-            new Button_add("Ajouter un élément",() => onClickAddSessionItem(),ismaxSessionItemsReach,divSessionEndListRef);
+        const divSessionEndListRef = document.getElementById("divSessionEndList");
+        divSessionEndListRef.innerHTML = "";
 
-            let newClotureList = document.createElement("span");
-            newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = getRandomSessionInfo(infoSessionTextArray);
-            divSessionEndListRef.appendChild(newClotureList);
+        if (Object.keys(userSessionItemsList).length < 1) {
+            divSessionCompteurAreaRef.innerHTML = "Aucun élément à afficher !";
+
+            new Button_add("Ajouter un élément", () => onClickAddSessionItem(), false, divSessionEndListRef);
+            return resolve(); // ← important
         }
+
+        const sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
+        let total = sessionItemsSortedKey.length;
+        let done = 0;
+
+        sessionItemsSortedKey.forEach((key, index) => {
+            const item = userSessionItemsList[key];
+            const type = item.type || "COUNTER";
+
+            switch (type) {
+                case "COUNTER":
+                    new Counter(key, item.name, item.currentSerie, item.serieTarget, item.repIncrement,
+                                item.displayOrder, divSessionCompteurAreaRef, item.color, item.totalCount);
+                    onCheckCounterTargetReach(key);
+                    break;
+                case "CHRONO":
+                    new Chrono(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.elapsedTime);
+                    break;
+                case "MINUTEUR":
+                    new Minuteur(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
+                    break;
+            }
+
+            // dernière action
+            if (++done === total) {
+                let ismaxSessionItemsReach = total >= maxSessionItems;
+                new Button_add("Ajouter un élément", () => onClickAddSessionItem(), ismaxSessionItemsReach, divSessionEndListRef);
+
+                let newClotureList = document.createElement("span");
+                newClotureList.classList.add("last-container");
+                newClotureList.innerHTML = getRandomSessionInfo(infoSessionTextArray);
+                divSessionEndListRef.appendChild(newClotureList);
+
+                if (devMode === true) console.log(" [SESSION] userSessionItemsList", userSessionItemsList);
+
+                resolve(); // ← indique qu’on a fini le rendu DOM
+            }
+        });
     });
-
-    if (devMode === true){console.log(" [SESSION] userSessionItemsList",userSessionItemsList);}
-
 }
+
 
 // Fonction de trie par displayOrder et ne retourner qu'un tableau de clé trié
 function getSortedKeysByDisplayOrder(itemList) {
@@ -1874,7 +1838,7 @@ async function eventResetAllSessionItems() {
     onUpdateSessionTimeInStorage();
 
     // actualisation de la liste des compteurs
-    onDisplaySessionItems();
+    await onDisplaySessionItems();
 
     // Notification utilisateur  
     onShowNotifyPopup("sessionReset");
@@ -1920,7 +1884,7 @@ async function eventDeleteSessionItem(){
     onUpdateSessionItemsInStorage();
 
     // actualisation de la liste des compteurs
-    onDisplaySessionItems();
+    await onDisplaySessionItems();
 }
 
 
@@ -3001,7 +2965,16 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
 // Gestion drag N drop
 
 function onInitSortable(divID) {
-    const container = document.getElementById(divID); 
+    const container = document.getElementById(divID);
+    if (!container) return;
+
+    // 🔁 Nettoie une instance précédente
+    if (sortableInstance) {
+        sortableInstance.destroy();
+        sortableInstance = null;
+    }
+
+    // 🔄 Crée une nouvelle instance
     sortableInstance = Sortable.create(container, {
         animation: 150,
         ghostClass: 'sortable-ghost',
@@ -3015,6 +2988,9 @@ function onInitSortable(divID) {
         }
     });
 }
+
+
+
 
 function onDestroySortable() {
     // Vide l'instance de trie
