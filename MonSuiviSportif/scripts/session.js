@@ -194,6 +194,7 @@ class Chrono {
 
         this.interval = null;
         this.isRunning = false;
+        this.startTimeStamp = null; //stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
 
         //référence
         this.textMinutesRef = null;
@@ -297,7 +298,7 @@ class Chrono {
             timerInUseID = this.id;
             await requestWakeLock();
 
-           if (devMode === true) {console.log("Verrouillage timer par : ",timerInUseID);} 
+           if (devMode === true) {console.log("[SESSION] Verrouillage timer par : ",timerInUseID);} 
         }else{
             alert("Un timer est déjà en cours");
             return
@@ -306,11 +307,13 @@ class Chrono {
         this._triggerClickEffect(); //effet de click
 
         this.isRunning = true;
+        this.startTimeStamp = Date.now() - this.elapsedTime; //stocke le temps universelle de départ(pour les reprises/corrections par la suite)
         this._updateBtnText("Pause");
 
         // Cycle
         this.interval = setInterval(() => {
-            this.elapsedTime += 100; 
+            const now = Date.now() ;
+            this.elapsedTime = now - this.startTimeStamp;
 
             //affiche le resultat
             this._updateDisplay(this.elapsedTime);
@@ -325,7 +328,7 @@ class Chrono {
         
         //Libère l'utilisation de timer si utilisé par celui-ci
         if (timerInUseID !== null && timerInUseID === this.id) {
-             if (devMode === true) {console.log("Libère timer unique");}
+             if (devMode === true) {console.log("[SESSION] Libère timer unique");}
             timerInUseID = null;
             await releaseWakeLock();
         }
@@ -347,6 +350,7 @@ class Chrono {
         //lancement de la sequence de reset
         this.pause();
         this.elapsedTime = 0;
+        this.startTimeStamp = null;
         this._updateDisplay(this.elapsedTime);
 
         this._updateBtnText("Démarrer");
@@ -411,6 +415,8 @@ class Minuteur {
         this.remaningTime = duration;
         this.isRunning = false;
         this.interval = null;
+        this.startTimeStamp = null;//stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
+        this.targetTime = null;
 
         //Pour référence
         this.progressBarRef = null;
@@ -530,7 +536,7 @@ class Minuteur {
             timerInUseID = this.id;
             await requestWakeLock();
 
-             if (devMode === true) {console.log("Verrouillage timer par :",timerInUseID);}
+             if (devMode === true) {console.log("[SESSION] Verrouillage timer par :",timerInUseID);}
         }else{
             alert("Un timer est déjà en cours");
             return
@@ -543,17 +549,21 @@ class Minuteur {
         this.isRunning = true;
         this._updateBtnText("Pause");
 
-        // Cycle
+        // Cible réelle en horloge système
+        this.targetTime = Date.now() + (this.remaningTime * 1000);
+
         this.interval = setInterval(() => {
-            this.remaningTime--;
+            const now = Date.now();
+            const timeLeftMs = this.targetTime - now;
+            this.remaningTime = Math.ceil(timeLeftMs / 1000);
+
             this._updateTimeDisplay(this.remaningTime);
             this._updateProgressBar();
 
             if (this.remaningTime <= 0) {
                 this.complete();
             }
-
-        }, 1000);
+        }, 500); // vérifie toutes les 500ms pour plus de fluidité
     }
 
     async pause(){
@@ -561,10 +571,11 @@ class Minuteur {
         this.isRunning = false;
         clearInterval(this.interval);
         this._updateBtnText("Reprendre");
+        this.remaningTime = Math.ceil((this.targetTime - Date.now()) / 1000);
         
         //Libère l'utilisation de timer si utilisé par celui-ci
         if (timerInUseID !== null && timerInUseID === this.id) {
-             if (devMode === true) {console.log("Libère timer unique");}
+             if (devMode === true) {console.log("[SESSION] Libère timer unique");}
             timerInUseID = null;
             await releaseWakeLock();
         }
@@ -693,7 +704,7 @@ let isEventListenerForCounterEditor = false;
 function onAddEventListenerforSessionItemEditor() {
     
     if (devMode === true){
-        console.log("[EVENT-LISTENER] : Ajout les évènements pour l'éditeur de counter");
+        console.log("[SESSION] [EVENT-LISTENER] : Ajout les évènements pour l'éditeur de counter");
     };
 
 
@@ -807,7 +818,7 @@ let isAddEventForMainMenuSession = false;
 function onAddEventListenerForMainMenuSession() {
 
     if (devMode === true){
-        console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
+        console.log("[SESSION] [EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
     };
 
 
@@ -843,7 +854,7 @@ function onAddEventListenerForMainMenuSession() {
 let isAddEventListenerForSessionEditor = false;
 function onAddEventListenerForSessionEditor() {
     if (devMode === true){
-        console.log("[EVENT-LISTENER] : Ajoute les évènements pour l'éditeur de session");
+        console.log("[SESSION] [EVENT-LISTENER] : Ajoute les évènements pour l'éditeur de session");
     }
 
     isAddEventListenerForSessionEditor = true;
@@ -865,7 +876,7 @@ let isAddEventListenerForSendFakeSelector = false;
 function onAddEventListenerForSendFakeSelector() {
 
     if (devMode === true){
-        console.log("[EVENT-LISTENER] : Ajoute les évènements pour fake selector");
+        console.log("[SESSION] [EVENT-LISTENER] : Ajoute les évènements pour fake selector");
     }
 
     //action unique
@@ -926,8 +937,8 @@ async function onOpenMenuSession(){
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     if (devMode === true){
-        console.log("userSessionItemsList", userSessionItemsList);
-        console.log("Ajout Ecouteur visibilitychange pour wakeLock");
+        console.log("[SESSION] userSessionItemsList", userSessionItemsList);
+        console.log("[SESSION] Ajout Ecouteur visibilitychange pour wakeLock");
     }
 
     // set l'heure d'initialisation de session dans le texte
@@ -1131,7 +1142,7 @@ function onConfirmSessionItemEditor() {
     }else if (sessionItemEditorMode === "modification") {
         eventSaveModifySessionItem();
     }else{
-        console.log("erreur dans le mode d'édition du compteur");
+        console.log("[SESSION] erreur dans le mode d'édition du compteur");
     }
 
 }
@@ -1199,7 +1210,7 @@ function eventCreateSessionItem() {
 
 async function eventInsertNewSessionItem(itemType) {
 
-    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
+    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -1507,8 +1518,8 @@ async function eventSaveModifySessionItem() {
 
 
     if (devMode === true){
-        console.log("userSessionItemsList", userSessionItemsList);
-        console.log("demande de vérification DONE");
+        console.log("[SESSION] userSessionItemsList", userSessionItemsList);
+        console.log("[SESSION] demande de vérification DONE");
     }
 
     //Actualise l'affichage
@@ -1528,13 +1539,14 @@ async function eventSaveModifySessionItem() {
 
 async function onDisplaySessionItems() {
     if (devMode === true){
-        console.log(" [COUNTER] génération de la liste");
-        console.log("Libère timer unique");
+        console.log(" [SESSION] génération de la liste");
+        console.log("[SESSION] Libère timer unique");
     }
 
     //Libère l'utilisation des timers
     timerInUseID = null; 
     await releaseWakeLock();
+
 
     // div qui contient les compteurs
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
@@ -1561,6 +1573,7 @@ async function onDisplaySessionItems() {
     sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
 
     sessionItemsSortedKey.forEach((key,index)=>{
+
 
         //trie selon le "type" d'élément
         let itemType = userSessionItemsList[key].type || "COUNTER";
@@ -1605,9 +1618,6 @@ async function onDisplaySessionItems() {
         // Generation
 
 
-
-
-
         // Creation de la ligne de fin pour le dernier index
         if (index === (Object.keys(userSessionItemsList).length - 1)) {
             let ismaxSessionItemsReach = Object.keys(userSessionItemsList).length >= maxSessionItems;
@@ -1620,8 +1630,8 @@ async function onDisplaySessionItems() {
         }
     });
 
-    if (devMode === true){console.log(" [COUNTER] userSessionItemsList",userSessionItemsList);}
-    
+    if (devMode === true){console.log(" [SESSION] userSessionItemsList",userSessionItemsList);}
+
 }
 
 // Fonction de trie par displayOrder et ne retourner qu'un tableau de clé trié
@@ -1651,7 +1661,7 @@ async function onClickIncrementeCounter(idRef) {
 
     // Ne fait rien si l'increment est à zero ou vide
     if (userSessionItemsList[idRef].repIncrement === 0) {
-        if (devMode === true){console.log("[COUNTER] increment vide ne fait rien");}
+        if (devMode === true){console.log("[SESSION] increment vide ne fait rien");}
         onShowNotifyPopup("inputIncrementEmpty");
         return
 
@@ -1688,7 +1698,7 @@ async function onClickIncrementeCounter(idRef) {
     // compte serie
     spanCurrentSerieRef.innerHTML = userSessionItemsList[idRef].currentSerie;
 
-    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
+    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
 
     // Si objectif atteind
     let isTargetReach = onCheckCounterTargetReach(idRef);
@@ -1790,7 +1800,7 @@ async function onClickResetCounter(idRef) {
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
 
-    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)};
+    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)};
 
     //retire la classe "reach" si necessaire pour le count target et le slash
     let counterTargetRef = document.getElementById(`spanSerieTarget_${idRef}`);
@@ -1898,7 +1908,7 @@ async function eventDeleteSessionItem(){
     // traitement display order pour les counters suivants
     onChangeDisplayOrderFromDelete(currentSessionItemEditorID);
 
-    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList)}
+    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
 
     // Popup notification
     onShowNotifyPopup("itemSessionDeleted");
@@ -2317,7 +2327,7 @@ async function onOpenMenuEditSession() {
         if (!isTemplateSessionLoadedFromBase) {
             await onLoadTemplateSessionNameFromDB();
             isTemplateSessionLoadedFromBase = true;
-            if (devMode === true){console.log("1er chargement des templates session depuis la base");}
+            if (devMode === true){console.log("[SESSION] 1er chargement des templates session depuis la base");}
 
             // Récupère et tries les clés
             onUpdateAndSortTemplateSessionKey();
@@ -2691,8 +2701,8 @@ function onGetDivGenSessionItems() {
 function onGenerateModelSelectList() {
 
     if (devMode === true){
-        console.log("generation de la liste des modèles");
-        console.log(templateSessionKeys);
+        console.log("[SESSION] generation de la liste des modèles");
+        console.log("[SESSION]",templateSessionKeys);
     }
 
     // Referencement
@@ -2727,7 +2737,7 @@ async function eventGenerateSessionList(){
     let itemForSession = onGetDivGenSessionItems();
 
 
-    if (devMode === true){console.log(itemForSession);}
+    if (devMode === true){console.log("[SESSION]",itemForSession);}
 
     // Retire le popup
 
@@ -2813,7 +2823,7 @@ function onGenerateMultipleSessionItems(newSessionList) {
                 break;
         
             default:
-                console.log("ERREUR de type");
+                console.log("[SESSION] ERREUR de type");
                 break;
         }
 
@@ -2822,7 +2832,7 @@ function onGenerateMultipleSessionItems(newSessionList) {
     });
 
 
-    if (devMode === true){console.log("userSessionItemsList", userSessionItemsList);}
+    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList);}
 
 }
 
@@ -2842,33 +2852,40 @@ async function requestWakeLock() {
     try {
         if ('wakeLock' in navigator) {
             wakeLockInstance = await navigator.wakeLock.request('screen');
-            if (devMode ===true){console.log("✅ Wake Lock activé");}
+            if (devMode ===true){console.log("[SESSION] ✅ Wake Lock activé");}
 
             // Surveille si le Wake Lock est libéré automatiquement (ex: onglet inactif)
             wakeLockInstance.addEventListener('release', () => {
-                if (devMode ===true){console.log("⚠️ Wake Lock libéré automatiquement");}
-                wakeLockInstance = null;
+                onLooseWakeLock();
             });
         } else {
-            console.warn("❌ Wake Lock non pris en charge par ce navigateur");
+            console.warn("[SESSION] ❌ Wake Lock non pris en charge par ce navigateur");
         }
     } catch (err) {
-        console.error("❌ Erreur lors de l'activation du Wake Lock :", err);
+        console.error("[SESSION] ❌ Erreur lors de l'activation du Wake Lock :", err);
     }
 }
 
+//Lorsque le wakeLock est perdu tout seul (exemple change d'appli, ou passe en arrière plan)
+function onLooseWakeLock(){
+    if (devMode ===true){console.log("[SESSION] ⚠️ Wake Lock libéré automatiquement");}
+    //vide l'instance du wakeLock
+    wakeLockInstance = null;
 
+}
+
+//lorsque le wake Lock est arrété manuellement
 async function releaseWakeLock() {
     try {
         if (wakeLockInstance) {
             await wakeLockInstance.release();
             wakeLockInstance = null;
-            if (devMode ===true){console.log("🔓 Wake Lock désactivé manuellement");}
+            if (devMode ===true){console.log("[SESSION] 🔓 Wake Lock désactivé manuellement");}
         }else{
-            if (devMode ===true){console.log("🔓 Wake Lock déjà désactivé");}
+            if (devMode ===true){console.log("[SESSION] 🔓 Wake Lock déjà désactivé");}
         }
     } catch (err) {
-        console.error("❌ Erreur lors de la libération du Wake Lock :", err);
+        console.error("[SESSION] ❌ Erreur lors de la libération du Wake Lock :", err);
     }
 }
 
@@ -2880,9 +2897,9 @@ async function handleVisibilityChange() {
         if (timerInUseID !== null && !wakeLockInstance) {
             try {
                 await requestWakeLock();
-                if (devMode ===true){console.log("Reprise automatique du wakeLock");}
+                if (devMode ===true){console.log("[SESSION] Reprise automatique du wakeLock");}
             } catch (err) {
-                console.warn("Échec du Wake Lock :", err);
+                console.warn("[SESSION] Échec du Wake Lock :", err);
             }
         }
     }
@@ -3010,7 +3027,7 @@ function onDestroySortable() {
 async function onClickReturnFromSession() {
 
     //libère le verrouillage timer unique
-    if (devMode ===true){console.log("Libère timer unique");}
+    if (devMode ===true){console.log("[SESSION] Libère timer unique");}
     timerInUseID = null;
 
     //enlève également le wakeLock si active
@@ -3018,8 +3035,7 @@ async function onClickReturnFromSession() {
 
     //enlève ecouteur d'évènement visibility pour le wakelock
     document.removeEventListener("visibilitychange", handleVisibilityChange);
-    if (devMode ===true){console.log("Retire Ecouteur visibilitychange pour wakeLock");}
-
+    if (devMode ===true){console.log("[SESSION] Retire Ecouteur visibilitychange pour wakeLock");}
 
     onDestroySortable();
 
@@ -3029,6 +3045,7 @@ async function onClickReturnFromSession() {
 
     //vide le tableau de génération
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
+
 
     // ferme le menu
     onLeaveMenu("Session");
