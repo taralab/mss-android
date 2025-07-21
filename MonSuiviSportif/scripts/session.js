@@ -946,8 +946,11 @@ async function onOpenMenuSession(){
 
     onDisplaySessionItems();
 
-    // Instancie le system de drag N drop
-    onInitSortable("divSessionCompteurArea");
+    // Instancie le system de drag N drop avec un petit delay pour laisser la création des items
+    setTimeout(() => {
+        onInitSortable("divSessionCompteurArea");
+    }, 100);
+
 
     // Charge également les listes des modèles et leur clé dans l'ordre alphabétique
     await onLoadTemplateSessionNameFromDB();
