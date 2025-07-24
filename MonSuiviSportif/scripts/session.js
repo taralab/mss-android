@@ -1083,6 +1083,9 @@ async function onChangeCounterRepIncrement(idRef) {
 //----------------------------- Nouvel ELEMENT ------------------------------------
 
 
+
+
+
 function onClickAddSessionItem() {
     // Reset les éléments avant set
     onResetSessionItemEditor();
@@ -1173,6 +1176,14 @@ function eventCreateSessionItem() {
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
 
+    //référence le parent
+    let parentRef = document.getElementById("divSessionCompteurArea");
+    let newInstance = {};
+    let tempDisplayOrder = null;
+
+
+    //notification selon le type d'élément créé
+    let notifyType = null;
 
     //Traitement selon le type d'item
     let itemType = document.getElementById("selectItemSessionType").value;
@@ -1183,11 +1194,23 @@ function eventCreateSessionItem() {
             // Formatage
             let counterData = onFormatCounter();
 
-            // Obtenir le prochain ID
-            let counterNextId = getRandomShortID("counter_",userSessionItemsList);
+            // Obtenir le nouvel ID
+            let counterNewID = getRandomShortID("counter_",userSessionItemsList);
 
             // Ajout du nouveau compteur à l'array
-            userSessionItemsList[counterNextId] = counterData;
+            userSessionItemsList[counterNewID] = counterData;
+
+            //récupère un displayOrder temporaire (longueur du tableau)
+            tempDisplayOrder = Object.keys(userSessionItemsList).length || 0;
+
+            //instanciation dans le DOM
+            newInstance = new Counter(counterNewID, counterData.name, counterData.currentSerie, counterData.serieTarget, counterData.repIncrement,
+                                tempDisplayOrder, parentRef, counterData.color, counterData.totalCount);
+
+            //stocke l'instance
+            sessionAllItemsInstance[counterNewID] = newInstance;
+
+            notifyType = "counterCreated";
             break;
 
 
@@ -1195,61 +1218,44 @@ function eventCreateSessionItem() {
             //formatage
             let chronoData = onFormatChrono();
 
-            // Obtenir le prochain ID
-            let chronoNextId = getRandomShortID("chrono_",userSessionItemsList);
+            // Obtenir le nouvel ID
+            let chronoNewID = getRandomShortID("chrono_",userSessionItemsList);
 
-            // Ajout du nouveau compteur à l'array
-            userSessionItemsList[chronoNextId] = chronoData;
+            // Ajout du nouveau chrono à l'array
+            userSessionItemsList[chronoNewID] = chronoData;
+
+            //récupère un displayOrder temporaire (longueur du tableau)
+            tempDisplayOrder = Object.keys(userSessionItemsList).length || 0;
+
+            //instanciation dans le dom
+            newInstance = new Chrono(chronoNewID, chronoData.name, tempDisplayOrder, parentRef,
+                chronoData.color, chronoData.elapsedTime);
+
+            //stocke l'instance
+            sessionAllItemsInstance[chronoNewID] = newInstance;
+
+            notifyType = "chronoCreated";
             break;
 
         case "MINUTEUR":
             let minuteurData = onFormatMinuteur();
 
-            // Obtenir le prochain ID
-            let minuteurNextId = getRandomShortID("minuteur_",userSessionItemsList);
+            // Obtenir le nouvel ID
+            let minuteurNewID = getRandomShortID("minuteur_",userSessionItemsList);
 
-            // Ajout du nouveau compteur à l'array
-            userSessionItemsList[minuteurNextId] = minuteurData;
+            // Ajout du nouveau minuteur à l'array
+            userSessionItemsList[minuteurNewID] = minuteurData;
 
-            break;
-    
-        default:
-            break;
-    }
+            //récupère un displayOrder temporaire (longueur du tableau)
+            tempDisplayOrder = Object.keys(userSessionItemsList).length || 0;
 
-    
+            //Instanciation dans le DOM
+            newInstance = new Minuteur(minuteurNewID, minuteurData.name, tempDisplayOrder, parentRef, 
+                minuteurData.color, minuteurData.duration, minuteurData.isDone);
 
-    // Enregistrement global
-    eventInsertNewSessionItem(itemType);
+            //stocke l'instance
+            sessionAllItemsInstance[minuteurNewID] = newInstance;
 
-}
-
-
-
-//Séquence d'insertion d'un nouveau compteur
-
-async function eventInsertNewSessionItem(itemType) {
-
-    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
-
-    // Sauvegarde en localStorage
-    onUpdateSessionItemsInStorage();
-
-    // fonction de création affichage des compteurs
-    await onDisplaySessionItems();
-    
-
-    //notification selon le type d'élément créé
-
-    let notifyType = null;
-    switch (itemType) {
-        case "COUNTER":
-            notifyType = "counterCreated";
-            break;
-        case "CHRONO":
-            notifyType = "chronoCreated";
-            break;
-        case "MINUTEUR":
             notifyType = "minuteurCreated";
             break;
     
@@ -1257,9 +1263,16 @@ async function eventInsertNewSessionItem(itemType) {
             break;
     }
 
+    //Refait les display order
+    updateSessionItemsDisplayOrders();
+    // Sauvegarde en localStorage
+    onUpdateSessionItemsInStorage();
 
     // Popup notification
     onShowNotifyPopup(notifyType);
+
+    console.log(sessionAllItemsInstance);
+    console.log(userSessionItemsList);
 
 }
 
@@ -1578,7 +1591,7 @@ async function onDisplaySessionItems() {
             return resolve(); // ← important
         }
 
-        const sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
+        sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
         let total = sessionItemsSortedKey.length;
         let done = 0;
 
@@ -1606,7 +1619,7 @@ async function onDisplaySessionItems() {
 
             //ajoutes chaque instance créé au tableau général
             sessionAllItemsInstance[key] = newInstance;
-            console.log(sessionAllItemsInstance);
+
 
             // dernière action
             if (++done === total) {
@@ -1820,7 +1833,7 @@ async function onClickResetCounter(idRef) {
 }
 
 
-// RESET ALL COUNTER
+// RESET ALL ITEMS
 
 
 function onClickResetAllSessionItems() {
@@ -1832,13 +1845,19 @@ function onClickResetAllSessionItems() {
 
 async function eventResetAllSessionItems() {
     
+    //Vide le tableau d'instance
+    sessionAllItemsInstance = {};
+
+
     // Boucle sur la liste des key
     //Pour chaque éléments passe la variable à zero et set le texte
+    sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
     sessionItemsSortedKey.forEach(key=>{
 
         //filtre selon le type d'item
         let itemType = userSessionItemsList[key].type || "COUNTER";
         switch (itemType) {
+            
             case "COUNTER":
                 userSessionItemsList[key].currentSerie = 0;
                 userSessionItemsList[key].totalCount = 0;
@@ -1851,6 +1870,7 @@ async function eventResetAllSessionItems() {
                 break;
         
             default:
+                console.log("Erreur switch case");
                 break;
         }
 
@@ -1858,6 +1878,7 @@ async function eventResetAllSessionItems() {
 
     // reset également l'heure du début de session
     onSetSessionStartTime();
+    console.log(userSessionItemsList);
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -1994,6 +2015,7 @@ async function onSendSessionToActivity(activityTarget,sessionLocation) {
     let sessionText = "";
 
     //Boucle sur les éléments
+    sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
     sessionItemsSortedKey.forEach(key=>{
 
         // Pour chaque élément crée une ligne avec les données
