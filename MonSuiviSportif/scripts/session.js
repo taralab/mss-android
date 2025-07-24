@@ -34,7 +34,8 @@ let userSessionItemsList = {
     sessionStorageName = "MSS_sessionCounterList",
     sessionStartTimeStorageName = "MSS_sessionStartTime",
     sortableInstance = null,//instance pour le drag n drop
-    sessionActivityTypeToSend = null;//utilisé pour stocker le type d'activité à générer
+    sessionActivityTypeToSend = null,//utilisé pour stocker le type d'activité à générer
+    sessionAllItemsInstance = {};
 
 let sessionItemColors = {
     white: {body:"#fff",button:"grey"},
@@ -180,6 +181,13 @@ class Counter {
             btnInputCounterRef.addEventListener("contextmenu", (event) =>{
                 disableContextMenu(event);
             });
+    }
+
+
+
+    //pour supprimer l'item
+    removeItem(){
+        this.element.remove();
     }
 }
 
@@ -369,6 +377,10 @@ class Chrono {
         }, 300);
     }
 
+    //pour supprimer l'item
+    removeItem(){
+        this.element.remove();
+    }
 
     _updateBtnText(newText){
         let btnTextRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
@@ -392,6 +404,8 @@ class Chrono {
         this.textSecondsRef.textContent = String(seconds).padStart(2, '0');
         this.textCentisRef.textContent = String(centis).padStart(2, '0');
     }
+
+    
 }
 
 
@@ -637,6 +651,10 @@ class Minuteur {
         onUpdateSessionItemsInStorage();
     }
 
+    //pour supprimer l'item
+    removeItem(){
+        this.element.remove();
+    }
 
     _updateTimeDisplay(time){
         this.timeSpanRef.textContent = this._formatTime(time);
@@ -1564,23 +1582,31 @@ async function onDisplaySessionItems() {
         let total = sessionItemsSortedKey.length;
         let done = 0;
 
+        //vide l'objet des instances
+        sessionAllItemsInstance = {};
+
         sessionItemsSortedKey.forEach((key, index) => {
             const item = userSessionItemsList[key];
             const type = item.type || "COUNTER";
+            let newInstance = null;
 
             switch (type) {
                 case "COUNTER":
-                    new Counter(key, item.name, item.currentSerie, item.serieTarget, item.repIncrement,
+                    newInstance = new Counter(key, item.name, item.currentSerie, item.serieTarget, item.repIncrement,
                                 item.displayOrder, divSessionCompteurAreaRef, item.color, item.totalCount);
                     onCheckCounterTargetReach(key);
                     break;
                 case "CHRONO":
-                    new Chrono(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.elapsedTime);
+                    newInstance = new Chrono(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.elapsedTime);
                     break;
                 case "MINUTEUR":
-                    new Minuteur(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
+                    newInstance = new Minuteur(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
                     break;
             }
+
+            //ajoutes chaque instance créé au tableau général
+            sessionAllItemsInstance[key] = newInstance;
+            console.log(sessionAllItemsInstance);
 
             // dernière action
             if (++done === total) {
@@ -1872,39 +1898,21 @@ async function eventDeleteSessionItem(){
     //suppression dans la variable
     delete userSessionItemsList[currentSessionItemEditorID];
 
-    // traitement display order pour les counters suivants
-    onChangeDisplayOrderFromDelete(currentSessionItemEditorID);
+    //Suppression de l'item du DOM 
+    sessionAllItemsInstance[currentSessionItemEditorID].removeItem();
+    //et de l'instance
+    delete sessionAllItemsInstance[currentSessionItemEditorID];
+    console.log(sessionAllItemsInstance);
+
+    //Refait les display Order avec sauvegardes
+    updateSessionItemsDisplayOrders();
 
     if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
 
     // Popup notification
     onShowNotifyPopup("itemSessionDeleted");
 
-    // Sauvegarde en localStorage
-    onUpdateSessionItemsInStorage();
-
-    // actualisation de la liste des compteurs
-    await onDisplaySessionItems();
 }
-
-
-async function onChangeDisplayOrderFromDelete(idOrigin) {
-    // recupère l'index d'origine dans l'array des key
-    let deletedSessionItemIndex = sessionItemsSortedKey.indexOf(idOrigin);
-
-    if (devMode === true){console.log("deletedSessionItemIndex :",deletedSessionItemIndex);}
-
-    // Boucle jusquà la fin et décrémente les displayOrder et stocke en même temps les key to save
-    for (let i = (deletedSessionItemIndex + 1); i < sessionItemsSortedKey.length; i++) {
-        // Increment
-        userSessionItemsList[sessionItemsSortedKey[i]].displayOrder--;
-    }
-
-    // retire la key concernée dans l'array
-    sessionItemsSortedKey.splice(deletedSessionItemIndex,1);
-
-}
-
 
 
 
@@ -3021,6 +3029,9 @@ async function onClickReturnFromSession() {
     // vide la div
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
     divSessionCompteurAreaRef.innerHTML = "";
+
+    //vide le tableau des instances items
+    sessionAllItemsInstance = {};
 
     //vide le tableau de génération
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
