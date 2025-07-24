@@ -1904,8 +1904,10 @@ async function eventDeleteSessionItem(){
     delete sessionAllItemsInstance[currentSessionItemEditorID];
     console.log(sessionAllItemsInstance);
 
-    //Refait les display Order avec sauvegardes
+    //Refait les display Order
     updateSessionItemsDisplayOrders();
+    // Sauvegarde en localStorage
+    onUpdateSessionItemsInStorage();
 
     if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
 
@@ -1935,11 +1937,6 @@ function updateSessionItemsDisplayOrders() {
         }
     });
 
-    // réaffiche les compteurs
-    //onDisplaySessionItems(); a regarder si pertinent ou non sinon remetre
-
-    // Sauvegarde en localStorage
-    onUpdateSessionItemsInStorage();
 }
 
 
@@ -2993,6 +2990,8 @@ function onInitSortable(divID) {
         touchStartThreshold: 10,
         onEnd: function () {
             updateSessionItemsDisplayOrders();
+            // Sauvegarde en localStorage
+            onUpdateSessionItemsInStorage();
         }
     });
 }
