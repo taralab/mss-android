@@ -208,7 +208,9 @@ class Chrono {
         this.textMinutesRef = null;
         this.textSecondsRef = null;
         this.textCentisRef = null;
-
+        this.divChronoRoundRef = null;
+        this.textNameRef = null;
+        this.btnActionRef = null;
 
         // div container
         this.element = document.createElement("div");
@@ -242,13 +244,13 @@ class Chrono {
                     </button>
             </div>
 
-            <div id="divChronoCenterArea_${this.id}" class="chrono-center-area" style="background-color:${this.bodyColor}; border-color:${this.buttonColor}">
+            <div id="divChronoCenterArea_${this.id}" class="chrono-center-area">
                 <div class="session-chrono-icon">⏱️</div>
-                <div class="session-chrono-label" id="chronoName_${this.id}">${this.name}</div>
+                <div class="session-chrono-label" id="chronoName_${this.id}"></div>
                 <div class="session-chrono-time">
                     <span id="sessionChronoMin_${this.id}">00</span>:<span id="sessionChronoSec_${this.id}">00</span>.<span class="session-chrono-centis" id="sessionChronoCentis_${this.id}">00</span>
                 </div>
-                <button id="btnActionChrono_${this.id}" class="session-chrono-start" style="background-color: ${this.buttonColor};">Démarrer</button>
+                <button id="btnActionChrono_${this.id}" class="session-chrono-start">Démarrer</button>
             </div>
 
             <div class="chrono-right-buttons">
@@ -292,10 +294,17 @@ class Chrono {
         this.textMinutesRef = this.element.querySelector(`#sessionChronoMin_${this.id}`);
         this.textSecondsRef = this.element.querySelector(`#sessionChronoSec_${this.id}`);
         this.textCentisRef = this.element.querySelector(`#sessionChronoCentis_${this.id}`);
+        this.divChronoRoundRef = this.element.querySelector(`#divChronoCenterArea_${this.id}`);
+        this.textNameRef = this.element.querySelector(`#chronoName_${this.id}`);
+        this.btnActionRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
     }
 
     initChrono(){
         this._updateDisplay(this.elapsedTime);
+        this.divChronoRoundRef.style.backgroundColor = this.bodyColor;
+        this.divChronoRoundRef.style.borderColor = this.buttonColor;
+        this.btnActionRef.style.backgroundColor = this.buttonColor;
+        this.textNameRef.textContent = this.name;
     }
 
 
@@ -531,7 +540,6 @@ class Minuteur {
 
     // initialisation à la du minuteur
     initMinuteur(){
-
         this.progressBarRef.style.backgroundColor = this.PBColor;
         this.btnActionRef.style.backgroundColor = this.buttonColor;
         this.timeSpanRef.textContent = this._formatTime(this.duration);
