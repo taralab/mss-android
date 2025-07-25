@@ -188,7 +188,7 @@ class Counter {
             // modifier input
             let btnInputCounterRef = this.element.querySelector(`#inputRepIncrement_${this.id}`);
             btnInputCounterRef.addEventListener("change", () =>{
-                onChangeCounterRepIncrement(this.id);
+                this.changeRepIncrement();
             });
             btnInputCounterRef.addEventListener("focus", (event) =>{
                 selectAllText(event.target);
@@ -271,6 +271,19 @@ class Counter {
             this.btnActionRef.disabled = false;
         }, 300);
     }
+
+
+
+    // Valeur incrementation
+    changeRepIncrement() {
+        // Actualise l'array
+        userSessionItemsList[this.id].repIncrement = parseInt(this.inputRepIncrementRef.value) || 0;
+        this.repIncrement = parseInt(this.inputRepIncrementRef.value) || 0;
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+    }
+
+
 
 
     // Lorsque je reset, l'heure
@@ -1258,17 +1271,6 @@ function onAnnulSessionMenuSup(){
 
 
 
-
-// Valeur incrementation
-async function onChangeCounterRepIncrement(idRef) {
-
-    // Actualise l'array
-    userSessionItemsList[idRef].repIncrement = parseInt(document.getElementById(`inputRepIncrement_${idRef}`).value) || 0;
-
-
-    // Sauvegarde en localStorage
-    onUpdateSessionItemsInStorage();
-}
 
 
 
