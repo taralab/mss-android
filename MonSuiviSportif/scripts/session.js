@@ -437,6 +437,8 @@ class Minuteur {
         this.imgDoneRef = null;
         this.timeSpanRef = null;
         this.btnTextRef = null;
+        this.btnActionRef = null;
+        this.textNameRef = null;
 
         // div container
         this.element = document.createElement("div");
@@ -469,14 +471,14 @@ class Minuteur {
         this.element.innerHTML = `
              <div class="compteur-content-line-1">
                 <div class="drag-handle">⣿</div>
-                <p class="compteur-name" id="minuteurName_${this.id}">${this.name}</p>
+                <p class="compteur-name" id="minuteurName_${this.id}"></p>
                 <button class="btn-counter-setting" id="btnModifyMinuteur_${this.id}">
                     <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
                 </button>  
             </div>
 
             <div class="compteur-content-line-2">
-                <span id="spanSessionMinuteurResult_${this.id}" class="item-minuteur-time">${this._formatTime(this.duration)}</span>
+                <span id="spanSessionMinuteurResult_${this.id}" class="item-minuteur-time"></span>
             </div>
 
             <div class="compteur-content-line-3">
@@ -484,8 +486,8 @@ class Minuteur {
                     <button class="btn-counter-reset" id="btnMinuteurReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 </p>
 
-                <button id="btnActionMinuteur_${this.id}" class="minuteur-button" style="background-color: ${this.buttonColor};">
-                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}" style="background-color: ${this.PBColor};"></span>
+                <button id="btnActionMinuteur_${this.id}" class="minuteur-button">
+                    <span class="progress-bar-minuteur" id="spanPBSessionMinuteur_${this.id}"></span>
                     <span class="minuteur-button-text" id="spanMinuteurBtnText_${this.id}">Lancer compte à rebours</span>
                 </button>
             </div>
@@ -523,10 +525,17 @@ class Minuteur {
         this.imgDoneRef = this.element.querySelector(`#imgMinuteurTargetDone_${this.id}`);
         this.timeSpanRef = this.element.querySelector(`#spanSessionMinuteurResult_${this.id}`);
         this.btnTextRef = this.element.querySelector(`#spanMinuteurBtnText_${this.id}`);
+        this.btnActionRef = this.element.querySelector(`#btnActionMinuteur_${this.id}`);
+        this.textNameRef = this.element.querySelector(`#minuteurName_${this.id}`);
     }
 
-    // initialisation à la génération du minuteur
+    // initialisation à la du minuteur
     initMinuteur(){
+
+        this.progressBarRef.style.backgroundColor = this.PBColor;
+        this.btnActionRef.style.backgroundColor = this.buttonColor;
+        this.timeSpanRef.textContent = this._formatTime(this.duration);
+        this.textNameRef.textContent = this.name;
 
         if (this.isDone) {
             this.progressBarRef.style.width = "0%";
@@ -1878,7 +1887,7 @@ async function eventResetAllSessionItems() {
 
     // reset également l'heure du début de session
     onSetSessionStartTime();
-    console.log(userSessionItemsList);
+
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
