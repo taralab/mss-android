@@ -101,6 +101,8 @@ class Counter {
         this.textTotalCountRef = null;
         this.inputRepIncrementRef = null;
         this.btnActionRef = null;
+        this.imgDoneRef = null;
+        this.btnResetCounterRef = null;
         
 
         // div container
@@ -174,13 +176,13 @@ class Counter {
             // Incrementer
             let btnIncrementCounterRef = this.element.querySelector(`#btnRepIncrement_${this.id}`);
             btnIncrementCounterRef.addEventListener("click", () =>{
-                onClickIncrementeCounter(this.id);
+                this.incrementeCounter();
             });
             
             // Reset
             let btnResetCounterRef = this.element.querySelector(`#btnCountReset_${this.id}`);
             btnResetCounterRef.addEventListener("click", () =>{
-                onClickResetCounter(this.id);
+                this.resetCounter();
             });
 
             // modifier input
@@ -204,6 +206,8 @@ class Counter {
         this.textTotalCountRef = this.element.querySelector(`#spanTotalCount_${this.id}`);
         this.inputRepIncrementRef = this.element.querySelector(`#inputRepIncrement_${this.id}`);
         this.btnActionRef = this.element.querySelector(`#btnRepIncrement_${this.id}`);
+        this.imgDoneRef = this.element.querySelector(`#imgCounterTargetDone_${this.id}`);
+        this.btnResetCounterRef = this.element.querySelector(`#btnCountReset_${this.id}`);
     }
 
     initCounter(){
@@ -214,14 +218,156 @@ class Counter {
         this.textSerieTargetRef.textContent = `/${this.serieTarget}`;
         this.textTotalCountRef.textContent = `Total : ${this.totalCount}`;
         this.inputRepIncrementRef.value =  this.repIncrement;
+
+
+        //control done
+        this._checkTargetReach();
+
     }
+
+
+    
+    incrementeCounter() {
+
+        // Ne fait rien si l'increment est à zero ou vide
+        if (this.repIncrement === 0) {
+            if (devMode === true){console.log("[SESSION] increment vide ne fait rien");}
+            onShowNotifyPopup("inputIncrementEmpty");
+            return
+        }
+
+
+        // Verrouille le bouton pour éviter action secondaire trop rapide
+        //sera déverrouillé après animation
+        this.btnActionRef.disabled = true;
+
+        // Addition
+        this.totalCount += this.repIncrement;
+        this.currentSerie++;
+
+        // Set nouveau résultat dans html, variable et update base
+        this.textTotalCountRef.textContent = `Total : ${this.totalCount}`;
+        this.textCurrentSerieRef.textContent = this.currentSerie;
+
+        userSessionItemsList[this.id].totalCount = this.totalCount;
+        userSessionItemsList[this.id].currentSerie = this.currentSerie;
+
+        // Si objectif atteind
+        let isTargetReach = this._checkTargetReach();
+
+        // ANIMATION
+        this._incrementAnimation();
+
+        // Notification objectif atteind
+        if (isTargetReach) {
+            onShowNotifyPopup("counterTargetReach");
+        }
+
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+
+        //déverrouille le bouton pour être a nouveau disponible
+        setTimeout(() => {
+            this.btnActionRef.disabled = false;
+        }, 300);
+    }
+
+
+    // Lorsque je reset, l'heure
+    // set le current count à zero,
+    // Actualise les éléments visual, dans la variable et en base
+    resetCounter() {
+
+        //bloc le bouton jusqu'à la fin de l'animation
+        this.btnResetCounterRef.disabled = true;
+
+
+        // set les html
+        //current serie
+
+        // Étape 1 : animation de disparition
+        this.textCurrentSerieRef.classList.remove('reset-in');
+        this.textCurrentSerieRef.classList.add('reset-out');
+        // Le innerHTML sera mis à zero dans le setTimeOut
+        
+        //totalcount
+        this.totalCount = 0;
+        this.textTotalCountRef.textContent = `Total : 0`;
+
+
+        // Set les variables
+        userSessionItemsList[this.id].currentSerie = 0;
+        userSessionItemsList[this.id].totalCount = 0;
+
+
+
+        // Sauvegarde en localStorage
+        onUpdateSessionItemsInStorage();
+
+        if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)};
+
+        //retire la classe "reach" si necessaire pour le count target et le slash
+        if (this.textSerieTargetRef.classList.contains("target-reach")) {
+            this.textSerieTargetRef.classList.remove("target-reach");
+            this.imgDoneRef.classList.remove("counterTargetDone");
+        }
+
+        // Ajouter la classe pour l'animation
+        // spanCurrentSerieRef.classList.add("anim-reset");
+
+        
+        setTimeout(() => {
+            // Met le chiffre visuellement et joue la remontée
+            this.textCurrentSerieRef.classList.remove('reset-out');
+            this.textCurrentSerieRef.classList.add('reset-in');
+            this.textCurrentSerieRef.textContent = 0;
+            this.currentSerie = 0;
+
+            //déverrouille le bouton à la fin de l'animation
+            this.btnResetCounterRef.disabled = false;
+        }, 300);
+
+    }
+
 
 
     //pour supprimer l'item
     removeItem(){
         this.element.remove();
     }
+
+
+    // ANIMATION
+    _incrementAnimation() {        
+        // Pour relancer l'animation même si elle a été déjà jouée 
+        // Enlève également reset-in pour que l'animation fonctionne toujours après un reset
+        this.textCurrentSerieRef.classList.remove('pop-animation','reset-in');
+        void this.textCurrentSerieRef.offsetWidth; // Forcer un reflow
+        // Ajouter la classe pour l'animation
+        this.textCurrentSerieRef.classList.add("pop-animation");
+    }
+
+    // Si objectif non égale à zero atteind
+    _checkTargetReach() {
+        let targetReach = false;
+        //IsDone
+        if(this.serieTarget === 0){
+            return targetReach;
+        }else if (this.currentSerie === this.serieTarget){
+            targetReach = true;
+            this.textSerieTargetRef.classList.add("target-reach");
+            this.imgDoneRef.classList.add("counterTargetDone");
+        }else{
+            this.textSerieTargetRef.classList.remove("target-reach");
+            this.imgDoneRef.classList.remove("counterTargetDone");
+        }
+        return targetReach;
+    }
+
 }
+
+
+
 
 class Chrono {
     constructor(id, name, displayOrder,parentRef,colorName,elapsedTime){
@@ -1656,7 +1802,6 @@ async function onDisplaySessionItems() {
                 case "COUNTER":
                     newInstance = new Counter(key, item.name, item.currentSerie, item.serieTarget, item.repIncrement,
                                 item.displayOrder, divSessionCompteurAreaRef, item.color, item.totalCount);
-                    onCheckCounterTargetReach(key);
                     break;
                 case "CHRONO":
                     newInstance = new Chrono(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.elapsedTime);
@@ -1702,7 +1847,6 @@ function getSortedKeysByDisplayOrder(itemList) {
 
 
 
-// ------------------------- INCREMENTATION ---------------------------------
 
 
 
@@ -1710,176 +1854,8 @@ function getSortedKeysByDisplayOrder(itemList) {
 
 
 
-// lorsque j'incremente, récupère la valeur la variable (currentSerie), ajoute la nouvelle valeur(increment)
-// et le nouveau résultat est mis dans total ainsi que sauvegardé en base
-async function onClickIncrementeCounter(idRef) {
-
-    // Ne fait rien si l'increment est à zero ou vide
-    if (userSessionItemsList[idRef].repIncrement === 0) {
-        if (devMode === true){console.log("[SESSION] increment vide ne fait rien");}
-        onShowNotifyPopup("inputIncrementEmpty");
-        return
-
-    }
 
 
-    // Verrouille le bouton pour éviter action secondaire trop rapide
-    //sera déverrouillé après animation
-    document.getElementById(`btnRepIncrement_${idRef}`).disabled = true;
-
-    
-
-    // récupère ancien total et nouvelle valeur
-    let oldValue = userSessionItemsList[idRef].totalCount,
-        newValue = userSessionItemsList[idRef].repIncrement;
-
-    // Addition
-    let newTotal = oldValue + newValue;
-
-    // incrémente la série
-    userSessionItemsList[idRef].currentSerie++;  
-
-
-    // Set nouveau résultat dans html, variable et update base
-    // Referencement
-    let spanCurrentSerieRef = document.getElementById(`spanCurrentSerie_${idRef}`),
-        divCounterCurrentSerieRef = document.getElementById(`divCounterCurrentSerie_${idRef}`),
-        spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
-
-    // compte total
-    spanTotalCountRef.innerHTML = `Total : ${newTotal}`;//le html
-    userSessionItemsList[idRef].totalCount = newTotal;//le tableau
-
-    // compte serie
-    spanCurrentSerieRef.innerHTML = userSessionItemsList[idRef].currentSerie;
-
-    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
-
-    // Si objectif atteind
-    let isTargetReach = onCheckCounterTargetReach(idRef);
-
-    // ANIMATION
-    onPlayIncrementAnimation(isTargetReach,spanCurrentSerieRef,divCounterCurrentSerieRef);
-
-    // Notification objectif atteind
-    if (isTargetReach) {
-        onShowNotifyPopup("counterTargetReach");
-    }
-
-    // Sauvegarde en localStorage
-    onUpdateSessionItemsInStorage();
-
-    //déverrouille le bouton pour être a nouveau disponible
-    setTimeout(() => {
-        document.getElementById(`btnRepIncrement_${idRef}`).disabled = false;
-    }, 300);
-
-    
-
-}
-
-
-
-// Si objectif non égale à zero atteind
-function onCheckCounterTargetReach(idRef) {
-
-    let targetReach = false;
-
-    if (userSessionItemsList[idRef].serieTarget === 0) {
-       return targetReach;
-    } else if (userSessionItemsList[idRef].currentSerie === userSessionItemsList[idRef].serieTarget){
-
-        targetReach = true;
-        document.getElementById(`spanSerieTarget_${idRef}`).classList.add("target-reach");
-        document.getElementById(`imgCounterTargetDone_${idRef}`).classList.add("counterTargetDone");
-    } else {
-        document.getElementById(`spanSerieTarget_${idRef}`).classList.remove("target-reach");
-        document.getElementById(`imgCounterTargetDone_${idRef}`).classList.remove("counterTargetDone");
-    }
-
-    return targetReach;
-}
-
-
-
-
-// ANIMATION
-function onPlayIncrementAnimation(isTargetReach,repIncrementRef,divCurrentSerieRef) {
-
-    let itemToAnimRef = repIncrementRef;
-        
-        // Pour relancer l'animation même si elle a été déjà jouée 
-        // Enlève également reset-in pour que l'animation fonctionne toujours après un reset
-        itemToAnimRef.classList.remove('pop-animation','reset-in');
-        void itemToAnimRef.offsetWidth; // Forcer un reflow
-        // Ajouter la classe pour l'animation
-        itemToAnimRef.classList.add("pop-animation");
-
-}
-
-
-
-// ------------------------- RESET ---------------------------------
-
-// Lorsque je reset, l'heure
-// set le current count à zero,
-// Actualise les éléments visual, dans la variable et en base
-
-
-async function onClickResetCounter(idRef) {
-
-    //bloc le bouton jusqu'à la fin de l'animation
-    document.getElementById(`btnCountReset_${idRef}`).disabled = true;
-
-
-    // set les html
-    //current serie
-    let spanCurrentSerieRef = document.getElementById(`spanCurrentSerie_${idRef}`);
-
-    // Étape 1 : animation de disparition
-    spanCurrentSerieRef.classList.remove('reset-in');
-    spanCurrentSerieRef.classList.add('reset-out');
-    // Le innerHTML sera mis à zero dans le setTimeOut
-    
-    //totalcount
-    let spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
-    spanTotalCountRef.innerHTML = `Total : 0`;
-
-
-    // Set les variables
-    userSessionItemsList[idRef].currentSerie = 0;
-    userSessionItemsList[idRef].totalCount = 0;
-
-
-
-    // Sauvegarde en localStorage
-    onUpdateSessionItemsInStorage();
-
-    if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)};
-
-    //retire la classe "reach" si necessaire pour le count target et le slash
-    let counterTargetRef = document.getElementById(`spanSerieTarget_${idRef}`);
-
-    if (counterTargetRef.classList.contains("target-reach")) {
-        counterTargetRef.classList.remove("target-reach");
-        document.getElementById(`imgCounterTargetDone_${idRef}`).classList.remove("counterTargetDone");
-    }
-
-    // Ajouter la classe pour l'animation
-    // spanCurrentSerieRef.classList.add("anim-reset");
-
-    
-    setTimeout(() => {
-        // Met le chiffre visuellement et joue la remontée
-        spanCurrentSerieRef.classList.remove('reset-out');
-        spanCurrentSerieRef.classList.add('reset-in');
-        spanCurrentSerieRef.innerHTML = 0;
-
-        //déverrouille le bouton à la fin de l'animation
-        document.getElementById(`btnCountReset_${idRef}`).disabled = false;
-    }, 300);
-
-}
 
 
 // RESET ALL ITEMS
