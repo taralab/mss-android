@@ -38,14 +38,14 @@ let userSessionItemsList = {
     sessionAllItemsInstance = {};
 
 let sessionItemColors = {
-    white: {body:"#fff",button:"grey"},
-    green: {body:"#E7F8F2",button:"#4EA88A",minuteur:"rgba(78, 168, 138, 0.3)"},
-    yellow: {body:"#FFFBE5",button:"#C8A646",minuteur:"rgba(200, 166, 70, 0.3)"},
-    red: {body:"#FDEBEC",button:"#D36868",minuteur:"rgba(211, 104, 104, 0.3)"},
-    blue: {body:"#E6F0FA",button:"#2B7FBF",minuteur:"rgba(43, 127, 191, 0.3)"},
-    violet: {body:"#F3F0FA",button:"#8A7EBF",minuteur:"rgba(138, 126, 191, 0.3)"},
-    orange: {body:"#FFF1EC",button:"#E38B6D",minuteur:"rgba(227, 139, 109, 0.3)"},
-    rose: {body:"#FAEFF4",button:"#C57CA5",minuteur:"rgba(197, 124, 165, 0.3)"}
+    white: {soft:"#fff",hard:"grey"},
+    green: {soft:"#E7F8F2",hard:"#4EA88A",minuteur:"rgba(78, 168, 138, 0.3)"},
+    yellow: {soft:"#FFFBE5",hard:"#C8A646",minuteur:"rgba(200, 166, 70, 0.3)"},
+    red: {soft:"#FDEBEC",hard:"#D36868",minuteur:"rgba(211, 104, 104, 0.3)"},
+    blue: {soft:"#E6F0FA",hard:"#2B7FBF",minuteur:"rgba(43, 127, 191, 0.3)"},
+    violet: {soft:"#F3F0FA",hard:"#8A7EBF",minuteur:"rgba(138, 126, 191, 0.3)"},
+    orange: {soft:"#FFF1EC",hard:"#E38B6D",minuteur:"rgba(227, 139, 109, 0.3)"},
+    rose: {soft:"#FAEFF4",hard:"#C57CA5",minuteur:"rgba(197, 124, 165, 0.3)"}
 };
 
 let sessionItemColorSelected = "#fff";//utiliser lors de la création d'un compteur
@@ -91,15 +91,35 @@ class Counter {
         this.colorName = colorName;
         this.totalCount = totalCount;
 
+        this.hardColor = sessionItemColors[this.colorName].hard;
+        this.softColor = sessionItemColors[this.colorName].soft;
+
+        //reference
+        this.textNameRef = null;
+        this.textCurrentSerieRef = null;
+        this.textSerieTargetRef = null;
+        this.textTotalCountRef = null;
+        this.inputRepIncrementRef = null;
+        this.btnActionRef = null;
+        
+
         // div container
         this.element = document.createElement("div");
         this.element.classList.add("item-session-container");
-        this.element.style.backgroundColor = sessionItemColors[this.colorName].body;
         this.element.id = `itemSessionContainer_${id}`;
 
-        this.buttonColor = sessionItemColors[this.colorName].button;
-
         this.render();
+        // Insertion
+        this.parentRef.appendChild(this.element);
+
+        // Ajout des écouteurs d'évènement
+        this.addEvent();
+
+        //Référence
+        this.reference();
+
+        //Initialisation
+        this.initCounter();
     }
 
 
@@ -109,7 +129,7 @@ class Counter {
         this.element.innerHTML = `
             <div class="compteur-content-line-1">
                 <div class="drag-handle">⣿</div>
-                <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
+                <p class="compteur-name" id="counterName_${this.id}"></p>
                 <button class="btn-counter-setting" id="btnModifyCounter_${this.id}">
                     <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
                 </button>  
@@ -117,11 +137,11 @@ class Counter {
 
             <div class="compteur-content-line-2" id="divCounterCurrentSerie_${this.id}">
                 <div class="compteur-content-line-2-left">
-                    <span class="current-serie" id="spanCurrentSerie_${this.id}">${this.currentSerie}</span>
-                    <span class="serie-target" id="spanSerieTarget_${this.id}">/${this.serieTarget}</span>
+                    <span class="current-serie" id="spanCurrentSerie_${this.id}"></span>
+                    <span class="serie-target" id="spanSerieTarget_${this.id}"></span>
                     <span class="serie-text">séries</span>
                 </div>
-                <span class="counter-total" id="spanTotalCount_${this.id}">Total : ${this.totalCount}</span>
+                <span class="counter-total" id="spanTotalCount_${this.id}"></span>
             </div>
 
 
@@ -130,22 +150,15 @@ class Counter {
                     <button class="btn-counter-reset" id="btnCountReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 </p>
                 <div class="wrapper rep">
-                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement}>
+                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0">
                 </div>
-                <button style="background-color: ${this.buttonColor};" class="counter" id="btnRepIncrement_${this.id}">
+                <button class="counter" id="btnRepIncrement_${this.id}">
                     <img src="./Icons/Icon-Accepter-blanc.webp" alt="">
                 </button>  
             </div>
 
             <img src="./Icons/Icon-Counter-Done.webp" class="overlay-image-rayure" id="imgCounterTargetDone_${this.id}" alt="Rature">
-        `;
-
-
-        // Insertion
-        this.parentRef.appendChild(this.element);
-
-        // Ajout des écouteurs d'évènement
-        this.addEvent();
+        `; 
     }
 
 
@@ -184,6 +197,25 @@ class Counter {
     }
 
 
+    reference(){
+        this.textNameRef = this.element.querySelector(`#counterName_${this.id}`);
+        this.textCurrentSerieRef = this.element.querySelector(`#spanCurrentSerie_${this.id}`);
+        this.textSerieTargetRef = this.element.querySelector(`#spanSerieTarget_${this.id}`);
+        this.textTotalCountRef = this.element.querySelector(`#spanTotalCount_${this.id}`);
+        this.inputRepIncrementRef = this.element.querySelector(`#inputRepIncrement_${this.id}`);
+        this.btnActionRef = this.element.querySelector(`#btnRepIncrement_${this.id}`);
+    }
+
+    initCounter(){
+        this.element.style.backgroundColor = this.softColor;
+        this.btnActionRef.style.backgroundColor = this.hardColor; 
+        this.textNameRef.textContent = this.name;
+        this.textCurrentSerieRef.textContent = this.currentSerie;
+        this.textSerieTargetRef.textContent = `/${this.serieTarget}`;
+        this.textTotalCountRef.textContent = `Total : ${this.totalCount}`;
+        this.inputRepIncrementRef.value =  this.repIncrement;
+    }
+
 
     //pour supprimer l'item
     removeItem(){
@@ -218,8 +250,8 @@ class Chrono {
         this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
-        this.buttonColor = sessionItemColors[this.colorName].button;
-        this.bodyColor =  sessionItemColors[this.colorName].body;
+        this.hardColor = sessionItemColors[this.colorName].hard;
+        this.softColor =  sessionItemColors[this.colorName].soft;
 
         this.render();
         // Ajout des écouteurs d'évènement
@@ -301,9 +333,9 @@ class Chrono {
 
     initChrono(){
         this._updateDisplay(this.elapsedTime);
-        this.divChronoRoundRef.style.backgroundColor = this.bodyColor;
-        this.divChronoRoundRef.style.borderColor = this.buttonColor;
-        this.btnActionRef.style.backgroundColor = this.buttonColor;
+        this.divChronoRoundRef.style.backgroundColor = this.softColor;
+        this.divChronoRoundRef.style.borderColor = this.hardColor;
+        this.btnActionRef.style.backgroundColor = this.hardColor;
         this.textNameRef.textContent = this.name;
     }
 
@@ -455,8 +487,8 @@ class Minuteur {
         this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
-        this.buttonColor = sessionItemColors[this.colorName].minuteur;
-        this.PBColor = sessionItemColors[this.colorName].button;
+        this.hardColor = sessionItemColors[this.colorName].minuteur;
+        this.PBColor = sessionItemColors[this.colorName].hard;
 
         this.render();
 
@@ -541,7 +573,7 @@ class Minuteur {
     // initialisation à la du minuteur
     initMinuteur(){
         this.progressBarRef.style.backgroundColor = this.PBColor;
-        this.btnActionRef.style.backgroundColor = this.buttonColor;
+        this.btnActionRef.style.backgroundColor = this.hardColor;
         this.timeSpanRef.textContent = this._formatTime(this.duration);
         this.textNameRef.textContent = this.name;
 
