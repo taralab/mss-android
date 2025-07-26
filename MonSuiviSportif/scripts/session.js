@@ -80,13 +80,12 @@ let timerInUseID = null;
 
 // Objet compteur
 class Counter {
-    constructor(id, name, currentSerie, serieTarget, repIncrement,displayOrder,parentRef,colorName,totalCount){
+    constructor(id, name, currentSerie, serieTarget, repIncrement,parentRef,colorName,totalCount){
         this.id = id;
         this.name = name;
         this.currentSerie = currentSerie;
         this.serieTarget = serieTarget;
         this.repIncrement = repIncrement;
-        this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.colorName = colorName;
         this.totalCount = totalCount;
@@ -383,10 +382,9 @@ class Counter {
 
 
 class Chrono {
-    constructor(id, name, displayOrder,parentRef,colorName,elapsedTime){
+    constructor(id, name, parentRef,colorName,elapsedTime){
         this.id = id;
         this.name = name;
-        this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.colorName = colorName;
         this.elapsedTime = elapsedTime;
@@ -617,10 +615,9 @@ class Chrono {
 
 //seul l'état "isDone" est sauvegardé pour le minuteur
 class Minuteur {
-    constructor(id, name, displayOrder,parentRef,colorName,duration,isDone){
+    constructor(id, name, parentRef,colorName,duration,isDone){
         this.id = id;
         this.name = name;
-        this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.colorName = colorName;
         this.duration = duration;//en secondes
@@ -1397,12 +1394,9 @@ function eventCreateSessionItem() {
             // Ajout du nouveau compteur à l'array
             userSessionItemsList[counterNewID] = counterData;
 
-            //récupère un displayOrder temporaire (longueur du tableau)
-            tempDisplayOrder = Object.keys(userSessionItemsList).length || 0;
-
             //instanciation dans le DOM
             newInstance = new Counter(counterNewID, counterData.name, counterData.currentSerie, counterData.serieTarget, counterData.repIncrement,
-                                tempDisplayOrder, parentRef, counterData.color, counterData.totalCount);
+                                parentRef, counterData.color, counterData.totalCount);
 
             //stocke l'instance
             sessionAllItemsInstance[counterNewID] = newInstance;
@@ -1421,11 +1415,8 @@ function eventCreateSessionItem() {
             // Ajout du nouveau chrono à l'array
             userSessionItemsList[chronoNewID] = chronoData;
 
-            //récupère un displayOrder temporaire (longueur du tableau)
-            tempDisplayOrder = Object.keys(userSessionItemsList).length || 0;
-
             //instanciation dans le dom
-            newInstance = new Chrono(chronoNewID, chronoData.name, tempDisplayOrder, parentRef,
+            newInstance = new Chrono(chronoNewID, chronoData.name, parentRef,
                 chronoData.color, chronoData.elapsedTime);
 
             //stocke l'instance
@@ -1443,11 +1434,8 @@ function eventCreateSessionItem() {
             // Ajout du nouveau minuteur à l'array
             userSessionItemsList[minuteurNewID] = minuteurData;
 
-            //récupère un displayOrder temporaire (longueur du tableau)
-            tempDisplayOrder = Object.keys(userSessionItemsList).length || 0;
-
             //Instanciation dans le DOM
-            newInstance = new Minuteur(minuteurNewID, minuteurData.name, tempDisplayOrder, parentRef, 
+            newInstance = new Minuteur(minuteurNewID, minuteurData.name, parentRef, 
                 minuteurData.color, minuteurData.duration, minuteurData.isDone);
 
             //stocke l'instance
@@ -1803,13 +1791,13 @@ async function onDisplaySessionItems() {
             switch (type) {
                 case "COUNTER":
                     newInstance = new Counter(key, item.name, item.currentSerie, item.serieTarget, item.repIncrement,
-                                item.displayOrder, divSessionCompteurAreaRef, item.color, item.totalCount);
+                                divSessionCompteurAreaRef, item.color, item.totalCount);
                     break;
                 case "CHRONO":
-                    newInstance = new Chrono(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.elapsedTime);
+                    newInstance = new Chrono(key, item.name, divSessionCompteurAreaRef, item.color, item.elapsedTime);
                     break;
                 case "MINUTEUR":
-                    newInstance = new Minuteur(key, item.name, item.displayOrder, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
+                    newInstance = new Minuteur(key, item.name, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
                     break;
             }
 
