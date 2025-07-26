@@ -1348,7 +1348,7 @@ function onClickDivNewPopupContent(event) {
 // Gestion des couleurs
 
 function onChooseSessionItemColor(color) {
-    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[color].body;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[color].soft;
     sessionItemColorSelected = color;
 
     // Met en évidence le bouton sélectionné
@@ -1551,7 +1551,7 @@ function onClickModifyCounter(idRef) {
     document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
     document.getElementById("inputEditSerieTarget").value = userSessionItemsList[idRef].serieTarget;
     document.getElementById("inputEditRepIncrement").value = userSessionItemsList[idRef].repIncrement;
-    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].soft;
     sessionItemColorSelected = userSessionItemsList[idRef].color;
 
 
@@ -1606,7 +1606,7 @@ function onClickModifyChrono(idRef) {
 
     // set les éléments
     document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
-    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].soft;
     sessionItemColorSelected = userSessionItemsList[idRef].color;
 
 
@@ -1674,7 +1674,7 @@ function onClickModifyMinuteur(idRef) {
 
     // set les éléments
     document.getElementById("inputEditSessionItemName").value = userSessionItemsList[idRef].name;
-    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].body;
+    document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColors[userSessionItemsList[idRef].color].soft;
     sessionItemColorSelected = userSessionItemsList[idRef].color;
 
     //Convertion duration vers MM:SS
@@ -2532,7 +2532,7 @@ class DivGenItemSession{
     //change la couleur du module
     setColor(colorRef){
         this.color = colorRef;
-        this.element.style.backgroundColor = sessionItemColors[this.color].body;
+        this.element.style.backgroundColor = sessionItemColors[this.color].soft;
     }
 
     //initialise les éléments de la première ligne
