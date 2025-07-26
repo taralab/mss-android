@@ -81,17 +81,19 @@ let timerInUseID = null;
 // Objet compteur
 class Counter {
     constructor(id, name, currentSerie, serieTarget, repIncrement,parentRef,colorName,totalCount){
+        //les éléments qui ne changent pas
         this.id = id;
-        this.name = name;
-        this.currentSerie = currentSerie;
-        this.serieTarget = serieTarget;
-        this.repIncrement = repIncrement;
         this.parentRef = parentRef;
-        this.colorName = colorName;
-        this.totalCount = totalCount;
 
-        this.hardColor = sessionItemColors[this.colorName].hard;
-        this.softColor = sessionItemColors[this.colorName].soft;
+        //Les élément qui changent sont set dans initCounter()
+        this.name = null;
+        this.currentSerie = null;
+        this.serieTarget = null;
+        this.repIncrement = null;
+        this.colorName = null;
+        this.totalCount = null;
+        this.hardColor = null;
+        this.softColor = null;
 
         //reference
         this.textNameRef = null;
@@ -120,7 +122,7 @@ class Counter {
         this.reference();
 
         //Initialisation
-        this.initCounter();
+        this.initCounter(name,currentSerie,serieTarget,repIncrement,colorName,totalCount);
     }
 
 
@@ -209,7 +211,20 @@ class Counter {
         this.btnResetCounterRef = this.element.querySelector(`#btnCountReset_${this.id}`);
     }
 
-    initCounter(){
+    initCounter(newName,newCurrentSerie,newSerieTarget,newRepIncrement,newColorName,newTotalCount){
+        //les variables
+        this.name = newName;
+        this.currentSerie = newCurrentSerie;
+        this.serieTarget = newSerieTarget;
+        this.repIncrement = newRepIncrement;
+        this.colorName = newColorName;
+        this.totalCount = newTotalCount;
+
+        this.hardColor = sessionItemColors[this.colorName].hard;
+        this.softColor = sessionItemColors[this.colorName].soft;
+
+
+        //LE dom
         this.element.style.backgroundColor = this.softColor;
         this.btnActionRef.style.backgroundColor = this.hardColor; 
         this.textNameRef.textContent = this.name;
