@@ -1722,7 +1722,8 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
             userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
 
-            // sessionAllItemsInstance[currentSessionItemEditorID].initCounter(counterData.name,);
+            //Met à jour l'instance
+            sessionAllItemsInstance[currentSessionItemEditorID].initCounter(counterData.name,counterData.serieTarget,counterData.repIncrement,counterData.color);
 
             break;
 
@@ -1732,6 +1733,10 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].type = chronoData.type;
             userSessionItemsList[currentSessionItemEditorID].name = chronoData.name;
             userSessionItemsList[currentSessionItemEditorID].color = chronoData.color;
+
+            //Actualise l'affichage
+            await onDisplaySessionItems();
+
 
             break;
 
@@ -1743,6 +1748,9 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].color = minuteurData.color;
             userSessionItemsList[currentSessionItemEditorID].duration = minuteurData.duration;
             userSessionItemsList[currentSessionItemEditorID].isDone = minuteurData.isDone; //A chaque modification reset tout.A retirer si effet non souhaité
+
+            //Actualise l'affichage
+            await onDisplaySessionItems();
 
             break;
     
@@ -1756,9 +1764,7 @@ async function eventSaveModifySessionItem() {
         console.log("[SESSION] demande de vérification DONE");
     }
 
-    //Actualise l'affichage
-    await onDisplaySessionItems();
-
+    
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
 
