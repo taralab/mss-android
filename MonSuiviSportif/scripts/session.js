@@ -398,9 +398,9 @@ class Counter {
 class Chrono {
     constructor(id, name, parentRef,colorName,elapsedTime){
         this.id = id;
-        this.name = name;
+        this.name = null;
         this.parentRef = parentRef;
-        this.colorName = colorName;
+        this.colorName = null;
         this.elapsedTime = elapsedTime;
 
         this.interval = null;
@@ -421,8 +421,8 @@ class Chrono {
         this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
-        this.hardColor = sessionItemColors[this.colorName].hard;
-        this.softColor =  sessionItemColors[this.colorName].soft;
+        this.hardColor = null;
+        this.softColor =  null;
 
         this.render();
         // Ajout des écouteurs d'évènement
@@ -432,7 +432,7 @@ class Chrono {
         this.reference();
 
         //initialisation de l'affichage des nombres la première fois
-        this.initChrono();
+        this.initChrono(name,colorName);
     }
 
 
@@ -502,7 +502,17 @@ class Chrono {
         this.btnActionRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
     }
 
-    initChrono(){
+    initChrono(newName,newColorName){
+
+        //Les variables
+        this.name = newName;
+        this.colorName = newColorName;
+
+        this.hardColor = sessionItemColors[this.colorName].hard;
+        this.softColor =  sessionItemColors[this.colorName].soft;
+
+
+        //LE dom
         this._updateDisplay(this.elapsedTime);
         this.divChronoRoundRef.style.backgroundColor = this.softColor;
         this.divChronoRoundRef.style.borderColor = this.hardColor;
@@ -1734,8 +1744,8 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].name = chronoData.name;
             userSessionItemsList[currentSessionItemEditorID].color = chronoData.color;
 
-            //Actualise l'affichage
-            await onDisplaySessionItems();
+            //Met à jour l'instance
+            sessionAllItemsInstance[currentSessionItemEditorID].initChrono(chronoData.name,chronoData.color);
 
 
             break;
