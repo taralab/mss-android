@@ -81,17 +81,18 @@ let timerInUseID = null;
 // Objet compteur
 class Counter {
     constructor(id, name, currentSerie, serieTarget, repIncrement,parentRef,colorName,totalCount){
-        //les éléments qui ne changent pas
+        //les éléments qui ne sont pas modifiable dans "modification"
         this.id = id;
         this.parentRef = parentRef;
+        this.currentSerie = currentSerie;
+        this.repIncrement = repIncrement;
+        this.totalCount = totalCount;
 
-        //Les élément qui changent sont set dans initCounter()
+
+        //Les élément modifiable dans modification sont set dans initCounter()
         this.name = null;
-        this.currentSerie = null;
         this.serieTarget = null;
-        this.repIncrement = null;
         this.colorName = null;
-        this.totalCount = null;
         this.hardColor = null;
         this.softColor = null;
 
@@ -122,7 +123,7 @@ class Counter {
         this.reference();
 
         //Initialisation
-        this.initCounter(name,currentSerie,serieTarget,repIncrement,colorName,totalCount);
+        this.initCounter(name,serieTarget,repIncrement,colorName);
     }
 
 
@@ -211,20 +212,18 @@ class Counter {
         this.btnResetCounterRef = this.element.querySelector(`#btnCountReset_${this.id}`);
     }
 
-    initCounter(newName,newCurrentSerie,newSerieTarget,newRepIncrement,newColorName,newTotalCount){
-        //les variables
+    initCounter(newName,newSerieTarget,newRepIncrement,newColorName){
+        //set les variables
         this.name = newName;
-        this.currentSerie = newCurrentSerie;
         this.serieTarget = newSerieTarget;
         this.repIncrement = newRepIncrement;
         this.colorName = newColorName;
-        this.totalCount = newTotalCount;
 
         this.hardColor = sessionItemColors[this.colorName].hard;
         this.softColor = sessionItemColors[this.colorName].soft;
 
 
-        //LE dom
+        //set LE dom
         this.element.style.backgroundColor = this.softColor;
         this.btnActionRef.style.backgroundColor = this.hardColor; 
         this.textNameRef.textContent = this.name;
@@ -1722,6 +1721,8 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].serieTarget = counterData.serieTarget;
             userSessionItemsList[currentSessionItemEditorID].repIncrement = counterData.repIncrement;
             userSessionItemsList[currentSessionItemEditorID].color = counterData.color;
+
+            // sessionAllItemsInstance[currentSessionItemEditorID].initCounter(counterData.name,);
 
             break;
 
