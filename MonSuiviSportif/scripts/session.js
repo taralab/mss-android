@@ -641,17 +641,20 @@ class Chrono {
 class Minuteur {
     constructor(id, name, parentRef,colorName,duration,isDone){
         this.id = id;
-        this.name = name;
+        this.name = null;
         this.parentRef = parentRef;
-        this.colorName = colorName;
-        this.duration = duration;//en secondes
-        this.isDone = isDone;
+        this.colorName = null;
+        this.duration = null;//en secondes
+        this.isDone = null;
 
         this.remaningTime = duration;
         this.isRunning = false;
         this.interval = null;
         this.startTimeStamp = null;//stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
         this.targetTime = null;
+
+        this.hardColor = null;
+        this.PBColor = null;
 
         //Pour référence
         this.progressBarRef = null;
@@ -667,8 +670,7 @@ class Minuteur {
         this.element.style.backgroundColor = "white";
         this.element.id = `itemSessionContainer_${id}`;
 
-        this.hardColor = sessionItemColors[this.colorName].minuteur;
-        this.PBColor = sessionItemColors[this.colorName].hard;
+
 
         this.render();
 
@@ -677,12 +679,12 @@ class Minuteur {
 
         // Ajout des écouteurs d'évènement
         this.bindEvent();
-
+        
         //référencement
         this.reference();
 
         //initialisation
-        this.initMinuteur();
+        this.initMinuteur(name,colorName,duration,isDone);
     }
 
 
@@ -719,6 +721,7 @@ class Minuteur {
 
        // Ajout des écouteurs d'évènement
     bindEvent(){
+
         // Modifier minuteur
         let btnModifyMinuteurRef = this.element.querySelector(`#btnModifyMinuteur_${this.id}`);
         btnModifyMinuteurRef.addEventListener("click", ()=>{
@@ -735,6 +738,8 @@ class Minuteur {
         let btnResetRef = this.element.querySelector(`#btnMinuteurReset_${this.id}`);
         btnResetRef.addEventListener("click",()=>{
             this.reset();
+            // Sauvegarde en localStorage
+            onUpdateSessionItemsInStorage();
         });
 
     }
@@ -751,7 +756,19 @@ class Minuteur {
     }
 
     // initialisation à la du minuteur
-    initMinuteur(){
+    initMinuteur(newName,newColorName,newDuration,newIsDone){
+
+        //Les variables
+        this.name = newName;
+        this.colorName = newColorName;
+        this.duration = newDuration;//en secondes
+        this.isDone = newIsDone;
+
+        this.hardColor = sessionItemColors[newColorName].minuteur;
+        this.PBColor = sessionItemColors[newColorName].hard;
+
+
+        //LE DOM
         this.progressBarRef.style.backgroundColor = this.PBColor;
         this.btnActionRef.style.backgroundColor = this.hardColor;
         this.timeSpanRef.textContent = this._formatTime(this.duration);
@@ -784,8 +801,6 @@ class Minuteur {
             alert("Un timer est déjà en cours");
             return
         }
-
-
 
         this._triggerClickEffect(); //effet de click
 
@@ -826,11 +841,9 @@ class Minuteur {
     }
 
     reset(){
-
         //desactive le bouton
         let btnResetRef = this.element.querySelector(`#btnMinuteurReset_${this.id}`);
         btnResetRef.disabled = true;
-
 
         //lancement de la sequence de reset
         this.pause();
@@ -845,10 +858,6 @@ class Minuteur {
 
         //image DONE retrait
         this.imgDoneRef.classList.remove("counterTargetDone");
-
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
-
 
         setTimeout(() => {
             // active le bouton
@@ -1759,8 +1768,9 @@ async function eventSaveModifySessionItem() {
             userSessionItemsList[currentSessionItemEditorID].duration = minuteurData.duration;
             userSessionItemsList[currentSessionItemEditorID].isDone = minuteurData.isDone; //A chaque modification reset tout.A retirer si effet non souhaité
 
-            //Actualise l'affichage
-            await onDisplaySessionItems();
+            //Met à jour l'instance et fait un reset du minuteur
+            sessionAllItemsInstance[currentSessionItemEditorID].initMinuteur(minuteurData.name,minuteurData.color,minuteurData.duration,minuteurData.isDone);
+            sessionAllItemsInstance[currentSessionItemEditorID].reset();
 
             break;
     
