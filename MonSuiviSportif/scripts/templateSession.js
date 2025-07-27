@@ -15,6 +15,7 @@ let templateSessionsNameList = {
 
 
 
+
 // ------------------------ Fonction générales ----------------------------------------------------
 
 
@@ -391,7 +392,7 @@ async function eventOpenTemplateSessionEditor(mode){
     switch (templateSessionEditorMode) {
         case "creation":
             // Demande de création du tableau vide
-            onCreateTemplateSessionTableLine(false);
+            await onCreateTemplateSessionTableLine(false);
             break;
 
         case "modification":
@@ -403,12 +404,16 @@ async function eventOpenTemplateSessionEditor(mode){
             };
 
             // Demande de création du tableau avec les éléments
-            onCreateTemplateSessionTableLine(true,currentTemplateSessionData);
+            await onCreateTemplateSessionTableLine(true,currentTemplateSessionData);
             break;
     
         default:
             break;
     }
+
+
+    //instancie le drag N drop
+    onInitSortableGenItemsSession("divGenerateTemplateSessionEditor");
 
 }
 
@@ -435,49 +440,50 @@ function onCreateMainMenuTemplateSessionEditor(isModify) {
 
 
 // fonction de génération des lignes du tableau
-function onCreateTemplateSessionTableLine(isModification,templateData) {
-    
-    // Reférence le parent
-    let parentRef = document.getElementById("divGenerateTemplateSessionEditor");
+async function onCreateTemplateSessionTableLine(isModification,templateData) {
+    return new Promise(async (resolve) => {
+        // Reférence le parent
+        let parentRef = document.getElementById("divGenerateTemplateSessionEditor");
 
-    // Reset le contenu du parent et le nom ou le set si modification
-    parentRef.innerHTML = "";
-    document.getElementById("inputTemplateSessionName").value = isModification ? templateData.sessionName : "";
+        // Reset le contenu du parent et le nom ou le set si modification
+        parentRef.innerHTML = "";
+        document.getElementById("inputTemplateSessionName").value = isModification ? templateData.sessionName : "";
 
-    if (isModification) {
-        templateData.itemList.forEach((e,index)=>{
-            //génère selon le type
-            switch (e.type) {
-                case "COUNTER":
-                    new DivGenItemSession(parentRef,index,e.type,e.name,e.color,e.serieTarget,e.repIncrement);
-                    break;
-                case "CHRONO":
-                    new DivGenItemSession(parentRef,index,e.type,e.name,e.color);
-                    break;
-                case "MINUTEUR":
-                    new DivGenItemSession(parentRef,index,e.type,e.name,e.color,null,null,e.duration);
-                    break;
-            
-                default:
-                    break;
+        if (isModification) {
+            templateData.itemList.forEach((e,index)=>{
+                //génère selon le type
+                switch (e.type) {
+                    case "COUNTER":
+                        new DivGenItemSession(parentRef,index,e.type,e.name,e.color,e.serieTarget,e.repIncrement);
+                        break;
+                    case "CHRONO":
+                        new DivGenItemSession(parentRef,index,e.type,e.name,e.color);
+                        break;
+                    case "MINUTEUR":
+                        new DivGenItemSession(parentRef,index,e.type,e.name,e.color,null,null,e.duration);
+                        break;
+                
+                    default:
+                        break;
+                }
+                
+
+            });
+            //puis génère le reste vide sans dépasser maxSessionItems
+            for (let i = templateData.itemList.length; i < maxSessionItems; i++) {
+                new DivGenItemSession(parentRef,i); 
             }
-            
 
-        });
-        //puis génère le reste vide sans dépasser maxSessionItems
-        for (let i = templateData.itemList.length; i < maxSessionItems; i++) {
-            new DivGenItemSession(parentRef,i); 
+
+        }else{
+            // Génère le tableau entier vide
+            for (let i = 0; i < maxSessionItems; i++) {
+                new DivGenItemSession(parentRef,i); 
+            }
         }
 
-
-    }else{
-        // Génère le tableau entier vide
-        for (let i = 0; i < maxSessionItems; i++) {
-            new DivGenItemSession(parentRef,i); 
-        }
-    }
-
-    
+        resolve(); // ← indique qu’on a fini le rendu DOM
+    });
 }
 
 
@@ -499,6 +505,9 @@ async function onClickSaveFromTemplateSessionEditor() {
 
     // Masque le popup
     onLeaveMenu("TemplateSessionEditor");
+    //vide l'instance pour le drag n drop
+    onDestroySortableGenSession();
+
 
     // Récupère les éléments de la liste
     let newItemsSessionList = onGetDivGenSessionItems("divGenerateTemplateSessionEditor");
@@ -589,6 +598,8 @@ async function eventDeleteTemplateSessionModel() {
     
     // ferme l'editeur
     onLeaveMenu("TemplateSessionEditor");
+    //vide l'instance pour le drag n drop
+    onDestroySortableGenSession();
 
     // Rends les div enabled
     onChangeDisplay([],[],[],[],["divTemplateSessionEditor"],[],[]);
@@ -618,6 +629,8 @@ function onClickReturnFromTemplateSessionEditor() {
     document.getElementById("divGenerateTemplateSessionEditor").innerHTML = "";
 
     onLeaveMenu("TemplateSessionEditor");
+    //vide l'instance pour le drag n drop
+    onDestroySortableGenSession();
 }
 
 

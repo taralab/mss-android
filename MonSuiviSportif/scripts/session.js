@@ -33,7 +33,8 @@ let userSessionItemsList = {
     sessionStartTime = "--:--:--",//date-heure du début de session set lorsque clique sur reset all counter, ou générate session
     sessionStorageName = "MSS_sessionCounterList",
     sessionStartTimeStorageName = "MSS_sessionStartTime",
-    sortableInstance = null,//instance pour le drag n drop
+    sessionItemSortableInstance = null,//instance pour le drag n drop des items
+    genSessionSortableInstance = null,//instance drag n drop pour génération de session
     sessionActivityTypeToSend = null,//utilisé pour stocker le type d'activité à générer
     sessionAllItemsInstance = {},//stockes les instances de tous les items générés
     sessionInstanceButtonAddNew = null;//l'instance du boutton add new
@@ -1204,7 +1205,7 @@ async function onOpenMenuSession(){
     await onDisplaySessionItems();
 
     // Instancie le system de drag N drop avec un petit delay pour laisser la création des items
-    onInitSortable("divSessionCompteurArea");
+    onInitSortableItems("divSessionCompteurArea");
 
 
 
@@ -2421,12 +2422,18 @@ async function onOpenMenuEditSession() {
             onUpdateAndSortTemplateSessionKey();
         }
 
-    onGenerateSessionCanvas();
+    await onGenerateSessionCanvas();
+    //initialise le drag n drop
+    onInitSortableGenItemsSession("divCanvasGenerateSession");
 
+    
     // actualise la liste des modèles dans le tableau
     onGenerateModelSelectList(); 
 
+    //création du menu principal
     onCreateMainMenuEditSession();
+
+
 }
 
 
@@ -2694,26 +2701,30 @@ class DivGenItemSession{
 
 
 // Génération du tableau de création de session
-function onGenerateSessionCanvas() {
-   
-    // Reférence le parent
-    let parentRef = document.getElementById("divCanvasGenerateSession");
+async function onGenerateSessionCanvas() {
+   return new Promise(async (resolve) => {
+        // Reférence le parent
+        let parentRef = document.getElementById("divCanvasGenerateSession");
 
-    // Reset le contenu du parent
-    parentRef.innerHTML = "";
+        // Reset le contenu du parent
+        parentRef.innerHTML = "";
 
-    // Génère le tableau
-    for (let i = 0; i < maxSessionItems; i++) {
-        // new TableLineSession(parentRef,i); 
-        new DivGenItemSession(parentRef,i);
-    }
+        // Génère le tableau
+        for (let i = 0; i < maxSessionItems; i++) {
+            // new TableLineSession(parentRef,i); 
+            new DivGenItemSession(parentRef,i);
+        }
 
 
 
-    // Ajout les écoute d'évènements
-    if (!isAddEventListenerForSessionEditor) {
-        onAddEventListenerForSessionEditor();
-    }
+        // Ajout les écoute d'évènements
+        if (!isAddEventListenerForSessionEditor) {
+            onAddEventListenerForSessionEditor();
+        }
+
+        resolve(); // ← indique qu’on a fini le rendu DOM
+
+    });
 }
 
 
@@ -2849,6 +2860,9 @@ function eventGenerateSessionList(){
 
     //vide le tableau
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
+
+    //et les instance drag n drop
+    onDestroySortableGenSession();
 
     //quitte ce menu pour revenir dans le menu session
     onLeaveMenu("EditSession");
@@ -3019,6 +3033,10 @@ function onclickReturnFromEditSession(event) {
     //vide le tableau
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
+    //et les instance drag n drop
+    onDestroySortableGenSession();
+
+
     onLeaveMenu("EditSession");
 
 }
@@ -3093,18 +3111,18 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
 
 // Gestion drag N drop
 
-function onInitSortable(divID) {
+function onInitSortableItems(divID) {
     const container = document.getElementById(divID);
     if (!container) return;
 
     // 🔁 Nettoie une instance précédente
-    if (sortableInstance) {
-        sortableInstance.destroy();
-        sortableInstance = null;
+    if (sessionItemSortableInstance) {
+        sessionItemSortableInstance.destroy();
+        sessionItemSortableInstance = null;
     }
 
     // 🔄 Crée une nouvelle instance
-    sortableInstance = Sortable.create(container, {
+    sessionItemSortableInstance = Sortable.create(container, {
         animation: 150,
         ghostClass: 'sortable-ghost',
         scroll: true,
@@ -3121,16 +3139,52 @@ function onInitSortable(divID) {
 }
 
 
+function onInitSortableGenItemsSession(divID) {
+    const container = document.getElementById(divID);
+    if (!container) return;
 
-
-function onDestroySortable() {
-    // Vide l'instance de trie
-    if (sortableInstance) {
-        sortableInstance.destroy();
-        sortableInstance = null;
+    // 🔁 Nettoie une instance précédente
+    if (genSessionSortableInstance) {
+        genSessionSortableInstance.destroy();
+        genSessionSortableInstance = null;
     }
 
+    // 🔄 Crée une nouvelle instance
+    genSessionSortableInstance = Sortable.create(container, {
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+        scroll: true,
+        scrollSensitivity: 30,
+        scrollSpeed: 10,
+        handle: '.drag-handle',
+        touchStartThreshold: 10,
+        onEnd: function () {
+
+        }
+    });
 }
+
+
+
+//Pour les items normales
+function onDestroySortableItemSession() {
+    // Vide l'instance de trie
+    if (sessionItemSortableInstance) {
+        sessionItemSortableInstance.destroy();
+        sessionItemSortableInstance = null;
+    }
+}
+
+
+//pour l'éditeur de génération de session
+function onDestroySortableGenSession() {
+    // Vide l'instance de trie
+    if (genSessionSortableInstance) {
+        genSessionSortableInstance.destroy();
+        genSessionSortableInstance = null;
+    }
+}
+
 
 
 // Retour depuis Info
@@ -3147,7 +3201,7 @@ async function onClickReturnFromSession() {
     document.removeEventListener("visibilitychange", handleVisibilityChange);
     if (devMode ===true){console.log("[SESSION] Retire Ecouteur visibilitychange pour wakeLock");}
 
-    onDestroySortable();
+    onDestroySortableItemSession();
 
     // vide la div
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
