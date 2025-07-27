@@ -2713,20 +2713,29 @@ function onGenerateSessionCanvas() {
 }
 
 
+function onGetDivGenSessionItems(containerID){
 
+    let sessionList = [];//contiendra tous les résultats
 
+    //le container parent
+    const container = document.getElementById(containerID);
 
-// Génération de la session
-// Récupère les éléments créés dans  le tableau
-function onGetDivGenSessionItems() {
-    let sessionList = [];
+    //récupère tous les éléments ayant la classe gen-session-module
+    const children = container.querySelectorAll(".gen-session-module");
 
-    for (let i = 0; i < maxSessionItems; i++) {       
+    //pour chaque canvas
+    children.forEach((child, index)=>{
+        
+
+        console.log(child.id);
+        //récupère la partie "unique" de l'ID
+        const idNumber = child.id.replace("divGenSessionItemContainer_","");
+        console.log(idNumber);
 
         //référence les éléments communs
-        let inputName = document.getElementById(`inputGenSessionItemName_${i}`),
-            selectColor = document.getElementById(`selectGenItemSessionColor_${i}`),
-            itemType = document.getElementById(`selectGenItemSessionType_${i}`).value;
+        let inputName = document.getElementById(`inputGenSessionItemName_${idNumber}`),
+            selectColor = document.getElementById(`selectGenItemSessionColor_${idNumber}`),
+            itemType = document.getElementById(`selectGenItemSessionType_${idNumber}`).value;
 
 
         //NE TRAITE QUE SI YA UN NOM
@@ -2736,8 +2745,8 @@ function onGetDivGenSessionItems() {
                 case "COUNTER":
 
                     //référence éléments spécifiques
-                    let inputSerieValue = document.getElementById(`inputSessionGenSerieTarget_${i}`).value,
-                        inputRepValue = document.getElementById(`inputSessionGenRepIncrement_${i}`).value;
+                    let inputSerieValue = document.getElementById(`inputSessionGenSerieTarget_${idNumber}`).value,
+                        inputRepValue = document.getElementById(`inputSessionGenRepIncrement_${idNumber}`).value;
 
                     // Insertion
                     sessionList.push( {
@@ -2759,8 +2768,8 @@ function onGetDivGenSessionItems() {
                 case "MINUTEUR":
 
                     //référence éléments spécifiques
-                    let minValue = document.getElementById(`inputMinuteurGenSessionMin_${i}`).value || "00",
-                        secValue = document.getElementById(`inputMinuteurGenSessionSec_${i}`).value || "00",
+                    let minValue = document.getElementById(`inputMinuteurGenSessionMin_${idNumber}`).value || "00",
+                        secValue = document.getElementById(`inputMinuteurGenSessionSec_${idNumber}`).value || "00",
                         duration = (parseInt(minValue)*60) + parseInt(secValue);
 
                     sessionList.push( {
@@ -2777,8 +2786,7 @@ function onGetDivGenSessionItems() {
                     break;
             }  
         } 
-    }
-
+    });
 
     return sessionList;
 }
@@ -2822,8 +2830,7 @@ function onGenerateModelSelectList() {
 function eventGenerateSessionList(){
 
     // Centralise les éléments qui été dans le tableau de création
-    let itemForSession = onGetDivGenSessionItems();
-
+    let itemForSession = onGetDivGenSessionItems("divCanvasGenerateSession");
 
     if (devMode === true){console.log("[SESSION]",itemForSession);}
 
