@@ -2275,6 +2275,7 @@ div.session-chrono-icon{
 div.session-chrono-label{
     font-weight: bold;
     font-size: 18px;
+    text-align: center;
 }
 
 div.session-chrono-time{

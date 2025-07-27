@@ -55,6 +55,15 @@ class Button_add {
         // Insertion dans le DOM
         parent.appendChild(this.bouton);
     }
+
+
+    disableButton(){
+        this.bouton.disabled = true;
+    };
+
+    enableButton(){
+        this.bouton.disabled = false;
+    }
 }
 
 

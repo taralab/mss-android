@@ -35,7 +35,8 @@ let userSessionItemsList = {
     sessionStartTimeStorageName = "MSS_sessionStartTime",
     sortableInstance = null,//instance pour le drag n drop
     sessionActivityTypeToSend = null,//utilisé pour stocker le type d'activité à générer
-    sessionAllItemsInstance = {};
+    sessionAllItemsInstance = {},//stockes les instances de tous les items générés
+    sessionInstanceButtonAddNew = null;//l'instance du boutton add new
 
 let sessionItemColors = {
     white: {soft:"#fff",hard:"grey"},
@@ -1405,8 +1406,15 @@ function eventCreateSessionItem() {
 
     //référence le parent
     let parentRef = document.getElementById("divSessionCompteurArea");
+
+    //S'il n'y avait aucun élément avant, retire le texte "aucun élément...."
+    if (Object.keys(userSessionItemsList).length < 1) {
+            parentRef.innerHTML = "";
+    }
+
+
+
     let newInstance = {};
-    let tempDisplayOrder = null;
 
 
     //notification selon le type d'élément créé
@@ -1486,6 +1494,14 @@ function eventCreateSessionItem() {
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
 
+
+    //gestion du bouton add new
+    //Si le max est atteind, désactive le bouton
+    if (Object.keys(userSessionItemsList).length >= maxSessionItems) {
+        sessionInstanceButtonAddNew.disableButton();
+    }
+
+
     // Popup notification
     onShowNotifyPopup(notifyType);
 
@@ -1493,7 +1509,6 @@ function eventCreateSessionItem() {
     console.log(userSessionItemsList);
 
 }
-
 
 
 
@@ -1811,10 +1826,23 @@ async function onDisplaySessionItems() {
         const divSessionEndListRef = document.getElementById("divSessionEndList");
         divSessionEndListRef.innerHTML = "";
 
+
+                    
+        //Création du bouton add new item et traitement de son état
+        let ismaxSessionItemsReach = Object.keys(userSessionItemsList).length >= maxSessionItems;
+        sessionInstanceButtonAddNew = new Button_add("Ajouter un élément", () => onClickAddSessionItem(), ismaxSessionItemsReach, divSessionEndListRef);
+
+        //Création du texte fin de liste
+        let newClotureList = document.createElement("span");
+            newClotureList.classList.add("last-container");
+            newClotureList.innerHTML = getRandomSessionInfo(infoSessionTextArray);
+            divSessionEndListRef.appendChild(newClotureList);
+
+
+
+
         if (Object.keys(userSessionItemsList).length < 1) {
             divSessionCompteurAreaRef.innerHTML = "Aucun élément à afficher !";
-
-            new Button_add("Ajouter un élément", () => onClickAddSessionItem(), false, divSessionEndListRef);
             return resolve(); // ← important
         }
 
@@ -1846,19 +1874,9 @@ async function onDisplaySessionItems() {
             //ajoutes chaque instance créé au tableau général
             sessionAllItemsInstance[key] = newInstance;
 
-
             // dernière action
             if (++done === total) {
-                let ismaxSessionItemsReach = total >= maxSessionItems;
-                new Button_add("Ajouter un élément", () => onClickAddSessionItem(), ismaxSessionItemsReach, divSessionEndListRef);
-
-                let newClotureList = document.createElement("span");
-                newClotureList.classList.add("last-container");
-                newClotureList.innerHTML = getRandomSessionInfo(infoSessionTextArray);
-                divSessionEndListRef.appendChild(newClotureList);
-
                 if (devMode === true) console.log(" [SESSION] userSessionItemsList", userSessionItemsList);
-
                 resolve(); // ← indique qu’on a fini le rendu DOM
             }
         });
@@ -1987,13 +2005,25 @@ async function eventDeleteSessionItem(){
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
 
+
+    //Si zero item affiche le message
+    if (Object.keys(userSessionItemsList).length < 1) {
+        document.getElementById("divSessionCompteurArea").innerHTML = "Aucun élément à afficher !";
+    }
+
+    //gestion de l'affichage du bouton add new item
+    if (Object.keys(userSessionItemsList).length < maxSessionItems) {
+        sessionInstanceButtonAddNew.enableButton();
+    }else{
+        sessionInstanceButtonAddNew.disableButton();
+    }
+
     if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)}
 
     // Popup notification
     onShowNotifyPopup("itemSessionDeleted");
 
 }
-
 
 
 
@@ -2044,7 +2074,14 @@ function onResetSessionItemEditor() {
 
 
 
+
+
+
 // ----------------------------- ENVOIE VERS ACTIVITE ------------------------------------
+
+
+
+
 
 
 function onClickSendSessionToActivity() {
@@ -2782,7 +2819,7 @@ function onGenerateModelSelectList() {
 }
 
 // Sequence de génération d'une session depuis le tableau de creation
-async function eventGenerateSessionList(){
+function eventGenerateSessionList(){
 
     // Centralise les éléments qui été dans le tableau de création
     let itemForSession = onGetDivGenSessionItems();
@@ -3110,6 +3147,7 @@ async function onClickReturnFromSession() {
 
     //vide le tableau des instances items
     sessionAllItemsInstance = {};
+    sessionInstanceButtonAddNew = null;
 
     //vide le tableau de génération
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
