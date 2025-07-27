@@ -21,6 +21,8 @@ let notifyTextArray = {
     sessionReset : {emoji : "♻️​",text: "Séance réinitialisée !"},
     activityGenerated : {emoji : "👌",text: "Activité générée !"},
     inputIncrementEmpty : {emoji : "❗",text: "Valeur manquante !"},
+    inputDateRequired : {emoji : "❗",text: "Date manquante !"},
+    inputTitleRequired : {emoji : "❗",text: "Titre manquant !"},
     planningModified : {emoji :"🛠️" ,text: "Planning modifié !"},
     purgeOK : {emoji :"🗑️" ,text: "Purge effectuée !"},
 };

@@ -499,6 +499,7 @@ async function onClickSaveFromTemplateSessionEditor() {
     if (isTemplateTitleSet) {
         if (devMode === true){console.log("[ TEMPLATE SESSION ] Champ obligatoire non remplis");};
 
+        onShowNotifyPopup("inputTitleRequired");
         return
     }
 

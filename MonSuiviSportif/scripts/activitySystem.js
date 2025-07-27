@@ -796,6 +796,8 @@ function onFormatActivity() {
     if (emptyField === true) {
         if (devMode === true){console.log("[ NEW ACTIVITE ] Champ obligatoire non remplis");};
 
+        onShowNotifyPopup("inputDateRequired");
+
         onUnlockDivDoubleClick(["divActivityEditor","divMainBtnMenu"]);//retire la sécurité du clic
         return
     };
