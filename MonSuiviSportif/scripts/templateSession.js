@@ -501,7 +501,7 @@ async function onClickSaveFromTemplateSessionEditor() {
     onLeaveMenu("TemplateSessionEditor");
 
     // Récupère les éléments de la liste
-    let newItemsSessionList = onGetDivGenSessionItems();
+    let newItemsSessionList = onGetDivGenSessionItems("divGenerateTemplateSessionEditor");
 
     // Récupère le nom du modele
     let templateSessionName = inputTemplateSessionNameRef.value;
