@@ -2520,7 +2520,10 @@ class DivGenItemSession{
     // Crée la div parent avec innerHTML complet
         this.element.innerHTML = `
                 <div id="divGenItemSessionchild1_${this.idNumber}" class="">
-                    <input type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Nom élément ${this.initialcanvasOrder}" maxlength="30">
+                    <div class="genSessionDragAndName">
+                        <div class="drag-handle">⣿</div>
+                        <input type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Nom élément ${this.initialcanvasOrder}" maxlength="30">
+                    </div>
                     <select class="session-type-color gen-type" id="selectGenItemSessionType_${this.idNumber}">
                         <option value="COUNTER">Compteur</option>
                         <option value="CHRONO">Chrono</option>

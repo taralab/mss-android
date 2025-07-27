@@ -2870,9 +2870,9 @@ div.button-confirm-send{
     margin-top: 20px;
 }
 
-div.dev{
- display: flex;
- background-color: orange;
+div.genSessionDragAndName{
+    display: flex;
+    align-items: center;
 }
 
 
