@@ -3085,7 +3085,7 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
 }
 
 
-
+ 
 
 
 // Gestion drag N drop
