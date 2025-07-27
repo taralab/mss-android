@@ -2447,9 +2447,10 @@ function onCreateMainMenuEditSession() {
   
 
 class DivGenItemSession{
-    constructor(parentRef,idNumber,type = "COUNTER", itemName = "", color = "white", counterSerie = "0", counterRep = "0", minuteurDuration = "0"){
+    constructor(parentRef, initialCanvasOrder, type = "COUNTER", itemName = "", color = "white", counterSerie = "0", counterRep = "0", minuteurDuration = "0"){
         this.parentRef = parentRef;
-        this.idNumber = idNumber;
+        this.initialcanvasOrder = initialCanvasOrder;
+        this.idNumber = getRandomShortID("");
         this.type = type;
         this.itemName = itemName;
         this.color = color;
@@ -2519,7 +2520,7 @@ class DivGenItemSession{
     // Crée la div parent avec innerHTML complet
         this.element.innerHTML = `
                 <div id="divGenItemSessionchild1_${this.idNumber}" class="">
-                    <input type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Nom élément ${this.idNumber}" maxlength="30">
+                    <input type="text" name="" id="inputGenSessionItemName_${this.idNumber}" placeholder="Nom élément ${this.initialcanvasOrder}" maxlength="30">
                     <select class="session-type-color gen-type" id="selectGenItemSessionType_${this.idNumber}">
                         <option value="COUNTER">Compteur</option>
                         <option value="CHRONO">Chrono</option>
@@ -2726,11 +2727,8 @@ function onGetDivGenSessionItems(containerID){
     //pour chaque canvas
     children.forEach((child, index)=>{
         
-
-        console.log(child.id);
         //récupère la partie "unique" de l'ID
         const idNumber = child.id.replace("divGenSessionItemContainer_","");
-        console.log(idNumber);
 
         //référence les éléments communs
         let inputName = document.getElementById(`inputGenSessionItemName_${idNumber}`),
