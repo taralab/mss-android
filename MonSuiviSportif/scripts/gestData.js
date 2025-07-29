@@ -672,7 +672,7 @@ async function importBdD(dataToImport) {
         } else if (e.type === templateSessionStoreName){
             let newtemplateSession = {
                 sessionName: e.sessionName,
-                counterList : e.counterList
+                itemList : e.itemList
             }
             await onInsertNewTemplateSessionInDB(newtemplateSession);
 
