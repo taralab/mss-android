@@ -1297,18 +1297,6 @@ function onAnnulSessionMenuSup(){
 
 
 
-
-// ---------------------- configuration compteur --------------------
-
-
-
-
-
-
-
-
-
-
 //----------------------------- Nouvel ELEMENT ------------------------------------
 
 
@@ -1897,18 +1885,6 @@ function getSortedKeysByDisplayOrder(itemList) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // RESET ALL ITEMS
 
 
@@ -2070,6 +2046,17 @@ function onResetSessionItemEditor() {
     // remet les éléments dans la couleur par défaut
     sessionItemColorSelected = "white";
     document.getElementById("divEditCounterContent").style.backgroundColor = sessionItemColorSelected;
+
+
+    // Met en évidence le bouton sélectionné
+    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    btnColorCounterChoiceArray.forEach(btn=>{
+        if (btn.dataset.btnSessionItemColor === sessionItemColorSelected){
+            btn.classList.add("btnColorSelected");
+        }else if (btn.classList.contains("btnColorSelected")){
+            btn.classList.remove("btnColorSelected");
+        }
+    });
 }
 
 
