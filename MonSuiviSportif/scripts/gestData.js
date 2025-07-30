@@ -467,7 +467,7 @@ async function eventImportBdD(inputRef) {
 
         reader.onload = async function (e) {
             try {
-                
+                 
 
                 // Charger et analyser le JSON
                 const jsonData = JSON.parse(e.target.result);
