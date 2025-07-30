@@ -459,11 +459,17 @@ function eventSaveResult(isAutoSave){
 
 
 
+
+
+
 // -------------------------------- IMPORT -----------------------------------------------------
+
+
+
+
 
 async function eventImportBdD(inputRef) {
     let isSaveVersionValid = true;
-
     const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById("pImportActivityResult");
 
@@ -475,11 +481,39 @@ async function eventImportBdD(inputRef) {
         const reader = new FileReader();
 
         reader.onload = async function (e) {
-            try {
-                 
+            const rawText = e.target.result;
 
-                // Charger et analyser le JSON
-                const jsonData = JSON.parse(e.target.result);
+            // Fonction d'attente
+            const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // Vérifie l'intégrité du fichier avant de parser
+            async function tryParseJsonWithIntegrity(text, maxAttempts = 3, delay = 2000) {
+                for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+                    if (
+                        text.startsWith("{") &&
+                        text.trim().endsWith("}") &&
+                        text.includes('"__integrity":') &&
+                        text.length > 100
+                    ) {
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.warn(`[IMPORT] Tentative ${attempt} : JSON.parse échoué`);
+                        }
+                    }
+
+                    if (attempt < maxAttempts) {
+                        console.warn(`[IMPORT] Tentative ${attempt} échouée, nouvelle tentative dans ${delay}ms...`);
+                        textResultRef.innerHTML = `Tentative d'import ${attempt} : Echec. Nouvelle tentative dans 2 secondes...`;
+                        await wait(delay);
+                    }
+                }
+
+                throw new Error("❌ Base inférieure à V3 non acceptée!");
+            }
+
+            try {
+                const jsonData = await tryParseJsonWithIntegrity(rawText);
 
                 // Détection du formatVersion (_v0 si inexistant = ancien format)
                 const version = jsonData.formatVersion || 0;
@@ -489,24 +523,21 @@ async function eventImportBdD(inputRef) {
                 switch (version) {
                     case 0:
                         console.log("[IMPORT] V0 plus supporté");
-
                         isSaveVersionValid = false;
-                        break
+                        break;
 
                     case 1:
                         console.log("[IMPORT] V1 plus supporté");
-                        
                         isSaveVersionValid = false;
                         break;
 
                     case 2:
                         console.log("[IMPORT] V2 plus supporté : Ne contient pas de fichier d'intégration");
-                        isSaveVersionValid = false;                        
+                        isSaveVersionValid = false;
                         break;
+
                     case 3:
                         console.log("[IMPORT] V3");
-                        // Nouveau format structuré avec documents + userCounterList
-                        //le fichier contient les items session avec type
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
@@ -516,46 +547,37 @@ async function eventImportBdD(inputRef) {
                         throw new Error("⚠️ Format de fichier inconnu.");
                 }
 
-                // 0 barrière format de sauvegarde trop ancienne stop l'action
                 if (!isSaveVersionValid) {
                     alert("Les sauvegardes inférieures à V3 ne sont plus autorisées dans l'application");
                     textResultRef.innerHTML = "Sauvegardes inférieures à V3 non autorisées !";
                     onSetLockGestDataButton(false);
-                    return
+                    return;
                 }
 
-                // 0 Bis lance l'affiche si tout est ok
                 onDisplayTextDataBaseEvent(false);
 
-
-                // 1 Effacer toutes les données existantes dans local storage et PouchDB
                 onDeleteLocalStorage();
                 await deleteBase();
 
-                // 2 Créer la base
                 db = new PouchDB(dbName, { auto_compaction: true });
                 await db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
 
-                // 3 Créer les stores
                 await onCreateDBStore();
 
-                // 4 Restaurer userCounterList si disponible
                 if (importedUserSessionItemsList) {
                     userSessionItemsList = importedUserSessionItemsList;
                     console.log('[IMPORT] userSessionItemsList restauré :', userSessionItemsList);
                     onUpdateSessionItemsInStorage();
                 }
 
-
-                // 5 Importer les documents
                 await importBdD(importedDocs);
 
                 textResultRef.innerHTML = "Importation réussie !";
+
             } catch (error) {
-                console.error('[IMPORT] Erreur lors du traitement du JSON:', error);
-                textResultRef.innerHTML = `Erreur d'importation."  ${error}`;
-            } finally {
-                //onSetLockGestDataButton(false);
+                console.error('[IMPORT] Erreur lors du traitement du fichier :', error);
+                textResultRef.innerHTML = `Erreur d'importation : ${error.message}`;
+                onSetLockGestDataButton(false);
             }
         };
 
@@ -832,7 +854,8 @@ function onSetLockGestDataButton(isDisable) {
         "btnImportBdD",
         "btnDeteteBdd",
         "divMainBtnMenu",
-        "btnExportBdDInCloud"
+        "btnExportBdDInCloud",
+        "btnPurgeLocalBackup"
     ];
 
     buttonArray.forEach(id => {
