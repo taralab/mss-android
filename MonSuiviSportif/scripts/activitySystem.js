@@ -58,7 +58,7 @@ class ActivityItem {
         this.id = id;
         this.imgRef = imgRef;
         this.itemContainerClass = isPlanned ? ["item-container", "item-planned"] : ["item-container"];
-        this.distance = distance;
+        this.distance = parseFloat(distance);
         this.duration = duration;
         this.date = date;
         this.location = location;
