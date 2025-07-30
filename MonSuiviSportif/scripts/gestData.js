@@ -1,5 +1,5 @@
 
-let currentExportVersion = 2 ;//version actuel des fichers d'import/export
+let currentExportVersion = 3;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -312,6 +312,15 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
             userSessionItemsList: userSessionItemsList
         };
 
+        // 2 bis. Ajout du bloc d'intégrité
+        fullExport.__integrity = {
+            exportComplete: true,
+            timestamp: Date.now(),
+            pseudo: userInfo?.pseudo || "anonymous"
+        };
+
+
+
         const jsonData = JSON.stringify(fullExport, null, 2);
 
         // 3. Nom du fichier
@@ -489,8 +498,13 @@ async function eventImportBdD(inputRef) {
                         
                         isSaveVersionValid = false;
                         break;
+
                     case 2:
-                        console.log("[IMPORT] V2");
+                        console.log("[IMPORT] V2 plus supporté : Ne contient pas de fichier d'intégration");
+                        isSaveVersionValid = false;                        
+                        break;
+                    case 3:
+                        console.log("[IMPORT] V3");
                         // Nouveau format structuré avec documents + userCounterList
                         //le fichier contient les items session avec type
                         importedDocs = jsonData.documents || [];
@@ -504,8 +518,8 @@ async function eventImportBdD(inputRef) {
 
                 // 0 barrière format de sauvegarde trop ancienne stop l'action
                 if (!isSaveVersionValid) {
-                    alert("Les sauvegardes inférieures à V2 ne sont plus autorisées dans l'application");
-                    textResultRef.innerHTML = "Sauvegardes inférieures à V2 non autorisées !";
+                    alert("Les sauvegardes inférieures à V3 ne sont plus autorisées dans l'application");
+                    textResultRef.innerHTML = "Sauvegardes inférieures à V3 non autorisées !";
                     onSetLockGestDataButton(false);
                     return
                 }
