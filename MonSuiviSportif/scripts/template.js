@@ -601,6 +601,8 @@ function onFormatTemplate() {
     if (emptyField === true) {
         if (devMode === true){console.log("[TEMPLATE] Champ obligatoire non remplis");};
 
+        onShowNotifyPopup("inputTitleRequired");
+
         onUnlockDivDoubleClick(["divMainBtnMenu","divTemplateEditor"]);
         return
     };
