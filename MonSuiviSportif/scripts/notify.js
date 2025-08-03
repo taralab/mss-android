@@ -25,6 +25,7 @@ let notifyTextArray = {
     inputTitleRequired : {emoji : "❗",text: "Titre manquant !"},
     planningModified : {emoji :"🛠️" ,text: "Planning modifié !"},
     purgeOK : {emoji :"🗑️" ,text: "Purge effectuée !"},
+    itemRestaured : {emoji : "♻️​",text: "Elément restauré !"}
 };
 
 

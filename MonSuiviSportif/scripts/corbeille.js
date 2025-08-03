@@ -2,7 +2,7 @@
 let corbeilleItemsList = {
     // "id":{type,name,deletedDate}
     },
-    dayBeforeDelete = 7 ; //nombre de jour avant la suppression
+    dayBeforeDelete = 7; //nombre de jour avant la suppression
 
 
 
@@ -310,6 +310,8 @@ async function eventRestaureItem(key) {
             break;
     }
 
+    onShowNotifyPopup("itemRestaured");
+
 }
 
 
@@ -361,10 +363,15 @@ function onActivityWasRestaured(activityRestaured) {
 
 }
 
+
+
 //Spécifique restauration template session
 function onTemplateSessionWasRestaured(templateSessionRestaured) {
     // Modifie également à la variable
     templateSessionsNameList[templateSessionRestaured._id] = {name: templateSessionRestaured.sessionName};
+
+    // Récupère les keys et les tries
+    onUpdateAndSortTemplateSessionKey();
             
 }
 
@@ -397,6 +404,7 @@ function onTemplateActivityWasRestaured(templateActivityRestaured) {
 // *    *   *   *   *   *   *   SUPPRESSION DEFINITIVE *    *   *   *   *   *   *
 
 async function onCheckItemCorbeilleToDelete() {
+    console.log("[CORBEILLE] vérification des éléments à supprimer");
     let docListToDelete = [],
         dateToday = Date.now();
         const limitDaysInMs = dayBeforeDelete * 24 * 60 * 60 * 1000;
@@ -415,18 +423,18 @@ async function onCheckItemCorbeilleToDelete() {
                 }
             });
 
+            //pour chaque document
             for (const doc of docListToDelete){
+                //supprime de la base
                 await db.remove(doc);
             }
 
             if (docListToDelete.length > 0) {
-                console.log(`${docListToDelete.length} supprimés automatiquement`);
+                console.log(`[CORBEILLE] ${docListToDelete.length} supprimés automatiquement`);
             }else{
-                console.log(`Aucun élément de la corbeille à supprimer`);
+                console.log(`[CORBEILLE] Aucun élément de la corbeille à supprimer`);
             }
             
-
-
         return docListToDelete;
 
     } catch (error) {
@@ -436,27 +444,6 @@ async function onCheckItemCorbeilleToDelete() {
 }
 
 
-
-
-
-
-// Suppression template
-async function deleteActivity(activityKey) {
-    try {
-        // Récupérer le document à supprimer
-        let docToDelete = await db.get(activityKey);
-
-        // Supprimer le document
-        await db.remove(docToDelete);
-
-        if (devMode === true ) {console.log("[ACTIVITY] Activité supprimée :", activityKey);};
-
-        return true; // Indique que la suppression s'est bien passée
-    } catch (err) {
-        console.error("[ACTIVITY] Erreur lors de la suppression de l'activité :", err);
-        return false; // Indique une erreur
-    }
-}
 
 
 

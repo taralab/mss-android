@@ -374,11 +374,12 @@ async function onLoadStores() {
 // Procésus de lancement de l'application
 async function initApp() {
     await onCreateDBStore();  // 1️⃣ Création des stores
-    await onLoadStores();       // 2️⃣ Extraction des données des stores génériques
-    await onLoadActivityFromDB(); // 3️⃣Extraction liste activité
+    await onCheckItemCorbeilleToDelete(); // 2️⃣ traitement de la corbeille à vider
+    await onLoadStores();       // 3 Extraction des données des stores génériques
+    await onLoadActivityFromDB(); // 4 Extraction liste activité
 
-    await onLoadTemplateFromDB(); // Extraction liste modèle
-    onUpdateTemplateKeys();//récupère les clés des modèles d'activités triés
+    await onLoadTemplateFromDB(); // 5 Extraction liste modèle
+    onUpdateTemplateKeys();// 6 récupère les clés des modèles d'activités triés
 }
 
 
