@@ -2340,6 +2340,10 @@ function onDisplaySendToActivityLocation(activityTarget) {
     //Affiche le popup de selection de la location
     document.getElementById("divSendSessionToActivityLocation").classList.add("show");
 
+
+    //reset l'input du lieu
+    document.getElementById("inputSendSessionToActivityLocation").value = "";
+
     //set l'image de l'activité ciblée
     let imgTargetRef = document.getElementById("imgSessionToActivityLocationPreview");
     imgTargetRef.src = activityChoiceArray[activityTarget].imgRef;
