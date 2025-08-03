@@ -43,6 +43,9 @@ class CorbeilleItem{
         this.render();
         //insertion dans le parent
         this.parentRef.appendChild(this.container);
+
+        //ecouteur d'évènement
+        this.addEvent();
     }
     
 
@@ -54,12 +57,19 @@ class CorbeilleItem{
                 <p>Supprimé le : ${this.deletedDate}</p>
             </div>
             <p>${this.name}</p>
-            <button class="btn-menu btnFocus">
+            <button id="btnRestaure_${this.key}" class="btn-menu btnFocus">
                 Restaurer
             </button>
         `;
     }
 
+    addEvent(){
+        let btnRestaureItemRef = this.container.querySelector(`#btnRestaure_${this.key}`);
+        btnRestaureItemRef.addEventListener("click", ()=>{
+            alert(this.key);
+            eventRestaureItem(this.key);
+        });
+    }
 
     _formatTypeColor(type){
 
@@ -210,38 +220,17 @@ async function eventUpdateCorbeilleList(){
                 deletedDate = corbeilleItemsList[key].deletedDate;
 
             let delay = index * animCascadeDelay;
-            console.log(delay);
+
             new CorbeilleItem(key,type,name,deletedDate,parentRef,delay,userSetting.animationEnabled);
         });
     }else{
         parentRef.textContent = "Aucun élément à afficher !";
     }
-
-    
 }
 
 
 
 
-
-
-// Suppression template
-async function deleteActivity(activityKey) {
-    try {
-        // Récupérer le document à supprimer
-        let docToDelete = await db.get(activityKey);
-
-        // Supprimer le document
-        await db.remove(docToDelete);
-
-        if (devMode === true ) {console.log("[ACTIVITY] Activité supprimée :", activityKey);};
-
-        return true; // Indique que la suppression s'est bien passée
-    } catch (err) {
-        console.error("[ACTIVITY] Erreur lors de la suppression de l'activité :", err);
-        return false; // Indique une erreur
-    }
-}
 
 
 
@@ -287,6 +276,110 @@ async function sendToRecycleBin(key) {
 
 
 
+
+
+
+// *    *   *   *       *   *   RESTAURATION *  *   *   *   *   *
+
+
+
+
+
+
+async function eventRestaureItem(key) {
+    //restaure l'élément
+    let itemRestaured = await onRestaureItemFromCorbeille(key);
+
+    //réactualise l'affichage de la corbeille
+    eventUpdateCorbeilleList();
+
+
+    //réactialisation en arrière plan selon le type d'item
+    switch (itemRestaured.type) {
+        case "ActivityList":
+            onActivityWasRestaured(itemRestaured);
+            break;
+        case "value":
+            
+            break;
+        case "value":
+            
+            break;
+        default:
+            console.log("Erreur de type");
+            break;
+    }
+
+}
+
+
+//Spécifique restauration activité
+function onActivityWasRestaured(activityRestaured) {
+    // met à jour l'array d'objet
+    allUserActivityArray[activityRestaured._id] = { ...activityRestaured };
+
+    // re-Generation du trie dynamique
+    onGenerateDynamiqueFilter(allUserActivityArray);
+
+    // ré-Actualisation de l'affichage des activités
+    eventUpdateActivityList();
+
+}
+
+
+
+async function onRestaureItemFromCorbeille(key) {
+    try {
+
+        // 1 - récupère le document dans la base
+        let existingDoc = await db.get(key);
+
+        // 2 - Exclure `_id` et `_rev` de activityToUpdate pour éviter qu'ils ne soient écrasés
+        const { _id, _rev, ...safeActivityUpdate } = existingDoc;
+
+        // 3 - Changement du type pour remettre l'ancien
+        safeActivityUpdate.type = existingDoc.oldItemInfo.type;
+
+        // 4 - Retrait de oldItemInfo
+        delete safeActivityUpdate.oldItemInfo;
+
+        // 5 - Mise à jours du document
+        const updatedDoc = {
+            ...existingDoc,  // Garde `_id` et `_rev`
+            ...safeActivityUpdate // Applique les nouvelles valeurs en évitant d'écraser `_id` et `_rev`
+        };
+
+        // 6 - Sauvegarde dans la base
+        const response = await db.put(updatedDoc);
+
+        if (devMode) console.log("[RESTAURATION] Activité mise à jour :", response);
+
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour de l'activité :", err);
+        return false; // Indique que la mise à jour a échoué
+    }
+}
+
+
+
+// Suppression template
+async function deleteActivity(activityKey) {
+    try {
+        // Récupérer le document à supprimer
+        let docToDelete = await db.get(activityKey);
+
+        // Supprimer le document
+        await db.remove(docToDelete);
+
+        if (devMode === true ) {console.log("[ACTIVITY] Activité supprimée :", activityKey);};
+
+        return true; // Indique que la suppression s'est bien passée
+    } catch (err) {
+        console.error("[ACTIVITY] Erreur lors de la suppression de l'activité :", err);
+        return false; // Indique une erreur
+    }
+}
 
 
 
