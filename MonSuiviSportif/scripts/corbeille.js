@@ -383,6 +383,63 @@ function onTemplateActivityWasRestaured(templateActivityRestaured) {
     onTraiteBtnNewFromTemplateStatus();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+// *    *   *   *   *   *   *   SUPPRESSION DEFINITIVE *    *   *   *   *   *   *
+
+async function onCheckItemCorbeilleToDelete() {
+    let docListToDelete = [],
+        dateToday = Date.now();
+        const limitDaysInMs = dayBeforeDelete * 24 * 60 * 60 * 1000;
+
+    try {
+        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
+
+        // Filtrer et extraire uniquement les champs nécessaires sous forme de tableau
+        result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === "itemDeleted")
+            .forEach(doc => {
+                //si la date est supérieur à "dayBeforeDelete" 
+                if (dateToday - doc.oldItemInfo.deletedDate > limitDaysInMs) {
+                    docListToDelete.push(doc);
+                }
+            });
+
+            for (const doc of docListToDelete){
+                await db.remove(doc);
+            }
+
+            if (docListToDelete.length > 0) {
+                console.log(`${docListToDelete.length} supprimés automatiquement`);
+            }else{
+                console.log(`Aucun élément de la corbeille à supprimer`);
+            }
+            
+
+
+        return docListToDelete;
+
+    } catch (error) {
+        
+    }
+
+}
+
+
+
+
+
+
 // Suppression template
 async function deleteActivity(activityKey) {
     try {
