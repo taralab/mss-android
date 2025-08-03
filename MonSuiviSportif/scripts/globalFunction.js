@@ -1051,6 +1051,14 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
+        case "Corbeille":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Corbeille");};
+            displayDivScrollableMenu();
+            pMenuTitleRef.innerHTML = "Corbeille";
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divCorbeille"],[],[],[],[]);
+            onOpenMenuCorbeille();
+
+        break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
             displayDivScrollableMenu();
@@ -1267,6 +1275,12 @@ function onLeaveMenu(menuTarget) {
             hideDivScrollableMenu();
             onChangeDisplay(["divSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divMainBtnMenu","divSetting"]);//retire la sécurité double click
+            onGenerateMainMenuApp();
+        break;
+        case "Corbeille" : 
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  Corbeille");};
+            hideDivScrollableMenu();
+            onChangeDisplay(["divCorbeille"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
         case "Info":

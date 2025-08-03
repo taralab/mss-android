@@ -1,3 +1,21 @@
+function onOpenMenuCorbeille() {
+
+    //Création menu principal
+    onCreateMainMenuCorbeille();
+}
+
+// Génération du menu principal
+function onCreateMainMenuCorbeille() {
+    // Vide le précedent contenut
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromCorbeille());
+}
+   
+
 // Suppression template
 async function deleteActivity(activityKey) {
     try {
@@ -57,3 +75,17 @@ async function sendToRecycleBin(key) {
         return false; // Indique que la mise à jour a échoué
     }
 }
+
+
+
+
+
+
+
+// Quitte le menu corbeille
+
+function onClickReturnFromCorbeille(){
+    onLeaveMenu("Corbeille");
+}
+    
+    
