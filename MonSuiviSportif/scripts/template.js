@@ -266,23 +266,6 @@ async function onInsertTemplateModificationInDB(templateToUpdate, key) {
 }
 
 
-// Suppression template
-async function deleteTemplate(templateKey) {
-    try {
-        // Récupérer le document à supprimer
-        let docToDelete = await db.get(templateKey);
-
-        // Supprimer le document
-        await db.remove(docToDelete);
-
-        if (devMode === true ) {console.log("[TEMPLATE] Template supprimé :", templateKey);};
-
-        return true; // Indique que la suppression s'est bien passée
-    } catch (err) {
-        console.error("[TEMPLATE] Erreur lors de la suppression du template :", err);
-        return false; // Indique une erreur
-    }
-}
 
 
 // Recherche de template par son id/key
@@ -839,8 +822,8 @@ function onConfirmDeleteTemplate(event){
 // Sequence de suppression d'un template
 async function eventDeleteTemplate(idToDelete) {
 
-    //Supprime en base
-    await deleteTemplate(idToDelete);
+    //Envoie vers la corbeille
+    await sendToRecycleBin(idToDelete);
 
     //supprime de la variable
     delete userTemplateListItems[idToDelete];

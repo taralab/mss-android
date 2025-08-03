@@ -122,23 +122,6 @@ function onUpdateAndSortTemplateSessionKey() {
     );
 }
 
-// Suppression template
-async function deleteTemplateSession(templateKey) {
-    try {
-        // Récupérer le document à supprimer
-        let docToDelete = await db.get(templateKey);
-
-        // Supprimer le document
-        await db.remove(docToDelete);
-
-        if (devMode === true ) {console.log("[TEMPLATE] Template supprimé :", templateKey);};
-
-        return true; // Indique que la suppression s'est bien passée
-    } catch (err) {
-        console.error("[TEMPLATE] Erreur lors de la suppression du template session :", err);
-        return false; // Indique une erreur
-    }
-}
 
 
 
@@ -605,8 +588,8 @@ async function eventDeleteTemplateSessionModel() {
     // Rends les div enabled
     onChangeDisplay([],[],[],[],["divTemplateSessionEditor"],[],[]);
 
-    // supprime en base
-    await deleteTemplateSession(currentTemplateSessionID);
+    // Envoie vers la corbeille
+    await sendToRecycleBin(currentTemplateSessionID);
 
     //supprime également dans la variable
     delete templateSessionsNameList[currentTemplateSessionID];
