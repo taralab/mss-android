@@ -287,23 +287,6 @@ async function onInsertActivityModificationInDB(activityToUpdate, key) {
     }
 }
 
-// Suppression template
-async function deleteActivity(activityKey) {
-    try {
-        // Récupérer le document à supprimer
-        let docToDelete = await db.get(activityKey);
-
-        // Supprimer le document
-        await db.remove(docToDelete);
-
-        if (devMode === true ) {console.log("[ACTIVITY] Activité supprimée :", activityKey);};
-
-        return true; // Indique que la suppression s'est bien passée
-    } catch (err) {
-        console.error("[ACTIVITY] Erreur lors de la suppression de l'activité :", err);
-        return false; // Indique une erreur
-    }
-}
 
 
 // Recherche de template par son id/key
@@ -1004,10 +987,10 @@ function onConfirmDeleteActivity(event){
 // Sequence de suppression d'un template
 async function eventDeleteActivity(idToDelete) {
 
-    // Supprime en base
-    await deleteActivity(idToDelete);
+    // Envoie vers la corbeille
+    await sendToRecycleBin(idToDelete);
     
-    // met à jour l'array d'objet
+    // retire l'objet de l'array
     delete allUserActivityArray[idToDelete];
 
     if (devMode === true){console.log("allUserActivityArray :",allUserActivityArray);};
