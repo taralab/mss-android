@@ -294,7 +294,8 @@ async function findTemplateById(templateId) {
 // Actualise la liste des modele et gere les boutons selons
 function onUpdateTemplateList(updateMenuListRequired) {
 
-    templateAvailable = userTemplateListKeys.length > 0;
+    //traitement du statut du bouton New From Template
+    onTraiteBtnNewFromTemplateStatus();
 
     if (devMode === true){
         console.log("[TEMPLATE] Actualisation de la liste des modèles");
@@ -309,11 +310,20 @@ function onUpdateTemplateList(updateMenuListRequired) {
     }else{
         // Gere l'affichage du bouton "new from template" selon
         document.getElementById("btnNewFromTemplate").style.display = templateAvailable ? "block" : "none";
+    }
+    
+    // Actualise la liste des template dans le menu template si nécessaire
+    if (updateMenuListRequired) {
+        if (devMode === true){console.log("[TEMPLATE] Recré la liste de template");};
+        onCreateTemplateMenuList(userTemplateListKeys);
+    }
 }
 
 
+function onTraiteBtnNewFromTemplateStatus() {
+        templateAvailable = userTemplateListKeys.length > 0;
 
-    // Ajout ou non le bouton dans l'array de gestion générale des éléments "home"
+        // Ajout ou non le bouton dans l'array de gestion générale des éléments "home"
     if (templateAvailable && !allDivHomeToDisplayNone.includes("btnNewFromTemplate")) {
         // Ajout le bouton modele aux array de gestion Home
         allDivHomeToDisplayNone.push("btnNewFromTemplate");
@@ -330,14 +340,6 @@ function onUpdateTemplateList(updateMenuListRequired) {
         allDivHomeToDisplayBlock.splice(indexToRemove,1);
 
         if (devMode === true){console.log("[TEMPLATE] Retire le bouton aux listes de gestion");};
-    }
-    
-
-
-    // Actualise la liste des template dans le menu template si nécessaire
-    if (updateMenuListRequired) {
-        if (devMode === true){console.log("[TEMPLATE] Recré la liste de template");};
-        onCreateTemplateMenuList(userTemplateListKeys);
     }
 }
 

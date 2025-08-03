@@ -66,7 +66,6 @@ class CorbeilleItem{
     addEvent(){
         let btnRestaureItemRef = this.container.querySelector(`#btnRestaure_${this.key}`);
         btnRestaureItemRef.addEventListener("click", ()=>{
-            alert(this.key);
             eventRestaureItem(this.key);
         });
     }
@@ -299,11 +298,11 @@ async function eventRestaureItem(key) {
         case "ActivityList":
             onActivityWasRestaured(itemRestaured);
             break;
-        case "value":
-            
+        case "Template":
+            onTemplateActivityWasRestaured(itemRestaured);
             break;
-        case "value":
-            
+        case "TemplateSession":
+            onTemplateSessionWasRestaured(itemRestaured);
             break;
         default:
             console.log("Erreur de type");
@@ -312,19 +311,6 @@ async function eventRestaureItem(key) {
 
 }
 
-
-//Spécifique restauration activité
-function onActivityWasRestaured(activityRestaured) {
-    // met à jour l'array d'objet
-    allUserActivityArray[activityRestaured._id] = { ...activityRestaured };
-
-    // re-Generation du trie dynamique
-    onGenerateDynamiqueFilter(allUserActivityArray);
-
-    // ré-Actualisation de l'affichage des activités
-    eventUpdateActivityList();
-
-}
 
 
 
@@ -361,7 +347,40 @@ async function onRestaureItemFromCorbeille(key) {
     }
 }
 
+//Spécifique restauration activité
+function onActivityWasRestaured(activityRestaured) {
+    // met à jour l'array d'objet
+    allUserActivityArray[activityRestaured._id] = { ...activityRestaured };
 
+    // re-Generation du trie dynamique
+    onGenerateDynamiqueFilter(allUserActivityArray);
+
+    // ré-Actualisation de l'affichage des activités
+    eventUpdateActivityList();
+
+}
+
+//Spécifique restauration template session
+function onTemplateSessionWasRestaured(templateSessionRestaured) {
+    // Modifie également à la variable
+    templateSessionsNameList[templateSessionRestaured._id] = {name: templateSessionRestaured.sessionName};
+            
+}
+
+
+//Spécifique restauration template activité
+function onTemplateActivityWasRestaured(templateActivityRestaured) {
+    //Modifie la variable
+    userTemplateListItems[templateActivityRestaured._id] = { 
+        activityName : templateActivityRestaured.activityName,
+        title:templateActivityRestaured.title};
+
+    // Actualise le tableau de clé des modèles
+    onUpdateTemplateKeys();
+
+    // Remet à jour les éléments concernant le boutton new from template
+    onTraiteBtnNewFromTemplateStatus();
+}
 
 // Suppression template
 async function deleteActivity(activityKey) {
