@@ -1,8 +1,119 @@
-function onOpenMenuCorbeille() {
+//contient la liste des éléments supprimé
+let corbeilleItemsList = {
+    // "id":{type,name,deletedDate}
+    };
 
+
+
+
+
+class CorbeilleItem{
+    constructor(key,type,name,deletedDate,parentRef) {
+        this.key = key;
+        this.type = type;
+        this.name = name;
+        this.deletedDate = deletedDate;
+        this.parentRef = parentRef;
+        
+        this.container = document.createElement("div");
+
+        //création
+        this.render();
+        //insertion dans le parent
+        this.parentRef.appendChild(this.container);
+    }
+    
+
+
+    render(){
+        this.container.innerHTML = `
+            <div>
+                <p>${this.type}</p>
+                <p>${this.name}</p>
+            </div>
+            <div>
+                <p>Supprimé le : ${this.deletedDate}</p>
+                <button>
+                    Restaurer
+                </button>
+
+            </div>
+        `;
+    }
+}
+
+
+
+async function onLoadCorbeilleItemsListFromDB() {
+    let list = {};// Initialisation,reset
+
+    try {
+        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
+
+        // Filtrer et extraire uniquement les champs nécessaires sous forme de tableau
+        result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === "itemDeleted")
+            .forEach(doc => {
+
+                //set selon le type d'élément
+                switch (doc.oldItemInfo.type) {
+                    case "ActivityList":
+                        list[doc._id] = {
+                            type : "Activité",
+                            name : `${doc.name} du ${doc.date}`,
+                            deletedDate : doc.oldItemInfo.deletedDate
+                        };
+                        break;
+                    case "Template":
+                        list[doc._id] = {
+                            type : "Modèle d'activité",
+                            name : doc.title,
+                            deletedDate : doc.oldItemInfo.deletedDate
+                        };
+                        break;
+                    case "TemplateSession":
+                        list[doc._id] = {
+                            type : "Modèle de séance",
+                            name : doc.sessionName,
+                            deletedDate : doc.oldItemInfo.deletedDate
+                        };
+                        break;
+                
+                    default:
+                        break;
+                }
+
+            });
+
+        if (devMode === true) {
+            console.log("[DATABASE] [CORBEILLE] loading corbeilleItemsList :", corbeilleItemsList);
+        }
+
+        return list;
+
+    } catch (error) {
+        
+    }
+}
+
+
+
+
+
+
+async function onOpenMenuCorbeille() {
+
+    
     //Création menu principal
     onCreateMainMenuCorbeille();
+
+    //actualise l'affichage
+    eventUpdateCorbeilleList();
 }
+
+
+
 
 // Génération du menu principal
 function onCreateMainMenuCorbeille() {
@@ -15,6 +126,33 @@ function onCreateMainMenuCorbeille() {
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromCorbeille());
 }
    
+
+
+async function eventUpdateCorbeilleList(){
+
+    //reset les éléments
+    corbeilleItemsList = {};
+    let parentRef = document.getElementById("divCorbeilleList");
+    parentRef.textContent = "";
+
+    //Récupère les éléments dans la base
+    corbeilleItemsList = await onLoadCorbeilleItemsListFromDB();
+    isCorbeilleItemsLoadedFromBase = true;
+    if (devMode === true){console.log("1er chargement de la corbeille depuis la base")};  
+
+    //Insertion des classes
+    Object.keys(corbeilleItemsList).forEach(key=>{
+        let type = corbeilleItemsList[key].type,
+            name = corbeilleItemsList[key].name,
+            deletedDate = corbeilleItemsList[key].deletedDate;
+        new CorbeilleItem(key,type,name,deletedDate,parentRef)
+    });
+}
+
+
+
+
+
 
 // Suppression template
 async function deleteActivity(activityKey) {
