@@ -1,21 +1,43 @@
 //contient la liste des éléments supprimé
 let corbeilleItemsList = {
     // "id":{type,name,deletedDate}
-    };
+    },
+    dayBeforeDelete = 7 ; //nombre de jour avant la suppression
 
 
 
 
 
 class CorbeilleItem{
-    constructor(key,type,name,deletedDate,parentRef) {
+    constructor(key,type,name,deletedDate,parentRef,delayMs = 0,animationEnabled = true) {
         this.key = key;
         this.type = type;
         this.name = name;
-        this.deletedDate = deletedDate;
+        this.deletedDate = this._formatDateDelete(deletedDate);
         this.parentRef = parentRef;
+        this.delayMs = delayMs;
+        this.animationEnabled = animationEnabled;
         
         this.container = document.createElement("div");
+        this.container.classList.add("item-template-container");
+
+        //personnalisation de la couleur selon le type
+        this.color = this._formatTypeColor(this.type);
+
+        // Animation (si activé)
+        if (this.animationEnabled) {
+            // Pour l'animation sur le conteneur principal
+            this.container.classList.add("item-animate-in-horizontal");
+            this.container.style.animationDelay = `${this.delayMs}ms`;
+
+
+            // evenement pour retirer l'animation après qu'elle soit jouée
+            this.container.addEventListener("animationend", () => {
+                this.container.classList.remove("item-animate-in-horizontal");
+                this.container.style.animationDelay = "";
+            }, { once: true });
+        }
+
 
         //création
         this.render();
@@ -28,17 +50,45 @@ class CorbeilleItem{
     render(){
         this.container.innerHTML = `
             <div>
-                <p>${this.type}</p>
-                <p>${this.name}</p>
-            </div>
-            <div>
+                <p style="color: ${this.color};"><b>${this.type}</b></p>
                 <p>Supprimé le : ${this.deletedDate}</p>
-                <button>
-                    Restaurer
-                </button>
-
             </div>
+            <p>${this.name}</p>
+            <button class="btn-menu btnFocus">
+                Restaurer
+            </button>
         `;
+    }
+
+
+    _formatTypeColor(type){
+
+        let color = null;
+        switch (type) {
+            case "Activité":
+                color = "#D36868";
+                break;
+            case "Modèle d'activité":
+                color  = "#4EA88A";
+                break;
+            case "Modèle de séance":
+                color = "#2B7FBF";
+                break;
+            default:
+                break;
+        }
+        return color;
+    }
+
+    _formatDateDelete(timeStamp){
+        const date = new Date(timeStamp);
+        const datePart = date.toLocaleDateString("fr-FR"); // → 03/08/2025
+        const timePart = date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit"
+        }); // → 14:26
+
+        return `${datePart} ${timePart}`;
     }
 }
 
@@ -110,6 +160,17 @@ async function onOpenMenuCorbeille() {
 
     //actualise l'affichage
     eventUpdateCorbeilleList();
+
+
+
+    //Injection de la ligne de cloture avec le texte d'information
+    let divCorbeilleEndListRef = document.getElementById("divCorbeilleEndList");
+    divCorbeilleEndListRef.textContent = "";
+
+    let newClotureList = document.createElement("span");
+        newClotureList.classList.add("last-container");
+        newClotureList.innerHTML = `ℹ️ Un élément est supprimé après ${dayBeforeDelete} jours.`;
+        divCorbeilleEndListRef.appendChild(newClotureList);
 }
 
 
@@ -140,13 +201,23 @@ async function eventUpdateCorbeilleList(){
     isCorbeilleItemsLoadedFromBase = true;
     if (devMode === true){console.log("1er chargement de la corbeille depuis la base")};  
 
-    //Insertion des classes
-    Object.keys(corbeilleItemsList).forEach(key=>{
-        let type = corbeilleItemsList[key].type,
-            name = corbeilleItemsList[key].name,
-            deletedDate = corbeilleItemsList[key].deletedDate;
-        new CorbeilleItem(key,type,name,deletedDate,parentRef)
-    });
+
+    if (Object.keys(corbeilleItemsList).length > 0) {
+            //Insertion des classes
+        Object.keys(corbeilleItemsList).forEach((key,index)=>{
+            let type = corbeilleItemsList[key].type,
+                name = corbeilleItemsList[key].name,
+                deletedDate = corbeilleItemsList[key].deletedDate;
+
+            let delay = index * animCascadeDelay;
+            console.log(delay);
+            new CorbeilleItem(key,type,name,deletedDate,parentRef,delay,userSetting.animationEnabled);
+        });
+    }else{
+        parentRef.textContent = "Aucun élément à afficher !";
+    }
+
+    
 }
 
 
@@ -223,6 +294,11 @@ async function sendToRecycleBin(key) {
 // Quitte le menu corbeille
 
 function onClickReturnFromCorbeille(){
+
+    //vide tous les éléments
+    corbeilleItemsList = {};
+    document.getElementById("divCorbeilleList").textContent = "";
+
     onLeaveMenu("Corbeille");
 }
     
