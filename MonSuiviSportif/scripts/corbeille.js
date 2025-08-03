@@ -19,7 +19,7 @@ class CorbeilleItem{
         this.animationEnabled = animationEnabled;
         
         this.container = document.createElement("div");
-        this.container.classList.add("item-template-container");
+        this.container.classList.add("item-template-container", "corbeille-container");
 
         //personnalisation de la couleur selon le type
         this.color = this._formatTypeColor(this.type);
@@ -54,12 +54,13 @@ class CorbeilleItem{
         this.container.innerHTML = `
             <div>
                 <p style="color: ${this.color};"><b>${this.type}</b></p>
-                <p>Supprimé le : ${this.deletedDate}</p>
+                <p>${this.name}</p>
+                <p>Supprimé(e) le : ${this.deletedDate}</p>
+
+                <button id="btnRestaure_${this.key}" class="btn-menu btnFocus">
+                    Restaurer
+                </button>
             </div>
-            <p>${this.name}</p>
-            <button id="btnRestaure_${this.key}" class="btn-menu btnFocus">
-                Restaurer
-            </button>
         `;
     }
 
@@ -97,7 +98,7 @@ class CorbeilleItem{
             minute: "2-digit"
         }); // → 14:26
 
-        return `${datePart} ${timePart}`;
+        return `${datePart} à ${timePart}`;
     }
 }
 
