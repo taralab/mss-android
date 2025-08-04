@@ -736,8 +736,6 @@ async function importBdD(dataToImport) {
 
     }
 
-
-
     // 3️⃣ Finalisation
     eventImportDataSucess();
 }

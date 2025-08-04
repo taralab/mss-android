@@ -329,14 +329,14 @@ async function onRestaureItemFromCorbeille(key) {
         // 3 - Changement du type pour remettre l'ancien
         safeActivityUpdate.type = existingDoc.oldItemInfo.type;
 
-        // 4 - Retrait de oldItemInfo
-        delete safeActivityUpdate.oldItemInfo;
-
-        // 5 - Mise à jours du document
+        // 4 - Mise à jours du document
         const updatedDoc = {
             ...existingDoc,  // Garde `_id` et `_rev`
             ...safeActivityUpdate // Applique les nouvelles valeurs en évitant d'écraser `_id` et `_rev`
         };
+
+        // 5 - Retrait de oldItemInfo
+        delete updatedDoc.oldItemInfo;
 
         // 6 - Sauvegarde dans la base
         const response = await db.put(updatedDoc);
