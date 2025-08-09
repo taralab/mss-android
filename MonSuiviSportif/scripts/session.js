@@ -1126,46 +1126,46 @@ function onAddEventListenerForSessionGeneration() {
 }
 
 
-// Pour le fakeSelecteur envoie vers activité
-let isAddEventListenerForSendFakeSelector = false;
-function onAddEventListenerForSendFakeSelector() {
+// Ecoute d'évènement Pour envoie vers activité
+function onAddEventListenerForSendToActivity() {
 
     if (devMode === true){
         console.log("[SESSION] [EVENT-LISTENER] : Ajoute les évènements pour fake selector");
     }
 
-    //action unique
-    isAddEventListenerForSendFakeSelector = true;
 
     let locDivFakeSelectSessionRef = document.getElementById("divFakeSelectSession");
-    locDivFakeSelectSessionRef.addEventListener("click", (event)=>{
-        onCloseFakeSelectSession(event);
-    });
+    const onCancelSend = (event)=> onCloseFakeSelectSession(event);
+    locDivFakeSelectSessionRef.addEventListener("click",onCancelSend);
+    onAddEventListenerInRegistry("sessionSendToActivity",locDivFakeSelectSessionRef,"click",onCancelSend);
 
     //choix du lieu de l'activité avant envoie puis envoie
-
     let btnSendToActivityLocationConfirmRef = document.getElementById("btnSendToActivityLocationConfirm");
-    btnSendToActivityLocationConfirmRef.addEventListener("click", ()=>{
-        //récupère le lieu
-        let sessionLocation = document.getElementById("inputSendSessionToActivityLocation").value;
-
-        //Masque le popup
-        document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
-
-        //lance la génération
-        onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation);
-    });
-
+    const onConfirmSend = ()=>eventSendToSessionToActivity();
+    btnSendToActivityLocationConfirmRef.addEventListener("click",onConfirmSend);
+    onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityLocationConfirmRef,"click",onConfirmSend);
 
     let btnSendToActivityLocationCancelRef = document.getElementById("btnSendToActivityLocationCancel");
-    btnSendToActivityLocationCancelRef.addEventListener("click", ()=>{
-        //Masque le popup
-        document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
-    });
+    const onReturnFromSendLocation = () => onClickReturnFromSendToActvityLocation();
+    btnSendToActivityLocationCancelRef.addEventListener("click",onReturnFromSendLocation);
+    onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityLocationCancelRef,"click",onReturnFromSendLocation);
+
 }
 
 
+function eventSendToSessionToActivity() {
+    //récupère le lieu
+    let sessionLocation = document.getElementById("inputSendSessionToActivityLocation").value;
+    //Masque le popup
+    document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
+    //lance la génération
+    onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation);
+}
 
+function onClickReturnFromSendToActvityLocation() {
+    //Masque le popup
+    document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
+}
 
 // ---------------------------------------- Fin écouteur evènement--------------------
 
@@ -1184,6 +1184,8 @@ async function onOpenMenuSession(){
     //Ajoutes les écouteurs d'évènement
     onAddEventListenerforSessionItemEditor();
     onAddEventListenerForMenuSupSession();
+    onAddEventListenerForSendToActivity();
+
 
 
     if (devMode === true){
@@ -2076,12 +2078,6 @@ function onResetSessionItemEditor() {
 
 function onClickSendSessionToActivity() {
 
-    //Ajout unique ecouteur évènement
-    if (!isAddEventListenerForSendFakeSelector) {
-        onAddEventListenerForSendFakeSelector();
-    }
-
-
     // condition : Avoir au moins 1 compteur
 
     if (Object.keys(userSessionItemsList).length > 0) {
@@ -2223,6 +2219,9 @@ class fakeOptionSessionBasic {
         this.element.addEventListener("click",(event)=>{
             event.stopPropagation();
             onDisplaySendToActivityLocation(this.activityName);
+            //Vide la liste
+            let parentRef = document.getElementById("divFakeSelectSessionList");
+            parentRef.innerHTML = "";
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
         });
@@ -2266,6 +2265,9 @@ class fakeOptionSessionFavourite {
         this.element.addEventListener("click", (event)=>{
             event.stopPropagation();
             onDisplaySendToActivityLocation(this.activityName);
+            //Vide la liste
+            let parentRef = document.getElementById("divFakeSelectSessionList");
+            parentRef.innerHTML = "";
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
         });
@@ -2289,10 +2291,8 @@ class fakeOptionSessionFavourite {
 
 
 // génération du fake selection d'activité pour l'envoie des compteurs
-
 function onGenerateFakeSelectSession() {
     let parentRef = document.getElementById("divFakeSelectSessionList");
-
     parentRef.innerHTML = "";
 
 
@@ -2331,6 +2331,10 @@ function onGenerateFakeSelectSession() {
 
 // Annule envoie vers activité
 function onCloseFakeSelectSession(event) {
+    //vide la liste
+    let parentRef = document.getElementById("divFakeSelectSessionList");
+    parentRef.innerHTML = "";
+    //Masque la div
     document.getElementById("divFakeSelectSession").style.display = "none";
 }
 
@@ -3193,7 +3197,7 @@ async function onClickReturnFromSession() {
 
 async function onClearAllSessionElement() {
     //retire les écouteurs d'évènements
-    onRemoveEventListenerInRegistry(["sessionItemEditor","sessionMenuSup"]);
+    onRemoveEventListenerInRegistry(["sessionItemEditor","sessionMenuSup","sessionSendToActivity"]);
 
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");

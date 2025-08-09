@@ -563,7 +563,8 @@ const allEventListenerRegistry = {
     //l'éditeur d'un item
     sessionItemEditor:[],
     sessionMenuSup:[],
-    sessionMenuGeneration:[]
+    sessionMenuGeneration:[],
+    sessionSendToActivity : []
 }
 
 
