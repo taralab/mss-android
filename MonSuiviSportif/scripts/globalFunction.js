@@ -562,7 +562,8 @@ function onCloseFakeSelectOpt(event){
 const allEventListenerRegistry = {
     //l'éditeur d'un item
     sessionItemEditor:[],
-    mainMenuSession :[]
+    sessionMenuSup:[],
+    sessionMenuGeneration:[]
 }
 
 

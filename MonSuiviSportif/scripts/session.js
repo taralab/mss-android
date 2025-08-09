@@ -1078,11 +1078,11 @@ function onAddEventListenerforSessionItemEditor() {
 
 
 
-//Evènement pour le menu principal de session
-function onAddEventListenerForMainMenuSession() {
+//Evènement pour le menu suplémentaire de session
+function onAddEventListenerForMenuSupSession() {
 
     if (devMode === true){
-        console.log("[SESSION] [EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
+        console.log("[SESSION] [EVENT-LISTENER] : Ajout les évènements pour le menu supplémentaire session");
     };
 
 
@@ -1091,44 +1091,37 @@ function onAddEventListenerForMainMenuSession() {
     let locDivSessionMenuSupRef = document.getElementById("divSessionMenuSup");
     const onClickAnnul = (event) => onAnnulSessionMenuSup(event);
     locDivSessionMenuSupRef.addEventListener("click",onClickAnnul);
-    onAddEventListenerInRegistry("mainMenuSession",locDivSessionMenuSupRef,"click",onClickAnnul);
+    onAddEventListenerInRegistry("sessionMenuSup",locDivSessionMenuSupRef,"click",onClickAnnul);
 
 
     //Menu générer session
     let locBtnMenuSessionGenerateRef = document.getElementById("btnMenuSessionGenerate");
     const onClickGenerateSession = (event) => onChooseSessionMenuSup(event,'generateSession');
     locBtnMenuSessionGenerateRef.addEventListener("click",onClickGenerateSession);
-    onAddEventListenerInRegistry("mainMenuSession",locBtnMenuSessionGenerateRef,"click",onClickGenerateSession);
+    onAddEventListenerInRegistry("sessionMenuSup",locBtnMenuSessionGenerateRef,"click",onClickGenerateSession);
 
 
     //Menu envoyer vers activité
     let locBtnMenuSessionSendRef = document.getElementById("btnMenuSessionSend");
     const onClickSendToActivity = (event) => onChooseSessionMenuSup(event,'sendToActivity');
     locBtnMenuSessionSendRef.addEventListener("click",onClickSendToActivity);
-    onAddEventListenerInRegistry("mainMenuSession",locBtnMenuSessionSendRef,"click",onClickSendToActivity);
+    onAddEventListenerInRegistry("sessionMenuSup",locBtnMenuSessionSendRef,"click",onClickSendToActivity);
 
 }
 
 
 
 // Evènement pour le pop créate session
-
-let isAddEventListenerForSessionEditor = false;
-function onAddEventListenerForSessionEditor() {
+function onAddEventListenerForSessionGeneration() {
     if (devMode === true){
-        console.log("[SESSION] [EVENT-LISTENER] : Ajoute les évènements pour l'éditeur de session");
+        console.log("[SESSION] [EVENT-LISTENER] : Ajoute les évènements pour génération de session");
     }
-
-    isAddEventListenerForSessionEditor = true;
-
 
     //Selecteur de template
     let locSelectSessionTableModelNameRef = document.getElementById("selectSessionTableModelName");
-    locSelectSessionTableModelNameRef.addEventListener("change", (event)=>{
-        onChangeSelectorChooseTemplateSession(event.target.value)
-    });
-
-
+    const onChangeSelector = (event)=> onChangeSelectorChooseTemplateSession(event.target.value);
+    locSelectSessionTableModelNameRef.addEventListener("change",onChangeSelector);
+    onAddEventListenerInRegistry("sessionMenuGeneration",locSelectSessionTableModelNameRef,"change",onChangeSelector);
 
 }
 
@@ -1190,11 +1183,11 @@ async function onOpenMenuSession(){
 
     //Ajoutes les écouteurs d'évènement
     onAddEventListenerforSessionItemEditor();
-    onAddEventListenerForMainMenuSession();
+    onAddEventListenerForMenuSupSession();
 
 
     if (devMode === true){
-        console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
+        console.log("[EVENT-LISTENER] : Ajout les évènements pour session");
         onConsoleLogEventListenerRegistry();
     };
 
@@ -1278,6 +1271,7 @@ function onChooseSessionMenuSup(event,target) {
             onClickSendSessionToActivity();
             break;
         case "generateSession":
+            onClearAllSessionElement();
             onChangeMenu("EditSession");
             break;
     
@@ -2402,11 +2396,6 @@ function onGetSessionDuration(heureDebut, heureFin) {
 
 // tout est basé sur maxSessionItems
 
-
-
-
-
-
 async function onOpenMenuEditSession() {    
 
         // La première fois, récupère les templates dans la base
@@ -2715,8 +2704,10 @@ async function onGenerateSessionCanvas() {
 
 
         // Ajout les écoute d'évènements
-        if (!isAddEventListenerForSessionEditor) {
-            onAddEventListenerForSessionEditor();
+        onAddEventListenerForSessionGeneration();
+
+        if (devMode === true) {
+            onConsoleLogEventListenerRegistry();
         }
 
         resolve(); // ← indique qu’on a fini le rendu DOM
@@ -2835,6 +2826,7 @@ function onGenerateModelSelectList() {
     });
 }
 
+
 // Sequence de génération d'une session depuis le tableau de creation
 function eventGenerateSessionList(){
 
@@ -2861,6 +2853,9 @@ function eventGenerateSessionList(){
     //et les instance drag n drop
     onDestroySortableGenSession();
 
+
+    //retire les évènements lié au menu
+    onRemoveEventListenerInRegistry(["sessionMenuGeneration"]);
     //quitte ce menu pour revenir dans le menu session
     onLeaveMenu("EditSession");
 
@@ -3025,8 +3020,6 @@ function onClickOnCreateSessionArea(event){
 // Annulation de la création de session
 function onclickReturnFromEditSession(event) {
 
-
-
     //vide le tableau
     document.getElementById("divCanvasGenerateSession").innerHTML = "";
 
@@ -3034,6 +3027,9 @@ function onclickReturnFromEditSession(event) {
     onDestroySortableGenSession();
 
 
+    //retire les évènements lié au menu
+    onRemoveEventListenerInRegistry(["sessionMenuGeneration"]);
+    //quitte le menu
     onLeaveMenu("EditSession");
 
 }
@@ -3187,13 +3183,23 @@ function onDestroySortableGenSession() {
 // Retour depuis Info
 async function onClickReturnFromSession() {
 
+    onClearAllSessionElement();
+
+    // ferme le menu
+    onLeaveMenu("Session");
+};
+
+
+
+async function onClearAllSessionElement() {
     //retire les écouteurs d'évènements
-    onRemoveEventListenerInRegistry(["sessionItemEditor","mainMenuSession"]);
-    
+    onRemoveEventListenerInRegistry(["sessionItemEditor","sessionMenuSup"]);
+
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
         onConsoleLogEventListenerRegistry();
     };
+
     //libère le verrouillage timer unique
     if (devMode ===true){console.log("[SESSION] Libère timer unique");}
     timerInUseID = null;
@@ -3214,14 +3220,4 @@ async function onClickReturnFromSession() {
     //vide le tableau des instances items
     sessionAllItemsInstance = {};
     sessionInstanceButtonAddNew = null;
-
-    //vide le tableau de génération
-    document.getElementById("divCanvasGenerateSession").innerHTML = "";
-
-
-    // ferme le menu
-    onLeaveMenu("Session");
-};
-
-
-
+}
