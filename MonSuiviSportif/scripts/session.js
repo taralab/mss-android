@@ -954,10 +954,17 @@ function getSessionStartTimeFromLocalStorage() {
 
 
 
+
+
 // ------------------------------------------------ Ecouteur évènement -----------------------------------------
 
+
+
+
+
+
+
 //Pour le menu compteur editeur
-let isEventListenerForCounterEditor = false;
 
 function onAddEventListenerforSessionItemEditor() {
     
@@ -965,32 +972,29 @@ function onAddEventListenerforSessionItemEditor() {
         console.log("[SESSION] [EVENT-LISTENER] : Ajout les évènements pour l'éditeur de counter");
     };
 
-
-    // Set le boolean pour action unique
-    isEventListenerForCounterEditor = true;
-
-
-
     // LA div générale avec action retour
+    //récupère l'élément
     let divEditCounterRef = document.getElementById("divEditCounter");
-    divEditCounterRef.addEventListener("click",(event)=>{
-        onAnnulSessionItemEditor(event);
-    });
+    //créé une fonction en lui donnant l'évènement et la fonction à appeler
+    const onDivEditCounterClick = (event) => onAnnulSessionItemEditor(event);
+    // Ajoute un écouteur d'événement "click"
+    divEditCounterRef.addEventListener("click", onDivEditCounterClick);
+    //Ajout l'évènement au tableau de gestion des évènement
+    onAddEventListenerInRegistry("sessionItemEditor",divEditCounterRef, "click", onDivEditCounterClick);
 
 
     //La div intérieure contenur les actions
     let divEditCounterContentRef = document.getElementById("divEditCounterContent");
-    divEditCounterContentRef.addEventListener("click", (event)=>{
-        onClickDivNewPopupContent(event);
-    });
-
+    const onDivEditCounterContent = (event) => onClickDivNewPopupContent(event);
+    divEditCounterContentRef.addEventListener("click",onDivEditCounterContent);
+    onAddEventListenerInRegistry("sessionItemEditor",divEditCounterContentRef,"click",onDivEditCounterContent);
 
 
     // Le selecteur pour changer de type d'item
     let selectItemSessionTypeRef = document.getElementById("selectItemSessionType");
-    selectItemSessionTypeRef.addEventListener("change", (event)=>{
-        onChangeSessionItemType(event.target.value);
-    });
+    const onSelectItemSessionType = (event) => onChangeSessionItemType(event.target.value);
+    selectItemSessionTypeRef.addEventListener("change",onSelectItemSessionType);
+    onAddEventListenerInRegistry("sessionItemEditor",selectItemSessionTypeRef,"change",onSelectItemSessionType);
 
     //input number
     let inputNumberIDArray = [
@@ -1001,14 +1005,16 @@ function onAddEventListenerforSessionItemEditor() {
     //Pour chaque input
     inputNumberIDArray.forEach(id =>{
         //ajout le focus
-        let inputTarget = document.getElementById(id);
-        inputTarget.addEventListener("focus", (event)=>{
-            selectAllText(event.target);
-        });
+        let inputTargetRef = document.getElementById(id);
+        const onFocusInputTarget = (event)=>  selectAllText(event.target);
+        inputTargetRef.addEventListener("focus",onFocusInputTarget);
+        onAddEventListenerInRegistry("sessionItemEditor",inputTargetRef,"focus",onFocusInputTarget);
+
         //Ajout le context menu
-        inputTarget.addEventListener("contextmenu",(event)=>{
-            disableContextMenu(event);
-        });
+        const onContextMenuInputTarget = (event)=> disableContextMenu(event);
+        inputTargetRef.addEventListener("contextmenu",onContextMenuInputTarget);
+        onAddEventListenerInRegistry("sessionItemEditor",inputTargetRef,"contextmenu",onContextMenuInputTarget);
+
     });
 
     //input number minuteur
@@ -1016,63 +1022,63 @@ function onAddEventListenerforSessionItemEditor() {
         let inputRef = document.getElementById(input);
         // onInput
         let maxHour = parseInt(inputRef.max);
-        inputRef.addEventListener("input",(event)=>{
-            formatNumberInput(event.target, maxHour, 2);
-        });
+        const onInputItem = (event)=> formatNumberInput(event.target, maxHour, 2);
+        inputRef.addEventListener("input",onInputItem);
+        onAddEventListenerInRegistry("sessionItemEditor",inputRef,"input",onInputItem);
+
 
         //onFocus
-        inputRef.addEventListener("focus",(event)=>{
-            selectAllText(event.target);
-        });
+        const onFocus = (event) => selectAllText(event.target);
+        inputRef.addEventListener("focus",onfocus);
+        onAddEventListenerInRegistry("sessionItemEditor",inputRef,"focus",onFocus);
 
         //onBlur
-        inputRef.addEventListener("blur",(event)=>{
-            formatNumberInput(event.target, maxHour, 2);
-        });
+        const onBlur = (event) => formatNumberInput(event.target, maxHour, 2);
+        inputRef.addEventListener("blur",onBlur);
+        onAddEventListenerInRegistry("sessionItemEditor",inputRef,"blur",onBlur);
 
         //onContextMenu
-        inputRef.addEventListener("contextmenu",(event)=>{
-            disableContextMenu(event);
-        });
+        const onContextMenu = (event) => disableContextMenu(event);
+        inputRef.addEventListener("contextmenu",onContextMenu);
+        onAddEventListenerInRegistry("sessionItemEditor",inputRef,"contextmenu",onContextMenu);
+
     });
 
     // Les couleurs
     let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
-    btnColorCounterChoiceArray.forEach(btn=>{
-        let btnColor = btn.dataset.btnSessionItemColor;
-        btn.addEventListener("click",()=>{
-            onChooseSessionItemColor(btnColor);
-        });
+    btnColorCounterChoiceArray.forEach(btnRef=>{
+        let btnColor = btnRef.dataset.btnSessionItemColor;
+        const onClickBtn = () => onChooseSessionItemColor(btnColor);
+        btnRef.addEventListener("click",onClickBtn);
+        onAddEventListenerInRegistry("sessionItemEditor",btnRef,"click",onClickBtn);
+
     });
 
 
-    // Le menu de navigation
+    //Le menu de navigation
     //Retour
     let btnReturnRef = document.getElementById("btnReturnCounterEditor");
-    btnReturnRef.addEventListener("click", (event)=>{
-        onAnnulSessionItemEditor(event);
-    });
+    const onClickAnnul = (event)=> onAnnulSessionItemEditor(event);
+    btnReturnRef.addEventListener("click",onClickAnnul);
+    onAddEventListenerInRegistry("sessionItemEditor",btnReturnRef,"click",onClickAnnul);
 
     //Supprimer
     let btnDeleteRef = document.getElementById("btnDeleteSessionItem");
-    btnDeleteRef.addEventListener("click", ()=>{
-        onClickDeleteSessionItem();
-    });
+    const onClickDelete = () => onClickDeleteSessionItem();
+    btnDeleteRef.addEventListener("click", onClickDelete);
+    onAddEventListenerInRegistry("sessionItemEditor",btnDeleteRef,"click", onClickDelete);
 
     //Valider
     let btnValideRef = document.getElementById("btnValideCounterEditor");
-    btnValideRef.addEventListener("click",()=>{
-        onConfirmSessionItemEditor();
-    });
-
+    const onclickConfirm = () => onConfirmSessionItemEditor();
+    btnValideRef.addEventListener("click",onclickConfirm);
+    onAddEventListenerInRegistry("sessionItemEditor",btnValideRef,"click",onclickConfirm);
 
 }
 
 
 
-//Evènement pour le menu principale de session
-
-let isAddEventForMainMenuSession = false;
+//Evènement pour le menu principal de session
 function onAddEventListenerForMainMenuSession() {
 
     if (devMode === true){
@@ -1080,28 +1086,26 @@ function onAddEventListenerForMainMenuSession() {
     };
 
 
-    //Pour action unique
-    isAddEventForMainMenuSession = true;
-
     // Partie menu supplémentaire
     //annulation
     let locDivSessionMenuSupRef = document.getElementById("divSessionMenuSup");
-    locDivSessionMenuSupRef.addEventListener("click",(event)=>{
-        onAnnulSessionMenuSup(event);
-    });
+    const onClickAnnul = (event) => onAnnulSessionMenuSup(event);
+    locDivSessionMenuSupRef.addEventListener("click",onClickAnnul);
+    onAddEventListenerInRegistry("mainMenuSession",locDivSessionMenuSupRef,"click",onClickAnnul);
+
 
     //Menu générer session
     let locBtnMenuSessionGenerateRef = document.getElementById("btnMenuSessionGenerate");
-    locBtnMenuSessionGenerateRef.addEventListener("click",(event)=>{
-        onChooseSessionMenuSup(event,'generateSession');
-    });
+    const onClickGenerateSession = (event) => onChooseSessionMenuSup(event,'generateSession');
+    locBtnMenuSessionGenerateRef.addEventListener("click",onClickGenerateSession);
+    onAddEventListenerInRegistry("mainMenuSession",locBtnMenuSessionGenerateRef,"click",onClickGenerateSession);
 
 
     //Menu envoyer vers activité
     let locBtnMenuSessionSendRef = document.getElementById("btnMenuSessionSend");
-    locBtnMenuSessionSendRef.addEventListener("click",(event)=>{
-        onChooseSessionMenuSup(event,'sendToActivity');
-    });
+    const onClickSendToActivity = (event) => onChooseSessionMenuSup(event,'sendToActivity');
+    locBtnMenuSessionSendRef.addEventListener("click",onClickSendToActivity);
+    onAddEventListenerInRegistry("mainMenuSession",locBtnMenuSessionSendRef,"click",onClickSendToActivity);
 
 }
 
@@ -1184,11 +1188,15 @@ async function onOpenMenuSession(){
     getSessionItemListFromLocalStorage();
     getSessionStartTimeFromLocalStorage();
 
-    //Ajoutes les écouteurs d'évènement la prémière fois
-    if (!isEventListenerForCounterEditor  || !isAddEventForMainMenuSession) {
-        onAddEventListenerforSessionItemEditor();
-        onAddEventListenerForMainMenuSession();
-    }
+    //Ajoutes les écouteurs d'évènement
+    onAddEventListenerforSessionItemEditor();
+    onAddEventListenerForMainMenuSession();
+
+
+    if (devMode === true){
+        console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
+        onConsoleLogEventListenerRegistry();
+    };
 
 
     //ajout l'écouteur d'évènement pour le wakeLock (à chaque fois et retire lorsque quitte le menu)
@@ -2218,13 +2226,12 @@ class fakeOptionSessionBasic {
             this.element.classList.add("fake-opt-item-last-container");
         }
 
-        // Fonction
-        this.element.onclick = (event) => {
+        this.element.addEventListener("click",(event)=>{
             event.stopPropagation();
             onDisplaySendToActivityLocation(this.activityName);
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
-        };
+        });
 
         this.render();
     }
@@ -2262,13 +2269,12 @@ class fakeOptionSessionFavourite {
             this.element.classList.add("fake-opt-item-last-favourite");
         }
 
-        // Fonction
-        this.element.onclick = (event) => {
+        this.element.addEventListener("click", (event)=>{
             event.stopPropagation();
             onDisplaySendToActivityLocation(this.activityName);
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
-        };
+        });
 
         this.render();
     }
@@ -3181,6 +3187,13 @@ function onDestroySortableGenSession() {
 // Retour depuis Info
 async function onClickReturnFromSession() {
 
+    //retire les écouteurs d'évènements
+    onRemoveEventListenerInRegistry(["sessionItemEditor","mainMenuSession"]);
+    
+    if (devMode === true){
+        console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
+        onConsoleLogEventListenerRegistry();
+    };
     //libère le verrouillage timer unique
     if (devMode ===true){console.log("[SESSION] Libère timer unique");}
     timerInUseID = null;
