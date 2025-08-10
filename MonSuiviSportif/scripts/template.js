@@ -81,38 +81,29 @@ class TemplateActivityItemList {
 // -------------------------- ecouteur d'évènement -------------------------------
 
 
-
-let isEventListenerForTemplateActivityEditor = false;//pour action unique
 function onAddEventListenerForTemplateEditor() {
         
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour l'éditeur modèle d'activité");
     };
 
-    //Set boolean pour action unique
-    isEventListenerForTemplateActivityEditor = true;
-
     //Le titre
     let titleRef = document.getElementById("inputTemplateTitle");
-    titleRef.addEventListener("change", (event)=>{
-        onRemoveFieldRequired(event.target);
-    });
-
-
-
+    const onChangeTitle = (event) => onRemoveFieldRequired(event.target);
+    titleRef.addEventListener("change", onChangeTitle);
+    onAddEventListenerInRegistry("templateEditor",titleRef,"change", onChangeTitle);
 
     // FakeSelector
     let fakeSelectRef = document.getElementById("divBtnFakeSelectorActivityTemplateEditor");
-    fakeSelectRef.addEventListener("click", ()=>{
-        onClickFakeSelect('templateEditor');
-    });
+    const onClickActivityChoice = () => onClickFakeSelect('templateEditor');
+    fakeSelectRef.addEventListener("click",onClickActivityChoice);
+    onAddEventListenerInRegistry("templateEditor",fakeSelectRef,"click",onClickActivityChoice);
 
     //checkbox planned
     let checkBoxPlannedRef = document.getElementById("inputTemplateIsPlanned");
-    checkBoxPlannedRef.addEventListener("change", (event)=>{
-        onChangeTemplatePlanned(event.target.checked);
-    });
-
+    const onChangeCheckboxPlanned = (event) => onChangeTemplatePlanned(event.target.checked);
+    checkBoxPlannedRef.addEventListener("change",onChangeCheckboxPlanned);
+    onAddEventListenerInRegistry("templateEditor",checkBoxPlannedRef,"change",onChangeCheckboxPlanned);
 
     //input number chrono
     let inputTemplateChronoIDArray = [
@@ -125,24 +116,24 @@ function onAddEventListenerForTemplateEditor() {
         let inputRef = document.getElementById(input);
         // onInput
         let maxHour = parseInt(inputRef.max);
-        inputRef.addEventListener("input",(event)=>{
-            formatNumberInput(event.target, maxHour, 2);
-        });
+        const onInput = (event) => formatNumberInput(event.target, maxHour, 2);
+        inputRef.addEventListener("input",onInput);
+        onAddEventListenerInRegistry("templateEditor",inputRef,"input",onInput);
 
         //onFocus
-        inputRef.addEventListener("focus",(event)=>{
-            selectAllText(event.target);
-        });
+        const onFocus = (event) => selectAllText(event.target);
+        inputRef.addEventListener("focus",onFocus);
+        onAddEventListenerInRegistry("templateEditor",inputRef,"focus",onFocus);
 
         //onBlur
-        inputRef.addEventListener("blur",(event)=>{
-            formatNumberInput(event.target, maxHour, 2);
-        });
+        const onBlur = (event) => formatNumberInput(event.target, maxHour, 2);
+        inputRef.addEventListener("blur",onBlur);
+        onAddEventListenerInRegistry("templateEditor",inputRef,"blur",onBlur);
 
         //onContextMenu
-        inputRef.addEventListener("contextmenu",(event)=>{
-            disableContextMenu(event);
-        });
+        const onContextMenu = (event) => disableContextMenu(event);
+        inputRef.addEventListener("contextmenu",onContextMenu);
+        onAddEventListenerInRegistry("templateEditor",inputRef,"contextmenu",onContextMenu);
     });
 
 }
@@ -349,6 +340,13 @@ function onOpenMenuGestTemplate() {
 
     // Génération de la liste des modèles
     onCreateTemplateMenuList(userTemplateListKeys);
+
+
+    onAddEventListenerForTemplateEditor();
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
+    }
 
     //Création du menu principal
     onCreateMainMenuGestTemplate();
@@ -750,11 +748,6 @@ function onResetTemplateInputs() {
 
     inputTemplateTitleRef.classList.remove("fieldRequired");
 
-    // Ajoute les écouteurs d'évènements
-    if (!isEventListenerForTemplateActivityEditor) {
-        onAddEventListenerForTemplateEditor();
-    }
-
 
     //création du menu principale selon modification ou nouveau
     onCreateMainMenuTemplateEditor();
@@ -968,16 +961,6 @@ function onCreateTemplateChoiceList() {
 
 
 
-
-
-
-
-
-// Quitte le menu
-function onClickReturnFromGestTemplate() {
-    onLeaveMenu("GestTemplate");
-}
-
 // Fonction récupérer les valeur des inputs number et les convertir au format input time
 function inputTemplateNumberToTime() {
 
@@ -987,5 +970,19 @@ function inputTemplateNumberToTime() {
 
     // Mettre à jour l'affichage dans le champ text
     return `${hhh}:${mm}:${ss}`;
+}
+
+
+
+
+
+
+// Quitte le menu
+function onClickReturnFromGestTemplate() {
+    //Vide les listes
+    document.getElementById("divTemplateListMenu").innerHTML = "";
+    document.getElementById("divActivityTemplateEndList").innerHTML = "";
+
+    onLeaveMenu("GestTemplate");
 }
 

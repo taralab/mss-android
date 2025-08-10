@@ -196,20 +196,15 @@ class TemplateSessionItemList {
 // ------------------------  Ecoute d'évènement ----------------------------------------------------
 
 
-let isAddEventListenerForTemplateSessionEditor = false;
 function onAddEventListenerForTemplateSessionEditor() {
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements template session editeur");
     }
 
-
-    //action unique
-    isAddEventListenerForTemplateSessionEditor = true;
-
     let locInputTemplateSessionNameRef = document.getElementById("inputTemplateSessionName");
-    locInputTemplateSessionNameRef.addEventListener("change", (event)=>{
-        onRemoveFieldRequired(event.target);
-    });
+    const onChange = (event) => onRemoveFieldRequired(event.target);
+    locInputTemplateSessionNameRef.addEventListener("change",onChange);
+    onAddEventListenerInRegistry("templateSession",locInputTemplateSessionNameRef,"change",onChange);
 }
 
 
@@ -225,7 +220,14 @@ async function onOpenMenuTemplateSession() {
 
     // Actualisation de la liste d'affichage
     eventUpdateTemplateSessionList();
-    
+  
+    //ajout ecoute evènement
+    onAddEventListenerForTemplateSessionEditor();
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
+    }
+
     //création menu principal
     onCreateMainMenuTemplateSession();
 
@@ -319,6 +321,10 @@ function onClickReturnFromMenuTemplateSession() {
     //vide le tableau
     document.getElementById("divGenerateTemplateSessionEditor").innerHTML = "";
 
+    // Vide les éléments
+    document.getElementById("divTemplateSessionListMenu").innerHTML = "";
+    document.getElementById("divSessionTemplateEndList").innerHTML = "";
+
     onLeaveMenu("MenuTemplateSession");
 }
 
@@ -356,11 +362,6 @@ function onClickBtnCreateTemplateSession(){
 
 async function eventOpenTemplateSessionEditor(mode){
 
-    //ajout ecoute evènement unique
-
-    if (!isAddEventListenerForTemplateSessionEditor) {
-        onAddEventListenerForTemplateSessionEditor();
-    }
 
     // Création menu principal
     onCreateMainMenuTemplateSessionEditor(mode === "modification");

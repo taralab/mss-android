@@ -571,7 +571,9 @@ const allEventListenerRegistry = {
     rewards:[],
     gestData:[],
     gestDataConfirmDelete:[],
-    setting:[]
+    setting:[],
+    templateEditor:[],
+    templateSession:[]
 }
 
 
@@ -1319,6 +1321,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestTemplate");};
+            //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["templateEditor"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divGestTemplate"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
@@ -1334,6 +1338,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : MenuTemplateSession");};
+            //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["templateSession"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divMenuTemplateSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
@@ -1373,6 +1379,10 @@ function onLeaveMenu(menuTarget) {
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le menu = " + menuTarget);
         break;
     };
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
+    }
 
 };
 
