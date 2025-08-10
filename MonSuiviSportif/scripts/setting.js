@@ -14,33 +14,29 @@ function onAddEventListenerForSettingMenu(){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour menu SETTING");
     }
 
-    //Pour action unique
-    isAddEventListenerForSettingMenu = true;
-
     //changement commentMode
     let LocSelectSettingSessionCommentModeRef = document.getElementById("selectSettingSessionCommentMode");
-    LocSelectSettingSessionCommentModeRef.addEventListener("change", (event)=>{
-        onChangeSettingSettionCommentMode(event.target.value);
-    });
+    const onChangeCommentMode = (event) =>onChangeSettingSettionCommentMode(event.target.value);
+    LocSelectSettingSessionCommentModeRef.addEventListener("change", onChangeCommentMode);
+    onAddEventListenerInRegistry("setting",LocSelectSettingSessionCommentModeRef,"change", onChangeCommentMode);
 
     //Changement inputTime start
     let locInputTimeSettingScheduleStartRef = document.getElementById("inputTimeSettingScheduleStart");
-    locInputTimeSettingScheduleStartRef.addEventListener("change", (event)=>{
-        onCheckAgendaNotifyTime(event.target);
-    });
+    const onChangeTimeStart = (event)=> onCheckAgendaNotifyTime(event.target);
+    locInputTimeSettingScheduleStartRef.addEventListener("change", onChangeTimeStart);
+    onAddEventListenerInRegistry("setting",locInputTimeSettingScheduleStartRef,"change", onChangeTimeStart);
 
     //changement inputTime end
     let locInputTimeSettingScheduleEndRef = document.getElementById("inputTimeSettingScheduleEnd");
-    locInputTimeSettingScheduleEndRef.addEventListener("change",()=>{
-        onCheckEndSchedule();
-    });
-
+    const onChangeTimeEnd = ()=>onCheckEndSchedule();
+    locInputTimeSettingScheduleEndRef.addEventListener("change", onChangeTimeEnd);
+    onAddEventListenerInRegistry("setting",locInputTimeSettingScheduleEndRef,"change", onChangeTimeEnd);
 
     //changement frequence sauvegarde
     let locInputSettingSaveFrequencyRef = document.getElementById("inputSettingSaveFrequency");
-    locInputSettingSaveFrequencyRef.addEventListener("change",()=>{
-        onDataInSettingSaveFrequencyChange();
-    });
+    const onChangeSaveFrequency = ()=> onDataInSettingSaveFrequencyChange();
+    locInputSettingSaveFrequencyRef.addEventListener("change", onChangeSaveFrequency);
+    onAddEventListenerInRegistry("setting",locInputSettingSaveFrequencyRef,"change", onChangeSaveFrequency);
 
 }
 
@@ -57,9 +53,12 @@ function onOpenMenuSetting() {
     // set les éléments du menu paramètres
     onSetSettingItems();
 
-    //Ajoute les évènement si pas déja fait
-    if(!isAddEventListenerForSettingMenu){
-        onAddEventListenerForSettingMenu();
+    //Ajoute les évènement 
+    onAddEventListenerForSettingMenu();
+
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
     }
     
     // Création menu principal

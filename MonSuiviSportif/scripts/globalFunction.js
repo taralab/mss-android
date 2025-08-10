@@ -570,7 +570,8 @@ const allEventListenerRegistry = {
     stat:[],
     rewards:[],
     gestData:[],
-    gestDataConfirmDelete:[]
+    gestDataConfirmDelete:[],
+    setting:[]
 }
 
 
@@ -1345,6 +1346,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
+            //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["setting"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divMainBtnMenu","divSetting"]);//retire la sécurité double click
