@@ -574,7 +574,8 @@ const allEventListenerRegistry = {
     setting:[],
     templateEditor:[],
     templateSession:[],
-    sortFilterSearch:[]
+    sortFilterSearch:[],
+    mainButton:[]
 }
 
 
@@ -1433,30 +1434,30 @@ function onAddEventForMainMenuButton() {
 
     //Bouton Creation d'une activité
     let btnNewActivityRef = document.getElementById("btnNewActivity");
-    btnNewActivityRef.addEventListener("click",()=>{
-        onChangeMenu("NewActivity");
-    });
+    const onClickNewActivity = () => onChangeMenu("NewActivity");
+    btnNewActivityRef.addEventListener("click",onClickNewActivity);
+    onAddEventListenerInRegistry("mainButton",btnNewActivityRef,"click",onClickNewActivity);
+
 
     //bouton nouveau depuis template
-    let btnNewFromTemplate = document.getElementById("btnNewFromTemplate");
-    btnNewFromTemplate.addEventListener("click",()=>{
-        onChangeMenu("TemplateChoice");
-    });
-
+    let btnNewFromTemplateRef = document.getElementById("btnNewFromTemplate");
+    const onClickTemplate = () => onChangeMenu("TemplateChoice");
+    btnNewFromTemplateRef.addEventListener("click",onClickTemplate);
+    onAddEventListenerInRegistry("mainButton",btnNewFromTemplateRef,"click",onClickTemplate);
 
     // La div menu supplémentaire
     let divMainMenuSupRef = document.getElementById("divMainMenuSup");
-    divMainMenuSupRef.addEventListener("click", (event)=>{
-        onAnnulMenuSup(event);
-    });
+    const onCancelMenuSup = (event) => onAnnulMenuSup(event);
+    divMainMenuSupRef.addEventListener("click", onCancelMenuSup);
+    onAddEventListenerInRegistry("mainButton",divMainMenuSupRef,"click", onCancelMenuSup);
 
     // Les boutons supplémentaire LVL2
     let btnMenuSupArray = divMainMenuSupRef.querySelectorAll("button");
     btnMenuSupArray.forEach((btnRef) =>{
         let menuType = btnRef.dataset.menuType;
-        btnRef.addEventListener("click", (event) =>{
-            onClickMenuSup(event,menuType);
-        });
+        const onClickMainMenuSup = (event) => onClickMenuSup(event,menuType);
+        btnRef.addEventListener("click", onClickMainMenuSup);
+        onAddEventListenerInRegistry("mainButton",btnRef,"click", onClickMainMenuSup);
     });
 
 }
