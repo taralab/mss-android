@@ -145,33 +145,29 @@ class ActivityItem {
 
 // ----------------------------------- Gestion ecouteur evenement------------------------------
 
-let isEventListenerForActivityEditor = false;//pour action unique
 function onAddEventListenerForActivityEditor() {
         
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour l'éditeur d'activité");
     };
 
-    //Set boolean pour action unique
-    isEventListenerForActivityEditor = true;
-
     // FakeSelector
     let fakeSelectRef = document.getElementById("divBtnFakeSelectorActivityEditor");
-    fakeSelectRef.addEventListener("click", ()=>{
-        onClickFakeSelect('activityEditor');
-    });
+    const onClickOnActivity = ()=> onClickFakeSelect('activityEditor');
+    fakeSelectRef.addEventListener("click",onClickOnActivity);
+    onAddEventListenerInRegistry("activityEditor",fakeSelectRef,"click",onClickOnActivity);
 
     //checkbox planned
     let checkBoxPlannedRef = document.getElementById("inputIsPlanned");
-    checkBoxPlannedRef.addEventListener("change", (event)=>{
-        onChangeActivityPlanned(event.target.checked);
-    });
+    const onChangeCheckboxPlanned = (event) => onChangeActivityPlanned(event.target.checked);
+    checkBoxPlannedRef.addEventListener("change",onChangeCheckboxPlanned);
+    onAddEventListenerInRegistry("activityEditor",checkBoxPlannedRef,"change",onChangeCheckboxPlanned);
 
     //inputDate
     let inputRef = document.getElementById("inputDate");
-    inputRef.addEventListener("change", (event)=>{
-        onRemoveFieldRequired(event.target);
-    });
+    const onChangeInputDate = (event) => onRemoveFieldRequired(event.target);
+    inputRef.addEventListener("change",onChangeInputDate);
+    onAddEventListenerInRegistry("activityEditor",inputRef,"change",onChangeInputDate);
 
     //input number chrono
     let inputChronoIDArray = [
@@ -184,24 +180,25 @@ function onAddEventListenerForActivityEditor() {
         let inputRef = document.getElementById(input);
         // onInput
         let maxHour = parseInt(inputRef.max);
-        inputRef.addEventListener("input",(event)=>{
-            formatNumberInput(event.target, maxHour, 2);
-        });
+        const onFormatNumberInput = (event) => formatNumberInput(event.target, maxHour, 2);
+        inputRef.addEventListener("input",onFormatNumberInput);
+        onAddEventListenerInRegistry("activityEditor",inputRef,"input",onFormatNumberInput);
 
         //onFocus
-        inputRef.addEventListener("focus",(event)=>{
-            selectAllText(event.target);
-        });
+        const onFocus = (event) => selectAllText(event.target);
+        inputRef.addEventListener("focus",onFocus);
+        onAddEventListenerInRegistry("activityEditor",inputRef,"focus",onFocus);
 
         //onBlur
-        inputRef.addEventListener("blur",(event)=>{
-            formatNumberInput(event.target, maxHour, 2);
-        });
+        const onBlur = (event) => formatNumberInput(event.target, maxHour, 2);
+        inputRef.addEventListener("blur",onBlur);
+        onAddEventListenerInRegistry("activityEditor",inputRef,"blur",onBlur);
+
 
         //onContextMenu
-        inputRef.addEventListener("contextmenu",(event)=>{
-            disableContextMenu(event);
-        });
+        const onContextMenu = (event) => disableContextMenu(event);
+        inputRef.addEventListener("contextmenu",onContextMenu);
+        onAddEventListenerInRegistry("activityEditor",inputRef,"contextmenu",onContextMenu);
     });
 
 }
@@ -480,10 +477,13 @@ function onResetActivityInputs() {
 
     inputDateRef.classList.remove("fieldRequired");
 
-    //ajout évènement si pas déjà fait
-    if (!isEventListenerForActivityEditor) {
-        onAddEventListenerForActivityEditor();
+    //ajout évènement
+    onAddEventListenerForActivityEditor();
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
     }
+
 };
 
 

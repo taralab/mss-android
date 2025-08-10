@@ -530,12 +530,10 @@ function onClickFakeSelect(MenuTarget){
     //set le mode d'ouverture du fake selecteur. Pour activityEditor ou templateEditor
     fakeOptionTargetMode = MenuTarget;
 
-
-    //Ajout unique évènement
-    if (!isAddEventForCloseFakeSelectOpt) {
-        onAddEventForCloseFakeSelectOpt();
-    }
-
+    let locDivFakeSelectOptRef = document.getElementById("divFakeSelectOpt");
+    const onReturnFromFakeSelect = (event)=> onCloseFakeSelectOpt(event);
+    locDivFakeSelectOptRef.addEventListener("click",onReturnFromFakeSelect);
+    onAddEventListenerInRegistry("globalFakeSelect",locDivFakeSelectOptRef,"click",onReturnFromFakeSelect);
 
     // Affiche le fake option
     document.getElementById("divFakeSelectOpt").style.display = "flex";
@@ -544,6 +542,7 @@ function onClickFakeSelect(MenuTarget){
 
 
 function onCloseFakeSelectOpt(event){
+    onRemoveEventListenerInRegistry(["globalFakeSelect"]);
     document.getElementById("divFakeSelectOpt").style.display = "none";
 }
 
@@ -565,7 +564,9 @@ const allEventListenerRegistry = {
     sessionMenuSup:[],
     sessionMenuGeneration:[],
     sessionSendToActivity : [],
-    planningEditor:[]
+    planningEditor:[],
+    activityEditor:[],
+    globalFakeSelect:[]
 }
 
 
@@ -1256,6 +1257,7 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
+            onRemoveEventListenerInRegistry(["activityEditor","globalFakeSelect"]);
             hideDivScrollableMenu();
             onResetBtnRadio();
             onChangeDisplay(["divActivityEditor"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor"],[],[]);
@@ -1516,21 +1518,3 @@ function removeEventForGlobalPopupConfirmation() {
 
 
 
-//fermeture du fake selecteur
-let isAddEventForCloseFakeSelectOpt = false;
-function onAddEventForCloseFakeSelectOpt() {
-    
-    if (devMode === true){
-        console.log("[EVENT-LISTENER] : Ajoute les évènements pour fake selector");
-    }
-
-    //Pour action unique
-    isAddEventForCloseFakeSelectOpt = true;
-
-    let locDivFakeSelectOptRef = document.getElementById("divFakeSelectOpt");
-    locDivFakeSelectOptRef.addEventListener("click", (event)=>{
-        onCloseFakeSelectOpt(event);
-    });
-
-
-}
