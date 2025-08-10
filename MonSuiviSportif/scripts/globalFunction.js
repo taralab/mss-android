@@ -573,7 +573,8 @@ const allEventListenerRegistry = {
     gestDataConfirmDelete:[],
     setting:[],
     templateEditor:[],
-    templateSession:[]
+    templateSession:[],
+    sortFilterSearch:[]
 }
 
 

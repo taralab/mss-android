@@ -81,40 +81,33 @@ function onListenSortFilterSearchBtn() {
 
     btnSortIDList.forEach(id=>{
         //Pour chaque bouton de trie
-        const btn = document.getElementById(id);
-        btn.addEventListener("click", () =>{
-            const sortType = btn.dataset.sortParameter;
-            //affecte la fonction avec le paramètre
-            onUserChangeSortType(sortType); 
-        });
+        const btnSortRef = document.getElementById(id);
+        const sortType = btnSortRef.dataset.sortParameter;
+        const onSort = () => onUserChangeSortType(sortType); 
+        btnSortRef.addEventListener("click",onSort);
+        onAddEventListenerInRegistry("sortFilterSearch",btnSortRef,"click",onSort);
     });
 
     // Filtre
     //Pour chaque bouton de filtre
-    const btnFilter = document.getElementById("divFakeActivitySelectorFilter");
-    btnFilter.addEventListener("click",()=>{
-        //Lui affecte la fonction
-        onClickFakeSelectFilter();
-    });
-
+    const btnFilterRef = document.getElementById("divFakeActivitySelectorFilter");
+    const onFilter = () => onClickFakeSelectFilter();
+    btnFilterRef.addEventListener("click",onFilter);
+    onAddEventListenerInRegistry("sortFilterSearch",btnFilterRef,"click",onFilter);
 
     //Recherche
-    //Pour l'input de recherche
-    const inputSearch = document.getElementById("inputSearchActivity");
-    //Lui affecte la fonction
-    inputSearch.addEventListener("input",()=>{
-        onUserSetResearchText();
-    });
-
+    const inputSearchRef = document.getElementById("inputSearchActivity");
+    const onSearch = () => onUserSetResearchText();
+    inputSearchRef.addEventListener("input",onSearch);
+    onAddEventListenerInRegistry("sortFilterSearch",inputSearchRef,"input",onSearch);
 
     //Fake selecteur
-    //Pour la div de fakeSelecteur de filtre d'activité
-    const fakeSelector = document.getElementById("divFakeSelectOptFilterActivity");
-    fakeSelector.addEventListener("click",(event)=>{
-        //Lui affecte la fonction
-        onCloseFakeSelectFilter(event);
-    });
+    const fakeSelectorRef = document.getElementById("divFakeSelectOptFilterActivity");
+    const onSelectCategory = (event) => onCloseFakeSelectFilter(event);
+    fakeSelectorRef.addEventListener("click",onSelectCategory);
+    onAddEventListenerInRegistry("sortFilterSearch",fakeSelectorRef,"click",onSelectCategory);
 }
+
 onListenSortFilterSearchBtn();
 
 
