@@ -567,7 +567,8 @@ const allEventListenerRegistry = {
     planningEditor:[],
     activityEditor:[],
     globalFakeSelect:[],
-    stat:[]
+    stat:[],
+    rewards:[]
 }
 
 
@@ -598,9 +599,11 @@ function onRemoveEventListenerInRegistry(categoryArray) {
 }
 
 function onConsoleLogEventListenerRegistry() {
+    let result = {};
     Object.keys(allEventListenerRegistry).forEach(category=>{
-        console.log(`[EVENT-LISTENER] : ${category}, ${allEventListenerRegistry[category].length}`);
+        result[category] = allEventListenerRegistry[category].length;
     });
+    console.log("[EVENT-LISTENER]", result);
 }
 
 
@@ -1259,6 +1262,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
+             //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["rewards"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divRewards"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();

@@ -108,21 +108,16 @@ class RewardCardLocked{
 // -------------------------------Ecouteur d'évènements-----------------------------------
 
 
-
-let isEventListenerForRewardFullScreen = false;
 function onAddEventListenerForFullScreenReward() {
-        if (devMode === true){
+    if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour reward fullscreen");
     };
 
-    // Pour action unique
-    isEventListenerForRewardFullScreen = true;
-
     //La div
     let locDivFullScreenRewardsRef = document.getElementById("divFullScreenRewards");
-    locDivFullScreenRewardsRef.addEventListener("click", ()=>{
-        onHiddenFullscreenRewards();
-    });
+    const onClick = () => onHiddenFullscreenRewards();
+    locDivFullScreenRewardsRef.addEventListener("click",onClick);
+    onAddEventListenerInRegistry("rewards",locDivFullScreenRewardsRef,"click",onClick);
 
 }
 
@@ -304,6 +299,12 @@ function onOpenMenuRewards(){
     // Prend les récompenses de l'utilisateur pour les afficher dans la liste
     onLoadUserRewardsList();
     
+    // Ajout des évènements
+    onAddEventListenerForFullScreenReward();
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
+    }
 
     //Création du menu principale
     onCreateMainMenuReward();
@@ -419,12 +420,6 @@ function onDisplayRewardsFullScreen(rewardName,shareMode) {
     }
 
     document.getElementById("divFullScreenRewards").classList.add("show");
-
-    // Ajout des évènements la premiere fois
-
-    if (!isEventListenerForRewardFullScreen) {
-        onAddEventListenerForFullScreenReward();
-    }
 
 
 };
@@ -1073,8 +1068,6 @@ function onResetRewardsMenu() {
 
     divRewardsListRef = "";
     divSpecialRewardsListRef = "";
-
-
 
     newRewardsToSee = [];
     rewardAllActivityNonPlannedKeys = [];
