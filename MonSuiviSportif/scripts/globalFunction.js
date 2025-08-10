@@ -564,7 +564,8 @@ const allEventListenerRegistry = {
     sessionItemEditor:[],
     sessionMenuSup:[],
     sessionMenuGeneration:[],
-    sessionSendToActivity : []
+    sessionSendToActivity : [],
+    planningEditor:[]
 }
 
 
@@ -574,6 +575,9 @@ function onAddEventListenerInRegistry(category, elementRef, actionType, calledFu
 }
 
 
+
+//ATTENTION : categoryArray est un tableau. Exemple d'appel unique
+//onRemoveEventListenerInRegistry(["categoryArray"])
 function onRemoveEventListenerInRegistry(categoryArray) {
     categoryArray.forEach(category => {
         // Vérifie si la catégorie existe dans le registre

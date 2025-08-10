@@ -171,6 +171,8 @@ async function onOpenMenuPlanning(){
 
     // Creation du main menu
     onCreateMainMenuPlanning();
+
+
 };
 
 
@@ -277,9 +279,9 @@ function onEditPlanning(keyTarget) {
     // Génère déjà la liste des activités à choisir
     onGenerateFakePlanningActivityList("divPlanningActivityChoiceList");
 
-    // Ajoute un évènement pour le fake selector
-    onAddEventForPlanningFakeSelector();
 
+    // Ajoute un évènement pour le fake selector
+    onAddEventForPlanningEditor();
     //Menu principal
     onCreateMainMenuPlanningEditor();
 
@@ -389,6 +391,10 @@ async function eventSavePlanningDayModification() {
 
     //popup Notification
     onShowNotifyPopup("planningModified");
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
+    }
 }
 
 
@@ -552,44 +558,35 @@ function onClosePlanningActivityChoice() {
 
 
 function onClearPlanningEditor() {
+
+    // Retire les écoute d'evènement
+    onRemoveEventListenerInRegistry(["planningEditor"]);
+
     // Vide les éléments
     document.getElementById("divPlanningActivityList").innerHTML ="";
     document.getElementById("divPlanningEditorBtnAdd").innerHTML ="";
-
-    // Retire les écoute d'evènement
-    // ActivityChoice
-    let target = document.getElementById("divPlanningActivityChoice");
-    if (planningFakeSelectorEventListener && target) {
-        target.removeEventListener("click", planningFakeSelectorEventListener);
-        planningFakeSelectorEventListener = null;
-    }
     
 }
 
-// gestion evènement pour fakeselector
-let planningFakeSelectorEventListener = null;
-
-function onAddEventForPlanningFakeSelector() {
+function onAddEventForPlanningEditor() {
 
     if (devMode === true) {
         console.log("Ajout d'évènement pour le fakeSelector");
     };
 
-    let target = document.getElementById("divPlanningActivityChoice");
+    // Le fake selector
+    let targetRef = document.getElementById("divPlanningActivityChoice");
+    const onCancelplanningFakeSelector = (event) => onClosePlanningActivityChoice(event);
+    targetRef.addEventListener("click", onCancelplanningFakeSelector);    
+    onAddEventListenerInRegistry("planningEditor",targetRef,"click", onCancelplanningFakeSelector);
 
-    // Retire l'ancien évènement s'il existe
-    if (planningFakeSelectorEventListener && target) {
-        target.removeEventListener("click", planningFakeSelectorEventListener);
-        planningFakeSelectorEventListener = null;
+
+
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
     }
 
-    // Crée une référence nommée pour la fonction
-    planningFakeSelectorEventListener = (event) => {
-        onClosePlanningActivityChoice(event);
-    };
-
-    // Ajoute l'ecoute d'evènement
-    target.addEventListener("click",planningFakeSelectorEventListener);
 }
 
 
@@ -629,5 +626,10 @@ function onClickReturnFromPlanning() {
 
     // ferme le menu
     onLeaveMenu("Planning");
+
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
+    }
 };
 
