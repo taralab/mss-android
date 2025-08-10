@@ -1213,6 +1213,8 @@ function onLeaveMenu(menuTarget) {
 
         case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Session");};
+            //retire les écouteurs d'évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["sessionItemEditor","sessionMenuSup","sessionSendToActivity","sessionMenuGeneration"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
@@ -1220,6 +1222,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "EditSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Edit Session");};
+            //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["sessionMenuGeneration"]);
             onChangeDisplay(["divEditSession"],[],["divSession"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Séance";
             onOpenMenuSession();
@@ -1228,6 +1232,8 @@ function onLeaveMenu(menuTarget) {
 
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
+            // Retire les écoute d'evènement qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["planningEditor"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divPlanning"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();

@@ -2857,9 +2857,6 @@ function eventGenerateSessionList(){
     //et les instance drag n drop
     onDestroySortableGenSession();
 
-
-    //retire les évènements lié au menu
-    onRemoveEventListenerInRegistry(["sessionMenuGeneration"]);
     //quitte ce menu pour revenir dans le menu session
     onLeaveMenu("EditSession");
 
@@ -3030,9 +3027,6 @@ function onclickReturnFromEditSession(event) {
     //et les instance drag n drop
     onDestroySortableGenSession();
 
-
-    //retire les évènements lié au menu
-    onRemoveEventListenerInRegistry(["sessionMenuGeneration"]);
     //quitte le menu
     onLeaveMenu("EditSession");
 
