@@ -566,7 +566,8 @@ const allEventListenerRegistry = {
     sessionSendToActivity : [],
     planningEditor:[],
     activityEditor:[],
-    globalFakeSelect:[]
+    globalFakeSelect:[],
+    stat:[]
 }
 
 
@@ -1249,6 +1250,8 @@ function onLeaveMenu(menuTarget) {
         
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");};
+            // Retire les écoute d'evènement qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["stat"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideImgActivityPreview();

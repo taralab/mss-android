@@ -10,34 +10,28 @@ let statActivityNonPlannedKeys = [];
 // ------------------------------Ecouteur d'évènement-------------------------
 
 
-let isAddEventListenerForStatMenu = false;
 function onAddEventListenerForStatMenu() {
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour le menu STAT");
     };
 
-    //Pour action unique
-    isAddEventListenerForStatMenu = true;
-
-
     // le fake selecteur d'activité
     let locDivFakeSelectorStatMenuRef = document.getElementById("divFakeSelectorStatMenu");
-    locDivFakeSelectorStatMenuRef.addEventListener("click",()=>{
-        onClickFakeStatSelect();
-    });
+    const onChooseStatActivity = () => onClickFakeStatSelect();
+    locDivFakeSelectorStatMenuRef.addEventListener("click",onChooseStatActivity);
+    onAddEventListenerInRegistry("stat",locDivFakeSelectorStatMenuRef,"click",onChooseStatActivity);
 
     //Le selecteur d'année
     let locSelectStatGraphYearRef = document.getElementById("selectStatGraphYear");
-    locSelectStatGraphYearRef.addEventListener("change",(event)=>{
-        onChangeSelectorYearGraph(event.target.value);
-    });
+    const onChangeStatYear = (event) => onChangeSelectorYearGraph(event.target.value);
+    locSelectStatGraphYearRef.addEventListener("change",onChangeStatYear);
+    onAddEventListenerInRegistry("stat",locSelectStatGraphYearRef,"change",onChangeStatYear);
 
     //pour annuler le selecteur de stat
     let locDivFakeSelectOptStatRef = document.getElementById("divFakeSelectOptStat");
-    locDivFakeSelectOptStatRef.addEventListener("click",(event)=>{
-        onCloseFakeStatSelectOpt(event);
-    });
-
+    const onReturnFromStatFakeSelect = (event) =>  onCloseFakeStatSelectOpt(event);
+    locDivFakeSelectOptStatRef.addEventListener("click",onReturnFromStatFakeSelect);
+    onAddEventListenerInRegistry("stat",locDivFakeSelectOptStatRef,"click",onReturnFromStatFakeSelect);
 }
 
 
@@ -68,9 +62,11 @@ function onOpenMenuStat(){
 
 
 
-    // Ecouteur d'évènement unique
-    if (!isAddEventListenerForStatMenu) {
-        onAddEventListenerForStatMenu();
+    // Ecouteur d'évènement
+    onAddEventListenerForStatMenu();
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
     }
 
     //génération menu principal
@@ -923,6 +919,9 @@ function onResetStatGraph() {
 // Retour depuis Stat
 function onClickReturnFromStat() {
     onResetStatGraph();
+
+    //vide le fake selection
+    selectorStatRef.innerHTML = "";
 
     // ferme le menu
     onLeaveMenu("Stat");
