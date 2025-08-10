@@ -568,7 +568,9 @@ const allEventListenerRegistry = {
     activityEditor:[],
     globalFakeSelect:[],
     stat:[],
-    rewards:[]
+    rewards:[],
+    gestData:[],
+    gestDataConfirmDelete:[]
 }
 
 
@@ -1308,6 +1310,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
+            //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["gestData","gestDataConfirmDelete"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divGestData"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();

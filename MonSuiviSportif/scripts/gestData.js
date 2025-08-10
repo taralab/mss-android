@@ -13,9 +13,13 @@ function onOpenMenuGestData() {
     //affiche le compte des sauvegardes locales
     onCountBackupFiles();
 
-    //Ajoute évènement unique
-    if (!isAddEventListenerForGestDataMenu) {
-        onAddEventListenerForGestDataMenu();
+    //Ajoute évènement
+    onAddEventListenerForGestDataMenu();
+    onAddEventListenerForConfirmDeleteBdD();
+
+
+    if (devMode === true) {
+        onConsoleLogEventListenerRegistry();
     }
 
     //Création main menu
@@ -39,74 +43,80 @@ function onCreateMainMenuGestData() {
 // ----------------------------Ecouteur evènement ----------------------------------------
 
 
-let isAddEventListenerForGestDataMenu = false;
 function onAddEventListenerForGestDataMenu() {
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour Gest DATA");
     };
 
-    //Action unique
-    isAddEventListenerForGestDataMenu = true;
+
 
     //bouton export local
-    let locExportBtn = document.getElementById("btnExportBdDInLocal");
-    locExportBtn.addEventListener("click", ()=>{
-        eventActivateGestDataBtn("btnExportBdDInLocal");
-        eventSaveData(false,false);
-    });
+    let locExportBtnRef = document.getElementById("btnExportBdDInLocal");
+    const onClickExportLocal = () => sequenceExportLocal();
+    locExportBtnRef.addEventListener("click",onClickExportLocal);
+    onAddEventListenerInRegistry("gestData",locExportBtnRef,"click",onClickExportLocal);
 
 
     //bouton export local et drive
-    let locExportCloud = document.getElementById("btnExportBdDInCloud");
-    locExportCloud.addEventListener("click",()=>{
-        eventActivateGestDataBtn("btnExportBdDInCloud");
-        eventSaveData(false,true);
-    });
+    let locExportCloudRef = document.getElementById("btnExportBdDInCloud");
+    const onClickExportAndShare = ()=> sequenceExportAndShare();
+    locExportCloudRef.addEventListener("click",onClickExportAndShare);
+    onAddEventListenerInRegistry("gestData",locExportCloudRef,"click",onClickExportAndShare);
 
     //bouton import
-    let locImportBtn = document.getElementById("btnImportBdD");
-    locImportBtn.addEventListener("click", ()=>{
-        eventImportBdD('fileInputJsonTask');
-    });
+    let locImportBtnRef = document.getElementById("btnImportBdD");
+    const onclickImport = () => eventImportBdD('fileInputJsonTask');
+    locImportBtnRef.addEventListener("click",onclickImport);
+    onAddEventListenerInRegistry("gestData",locImportBtnRef,"click",onclickImport);
 
     //Bouton suppression
-    let locDeleteBtn = document.getElementById("btnDeteteBdd");
-    locDeleteBtn.addEventListener("click", ()=>{
-        onClickDeleteDataBaseFromGestData();
-    });
+    let locDeleteBtnRef = document.getElementById("btnDeteteBdd");
+    const onClickDeteleBdD = () => onClickDeleteDataBaseFromGestData();
+    locDeleteBtnRef.addEventListener("click",onClickDeteleBdD);
+    onAddEventListenerInRegistry("gestData",locDeleteBtnRef,"click",onClickDeteleBdD);
 
     //Bouton purge
-    let locPurgeBtn = document.getElementById("btnPurgeLocalBackup");
-    locPurgeBtn.addEventListener("click", ()=>{
-        eventActivateGestDataBtn("btnPurgeLocalBackup");
-        eventPurgeBackupFiles();
-    });
+    let locPurgeBtnRef = document.getElementById("btnPurgeLocalBackup");
+    const onClickPurge = () => sequencePurgeBackupFiles();
+    locPurgeBtnRef.addEventListener("click",onClickPurge);
+    onAddEventListenerInRegistry("gestData",locPurgeBtnRef,"click",onClickPurge);
+
 }
 
 
+function sequenceExportLocal() {
+    eventActivateGestDataBtn("btnExportBdDInLocal");
+    eventSaveData(false,false);
+}
+
+function sequenceExportAndShare() {
+    eventActivateGestDataBtn("btnExportBdDInCloud");
+    eventSaveData(false,true);
+}
+
+function sequencePurgeBackupFiles() {
+    eventActivateGestDataBtn("btnPurgeLocalBackup");
+    eventPurgeBackupFiles();
+}
+
 
 // Evènement pour confirmation suppression
-let isEventListenerForConfirmDeleteBdD = false;
 function onAddEventListenerForConfirmDeleteBdD() {
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour confirmation delete bdd");
     };
 
-    isEventListenerForConfirmDeleteBdD = true;
-
     //Div pour annulation
     let locDivAnnulationRef = document.getElementById("divConfirmDeleteDataBase");
-    locDivAnnulationRef.addEventListener("click", (event)=>{
-        onCancelDeleteDataBase(event);
-    });
+    const onCancelDelete = (event)=>onCancelDeleteDataBase(event);
+    locDivAnnulationRef.addEventListener("click",onCancelDelete);
+    onAddEventListenerInRegistry("gestDataConfirmDelete",locDivAnnulationRef,"click",onCancelDelete);
 
     //bouton confirmation
     let locBtnConfirmDeleteRef = document.getElementById("btnConfirmDeleteDataBase");
-    locBtnConfirmDeleteRef.addEventListener("click",(event)=>{
-        onConfirmDeleteDataBase(event);
-    });
-
-
+    const onConfirmDelete = (event) => onConfirmDeleteDataBase(event);
+    locBtnConfirmDeleteRef.addEventListener("click",onConfirmDelete);
+    onAddEventListenerInRegistry("gestDataConfirmDelete",locBtnConfirmDeleteRef,"click",onConfirmDelete);
 }
 
 
@@ -757,10 +767,6 @@ function onClickDeleteDataBaseFromGestData() {
 
     onChangeDisplay([],[],[],["divGestData"],[],[],[]);
 
-    // Ajout des écoute d'évènements
-    if (!isEventListenerForConfirmDeleteBdD) {
-        onAddEventListenerForConfirmDeleteBdD();
-    }
 }
 
 
