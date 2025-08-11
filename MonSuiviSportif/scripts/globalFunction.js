@@ -204,6 +204,10 @@ let btnMainMenuData = {
     action:{
         imgRef:"./Icons/Icon-Autres.webp",
         text:"Actions"
+    },
+    notes:{
+        imgRef:"./Icons/Icon-Notes.webp",
+        text:"Notes"
     }
 }
 
@@ -989,7 +993,13 @@ function onChangeMenu(menuTarget) {
             onOpenMenuEditSession();
             onHideCustomInfo();
         break;
-
+        case "SessionNotes":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Session notes");};
+            pMenuTitleRef.innerHTML = "Notes de séances";
+            onChangeDisplay(["divSession"],[],["divSessionNotes"],[],[],[],[]);
+            onOpenMenuSessionNotes();
+            onHideCustomInfo();
+        break;
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
             displayDivScrollableMenu();
@@ -1240,7 +1250,16 @@ function onLeaveMenu(menuTarget) {
             onOpenMenuSession();
             onDisplayCustomInfo();
         break;
-
+        case "SessionNotes":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Session Notes");};
+            //retire les évènements qui concerne le menu et ses enfant
+            // onRemoveEventListenerInRegistry(["sessionNotes"]);
+            onChangeDisplay(["divSessionNotes"],[],["divSession"],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "Séance";
+            //création menu principal
+            onCreateMainMenuSession();//pas de openMenuSession car il ne faut pas réinitialiser les éléments
+            onDisplayCustomInfo();
+        break
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
             // Retire les écoute d'evènement qui concerne le menu et ses enfant
