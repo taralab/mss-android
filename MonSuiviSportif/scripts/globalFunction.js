@@ -579,7 +579,8 @@ const allEventListenerRegistry = {
     templateEditor:[],
     templateSession:[],
     sortFilterSearch:[],
-    mainButton:[]
+    mainButton:[],
+    notes:[]
 }
 
 
@@ -993,11 +994,11 @@ function onChangeMenu(menuTarget) {
             onOpenMenuEditSession();
             onHideCustomInfo();
         break;
-        case "SessionNotes":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Session notes");};
-            pMenuTitleRef.innerHTML = "Notes de séances";
-            onChangeDisplay(["divSession"],[],["divSessionNotes"],[],[],[],[]);
-            onOpenMenuSessionNotes();
+        case "NotesFromSession":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
+            pMenuTitleRef.innerHTML = "Notes";
+            onChangeDisplay(["divSession"],[],["divNotes"],[],[],[],[]);
+            onOpenMenuNotes(false);
             onHideCustomInfo();
         break;
         case "Planning":
@@ -1126,13 +1127,20 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
+        case "NotesFromMain":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
+            displayDivScrollableMenu();
+            pMenuTitleRef.innerHTML = "Notes";
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divNotes"],[],[],[],[]);
+            onOpenMenuNotes(true);
+            onHideCustomInfo();
+        break;
         case "Corbeille":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Corbeille");};
             displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Corbeille";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divCorbeille"],[],[],[],[]);
             onOpenMenuCorbeille();
-
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
@@ -1250,16 +1258,16 @@ function onLeaveMenu(menuTarget) {
             onOpenMenuSession();
             onDisplayCustomInfo();
         break;
-        case "SessionNotes":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Session Notes");};
+        case "NotesFromSession":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Notes");};
             //retire les évènements qui concerne le menu et ses enfant
-            // onRemoveEventListenerInRegistry(["sessionNotes"]);
-            onChangeDisplay(["divSessionNotes"],[],["divSession"],[],[],[],[]);
+            // onRemoveEventListenerInRegistry(["notes"]);
+            onChangeDisplay(["divNotes"],[],["divSession"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Séance";
             //création menu principal
             onCreateMainMenuSession();//pas de openMenuSession car il ne faut pas réinitialiser les éléments
             onDisplayCustomInfo();
-        break
+        break;
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
             // Retire les écoute d'evènement qui concerne le menu et ses enfant
@@ -1384,6 +1392,14 @@ function onLeaveMenu(menuTarget) {
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  Corbeille");};
             hideDivScrollableMenu();
             onChangeDisplay(["divCorbeille"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
+        break;
+        case "NotesFromMain":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Notes");};
+            //retire les évènements qui concerne le menu et ses enfant
+            // onRemoveEventListenerInRegistry(["sessionNotes"]);
+            hideDivScrollableMenu();
+            onChangeDisplay(["divNotes"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
         case "Info":

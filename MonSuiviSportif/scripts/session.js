@@ -1233,7 +1233,7 @@ function onCreateMainMenuSession() {
     //Reset
     new Button_main_menu(btnMainMenuData.reset.imgRef,btnMainMenuData.reset.text,() => onClickResetAllSessionItems());
     //Notes
-    new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,() => onChangeMenu("SessionNotes"));
+    new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,() => onChangeMenu("NotesFromSession"));
     //Action
     new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
 
@@ -1246,7 +1246,7 @@ function onCreateMainMenuSession() {
 //lorsque reset all ou génénère la session
 function onSetSessionStartTime() {
     sessionStartTime = onGetCurrentTimeAndSecond();
-    document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
+    document.getElementById("customInfo").innerHTML = `<b>Débutée à : ${sessionStartTime}<b>`;
 }
 
 
