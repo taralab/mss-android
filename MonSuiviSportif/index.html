@@ -308,18 +308,46 @@
                 <!-- ----------------------------------  FIN    DIV SESSION     ------------------------------------------------>
 
 
-                <!-- ----------------------------------  FIN    DIV SESSION NOTES    ------------------------------------------------>
+                <!-- ----------------------------------  DIV #NOTES    ------------------------------------------------>
 
                 <div id="divNotes" class="new-interface"> 
-                    <div id="divNotesList">
+                    <div id="divNotesList" class="templateList">
                         <!-- Injection des notes de séances -->
+                        <div class="item-template-container notes">
+                            <!-- Mode Affichage -->
+                            <div>
+                                <p id="" class="item-data-distance">Titre de la note 1</p>
+                                <p id="" class="item-data-comment-expand">Detail de la note</p>
+                            </div>
+                        </div>
+                        <div class="item-template-container notes">
+                            <!-- Mode Affichage -->
+                            <div>
+                                <input id="" type="text" placeholder="Titre de la note">
+                                <textarea id="" placeholder="Detail"></textarea>
+                            </div>
+                            <div>
+                                <button class="btn-menu" id="btnCancelEditNote_">
+                                    <img src="Icons/Icon-Return-cancel.webp" alt="Icone">
+                                    <span>Retour</span>
+                                </button>
+                                 <button class="btn-menu" id="btnDeleteNote_">
+                                    <img src="Icons/Icon-Delete-color.webp" alt="Icone">
+                                    <span>Supprimer</span>
+                                </button>
+                                <button class="btn-menu btn-focus" id="btnConfirmEditNote_">
+                                    <img src="Icons/Icon-Accepter.webp" alt="Icone">
+                                    <span>Valider</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div id="divNotesEndList">
                         <!-- Injection du bouton et info -->
                     </div>
                 </div>
 
-                <!-- ----------------------------------  FIN    DIV SESSION NOTES    ------------------------------------------------>
+                <!-- ----------------------------------  FIN    DIV NOTES    ------------------------------------------------>
 
                 <!-- ----------------------------------      DIV #PLANNING        ------------------------------------------------>
                 <div id="divPlanning" class="new-interface">

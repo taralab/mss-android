@@ -2882,3 +2882,8 @@ div.genSessionDragAndName{
 }
 
 
+/* NOTES */
+div.notes {
+    flex-direction: column;
+}
+

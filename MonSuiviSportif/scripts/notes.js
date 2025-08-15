@@ -2,13 +2,115 @@ let maxSessionNotes = 40,
     isNotesOpenFromMain = false;//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
 
 
+let allUserNotesArray = {
+    testnotes1 : {
+        title: "titre Notes 1",
+        detail:"Une detail des mes éléments de test"
+    },
+    testnotes2 : {
+        title: "titre Notes 2",
+        detail:"Une detail demoidifehs mes éléments de test"
+    },
+}
+
+
+
+
+
+// *    *   *   *   *   *       *   *   *CLASS *    *   *   *       **  *   *   *
+
+class itemNotes{
+    constructor(key,title,detail,parentRef) {
+        this.key = key;
+        this.title = title;
+        this.detail = detail;
+        this.parentRef = parentRef;
+        this.noteMode = "display";//ou "editor"
+
+
+        //réference
+        this.pTitleRef = null;
+        this.pDetailRef =null;
+
+        //contenu dynamique à inserer selon
+        this.childDisplay = `
+            <div>
+                <p id="pNoteTitle_${this.key}" class="item-data-distance"></p>
+                <p id="pNoteDetail_${this.key}" class="item-data-comment-expand"></p>
+            </div>
+        `;
+        this.childEdit = `
+            <!-- Mode Affichage -->
+            <div>
+                <input id="inputNoteTitle_${this.key}" type="text" placeholder="Titre de la note">
+                <textarea id="textareaNoteDetail_${this.key}" placeholder="Detail"></textarea>
+            </div>
+            <div>
+                <button class="btn-menu" id="btnCancelEditNote_${this.key}">
+                    <img src="Icons/Icon-Return-cancel.webp" alt="Icone">
+                    <span>Retour</span>
+                </button>
+                <button class="btn-menu" id="btnDeleteNote_${this.key}">
+                    <img src="Icons/Icon-Delete-color.webp" alt="Icone">
+                    <span>Supprimer</span>
+                </button>
+                <button class="btn-menu btn-focus" id="btnConfirmEditNote_${this.key}">
+                    <img src="Icons/Icon-Accepter.webp" alt="Icone">
+                    <span>Valider</span>
+                </button>
+            </div>
+        `;
+
+        //création container principal
+        this.container = document.createElement("div");
+        this.container.classList.add("item-template-container", "notes");
+
+        //affichage de base (mode display)
+        this.updateDisplayMode();
+
+        //insertion dans le parent
+        this.parentRef.appendChild(this.container);
+
+    }
+
+
+    updateDisplayMode(){
+        //Insertion de la zone Display dans le dom
+        this.container.innerHTML = "";
+        this.container.innerHTML = this.childDisplay;
+
+        //reférencement 
+        this.pTitleRef = this.container.querySelector(`#pNoteTitle_${this.key}`);
+        this.pDetailRef = this.container.querySelector(`#pNoteDetail_${this.key}`);
+
+        //set les textes
+        this.pTitleRef.textContent = this.title;
+        this.pDetailRef.textContent = this.detail;
+    }
+
+
+}
+
+
+
+
+
+
+// *    *   *   *   *       *   *FIN CLASS *    *   *   *   *       *   *   
+
+
+
+
+
 function onOpenMenuNotes(isFromMain){
     isNotesOpenFromMain = isFromMain;//si ouvert depuis Main ou Séance
 
+    onDisplayNotesList();
 
     //Création du menu principal
     onCreateMainMenuNotes();
 }
+
 
 
    // Génération du menu principal
@@ -26,7 +128,13 @@ function onCreateMainMenuNotes() {
 
 
 function onDisplayNotesList() {
-    
+
+    let divParentRef = document.getElementById("divNotesList");
+    divParentRef.textContent = "";
+
+    Object.keys(allUserNotesArray).forEach(key =>{
+        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef);
+    });    
 }
 
 
