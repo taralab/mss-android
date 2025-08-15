@@ -11,7 +11,8 @@ let allUserNotesArray = {
         title: "titre Notes 2",
         detail:"Une detail demoidifehs mes éléments de test"
     },
-}
+},
+listenerNoteListRegistry = {};//pour gerer les évènements de la liste des notes générés
 
 
 
@@ -20,17 +21,19 @@ let allUserNotesArray = {
 // *    *   *   *   *   *       *   *   *CLASS *    *   *   *       **  *   *   *
 
 class itemNotes{
-    constructor(key,title,detail,parentRef) {
+    constructor(key,title = "",detail = "",parentRef) {
         this.key = key;
         this.title = title;
         this.detail = detail;
         this.parentRef = parentRef;
         this.noteMode = "display";//ou "editor"
-
+        this.eventListenerRegistry = null;
 
         //réference
         this.pTitleRef = null;
         this.pDetailRef =null;
+        this.inputTitleRef = null;
+        this.textareaDetailRef = null;
 
         //contenu dynamique à inserer selon
         this.childDisplay = `
@@ -66,7 +69,7 @@ class itemNotes{
         this.container.classList.add("item-template-container", "notes");
 
         //affichage de base (mode display)
-        this.updateDisplayMode();
+        this.activateDisplayMode();
 
         //insertion dans le parent
         this.parentRef.appendChild(this.container);
@@ -74,7 +77,10 @@ class itemNotes{
     }
 
 
-    updateDisplayMode(){
+    activateDisplayMode(){
+        //retire des évènements pour cette key s'il en restait
+        this._removeEventListenerRegistry(this.key);
+
         //Insertion de la zone Display dans le dom
         this.container.innerHTML = "";
         this.container.innerHTML = this.childDisplay;
@@ -86,9 +92,66 @@ class itemNotes{
         //set les textes
         this.pTitleRef.textContent = this.title;
         this.pDetailRef.textContent = this.detail;
+
+        //ajoute l'ecouteur d'évènement pour le onclick display mode
+        const onClickEdit = () => {this.onClickEditNotes(this.key)};
+        this.container.addEventListener("click", onClickEdit);
+        this._addEventListenerRegistry(this.key,this.container,"click",onClickEdit);
+
+    }
+
+    
+    onClickEditNotes(keyNotes){
+        //retire l'évènement clic sur le display
+        this._removeEventListenerRegistry(keyNotes);
+
+        //vide le parent
+        this.container.innerHTML = "";
+
+        //Affiche le mode edition
+        this.container.innerHTML = this.childEdit;
+
+        //Referencement du mode edition
+        this.inputTitleRef = this.container.querySelector(`#inputNoteTitle_${this.key}`);
+        this.textareaDetailRef = this.container.querySelector(`#textareaNoteDetail_${this.key}`);
+
+        //Remplit les champs
+        this.inputTitleRef.value = this.title;
+        this.textareaDetailRef.value = this.detail;
+
+        //Ajout les écouteurs pour le mode edition
     }
 
 
+
+
+    _addEventListenerRegistry(keyNotes, elementRef, actionType, calledFunction) {
+        //initialise si n'existe pas
+        if (!listenerNoteListRegistry[keyNotes]) {
+            listenerNoteListRegistry[keyNotes] = [];
+        }
+        //insère
+        listenerNoteListRegistry[keyNotes].push({elementRef, actionType, calledFunction });
+    }
+
+    _removeEventListenerRegistry(keyNotes){
+        //vérifie si l'élément existe dans le registre
+        if (listenerNoteListRegistry[keyNotes]) {
+            // Si des écouteurs sont présents pour cette keyNotes
+            listenerNoteListRegistry[keyNotes].forEach(({ elementRef, actionType, calledFunction })=>{
+                elementRef.removeEventListener(actionType, calledFunction);
+            });
+            // Vide le tableau après suppression
+            listenerNoteListRegistry[keyNotes] = [];
+            if(devMode === true){
+                console.log(`[EVENT-LISTENER] : Tous les écouteurs de ${keyNotes} ont été supprimés.`);
+            }
+        } else {
+            if(devMode === true){
+                console.log(`[EVENT-LISTENER] : La keyNotes ${keyNotes} n'existe pas dans le registre.`);
+            }
+        }
+    }
 }
 
 
@@ -105,7 +168,11 @@ class itemNotes{
 function onOpenMenuNotes(isFromMain){
     isNotesOpenFromMain = isFromMain;//si ouvert depuis Main ou Séance
 
+    //affiche la liste
     onDisplayNotesList();
+
+    console.log("[EVENT-LISTENER]",listenerNoteListRegistry);
+    
 
     //Création du menu principal
     onCreateMainMenuNotes();
@@ -115,7 +182,7 @@ function onOpenMenuNotes(isFromMain){
 
    // Génération du menu principal
 function onCreateMainMenuNotes() {
-    // Vide le précedent contenut
+    // Vide le précedent contenu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
     divMainMenuParentRef.innerHTML = "";
 
@@ -130,7 +197,7 @@ function onCreateMainMenuNotes() {
 function onDisplayNotesList() {
 
     let divParentRef = document.getElementById("divNotesList");
-    divParentRef.textContent = "";
+    divParentRef.innerHTML = "";
 
     Object.keys(allUserNotesArray).forEach(key =>{
         new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef);
@@ -141,12 +208,11 @@ function onDisplayNotesList() {
 
 
 // Quitte le menu
-
-
 function onClickReturnFromNotes() {
     //reset des éléments
-
-
+    let divParentRef = document.getElementById("divNotesList");
+    divParentRef.innerHTML = "";
+    listenerNoteListRegistry = {};
 
     //Quitte le menu selon via quel menu d'origine il a été appelé
 

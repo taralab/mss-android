@@ -603,7 +603,9 @@ function onRemoveEventListenerInRegistry(categoryArray) {
             });
             // Vide le tableau après suppression
             allEventListenerRegistry[category] = [];
-            console.log(`[EVENT-LISTENER] : Tous les écouteurs de ${category} ont été supprimés.`);
+            if(devMode === true){
+                console.log(`[EVENT-LISTENER] : Tous les écouteurs de ${category} ont été supprimés.`);
+            }
         } else {
             console.warn(`[EVENT-LISTENER] : La catégorie ${category} n'existe pas dans le registre.`);
         }
