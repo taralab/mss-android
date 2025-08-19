@@ -26,8 +26,6 @@ class itemNotes{
         this.title = title;
         this.detail = detail;
         this.parentRef = parentRef;
-        this.noteMode = "display";//ou "editor"
-        this.eventListenerRegistry = null;
 
         //réference
         this.pTitleRef = null;
@@ -37,7 +35,7 @@ class itemNotes{
 
         //contenu dynamique à inserer selon
         this.childDisplay = `
-            <div>
+            <div id="divItemNoteDisplayArea_${this.key}">
                 <p id="pNoteTitle_${this.key}" class="item-data-distance"></p>
                 <p id="pNoteDetail_${this.key}" class="item-data-comment-expand"></p>
             </div>
@@ -45,8 +43,8 @@ class itemNotes{
         this.childEdit = `
             <!-- Mode Affichage -->
             <div>
-                <input id="inputNoteTitle_${this.key}" type="text" placeholder="Titre de la note">
-                <textarea id="textareaNoteDetail_${this.key}" placeholder="Detail"></textarea>
+                <input id="inputNoteTitle_${this.key}" type="text" maxlength="40" placeholder="Titre de la note">
+                <textarea id="textareaNoteDetail_${this.key}" maxlength="250" placeholder="Detail"></textarea>
             </div>
             <div>
                 <button class="btn-menu" id="btnCancelEditNote_${this.key}">
@@ -94,9 +92,10 @@ class itemNotes{
         this.pDetailRef.textContent = this.detail;
 
         //ajoute l'ecouteur d'évènement pour le onclick display mode
-        const onClickEdit = () => {this.onClickEditNotes(this.key)};
-        this.container.addEventListener("click", onClickEdit);
-        this._addEventListenerRegistry(this.key,this.container,"click",onClickEdit);
+        const divNoteDisplayAreaRef = this.container.querySelector(`#divItemNoteDisplayArea_${this.key}`);
+        const onClickEdit = () => this.onClickEditNotes(this.key);
+        divNoteDisplayAreaRef.addEventListener("click", onClickEdit);
+        this._addEventListenerRegistry(this.key,divNoteDisplayAreaRef,"click",onClickEdit);
 
     }
 
@@ -120,9 +119,47 @@ class itemNotes{
         this.textareaDetailRef.value = this.detail;
 
         //Ajout les écouteurs pour le mode edition
+
+        //Annuler
+        const btnReturnRef = this.container.querySelector(`#btnCancelEditNote_${this.key}`);
+        const onReturn = () => this.eventReturnFromEditNote();
+        btnReturnRef.addEventListener("click",onReturn);
+        this._addEventListenerRegistry(this.key,btnReturnRef,"click",onReturn);
+
+        //supprimer
+
+
+        //Valider
+        const btnSaveRef = this.container.querySelector(`#btnConfirmEditNote_${this.key}`);
+        const onSave = () => this.eventSaveFromEditNote(this.key);
+        btnSaveRef.addEventListener("click",onSave);
+        this._addEventListenerRegistry(this.key,btnSaveRef,"click",onSave);
+
+    }
+
+    eventReturnFromEditNote(){
+        this.activateDisplayMode();
     }
 
 
+    eventDeleteFromEditNote(){
+
+    }
+
+    eventSaveFromEditNote(keyNote){
+        //Récupère les information
+        this.title = this.inputTitleRef.value;
+        this.detail = this.textareaDetailRef.value;
+
+        //set l'array user
+        allUserNotesArray[keyNote].title = this.inputTitleRef.value;
+        allUserNotesArray[keyNote].detail = this.textareaDetailRef.value;
+
+        //sauvegarde
+
+        //repasse en mode display
+        this.activateDisplayMode();
+    }
 
 
     _addEventListenerRegistry(keyNotes, elementRef, actionType, calledFunction) {
