@@ -1,13 +1,17 @@
 let maxSessionNotes = 40,
-    isNotesOpenFromMain = false;//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
-
+    isNotesOpenFromMain = false,//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
+    itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
 
 let allUserNotesArray = {
-    testnotes1 : {
+    testnotesA : {
         title: "titre Notes 1",
         detail:"Une detail des mes éléments de test"
     },
-    testnotes2 : {
+    testnotesB : {
+        title: "titre Notes 3",
+        detail:"Une detail demoidifehs mes éléments de test"
+    },
+    testnotesC : {
         title: "titre Notes 2",
         detail:"Une detail demoidifehs mes éléments de test"
     },
@@ -238,6 +242,14 @@ class itemNotes{
 function onOpenMenuNotes(isFromMain){
     isNotesOpenFromMain = isFromMain;//si ouvert depuis Main ou Séance
 
+    //récupère la liste dans la base
+
+
+    //trie les clé par ordre alpha
+    itemNotesSortedKey = getNoteSortedKeysByTitle(allUserNotesArray);
+
+    console.log(itemNotesSortedKey);
+
     //affiche la liste
     onDisplayNotesList();
 
@@ -263,19 +275,33 @@ function onCreateMainMenuNotes() {
 }
 
 
-
+//Affichage de la liste
 function onDisplayNotesList() {
-
+    //Vide le parent
     let divParentRef = document.getElementById("divNotesList");
     divParentRef.innerHTML = "";
 
-    Object.keys(allUserNotesArray).forEach(key =>{
+    //boucle sur les clé trié par ordre alpha
+    itemNotesSortedKey.forEach(key =>{
         new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef);
     });    
 }
 
 
+// Fonction de trie alpha par titre et ne retourner qu'un tableau de clé trié
+function getNoteSortedKeysByTitle(noteList) {
+    // Récupérer les clés de l'objet
+    const keys = Object.keys(noteList);
 
+    // Trier les clés selon le titre
+    keys.sort((a, b) => {
+        const titleA = noteList[a].title.toLowerCase();
+        const titleB = noteList[b].title.toLowerCase();
+        return titleA.localeCompare(titleB); // Utilise localeCompare pour un tri alphabétique
+    });
+
+    return keys;
+}
 
 
 
