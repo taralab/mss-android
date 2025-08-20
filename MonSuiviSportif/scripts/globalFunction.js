@@ -1507,7 +1507,7 @@ onAddEventForMainMenuButton();
 
 
 
-// Confirmation suppression editeur (activity, template,templateSession)
+// Confirmation suppression editeur (activity, template,templateSession, session)
 let btnGlobalPopupCancelEventListener = null,
     btnGlobalPopupConfirmEventListener = null;
 

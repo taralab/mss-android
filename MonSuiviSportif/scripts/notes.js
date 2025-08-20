@@ -127,7 +127,10 @@ class itemNotes{
         this._addEventListenerRegistry(this.key,btnReturnRef,"click",onReturn);
 
         //supprimer
-
+        const btnDeleteRef = this.container.querySelector(`#btnDeleteNote_${this.key}`);
+        const onClickDelete = () => this.eventDeleteConfirmationFromEditNote();
+        btnDeleteRef.addEventListener("click",onClickDelete);
+        this._addEventListenerRegistry(this.key,btnDeleteRef,"click",onClickDelete);
 
         //Valider
         const btnSaveRef = this.container.querySelector(`#btnConfirmEditNote_${this.key}`);
@@ -137,15 +140,16 @@ class itemNotes{
 
     }
 
+
+    //RETOUR ou ANNULER
     eventReturnFromEditNote(){
         this.activateDisplayMode();
     }
 
 
-    eventDeleteFromEditNote(){
 
-    }
 
+    //SAUVEGARDE
     eventSaveFromEditNote(keyNote){
         //Récupère les information
         this.title = this.inputTitleRef.value;
@@ -160,6 +164,35 @@ class itemNotes{
         //repasse en mode display
         this.activateDisplayMode();
     }
+
+    //SUPPRESSION
+    eventDeleteConfirmationFromEditNote(){
+        addEventForGlobalPopupConfirmation(
+            removeEventForGlobalPopupConfirmation,
+            () => this.confirmDeleteNote(this.key),
+            "Supprimer cette note ?",
+            "delete"
+        );
+    }
+
+    async confirmDeleteNote(keyTarget){
+
+        console.log("delete");
+        //suppression dans l'array
+        delete allUserNotesArray[keyTarget];
+
+        //retrait des évènements
+        this._removeEventListenerRegistry(keyTarget);
+
+        //suppression en base (await)
+
+        //Retrait de la class du DOM
+        if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
+        }
+
+    }
+
 
 
     _addEventListenerRegistry(keyNotes, elementRef, actionType, calledFunction) {
@@ -185,7 +218,7 @@ class itemNotes{
             }
         } else {
             if(devMode === true){
-                console.log(`[EVENT-LISTENER] : La keyNotes ${keyNotes} n'existe pas dans le registre.`);
+                console.log(`[EVENT-LISTENER] : aucune keynote "${keyNotes}" présente dans le registre d'évènement`);
             }
         }
     }
@@ -240,6 +273,12 @@ function onDisplayNotesList() {
         new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef);
     });    
 }
+
+
+
+
+
+
 
 
 

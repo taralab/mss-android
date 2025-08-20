@@ -1981,7 +1981,10 @@ async function eventDeleteSessionItem(){
     sessionAllItemsInstance[currentSessionItemEditorID].removeItem();
     //et de l'instance
     delete sessionAllItemsInstance[currentSessionItemEditorID];
-    console.log(sessionAllItemsInstance);
+
+    if (devMode === true) {
+        console.log(sessionAllItemsInstance);
+    }
 
     //Refait les display Order
     updateSessionItemsDisplayOrders();
