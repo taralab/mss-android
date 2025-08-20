@@ -155,13 +155,16 @@ class itemNotes{
 
     //SAUVEGARDE
     eventSaveFromEditNote(keyNote){
-        //Récupère les information
-        this.title = this.inputTitleRef.value;
-        this.detail = this.textareaDetailRef.value;
+        //Récupère les information et les formatent
+        let newTitle = onSetFirstLetterUppercase(this.inputTitleRef.value) || "Nouvelle note",
+            newDetail = this.textareaDetailRef.value;
+
+        this.title = newTitle;
+        this.detail = newDetail;
 
         //set l'array user
-        allUserNotesArray[keyNote].title = this.inputTitleRef.value;
-        allUserNotesArray[keyNote].detail = this.textareaDetailRef.value;
+        allUserNotesArray[keyNote].title = newTitle;
+        allUserNotesArray[keyNote].detail = newDetail;
 
         //sauvegarde
 
