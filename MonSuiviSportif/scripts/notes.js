@@ -1,4 +1,4 @@
-let maxSessionNotes = 40,
+let maxSessionNotes = 3,
     isNotesOpenFromMain = false,//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
     itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
 
@@ -16,7 +16,8 @@ let allUserNotesArray = {
         detail:"Une detail demoidifehs mes éléments de test"
     },
 },
-listenerNoteListRegistry = {};//pour gerer les évènements de la liste des notes générés
+listenerNoteListRegistry = {},//pour gerer les évènements de la liste des notes générés
+noteInstanceButtonAddNew = null;
 
 
 
@@ -188,10 +189,18 @@ class itemNotes{
         //suppression dans l'array
         delete allUserNotesArray[keyTarget];
 
+        //suppression du tableau de key
+        let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
+        itemNotesSortedKey.splice(indexToRemove,1);
+
         //retrait des évènements
         this._removeEventListenerRegistry(keyTarget);
 
         //suppression en base (await)
+
+
+        //réactualisation des éléments de la page
+        eventUpdateNotesPage();
 
         //Retrait de la class du DOM
         if (this.container && this.container.parentNode) {
@@ -236,7 +245,12 @@ class itemNotes{
 
 
 
+
+
 // *    *   *   *   *       *   *FIN CLASS *    *   *   *   *       *   *   
+
+
+
 
 
 
@@ -244,6 +258,10 @@ class itemNotes{
 
 function onOpenMenuNotes(isFromMain){
     isNotesOpenFromMain = isFromMain;//si ouvert depuis Main ou Séance
+
+    //vide les éléments
+    let divNoteListRef = document.getElementById("divNotesList");
+    divNoteListRef.innerHTML = "";
 
     //récupère la liste dans la base
 
@@ -256,6 +274,21 @@ function onOpenMenuNotes(isFromMain){
     //affiche la liste
     onDisplayNotesList();
 
+
+    //Fin de liste
+    //création du bouton add
+    let isMaxNoteReach = itemNotesSortedKey.length >= maxSessionNotes;
+    noteInstanceButtonAddNew = new Button_add("Ajouter une note", () => onClickAddNewNote(), isMaxNoteReach, divNoteListRef);
+
+    //text fin de liste
+    const divNoteEndListRef = document.getElementById("divNotesEndList");
+    divNoteEndListRef.innerHTML = "";
+
+    let newClotureList = document.createElement("span");
+            newClotureList.classList.add("last-container");
+            newClotureList.innerHTML = `ℹ️ Vous pouver créer jusqu'à ${maxSessionNotes} notes.`;
+            divNoteEndListRef.appendChild(newClotureList);
+
     //affiche et actualise les autres éléments du menu
     eventUpdateNotesPage();
 
@@ -264,6 +297,8 @@ function onOpenMenuNotes(isFromMain){
     //Création du menu principal
     onCreateMainMenuNotes();
 }
+
+
 
 
 
@@ -334,7 +369,12 @@ function updateNoteInfo() {
 
 //spécifique bouton new
 function updateNoteBtnNewStatus() {
-    
+    //Si le max est atteind, désactive le bouton sinon l'active
+    if (itemNotesSortedKey.length >= maxSessionNotes) {
+        noteInstanceButtonAddNew.disableButton();
+    }else{
+        noteInstanceButtonAddNew.enableButton();
+    }
 }
 
 
@@ -344,6 +384,9 @@ function onClickReturnFromNotes() {
     let divParentRef = document.getElementById("divNotesList");
     divParentRef.innerHTML = "";
     listenerNoteListRegistry = {};
+
+    let divParentEndNoteRef = document.getElementById("divNotesEndList");
+    divParentEndNoteRef.innerHTML = "";
 
     //Quitte le menu selon via quel menu d'origine il a été appelé
 
