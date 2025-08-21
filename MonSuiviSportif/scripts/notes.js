@@ -256,9 +256,11 @@ function onOpenMenuNotes(isFromMain){
     //affiche la liste
     onDisplayNotesList();
 
+    //affiche et actualise les autres éléments du menu
+    eventUpdateNotesPage();
+
     console.log("[EVENT-LISTENER]",listenerNoteListRegistry);
     
-
     //Création du menu principal
     onCreateMainMenuNotes();
 }
@@ -308,8 +310,32 @@ function getNoteSortedKeysByTitle(noteList) {
 
 
 
+//actualise les éléments hors item notes (info, boutton add new)
+function eventUpdateNotesPage() {
+    //
+
+    //note info
+    updateNoteInfo();
 
 
+    //bouton add
+    updateNoteBtnNewStatus();
+
+}
+
+
+//spécifique info
+function updateNoteInfo() {
+    let customInfoRef = document.getElementById("customInfo");
+
+    //affiche le nombre de notes
+    customInfoRef.innerHTML = `${itemNotesSortedKey.length}/${maxSessionNotes}`;
+}
+
+//spécifique bouton new
+function updateNoteBtnNewStatus() {
+    
+}
 
 
 // Quitte le menu

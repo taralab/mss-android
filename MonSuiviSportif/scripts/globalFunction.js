@@ -1001,7 +1001,6 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Notes";
             onChangeDisplay(["divSession"],[],["divNotes"],[],[],[],[]);
             onOpenMenuNotes(false);
-            onHideCustomInfo();
         break;
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
@@ -1135,7 +1134,7 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Notes";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divNotes"],[],[],[],[]);
             onOpenMenuNotes(true);
-            onHideCustomInfo();
+            onDisplayCustomInfo();
         break;
         case "Corbeille":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Corbeille");};
@@ -1264,11 +1263,15 @@ function onLeaveMenu(menuTarget) {
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Notes");};
             //retire les évènements qui concerne le menu et ses enfant
             // onRemoveEventListenerInRegistry(["notes"]);
+
+            //On reviens sur le menu SEANCE
             onChangeDisplay(["divNotes"],[],["divSession"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Séance";
-            //création menu principal
-            onCreateMainMenuSession();//pas de openMenuSession car il ne faut pas réinitialiser les éléments
-            onDisplayCustomInfo();
+            //création menu principal pour session car on reviens dans ce menu
+            onCreateMainMenuSession();
+            //pas de openMenuSession car il ne faut pas réinitialiser les éléments
+            // Remet l'heure d'initialisation de session dans le texte info
+            document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
         break;
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
@@ -1403,6 +1406,7 @@ function onLeaveMenu(menuTarget) {
             hideDivScrollableMenu();
             onChangeDisplay(["divNotes"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
+            onHideCustomInfo();
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");};
