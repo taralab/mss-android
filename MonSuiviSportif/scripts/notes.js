@@ -174,11 +174,7 @@ class itemNotes{
 
 
     //SAUVEGARDE
-    eventSaveFromEditNote(keyNote){
-        //si nouvelle note, repasse en mode normal
-        if (this.isNewNote === true) {
-            this.isNewNote = false;
-        }
+    async eventSaveFromEditNote(keyNote){
 
         //Récupère les information et les formatent
         let newTitle = onSetFirstLetterUppercase(this.inputTitleRef.value) || "Nouvelle note",
@@ -198,8 +194,13 @@ class itemNotes{
         //sauvegarde
         if (this.isNewNote) {
             //sauvegard la nouvelle note
+            onInsertnewNoteInDB(allUserNotesArray[keyNote], keyNote);
+
+            //passe en mode note existante
+            this.isNewNote = false;
         }else{
             //sauvegarde la modification
+            onInsertNoteModificationInDB(allUserNotesArray[keyNote], keyNote);
         }
 
 
@@ -230,8 +231,8 @@ class itemNotes{
         //retrait des évènements
         this._removeEventListenerRegistry(keyTarget);
 
-        //suppression en base (await)
-
+        //Envoie vers la corbeille
+        await sendToRecycleBin(keyTarget);
 
         //réactualisation des éléments de la page
         eventUpdateNotesPage();
@@ -298,16 +299,98 @@ class itemNotes{
 
 
 
-// *    *   *   *   *       *   *FIN CLASS *    *   *   *   *       *   *   
+// *    *   *   *   *       *   *FONCTION BDD GENERAL *    *   *   *   *       *   *   
+
+
+
+//chargement
+async function onLoadNoteFromDB() {
+    allUserNotesArray = {};
+
+    try {
+        const result = await db.allDocs({ include_docs: true });
+
+        result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === noteStoreName)
+            .forEach(doc => {
+                allUserNotesArray[doc._id] = { 
+                    title : doc.title,
+                    detail : doc.detail 
+                };
+            });
+
+        if (devMode === true) {
+            console.log("[DATABASE] [NOTE] notes chargées :", noteStoreName);
+            const firstKey = Object.keys(allUserNotesArray)[0];
+            console.log(allUserNotesArray[firstKey]);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [NOTE] Erreur lors du chargement:", err);
+    }
+}
+
+
+
+// Insertion nouvelle note (ID défini manuellement avec put)
+async function onInsertnewNoteInDB(noteToInsert, key) {
+    try {
+        const newNote = {
+            _id: key, // ID personnalisé
+            type: noteStoreName,
+            ...noteToInsert
+        };
+
+        // Utilisation de put() avec ID défini
+        const response = await db.put(newNote);
+
+        // Mise à jour de l’objet avec _rev retourné
+        newNote._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [NOTE] Activité insérée avec ID personnalisé :", newNote);
+        }
+
+        return newNote;
+    } catch (err) {
+        console.error("[DATABASE] [NOTE] Erreur lors de l'insertion de l'activité :", err);
+    }
+}
+
+// Modification Notes
+async function onInsertNoteModificationInDB(noteToUpdate, key) {
+    try {
+        let existingDoc = await db.get(key);
+
+        const updatedDoc = {
+            ...existingDoc,  // Garde `_id` et `_rev`
+            ...noteToUpdate // Applique les nouvelles valeurs en évitant d'écraser `_id` et `_rev`
+        };
+
+        // Sauvegarde dans la base
+        const response = await db.put(updatedDoc);
+
+        if (devMode) console.log("[NOTE] Note mis à jour :", response);
+
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour dela note :", err);
+        return false; // Indique que la mise à jour a échoué
+    }
+}
+
+
+
+
+
+// *    *   *   *   *       *   *LANCEMENT MENU *    *   *   *   *       *   *   
 
 
 
 
 
 
-
-
-function onOpenMenuNotes(isFromMain){
+async function onOpenMenuNotes(isFromMain){
     isNotesOpenFromMain = isFromMain;//si ouvert depuis Main ou Séance
 
     //vide les éléments
@@ -318,12 +401,13 @@ function onOpenMenuNotes(isFromMain){
     divNoteEndListRef.innerHTML = "";
 
     //récupère la liste dans la base
-
+    await onLoadNoteFromDB();
 
     //trie les clé par ordre alpha
     itemNotesSortedKey = getNoteSortedKeysByTitle(allUserNotesArray);
 
     console.log(itemNotesSortedKey);
+    console.log(allUserNotesArray);
 
     //affiche la liste
     onDisplayNotesList();
@@ -383,10 +467,12 @@ function onDisplayNotesList() {
 
 
 //Ajout d'une nouvelle note
+//lorsque j'ajoute une nouvelle note, un id est généré et stocké dans le tableau des key
+//La note ne sera dans la base et dans l'array que lorsque je l'aurai enregistré
 function onClickAddNewNote() {
 
     let divParentRef = document.getElementById("divNotesList");
-    
+
     //retire texte aucune élément si c'était affiché
     if (itemNotesSortedKey.length === 0) {
         divParentRef.innerHTML = "";
@@ -400,11 +486,9 @@ function onClickAddNewNote() {
     //Insertion de la note en mode edition
     new itemNotes(newNoteID,"","",divParentRef,true);
 
-
     //actualise les éléments de la page
     eventUpdateNotesPage();
 }
-
 
 
 

@@ -148,7 +148,8 @@ let dbName = `MSS_db`,
     templateStoreName = "Template",
     favorisStoreName = "Favoris",
     templateSessionStoreName = "TemplateSession",
-    planningStoreName ="Planning";
+    planningStoreName ="Planning",
+    noteStoreName = "Notes";
     
 
 

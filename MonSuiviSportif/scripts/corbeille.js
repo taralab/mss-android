@@ -84,6 +84,8 @@ class CorbeilleItem{
             case "Modèle de séance":
                 color = "#2B7FBF";
                 break;
+            case "Notes":
+                color = "#bfb32bff";
             default:
                 break;
         }
@@ -139,6 +141,12 @@ async function onLoadCorbeilleItemsListFromDB() {
                             deletedDate : doc.oldItemInfo.deletedDate
                         };
                         break;
+                    case "Notes":
+                        list[doc._id] = {
+                            type : "Notes",
+                            name : doc.title,
+                            deletedDate : doc.oldItemInfo.deletedDate
+                        }
                 
                     default:
                         break;
@@ -304,6 +312,9 @@ async function eventRestaureItem(key) {
             break;
         case "TemplateSession":
             onTemplateSessionWasRestaured(itemRestaured);
+            break;
+        case "Notes":
+            //aucune action d'actualisation nécessaire pour notes
             break;
         default:
             console.log("Erreur de type");
