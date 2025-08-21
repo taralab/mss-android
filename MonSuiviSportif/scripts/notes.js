@@ -373,10 +373,10 @@ function onDisplayNotesList() {
     let divParentRef = document.getElementById("divNotesList");
     divParentRef.innerHTML = "";
 
-    //boucle sur les clé trié par ordre alpha
     itemNotesSortedKey.forEach(key =>{
         new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef);
     });    
+
 }
 
 
@@ -385,13 +385,19 @@ function onDisplayNotesList() {
 //Ajout d'une nouvelle note
 function onClickAddNewNote() {
 
+    let divParentRef = document.getElementById("divNotesList");
+    
+    //retire texte aucune élément si c'était affiché
+    if (itemNotesSortedKey.length === 0) {
+        divParentRef.innerHTML = "";
+    }
+
     //génération d'un id
     let newNoteID = getRandomShortID("notes_");
     //Ajoute la key au tableau des key
     itemNotesSortedKey.push(newNoteID);
 
     //Insertion de la note en mode edition
-    let divParentRef = document.getElementById("divNotesList");
     new itemNotes(newNoteID,"","",divParentRef,true);
 
 
@@ -425,7 +431,11 @@ function getNoteSortedKeysByTitle(noteList) {
 
 //actualise les éléments hors item notes (info, boutton add new)
 function eventUpdateNotesPage() {
-    //
+    //affiche "Aucune élément si besoin"
+    if (itemNotesSortedKey.length < 1) {
+        divParentRef = document.getElementById("divNotesList");
+        divParentRef.innerHTML = "Aucune note à afficher";
+    }
 
     //note info
     updateNoteInfo();
