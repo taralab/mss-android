@@ -719,7 +719,7 @@ async function importBdD(dataToImport) {
             let newtemplateSession = {
                 sessionName: e.sessionName,
                 itemList : e.itemList
-            }
+            };
             await onInsertNewTemplateSessionInDB(newtemplateSession);
 
         //PLANNING
@@ -728,6 +728,14 @@ async function importBdD(dataToImport) {
                 doc.userPlanning = e.userPlanning;
                 return doc;
             });
+
+        //NOTES    
+        } else if (e.type === noteStoreName){
+            let newNote = {
+                title : e.title,
+                detail : e.detail
+            };
+            await onInsertnewNoteInDB(newNote,e._id);
         }
 
 
