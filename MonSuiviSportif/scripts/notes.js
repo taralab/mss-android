@@ -26,11 +26,12 @@ noteInstanceButtonAddNew = null;
 // *    *   *   *   *   *       *   *   *CLASS *    *   *   *       **  *   *   *
 
 class itemNotes{
-    constructor(key,title = "",detail = "",parentRef) {
+    constructor(key,title = "",detail = "",parentRef,isNewNote = false) {
         this.key = key;
         this.title = title;
         this.detail = detail;
         this.parentRef = parentRef;
+        this.isNewNote = isNewNote;//conditionne les actions
 
         //réference
         this.pTitleRef = null;
@@ -71,8 +72,12 @@ class itemNotes{
         this.container = document.createElement("div");
         this.container.classList.add("item-template-container", "notes");
 
-        //affichage de base (mode display)
-        this.activateDisplayMode();
+        //affichage de base (mode display ou éditeur selon si nouvelle note)
+        if (this.isNewNote) {
+            this.onClickEditNotes(this.key);
+        }else{
+            this.activateDisplayMode();
+        }  
 
         //insertion dans le parent
         this.parentRef.appendChild(this.container);
@@ -124,6 +129,13 @@ class itemNotes{
         this.textareaDetailRef.value = this.detail;
 
         //Ajout les écouteurs pour le mode edition
+        this.bindEventListenerEditor();
+
+    }
+
+
+
+    bindEventListenerEditor(){
 
         //Annuler
         const btnReturnRef = this.container.querySelector(`#btnCancelEditNote_${this.key}`);
@@ -131,24 +143,31 @@ class itemNotes{
         btnReturnRef.addEventListener("click",onReturn);
         this._addEventListenerRegistry(this.key,btnReturnRef,"click",onReturn);
 
-        //supprimer
-        const btnDeleteRef = this.container.querySelector(`#btnDeleteNote_${this.key}`);
-        const onClickDelete = () => this.eventDeleteConfirmationFromEditNote();
-        btnDeleteRef.addEventListener("click",onClickDelete);
-        this._addEventListenerRegistry(this.key,btnDeleteRef,"click",onClickDelete);
-
         //Valider
         const btnSaveRef = this.container.querySelector(`#btnConfirmEditNote_${this.key}`);
         const onSave = () => this.eventSaveFromEditNote(this.key);
         btnSaveRef.addEventListener("click",onSave);
         this._addEventListenerRegistry(this.key,btnSaveRef,"click",onSave);
 
+        //gestion du bouton supprimer
+        //Le bouton "supprimer" n'est pas visible pour une nouvelle note
+        const btnDeleteRef = this.container.querySelector(`#btnDeleteNote_${this.key}`);
+        btnDeleteRef.style.visibility = this.isNewNote ? "hidden" : "visible";
+        if(!this.isNewNote){
+            const onClickDelete = () => this.eventDeleteConfirmationFromEditNote();
+            btnDeleteRef.addEventListener("click",onClickDelete);
+            this._addEventListenerRegistry(this.key,btnDeleteRef,"click",onClickDelete);
+        }
     }
-
 
     //RETOUR ou ANNULER
     eventReturnFromEditNote(){
-        this.activateDisplayMode();
+        if (this.isNewNote) {
+            this.onCancelNewNote(this.key);
+        }else{
+            this.activateDisplayMode();
+        }
+        
     }
 
 
@@ -156,6 +175,11 @@ class itemNotes{
 
     //SAUVEGARDE
     eventSaveFromEditNote(keyNote){
+        //si nouvelle note, repasse en mode normal
+        if (this.isNewNote === true) {
+            this.isNewNote = false;
+        }
+
         //Récupère les information et les formatent
         let newTitle = onSetFirstLetterUppercase(this.inputTitleRef.value) || "Nouvelle note",
             newDetail = this.textareaDetailRef.value;
@@ -164,10 +188,20 @@ class itemNotes{
         this.detail = newDetail;
 
         //set l'array user
+        //initialise si n'existait pas
+        if(!allUserNotesArray[keyNote]){
+            allUserNotesArray[keyNote] = {};
+        }
         allUserNotesArray[keyNote].title = newTitle;
         allUserNotesArray[keyNote].detail = newDetail;
 
         //sauvegarde
+        if (this.isNewNote) {
+            //sauvegard la nouvelle note
+        }else{
+            //sauvegarde la modification
+        }
+
 
         //repasse en mode display
         this.activateDisplayMode();
@@ -207,6 +241,23 @@ class itemNotes{
             this.container.parentNode.removeChild(this.container);
         }
 
+    }
+
+    //ANNULATION DE LA CREATION D'UNE NOUVELLE NOTE
+    onCancelNewNote(keyTarget){
+            //suppression du tableau de key
+            let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
+            itemNotesSortedKey.splice(indexToRemove,1);
+            //retrait des évènements
+            this._removeEventListenerRegistry(keyTarget);
+
+            //réactualisation des éléments de la page
+            eventUpdateNotesPage();
+
+            //Retrait de la class du DOM
+            if (this.container && this.container.parentNode) {
+                this.container.parentNode.removeChild(this.container);
+            }
     }
 
 
@@ -262,6 +313,9 @@ function onOpenMenuNotes(isFromMain){
     //vide les éléments
     let divNoteListRef = document.getElementById("divNotesList");
     divNoteListRef.innerHTML = "";
+    //text fin de liste
+    const divNoteEndListRef = document.getElementById("divNotesEndList");
+    divNoteEndListRef.innerHTML = "";
 
     //récupère la liste dans la base
 
@@ -278,11 +332,9 @@ function onOpenMenuNotes(isFromMain){
     //Fin de liste
     //création du bouton add
     let isMaxNoteReach = itemNotesSortedKey.length >= maxSessionNotes;
-    noteInstanceButtonAddNew = new Button_add("Ajouter une note", () => onClickAddNewNote(), isMaxNoteReach, divNoteListRef);
+    noteInstanceButtonAddNew = new Button_add("Ajouter une note", () => onClickAddNewNote(), isMaxNoteReach, divNoteEndListRef);
 
-    //text fin de liste
-    const divNoteEndListRef = document.getElementById("divNotesEndList");
-    divNoteEndListRef.innerHTML = "";
+
 
     let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
@@ -328,6 +380,32 @@ function onDisplayNotesList() {
 }
 
 
+
+
+//Ajout d'une nouvelle note
+function onClickAddNewNote() {
+
+    //génération d'un id
+    let newNoteID = getRandomShortID("notes_");
+    //Ajoute la key au tableau des key
+    itemNotesSortedKey.push(newNoteID);
+
+    //Insertion de la note en mode edition
+    let divParentRef = document.getElementById("divNotesList");
+    new itemNotes(newNoteID,"","",divParentRef,true);
+
+
+    //actualise les éléments de la page
+    eventUpdateNotesPage();
+}
+
+
+
+
+
+
+
+
 // Fonction de trie alpha par titre et ne retourner qu'un tableau de clé trié
 function getNoteSortedKeysByTitle(noteList) {
     // Récupérer les clés de l'objet
@@ -357,6 +435,12 @@ function eventUpdateNotesPage() {
     updateNoteBtnNewStatus();
 
 }
+
+
+
+
+
+
 
 
 //spécifique info
