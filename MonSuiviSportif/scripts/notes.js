@@ -370,7 +370,7 @@ async function onLoadNoteFromDB() {
                 allUserNotesArray[doc._id] = { 
                     title : doc.title,
                     detail : doc.detail,
-                    color: doc.color || "yellow" 
+                    color: doc.color 
                 };
             });
 
