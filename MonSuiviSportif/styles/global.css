@@ -2882,11 +2882,27 @@ div.genSessionDragAndName{
 }
 
 
-/* NOTES */
-div.notes {
-    flex-direction: column;
+/* ------------------------------ NOTES ------------------------*/
+
+div.notes-area{
+    display: flex;
+    flex-wrap: wrap;         /* retour automatique à la ligne */
+    align-items: flex-start; /* important : évite que les hauteurs s'alignent */
+    gap: 15px;               /* espace entre les post-it */
+    width: 100%;
 }
 
+div.notes {
+    min-width: 45%;  
+    max-width: 45%;       
+    flex-direction: column;  
+    background-color: var(--colorLightGray); 
+    padding: 10px 5px 10px 10px;
+    border-radius: 10px;
+    box-shadow: var(--boxShadowMoins);
+}
+
+/* Les couleurs des notes */
 .note-yellow {
       background: linear-gradient(to bottom, #fff59d 15%, #fff9c4 15%);
 }
@@ -2898,4 +2914,16 @@ div.notes {
 }
 .note-green {
       background: linear-gradient(to bottom, #b8e6b8 15%, #e0f8e0 15%);
+}
+
+
+
+input.note{
+    width: 90%;
+}
+
+textarea.note{
+    width: 90%;
+    min-height: 50px;
+    max-height: 100px;
 }

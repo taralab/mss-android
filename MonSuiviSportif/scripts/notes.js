@@ -44,8 +44,8 @@ class itemNotes{
         this.childEdit = `
             <!-- Mode Affichage -->
             <div>
-                <input id="inputNoteTitle_${this.key}" type="text" maxlength="40" placeholder="Titre de la note">
-                <textarea id="textareaNoteDetail_${this.key}" maxlength="250" placeholder="Detail"></textarea>
+                <input class="note" id="inputNoteTitle_${this.key}" type="text" maxlength="40" placeholder="Titre de la note">
+                <textarea class="note" id="textareaNoteDetail_${this.key}" maxlength="250" placeholder="Detail"></textarea>
             </div>
             <div>
                 <p>
@@ -70,7 +70,7 @@ class itemNotes{
 
         //création container principal
         this.container = document.createElement("div");
-        this.container.classList.add("item-template-container", "notes");
+        this.container.classList.add("notes");
 
         //la couleur
         this.onSetColor(this.color);
@@ -301,6 +301,9 @@ class itemNotes{
         }
 
 
+        //Notification
+        onShowNotifyPopup("noteSaved");
+
         //repasse en mode display
         this.activateDisplayMode();
     }
@@ -330,6 +333,9 @@ class itemNotes{
 
         //Envoie vers la corbeille
         await sendToRecycleBin(keyTarget);
+
+        //Notification
+        onShowNotifyPopup("noteDeleted");
 
         //réactualisation des éléments de la page
         eventUpdateNotesPage();
