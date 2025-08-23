@@ -26,6 +26,7 @@ class itemNotes{
         this.parentRef = parentRef;
         this.isNewNote = isNewNote;//conditionne les actions
         this.color = color;
+        this.tempColor = color;
 
         //réference
         this.pTitleRef = null;
@@ -49,9 +50,9 @@ class itemNotes{
             <div>
                 <p>
                     <button class="btnChooseColor" type="button" style="background-color: #fff59d;" data-btn-note-color="yellow"></button>
-                    <button class="btnChooseColor" type="button" style="background-color: #4EA88A;" data-btn-note-color="red"></button>
-                    <button class="btnChooseColor" type="button" style="background-color: #ffbcbc;" data-btn-note-color="blue"></button>
-                    <button class="btnChooseColor" type="button" style="background-color: #b3e0ff;" data-btn-note-color="green"></button>
+                    <button class="btnChooseColor" type="button" style="background-color: #4EA88A;" data-btn-note-color="green"></button>
+                    <button class="btnChooseColor" type="button" style="background-color: #ffbcbc;" data-btn-note-color="red"></button>
+                    <button class="btnChooseColor" type="button" style="background-color: #b3e0ff;" data-btn-note-color="blue"></button>
                 </p>
             </div>
             <div class="custom-editor-btn-menu">
@@ -130,6 +131,10 @@ class itemNotes{
         this.inputTitleRef.value = this.title;
         this.textareaDetailRef.value = this.detail;
 
+
+        //met en évidence le bouton couleur en cours
+        this.onFocusBtnColor(this.color);
+
         //Ajout les écouteurs pour le mode edition
         this.bindEventListenerEditor();
 
@@ -160,6 +165,28 @@ class itemNotes{
             btnDeleteRef.addEventListener("click",onClickDelete);
             this._addEventListenerRegistry(this.key,btnDeleteRef,"click",onClickDelete);
         }
+
+        // Les couleurs
+        let btnColorNoteChoiceArray = this.container.querySelectorAll(".btnChooseColor");
+        btnColorNoteChoiceArray.forEach(btnRef=>{
+            let btnColor = btnRef.dataset.btnNoteColor;
+            const onClickBtn = () => this.eventChangeColor(btnColor);
+            btnRef.addEventListener("click",onClickBtn);
+            this._addEventListenerRegistry(this.key,btnRef,"click",onClickBtn);
+        });
+    }
+
+
+
+    eventChangeColor(newColor){
+        //set la couleur
+        this.onSetColor(newColor);
+
+        //enregistre temporairement
+        this.tempColor = newColor;
+
+        // Met en évidence le bouton sélectionné
+        this.onFocusBtnColor(this.tempColor);
     }
 
 
@@ -192,31 +219,46 @@ class itemNotes{
                 colorClassToAdd = "note-yellow";
                 //change le style du bouton
 
-                break;
-        case "red":
-                colorClassToAdd = "note-red";
-                break;
-        case "blue":
-                colorClassToAdd = "note-blue";
-                break;
-        case "green":
-                colorClassToAdd = "note-green";
-                break;                        
-        default:
-                break;
+                    break;
+            case "red":
+                    colorClassToAdd = "note-red";
+                    break;
+            case "blue":
+                    colorClassToAdd = "note-blue";
+                    break;
+            case "green":
+                    colorClassToAdd = "note-green";
+                    break;                        
+            default:
+                console.error("erreur onSet Color",newColor);
+                    break;
         }
         this.container.classList.add(colorClassToAdd);
 
-        this.color = newColor;
-
     }
 
+
+
+    onFocusBtnColor(newColor){
+        // Met en évidence le bouton sélectionné
+        let btnColorNoteChoiceArray = this.container.querySelectorAll(".btnChooseColor");
+        btnColorNoteChoiceArray.forEach(btn=>{
+            if (btn.dataset.btnNoteColor === newColor){
+                btn.classList.add("btnColorSelected");
+            }else if (btn.classList.contains("btnColorSelected")){
+                btn.classList.remove("btnColorSelected");
+            }
+        });
+    }
 
     //RETOUR ou ANNULER
     eventReturnFromEditNote(){
         if (this.isNewNote) {
             this.onCancelNewNote(this.key);
         }else{
+            //remet la couleur d'origine si modifié
+            this.onSetColor(this.color);
+            //repasse en mode display
             this.activateDisplayMode();
         }
         
@@ -234,6 +276,8 @@ class itemNotes{
 
         this.title = newTitle;
         this.detail = newDetail;
+        this.color = this.tempColor;
+
 
         //set l'array user
         //initialise si n'existait pas
@@ -299,11 +343,15 @@ class itemNotes{
 
     //ANNULATION DE LA CREATION D'UNE NOUVELLE NOTE
     onCancelNewNote(keyTarget){
+
             //suppression du tableau de key
             let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
             itemNotesSortedKey.splice(indexToRemove,1);
             //retrait des évènements
             this._removeEventListenerRegistry(keyTarget);
+
+            //remet la couleur par d'origine
+
 
             //réactualisation des éléments de la page
             eventUpdateNotesPage();
