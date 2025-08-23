@@ -5,16 +5,9 @@ let maxSessionNotes = 5,
 let allUserNotesArray = {
     testnotesA : {
         title: "titre Notes 1",
-        detail:"Une detail des mes éléments de test"
-    },
-    testnotesB : {
-        title: "titre Notes 3",
-        detail:"Une detail demoidifehs mes éléments de test"
-    },
-    testnotesC : {
-        title: "titre Notes 2",
-        detail:"Une detail demoidifehs mes éléments de test"
-    },
+        detail:"Une detail des mes éléments de test",
+        color: "yellow"
+    }
 },
 listenerNoteListRegistry = {},//pour gerer les évènements de la liste des notes générés
 noteInstanceButtonAddNew = null;
@@ -26,12 +19,13 @@ noteInstanceButtonAddNew = null;
 // *    *   *   *   *   *       *   *   *CLASS *    *   *   *       **  *   *   *
 
 class itemNotes{
-    constructor(key,title = "",detail = "",parentRef,isNewNote = false) {
+    constructor(key,title = "",detail = "",parentRef,isNewNote = false,color = "yellow") {
         this.key = key;
         this.title = title;
         this.detail = detail;
         this.parentRef = parentRef;
         this.isNewNote = isNewNote;//conditionne les actions
+        this.color = color;
 
         //réference
         this.pTitleRef = null;
@@ -53,17 +47,22 @@ class itemNotes{
                 <textarea id="textareaNoteDetail_${this.key}" maxlength="250" placeholder="Detail"></textarea>
             </div>
             <div>
+                <p>
+                    <button class="btnChooseColor" type="button" style="background-color: #fff59d;" data-btn-note-color="yellow"></button>
+                    <button class="btnChooseColor" type="button" style="background-color: #4EA88A;" data-btn-note-color="red"></button>
+                    <button class="btnChooseColor" type="button" style="background-color: #ffbcbc;" data-btn-note-color="blue"></button>
+                    <button class="btnChooseColor" type="button" style="background-color: #b3e0ff;" data-btn-note-color="green"></button>
+                </p>
+            </div>
+            <div class="custom-editor-btn-menu">
                 <button class="btn-menu" id="btnCancelEditNote_${this.key}">
                     <img src="Icons/Icon-Return-cancel.webp" alt="Icone">
-                    <span>Retour</span>
                 </button>
                 <button class="btn-menu" id="btnDeleteNote_${this.key}">
                     <img src="Icons/Icon-Delete-color.webp" alt="Icone">
-                    <span>Supprimer</span>
                 </button>
                 <button class="btn-menu btn-focus" id="btnConfirmEditNote_${this.key}">
                     <img src="Icons/Icon-Accepter.webp" alt="Icone">
-                    <span>Valider</span>
                 </button>
             </div>
         `;
@@ -71,6 +70,9 @@ class itemNotes{
         //création container principal
         this.container = document.createElement("div");
         this.container.classList.add("item-template-container", "notes");
+
+        //la couleur
+        this.onSetColor(this.color);
 
         //affichage de base (mode display ou éditeur selon si nouvelle note)
         if (this.isNewNote) {
@@ -160,6 +162,56 @@ class itemNotes{
         }
     }
 
+
+    //Set la couleur
+    onSetColor(newColor){
+
+        //toutes les classe post-it couleur
+        let colorClassArray = [
+            "note-yellow",
+            "note-red",
+            "note-blue",
+            "note-green"
+        ];
+        //retire l'ancienne couleur si présente
+
+        colorClassArray.forEach(colorClass => {
+            //si le container contient la class de couleur
+            if (this.container.classList.contains(colorClass)) {
+                //la retire
+                this.container.classList.remove(colorClass);
+            }
+        });
+        
+        
+        //Ajout la nouvelle classe de couleur
+        let colorClassToAdd = "";
+        switch (newColor) {
+            case "yellow":
+                //ajoute la class
+                colorClassToAdd = "note-yellow";
+                //change le style du bouton
+
+                break;
+        case "red":
+                colorClassToAdd = "note-red";
+                break;
+        case "blue":
+                colorClassToAdd = "note-blue";
+                break;
+        case "green":
+                colorClassToAdd = "note-green";
+                break;                        
+        default:
+                break;
+        }
+        this.container.classList.add(colorClassToAdd);
+
+        this.color = newColor;
+
+    }
+
+
     //RETOUR ou ANNULER
     eventReturnFromEditNote(){
         if (this.isNewNote) {
@@ -190,6 +242,7 @@ class itemNotes{
         }
         allUserNotesArray[keyNote].title = newTitle;
         allUserNotesArray[keyNote].detail = newDetail;
+        allUserNotesArray[keyNote].color = this.color;
 
         //sauvegarde
         if (this.isNewNote) {
@@ -316,7 +369,8 @@ async function onLoadNoteFromDB() {
             .forEach(doc => {
                 allUserNotesArray[doc._id] = { 
                     title : doc.title,
-                    detail : doc.detail 
+                    detail : doc.detail,
+                    color: doc.color || "yellow" 
                 };
             });
 
@@ -458,7 +512,7 @@ function onDisplayNotesList() {
     divParentRef.innerHTML = "";
 
     itemNotesSortedKey.forEach(key =>{
-        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef);
+        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,false,allUserNotesArray[key].color);
     });    
 
 }

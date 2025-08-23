@@ -2887,3 +2887,15 @@ div.notes {
     flex-direction: column;
 }
 
+.note-yellow {
+      background: linear-gradient(to bottom, #fff59d 15%, #fff9c4 15%);
+}
+.note-red {
+      background: linear-gradient(to bottom, #ffbcbc 15%, #ffe0e0 15%);
+}
+.note-blue {
+      background: linear-gradient(to bottom, #b3e0ff 15%, #e0f0ff 15%);
+}
+.note-green {
+      background: linear-gradient(to bottom, #b8e6b8 15%, #e0f8e0 15%);
+}
