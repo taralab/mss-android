@@ -45,7 +45,7 @@ class itemNotes{
             <!-- Mode Affichage -->
             <div>
                 <input class="note" id="inputNoteTitle_${this.key}" type="text" maxlength="40" placeholder="Titre de la note">
-                <textarea class="note" id="textareaNoteDetail_${this.key}" maxlength="250" placeholder="Detail"></textarea>
+                <textarea class="note" id="textareaNoteDetail_${this.key}" maxlength="150" placeholder="Detail"></textarea>
             </div>
             <div>
                 <p>
@@ -85,6 +85,11 @@ class itemNotes{
         //insertion dans le parent
         this.parentRef.appendChild(this.container);
 
+        // Petite pause pour déclencher la transition CSS d’apparition
+        requestAnimationFrame(() => {
+            this.container.classList.add("show");
+        });
+
     }
 
 
@@ -95,6 +100,10 @@ class itemNotes{
         //Insertion de la zone Display dans le dom
         this.container.innerHTML = "";
         this.container.innerHTML = this.childDisplay;
+
+        // Ajout des classes CSS pour l’animation
+        this.container.classList.remove("edit-mode");
+        this.container.classList.add("display-mode");
 
         //reférencement 
         this.pTitleRef = this.container.querySelector(`#pNoteTitle_${this.key}`);
@@ -122,6 +131,10 @@ class itemNotes{
 
         //Affiche le mode edition
         this.container.innerHTML = this.childEdit;
+
+        // Ajout des classes CSS pour l’animation
+        this.container.classList.remove("display-mode");
+        this.container.classList.add("edit-mode");
 
         //Referencement du mode edition
         this.inputTitleRef = this.container.querySelector(`#inputNoteTitle_${this.key}`);
