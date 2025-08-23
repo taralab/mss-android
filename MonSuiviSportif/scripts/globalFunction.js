@@ -223,7 +223,7 @@ function onGenerateMainMenuApp() {
 
     //crée les boutons
     //Planning
-    new Button_main_menu(btnMainMenuData.planning.imgRef,btnMainMenuData.planning.text,()=>onChangeMenu("Planning"));
+    new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,()=>onChangeMenu("NotesFromMain"));
     //Séance
     new Button_main_menu(btnMainMenuData.seance.imgRef,btnMainMenuData.seance.text,()=>onChangeMenu("Session"));
     //Stats
@@ -1002,18 +1002,14 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(["divSession"],[],["divNotes"],[],[],[],[]);
             onOpenMenuNotes(false);
         break;
-        case "Planning":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
+        case "NotesFromMain":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
             displayDivScrollableMenu();
-            pMenuTitleRef.innerHTML = "Planning hebdomadaire";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divPlanning"],[],[],[],[]);
-            onOpenMenuPlanning();
+            pMenuTitleRef.innerHTML = "Notes";
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divNotes"],[],[],[],[]);
+            onOpenMenuNotes(true);
+            onDisplayCustomInfo();
         break;
-        case "PlanningEditor":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning editor");};
-            onChangeDisplay(["divPlanning"],[],["divPlanningEditor"],[],[],[],[]);
-        break;
-
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
             displayDivScrollableMenu();
@@ -1076,6 +1072,17 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,["divFavoris"],[],[],[],[],[]);
             onOpenMenuFavoris();
         break;
+        case "Planning":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
+            displayDivScrollableMenu();
+            pMenuTitleRef.innerHTML = "Planning hebdomadaire";
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divPlanning"],[],[],[],[]);
+            onOpenMenuPlanning();
+        break;
+        case "PlanningEditor":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning editor");};
+            onChangeDisplay(["divPlanning"],[],["divPlanningEditor"],[],[],[],[]);
+        break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
             displayDivScrollableMenu();
@@ -1127,14 +1134,6 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Paramètres";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
-        break;
-        case "NotesFromMain":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
-            displayDivScrollableMenu();
-            pMenuTitleRef.innerHTML = "Notes";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divNotes"],[],[],[],[]);
-            onOpenMenuNotes(true);
-            onDisplayCustomInfo();
         break;
         case "Corbeille":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Corbeille");};
