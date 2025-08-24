@@ -68,7 +68,7 @@ class CorbeilleItem{
     addEvent(){
         let btnRestaureItemRef = this.container.querySelector(`#btnRestaure_${this.key}`);
         btnRestaureItemRef.addEventListener("click", ()=>{
-            eventRestaureItem(this.key);
+            eventAskForRestauration(this.type,this.key);
         });
     }
 
@@ -298,7 +298,41 @@ async function sendToRecycleBin(key) {
 // *    *   *   *       *   *   RESTAURATION *  *   *   *   *   *
 
 
+async function eventAskForRestauration(itemType,itemKey) {
+    
+    let restaurationAutorized = await onCheckIfRestaurationPossible(itemType);
 
+    console.log("autorisation :", restaurationAutorized);
+
+    //si non autoriser, met une notification et stop la séquence
+    if (!restaurationAutorized) {
+        onShowNotifyPopup("restaurationforbidden");
+
+    }else{
+        //si autorisé, lance la restauration
+        eventRestaureItem(itemKey);
+    }
+
+}
+
+
+async function onCheckIfRestaurationPossible(itemType) {
+
+//met tous les maxValue à un seul endroit
+  const maxValues = {
+    Template: maxTemplate,
+    TemplateSession: maxTemplateSession,
+    Notes: maxNotes
+  };
+
+
+  //récupère les documents et compte ceux dont le type correspondent
+  const result = await db.allDocs({ include_docs: true });
+  const count = result.rows.filter(r => r.doc.type === itemType).length;
+
+  //retour si oui ou non le max  n'a pas été atteind
+  return count < (maxValues[itemType] || 0);
+}
 
 
 

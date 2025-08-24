@@ -27,7 +27,8 @@ let notifyTextArray = {
     purgeOK : {emoji :"🗑️" ,text: "Purge effectuée !"},
     itemRestaured : {emoji : "♻️​",text: "Elément restauré !"},
     noteSaved : {emoji : "👌​",text: "Note sauvegardée !"},
-    noteDeleted : {emoji : "🗑️​",text: "Note supprimée !"}
+    noteDeleted : {emoji : "🗑️​",text: "Note supprimée !"},
+    restaurationforbidden : {emoji : "❗",text: "Nombre maximale atteind"}
 };
 
 

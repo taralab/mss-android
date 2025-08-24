@@ -1,4 +1,4 @@
-let maxSessionNotes = 5,
+let maxNotes = 5,
     isNotesOpenFromMain = false,//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
     itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
 
@@ -536,14 +536,14 @@ async function onOpenMenuNotes(isFromMain){
 
     //Fin de liste
     //création du bouton add
-    let isMaxNoteReach = itemNotesSortedKey.length >= maxSessionNotes;
+    let isMaxNoteReach = itemNotesSortedKey.length >= maxNotes;
     noteInstanceButtonAddNew = new Button_add("Ajouter une note", () => onClickAddNewNote(), isMaxNoteReach, divNoteEndListRef);
 
 
 
     let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouver créer jusqu'à ${maxSessionNotes} notes.`;
+            newClotureList.innerHTML = `ℹ️ Vous pouver créer jusqu'à ${maxNotes} notes.`;
             divNoteEndListRef.appendChild(newClotureList);
 
     //affiche et actualise les autres éléments du menu
@@ -663,13 +663,13 @@ function updateNoteInfo() {
     let customInfoRef = document.getElementById("customInfo");
 
     //affiche le nombre de notes
-    customInfoRef.innerHTML = `${itemNotesSortedKey.length}/${maxSessionNotes}`;
+    customInfoRef.innerHTML = `${itemNotesSortedKey.length}/${maxNotes}`;
 }
 
 //spécifique bouton new
 function updateNoteBtnNewStatus() {
     //Si le max est atteind, désactive le bouton sinon l'active
-    if (itemNotesSortedKey.length >= maxSessionNotes) {
+    if (itemNotesSortedKey.length >= maxNotes) {
         noteInstanceButtonAddNew.disableButton();
     }else{
         noteInstanceButtonAddNew.enableButton();
