@@ -1,5 +1,5 @@
 
-let currentExportVersion = 3;//version actuel des fichers d'import/export
+let currentExportVersion = 4;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -556,6 +556,13 @@ async function eventImportBdD(inputRef) {
                         isSaveVersionValid = true;
                         break;
 
+                    case 4:
+                        //Le fichier V4 ne contient plus les éléments vraiment supprimé.
+                        console.log("[IMPORT] V4");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
                     default:
                         throw new Error("⚠️ Format de fichier inconnu.");
                 }
