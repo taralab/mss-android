@@ -1,6 +1,6 @@
 //contient la liste des éléments supprimé
 let corbeilleItemsList = {
-    // "id":{type,name,deletedDate}
+    // "id":{type,displayType,name,deletedDate}
     },
     dayBeforeDelete = 7; //nombre de jour avant la suppression
 
@@ -9,9 +9,10 @@ let corbeilleItemsList = {
 
 
 class CorbeilleItem{
-    constructor(key,type,name,deletedDate,parentRef,delayMs = 0,animationEnabled = true) {
+    constructor(key,type,displayType,name,deletedDate,parentRef,delayMs = 0,animationEnabled = true) {
         this.key = key;
         this.type = type;
+        this.displayType = displayType;
         this.name = name;
         this.deletedDate = this._formatDateDelete(deletedDate);
         this.parentRef = parentRef;
@@ -53,7 +54,7 @@ class CorbeilleItem{
     render(){
         this.container.innerHTML = `
             <div>
-                <p style="color: ${this.color};"><b>${this.type}</b></p>
+                <p style="color: ${this.color};"><b>${this.displayType}</b></p>
                 <p>${this.name}</p>
                 <p>Supprimé(e) le : ${this.deletedDate}</p>
 
@@ -75,18 +76,20 @@ class CorbeilleItem{
 
         let color = null;
         switch (type) {
-            case "Activité":
+            case "ActivityList":
                 color = "#D36868";
                 break;
-            case "Modèle d'activité":
+            case "Template":
                 color  = "#4EA88A";
                 break;
-            case "Modèle de séance":
+            case "TemplateSession":
                 color = "#2B7FBF";
                 break;
             case "Notes":
                 color = "#bfb32bff";
+                break;
             default:
+                console.error("type couleur non définit");
                 break;
         }
         return color;
@@ -122,28 +125,32 @@ async function onLoadCorbeilleItemsListFromDB() {
                 switch (doc.oldItemInfo.type) {
                     case "ActivityList":
                         list[doc._id] = {
-                            type : "Activité",
+                            type : doc.oldItemInfo.type,
+                            displayType : "Activité",
                             name : `${doc.name} du ${doc.date}`,
                             deletedDate : doc.oldItemInfo.deletedDate
                         };
                         break;
                     case "Template":
                         list[doc._id] = {
-                            type : "Modèle d'activité",
+                            type : doc.oldItemInfo.type,
+                            displayType : "Modèle d'activité",
                             name : doc.title,
                             deletedDate : doc.oldItemInfo.deletedDate
                         };
                         break;
                     case "TemplateSession":
                         list[doc._id] = {
-                            type : "Modèle de séance",
+                            type : doc.oldItemInfo.type,
+                            displayType : "Modèle de séance",
                             name : doc.sessionName,
                             deletedDate : doc.oldItemInfo.deletedDate
                         };
                         break;
                     case "Notes":
                         list[doc._id] = {
-                            type : "Notes",
+                            type : doc.oldItemInfo.type,
+                            displayType : "Notes",
                             name : doc.title,
                             deletedDate : doc.oldItemInfo.deletedDate
                         }
@@ -224,12 +231,13 @@ async function eventUpdateCorbeilleList(){
             //Insertion des classes
         Object.keys(corbeilleItemsList).forEach((key,index)=>{
             let type = corbeilleItemsList[key].type,
+                displayType = corbeilleItemsList[key].displayType,
                 name = corbeilleItemsList[key].name,
                 deletedDate = corbeilleItemsList[key].deletedDate;
 
             let delay = index * animCascadeDelay;
 
-            new CorbeilleItem(key,type,name,deletedDate,parentRef,delay,userSetting.animationEnabled);
+            new CorbeilleItem(key,type,displayType,name,deletedDate,parentRef,delay,userSetting.animationEnabled);
         });
     }else{
         parentRef.textContent = "Aucun élément à afficher !";
@@ -308,9 +316,17 @@ async function eventRestaureItem(key) {
             onActivityWasRestaured(itemRestaured);
             break;
         case "Template":
+            //verifie si le nombre max n'a pas été atteind
+
+
+            //lance la restauration
             onTemplateActivityWasRestaured(itemRestaured);
             break;
         case "TemplateSession":
+            //verifie si le nombre max n'a pas été atteind
+
+
+            //lance la restauration
             onTemplateSessionWasRestaured(itemRestaured);
             break;
         case "Notes":
