@@ -312,8 +312,11 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
     try {
         // 1. Récupération des données
         const result = await db.allDocs({ include_docs: true });
-        const exportedDocs = result.rows.map(row => row.doc);
-        getSessionItemListFromLocalStorage();
+        const exportedDocs = result.rows
+            .map(row => row.doc)
+            .filter(doc => !doc._deleted); // on exclut les docs supprimés
+            
+        getSessionItemListFromLocalStorage();//récupère les sessions qui eux sont dans le local storage
 
         // 2. Création du contenu
         const fullExport = {
