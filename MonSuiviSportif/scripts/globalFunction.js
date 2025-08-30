@@ -794,7 +794,11 @@ function onResetScrollBarToTop(divParentID){
     waitUntilVisible();
 }
 
-
+//met le focus dans un input ou textearea et la curseur à la fin
+function onSetTextFocus(itemRef) {
+    itemRef.focus();
+    itemRef.setSelectionRange(itemRef.value.length, itemRef.value.length);
+}
 
 
 

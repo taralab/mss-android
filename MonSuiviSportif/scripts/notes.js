@@ -80,7 +80,7 @@ function onAddEventListenerForNoteItemEditor() {
 
     //Supprimer
     let btnDeleteRef = document.getElementById("btnDeleteNote");
-    const onClickDelete = () => onClickDeleteNote();
+    const onClickDelete = () => onAskDeleteNoteRequest();
     btnDeleteRef.addEventListener("click", onClickDelete);
     onAddEventListenerInRegistry("noteItemEditor",btnDeleteRef,"click", onClickDelete);
 
@@ -170,6 +170,12 @@ class itemNotes{
         this.container.addEventListener("click", onClickEdit);
     }
 
+
+    remove() {
+        if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
+        }
+    }
 }
 
 
@@ -483,7 +489,17 @@ function   onSetColor(itemRef,color = "yellow"){
     }
 
 
+
+
+
+
+
 //* *   *   *   *   *   *   *   *   EDITEUR     *   *   **  *   *   *   *   *   *   *   
+
+
+
+
+
 
 
 //Ajout d'une nouvelle note
@@ -509,6 +525,10 @@ function onClickAddNewNote() {
 
     //affiche le popup
     document.getElementById("divEditNote").style.display = "flex";
+
+    //met le focus sur titre et le curseur à la fin
+    onSetTextFocus(inputTitleNoteRef);
+
 }
 
 
@@ -541,8 +561,11 @@ function onClickEditNotes(keyNotes){
     //affiche le popup
     document.getElementById("divEditNote").style.display = "flex";
 
-}
 
+    //met le focus sur detail et le curseur à la fin
+    onSetTextFocus(textareaDetailNoteRef);
+
+}
 
 
 
@@ -698,6 +721,49 @@ function onFormatNote(){
 
     return formatedNote;
 }
+
+
+
+
+
+//* *   *   *   *   *   *   * SUPPRESSION   *   *   *   *   *   *   *   *   *   *   *
+
+function onAskDeleteNoteRequest() {
+    //Demande de confirmation
+    addEventForGlobalPopupConfirmation(
+        removeEventForGlobalPopupConfirmation,
+        () => onConfirmDeleteNote(currentEditorNoteKey),
+        "Supprimer cette note ?",
+        "delete"
+    );
+}
+
+
+async function onConfirmDeleteNote(keyTarget) {
+
+    //Masque le popup
+    document.getElementById("divEditNote").style.display = "none";
+
+    //envoie dans la corbeille
+    await sendToRecycleBin(keyTarget);
+
+    //retrait de l'array
+    delete allUserNotesArray[keyTarget];
+
+    //retrait du tableau de clé
+    let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
+    itemNotesSortedKey.splice(indexToRemove,1);
+
+    //retrait du dom
+    allInstanceItemNotes[keyTarget].remove();
+
+    //retrait de l'instance
+    delete allInstanceItemNotes[keyTarget];
+}
+
+
+
+
 
 
 // Quitte le menu
