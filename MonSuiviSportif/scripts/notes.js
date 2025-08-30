@@ -200,13 +200,7 @@ async function onLoadNoteFromDB() {
             .map(row => row.doc)
             .filter(doc => doc.type === noteStoreName)
             .forEach(doc => {
-                allUserNotesArray[doc._id] = { 
-                    title : doc.title,
-                    detail : doc.detail,
-                    color: doc.color,
-                    createdAt : doc.createdAt,
-                    displayOrder : doc.displayOrder
-                };
+                allUserNotesArray[doc._id] = doc;
             });
 
         if (devMode === true) {
@@ -759,6 +753,12 @@ async function onConfirmDeleteNote(keyTarget) {
 
     //retrait de l'instance
     delete allInstanceItemNotes[keyTarget];
+
+    //notification
+    onShowNotifyPopup("noteDeleted");
+
+    //actualisation des éléments de la page
+    eventUpdateNotesPage();
 }
 
 

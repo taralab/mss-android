@@ -364,7 +364,7 @@ async function eventRestaureItem(key) {
             onTemplateSessionWasRestaured(itemRestaured);
             break;
         case "Notes":
-            //aucune action d'actualisation nécessaire pour notes
+            onNoteWasRestaured(itemRestaured);
             break;
         default:
             console.log("Erreur de type");
@@ -453,7 +453,13 @@ function onTemplateActivityWasRestaured(templateActivityRestaured) {
 
 
 
+//spécifique restauration notes
+function onNoteWasRestaured(noteRestaured) {
+    console.log(noteRestaured);
 
+    //Ajout également la note à l'array
+    allUserNotesArray[noteRestaured._id] = noteRestaured;
+}
 
 
 
