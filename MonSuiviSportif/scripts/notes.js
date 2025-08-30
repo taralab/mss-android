@@ -1,4 +1,4 @@
-let maxNotes = 5,
+let maxNotes = 10,
     isNotesOpenFromMain = false,//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
     itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
 
@@ -11,7 +11,86 @@ let allUserNotesArray = {
         createdAt:""
     }
 },
-noteInstanceButtonAddNew = null;
+noteInstanceButtonAddNew = null,
+isNoteLoadedFromDB = false,//pour chargement unique depuis la base
+allInstanceItemNotes = {},
+defaultNoteColor = "yellow";
+
+
+//référence de l'éditeur
+let inputTitleNoteRef = null,
+    textareaDetailNoteRef = null,
+    divNoteEditorContentRef = null;
+
+
+
+
+
+
+// *    *   *   *   *   *   *   *   *   *   ECOUTEUR D'EVENEMENT *  *   *   *   *   *   *   
+
+
+
+
+
+function onAddEventListenerForNoteItemEditor() {
+
+    if (devMode === true){
+        console.log("[NOTE] [EVENT-LISTENER] : Ajout les évènements pour l'éditeur de note");
+    };
+
+    // LA div générale avec action retour
+    //récupère l'élément
+    let divEditNoteRef = document.getElementById("divEditNote");
+    //créé une fonction en lui donnant l'évènement et la fonction à appeler
+    const onDivEditNoteClick = (event) => onAnnulNoteItemEditor(event);
+    // Ajoute un écouteur d'événement "click"
+    divEditNoteRef.addEventListener("click", onDivEditNoteClick);
+    //Ajout l'évènement au tableau de gestion des évènement
+    onAddEventListenerInRegistry("noteItemEditor",divEditNoteRef, "click", onDivEditNoteClick);
+
+
+    //La div intérieure contenur les actions
+    let divEditNoteContentRef = document.getElementById("divEditNoteContent");
+    const onDivEditNoteContent = (event) => onClickDivNotePopupContent(event);
+    divEditNoteContentRef.addEventListener("click",onDivEditNoteContent);
+    onAddEventListenerInRegistry("noteItemEditor",divEditNoteContentRef,"click",onDivEditNoteContent);
+
+
+    // Les couleurs
+    let parentRef = document.getElementById("divEditNote");
+    let btnColorNoteChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
+    btnColorNoteChoiceArray.forEach(btnRef=>{
+        let btnColor = btnRef.dataset.btnNoteColor;
+        const onClickBtn = () => onChooseNoteItemColor(btnColor);
+        btnRef.addEventListener("click",onClickBtn);
+        onAddEventListenerInRegistry("noteItemEditor",btnRef,"click",onClickBtn);
+    });
+
+
+
+    //Le menu de navigation
+    //Retour
+    let btnReturnRef = document.getElementById("btnCancelEditNote");
+    const onClickAnnul = (event)=> onAnnulNoteItemEditor(event);
+    btnReturnRef.addEventListener("click",onClickAnnul);
+    onAddEventListenerInRegistry("noteItemEditor",btnReturnRef,"click",onClickAnnul);
+
+    //Supprimer
+    let btnDeleteRef = document.getElementById("btnDeleteNote");
+    const onClickDelete = () => onClickDeleteNote();
+    btnDeleteRef.addEventListener("click", onClickDelete);
+    onAddEventListenerInRegistry("noteItemEditor",btnDeleteRef,"click", onClickDelete);
+
+    //Valider
+    let btnValideRef = document.getElementById("btnConfirmEditNote");
+    const onclickConfirm = () => onClickSaveNote();
+    btnValideRef.addEventListener("click",onclickConfirm);
+    onAddEventListenerInRegistry("noteItemEditor",btnValideRef,"click",onclickConfirm);
+}
+
+
+
 
 
 
@@ -35,7 +114,7 @@ class itemNotes{
         //création container principal
         this.container = document.createElement("div");
         this.container.classList.add("notes");
-        this.container.id = `divItemNoteContainer_${this.id}`;
+        this.container.id = `divItemNoteContainer_${this.key}`;
 
 
         //fait rendu html
@@ -48,7 +127,7 @@ class itemNotes{
         this.reference();
         
         //la couleur
-        this.onSetColor(this.color);
+        onSetColor(this.container,this.color);
 
         //affichage
         this.updateNoteText();
@@ -64,7 +143,6 @@ class itemNotes{
                 <p id="pNoteTitle_${this.key}" class="item-data-distance"></p>
                 <p id="pNoteDetail_${this.key}" class="item-data-comment-expand"></p>
         `;
-        console.log("le parent :" , this.parentRef);
     }
 
     reference(){
@@ -84,62 +162,13 @@ class itemNotes{
 
     bindEvent(){
         //ajoute l'ecouteur d'évènement pour le onclick display mode
-        const onClickEdit = () => this.onClickEditNotes(this.key);
+        const onClickEdit = () => onClickEditNotes(this.key);
         this.container.addEventListener("click", onClickEdit);
     }
 
 
-    onClickEditNotes(keyNotes){
-        alert("contact");
 
-    }
-
-    //Set la couleur
-    onSetColor(newColor){
-
-        //toutes les classe post-it couleur
-        let colorClassArray = [
-            "note-yellow",
-            "note-red",
-            "note-blue",
-            "note-green"
-        ];
-        //retire l'ancienne couleur si présente
-
-        colorClassArray.forEach(colorClass => {
-            //si le container contient la class de couleur
-            if (this.container.classList.contains(colorClass)) {
-                //la retire
-                this.container.classList.remove(colorClass);
-            }
-        });
-        
-        
-        //Ajout la nouvelle classe de couleur
-        let colorClassToAdd = "";
-        switch (newColor) {
-            case "yellow":
-                //ajoute la class
-                colorClassToAdd = "note-yellow";
-                //change le style du bouton
-
-                    break;
-            case "red":
-                    colorClassToAdd = "note-red";
-                    break;
-            case "blue":
-                    colorClassToAdd = "note-blue";
-                    break;
-            case "green":
-                    colorClassToAdd = "note-green";
-                    break;                        
-            default:
-                console.error("erreur onSet Color",newColor);
-                    break;
-        }
-        this.container.classList.add(colorClassToAdd);
-
-    }
+    
 
 
 
@@ -255,8 +284,12 @@ async function onOpenMenuNotes(isFromMain){
     const divNoteEndListRef = document.getElementById("divNotesEndList");
     divNoteEndListRef.innerHTML = "";
 
-    //récupère la liste dans la base
-    await onLoadNoteFromDB();
+    //récupère la liste dans la base la première fois. Les suivantes, prend dans l'array
+    if (!isNoteLoadedFromDB) {
+        isNoteLoadedFromDB = true;
+        await onLoadNoteFromDB();
+    }
+
 
     //trie les clé par ordre alpha
     itemNotesSortedKey = getNoteSortedKeysByTitle(allUserNotesArray);
@@ -273,8 +306,6 @@ async function onOpenMenuNotes(isFromMain){
     let isMaxNoteReach = itemNotesSortedKey.length >= maxNotes;
     noteInstanceButtonAddNew = new Button_add("Ajouter une note", () => onClickAddNewNote(), isMaxNoteReach, divNoteEndListRef);
 
-
-
     let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
             newClotureList.innerHTML = `ℹ️ Vous pouver créer jusqu'à ${maxNotes} notes.`;
@@ -285,6 +316,12 @@ async function onOpenMenuNotes(isFromMain){
 
     //Création du menu principal
     onCreateMainMenuNotes();
+
+    //ajoute l'ecouteur pour l'editeur de note
+    onAddEventListenerForNoteItemEditor();
+
+    //référence les éléments pour l'éditeur
+    onReferenceNoteEditor();
 }
 
 
@@ -311,25 +348,18 @@ function onDisplayNotesList() {
     divParentRef.innerHTML = "";
 
     itemNotesSortedKey.forEach(key =>{
-        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
-    });    
+        allInstanceItemNotes[key] = new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
+    }); 
 
 }
 
 
-
-
-//Ajout d'une nouvelle note
-//lorsque j'ajoute une nouvelle note, un id est généré et stocké dans le tableau des key
-//La note ne sera dans la base et dans l'array que lorsque je l'aurai enregistré
-function onClickAddNewNote() {
-
-
+//référencement de l'éditeur de note
+function onReferenceNoteEditor() {
+    inputTitleNoteRef = document.getElementById("inputNoteTitle");
+    textareaDetailNoteRef = document.getElementById("textareaNoteDetail");
+    divNoteEditorContentRef = document.getElementById("divEditNoteContent");
 }
-
-
-
-
 
 
 
@@ -393,15 +423,163 @@ function updateNoteBtnNewStatus() {
 }
 
 
+
+
+
+//Set la couleur
+function   onSetColor(itemRef,color = "yellow"){
+
+        //toutes les classe post-it couleur
+        let colorClassArray = [
+            "note-yellow",
+            "note-red",
+            "note-blue",
+            "note-green"
+        ];
+        //retire l'ancienne couleur si présente
+
+        colorClassArray.forEach(colorClass => {
+            //si le container contient la class de couleur
+            if (itemRef.classList.contains(colorClass)) {
+                //la retire
+                itemRef.classList.remove(colorClass);
+            }
+        });
+        
+        
+        //Ajout la nouvelle classe de couleur
+        let colorClassToAdd = "";
+        switch (color) {
+            case "yellow":
+                //ajoute la class
+                colorClassToAdd = "note-yellow";
+                //change le style du bouton
+
+                    break;
+            case "red":
+                    colorClassToAdd = "note-red";
+                    break;
+            case "blue":
+                    colorClassToAdd = "note-blue";
+                    break;
+            case "green":
+                    colorClassToAdd = "note-green";
+                    break;                        
+            default:
+                console.error("erreur onSet Color",color);
+                    break;
+        }
+        itemRef.classList.add(colorClassToAdd);
+
+    }
+
+
+//* *   *   *   *   *   *   *   *   EDITEUR     *   *   **  *   *   *   *   *   *   *   
+
+
+//Ajout d'une nouvelle note
+//lorsque j'ajoute une nouvelle note, un id est généré et stocké dans le tableau des key
+//La note ne sera dans la base et dans l'array que lorsque je l'aurai enregistré
+function onClickAddNewNote() {
+
+    //reset les éléments
+    inputTitleNoteRef.value = "";
+    textareaDetailNoteRef.value = "";
+
+    //set la couleur par défaut
+    onSetColor(divNoteEditorContentRef,defaultNoteColor);
+
+    //Masque le bouton supprimer
+    document.getElementById("btnDeleteNote").style.visibility = "hidden";
+
+    //met en évidence le bouton sélectionné
+    onFocusNoteBtnColor(defaultNoteColor);
+
+    //affiche le popup
+    document.getElementById("divEditNote").style.display = "flex";
+}
+
+
+
+function onClickEditNotes(keyNotes){
+    //affiche le popup
+    document.getElementById("divEditNote").style.display = "flex";
+
+    //set les éléments
+    const itemNoteData = allInstanceItemNotes[keyNotes];
+
+    inputTitleNoteRef.value = itemNoteData.title || "";
+    textareaDetailNoteRef.value = itemNoteData.detail || "";
+
+    //affiche le bouton supprimer
+    document.getElementById("btnDeleteNote").style.visibility = "visible";
+
+    //set la couleur
+    onSetColor(divNoteEditorContentRef,itemNoteData.color);
+
+    //met en évidence le bouton sélectionné
+    onFocusNoteBtnColor(itemNoteData.color);
+}
+
+
+
+
+function onFocusNoteBtnColor(newColor){
+    // Met en évidence le bouton sélectionné
+    let btnColorNoteChoiceArray = divNoteEditorContentRef.querySelectorAll(".btnChooseColor");
+    btnColorNoteChoiceArray.forEach(btn=>{
+        if (btn.dataset.btnNoteColor === newColor){
+            btn.classList.add("btnColorSelected");
+        }else if (btn.classList.contains("btnColorSelected")){
+            btn.classList.remove("btnColorSelected");
+        }
+    });
+}
+
+
+
+
+
+
+//annulation ou retour
+function onAnnulNoteItemEditor(){
+    document.getElementById("divEditNote").style.display = "none";
+}
+
+
+// Empeche de fermer la div lorsque l'utilisateur clique dans cette zone
+function onClickDivNotePopupContent(event) {
+    event.stopPropagation();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // Quitte le menu
 function onClickReturnFromNotes() {
     //reset des éléments
     let divParentRef = document.getElementById("divNotesList");
     divParentRef.innerHTML = "";
-    listenerNoteListRegistry = {};
 
     let divParentEndNoteRef = document.getElementById("divNotesEndList");
     divParentEndNoteRef.innerHTML = "";
+
+
+    //vide les références pour l'éditeur de note
+    inputTitleNoteRef = null;
+    textareaDetailNoteRef = null;
+    divNoteEditorContentRef = null;
+
+    //retire les ecoute d'évènement
+    onRemoveEventListenerInRegistry(["noteItemEditor"]);
 
     //Quitte le menu selon via quel menu d'origine il a été appelé
 
