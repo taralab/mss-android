@@ -1,4 +1,4 @@
-let maxNotes = 10,
+let maxNotes = 40,
     isNotesOpenFromMain = false,//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
     itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
 
