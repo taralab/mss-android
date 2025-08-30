@@ -2407,8 +2407,10 @@ div.popup-new-counter {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center; /* centre verticalement */
+
+    justify-content: center;   /* centre horizontalement */
+    align-items: flex-start;   /* aligne en haut */
+    padding-top: 50px;         /* décale de 50px */
     padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
     box-sizing: border-box;
 }
