@@ -14,8 +14,10 @@ let allUserNotesArray = {
 noteInstanceButtonAddNew = null,
 isNoteLoadedFromDB = false,//pour chargement unique depuis la base
 allInstanceItemNotes = {},
-defaultNoteColor = "yellow";
-
+defaultNoteColor = "yellow",
+noteEditorMode = "",//"creation ou modification"
+currentEditorNoteKey = "",
+currentNoteColorSelected ="";
 
 //référence de l'éditeur
 let inputTitleNoteRef = null,
@@ -61,8 +63,8 @@ function onAddEventListenerForNoteItemEditor() {
     let parentRef = document.getElementById("divEditNote");
     let btnColorNoteChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
     btnColorNoteChoiceArray.forEach(btnRef=>{
-        let btnColor = btnRef.dataset.btnNoteColor;
-        const onClickBtn = () => onChooseNoteItemColor(btnColor);
+        let newColor = btnRef.dataset.btnNoteColor;
+        const onClickBtn = () => onChooseNoteItemColor(newColor);
         btnRef.addEventListener("click",onClickBtn);
         onAddEventListenerInRegistry("noteItemEditor",btnRef,"click",onClickBtn);
     });
@@ -200,7 +202,9 @@ async function onLoadNoteFromDB() {
                 allUserNotesArray[doc._id] = { 
                     title : doc.title,
                     detail : doc.detail,
-                    color: doc.color 
+                    color: doc.color,
+                    createdAt : doc.createdAt,
+                    displayOrder : doc.displayOrder
                 };
             });
 
@@ -217,22 +221,22 @@ async function onLoadNoteFromDB() {
 
 
 // Insertion nouvelle note (ID défini manuellement avec put)
-async function onInsertnewNoteInDB(noteToInsert, key) {
+async function onInsertnewNoteInDB(noteToInsert) {
     try {
         const newNote = {
-            _id: key, // ID personnalisé
             type: noteStoreName,
             ...noteToInsert
         };
 
-        // Utilisation de put() avec ID défini
-        const response = await db.put(newNote);
+        // Utilisation de post() pour génération automatique de l’ID
+        const response = await db.post(newNote);
 
         // Mise à jour de l’objet avec _rev retourné
+        newNote._id = response.id;
         newNote._rev = response.rev;
 
         if (devMode === true) {
-            console.log("[DATABASE] [NOTE] Activité insérée avec ID personnalisé :", newNote);
+            console.log("[DATABASE] [NOTE] Activité insérée :", newNote);
         }
 
         return newNote;
@@ -291,8 +295,8 @@ async function onOpenMenuNotes(isFromMain){
     }
 
 
-    //trie les clé par ordre alpha
-    itemNotesSortedKey = getNoteSortedKeysByTitle(allUserNotesArray);
+    //trie les clé par ordre de création
+    itemNotesSortedKey = getNoteSortedKeyByCreatedAt(allUserNotesArray);
 
     console.log(itemNotesSortedKey);
     console.log(allUserNotesArray);
@@ -378,6 +382,18 @@ function getNoteSortedKeysByTitle(noteList) {
     return keys;
 }
 
+//trie par la date de création
+function getNoteSortedKeyByCreatedAt(noteList) {
+    const keys = Object.keys(noteList);
+
+    keys.sort((a, b) => {
+        const dateA = new Date(noteList[a].createdAt);
+        const dateB = new Date(noteList[b].createdAt);
+        return dateA - dateB; // tri croissant (du plus ancien au plus récent)
+    });
+
+    return keys;
+}
 
 
 //actualise les éléments hors item notes (info, boutton add new)
@@ -481,6 +497,9 @@ function   onSetColor(itemRef,color = "yellow"){
 //lorsque j'ajoute une nouvelle note, un id est généré et stocké dans le tableau des key
 //La note ne sera dans la base et dans l'array que lorsque je l'aurai enregistré
 function onClickAddNewNote() {
+    //set le mode et la couleur par défaut
+    noteEditorMode = "creation";
+    currentNoteColorSelected = defaultNoteColor;
 
     //reset les éléments
     inputTitleNoteRef.value = "";
@@ -502,11 +521,17 @@ function onClickAddNewNote() {
 
 
 function onClickEditNotes(keyNotes){
-    //affiche le popup
-    document.getElementById("divEditNote").style.display = "flex";
+    //set le mode
+    noteEditorMode = "modification";
+
+    //garde la clé en cours de modification
+    currentEditorNoteKey = keyNotes;
 
     //set les éléments
     const itemNoteData = allInstanceItemNotes[keyNotes];
+
+    //stocke la couleur d'origine
+    currentNoteColorSelected = itemNoteData.color;
 
     inputTitleNoteRef.value = itemNoteData.title || "";
     textareaDetailNoteRef.value = itemNoteData.detail || "";
@@ -519,6 +544,10 @@ function onClickEditNotes(keyNotes){
 
     //met en évidence le bouton sélectionné
     onFocusNoteBtnColor(itemNoteData.color);
+
+    //affiche le popup
+    document.getElementById("divEditNote").style.display = "flex";
+
 }
 
 
@@ -555,12 +584,99 @@ function onClickDivNotePopupContent(event) {
 
 
 
+//Choix d'une couleur
+
+function onChooseNoteItemColor(newColor) {
+    //Stocke la couleur choisit
+    currentNoteColorSelected = newColor;
+
+    //Met la couleur dans l'éditeur
+    onSetColor(divNoteEditorContentRef,currentNoteColorSelected);
+
+    //met en évidence le bouton sélectionné
+    onFocusNoteBtnColor(currentNoteColorSelected);
+}
+
+
+function onClickSaveNote() {
+    //aiguille selon le mode d'éditeur
+    //creation
+    if (noteEditorMode === "creation") {
+        eventSaveNewNote();
+    }else{
+        //Modification
+        onInsertNoteModificationInDB(noteToSave,currentEditorNoteKey);
+    }
+}
+
+
+//sauvegarde nouvelle note
+async function eventSaveNewNote(){
+    //Masque le popup
+    document.getElementById("divEditNote").style.display = "none";
+
+    //Formate la note
+    let noteToSave = onFormatNote();
+
+    //insertion dans la base et retour pour obtenir l'id généré
+    let newNoteAdded = await onInsertnewNoteInDB(noteToSave);
+
+    //insertion dans l'array
+    let noteKey = newNoteAdded._id;
+    allUserNotesArray[noteKey] = newNoteAdded;
+
+    //Ajoute aussi au tableau de clé
+    itemNotesSortedKey.push(noteKey);
+
+    console.log(allUserNotesArray);
+
+    //insère la note dans la page
+    let parentRef = document.getElementById("divNotesList");
+    allInstanceItemNotes[noteKey] = new itemNotes(noteKey,allUserNotesArray[noteKey].title,allUserNotesArray[noteKey].detail,parentRef,allUserNotesArray[noteKey].color);
+    
+    //affiche et actualise les autres éléments du menu
+    eventUpdateNotesPage();
+
+    //Notification
+    onShowNotifyPopup("noteSaved");
+}
 
 
 
 
 
 
+
+
+
+
+function onFormatNote(){
+    //Récupère les information et les formatent
+    let newTitle = onSetFirstLetterUppercase(inputTitleNoteRef.value) || "Nouvelle note",
+        newDetail = textareaDetailNoteRef.value,
+        newColor = currentNoteColorSelected,
+        newCreatedAt = null,
+        newDisplayOrder = 0;
+
+
+    // Ne set la date de création que lors d'une création et non lors d'une modification
+    if (noteEditorMode === "creation") {
+        newCreatedAt = new Date().toISOString();
+    }else {
+        newCreatedAt = allUserNotesArray.createdAt;
+    };
+
+    //retour
+    const formatedNote = {
+        title : newTitle,
+        detail: newDetail, 
+        color: newColor,
+        createdAt: newCreatedAt,
+        displayOrder: newDisplayOrder
+    }
+
+    return formatedNote;
+}
 
 
 // Quitte le menu

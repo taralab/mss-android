@@ -1048,8 +1048,8 @@ function onAddEventListenerforSessionItemEditor() {
     let parentRef = document.getElementById("divEditCounter");
     let btnColorCounterChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
     btnColorCounterChoiceArray.forEach(btnRef=>{
-        let btnColor = btnRef.dataset.btnSessionItemColor;
-        const onClickBtn = () => onChooseSessionItemColor(btnColor);
+        let newColor = btnRef.dataset.btnSessionItemColor;
+        const onClickBtn = () => onChooseSessionItemColor(newColor);
         btnRef.addEventListener("click",onClickBtn);
         onAddEventListenerInRegistry("sessionItemEditor",btnRef,"click",onClickBtn);
 
