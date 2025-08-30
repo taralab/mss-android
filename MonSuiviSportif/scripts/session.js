@@ -112,7 +112,7 @@ class Counter {
         // div container
         this.element = document.createElement("div");
         this.element.classList.add("item-session-container");
-        this.element.id = `itemSessionContainer_${id}`;
+        this.element.id = `itemSessionContainer_${this.id}`;
 
         this.render();
         // Insertion
@@ -1045,7 +1045,8 @@ function onAddEventListenerforSessionItemEditor() {
     });
 
     // Les couleurs
-    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    let parentRef = document.getElementById("divEditCounter");
+    let btnColorCounterChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
     btnColorCounterChoiceArray.forEach(btnRef=>{
         let btnColor = btnRef.dataset.btnSessionItemColor;
         const onClickBtn = () => onChooseSessionItemColor(btnColor);
@@ -1348,7 +1349,9 @@ function onChooseSessionItemColor(color) {
     sessionItemColorSelected = color;
 
     // Met en évidence le bouton sélectionné
-    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    let parentRef = document.getElementById("divEditCounter");
+
+    let btnColorCounterChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
     btnColorCounterChoiceArray.forEach(btn=>{
         if (btn.dataset.btnSessionItemColor === sessionItemColorSelected){
             btn.classList.add("btnColorSelected");
@@ -1719,7 +1722,8 @@ function communModifItemSessionDisplay(itemType,currentColor = "white") {
 
     // et gestion de la couleur en cours
     // Les couleurs
-    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    let parentRef = document.getElementById("divEditCounter");
+    let btnColorCounterChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
     btnColorCounterChoiceArray.forEach(btn=>{
         if (btn.dataset.btnSessionItemColor === currentColor){
             btn.classList.add("btnColorSelected");
@@ -2058,7 +2062,8 @@ function onResetSessionItemEditor() {
 
 
     // Met en évidence le bouton sélectionné
-    let btnColorCounterChoiceArray = document.querySelectorAll(".btnChooseColor");
+    let parentRef = document.getElementById("divEditCounter");
+    let btnColorCounterChoiceArray = parentRef.querySelectorAll(".btnChooseColor");
     btnColorCounterChoiceArray.forEach(btn=>{
         if (btn.dataset.btnSessionItemColor === sessionItemColorSelected){
             btn.classList.add("btnColorSelected");

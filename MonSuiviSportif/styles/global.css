@@ -2901,33 +2901,11 @@ div.notes {
     padding: 10px 5px 10px 10px;
     border-radius: 10px;
     box-shadow: var(--boxShadowMoins);
-    transition: all 0.35s ease-in-out;
-    transform-origin: top center;
-    overflow: hidden; /* évite débordement si réduit */
-    opacity: 0;
-    transform: scale(0.95);
-}
-
-
-/* Apparition progressive au chargement */
-div.notes.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
-
-/* Mode display : compacte */
-div.notes.display-mode {
     max-height: 220px;   /* ajuste selon la taille moyenne d’une note affichée */
-    padding: 10px 5px;
 }
 
 
-/* Mode édition : étendu */
-div.notes.edit-mode {
-    max-height: 400px;   /* assez grand pour textarea + boutons */
-    padding: 15px 10px;
-}
+
 
 /* Les couleurs des notes */
 .note-yellow {

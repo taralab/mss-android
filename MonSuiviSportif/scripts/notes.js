@@ -6,10 +6,11 @@ let allUserNotesArray = {
     testnotesA : {
         title: "titre Notes 1",
         detail:"Une detail des mes éléments de test",
-        color: "yellow"
+        color: "yellow",
+        displayOrder:0,//pas encore utilisé mais par anticipation
+        createdAt:""
     }
 },
-listenerNoteListRegistry = {},//pour gerer les évènements de la liste des notes générés
 noteInstanceButtonAddNew = null;
 
 
@@ -19,189 +20,79 @@ noteInstanceButtonAddNew = null;
 // *    *   *   *   *   *       *   *   *CLASS *    *   *   *       **  *   *   *
 
 class itemNotes{
-    constructor(key,title = "",detail = "",parentRef,isNewNote = false,color = "yellow") {
+    constructor(key,title,detail,parentRef,color) {
         this.key = key;
         this.title = title;
         this.detail = detail;
         this.parentRef = parentRef;
-        this.isNewNote = isNewNote;//conditionne les actions
         this.color = color;
-        this.tempColor = color;
+
 
         //réference
         this.pTitleRef = null;
         this.pDetailRef =null;
-        this.inputTitleRef = null;
-        this.textareaDetailRef = null;
-
-        //contenu dynamique à inserer selon
-        this.childDisplay = `
-            <div id="divItemNoteDisplayArea_${this.key}">
-                <p id="pNoteTitle_${this.key}" class="item-data-distance"></p>
-                <p id="pNoteDetail_${this.key}" class="item-data-comment-expand"></p>
-            </div>
-        `;
-        this.childEdit = `
-            <!-- Mode Affichage -->
-            <div>
-                <input class="note" id="inputNoteTitle_${this.key}" type="text" maxlength="40" placeholder="Titre de la note">
-                <textarea class="note" id="textareaNoteDetail_${this.key}" maxlength="150" placeholder="Detail"></textarea>
-            </div>
-            <div>
-                <p>
-                    <button class="btnChooseColor" type="button" style="background-color: #fff59d;" data-btn-note-color="yellow"></button>
-                    <button class="btnChooseColor" type="button" style="background-color: #4EA88A;" data-btn-note-color="green"></button>
-                    <button class="btnChooseColor" type="button" style="background-color: #ffbcbc;" data-btn-note-color="red"></button>
-                    <button class="btnChooseColor" type="button" style="background-color: #b3e0ff;" data-btn-note-color="blue"></button>
-                </p>
-            </div>
-            <div class="custom-editor-btn-menu">
-                <button class="btn-menu" id="btnCancelEditNote_${this.key}">
-                    <img src="Icons/Icon-Return-cancel.webp" alt="Icone">
-                </button>
-                <button class="btn-menu" id="btnDeleteNote_${this.key}">
-                    <img src="Icons/Icon-Delete-color.webp" alt="Icone">
-                </button>
-                <button class="btn-menu btn-focus" id="btnConfirmEditNote_${this.key}">
-                    <img src="Icons/Icon-Accepter.webp" alt="Icone">
-                </button>
-            </div>
-        `;
 
         //création container principal
         this.container = document.createElement("div");
         this.container.classList.add("notes");
+        this.container.id = `divItemNoteContainer_${this.id}`;
 
-        //la couleur
-        this.onSetColor(this.color);
 
-        //affichage de base (mode display ou éditeur selon si nouvelle note)
-        if (this.isNewNote) {
-            this.onClickEditNotes(this.key);
-        }else{
-            this.activateDisplayMode();
-        }  
+        //fait rendu html
+        this.render();
 
         //insertion dans le parent
         this.parentRef.appendChild(this.container);
 
-        // Petite pause pour déclencher la transition CSS d’apparition
-        requestAnimationFrame(() => {
-            this.container.classList.add("show");
-        });
+        //référencement
+        this.reference();
+        
+        //la couleur
+        this.onSetColor(this.color);
 
+        //affichage
+        this.updateNoteText();
+
+        //ajout écouteur
+        this.bindEvent();
     }
 
 
-    activateDisplayMode(){
-        //retire des évènements pour cette key s'il en restait
-        this._removeEventListenerRegistry(this.key);
 
-        //Insertion de la zone Display dans le dom
-        this.container.innerHTML = "";
-        this.container.innerHTML = this.childDisplay;
+    render(){
+        this.container.innerHTML = `
+                <p id="pNoteTitle_${this.key}" class="item-data-distance"></p>
+                <p id="pNoteDetail_${this.key}" class="item-data-comment-expand"></p>
+        `;
+        console.log("le parent :" , this.parentRef);
+    }
 
-        // Ajout des classes CSS pour l’animation
-        this.container.classList.remove("edit-mode");
-        this.container.classList.add("display-mode");
-
+    reference(){
         //reférencement 
         this.pTitleRef = this.container.querySelector(`#pNoteTitle_${this.key}`);
         this.pDetailRef = this.container.querySelector(`#pNoteDetail_${this.key}`);
+    }
 
+
+    updateNoteText(){
         //set les textes
         this.pTitleRef.textContent = this.title;
         this.pDetailRef.textContent = this.detail;
-
-        //ajoute l'ecouteur d'évènement pour le onclick display mode
-        const divNoteDisplayAreaRef = this.container.querySelector(`#divItemNoteDisplayArea_${this.key}`);
-        const onClickEdit = () => this.onClickEditNotes(this.key);
-        divNoteDisplayAreaRef.addEventListener("click", onClickEdit);
-        this._addEventListenerRegistry(this.key,divNoteDisplayAreaRef,"click",onClickEdit);
-
     }
 
     
+
+    bindEvent(){
+        //ajoute l'ecouteur d'évènement pour le onclick display mode
+        const onClickEdit = () => this.onClickEditNotes(this.key);
+        this.container.addEventListener("click", onClickEdit);
+    }
+
+
     onClickEditNotes(keyNotes){
-        //retire l'évènement clic sur le display
-        this._removeEventListenerRegistry(keyNotes);
-
-        //vide le parent
-        this.container.innerHTML = "";
-
-        //Affiche le mode edition
-        this.container.innerHTML = this.childEdit;
-
-        // Ajout des classes CSS pour l’animation
-        this.container.classList.remove("display-mode");
-        this.container.classList.add("edit-mode");
-
-        //Referencement du mode edition
-        this.inputTitleRef = this.container.querySelector(`#inputNoteTitle_${this.key}`);
-        this.textareaDetailRef = this.container.querySelector(`#textareaNoteDetail_${this.key}`);
-
-        //Remplit les champs
-        this.inputTitleRef.value = this.title;
-        this.textareaDetailRef.value = this.detail;
-
-
-        //met en évidence le bouton couleur en cours
-        this.onFocusBtnColor(this.color);
-
-        //Ajout les écouteurs pour le mode edition
-        this.bindEventListenerEditor();
+        alert("contact");
 
     }
-
-
-
-    bindEventListenerEditor(){
-
-        //Annuler
-        const btnReturnRef = this.container.querySelector(`#btnCancelEditNote_${this.key}`);
-        const onReturn = () => this.eventReturnFromEditNote();
-        btnReturnRef.addEventListener("click",onReturn);
-        this._addEventListenerRegistry(this.key,btnReturnRef,"click",onReturn);
-
-        //Valider
-        const btnSaveRef = this.container.querySelector(`#btnConfirmEditNote_${this.key}`);
-        const onSave = () => this.eventSaveFromEditNote(this.key);
-        btnSaveRef.addEventListener("click",onSave);
-        this._addEventListenerRegistry(this.key,btnSaveRef,"click",onSave);
-
-        //gestion du bouton supprimer
-        //Le bouton "supprimer" n'est pas visible pour une nouvelle note
-        const btnDeleteRef = this.container.querySelector(`#btnDeleteNote_${this.key}`);
-        btnDeleteRef.style.visibility = this.isNewNote ? "hidden" : "visible";
-        if(!this.isNewNote){
-            const onClickDelete = () => this.eventDeleteConfirmationFromEditNote();
-            btnDeleteRef.addEventListener("click",onClickDelete);
-            this._addEventListenerRegistry(this.key,btnDeleteRef,"click",onClickDelete);
-        }
-
-        // Les couleurs
-        let btnColorNoteChoiceArray = this.container.querySelectorAll(".btnChooseColor");
-        btnColorNoteChoiceArray.forEach(btnRef=>{
-            let btnColor = btnRef.dataset.btnNoteColor;
-            const onClickBtn = () => this.eventChangeColor(btnColor);
-            btnRef.addEventListener("click",onClickBtn);
-            this._addEventListenerRegistry(this.key,btnRef,"click",onClickBtn);
-        });
-    }
-
-
-
-    eventChangeColor(newColor){
-        //set la couleur
-        this.onSetColor(newColor);
-
-        //enregistre temporairement
-        this.tempColor = newColor;
-
-        // Met en évidence le bouton sélectionné
-        this.onFocusBtnColor(this.tempColor);
-    }
-
 
     //Set la couleur
     onSetColor(newColor){
@@ -252,164 +143,7 @@ class itemNotes{
 
 
 
-    onFocusBtnColor(newColor){
-        // Met en évidence le bouton sélectionné
-        let btnColorNoteChoiceArray = this.container.querySelectorAll(".btnChooseColor");
-        btnColorNoteChoiceArray.forEach(btn=>{
-            if (btn.dataset.btnNoteColor === newColor){
-                btn.classList.add("btnColorSelected");
-            }else if (btn.classList.contains("btnColorSelected")){
-                btn.classList.remove("btnColorSelected");
-            }
-        });
-    }
 
-    //RETOUR ou ANNULER
-    eventReturnFromEditNote(){
-        if (this.isNewNote) {
-            this.onCancelNewNote(this.key);
-        }else{
-            //remet la couleur d'origine si modifié
-            this.onSetColor(this.color);
-            //repasse en mode display
-            this.activateDisplayMode();
-        }
-        
-    }
-
-
-
-
-    //SAUVEGARDE
-    async eventSaveFromEditNote(keyNote){
-
-        //Récupère les information et les formatent
-        let newTitle = onSetFirstLetterUppercase(this.inputTitleRef.value) || "Nouvelle note",
-            newDetail = this.textareaDetailRef.value;
-
-        this.title = newTitle;
-        this.detail = newDetail;
-        this.color = this.tempColor;
-
-
-        //set l'array user
-        //initialise si n'existait pas
-        if(!allUserNotesArray[keyNote]){
-            allUserNotesArray[keyNote] = {};
-        }
-        allUserNotesArray[keyNote].title = newTitle;
-        allUserNotesArray[keyNote].detail = newDetail;
-        allUserNotesArray[keyNote].color = this.color;
-
-        //sauvegarde
-        if (this.isNewNote) {
-            //sauvegard la nouvelle note
-            onInsertnewNoteInDB(allUserNotesArray[keyNote], keyNote);
-
-            //passe en mode note existante
-            this.isNewNote = false;
-        }else{
-            //sauvegarde la modification
-            onInsertNoteModificationInDB(allUserNotesArray[keyNote], keyNote);
-        }
-
-
-        //Notification
-        onShowNotifyPopup("noteSaved");
-
-        //repasse en mode display
-        this.activateDisplayMode();
-    }
-
-    //SUPPRESSION
-    eventDeleteConfirmationFromEditNote(){
-        addEventForGlobalPopupConfirmation(
-            removeEventForGlobalPopupConfirmation,
-            () => this.confirmDeleteNote(this.key),
-            "Supprimer cette note ?",
-            "delete"
-        );
-    }
-
-    async confirmDeleteNote(keyTarget){
-
-        console.log("delete");
-        //suppression dans l'array
-        delete allUserNotesArray[keyTarget];
-
-        //suppression du tableau de key
-        let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
-        itemNotesSortedKey.splice(indexToRemove,1);
-
-        //retrait des évènements
-        this._removeEventListenerRegistry(keyTarget);
-
-        //Envoie vers la corbeille
-        await sendToRecycleBin(keyTarget);
-
-        //Notification
-        onShowNotifyPopup("noteDeleted");
-
-        //réactualisation des éléments de la page
-        eventUpdateNotesPage();
-
-        //Retrait de la class du DOM
-        if (this.container && this.container.parentNode) {
-            this.container.parentNode.removeChild(this.container);
-        }
-
-    }
-
-    //ANNULATION DE LA CREATION D'UNE NOUVELLE NOTE
-    onCancelNewNote(keyTarget){
-
-            //suppression du tableau de key
-            let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
-            itemNotesSortedKey.splice(indexToRemove,1);
-            //retrait des évènements
-            this._removeEventListenerRegistry(keyTarget);
-
-            //remet la couleur par d'origine
-
-
-            //réactualisation des éléments de la page
-            eventUpdateNotesPage();
-
-            //Retrait de la class du DOM
-            if (this.container && this.container.parentNode) {
-                this.container.parentNode.removeChild(this.container);
-            }
-    }
-
-
-
-    _addEventListenerRegistry(keyNotes, elementRef, actionType, calledFunction) {
-        //initialise si n'existe pas
-        if (!listenerNoteListRegistry[keyNotes]) {
-            listenerNoteListRegistry[keyNotes] = [];
-        }
-        //insère
-        listenerNoteListRegistry[keyNotes].push({elementRef, actionType, calledFunction });
-    }
-
-    _removeEventListenerRegistry(keyNotes){
-        //vérifie si l'élément existe dans le registre
-        if (listenerNoteListRegistry[keyNotes]) {
-            // Si des écouteurs sont présents pour cette keyNotes
-            listenerNoteListRegistry[keyNotes].forEach(({ elementRef, actionType, calledFunction })=>{
-                elementRef.removeEventListener(actionType, calledFunction);
-            });
-            // Vide le tableau après suppression
-            listenerNoteListRegistry[keyNotes] = [];
-            if(devMode === true){
-                console.log(`[EVENT-LISTENER] : Tous les écouteurs de ${keyNotes} ont été supprimés.`);
-            }
-        } else {
-            if(devMode === true){
-                console.log(`[EVENT-LISTENER] : aucune keynote "${keyNotes}" présente dans le registre d'évènement`);
-            }
-        }
-    }
 }
 
 
@@ -549,8 +283,6 @@ async function onOpenMenuNotes(isFromMain){
     //affiche et actualise les autres éléments du menu
     eventUpdateNotesPage();
 
-    console.log("[EVENT-LISTENER]",listenerNoteListRegistry);
-    
     //Création du menu principal
     onCreateMainMenuNotes();
 }
@@ -579,7 +311,7 @@ function onDisplayNotesList() {
     divParentRef.innerHTML = "";
 
     itemNotesSortedKey.forEach(key =>{
-        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,false,allUserNotesArray[key].color);
+        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
     });    
 
 }
@@ -592,23 +324,7 @@ function onDisplayNotesList() {
 //La note ne sera dans la base et dans l'array que lorsque je l'aurai enregistré
 function onClickAddNewNote() {
 
-    let divParentRef = document.getElementById("divNotesList");
 
-    //retire texte aucune élément si c'était affiché
-    if (itemNotesSortedKey.length === 0) {
-        divParentRef.innerHTML = "";
-    }
-
-    //génération d'un id
-    let newNoteID = getRandomShortID("notes_");
-    //Ajoute la key au tableau des key
-    itemNotesSortedKey.push(newNoteID);
-
-    //Insertion de la note en mode edition
-    new itemNotes(newNoteID,"","",divParentRef,true);
-
-    //actualise les éléments de la page
-    eventUpdateNotesPage();
 }
 
 
