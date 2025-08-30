@@ -129,7 +129,7 @@ class itemNotes{
         this.reference();
         
         //la couleur
-        onSetColor(this.container,this.color);
+        this.requestSetColor();
 
         //affichage
         this.updateNoteText();
@@ -160,20 +160,15 @@ class itemNotes{
         this.pDetailRef.textContent = this.detail;
     }
 
-    
+    requestSetColor(){
+        onSetColor(this.container,this.color);
+    }
 
     bindEvent(){
         //ajoute l'ecouteur d'évènement pour le onclick display mode
         const onClickEdit = () => onClickEditNotes(this.key);
         this.container.addEventListener("click", onClickEdit);
     }
-
-
-
-    
-
-
-
 
 }
 
@@ -298,9 +293,6 @@ async function onOpenMenuNotes(isFromMain){
     //trie les clé par ordre de création
     itemNotesSortedKey = getNoteSortedKeyByCreatedAt(allUserNotesArray);
 
-    console.log(itemNotesSortedKey);
-    console.log(allUserNotesArray);
-
     //affiche la liste
     onDisplayNotesList();
 
@@ -400,8 +392,9 @@ function getNoteSortedKeyByCreatedAt(noteList) {
 function eventUpdateNotesPage() {
     //affiche "Aucune élément si besoin"
     if (itemNotesSortedKey.length < 1) {
-        divParentRef = document.getElementById("divNotesList");
-        divParentRef.innerHTML = "Aucune note à afficher";
+        document.getElementById("pNoteListNoItem").style.display = "block";
+    }else{
+        document.getElementById("pNoteListNoItem").style.display = "none";
     }
 
     //note info
@@ -605,7 +598,7 @@ function onClickSaveNote() {
         eventSaveNewNote();
     }else{
         //Modification
-        onInsertNoteModificationInDB(noteToSave,currentEditorNoteKey);
+        eventSaveNoteModification();
     }
 }
 
@@ -628,7 +621,6 @@ async function eventSaveNewNote(){
     //Ajoute aussi au tableau de clé
     itemNotesSortedKey.push(noteKey);
 
-    console.log(allUserNotesArray);
 
     //insère la note dans la page
     let parentRef = document.getElementById("divNotesList");
@@ -636,6 +628,8 @@ async function eventSaveNewNote(){
     
     //affiche et actualise les autres éléments du menu
     eventUpdateNotesPage();
+
+
 
     //Notification
     onShowNotifyPopup("noteSaved");
@@ -646,7 +640,34 @@ async function eventSaveNewNote(){
 
 
 
+async function eventSaveNoteModification() {
+    //Masque le popup
+    document.getElementById("divEditNote").style.display = "none";
 
+    //Formate la note
+    let noteToSave = onFormatNote();
+
+    //insert la modification en base
+    let noteAdded = await onInsertNoteModificationInDB(noteToSave,currentEditorNoteKey);
+
+    //insert les modifications dans l'array
+    allUserNotesArray[noteAdded._id] = noteAdded;
+
+
+    //let à jour l'instance
+    allInstanceItemNotes[noteAdded._id].title = noteAdded.title;
+    allInstanceItemNotes[noteAdded._id].detail = noteAdded.detail;
+    allInstanceItemNotes[noteAdded._id].color = noteAdded.color;
+
+    allInstanceItemNotes[noteAdded._id].requestSetColor();
+    allInstanceItemNotes[noteAdded._id].updateNoteText();
+
+
+    //Pas besoin d'action sur le tableau des clé car inchangé
+
+    //Notification
+    onShowNotifyPopup("noteSaved");
+}
 
 
 
@@ -663,7 +684,7 @@ function onFormatNote(){
     if (noteEditorMode === "creation") {
         newCreatedAt = new Date().toISOString();
     }else {
-        newCreatedAt = allUserNotesArray.createdAt;
+        newCreatedAt = allUserNotesArray[currentEditorNoteKey].createdAt;
     };
 
     //retour
