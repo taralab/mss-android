@@ -89,7 +89,7 @@ async function onClosePopupUpdate() {
 
 
     //retire les écouteur
-    onRemoveEventListenerInRegistry("updateEvent");
+    onRemoveEventListenerInRegistry(["updateEvent"]);
 
     //vide les références
     divPopupUpdateRef = null;

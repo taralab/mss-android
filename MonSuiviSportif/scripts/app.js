@@ -1,16 +1,5 @@
 let animCascadeDelay = 60;//milisecondes de l'animation cascade
 
-// Detection de l'environnement
-const envPath = window.location.pathname; // exemple: "/mss/index.html"
-const envBaseFolder = envPath.split('/')[1]; // "mss"
-
-if (envBaseFolder !== "mss") {
-    // document.getElementById("divHeader").classList.add("header-dev");
-    console.log("configuration style dev");
-}
-
-
-
 
 //  ------------------   Gestion action sous apparition clavier------------------------- 
 
@@ -190,47 +179,6 @@ divItemListRef.addEventListener('scroll', () => {
 
 
 
-
-// ----------------------------- gestion PERSISTANCE DATA BASE --------------------------------------------
-
-
-
-//   Base persistante ?
-async function checkIfPersistent() {
-    if (navigator.storage && navigator.storage.persisted) {
-      const isPersisted = await navigator.storage.persisted();
-      console.log(`Le stockage est ${isPersisted ? "persistant" : "volatil"}.`);
-
-        //   Si ne l'est pas, demande à l'utilisateur
-        if (!isPersisted) {
-            console.log("Base non persistante. Demande à l'utilisateur");
-            requestPersistentStorage();
-        }
-
-    } else {
-      console.warn("L'API StorageManager n'est pas disponible.");
-    }
-}
-  
-  // Vérifie si le stockage est persistant
-  checkIfPersistent();
-
-
-
-// Fonction de demande de persistance
-async function requestPersistentStorage() {
-    if (navigator.storage && navigator.storage.persist) {
-      const isPersisted = await navigator.storage.persist();
-        if (isPersisted) {
-            console.log("Le stockage est maintenant persistant.");
-        } else {
-            console.log("Impossible de rendre le stockage persistant.");
-        }
-    } else {
-      console.warn("L'API StorageManager n'est pas disponible.");
-    }
-}
-  
 
 // -----------------------------------  pouch DB -------------------------------------
 
