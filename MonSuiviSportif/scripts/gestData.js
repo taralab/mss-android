@@ -742,14 +742,14 @@ async function importBdD(dataToImport) {
 
         //NOTES    
         } else if (e.type === noteStoreName){
-            let newNote = {
-                title : e.newTitle,
-                detail: e.newDetail, 
-                color: e.newColor,
-                createdAt: e.newCreatedAt,
-                displayOrder: e.newDisplayOrder
+            let newNoteToAdd = {
+                title : e.title,
+                detail: e.detail, 
+                color: e.color,
+                createdAt: e.createdAt,
+                displayOrder: e.displayOrder
             };
-            await onInsertnewNoteInDB(newNote);
+            await onInsertnewNoteInDB(newNoteToAdd);
         }
 
 

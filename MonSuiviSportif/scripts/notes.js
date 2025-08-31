@@ -287,6 +287,7 @@ async function onOpenMenuNotes(isFromMain){
     if (!isNoteLoadedFromDB) {
         isNoteLoadedFromDB = true;
         await onLoadNoteFromDB();
+
     }
 
 
