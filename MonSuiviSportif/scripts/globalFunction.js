@@ -1323,13 +1323,15 @@ function onLeaveMenu(menuTarget) {
         break;
 
         // Condition utilisateur
-
         case "userCondition":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : UserCondition");};
             // Affiche à nouveau header et footer
             document.getElementById("divMainBtnMenu").style.display = "flex";
             document.getElementById("divHeader").style.display = "flex";
             onChangeDisplay(["divConditionUtilisation"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+
+            //vérifie si il y a un popup de nouveauté à afficher
+            onCheckUpdateEvent();
         break;
 
         

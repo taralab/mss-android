@@ -396,10 +396,17 @@ async function firstActualisation() {
 
 
     // CONDITION UTILISATION
+        console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
     if (userInfo.conditionAccepted === false) {
         onGenerateConditionUtilisation();
+        //la vérification des update event aura lieu après l'acceptation des conditions
+        //dans onLeaveMenu User condition
+
+    }else{
+        //vérification des évènements pour nouveauté
+        onCheckUpdateEvent();
     }
-    console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
+
 
     // FAVORIS
     onGenerateActivityOptionChoice("selectorCategoryChoice");
