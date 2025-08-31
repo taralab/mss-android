@@ -55,14 +55,16 @@ function onInitUpdateEvent() {
 
 
     // Tout tap dans la popup = image suivante
-    divPopupContentRef.addEventListener("click", e => {
-        nextPopupUpdateImage();
-    });
+    const onClickNextUpdateView = () => nextPopupUpdateImage();
+    divPopupContentRef.addEventListener("click", onClickNextUpdateView);
+    onAddEventListenerInRegistry("updateEvent",divPopupContentRef,"click", onClickNextUpdateView);
 
     // Tap en dehors = fermeture
-    divPopupUpdateRef.addEventListener("click", e => {
+    const onClickOutsideUpdate = (e) => {
         if (e.target === divPopupUpdateRef) onClosePopupUpdate();
-    });
+    };
+    divPopupUpdateRef.addEventListener("click", onClickOutsideUpdate);
+    onAddEventListenerInRegistry("updateEvent", divPopupUpdateRef, "click", onClickOutsideUpdate);
 
 }
 
@@ -87,7 +89,7 @@ async function onClosePopupUpdate() {
 
 
     //retire les écouteur
-
+    onRemoveEventListenerInRegistry("updateEvent");
 
     //vide les références
     divPopupUpdateRef = null;

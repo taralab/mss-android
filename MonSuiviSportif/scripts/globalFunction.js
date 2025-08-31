@@ -580,7 +580,8 @@ const allEventListenerRegistry = {
     templateSession:[],
     sortFilterSearch:[],
     mainButton:[],
-    noteItemEditor:[]
+    noteItemEditor:[],
+    updateEvent:[]
 }
 
 
