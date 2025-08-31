@@ -322,6 +322,7 @@ async function onLoadStores() {
             userInfo.pseudo = profil.data.pseudo;
             userInfo.customNotes = profil.data.customNotes;
             userInfo.conditionAccepted = profil.data.conditionAccepted;
+            userInfo.updateNameList = profil.data.updateNameList || [];
         }
 
         const rewards = await db.get(rewardsStoreName).catch(() => null);
@@ -397,6 +398,7 @@ async function firstActualisation() {
 
     // CONDITION UTILISATION
         console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
+        console.log("userInfo" , userInfo);
     if (userInfo.conditionAccepted === false) {
         onGenerateConditionUtilisation();
         //la vérification des update event aura lieu après l'acceptation des conditions

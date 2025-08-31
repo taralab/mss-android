@@ -1,9 +1,8 @@
 //contient le nom de la mise à jour
 //vérifie si l'utilisateur possède ce nom dans la base 
 //pour savoir si on doit lui afficher le popup des nouveautés ou non
-const updateName = "Notes";
-let isUpdateImgAvailable = false;
-
+//l'information sera stocké dans userInfo.updateNameList[]
+const updateName = "Tomates";
 
 //tableau des images pour les nouveautés
 const updateImageArray = [
@@ -31,8 +30,11 @@ let isPopupUpdateShowingImgA = true;
 
 //vérification condition affiche nouveauté
 function onCheckUpdateEvent(){
-    if (isUpdateImgAvailable) {
-        isUpdateImgAvailable = false;
+
+    //Nom de la mise à jour dans la liste de l'user ?
+    let isUpdateDisplayRequiered = !userInfo.updateNameList.includes(updateName);
+
+    if (isUpdateDisplayRequiered) {
         onInitUpdateEvent();
         startUpdateEvent();
     }
@@ -78,7 +80,7 @@ function startUpdateEvent() {
 
 
 //ferme le popup
-function onClosePopupUpdate() {
+async function onClosePopupUpdate() {
     divPopupUpdateRef.classList.remove("active");
     imgUpdateARef.classList.remove("active");
     imgUpdateBRef.classList.remove("active");
@@ -94,6 +96,9 @@ function onClosePopupUpdate() {
     imgUpdateARef = null;
     imgUpdateBRef = null;
     divPopupUpdatePBRef = null;
+
+    //lance la sauvegarde de l'information
+    await eventSaveUpdateDisplayed();
 }
 
 
@@ -137,3 +142,16 @@ function nextPopupUpdateImage() {
 
 
 
+//sauvegarde
+
+async function eventSaveUpdateDisplayed() {
+    if (devMode === true){console.log("L'utilisateur à vue les nouveauté. Sauvegarde");};
+
+    userInfo.updateNameList.push(updateName);
+
+    //Sauvegarde
+    await updateDocumentInDB(profilStoreName, (doc) => {
+        doc.data = userInfo;
+        return doc;
+    });
+}

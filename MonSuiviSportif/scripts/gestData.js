@@ -715,7 +715,8 @@ async function importBdD(dataToImport) {
             Object.assign(userInfo,{
                 pseudo : e.data.pseudo,
                 customNotes : e.data.customNotes,
-                conditionAccepted: e.data.conditionAccepted
+                conditionAccepted: e.data.conditionAccepted,
+                updateNameList : e.data.updateNameList || []
             });
             
             //Sauvegarde

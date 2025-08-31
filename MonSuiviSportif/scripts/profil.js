@@ -3,7 +3,8 @@
 let userInfo = {
     pseudo :"",
     customNotes :"",
-    conditionAccepted : false
+    conditionAccepted : false,
+    updateNameList:[]
 };
 
 // Référencement
