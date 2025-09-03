@@ -1055,6 +1055,34 @@ const allRewardsObject = {
         activityName: "YOGA",
         groupColor: "nuance-green-light",
         text: "100 séances de yoga"
+    },
+    "RUN-AND-BIKE-A-1-SEANCE": {
+        imgRef: "./Badges/Badge-RUN-AND-BIKE-A.webp",
+        title: "Run and bike palier 1!",
+        activityName: "RUN-AND-BIKE",
+        groupColor: "nuance-blue-light",
+        text: "1 séance de run and bike"
+    },
+    "RUN-AND-BIKE-B-10-SEANCES": {
+        imgRef: "./Badges/Badge-RUN-AND-BIKE-B.webp",
+        title: "Run and bike : Palier 10",
+        activityName: "RUN-AND-BIKE",
+        groupColor: "nuance-blue-light",
+        text: "10 séances de run and bike"
+    },
+    "RUN-AND-BIKE-C-50-SEANCES": {
+        imgRef: "./Badges/Badge-RUN-AND-BIKE-C.webp",
+        title: "Run and bike : Palier 50",
+        activityName: "RUN-AND-BIKE",
+        groupColor: "nuance-blue-light",
+        text: "50 séances de run and bike"
+    },
+    "RUN-AND-BIKE-D-100-SEANCES": {
+        imgRef: "./Badges/Badge-RUN-AND-BIKE-D.webp",
+        title: "Run and bike (Palier 100)",
+        activityName: "RUN-AND-BIKE",
+        groupColor: "nuance-blue-light",
+        text: "100 séances de run and bike"
     }
 };
 

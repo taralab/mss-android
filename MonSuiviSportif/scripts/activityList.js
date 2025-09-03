@@ -179,6 +179,11 @@ let activityChoiceArray = {
         displayName : "Skateboard",
         colorNuanceClass : "nuance-purple",
         imgRef : "./images/icon-skate.webp"
+    },
+    "RUN-AND-BIKE": {
+        displayName : "Run and Bike",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-run-and-bike.webp"
     }
 };
 
