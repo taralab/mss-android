@@ -2963,11 +2963,11 @@ textarea.note{
 .popup-update-content {
     width: 90%;
     max-width: 420px;
-    max-height: 80dvh;
+    max-height: 90dvh;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,.2);
-    padding: 16px;
+    padding: 10px;
     display: flex; flex-direction: column; gap: 12px;
     transform: scale(.95); opacity: 0;
     transition: transform .35s ease, opacity .35s ease;
@@ -2984,8 +2984,8 @@ textarea.note{
     border-radius: 12px;
     background: linear-gradient(180deg,#fafafa,#f1f1f4);
     overflow: hidden;
-    height: 50dvh;
-    max-height: 50dvh;
+    height: 70dvh;
+    max-height: 70dvh;
     touch-action: manipulation;
     user-select: none;
     cursor: pointer;
