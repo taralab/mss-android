@@ -186,8 +186,14 @@ function onTraiteMobileNotify() {
     // Recherche dans quel objet se trouve la récompense (standard ou spécial)
     let isStandartReward = Object.keys(allRewardsObject).includes(rewardKey);
     if (isStandartReward) {
-        let activityName = allRewardsObject[rewardKey].activityName;
-        let displayName = activityChoiceArray[activityName].displayName;
+
+        //récupère le texte de la catégorie de récompense
+        let categorie = allRewardsObject[rewardKey].activityName;
+
+        //récupère le displayName de l'activité pour les récompenses non "commun"
+        let displayName = null;
+        displayName = categorie === "COMMUN" ? "COMMUN" : activityChoiceArray[categorie].displayName;
+        
         sendRewardMobileNotify(`🏆${displayName.toUpperCase()}`, allRewardsObject[rewardKey].title);
     }else{
         sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", allSpecialEventsRewardsObject[rewardKey].title);

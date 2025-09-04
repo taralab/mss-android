@@ -1065,7 +1065,7 @@ const allRewardsObject = {
     },
     "RUN-AND-BIKE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RUN-AND-BIKE-B.webp",
-        title: "Chacun son tour (Palier 10)",
+        title: "Palier 10 : Alors ? Plutôt Run ou Bike ?",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
         text: "10 séances de run and bike"
