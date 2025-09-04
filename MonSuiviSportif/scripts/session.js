@@ -1503,8 +1503,11 @@ function eventCreateSessionItem() {
     // Popup notification
     onShowNotifyPopup(notifyType);
 
-    console.log(sessionAllItemsInstance);
-    console.log(userSessionItemsList);
+    if (devMode === true) {
+        console.log(sessionAllItemsInstance);
+        console.log(userSessionItemsList);
+    }
+
 
 }
 

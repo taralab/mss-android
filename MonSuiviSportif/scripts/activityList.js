@@ -181,7 +181,7 @@ let activityChoiceArray = {
         imgRef : "./images/icon-skate.webp"
     },
     "RUN-AND-BIKE": {
-        displayName : "Run and Bike",
+        displayName : "Run & Bike",
         colorNuanceClass : "nuance-blue-light",
         imgRef : "./images/icon-run-and-bike.webp"
     }

@@ -693,6 +693,9 @@ function onChangeSelectorYearGraph(yearTarget){
 function displayActivityStats(activityName) {
     if (devMode === true){console.log("[STAT] demande de stat pour " + activityName);};
 
+    //set le displayName
+    let displayName = activityChoiceArray[activityName].displayName;
+
     //image previsualisation
     imgStatActivityPreviewRef.src = activityChoiceArray[activityName].imgRef;
 
@@ -721,8 +724,8 @@ function displayActivityStats(activityName) {
 
     // Texte convivial pour l'utilisateur (si distance > 0 ou non)
     const generalText1 = statsAllTime.totalDistance > 0 
-        ? `Depuis le <b>${firstActivityDateFormatted}</b>, tu as pratiqué <b>${statsAllTime.totalSessions} session(s)</b> de <b>${activityName.replace("_", " ").toUpperCase()}</b>, parcouru environ <b>${totalKm} km</b> et accumulé un total de <b>${totalDurationFormatted} heure(s) </b> de pratique.`
-        : `Depuis le <b>${firstActivityDateFormatted}</b>, tu as pratiqué <b>${statsAllTime.totalSessions} session(s)</b> de <b>${activityName.replace("_", " ").toUpperCase()}</b> et accumulé un total de <b>${totalDurationFormatted} heure(s)</b> de pratique.`;
+        ? `Depuis le <b>${firstActivityDateFormatted}</b>, tu as pratiqué <b>${statsAllTime.totalSessions} session(s)</b> de <b>${displayName.toUpperCase()}</b>, parcouru environ <b>${totalKm} km</b> et accumulé un total de <b>${totalDurationFormatted} heure(s) </b> de pratique.`
+        : `Depuis le <b>${firstActivityDateFormatted}</b>, tu as pratiqué <b>${statsAllTime.totalSessions} session(s)</b> de <b>${displayName.toUpperCase()}</b> et accumulé un total de <b>${totalDurationFormatted} heure(s)</b> de pratique.`;
 
 
     const generalText2 = `Ta dernière activité de ce type remonte au <b>${lastActivityDateFormatted}</b>.`;
@@ -751,7 +754,7 @@ function displayActivityStats(activityName) {
 
     // Afficher les résultats
     document.getElementById("stats").innerHTML = `
-        <h2 class="stat-title-1">Résumé pour : <span class="highlight">${activityName.replace("_", " ")}</span></h2>
+        <h2 class="stat-title-1">Résumé pour : <span class="highlight">${displayName.toUpperCase()}</span></h2>
         
         <section class="stat">
             <p>${generalText1}</p>
@@ -826,7 +829,7 @@ function displayGeneralStats(nonPlannedActivitiesKeys) {
     const formattedDate = firstActivityDate.toLocaleDateString("fr-FR");
 
     const favouriteActivityName = getMostPracticedActivity(nonPlannedActivitiesKeys); // Activité la plus pratiquée
-
+    const displayName = activityChoiceArray[favouriteActivityName].displayName;
 
 
 
@@ -838,7 +841,7 @@ function displayGeneralStats(nonPlannedActivitiesKeys) {
                 Depuis le <b>${formattedDate}</b>, tu as pratiqué <b>${totalActivities} activité(s)</b>, 
                 parcouru environ <b>${totalDistance.toFixed(2)} km</b> et accumulé un total de <b>${formatDuration(totalDuration)} heure(s)</b> de sport. 
             </p>
-            <p>Activité la plus pratiquée : <b>${favouriteActivityName}</b>.</p>
+            <p>Activité la plus pratiquée : <b>${displayName}</b>.</p>
 
             <p>Bravo ! 👍</p>
         </section>
