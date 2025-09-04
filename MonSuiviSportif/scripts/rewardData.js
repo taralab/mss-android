@@ -233,56 +233,56 @@ const allRewardsObject = {
     "CAP-A-1-SEANCE": {
         imgRef: "./Badges/Badge-CAP-A.webp",
         title: "1 km à pieds…",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "1 séance de C.A.P"
     },
     "CAP-B-10-SEANCES": {
         imgRef: "./Badges/Badge-CAP-B.webp",
         title: "Course à pied : Palier 10",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "10 séances de C.A.P"
     },
     "CAP-C-50-SEANCES": {
         imgRef: "./Badges/Badge-CAP-C.webp",
         title: "Course à pied : Palier 50",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "50 séances de C.A.P"
     },
     "CAP-D-100-SEANCES": {
         imgRef: "./Badges/Badge-CAP-D.webp",
         title: "...ça use les souliers  (Palier 100)",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "100 séances de C.A.P"
     },
     "CAP-E-10-KM": {
         imgRef: "./Badges/Badge-CAP-E.webp",
         title: "Runner 10 km",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "une séance de C.A.P d'environ 10 km"
     },
     "CAP-F-SEMI-MARATHON": {
         imgRef: "./Badges/Badge-CAP-F.webp",
         title: "Semi-marathon",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "une séance de C.A.P d'environ 21 km"
     },
     "CAP-G-MARATHON": {
         imgRef: "./Badges/Badge-CAP-G.webp",
         title: "Un marathon dans les jambes",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "une séance de C.A.P d'environ 42 km"
     },
     "CAP-ULTRA-TRAIL": {
         imgRef: "./Badges/Badge-CAP-H.webp",
         title: "Ultra-trail",
-        activityName: "CAP",
+        activityName: "C-A-P",
         groupColor: "nuance-blue-light",
         text: "une séance de C.A.P supérieure à 100 km"
     },

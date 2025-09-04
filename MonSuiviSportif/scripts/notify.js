@@ -190,11 +190,14 @@ function onTraiteMobileNotify() {
         //récupère le texte de la catégorie de récompense
         let categorie = allRewardsObject[rewardKey].activityName;
 
+        if (devMode === true) {
+            console.log("categorie : ", categorie);
+        }
+
         //récupère le displayName de l'activité pour les récompenses non "commun"
         let displayName = null;
         displayName = categorie === "COMMUN" ? "COMMUN" : activityChoiceArray[categorie].displayName;
-        
-        sendRewardMobileNotify(`🏆${displayName.toUpperCase()}`, allRewardsObject[rewardKey].title);
+        sendRewardMobileNotify(`🏆 ${displayName.toUpperCase()}`, allRewardsObject[rewardKey].title);
     }else{
         sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", allSpecialEventsRewardsObject[rewardKey].title);
     };
