@@ -186,7 +186,9 @@ function onTraiteMobileNotify() {
     // Recherche dans quel objet se trouve la récompense (standard ou spécial)
     let isStandartReward = Object.keys(allRewardsObject).includes(rewardKey);
     if (isStandartReward) {
-        sendRewardMobileNotify(`🏆${allRewardsObject[rewardKey].activityName}`, allRewardsObject[rewardKey].title);
+        let activityName = allRewardsObject[rewardKey].activityName;
+        let displayName = activityChoiceArray[activityName].displayName;
+        sendRewardMobileNotify(`🏆${displayName.toUpperCase()}`, allRewardsObject[rewardKey].title);
     }else{
         sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", allSpecialEventsRewardsObject[rewardKey].title);
     };
