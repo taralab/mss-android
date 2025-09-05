@@ -1065,14 +1065,14 @@ const allRewardsObject = {
     },
     "RUN-AND-BIKE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RUN-AND-BIKE-B.webp",
-        title: "Palier 10 : Alors ? Plutôt Run ou Bike ?",
+        title: "Alors ? Plutôt Run ou Bike ?",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
         text: "10 séances de run and bike"
     },
     "RUN-AND-BIKE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-RUN-AND-BIKE-C.webp",
-        title: "Coordination quasi parfaite (Palier 50)",
+        title: "Coordination quasi parfaite",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
         text: "50 séances de run and bike"
