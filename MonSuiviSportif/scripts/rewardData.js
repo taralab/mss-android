@@ -1061,28 +1061,28 @@ const allRewardsObject = {
         title: "À deux, c’est mieux !",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
-        text: "1 séance de run and bike"
+        text: "1 séance de run & bike"
     },
     "RUN-AND-BIKE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RUN-AND-BIKE-B.webp",
         title: "Alors ? Plutôt Run ou Bike ?",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
-        text: "10 séances de run and bike"
+        text: "10 séances de run & bike"
     },
     "RUN-AND-BIKE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-RUN-AND-BIKE-C.webp",
         title: "Coordination quasi parfaite",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
-        text: "50 séances de run and bike"
+        text: "50 séances de run & bike"
     },
     "RUN-AND-BIKE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-RUN-AND-BIKE-D.webp",
         title: "Transition sans encombre (Palier 100)",
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
-        text: "100 séances de run and bike"
+        text: "100 séances de run & bike"
     }
 };
 
