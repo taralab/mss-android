@@ -127,7 +127,7 @@ async function onLoadCorbeilleItemsListFromDB() {
                         list[doc._id] = {
                             type : doc.oldItemInfo.type,
                             displayType : "Activité",
-                            name : `${doc.name} du ${doc.date}`,
+                            name : `${activityChoiceArray[doc.name].displayName} du ${doc.date}`,
                             deletedDate : doc.oldItemInfo.deletedDate
                         };
                         break;
@@ -300,7 +300,14 @@ async function sendToRecycleBin(key) {
 
 async function eventAskForRestauration(itemType,itemKey) {
     
-    let restaurationAutorized = await onCheckIfRestaurationPossible(itemType);
+    // Toujours restaurer pour les activité. pour les reste, on vérifie si le max n'est pas atteind
+    let restaurationAutorized = false;
+    
+    if (itemType === "ActivityList") {
+        restaurationAutorized = true;
+    }else{
+        restaurationAutorized = await onCheckIfRestaurationPossible(itemType);
+    }
 
     console.log("autorisation :", restaurationAutorized);
 
@@ -350,16 +357,10 @@ async function eventRestaureItem(key) {
             onActivityWasRestaured(itemRestaured);
             break;
         case "Template":
-            //verifie si le nombre max n'a pas été atteind
-
-
             //lance la restauration
             onTemplateActivityWasRestaured(itemRestaured);
             break;
         case "TemplateSession":
-            //verifie si le nombre max n'a pas été atteind
-
-
             //lance la restauration
             onTemplateSessionWasRestaured(itemRestaured);
             break;
