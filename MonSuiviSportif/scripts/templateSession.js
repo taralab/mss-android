@@ -444,7 +444,7 @@ async function onCreateTemplateSessionTableLine(isModification,templateData) {
                         new DivGenItemSession(parentRef,index,e.type,e.name,e.color);
                         break;
                     case "MINUTEUR":
-                        new DivGenItemSession(parentRef,index,e.type,e.name,e.color,null,null,e.duration);
+                        new DivGenItemSession(parentRef,index,e.type,e.name,e.color,"0","0",e.duration);
                         break;
                 
                     default:

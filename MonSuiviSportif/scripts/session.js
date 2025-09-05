@@ -2472,6 +2472,7 @@ class DivGenItemSession{
         this.element.id = `divGenSessionItemContainer_${this.idNumber}`;
         this.element.classList.add("gen-session-module");
 
+
         //contenu dynamique à injecter selon
         this.dynamicContentData = {
             COUNTER : `
@@ -2595,6 +2596,7 @@ class DivGenItemSession{
 
 
     updateDynamicArea(type) {
+
         //reset
         this.dynamicAreaRef.innerHTML = "";
 
@@ -3089,7 +3091,7 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
                 new DivGenItemSession(parentRef,index,e.type,e.name,e.color);
                 break;
             case "MINUTEUR":
-                new DivGenItemSession(parentRef,index,e.type,e.name,e.color,null,null,e.duration);
+                new DivGenItemSession(parentRef,index,e.type,e.name,e.color,"0","0",e.duration);
                 break;
             
             default:
