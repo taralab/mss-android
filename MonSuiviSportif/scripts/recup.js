@@ -8,6 +8,18 @@ let recupDuration = 15,
     isRecupAlreadyReferenced = false;
 
 
+let defaultRecupData = {
+    isCustomMode : false,
+    predefinitValue : 30,
+    customValue : 30
+}
+
+let userRecupData = {
+    isCustomMode : false,
+    predefinitValue : 30,
+    customValue : 30
+}
+
 //référence
 let divRecupPopupRef = null;
     spanRecupTimeRef  = null;

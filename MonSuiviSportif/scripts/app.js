@@ -138,7 +138,8 @@ let dbName = `MSS_db`,
     favorisStoreName = "Favoris",
     templateSessionStoreName = "TemplateSession",
     planningStoreName ="Planning",
-    noteStoreName = "Notes";
+    noteStoreName = "Notes",
+    recupStoreName = "Recup";
     
 
 
@@ -254,6 +255,15 @@ async function onCreateDBStore() {
     await createStore(specialRewardsStoreName, { type: specialRewardsStoreName, specialRewards: [] });
     
     await createStore(planningStoreName, { type: planningStoreName, userPlanning : defaultPlanningArray});
+
+    await createStore(recupStoreName,{
+        type:recupStoreName,
+        data:{
+            isCustomMode : defaultRecupData.isCustomMode,
+            predefinitValue : defaultRecupData.predefinitValue,
+            customValue : defaultRecupData.customValue
+        }
+    });
 
 }
 

@@ -1,5 +1,5 @@
 
-let currentExportVersion = 4;//version actuel des fichers d'import/export
+let currentExportVersion = 5;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -563,6 +563,14 @@ async function eventImportBdD(inputRef) {
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
                         break;
+                        
+                    case 5:
+                        //Le fichier V5 contient le nouveau STORE RECUP.
+                        console.log("[IMPORT] V5");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
                     default:
                         throw new Error("⚠️ Format de fichier inconnu.");
                 }
@@ -750,9 +758,20 @@ async function importBdD(dataToImport) {
                 displayOrder: e.displayOrder
             };
             await onInsertnewNoteInDB(newNoteToAdd);
+
+        // RECUP
+        } else if (e.type === recupStoreName){
+            Object.assign(userRecupData,{
+                isCustomMode : e.data.isCustomMode ?? defaultRecupData.isCustomMode,
+                predefinitValue : e.data.predefinitValue || defaultRecupData.predefinitValue,
+                customValue : e.data.customValue || defaultRecupData.customValue
+                }
+            );
+            await updateDocumentInDB(recupStoreName, (doc) => {
+                doc.data = e.userRecupData;
+                return doc;
+            });
         }
-
-
         // Traitement des pourcentages
         importCount++;
 
