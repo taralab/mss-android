@@ -139,6 +139,45 @@ class Button_main_menu{
 }
 
 
+//Bouton RECUP
+class Button_main_menu_recup{
+    constructor(imgRef,text,functionTarget){
+        this.imgRef = imgRef;
+        this.text = text;
+        this.functionTarget = functionTarget;
+
+        this.button = document.createElement("button");
+        
+        this.button.id = getRandomShortID("mainMenuBtn_");
+
+        this.button.classList.add("btn-menu");
+
+
+        // Rendu
+        this.render();
+        //Insertion
+        let parentRef = document.getElementById("divMainBtnMenu");
+        parentRef.appendChild(this.button);
+        //evènement
+        this.listener();
+
+    }
+
+    render(){
+        this.button.innerHTML = `
+            <img src=${this.imgRef} alt="Icone">
+            <span>${this.text}</span>
+        `;
+    }
+
+    listener(){
+        this.button.addEventListener("click",()=>{
+            this.functionTarget();
+        });
+    }
+}
+
+
 class Button_main_menu_Valider{
     constructor(text,functionTarget){
         this.text = text;
@@ -208,6 +247,10 @@ let btnMainMenuData = {
     notes:{
         imgRef:"./Icons/Icon-Notes.webp",
         text:"Notes"
+    },
+    recup:{
+        imgRef:"./Icons/Icon-Recup-Disable.webp",
+        text:"Récup"
     }
 }
 

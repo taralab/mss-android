@@ -1235,6 +1235,8 @@ function onCreateMainMenuSession() {
     new Button_main_menu(btnMainMenuData.reset.imgRef,btnMainMenuData.reset.text,() => onClickResetAllSessionItems());
     //Raccourci vers note. Retiré pour l'instant
     // new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,() => onChangeMenu("NotesFromSession"));
+    //Récup
+    new Button_main_menu_recup(btnMainMenuData.recup.imgRef,"120 Sec.",() => test());
     //Action
     new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
 
