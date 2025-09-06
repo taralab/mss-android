@@ -2231,7 +2231,9 @@ button.btn-counter-reset{
 .wrapper.serial::after{
     content: "serie";
 }
-
+.wrapper.seconds::after{
+    content: "sec.";
+}
 
 /* Pour item session chrono container */
 .chrono-container {

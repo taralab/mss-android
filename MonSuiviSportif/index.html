@@ -1297,9 +1297,43 @@
 
 
             <!---------------------------------------   DIV Popup #RECUP --------------------------------------------------- -->
+            <!-- Affichage -->
             <div id="divRecupPopup" class="popup-recup">
                 <span id="spanRecupTime">😴 15</span>
                 <button id="btnCloseRecupPopup">❌</button>
+            </div>
+            <!-- editeur -->
+            <div id="divEditRecup"class="popup-new-counter">
+                    <div id="divEditRecupContent" class="popup-new-counter-content">
+                        <h2 class="session-item-editor">Temps de récupération</h2>
+                        <label>Temps prédéfinit :</label>
+                        <select id=""class="setting">
+                            <option value="15">15s</option>
+                            <option value="30">30s</option>
+                            <option value="45">45s</option>
+                            <option value="60">1min</option>
+                            <option value="90">1min30</option>
+                            <option value="120">2min</option>
+                            <option value="300">5min</option>
+                        </select>
+                        <!-- Switch checkbox -->
+                        <p class="activity-editor">
+                            <span class="spanCheckbox">Ou personnalisé (en secondes) :</span>
+
+                            <label class="switch">
+                                <input id="inputCheckBoxRecupIsCustom" type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </p>
+                        <div class="wrapper seconds">
+                            <input class="compteur" type="number" min="5" max="600" id="inputRecupEditor" placeholder="00">
+                        </div>
+                        <div>
+                            <button id="btnValideRecupEditor" class="btn-menu btnFocus">
+                                Valider
+                            </button>  
+                        </div>
+                    </div>
             </div>
             <!---------------------------------------   FIN Popup #RECUP --------------------------------------------------- -->
             

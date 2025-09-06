@@ -20,6 +20,7 @@ class Button_main_menu_recup{
         this.text = "";
         this.imgRef = "./Icons/Icon-Recup-Disable.webp";
         this.pressRecupTimer = null;
+        this.longPress = false;
 
         this.button = document.createElement("button");
         this.button.id = getRandomShortID("mainMenuBtn_");
@@ -47,25 +48,39 @@ class Button_main_menu_recup{
 
 
     //écoute d'évènement bouton 
-    listener(){
+    listener() {
+    // Fonction déclenchée quand on commence à appuyer (souris, doigt ou stylet)
+    const startPress = () => {
+        // Lance un timer : si on garde appuyé > 600ms, on ouvre l'éditeur
+        this.pressRecupTimer = setTimeout(() => {
+            onDisplayPopupRecupEditor();
+            this.longPress = true; // on note que c'est un appui long
+        }, 600);
 
-        // Appui long pour paramétrer la durée
-        this.button.addEventListener("mousedown", () => {
-            this.pressRecupTimer = setTimeout(() => {
-                let custom = prompt("Durée de récupération (secondes) :", recupDuration);
-                if (custom && !isNaN(custom)) recupDuration = parseInt(custom, 10);
-            }, 600);
-        });
+        this.longPress = false; // par défaut, on considère que c'est un clic normal
+    };
 
+    // Fonction déclenchée quand on relâche ou qu'on annule l'appui
+    const endPress = () => {
+        clearTimeout(this.pressRecupTimer); // on annule le timer si ce n'est pas un long appui
+    };
 
-        this.button.addEventListener("mouseup", () => clearTimeout(this.pressRecupTimer));
+    // Écoute universelle (souris, tactile, stylet)
+    this.button.addEventListener("pointerdown", startPress);   // début appui
+    this.button.addEventListener("pointerup", endPress);       // relâche appui
+    this.button.addEventListener("pointercancel", endPress);   // appui annulé
+    this.button.addEventListener("pointerleave", endPress);    // doigt sort du bouton
 
-        //click normal pour activation
-        this.button.addEventListener("click", () => {
+    // Clic normal (se déclenche toujours après pointerup)
+    this.button.addEventListener("click", () => {
+        // Si ce n'est pas un appui long → on exécute l'action normale
+        if (!this.longPress) {
             if (isRecupActive) stopRecup();
             else startRecup();
-        });
-    }
+        }
+    });
+}
+
 
 
     initText(){
@@ -150,3 +165,62 @@ function stopRecup() {
 
 
 
+//----------------------------------- EDITEUR ------------------------------
+
+
+function onDisplayPopupRecupEditor() {
+    //affiche les éléments
+    let popupRef = document.getElementById("divEditRecup");
+    popupRef.style.display = "flex";
+
+    //set les éléments
+
+    //ajout les évènements
+    //clique à l'intérieur du popup et ne le ferme pas
+    let divEditRecupContentRef = document.getElementById("divEditRecupContent");
+    const onClickInsideRecupEditor = (event) => onClickDivRecupEditor(event);
+    divEditRecupContentRef.addEventListener("click",onClickInsideRecupEditor);
+    onAddEventListenerInRegistry("recupEditor",divEditRecupContentRef,"click",onClickInsideRecupEditor);
+
+    //annuler
+    let divEditRecupRef = document.getElementById("divEditRecup");
+    const onCancelRecupEditor = () => onClosePopupRecupEditor();
+    divEditRecupRef.addEventListener("click",onCancelRecupEditor);
+    onAddEventListenerInRegistry("recupEditor",divEditRecupRef,"click",onCancelRecupEditor);
+
+    //Valider
+    let btnValideRecupEditorRef = document.getElementById("btnValideRecupEditor");
+    const validRecupEditor = () => eventValidePopupRecupEditor();
+    btnValideRecupEditorRef.addEventListener("click",validRecupEditor);
+    onAddEventListenerInRegistry("recupEditor",btnValideRecupEditorRef,"click",validRecupEditor);
+}
+
+
+
+
+//click dans le popup editeur dans le fermer
+function onClickDivRecupEditor(event) {
+    event.stopPropagation();
+}
+
+
+//validation du popup
+function eventValidePopupRecupEditor() {
+    //traitement des éléments
+
+
+    //fermeture du popup
+    onClosePopupRecupEditor();
+}
+
+
+//fermeture
+function onClosePopupRecupEditor() {
+    //retire les évènements
+    onRemoveEventListenerInRegistry(["recupEditor"]);
+
+
+    //masque le popup
+    let popupRef = document.getElementById("divEditRecup");
+    popupRef.style.display = "none";
+}
