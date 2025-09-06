@@ -130,9 +130,9 @@ async function onLoadRecupDataFromDB() {
     try {
         const resultRecup = await db.get(recupStoreName).catch(() => null);
         if (resultRecup) {
-            userRecupData.isCustomMode = resultRecup.data.isCustomMode,
-            userRecupData.customValue = resultRecup.data.customValue,
-            userRecupData.predefinitValue = resultRecup.data.predefinitValue
+            userRecupData.isCustomMode = resultRecup.data.isCustomMode;
+            userRecupData.customValue = resultRecup.data.customValue;
+            userRecupData.predefinitValue = resultRecup.data.predefinitValue;
         }
 
         if (devMode === true) {

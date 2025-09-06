@@ -768,7 +768,7 @@ async function importBdD(dataToImport) {
                 }
             );
             await updateDocumentInDB(recupStoreName, (doc) => {
-                doc.data = e.userRecupData;
+                doc.data = userRecupData;
                 return doc;
             });
         }
