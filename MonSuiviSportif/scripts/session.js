@@ -1236,7 +1236,7 @@ function onCreateMainMenuSession() {
     //Raccourci vers note. Retiré pour l'instant
     // new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,() => onChangeMenu("NotesFromSession"));
     //Récup
-    new Button_main_menu_recup(btnMainMenuData.recup.imgRef,"120 Sec.",() => test());
+    btnRecupInstance = new Button_main_menu_recup();
     //Action
     new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
 
@@ -3235,4 +3235,7 @@ async function onClearAllSessionElement() {
     //vide le tableau des instances items
     sessionAllItemsInstance = {};
     sessionInstanceButtonAddNew = null;
+
+    //vide l'instance du bouton recup
+    btnRecupInstance = null;
 }
