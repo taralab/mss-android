@@ -586,7 +586,8 @@ const allEventListenerRegistry = {
     sortFilterSearch:[],
     mainButton:[],
     noteItemEditor:[],
-    updateEvent:[]
+    updateEvent:[],
+    recupPopup:[]
 }
 
 

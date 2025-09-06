@@ -1,11 +1,17 @@
   
 //variable
-let recupDuration = 30,
+let recupDuration = 15,
     recupTimer = null,
     recupRemaining = 0,
     isRecupActive = false,
-    btnRecupInstance = null;
+    btnRecupInstance = null,
+    isRecupAlreadyReferenced = false;
 
+
+//référence
+let divRecupPopupRef = null;
+    spanRecupTimeRef  = null;
+    btnCloseRecupPopupRef = null;
 
 
 //Bouton RECUP
@@ -13,14 +19,11 @@ class Button_main_menu_recup{
     constructor(){
         this.text = "";
         this.imgRef = "./Icons/Icon-Recup-Disable.webp";
+        this.pressRecupTimer = null;
 
         this.button = document.createElement("button");
-        
         this.button.id = getRandomShortID("mainMenuBtn_");
-
         this.button.classList.add("btn-menu");
-
-        this.pressRecupTimer = null;
 
         // Rendu
         this.render();
@@ -74,47 +77,76 @@ class Button_main_menu_recup{
 }
 
 
+//Réferencement unique
+function onReferenceRecupItems() {
+
+    if (isRecupAlreadyReferenced) {
+        //ne fait rien si déjà référencé
+        return;
+    }
 
 
+    isRecupAlreadyReferenced = true;
+    divRecupPopupRef = document.getElementById("divRecupPopup");
+    spanRecupTimeRef = document.getElementById("spanRecupTime");
+    btnCloseRecupPopupRef = document.getElementById("btnCloseRecupPopup");
+}
 
-const recupPopup = document.getElementById("recup-popup");
-const recupTime = document.getElementById("recup-time");
-const recupClose = document.getElementById("recup-close");
+
+//ajout des évenement pour popup Recup
+function onAddEventForRecupPopup() {
+    btnCloseRecupPopupRef.addEventListener("click", stopRecup);
+    onAddEventListenerInRegistry("recupPopup",btnCloseRecupPopupRef,"click",stopRecup);
+
+    console.log("[EVENT-LISTENER]",allEventListenerRegistry);
+}
+
+//retrait des évènements pour popupRecup
+function onRemoveEventForRecupPopup() {
+     onRemoveEventListenerInRegistry(["recupPopup"]);
+}
 
 
 
 function updateRecupDisplay() {
-  recupTime.textContent = `⏱️ ${recupRemaining}s`;
+    spanRecupTimeRef.textContent = `😴 ${recupRemaining}s`;
 }
 
 
 //lance la récupe
 function startRecup() {
-  recupRemaining = recupDuration;
-  recupPopup.classList.remove("hide");
-  recupPopup.classList.add("active");
-  updateRecupDisplay();
-  recupTimer = setInterval(() => {
-    recupRemaining--;
+    recupRemaining = recupDuration;
+    divRecupPopupRef.classList.remove("hide");
+    divRecupPopupRef.classList.add("active");
     updateRecupDisplay();
-    if (recupRemaining <= 0) stopRecup();
-  }, 1000);
-  isRecupActive = true;
+    recupTimer = setInterval(() => {
+        recupRemaining--;
+        updateRecupDisplay();
+        if (recupRemaining <= 0) {
+            stopRecup()
+            onShowNotifyPopup("recupTargetReach");
+        };
+    }, 1000);
+    isRecupActive = true;
+
+    //ajout l'évènements pour le popup
+    onAddEventForRecupPopup();
 }
 
 
 //Arrete récup
 function stopRecup() {
-  clearInterval(recupTimer);
-  recupTimer = null;
-  isRecupActive = false;
-  recupPopup.classList.remove("active");
-  recupPopup.classList.add("hide");
+    clearInterval(recupTimer);
+    recupTimer = null;
+    isRecupActive = false;
+    divRecupPopupRef.classList.remove("active");
+    divRecupPopupRef.classList.add("hide");
+
+    // Retrait des évènements
+    onRemoveEventForRecupPopup();
 }
 
 
 
 
-
-recupClose.addEventListener("click", stopRecup);
 

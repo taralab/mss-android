@@ -1219,6 +1219,9 @@ async function onOpenMenuSession(){
     //création menu principal
     onCreateMainMenuSession();
 
+    //référence les éléments de récup la première fois
+    onReferenceRecupItems();
+
 }
    
    
