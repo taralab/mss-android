@@ -1216,10 +1216,6 @@ async function onOpenMenuSession(){
     // Charge également les listes des modèles et leur clé dans l'ordre alphabétique
     await onLoadTemplateSessionNameFromDB();
 
-    //création menu principal
-    onCreateMainMenuSession();
-
-
     //référence les éléments de récup et chargement de la base la première fois
     if (!isRecupAlreadyLoaded) {
         isRecupAlreadyLoaded = true;
@@ -1231,7 +1227,8 @@ async function onOpenMenuSession(){
         await onLoadRecupDataFromDB();
     }
 
-
+    //création menu principal
+    onCreateMainMenuSession();
 
 }
    
@@ -1249,8 +1246,12 @@ function onCreateMainMenuSession() {
     new Button_main_menu(btnMainMenuData.reset.imgRef,btnMainMenuData.reset.text,() => onClickResetAllSessionItems());
     //Raccourci vers note. Retiré pour l'instant
     // new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,() => onChangeMenu("NotesFromSession"));
+
+
     //Récup
-    btnRecupInstance = new Button_main_menu_recup();
+    //filtre selon le mode pour le texte
+    let recupValue = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
+    btnRecupInstance = new Button_main_menu_recup(recupValue);
     //Action
     new Button_main_menu(btnMainMenuData.action.imgRef,btnMainMenuData.action.text,() => onClickOpenSessionMenuSup());
 

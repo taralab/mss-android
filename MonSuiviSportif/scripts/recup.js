@@ -1,7 +1,6 @@
   
 //variable
-let recupDuration = 15,
-    recupTimer = null,
+let recupTimer = null,
     recupRemaining = 0,
     isRecupActive = false,
     btnRecupInstance = null,
@@ -42,8 +41,8 @@ let divRecupPopupRef = null;
 
 //Bouton RECUP
 class Button_main_menu_recup{
-    constructor(){
-        this.text = "";
+    constructor(text){
+        this.text = text;
         this.imgRef = "./Icons/Icon-Recup-Disable.webp";
         this.pressRecupTimer = null;
         this.longPress = false;
@@ -110,7 +109,7 @@ class Button_main_menu_recup{
 
 
     initText(){
-        this.text = `${recupDuration} Sec.`;
+        this.text = userRecupData.isCustomMode ? `${userRecupData.customValue} Sec.`: `${userRecupData.predefinitValue} Sec.`;
         let spanTextRef = this.button.querySelector("span");
         spanTextRef.textContent = this.text;
     }
@@ -176,7 +175,7 @@ function updateRecupDisplay() {
 
 //lance la récupe
 function startRecup() {
-    recupRemaining = recupDuration;
+    recupRemaining = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
     divRecupPopupRef.classList.remove("hide");
     divRecupPopupRef.classList.add("active");
     updateRecupDisplay();
@@ -287,6 +286,9 @@ async function eventValidePopupRecupEditor() {
 
     //fermeture du popup
     onClosePopupRecupEditor();
+
+    //actualise le bouton
+    btnRecupInstance.initText();
 }
 
 
