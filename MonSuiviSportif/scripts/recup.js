@@ -5,7 +5,9 @@ let recupDuration = 15,
     recupRemaining = 0,
     isRecupActive = false,
     btnRecupInstance = null,
-    isRecupAlreadyReferenced = false;
+    isRecupAlreadyLoaded = false,
+    recupMinValue = 5,
+    recupMaxValue = 600;
 
 
 let defaultRecupData = {
@@ -24,6 +26,18 @@ let userRecupData = {
 let divRecupPopupRef = null;
     spanRecupTimeRef  = null;
     btnCloseRecupPopupRef = null;
+
+
+
+
+
+
+
+// -----------------------------------  CLASS ------------------------------------------
+
+
+
+
 
 
 //Bouton RECUP
@@ -104,15 +118,35 @@ class Button_main_menu_recup{
 }
 
 
+
+
+
+
+// ----------------------------------- Fonction générique -------------------------------
+
+
+
+async function onLoadRecupDataFromDB() {
+    userRecupData = {};//initialisation en objet
+    try {
+        const resultRecup = await db.get(recupStoreName).catch(() => null);
+        if (resultRecup) {
+            userRecupData.isCustomMode = resultRecup.data.isCustomMode,
+            userRecupData.customValue = resultRecup.data.customValue,
+            userRecupData.predefinitValue = resultRecup.data.predefinitValue
+        }
+
+        if (devMode === true) {
+            console.log("[DATABASE] [RECUP] loading RecupData :", userRecupData);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [RECUP] Erreur lors du chargement:", err);
+    }
+}
+
+
 //Réferencement unique
 function onReferenceRecupItems() {
-
-    if (isRecupAlreadyReferenced) {
-        //ne fait rien si déjà référencé
-        return;
-    }
-
-
     isRecupAlreadyReferenced = true;
     divRecupPopupRef = document.getElementById("divRecupPopup");
     spanRecupTimeRef = document.getElementById("spanRecupTime");
@@ -177,7 +211,12 @@ function stopRecup() {
 
 
 
+
+
 //----------------------------------- EDITEUR ------------------------------
+
+
+
 
 
 function onDisplayPopupRecupEditor() {
@@ -186,8 +225,31 @@ function onDisplayPopupRecupEditor() {
     popupRef.style.display = "flex";
 
     //set les éléments
+    onSetRecupEditorItem();
 
     //ajout les évènements
+    onAddEventForPopupEditor();
+}
+
+
+
+function onSetRecupEditorItem() {
+    //Le mode
+    let inputCheckBoxRef = document.getElementById("inputCheckBoxRecupIsCustom");
+    inputCheckBoxRef.checked = userRecupData.isCustomMode;
+
+    //le selecteur
+    let selectorRef = document.getElementById("selectRecupEditor");
+    selectorRef.value = userRecupData.predefinitValue;
+
+    //l'input manuel
+    let inputRef = document.getElementById("inputRecupEditor");
+    inputRef.value = userRecupData.customValue;
+}
+
+
+//Ajoute les écoutes d'évènements pour editeur
+function onAddEventForPopupEditor() {
     //clique à l'intérieur du popup et ne le ferme pas
     let divEditRecupContentRef = document.getElementById("divEditRecupContent");
     const onClickInsideRecupEditor = (event) => onClickDivRecupEditor(event);
@@ -209,21 +271,56 @@ function onDisplayPopupRecupEditor() {
 
 
 
-
 //click dans le popup editeur dans le fermer
 function onClickDivRecupEditor(event) {
     event.stopPropagation();
 }
 
 
-//validation du popup
-function eventValidePopupRecupEditor() {
-    //traitement des éléments
 
+
+
+//validation du popup
+async function eventValidePopupRecupEditor() {
+    //traitement et sauvegarde des éléments
+    await onGetItemFromRecupEditor();
 
     //fermeture du popup
     onClosePopupRecupEditor();
 }
+
+
+
+
+
+//récupère les éléments de l'éditeur
+async function onGetItemFromRecupEditor() {
+
+    //récupère les éléments
+    let isCustomMode = document.getElementById("inputCheckBoxRecupIsCustom").checked,
+        prefefinitValue = document.getElementById("selectRecupEditor").value,
+        customValue = document.getElementById("inputRecupEditor").value || recupMinValue;
+
+    //sauvegarde dans la variable
+    userRecupData.isCustomMode = isCustomMode;
+    userRecupData.predefinitValue = prefefinitValue;
+    userRecupData.customValue = customValue;
+
+
+    //Sauvegarde en base
+    // Insertion reward standard dans la base de donnée
+        await updateDocumentInDB(recupStoreName, (doc) => {
+            doc.data = userRecupData;
+            return doc;
+        });
+}
+
+
+
+
+
+
+
 
 
 //fermeture

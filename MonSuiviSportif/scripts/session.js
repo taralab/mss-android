@@ -1219,8 +1219,19 @@ async function onOpenMenuSession(){
     //création menu principal
     onCreateMainMenuSession();
 
-    //référence les éléments de récup la première fois
-    onReferenceRecupItems();
+
+    //référence les éléments de récup et chargement de la base la première fois
+    if (!isRecupAlreadyLoaded) {
+        isRecupAlreadyLoaded = true;
+        
+        //référencement
+        onReferenceRecupItems();
+
+        //chargement base
+        await onLoadRecupDataFromDB();
+    }
+
+
 
 }
    
