@@ -2,13 +2,14 @@
 //vérifie si l'utilisateur possède ce nom dans la base 
 //pour savoir si on doit lui afficher le popup des nouveautés ou non
 //l'information sera stocké dans userInfo.updateNameList[]
-const updateName = "September-2025";
+const updateName = "October-2025";
 
 //tableau des images pour les nouveautés
 const updateImageArray = [
-      "./imageUpdate/UpdateNotesSlide1.webp",
-      "./imageUpdate/UpdateNoteSlide2.webp",
-      "./imageUpdate/UpdateRunAndBike.webp"
+      "./imageUpdate/UpdateRecupSlide1.webp",
+      "./imageUpdate/UpdateRecupSlide2.webp",
+      "./imageUpdate/UpdateRecupSlide3.webp",
+      "./imageUpdate/UpdateRecupSlide4.webp"
     ];
 
 
@@ -23,8 +24,10 @@ let divPopupUpdatePBRef = null;
 let popupUpdateImgIndex = 0;
 let isPopupUpdateShowingImgA = true;
 
-
-
+// Variables pour le swipe
+let popupEventSwipeStartX = 0,
+    popupEventSwipeEndX = 0,
+    swipeDetected = false; // pour différencier swipe et tap
 
 
 
@@ -44,30 +47,78 @@ function onCheckUpdateEvent(){
 
 function onInitUpdateEvent() {
 
-    //référencement
+    // Référencement des éléments
     divPopupUpdateRef = document.getElementById("divPopupUpdate");
     divPopupContentRef = document.getElementById("divPopupContent");
     imgUpdateARef = document.getElementById("imgUpdateA");
     imgUpdateBRef = document.getElementById("imgUpdateB");
     divPopupUpdatePBRef = document.getElementById("divPopupUpdatePB");
 
-    // Précharge images
+    // Précharge des images pour éviter les temps de chargement
     updateImageArray.forEach(src => { const i = new Image(); i.src = src; });
 
-
-    // Tout tap dans la popup = image suivante
-    const onClickNextUpdateView = () => nextPopupUpdateImage();
-    divPopupContentRef.addEventListener("click", onClickNextUpdateView);
-    onAddEventListenerInRegistry("updateEvent",divPopupContentRef,"click", onClickNextUpdateView);
-
-    // Tap en dehors = fermeture
-    const onClickOutsideUpdate = (e) => {
-        if (e.target === divPopupUpdateRef) onClosePopupUpdate();
+    // -----------------------------------------
+    // 1️⃣ Tap / Click : avance à l'image suivante
+    // -----------------------------------------
+    const onClickPopupUpdateEvent = () => {
+        // Ne déclenche le next que si aucun swipe n'a été détecté
+        if (!swipeDetected) {
+            nextPopupUpdateImage();
+        }
+        // Reset pour le prochain événement
+        swipeDetected = false;
     };
-    divPopupUpdateRef.addEventListener("click", onClickOutsideUpdate);
-    onAddEventListenerInRegistry("updateEvent", divPopupUpdateRef, "click", onClickOutsideUpdate);
+    divPopupContentRef.addEventListener("click", onClickPopupUpdateEvent);
+    onAddEventListenerInRegistry("updateEvent", divPopupContentRef, "click", onClickPopupUpdateEvent);
+
+    // -----------------------------------------
+    // 2️⃣ Swipe : détection du début du geste
+    // -----------------------------------------
+    const onSwipeUpdateViewStart = (e) => {
+        popupEventSwipeStartX = e.touches[0].clientX;
+    };
+    divPopupContentRef.addEventListener("touchstart", onSwipeUpdateViewStart);
+    onAddEventListenerInRegistry("updateEvent", divPopupContentRef, "touchstart", onSwipeUpdateViewStart);
+
+    // -----------------------------------------
+    // 3️⃣ Swipe : détection de la fin du geste
+    // -----------------------------------------
+    const onSwipeUpdateViewEnd = (e) => {
+        popupEventSwipeEndX = e.changedTouches[0].clientX;
+        // Retourne true si un swipe a été effectué
+        swipeDetected = checkHandleRecupSwipe();
+    };
+    divPopupContentRef.addEventListener("touchend", onSwipeUpdateViewEnd);
+    onAddEventListenerInRegistry("updateEvent", divPopupContentRef, "touchend", onSwipeUpdateViewEnd);
 
 }
+
+// -----------------------------------------
+// Gestion du swipe : détermine direction et action
+// Retourne true si un swipe a été détecté
+// -----------------------------------------
+function checkHandleRecupSwipe() {
+    const threshold = 50; // distance minimale pour valider le swipe
+    const diff = popupEventSwipeEndX - popupEventSwipeStartX;
+    let swipeDone = false;
+
+    if (diff > threshold) {
+        // Swipe vers la droite -> image précédente (à activer si voulu)
+        // prevPopupUpdateImage();
+        swipeDone = true;
+    } else if (diff < -threshold) {
+        // Swipe vers la gauche -> image suivante
+        nextPopupUpdateImage();
+        swipeDone = true;
+    }
+
+    // Reset des positions pour le prochain swipe
+    popupEventSwipeStartX = 0;
+    popupEventSwipeEndX = 0;
+
+    return swipeDone;
+}
+
 
 //lancement du popup
 function startUpdateEvent() {
