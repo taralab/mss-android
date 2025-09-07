@@ -1,12 +1,13 @@
   
 //variable
 let recupTimer = null,
-    recupRemaining = 0,
+    recupRemainingTime = 0,
     isRecupActive = false,
     btnRecupInstance = null,
     isRecupAlreadyLoaded = false,
     recupMinValue = 5,
-    recupMaxValue = 600;
+    recupMaxValue = 600,
+    recupTargetTime = null;
 
 
 let defaultRecupData = {
@@ -158,7 +159,10 @@ function onAddEventForRecupPopup() {
     btnCloseRecupPopupRef.addEventListener("click", stopRecup);
     onAddEventListenerInRegistry("recupPopup",btnCloseRecupPopupRef,"click",stopRecup);
 
-    console.log("[EVENT-LISTENER]",allEventListenerRegistry);
+    if (devMode === true) {
+        console.log("[EVENT-LISTENER]",allEventListenerRegistry);
+    }
+
 }
 
 //retrait des évènements pour popupRecup
@@ -169,24 +173,31 @@ function onRemoveEventForRecupPopup() {
 
 
 function updateRecupDisplay() {
-    spanRecupTimeRef.textContent = `😴 ${recupRemaining}s`;
+    spanRecupTimeRef.textContent = `😴 ${recupRemainingTime}s`;
 }
 
 
 //lance la récupe
 function startRecup() {
-    recupRemaining = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
+    recupRemainingTime = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
     divRecupPopupRef.classList.remove("hide");
     divRecupPopupRef.classList.add("active");
+
+    // Cible réelle en horloge système
+    recupTargetTime = Date.now() + (recupRemainingTime * 1000);
+
     updateRecupDisplay();
     recupTimer = setInterval(() => {
-        recupRemaining--;
+        const now = Date.now();
+        const timeLeftMs = recupTargetTime - now;
+
+        recupRemainingTime = Math.ceil(timeLeftMs / 1000);
         updateRecupDisplay();
-        if (recupRemaining <= 0) {
+        if (recupRemainingTime <= 0) {
             stopRecup()
             onShowNotifyPopup("recupTargetReach");
         };
-    }, 1000);
+    }, 500);
     isRecupActive = true;
 
     //ajout l'évènements pour le popup
@@ -293,7 +304,6 @@ function onClickDivRecupEditor(event) {
 
 
 function onChangeRecupEditorMode(isCustomMode) {
-    console.log("mode: ", isCustomMode);
 
     //référencement
     let spanTextCustomModeRef = document.getElementById("spanTextRecupEditorCustomMode"),
