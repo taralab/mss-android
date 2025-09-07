@@ -122,10 +122,14 @@ button.btn-menu {
     padding: 5px;
     background: none;
     user-select: none;
+    transition: transform 0.1s ease; /* transition fluide du scale */
 }
 
 
-
+/* Effet zoom rapide au clic */
+button.btn-menu:active {
+    transform: scale(0.9); /* réduit légèrement le bouton */
+}
 
 
 /* Ajustement des images */
