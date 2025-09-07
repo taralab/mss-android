@@ -196,6 +196,8 @@ function startRecup() {
         if (recupRemainingTime <= 0) {
             stopRecup()
             onShowNotifyPopup("recupTargetReach");
+            //Joue le son de notification
+            document.getElementById("audioSoundRecupEnd").play();
         };
     }, 500);
     isRecupActive = true;
