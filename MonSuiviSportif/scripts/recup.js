@@ -75,39 +75,37 @@ class Button_main_menu_recup{
 
     //écoute d'évènement bouton 
     listener() {
-    // Fonction déclenchée quand on commence à appuyer (souris, doigt ou stylet)
-    const startPress = () => {
-        // Lance un timer : si on garde appuyé > 600ms, on ouvre l'éditeur
-        this.pressRecupTimer = setTimeout(() => {
-            onDisplayPopupRecupEditor();
-            this.longPress = true; // on note que c'est un appui long
-        }, 600);
+        // Fonction déclenchée quand on commence à appuyer (souris, doigt ou stylet)
+        const startPress = () => {
+            // Lance un timer : si on garde appuyé > 600ms, on ouvre l'éditeur
+            this.pressRecupTimer = setTimeout(() => {
+                onDisplayPopupRecupEditor();
+                this.longPress = true; // on note que c'est un appui long
+            }, 600);
 
-        this.longPress = false; // par défaut, on considère que c'est un clic normal
-    };
+            this.longPress = false; // par défaut, on considère que c'est un clic normal
+        };
 
-    // Fonction déclenchée quand on relâche ou qu'on annule l'appui
-    const endPress = () => {
-        clearTimeout(this.pressRecupTimer); // on annule le timer si ce n'est pas un long appui
-    };
+        // Fonction déclenchée quand on relâche ou qu'on annule l'appui
+        const endPress = () => {
+            clearTimeout(this.pressRecupTimer); // on annule le timer si ce n'est pas un long appui
+        };
 
-    // Écoute universelle (souris, tactile, stylet)
-    this.button.addEventListener("pointerdown", startPress);   // début appui
-    this.button.addEventListener("pointerup", endPress);       // relâche appui
-    this.button.addEventListener("pointercancel", endPress);   // appui annulé
-    this.button.addEventListener("pointerleave", endPress);    // doigt sort du bouton
+        // Écoute universelle (souris, tactile, stylet)
+        this.button.addEventListener("pointerdown", startPress);   // début appui
+        this.button.addEventListener("pointerup", endPress);       // relâche appui
+        this.button.addEventListener("pointercancel", endPress);   // appui annulé
+        this.button.addEventListener("pointerleave", endPress);    // doigt sort du bouton
 
-    // Clic normal (se déclenche toujours après pointerup)
-    this.button.addEventListener("click", () => {
-        // Si ce n'est pas un appui long → on exécute l'action normale
-        if (!this.longPress) {
-            if (isRecupActive) stopRecup();
-            else startRecup();
-        }
-    });
-
-
-}
+        // Clic normal (se déclenche toujours après pointerup)
+        this.button.addEventListener("click", () => {
+            // Si ce n'est pas un appui long → on exécute l'action normale
+            if (!this.longPress) {
+                if (isRecupActive) stopRecup();
+                else startRecup();
+            }
+        });
+    }
 
 
 

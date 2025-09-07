@@ -121,6 +121,7 @@ button.btn-menu {
     border: none;
     padding: 5px;
     background: none;
+    user-select: none;
 }
 
 
