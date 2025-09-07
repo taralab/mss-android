@@ -244,6 +244,9 @@ function onSetRecupEditorItem() {
     //l'input manuel
     let inputRef = document.getElementById("inputRecupEditor");
     inputRef.value = userRecupData.customValue;
+
+    //Le visuel
+    onChangeRecupEditorMode(userRecupData.isCustomMode);
 }
 
 

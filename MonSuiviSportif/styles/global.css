@@ -3091,6 +3091,9 @@ span.textRecupEditorCB{
     display: inline-block;
 }
 
+
+
+/* Affichage activitation et désactivation */
 span.textRecupEditorCB.enable{
     color: var(--colorMainTheme1);
     font-weight: bold;
@@ -3103,10 +3106,10 @@ span.textRecupEditorCB.disable{
 input.compteur.disable{
     opacity: 0.5;  
     cursor: not-allowed; /* Change le curseur */
-    background-color: rgb(170, 170, 170);
+    background-color: rgb(189, 189, 189);
 }
 select.session-type-color.disable{
     opacity: 0.5;  
     cursor: not-allowed; /* Change le curseur */
-    background-color: rgb(170, 170, 170);
+    background-color: rgb(189, 189, 189);
 }
