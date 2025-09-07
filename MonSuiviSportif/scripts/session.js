@@ -602,7 +602,21 @@ class Chrono {
     }
 
     //pour supprimer l'item
-    removeItem(){
+    removeItem() {
+        // Arrête le chrono si actif
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+            this.isRunning = false;
+
+            // Libère le verrou si c’était lui
+            if (timerInUseID === this.id) {
+                timerInUseID = null;
+                releaseWakeLock(); // libère le wakeLock si nécessaire
+            }
+        }
+
+        // Supprime l’élément DOM
         this.element.remove();
     }
 
@@ -893,6 +907,20 @@ class Minuteur {
 
     //pour supprimer l'item
     removeItem(){
+         // Arrête le chrono si actif
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+            this.isRunning = false;
+
+            // Libère le verrou si c’était lui
+            if (timerInUseID === this.id) {
+                timerInUseID = null;
+                releaseWakeLock(); // libère le wakeLock si nécessaire
+            }
+        }
+
+        // Supprime l’élément DOM
         this.element.remove();
     }
 
@@ -3213,6 +3241,11 @@ function onDestroySortableGenSession() {
 // Retour depuis Info
 async function onClickReturnFromSession() {
 
+
+    if (timerInUseID != null) {
+        // alert("timer en cours");
+    }
+
     onClearAllSessionElement();
 
     // ferme le menu
@@ -3229,6 +3262,13 @@ async function onClearAllSessionElement() {
         console.log("[EVENT-LISTENER] : Ajout les évènements pour le menu principale session");
         onConsoleLogEventListenerRegistry();
     };
+
+    // Nettoyage de tous les minuteurs / chronos
+    Object.values(sessionAllItemsInstance).forEach(instance => {
+        if (instance && typeof instance.removeItem === "function") {
+            instance.removeItem();
+        }
+    });
 
     //libère le verrouillage timer unique
     if (devMode ===true){console.log("[SESSION] Libère timer unique");}
