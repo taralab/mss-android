@@ -3061,8 +3061,14 @@ div.popup-recup{
     align-items: center;
     z-index: 9999;
     opacity: 0;
+
 }
 
+
+div.popup-recup button{
+    background: none;
+    border: none;
+}
 /* Apparition avec slide + overshoot + scale */
 @keyframes recupSlideInScale {
   0% { left: -300px; transform: scale(0.8); opacity: 0; }
