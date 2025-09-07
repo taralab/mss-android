@@ -1306,19 +1306,22 @@
             <div id="divEditRecup"class="popup-new-counter">
                     <div id="divEditRecupContent" class="popup-new-counter-content">
                         <h2 class="session-item-editor">Temps de récupération</h2>
-                        <label>Temps prédéfinit :</label>
-                        <select id="selectRecupEditor"class="setting">
-                            <option value="15">15s</option>
-                            <option value="30">30s</option>
-                            <option value="45">45s</option>
-                            <option value="60">1min</option>
-                            <option value="90">1min30</option>
-                            <option value="120">2min</option>
-                            <option value="300">5min</option>
-                        </select>
+
+                            <span id="spanTextRecupEditorPredefinitMode" class="textRecupEditorCB">Prédéfini :</span>
+                            <select id="selectRecupEditor"class="session-type-color">
+                                <option value="15">15 sec.</option>
+                                <option value="30">30 sec.</option>
+                                <option value="45">45 sec.</option>
+                                <option value="60">1 min</option>
+                                <option value="90">1 min 30</option>
+                                <option value="120">2 min</option>
+                                <option value="300">5 min</option>
+                            </select>
+ 
+
                         <!-- Switch checkbox -->
                         <p class="activity-editor">
-                            <span class="spanCheckbox">Ou personnalisé (en secondes) :</span>
+                            <span id="spanTextRecupEditorCustomMode" class="textRecupEditorCB">Ou personnalisé :</span>
 
                             <label class="switch">
                                 <input id="inputCheckBoxRecupIsCustom" type="checkbox">

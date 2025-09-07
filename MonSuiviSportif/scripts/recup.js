@@ -261,6 +261,16 @@ function onAddEventForPopupEditor() {
     divEditRecupRef.addEventListener("click",onCancelRecupEditor);
     onAddEventListenerInRegistry("recupEditor",divEditRecupRef,"click",onCancelRecupEditor);
 
+
+    //Changement checkbox
+    let inputCheckBoxRecupIsCustomRef = document.getElementById("inputCheckBoxRecupIsCustom");
+    const changeRecupEditorMode = (event) => onChangeRecupEditorMode(event.target.checked);
+    inputCheckBoxRecupIsCustomRef.addEventListener("change",changeRecupEditorMode);
+    onAddEventListenerInRegistry("recupEditor",inputCheckBoxRecupIsCustomRef,"change",changeRecupEditorMode);
+
+
+
+
     //Valider
     let btnValideRecupEditorRef = document.getElementById("btnValideRecupEditor");
     const validRecupEditor = () => eventValidePopupRecupEditor();
@@ -277,6 +287,42 @@ function onClickDivRecupEditor(event) {
 
 
 
+
+
+function onChangeRecupEditorMode(isCustomMode) {
+    console.log("mode: ", isCustomMode);
+
+    //référencement
+    let spanTextCustomModeRef = document.getElementById("spanTextRecupEditorCustomMode"),
+        spanTextPredefinitModeRef = document.getElementById("spanTextRecupEditorPredefinitMode");
+        inputRecupEditorRef = document.getElementById("inputRecupEditor"),
+        selectRecupEditorRef = document.getElementById("selectRecupEditor");
+
+    if (isCustomMode) {
+        //desactive les css éléments prédéfini
+        spanTextPredefinitModeRef.classList.remove("enable");
+        spanTextPredefinitModeRef.classList.add("disable");
+        inputRecupEditorRef.disabled = false;
+        inputRecupEditorRef.classList.remove("disable");
+        //active les css éléments custom
+        spanTextCustomModeRef.classList.remove("disable");
+        spanTextCustomModeRef.classList.add("enable");
+        selectRecupEditorRef.disabled = true;
+        selectRecupEditorRef.classList.add("disable");
+    }else{
+        //desactive les css éléments custom
+        spanTextCustomModeRef.classList.remove("enable");
+        spanTextCustomModeRef.classList.add("disable");
+        inputRecupEditorRef.disabled = true;
+        inputRecupEditorRef.classList.add("disable");
+
+        //active les css éléments prédéfini
+        spanTextPredefinitModeRef.classList.remove("disable");
+        spanTextPredefinitModeRef.classList.add("enable");
+        selectRecupEditorRef.disabled = false;
+        selectRecupEditorRef.classList.remove("disable");
+    }
+}
 
 
 //validation du popup

@@ -3083,3 +3083,30 @@ div.popup-recup.active {
 div.popup-recup.hide {
   animation: recupSlideOutScale 0.35s forwards;
 }
+
+
+span.textRecupEditorCB{
+    margin-top: 15px; margin-bottom: 15px;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+span.textRecupEditorCB.enable{
+    color: var(--colorMainTheme1);
+    font-weight: bold;
+}
+span.textRecupEditorCB.disable{
+    color: gray;
+    font-weight: 500;
+}
+
+input.compteur.disable{
+    opacity: 0.5;  
+    cursor: not-allowed; /* Change le curseur */
+    background-color: rgb(170, 170, 170);
+}
+select.session-type-color.disable{
+    opacity: 0.5;  
+    cursor: not-allowed; /* Change le curseur */
+    background-color: rgb(170, 170, 170);
+}
