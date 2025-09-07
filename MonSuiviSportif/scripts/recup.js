@@ -190,8 +190,9 @@ function startRecup() {
     recupTimer = setInterval(() => {
         const now = Date.now();
         const timeLeftMs = recupTargetTime - now;
-
+        
         recupRemainingTime = Math.ceil(timeLeftMs / 1000);
+
         updateRecupDisplay();
         if (recupRemainingTime <= 0) {
             stopRecup()

@@ -3243,7 +3243,14 @@ async function onClickReturnFromSession() {
 
 
     if (timerInUseID != null) {
+        let text = "Timer actif : quitter le menu le supprimera. Quitter ?";
         // alert("timer en cours");
+        addEventForGlobalPopupConfirmation(
+            removeEventForGlobalPopupConfirmation,
+            onConfirmReturnFromSession,
+            text,"quitter"
+        );
+        return;
     }
 
     onClearAllSessionElement();
@@ -3253,6 +3260,13 @@ async function onClickReturnFromSession() {
 };
 
 
+//confirmation meme si timer en cours
+function onConfirmReturnFromSession() {
+    onClearAllSessionElement();
+
+    // ferme le menu
+    onLeaveMenu("Session");
+}
 
 async function onClearAllSessionElement() {
     //retire les écouteurs d'évènements

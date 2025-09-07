@@ -1569,7 +1569,20 @@ function addEventForGlobalPopupConfirmation(cancelPopupFunction,confirmPopupFunc
     document.getElementById("pTextConfirmPopup").innerHTML = confirmText;
 
     // Set l'image selon le type d'action
-    let imgAction = actionType === "delete" ? "./Icons/Icon-Delete-color.webp":"./Icons/Icon-Reset.webp";
+    let imgAction = "";
+    switch (actionType) {
+        case "delete":
+            imgAction = "./Icons/Icon-Delete-color.webp";
+            break;
+        case "reset":
+            imgAction = "./Icons/Icon-Reset.webp";
+            break;
+        case "quitter":
+            imgAction = "./Icons/Icon-Accepter.webp";
+            break;
+        default:
+            break;
+    }
     document.getElementById("imgPopupGlobalConfirmation").src = imgAction;
 
 
