@@ -3114,3 +3114,7 @@ select.session-type-color.disable{
     cursor: not-allowed; /* Change le curseur */
     background-color: rgb(189, 189, 189);
 }
+
+input.recup{
+    margin-bottom: 10px;
+}
