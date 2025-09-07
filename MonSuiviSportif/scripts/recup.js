@@ -105,6 +105,8 @@ class Button_main_menu_recup{
             else startRecup();
         }
     });
+
+
 }
 
 
@@ -281,6 +283,33 @@ function onAddEventForPopupEditor() {
     const changeRecupEditorMode = (event) => onChangeRecupEditorMode(event.target.checked);
     inputCheckBoxRecupIsCustomRef.addEventListener("change",changeRecupEditorMode);
     onAddEventListenerInRegistry("recupEditor",inputCheckBoxRecupIsCustomRef,"change",changeRecupEditorMode);
+
+
+
+    let inputRef = document.getElementById("inputRecupEditor");
+    // onInput
+    let maxDuration = parseInt(inputRef.max);
+    const onFormatNumberInput = (event) => formatNumberInput(event.target, maxDuration, 2);
+    inputRef.addEventListener("input",onFormatNumberInput);
+    onAddEventListenerInRegistry("recupEditor",inputRef,"input",onFormatNumberInput);
+
+    //onFocus
+    const onFocus = (event) => selectAllText(event.target);
+    inputRef.addEventListener("focus",onFocus);
+    onAddEventListenerInRegistry("recupEditor",inputRef,"focus",onFocus);
+
+    //onBlur
+    const onBlur = (event) => formatNumberInput(event.target, maxDuration, 2);
+    inputRef.addEventListener("blur",onBlur);
+    onAddEventListenerInRegistry("recupEditor",inputRef,"blur",onBlur);
+
+
+    //onContextMenu
+    const onContextMenu = (event) => disableContextMenu(event);
+    inputRef.addEventListener("contextmenu",onContextMenu);
+    onAddEventListenerInRegistry("recupEditor",inputRef,"contextmenu",onContextMenu);
+
+
 
 
 
