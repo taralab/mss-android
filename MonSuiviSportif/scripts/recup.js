@@ -199,6 +199,7 @@ function startRecup() {
             onShowNotifyPopup("recupTargetReach");
             //Joue le son de notification
             document.getElementById("audioSoundMinuteurEnd").play();
+            vibrationRecupEnding();
         };
     }, 500);
     isRecupActive = true;
