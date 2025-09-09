@@ -80,14 +80,13 @@ let pMobileNotifyStatusRef = document.getElementById("pMobileNotifyStatus"),
 const getLocalNotificationsPlugin = () => {
     return window.Capacitor?.Plugins?.LocalNotifications || null;
 };
-
-
+const LocalNotifications = getLocalNotificationsPlugin();
 
 
 // Demande l'autorisation pour les notifications
 async function requestNotificationPermission() {
-    const LocalNotifications = getLocalNotificationsPlugin();
-if (!LocalNotifications) return; // ou gérer proprement l'absence
+
+    if (!LocalNotifications) return; // ou gérer proprement l'absence
 
     const permission = await LocalNotifications.requestPermissions();
     localStorage.setItem('MSS_notifyPermission', permission.display); // "granted" ou "denied"
@@ -101,8 +100,6 @@ if (!LocalNotifications) return; // ou gérer proprement l'absence
 
 
 function sendRewardMobileNotify(title, body) {
-
-    const LocalNotifications = getLocalNotificationsPlugin();
     if (!LocalNotifications) return; // ou gérer proprement l'absence
 
     const customID = getSafeNotificationId();
@@ -234,7 +231,6 @@ function onInitMobileNotify() {
 
     const savedPermission = localStorage.getItem('MSS_notifyPermission');
     if (devMode) console.log("[NOTIFY] Permission sauvegardée :", savedPermission);
-    const LocalNotifications = getLocalNotificationsPlugin();
 
     // Création d'un channel
     LocalNotifications.createChannel({
