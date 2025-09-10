@@ -19,13 +19,19 @@ initHaptics();
 
 
 // --- Fonction de vibration propre et standard ---
-function vibrationRecupEnding() {
-    if (!isMobileVibration || !Haptics) return;
+async function vibrationRecupEnding() {
+     if (isMobileVibration && Haptics) {
+        try {
+            // Premier buzz
+            await Haptics.vibrate({ duration: 200 });
 
-    // Première vibration courte
-    Haptics.vibrate({ duration: 500 });
-
-    // // Impact haptique Medium optionnel, juste après la première vibration
-    // Haptics.impact({ style: 'Medium' });
-
+            // Petite pause (logicielle, pas de vibration)
+            setTimeout(async () => {
+                // Deuxième buzz
+                await Haptics.vibrate({ duration: 200 });
+            }, 300); // 600ms de pause pour bien marquer la séparation
+        } catch (err) {
+            console.warn("Erreur vibration :", err);
+        }
+    }
 }

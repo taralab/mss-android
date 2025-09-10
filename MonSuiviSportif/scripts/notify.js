@@ -29,7 +29,7 @@ let notifyTextArray = {
     noteSaved : {emoji : "👌​",text: "Note sauvegardée !"},
     noteDeleted : {emoji : "🗑️​",text: "Note supprimée !"},
     restaurationforbidden : {emoji : "❗",text: "Nombre maximale atteind"},
-    recupTargetReach : {emoji : "💤",text: "Récupération terminé !"},
+    recupTargetReach : {emoji : "💪",text: "C'est reparti !"},
 };
 
 
