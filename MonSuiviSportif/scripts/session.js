@@ -3018,6 +3018,16 @@ function onGenerateMultipleSessionItems(newSessionList) {
 let wakeLockInstance = null;
 
 async function requestWakeLock() {
+
+    //control si déjà en cours ne fait rien
+    if(wakeLockInstance){
+        console.log("wakeLock déjà activé");
+        return
+    }else{
+        console.log("wakeLock Désactivé; Demande d'activation");
+    }
+
+
     try {
         if ('wakeLock' in navigator) {
             wakeLockInstance = await navigator.wakeLock.request('screen');
@@ -3045,6 +3055,16 @@ function onLooseWakeLock(){
 
 //lorsque le wake Lock est arrété manuellement
 async function releaseWakeLock() {
+
+
+    //n'arrete le wakeLock que s'il n'y a plus aucun timer en cours
+    let isTimerAlreadyInUse = onCheckIfTimerInUse();
+
+    if (isTimerAlreadyInUse) {
+        console.log("un timer est encore en cours. n'arrète pas le keep awake");
+    }else{
+        console.log("plus de timer en cours. Arrete keepAwake");
+    }
     try {
         if (wakeLockInstance) {
             await wakeLockInstance.release();
@@ -3063,7 +3083,10 @@ async function releaseWakeLock() {
 //surveillance pour reprise automatique du wakelock si l'utilisateur change d'application
 async function handleVisibilityChange() {
     if (document.visibilityState === 'visible') {
-        if (timersInUseID !== null && !wakeLockInstance) {
+        //vérifie si un timer est toujours en cours d'utilisation
+        let isTimerAlreadyInUse = onCheckIfTimerInUse();
+
+        if (isTimerAlreadyInUse && !wakeLockInstance) {
             try {
                 await requestWakeLock();
                 if (devMode ===true){console.log("[SESSION] Reprise automatique du wakeLock");}
@@ -3315,3 +3338,8 @@ function onResettimersInUseID() {
         e = null;
     });
 };
+
+//vérification si un timer toujours en cours
+function onCheckIfTimerInUse() {
+    return Object.values(timersInUseID).some(value => value !== null);
+}
