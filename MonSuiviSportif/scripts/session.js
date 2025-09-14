@@ -1,3 +1,8 @@
+//3 modules sont présent. counter, chrono et minuteur
+//pour chrono et minuteur, on ne peut qu'utiliser un type de chaque en même temps.
+//lorsqu'un timer est en cours d'utilisation, le téléphone ne se met pas en veille
+
+
 
 let userSessionItemsList = {
         counter_utkyzqjy0: {
