@@ -407,7 +407,7 @@ class Counter {
 
 
 class Chrono {
-    constructor(id, name, parentRef,colorName,elapsedTime){
+    constructor(id, name, parentRef,colorName,elapsedTime,startTimeStamp,isRunning){
         this.id = id;
         this.name = null;
         this.parentRef = parentRef;
@@ -415,8 +415,8 @@ class Chrono {
         this.elapsedTime = elapsedTime;
 
         this.interval = null;
-        this.isRunning = false;
-        this.startTimeStamp = null; //stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
+        this.isRunning = isRunning;
+        this.startTimeStamp = startTimeStamp; //stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
 
         //référence
         this.textMinutesRef = null;
@@ -444,6 +444,12 @@ class Chrono {
 
         //initialisation de l'affichage des nombres la première fois
         this.initChrono(name,colorName);
+
+
+        //lancement automatique si besoin
+        if (this.isRunning && this.startTimeStamp) {
+            this.autoResume();
+        }
     }
 
 
@@ -552,11 +558,44 @@ class Chrono {
         this._updateBtnText("Pause");
 
         // Cycle
+        this.startCycle();
+        
+    }
+
+
+    //reprise automatique
+    async autoResume() {
+        if (timersInUseID.chrono === null || timersInUseID.chrono === this.id) {
+            timersInUseID.chrono = this.id;
+            await requestWakeLock();
+
+            if (devMode === true) {
+                console.log("[SESSION] Verrouillage timer par : ", timersInUseID.chrono);
+            }
+        } else {
+            alert("Un chronomètre est déjà en cours");
+            return;
+        }
+
+        this.isRunning = true;
+        this.elapsedTime = Date.now() - this.startTimeStamp; // Reprend l'heure ou ça à commencer pour connaitre le temps écoulé
+        this._updateBtnText("Pause");
+
+        // Cycle
+        this.startCycle();
+    }
+
+
+    //le cycle
+    startCycle(){
+
+        // Sauvegarde l'état actuel en array et localstorage
+        this._saveStat();
+
         this.interval = setInterval(() => {
-            const now = Date.now() ;
+            const now = Date.now();
             this.elapsedTime = now - this.startTimeStamp;
 
-            //affiche le resultat
             this._updateDisplay(this.elapsedTime);
         }, 100);
     }
@@ -574,10 +613,8 @@ class Chrono {
             await releaseWakeLock();
         }
 
-        //sauvegarde la valeur dans l'array et dans localStorage
-        userSessionItemsList[this.id].elapsedTime = this.elapsedTime;
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
+        // Sauvegarde l'état actuel en array et localstorage
+        this._saveStat();
 
     }
 
@@ -597,10 +634,8 @@ class Chrono {
         this._updateBtnText("Démarrer");
 
 
-        //met à jour les éléments hors de cette classe
-        userSessionItemsList[this.id].elapsedTime = 0;
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
+        // Sauvegarde l'état actuel en array et localstorage
+        this._saveStat();
 
 
         setTimeout(() => {
@@ -610,8 +645,17 @@ class Chrono {
         }, 300);
     }
 
+
+    //sauvegarde les états
+    _saveStat(){
+        userSessionItemsList[this.id].elapsedTime = this.elapsedTime;
+        userSessionItemsList[this.id].startTimeStamp = this.startTimeStamp;
+        userSessionItemsList[this.id].isRunning = this.isRunning;
+        onUpdateSessionItemsInStorage();
+    }
+
     //pour supprimer l'item
-    removeItem() {
+    async removeItem() {
         // Arrête le chrono si actif
         if (this.interval) {
             clearInterval(this.interval);
@@ -621,7 +665,7 @@ class Chrono {
             // Libère le verrou si c’était lui
             if (timersInUseID.chrono === this.id) {
                 timersInUseID.chrono = null;
-                releaseWakeLock(); // libère le wakeLock si nécessaire
+                await releaseWakeLock(); // libère le wakeLock si nécessaire
             }
         }
 
@@ -915,7 +959,7 @@ class Minuteur {
     }
 
     //pour supprimer l'item
-    removeItem(){
+    async removeItem(){
          // Arrête le chrono si actif
         if (this.interval) {
             clearInterval(this.interval);
@@ -925,7 +969,7 @@ class Minuteur {
             // Libère le verrou si c’était lui
             if (timersInUseID.minuteur === this.id) {
                 timersInUseID.minuteur = null;
-                releaseWakeLock(); // libère le wakeLock si nécessaire
+                await releaseWakeLock(); // libère le wakeLock si nécessaire
             }
         }
 
@@ -1922,7 +1966,7 @@ async function onDisplaySessionItems() {
                                 divSessionCompteurAreaRef, item.color, item.totalCount);
                     break;
                 case "CHRONO":
-                    newInstance = new Chrono(key, item.name, divSessionCompteurAreaRef, item.color, item.elapsedTime);
+                    newInstance = new Chrono(key, item.name, divSessionCompteurAreaRef, item.color, item.elapsedTime,item.startTimeStamp,item.isRunning);
                     break;
                 case "MINUTEUR":
                     newInstance = new Minuteur(key, item.name, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
