@@ -66,9 +66,13 @@ let infoSessionTextArray = [
 ];
 
 
-//utilisation du chrono ou minuteur 1 à la fois
+//utilisation d'un seul élément de timer par type
 //identifier par son ID car seule l'id concerné peut l'arréter
-let timerInUseID = null;
+let timersInUseID = {
+    chrono : null,
+    minuteur: null,
+    recup : null
+};
 
 //Gestion du wakelock (un seul timer peux fonctionner à la fois)
 //activer => lorsqu'un compteur ou minuteur tourne
@@ -524,15 +528,15 @@ class Chrono {
 
 
     async start(){
-        if(timerInUseID === null || timerInUseID === this.id){
+        if(timersInUseID.chrono === null || timersInUseID.chrono === this.id){
             //si c'est libre ou si c'est moi, lance
             //verrouille l'utilisation des timer par mon id
-            timerInUseID = this.id;
+            timersInUseID.chrono = this.id;
             await requestWakeLock();
 
-           if (devMode === true) {console.log("[SESSION] Verrouillage timer par : ",timerInUseID);} 
+           if (devMode === true) {console.log("[SESSION] Verrouillage timer par : ",timersInUseID.chrono);} 
         }else{
-            alert("Un timer est déjà en cours");
+            alert("Un chronomètre est déjà en cours");
             return
         }
 
@@ -559,9 +563,9 @@ class Chrono {
         this._updateBtnText("Reprendre");
         
         //Libère l'utilisation de timer si utilisé par celui-ci
-        if (timerInUseID !== null && timerInUseID === this.id) {
+        if (timersInUseID.chrono !== null && timersInUseID.chrono === this.id) {
              if (devMode === true) {console.log("[SESSION] Libère timer unique");}
-            timerInUseID = null;
+            timersInUseID.chrono = null;
             await releaseWakeLock();
         }
 
@@ -610,8 +614,8 @@ class Chrono {
             this.isRunning = false;
 
             // Libère le verrou si c’était lui
-            if (timerInUseID === this.id) {
-                timerInUseID = null;
+            if (timersInUseID.chrono === this.id) {
+                timersInUseID.chrono = null;
                 releaseWakeLock(); // libère le wakeLock si nécessaire
             }
         }
@@ -806,15 +810,15 @@ class Minuteur {
         //ne fait rien si à zero ou terminé par défaut (done)
         if (this.remaningTime <=0 || this.isDone === true) {
             return
-        }else if(timerInUseID === null || timerInUseID === this.id){
+        }else if(timersInUseID.minuteur === null || timersInUseID.minuteur === this.id){
             //si c'est libre ou si c'est moi, lance
             //verrouille l'utilisation des timer par mon id
-            timerInUseID = this.id;
+            timersInUseID.minuteur = this.id;
             await requestWakeLock();
 
-             if (devMode === true) {console.log("[SESSION] Verrouillage timer par :",timerInUseID);}
+             if (devMode === true) {console.log("[SESSION] Verrouillage timer par :",timersInUseID.minuteur);}
         }else{
-            alert("Un timer est déjà en cours");
+            alert("Un Minuteur est déjà en cours");
             return
         }
 
@@ -848,9 +852,9 @@ class Minuteur {
         this.remaningTime = Math.ceil((this.targetTime - Date.now()) / 1000);
         
         //Libère l'utilisation de timer si utilisé par celui-ci
-        if (timerInUseID !== null && timerInUseID === this.id) {
+        if (timersInUseID.minuteur !== null && timersInUseID.minuteur === this.id) {
              if (devMode === true) {console.log("[SESSION] Libère timer unique");}
-            timerInUseID = null;
+            timersInUseID.minuteur = null;
             await releaseWakeLock();
         }
         
@@ -914,8 +918,8 @@ class Minuteur {
             this.isRunning = false;
 
             // Libère le verrou si c’était lui
-            if (timerInUseID === this.id) {
-                timerInUseID = null;
+            if (timersInUseID.minuteur === this.id) {
+                timersInUseID.minuteur = null;
                 releaseWakeLock(); // libère le wakeLock si nécessaire
             }
         }
@@ -1864,7 +1868,9 @@ async function onDisplaySessionItems() {
             console.log(" [SESSION] génération de la liste");
         }
 
-        timerInUseID = null; 
+
+        //vide tous les éléments dans timersInUseID
+        onResettimersInUseID();
         await releaseWakeLock();
 
         const divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
@@ -3057,7 +3063,7 @@ async function releaseWakeLock() {
 //surveillance pour reprise automatique du wakelock si l'utilisateur change d'application
 async function handleVisibilityChange() {
     if (document.visibilityState === 'visible') {
-        if (timerInUseID !== null && !wakeLockInstance) {
+        if (timersInUseID !== null && !wakeLockInstance) {
             try {
                 await requestWakeLock();
                 if (devMode ===true){console.log("[SESSION] Reprise automatique du wakeLock");}
@@ -3242,17 +3248,10 @@ function onDestroySortableGenSession() {
 async function onClickReturnFromSession() {
 
 
-    if (timerInUseID != null) {
-        let text = "Timer actif : quitter le menu le supprimera. Quitter ?";
-        // alert("timer en cours");
-        addEventForGlobalPopupConfirmation(
-            removeEventForGlobalPopupConfirmation,
-            onConfirmReturnFromSession,
-            text,"quitter"
-        );
-        return;
-    }
+    //Mettre en place la sauvegarde des état pour minuteur et chrono
+    //suppression propre des éléments
 
+    //reset
     onClearAllSessionElement();
 
     // ferme le menu
@@ -3286,7 +3285,7 @@ async function onClearAllSessionElement() {
 
     //libère le verrouillage timer unique
     if (devMode ===true){console.log("[SESSION] Libère timer unique");}
-    timerInUseID = null;
+    onResettimersInUseID();
 
     //enlève également le wakeLock si active
     await releaseWakeLock();
@@ -3308,3 +3307,11 @@ async function onClearAllSessionElement() {
     //vide l'instance du bouton recup
     btnRecupInstance = null;
 }
+
+
+//reset de timersInUseID
+function onResettimersInUseID() {
+    Object.keys(timersInUseID).forEach(e => {
+        e = null;
+    });
+};

@@ -179,6 +179,10 @@ function updateRecupDisplay() {
 
 //lance la récupe
 function startRecup() {
+
+    //ajout un fake ID dans la tableau pour indiquer que c'est en cours d'utilisation
+    timersInUseID.recup = "timerRecupID";
+
     recupRemainingTime = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
     divRecupPopupRef.classList.remove("hide");
     divRecupPopupRef.classList.add("active");
@@ -211,6 +215,10 @@ function startRecup() {
 
 //Arrete récup
 function stopRecup() {
+
+    //vide l'objet pour libération
+    timersInUseID.recup = null;
+
     clearInterval(recupTimer);
     recupTimer = null;
     isRecupActive = false;
