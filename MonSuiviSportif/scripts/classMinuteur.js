@@ -91,7 +91,8 @@ class Minuteur {
         //démarrer / pause
         let btnMinuteurActionRef = this.element.querySelector(`#btnActionMinuteur_${this.id}`);
         btnMinuteurActionRef.addEventListener("click", ()=>{
-            callMainMinuteur(this.id,false);
+            this._triggerClickEffect(); //effet de click
+            callMainMinuteur(this.id);
         });
 
         //reset
@@ -117,6 +118,9 @@ class Minuteur {
 
     // initialisation à la du minuteur
     initMinuteur(newName,newColorName,newDuration,newIsDone){
+
+
+        console.log("valeur de IS done :", newIsDone);
 
         //Les variables
         this.name = newName;
@@ -145,60 +149,6 @@ class Minuteur {
         }
     }
 
-
-    async start(){
-        //ne fait rien si à zero ou terminé par défaut (done)
-        if (this.remainingTime <=0 || this.isDone === true) {
-            return
-        }else if(timersInUseID.minuteur === null || timersInUseID.minuteur === this.id){
-            //si c'est libre ou si c'est moi, lance
-            //verrouille l'utilisation des timer par mon id
-            timersInUseID.minuteur = this.id;
-            await requestWakeLock();
-
-             if (devMode === true) {console.log("[SESSION] Verrouillage timer par :",timersInUseID.minuteur);}
-        }else{
-            alert("Un Minuteur est déjà en cours");
-            return
-        }
-
-        this._triggerClickEffect(); //effet de click
-
-        this.isRunning = true;
-        this._updateBtnText("Pause");
-
-        // Cible réelle en horloge système
-        this.targetTime = Date.now() + (this.remainingTime * 1000);
-
-        this.interval = setInterval(() => {
-            const now = Date.now();
-            const timeLeftMs = this.targetTime - now;
-            this.remainingTime = Math.ceil(timeLeftMs / 1000);
-
-            this._updateTimeDisplay(this.remainingTime);
-            this._updateProgressBar();
-
-            if (this.remainingTime <= 0) {
-                this.complete();
-            }
-        }, 500); // vérifie toutes les 500ms pour plus de fluidité
-    }
-
-    async pause(){
-        this._triggerClickEffect(); //effet de click
-        this.isRunning = false;
-        clearInterval(this.interval);
-        this._updateBtnText("Reprendre");
-        this.remainingTime = Math.ceil((this.targetTime - Date.now()) / 1000);
-        
-        //Libère l'utilisation de timer si utilisé par celui-ci
-        if (timersInUseID.minuteur !== null && timersInUseID.minuteur === this.id) {
-             if (devMode === true) {console.log("[SESSION] Libère timer unique");}
-            timersInUseID.minuteur = null;
-            await releaseWakeLock();
-        }
-        
-    }
 
     reset(){
         //desactive le bouton
@@ -257,16 +207,6 @@ class Minuteur {
         //image DONE
         this.imgDoneRef.classList.add("counterTargetDone");
 
-        //Notification in app
-        onShowNotifyPopup("minuteurTargetReach");
-
-        //Joue le son de notification
-        document.getElementById("audioSoundMinuteurEnd").play();
-
-        //met à jour les éléments hors de cette classe
-        userSessionItemsList[this.id].isDone = true;
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
     }
 
 
@@ -286,18 +226,6 @@ class Minuteur {
 
     //pour supprimer l'item
     async removeItem(){
-         // Arrête le chrono si actif
-        if (this.interval) {
-            clearInterval(this.interval);
-            this.interval = null;
-            this.isRunning = false;
-
-            // Libère le verrou si c’était lui
-            if (timersInUseID.minuteur === this.id) {
-                timersInUseID.minuteur = null;
-                await releaseWakeLock(); // libère le wakeLock si nécessaire
-            }
-        }
 
         // Supprime l’élément DOM
         this.element.remove();

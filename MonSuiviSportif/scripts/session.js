@@ -45,8 +45,8 @@ let userSessionItemsList = {
     genSessionSortableInstance = null,//instance drag n drop pour génération de session
     sessionActivityTypeToSend = null,//utilisé pour stocker le type d'activité à générer
     sessionAllItemsInstance = {},//stockes les instances de tous les items générés
-    sessionInstanceButtonAddNew = null,//l'instance du boutton add new
-    isInSessionMenu = false; //Pour savoir si je suis dans le menu séance ou non
+    sessionInstanceButtonAddNew = null;//l'instance du boutton add new
+
 
 
 let sessionItemColors = {
@@ -964,7 +964,7 @@ function onClickReturnFromSendToActvityLocation() {
 
 
 async function onOpenMenuSession(){
-    isInSessionMenu = true;
+
 
     // Récupère les éléments
     getSessionItemListFromLocalStorage();
@@ -1018,6 +1018,8 @@ async function onOpenMenuSession(){
     //création menu principal
     onCreateMainMenuSession();
 
+
+    console.log(userSessionItemsList);
 }
    
    
@@ -1288,6 +1290,8 @@ function eventCreateSessionItem() {
             sessionAllItemsInstance[minuteurNewID] = newInstance;
 
             notifyType = "minuteurCreated";
+
+            console.log(userSessionItemsList);
             break;
     
         default:
@@ -1682,7 +1686,10 @@ async function onDisplaySessionItems() {
                     newInstance = new Chrono(key, item.name, divSessionCompteurAreaRef, item.color, item.elapsedTime,item.startTimeStamp,item.isRunning);
                     break;
                 case "MINUTEUR":
-                    newInstance = new Minuteur(key, item.name, divSessionCompteurAreaRef, item.color, item.duration, item.isDone);
+                    newInstance = new Minuteur(key, item.name, 
+                        divSessionCompteurAreaRef, item.color, item.duration,
+                        item.remainingTime,item.isRunning,
+                        item.isDone);
                     break;
             }
 
@@ -1793,6 +1800,24 @@ function onClickDeleteSessionItem() {
 async function eventDeleteSessionItem(){
     // Masque editeur de compteur
     document.getElementById("divEditCounter").style.display = "none";
+
+
+    //simplification variable
+    const userSessionItem = userSessionItemsList[currentSessionItemEditorID];
+
+    console.log("type :",userSessionItem.type,"isRunning : ", userSessionItem.isRunning);
+
+    //Gestion spécifique minuteur
+    //si c'est un minuteur et qu'il est en cours d'utilisation
+    if (userSessionItem.type === "MINUTEUR" && userSessionItem.isRunning === true && timersInUseID.minuteur === currentSessionItemEditorID) {
+        //arrete le timer
+        timersInUseID.minuteur = null;
+
+        //demande la libération du wakelock
+        releaseWakeLock();
+    }
+
+
 
     //suppression dans la variable
     delete userSessionItemsList[currentSessionItemEditorID];
@@ -2248,6 +2273,8 @@ async function onOpenMenuEditSession() {
 
     //création du menu principal
     onCreateMainMenuEditSession();
+
+
 
 
 }
@@ -3042,7 +3069,6 @@ async function onClickReturnFromSession() {
 
     // ferme le menu
     onLeaveMenu("Session");
-    isInSessionMenu = false;
 };
 
 
@@ -3116,10 +3142,12 @@ let mainMinuteurInterval = null,
 
 // TIMER GLOBAL MINUTEUR
 
-async function callMainMinuteur(minuteurID,isAutoResume) {
+async function callMainMinuteur(minuteurID) {
     
     //ne fait rien si à zero ou terminé par défaut (done)
     if (userSessionItemsList[minuteurID].remainingTime <= 0 || userSessionItemsList[minuteurID].isDone === true) {
+
+        console.log("remainingTime à zero ou isDone = true");
         return;
     } else if(timersInUseID.minuteur !== null && timersInUseID.minuteur !== minuteurID){
         //Appels lancés uniquement si mainMinuteur est libre ou par celui qui l'utilise actuellement
@@ -3130,12 +3158,9 @@ async function callMainMinuteur(minuteurID,isAutoResume) {
     }
 
 
-    if (isAutoResume){
-        //AUTO-RESUME
-
-
-    }else if (userSessionItemsList[minuteurID].isRunning){
+    if (userSessionItemsList[minuteurID].isRunning){
         //PAUSE
+        onPauseMainMinuteur(minuteurID);
 
     }else {
         //START,RESTART
@@ -3172,22 +3197,66 @@ async function onStartMainMinuteur(minuteurID){
 
         console.log(mainMinuteurRemainingTime);
         
-        sessionAllItemsInstance[minuteurID]._updateTimeDisplay(mainMinuteurRemainingTime);
-        sessionAllItemsInstance[minuteurID]._updateProgressBar(mainMinuteurRemainingTime);
+
+        //affichage lorsque l'instance existe (du coup si je suis dans le menu séance)
+        if (sessionAllItemsInstance[minuteurID]) {
+            console.log("Affiche dans séance");
+            sessionAllItemsInstance[minuteurID]._updateTimeDisplay(mainMinuteurRemainingTime);
+            sessionAllItemsInstance[minuteurID]._updateProgressBar(mainMinuteurRemainingTime);
+        }else{
+            console.log("gestion hors séance");
+        }
+
+        
         if (mainMinuteurRemainingTime <= 0) {
 
             //arrete l'interval
             clearInterval(mainMinuteurInterval);
-            //joue sequence minuteur .complete()
-            sessionAllItemsInstance[minuteurID].complete();
+
+
+            //affichage si dans le menu séance
+            if (sessionAllItemsInstance[minuteurID]) {
+                //joue sequence minuteur .complete()
+                sessionAllItemsInstance[minuteurID].complete();
+            }
+
+
+            //Notification in app
+            onShowNotifyPopup("minuteurTargetReach");
+
+            //Joue le son de notification
+            document.getElementById("audioSoundMinuteurEnd").play();
+            
             //retire l'id 
             timersInUseID.minuteur = null;
             //demande un arret du wakeLock
             releaseWakeLock();
+
+            console.log(userSessionItemsList);
         }
     }, 500); // vérifie toutes les 500ms pour plus de fluidité
 }
    
 function onPauseMainMinuteur(minuteurID){
+
+    console.log("pause demandé");
+
+    //arrete l'interval
+    clearInterval(mainMinuteurInterval);
+
+    //libère l'utilisation des timer par l'id de l'appelant
+    timersInUseID.minuteur = null;
+    //demande un arret 
+    releaseWakeLock();
+
+
+    //affichage
+    sessionAllItemsInstance[minuteurID]._updateBtnText("Reprendre");
+
+    sessionAllItemsInstance[minuteurID].remainingTime = mainMinuteurRemainingTime;
+    sessionAllItemsInstance[minuteurID].isRunning = false;
+
+    //sauvegarde de l'état
+    sessionAllItemsInstance[minuteurID]._saveStat();
 
 }
