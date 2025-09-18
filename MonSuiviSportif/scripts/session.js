@@ -3204,6 +3204,11 @@ async function onStartMainMinuteur(minuteurID){
         console.log(mainMinuteurRemainingTime);
         
 
+        //met à jour la variable
+        userSessionItemsList[minuteurID].remainingTime = mainMinuteurRemainingTime;
+
+        console.log(userSessionItemsList[minuteurID]);
+
         //affichage lorsque l'instance existe (du coup si je suis dans le menu séance)
         if (sessionAllItemsInstance[minuteurID]) {
             console.log("Affiche dans séance");

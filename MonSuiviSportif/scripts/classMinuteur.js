@@ -138,13 +138,15 @@ class Minuteur {
         
         this.textNameRef.textContent = this.name;
 
+        
+
         if (this.isDone) {
             this.progressBarRef.style.width = "0%";
             this._updateBtnText("Terminé");
             this.imgDoneRef.classList.add("counterTargetDone");
             this.timeSpanRef.textContent = this._formatTime(this.initialDuration);
         }else{
-            this.progressBarRef.style.width = "100%";
+            this._updateProgressBar(this.remainingTime);
             this._updateBtnText("Lancer compte à rebours");
             this.imgDoneRef.classList.remove("counterTargetDone");
             this.timeSpanRef.textContent = this._formatTime(this.remainingTime);
@@ -161,18 +163,30 @@ class Minuteur {
         this._triggerClickEffect(); //effet de click
 
 
-        //PENSER au MAIN MINUTEUR
+        //Traitement MAIN MINUTEUR (si en cours d'utilisation par cette instance)
+        if (timersInUseID.minuteur === this.id) {
+            //arrete l'interval
+            clearInterval(mainMinuteurInterval);
+            
+            //retire l'id 
+            timersInUseID.minuteur = null;
+            //demande un arret du wakeLock
+            releaseWakeLock();
+        }
 
 
         this.remainingTime = this.initialDuration;
         this.isDone = false;
+        this.isRunning = false;
 
         //affichage
         this._updateTimeDisplay(this.remainingTime);
-        this._updateProgressBar();
+        this._updateProgressBar(this.remainingTime);
         this._updateBtnText("Lancer compte à rebours");
 
 
+        //sauvegarde de l'état
+        onSaveMinuteurState(this.id,this.isRunning,this.remainingTime,this.isDone);
 
         //image DONE retrait
         this.imgDoneRef.classList.remove("counterTargetDone");
