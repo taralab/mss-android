@@ -604,6 +604,7 @@ class Chrono {
             const now = Date.now();
             this.elapsedTime = now - this.startTimeStamp;
 
+            console.log("chrono : ", this.elapsedTime);
             this._updateDisplay(this.elapsedTime);
         }, 100);
     }
@@ -1810,10 +1811,12 @@ async function eventDeleteSessionItem(){
     //Gestion spécifique minuteur
     //si c'est un minuteur et qu'il est en cours d'utilisation
     if (userSessionItem.type === "MINUTEUR" && userSessionItem.isRunning === true && timersInUseID.minuteur === currentSessionItemEditorID) {
-        //arrete le timer
+        //arrete l'interval
+        clearInterval(mainMinuteurInterval);
+            
+        //retire l'id 
         timersInUseID.minuteur = null;
-
-        //demande la libération du wakelock
+        //demande un arret du wakeLock
         releaseWakeLock();
     }
 
