@@ -1283,7 +1283,7 @@ function eventCreateSessionItem() {
             //Instanciation dans le DOM
             newInstance = new Minuteur(minuteurNewID, minuteurData.name, parentRef, 
                 minuteurData.color, minuteurData.duration,
-                minuteurData.remainingTime,minuteurData.isRunning,
+                minuteurData.remainingTime,
                 minuteurData.isDone);
 
             //stocke l'instance
@@ -1688,7 +1688,7 @@ async function onDisplaySessionItems() {
                 case "MINUTEUR":
                     newInstance = new Minuteur(key, item.name, 
                         divSessionCompteurAreaRef, item.color, item.duration,
-                        item.remainingTime,item.isRunning,
+                        item.remainingTime,
                         item.isDone);
                     break;
             }
@@ -3161,7 +3161,7 @@ async function callMainMinuteur(minuteurID) {
     if (userSessionItemsList[minuteurID].isRunning){
         //PAUSE
         onPauseMainMinuteur(minuteurID);
-
+        console.log("demande pause");
     }else {
         //START,RESTART
         onStartMainMinuteur(minuteurID);
@@ -3189,6 +3189,12 @@ async function onStartMainMinuteur(minuteurID){
     userSessionItemsList[minuteurID].targetTime = Date.now() + (mainMinuteurRemainingTime * 1000);
     mainMinuteurTargetTime = Date.now() + (mainMinuteurRemainingTime * 1000);
 
+
+    //set et sauvegarde l'état
+    onSaveMinuteurState(minuteurID,true,mainMinuteurRemainingTime,false);
+    
+
+
     //lance le cycle
     mainMinuteurInterval = setInterval(() => {
         const now = Date.now();
@@ -3214,12 +3220,14 @@ async function onStartMainMinuteur(minuteurID){
             clearInterval(mainMinuteurInterval);
 
 
-            //affichage si dans le menu séance
+            //gestion de l'instance si présente
             if (sessionAllItemsInstance[minuteurID]) {
                 //joue sequence minuteur .complete()
                 sessionAllItemsInstance[minuteurID].complete();
             }
 
+            //set et sauvegarde l'état
+            onSaveMinuteurState(minuteurID,false,0,true);
 
             //Notification in app
             onShowNotifyPopup("minuteurTargetReach");
@@ -3253,10 +3261,20 @@ function onPauseMainMinuteur(minuteurID){
     //affichage
     sessionAllItemsInstance[minuteurID]._updateBtnText("Reprendre");
 
-    sessionAllItemsInstance[minuteurID].remainingTime = mainMinuteurRemainingTime;
-    sessionAllItemsInstance[minuteurID].isRunning = false;
-
     //sauvegarde de l'état
-    sessionAllItemsInstance[minuteurID]._saveStat();
+    onSaveMinuteurState(minuteurID,false,mainMinuteurRemainingTime,false);
 
+}
+
+
+function onSaveMinuteurState(minuteurID,isRunning,remainingTime,isDone){
+        //sauvegarde des état en array et en base
+        userSessionItemsList[minuteurID].isDone = isDone;
+        userSessionItemsList[minuteurID].remainingTime = remainingTime;
+        userSessionItemsList[minuteurID].isRunning = isRunning;
+
+        onUpdateSessionItemsInStorage();
+
+        console.log("sauvegarde d'état minuteur : ");
+        console.log(userSessionItemsList[minuteurID]);
 }

@@ -1,14 +1,13 @@
 class Minuteur {
-    constructor(id, name, parentRef,colorName,duration,remainingTime,isRunning,isDone){
+    constructor(id, name, parentRef,colorName,initialDuration,remainingTime,isDone){
         this.id = id;
         this.name = null;
         this.parentRef = parentRef;
         this.colorName = null;
-        this.duration = null;//en secondes
+        this.initialDuration = null;//en secondes
         this.isDone = null;
 
-        this.remainingTime = remainingTime;
-        this.isRunning = isRunning;
+        this.remainingTime = null;
         this.interval = null;
         this.startTimeStamp = null;//stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
         this.targetTime = null;
@@ -44,7 +43,7 @@ class Minuteur {
         this.reference();
 
         //initialisation
-        this.initMinuteur(name,colorName,duration,isDone);
+        this.initMinuteur(name,colorName,initialDuration,remainingTime,isDone);
     }
 
 
@@ -117,7 +116,7 @@ class Minuteur {
     }
 
     // initialisation à la du minuteur
-    initMinuteur(newName,newColorName,newDuration,newIsDone){
+    initMinuteur(newName,newColorName,newinitialDuration,newRemainingTime,newIsDone){
 
 
         console.log("valeur de IS done :", newIsDone);
@@ -125,7 +124,8 @@ class Minuteur {
         //Les variables
         this.name = newName;
         this.colorName = newColorName;
-        this.duration = newDuration;//en secondes
+        this.initialDuration = newinitialDuration;//en secondes
+        this.remainingTime = newRemainingTime;
         this.isDone = newIsDone;
 
         this.hardColor = sessionItemColors[newColorName].minuteur;
@@ -135,17 +135,19 @@ class Minuteur {
         //LE DOM
         this.progressBarRef.style.backgroundColor = this.PBColor;
         this.btnActionRef.style.backgroundColor = this.hardColor;
-        this.timeSpanRef.textContent = this._formatTime(this.duration);
+        
         this.textNameRef.textContent = this.name;
 
         if (this.isDone) {
             this.progressBarRef.style.width = "0%";
             this._updateBtnText("Terminé");
             this.imgDoneRef.classList.add("counterTargetDone");
+            this.timeSpanRef.textContent = this._formatTime(this.initialDuration);
         }else{
             this.progressBarRef.style.width = "100%";
             this._updateBtnText("Lancer compte à rebours");
             this.imgDoneRef.classList.remove("counterTargetDone");
+            this.timeSpanRef.textContent = this._formatTime(this.remainingTime);
         }
     }
 
@@ -159,16 +161,10 @@ class Minuteur {
         this._triggerClickEffect(); //effet de click
 
 
-        //si le minuteur était en cours,
-        if (this.isRunning === true) {
-            //arrete et libère le mainMinuteur
-
-        }
+        //PENSER au MAIN MINUTEUR
 
 
-        //met à jours les variables de la class
-        this.isRunning = false;
-        this.remainingTime = this.duration;
+        this.remainingTime = this.initialDuration;
         this.isDone = false;
 
         //affichage
@@ -176,9 +172,6 @@ class Minuteur {
         this._updateProgressBar();
         this._updateBtnText("Lancer compte à rebours");
 
-
-        //sauvegarde des état en array et en base
-        this._saveStat();
 
 
         //image DONE retrait
@@ -194,13 +187,10 @@ class Minuteur {
     complete(){
         this.remainingTime = 0;//remet la durée initial comme ça l'utilisateur peux voir ce qu'il avait mis
         this.isDone = true;
-        this.isRunning = false;
 
-        //sauvegarde
-        this._saveStat();
 
         //affichage
-        this._updateTimeDisplay(this.duration);
+        this._updateTimeDisplay(this.initialDuration);
         this._updateProgressBar();
         this._updateBtnText("Terminé");
 
@@ -210,18 +200,6 @@ class Minuteur {
     }
 
 
-
-    _saveStat(){
-        //sauvegarde des état en array et en base
-        userSessionItemsList[this.id].isDone = this.isDone;
-        userSessionItemsList[this.id].remainingTime = this.remainingTime;
-        userSessionItemsList[this.id].isRunning = this.isRunning;
-
-        onUpdateSessionItemsInStorage();
-
-        console.log("sauvegarde d'état minuteur : ");
-        console.log(userSessionItemsList[this.id]);
-    }
 
 
     //pour supprimer l'item
@@ -236,7 +214,7 @@ class Minuteur {
     }
 
     _updateProgressBar(remainingTime){
-        let percent = (remainingTime / this.duration) *100;
+        let percent = (remainingTime / this.initialDuration) *100;
         this.progressBarRef.style.width = `${percent}%`;
     }
 
