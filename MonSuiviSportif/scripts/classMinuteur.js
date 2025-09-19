@@ -147,7 +147,9 @@ class Minuteur {
             this.timeSpanRef.textContent = this._formatTime(this.initialDuration);
         }else{
             this._updateProgressBar(this.remainingTime);
-            this._updateBtnText("Lancer compte à rebours");
+
+            let textToDisplay = this.remainingTime === this.initialDuration ? "Lancer compte à rebours" : "Reprendre";
+            this._updateBtnText(textToDisplay);
             this.imgDoneRef.classList.remove("counterTargetDone");
             this.timeSpanRef.textContent = this._formatTime(this.remainingTime);
         }

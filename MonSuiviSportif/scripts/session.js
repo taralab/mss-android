@@ -30,7 +30,6 @@ let userSessionItemsList = {
             duration : 60,//en secondes
             isDone :false,
             isRunning : false,
-            targetTime : "",
             remainingTime : 0,
         }
     },
@@ -92,623 +91,6 @@ let timersInUseID = {
 //Arréter => ondisplay affichage (par sécurité si tournait), pause, complète.
 
 //lorsqu'un chrono tourne si écrans mi en arriere plan, met le chrono en pause et enregistre elapsed time. Pour reprendre automatiquement lors du retour.
-
-
-
-
-
-// Objet compteur
-class Counter {
-    constructor(id, name, currentSerie, serieTarget, repIncrement,parentRef,colorName,totalCount){
-        //les éléments qui ne sont pas modifiable dans "modification"
-        this.id = id;
-        this.parentRef = parentRef;
-        this.currentSerie = currentSerie;
-        this.repIncrement = repIncrement;
-        this.totalCount = totalCount;
-
-
-        //Les élément modifiable dans modification sont set dans initCounter()
-        this.name = null;
-        this.serieTarget = null;
-        this.colorName = null;
-        this.hardColor = null;
-        this.softColor = null;
-
-        //reference
-        this.textNameRef = null;
-        this.textCurrentSerieRef = null;
-        this.textSerieTargetRef = null;
-        this.textTotalCountRef = null;
-        this.inputRepIncrementRef = null;
-        this.btnActionRef = null;
-        this.imgDoneRef = null;
-        this.btnResetCounterRef = null;
-        
-
-        // div container
-        this.element = document.createElement("div");
-        this.element.classList.add("item-session-container");
-        this.element.id = `itemSessionContainer_${this.id}`;
-
-        this.render();
-        // Insertion
-        this.parentRef.appendChild(this.element);
-
-        // Ajout des écouteurs d'évènement
-        this.addEvent();
-
-        //Référence
-        this.reference();
-
-        //Initialisation
-        this.initCounter(name,serieTarget,repIncrement,colorName);
-    }
-
-
-
-    // génération de l'élément
-    render(){
-        this.element.innerHTML = `
-            <div class="compteur-content-line-1">
-                <div class="drag-handle">⣿</div>
-                <p class="compteur-name" id="counterName_${this.id}"></p>
-                <button class="btn-counter-setting" id="btnModifyCounter_${this.id}">
-                    <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
-                </button>  
-            </div>
-
-            <div class="compteur-content-line-2" id="divCounterCurrentSerie_${this.id}">
-                <div class="compteur-content-line-2-left">
-                    <span class="current-serie" id="spanCurrentSerie_${this.id}"></span>
-                    <span class="serie-target" id="spanSerieTarget_${this.id}"></span>
-                    <span class="serie-text">séries</span>
-                </div>
-                <span class="counter-total" id="spanTotalCount_${this.id}"></span>
-            </div>
-
-
-            <div class="compteur-content-line-3">
-                <p class="compteur-navigation">
-                    <button class="btn-counter-reset" id="btnCountReset_${this.id}"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
-                </p>
-                <div class="wrapper rep">
-                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0">
-                </div>
-                <button class="counter" id="btnRepIncrement_${this.id}">
-                    <img src="./Icons/Icon-Accepter-blanc.webp" alt="">
-                </button>  
-            </div>
-
-            <img src="./Icons/Icon-Counter-Done.webp" class="overlay-image-rayure" id="imgCounterTargetDone_${this.id}" alt="Rature">
-        `; 
-    }
-
-
-
-    // ajout des écouteurs d'évènements    
-    addEvent(){
-            // Modifier compteur
-            let btnModifyCounterRef = this.element.querySelector(`#btnModifyCounter_${this.id}`);
-            btnModifyCounterRef.addEventListener("click", ()=>{
-            onClickModifyCounter(this.id);
-            });
-
-            // Incrementer
-            let btnIncrementCounterRef = this.element.querySelector(`#btnRepIncrement_${this.id}`);
-            btnIncrementCounterRef.addEventListener("click", () =>{
-                this.incrementeCounter();
-            });
-            
-            // Reset
-            let btnResetCounterRef = this.element.querySelector(`#btnCountReset_${this.id}`);
-            btnResetCounterRef.addEventListener("click", () =>{
-                this.resetCounter();
-            });
-
-            // modifier input
-            let btnInputCounterRef = this.element.querySelector(`#inputRepIncrement_${this.id}`);
-            btnInputCounterRef.addEventListener("change", () =>{
-                this.changeRepIncrement();
-            });
-            btnInputCounterRef.addEventListener("focus", (event) =>{
-                selectAllText(event.target);
-            });
-            btnInputCounterRef.addEventListener("contextmenu", (event) =>{
-                disableContextMenu(event);
-            });
-    }
-
-
-    reference(){
-        this.textNameRef = this.element.querySelector(`#counterName_${this.id}`);
-        this.textCurrentSerieRef = this.element.querySelector(`#spanCurrentSerie_${this.id}`);
-        this.textSerieTargetRef = this.element.querySelector(`#spanSerieTarget_${this.id}`);
-        this.textTotalCountRef = this.element.querySelector(`#spanTotalCount_${this.id}`);
-        this.inputRepIncrementRef = this.element.querySelector(`#inputRepIncrement_${this.id}`);
-        this.btnActionRef = this.element.querySelector(`#btnRepIncrement_${this.id}`);
-        this.imgDoneRef = this.element.querySelector(`#imgCounterTargetDone_${this.id}`);
-        this.btnResetCounterRef = this.element.querySelector(`#btnCountReset_${this.id}`);
-    }
-
-    initCounter(newName,newSerieTarget,newRepIncrement,newColorName){
-        //set les variables
-        this.name = newName;
-        this.serieTarget = newSerieTarget;
-        this.repIncrement = newRepIncrement;
-        this.colorName = newColorName;
-
-        this.hardColor = sessionItemColors[this.colorName].hard;
-        this.softColor = sessionItemColors[this.colorName].soft;
-
-
-        //set LE dom
-        this.element.style.backgroundColor = this.softColor;
-        this.btnActionRef.style.backgroundColor = this.hardColor; 
-        this.textNameRef.textContent = this.name;
-        this.textCurrentSerieRef.textContent = this.currentSerie;
-        this.textSerieTargetRef.textContent = `/${this.serieTarget}`;
-        this.textTotalCountRef.textContent = `Total : ${this.totalCount}`;
-        this.inputRepIncrementRef.value =  this.repIncrement;
-
-
-        //control done
-        this._checkTargetReach();
-
-    }
-
-
-    
-    incrementeCounter() {
-
-        // Ne fait rien si l'increment est à zero ou vide
-        if (this.repIncrement === 0) {
-            if (devMode === true){console.log("[SESSION] increment vide ne fait rien");}
-            onShowNotifyPopup("inputIncrementEmpty");
-            return
-        }
-
-
-        // Verrouille le bouton pour éviter action secondaire trop rapide
-        //sera déverrouillé après animation
-        this.btnActionRef.disabled = true;
-
-        // Addition
-        this.totalCount += this.repIncrement;
-        this.currentSerie++;
-
-        // Set nouveau résultat dans html, variable et update base
-        this.textTotalCountRef.textContent = `Total : ${this.totalCount}`;
-        this.textCurrentSerieRef.textContent = this.currentSerie;
-
-        userSessionItemsList[this.id].totalCount = this.totalCount;
-        userSessionItemsList[this.id].currentSerie = this.currentSerie;
-
-        // Si objectif atteind
-        let isTargetReach = this._checkTargetReach();
-
-        // ANIMATION
-        this._incrementAnimation();
-
-        // Notification objectif atteind
-        if (isTargetReach) {
-            onShowNotifyPopup("counterTargetReach");
-        }
-
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
-
-        //déverrouille le bouton pour être a nouveau disponible
-        setTimeout(() => {
-            this.btnActionRef.disabled = false;
-        }, 300);
-    }
-
-
-
-    // Valeur incrementation
-    changeRepIncrement() {
-        // Actualise l'array
-        userSessionItemsList[this.id].repIncrement = parseInt(this.inputRepIncrementRef.value) || 0;
-        this.repIncrement = parseInt(this.inputRepIncrementRef.value) || 0;
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
-    }
-
-
-
-
-    // Lorsque je reset, l'heure
-    // set le current count à zero,
-    // Actualise les éléments visual, dans la variable et en base
-    resetCounter() {
-
-        //bloc le bouton jusqu'à la fin de l'animation
-        this.btnResetCounterRef.disabled = true;
-
-
-        // set les html
-        //current serie
-
-        // Étape 1 : animation de disparition
-        this.textCurrentSerieRef.classList.remove('reset-in');
-        this.textCurrentSerieRef.classList.add('reset-out');
-        // Le innerHTML sera mis à zero dans le setTimeOut
-        
-        //totalcount
-        this.totalCount = 0;
-        this.textTotalCountRef.textContent = `Total : 0`;
-
-
-        // Set les variables
-        userSessionItemsList[this.id].currentSerie = 0;
-        userSessionItemsList[this.id].totalCount = 0;
-
-
-
-        // Sauvegarde en localStorage
-        onUpdateSessionItemsInStorage();
-
-        if (devMode === true){console.log("[SESSION] userSessionItemsList", userSessionItemsList)};
-
-        //retire la classe "reach" si necessaire pour le count target et le slash
-        if (this.textSerieTargetRef.classList.contains("target-reach")) {
-            this.textSerieTargetRef.classList.remove("target-reach");
-            this.imgDoneRef.classList.remove("counterTargetDone");
-        }
-
-        // Ajouter la classe pour l'animation
-        // spanCurrentSerieRef.classList.add("anim-reset");
-
-        
-        setTimeout(() => {
-            // Met le chiffre visuellement et joue la remontée
-            this.textCurrentSerieRef.classList.remove('reset-out');
-            this.textCurrentSerieRef.classList.add('reset-in');
-            this.textCurrentSerieRef.textContent = 0;
-            this.currentSerie = 0;
-
-            //déverrouille le bouton à la fin de l'animation
-            this.btnResetCounterRef.disabled = false;
-        }, 300);
-
-    }
-
-
-
-    //pour supprimer l'item
-    removeItem(){
-        this.element.remove();
-    }
-
-
-    // ANIMATION
-    _incrementAnimation() {        
-        // Pour relancer l'animation même si elle a été déjà jouée 
-        // Enlève également reset-in pour que l'animation fonctionne toujours après un reset
-        this.textCurrentSerieRef.classList.remove('pop-animation','reset-in');
-        void this.textCurrentSerieRef.offsetWidth; // Forcer un reflow
-        // Ajouter la classe pour l'animation
-        this.textCurrentSerieRef.classList.add("pop-animation");
-    }
-
-    // Si objectif non égale à zero atteind
-    _checkTargetReach() {
-        let targetReach = false;
-        //IsDone
-        if(this.serieTarget === 0){
-            return targetReach;
-        }else if (this.currentSerie === this.serieTarget){
-            targetReach = true;
-            this.textSerieTargetRef.classList.add("target-reach");
-            this.imgDoneRef.classList.add("counterTargetDone");
-        }else{
-            this.textSerieTargetRef.classList.remove("target-reach");
-            this.imgDoneRef.classList.remove("counterTargetDone");
-        }
-        return targetReach;
-    }
-
-}
-
-
-
-
-class Chrono {
-    constructor(id, name, parentRef,colorName,elapsedTime,startTimeStamp,isRunning){
-        this.id = id;
-        this.name = null;
-        this.parentRef = parentRef;
-        this.colorName = null;
-        this.elapsedTime = elapsedTime;
-
-        this.interval = null;
-        this.isRunning = isRunning;
-        this.startTimeStamp = startTimeStamp; //stocke le temps universelle pour avoir toujours le temps correct même après passage en arrière plan
-
-        //référence
-        this.textMinutesRef = null;
-        this.textSecondsRef = null;
-        this.textCentisRef = null;
-        this.divChronoRoundRef = null;
-        this.textNameRef = null;
-        this.btnActionRef = null;
-
-        // div container
-        this.element = document.createElement("div");
-        this.element.classList.add("chrono-container");
-        this.element.style.backgroundColor = "white";
-        this.element.id = `itemSessionContainer_${id}`;
-
-        this.hardColor = null;
-        this.softColor =  null;
-
-        this.render();
-        // Ajout des écouteurs d'évènement
-        this.addEvent();
-
-        //référence les boutons pour affichage text resultat
-        this.reference();
-
-        //initialisation de l'affichage des nombres la première fois
-        this.initChrono(name,colorName);
-
-
-        //lancement automatique si besoin
-        if (this.isRunning && this.startTimeStamp) {
-            this.autoResume();
-        }
-    }
-
-
-
-    // génération de l'élément
-    render(){
-        this.element.innerHTML = `
-            <div class="chrono-left-buttons">
-                    <div class="drag-handle">⣿</div>
-                    <button class="btn-counter-reset" id="btnChronoReset_${this.id}">
-                        <img src="./Icons/Icon-Reset.webp" alt="" srcset="">
-                    </button>
-            </div>
-
-            <div id="divChronoCenterArea_${this.id}" class="chrono-center-area">
-                <div class="session-chrono-icon">⏱️</div>
-                <div class="session-chrono-label" id="chronoName_${this.id}"></div>
-                <div class="session-chrono-time">
-                    <span id="sessionChronoMin_${this.id}">00</span>:<span id="sessionChronoSec_${this.id}">00</span>.<span class="session-chrono-centis" id="sessionChronoCentis_${this.id}">00</span>
-                </div>
-                <button id="btnActionChrono_${this.id}" class="session-chrono-start">Démarrer</button>
-            </div>
-
-            <div class="chrono-right-buttons">
-                <button class="btn-counter-setting" id="btnModifyChrono_${this.id}">
-                    <img src="./Icons/Icon-Autres.webp" alt="" srcset="">
-                </button>
-            </div>
-
-             `;
-        // Insertion
-        this.parentRef.appendChild(this.element);
-
-        
-        
-    }
-
-
-    // Ajout des écouteurs d'évènement
-    addEvent(){
-        // Modifier compteur
-        let btnModifyChronoRef = this.element.querySelector(`#btnModifyChrono_${this.id}`);
-        btnModifyChronoRef.addEventListener("click", ()=>{
-            onClickModifyChrono(this.id);
-        });
-
-        //démarrer / pause
-        let btnMinuteurActionRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
-        btnMinuteurActionRef.addEventListener("click", ()=>{
-            this.isRunning ? this.pause() : this.start();
-        });
-
-        //reset
-        let btnResetRef = this.element.querySelector(`#btnChronoReset_${this.id}`);
-        btnResetRef.addEventListener("click",()=>{
-            this.reset();
-        });
-    }
-
-    //référence les élements pour l'affichage des resultats du chrono
-    reference(){
-        this.textMinutesRef = this.element.querySelector(`#sessionChronoMin_${this.id}`);
-        this.textSecondsRef = this.element.querySelector(`#sessionChronoSec_${this.id}`);
-        this.textCentisRef = this.element.querySelector(`#sessionChronoCentis_${this.id}`);
-        this.divChronoRoundRef = this.element.querySelector(`#divChronoCenterArea_${this.id}`);
-        this.textNameRef = this.element.querySelector(`#chronoName_${this.id}`);
-        this.btnActionRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
-    }
-
-    initChrono(newName,newColorName){
-
-        //Les variables
-        this.name = newName;
-        this.colorName = newColorName;
-
-        this.hardColor = sessionItemColors[this.colorName].hard;
-        this.softColor =  sessionItemColors[this.colorName].soft;
-
-
-        //LE dom
-        this._updateDisplay(this.elapsedTime);
-        this.divChronoRoundRef.style.backgroundColor = this.softColor;
-        this.divChronoRoundRef.style.borderColor = this.hardColor;
-        this.btnActionRef.style.backgroundColor = this.hardColor;
-        this.textNameRef.textContent = this.name;
-    }
-
-
-    async start(){
-        if(timersInUseID.chrono === null || timersInUseID.chrono === this.id){
-            //si c'est libre ou si c'est moi, lance
-            //verrouille l'utilisation des timer par mon id
-            timersInUseID.chrono = this.id;
-            await requestWakeLock();
-
-           if (devMode === true) {console.log("[SESSION] Verrouillage timer par : ",timersInUseID.chrono);} 
-        }else{
-            alert("Un chronomètre est déjà en cours");
-            return
-        }
-
-        this._triggerClickEffect(); //effet de click
-
-        this.isRunning = true;
-        this.startTimeStamp = Date.now() - this.elapsedTime; //stocke le temps universelle de départ(pour les reprises/corrections par la suite)
-        this._updateBtnText("Pause");
-
-        // Cycle
-        this.startCycle();
-        
-    }
-
-
-    //reprise automatique
-    async autoResume() {
-        if (timersInUseID.chrono === null || timersInUseID.chrono === this.id) {
-            timersInUseID.chrono = this.id;
-            await requestWakeLock();
-
-            if (devMode === true) {
-                console.log("[SESSION] Verrouillage timer par : ", timersInUseID.chrono);
-            }
-        } else {
-            alert("Un chronomètre est déjà en cours");
-            return;
-        }
-
-        this.isRunning = true;
-        this.elapsedTime = Date.now() - this.startTimeStamp; // Reprend l'heure ou ça à commencer pour connaitre le temps écoulé
-        this._updateBtnText("Pause");
-
-        // Cycle
-        this.startCycle();
-    }
-
-
-    //le cycle
-    startCycle(){
-
-        // Sauvegarde l'état actuel en array et localstorage
-        this._saveStat();
-
-        this.interval = setInterval(() => {
-            const now = Date.now();
-            this.elapsedTime = now - this.startTimeStamp;
-
-            console.log("chrono : ", this.elapsedTime);
-            this._updateDisplay(this.elapsedTime);
-        }, 100);
-    }
-
-    async pause(){
-        this._triggerClickEffect(); //effet de click
-        this.isRunning = false;
-        clearInterval(this.interval);
-        this._updateBtnText("Reprendre");
-        
-        //Libère l'utilisation de timer si utilisé par celui-ci
-        if (timersInUseID.chrono !== null && timersInUseID.chrono === this.id) {
-             if (devMode === true) {console.log("[SESSION] Libère timer unique");}
-            timersInUseID.chrono = null;
-            await releaseWakeLock();
-        }
-
-        // Sauvegarde l'état actuel en array et localstorage
-        this._saveStat();
-
-    }
-
-    reset(){
-
-        //desactive le bouton
-        let btnResetRef = this.element.querySelector(`#btnChronoReset_${this.id}`);
-        btnResetRef.disabled = true;
-
-
-        //lancement de la sequence de reset
-        this.pause();
-        this.elapsedTime = 0;
-        this.startTimeStamp = null;
-        this._updateDisplay(this.elapsedTime);
-
-        this._updateBtnText("Démarrer");
-
-
-        // Sauvegarde l'état actuel en array et localstorage
-        this._saveStat();
-
-
-        setTimeout(() => {
-            // active le bouton
-            btnResetRef.disabled = false;
-
-        }, 300);
-    }
-
-
-    //sauvegarde les états
-    _saveStat(){
-        userSessionItemsList[this.id].elapsedTime = this.elapsedTime;
-        userSessionItemsList[this.id].startTimeStamp = this.startTimeStamp;
-        userSessionItemsList[this.id].isRunning = this.isRunning;
-        onUpdateSessionItemsInStorage();
-    }
-
-    //pour supprimer l'item
-    async removeItem() {
-        // Arrête le chrono si actif
-        if (this.interval) {
-            clearInterval(this.interval);
-            this.interval = null;
-            this.isRunning = false;
-
-            // Libère le verrou si c’était lui
-            if (timersInUseID.chrono === this.id) {
-                timersInUseID.chrono = null;
-                await releaseWakeLock(); // libère le wakeLock si nécessaire
-            }
-        }
-
-        // Supprime l’élément DOM
-        this.element.remove();
-    }
-
-    _updateBtnText(newText){
-        let btnTextRef = this.element.querySelector(`#btnActionChrono_${this.id}`);
-        btnTextRef.textContent = newText;
-    }
-
-    _triggerClickEffect() {
-        const btn = this.element.querySelector(`#btnActionChrono_${this.id}`);
-        btn.classList.add("activate");
-        setTimeout(() => {
-            btn.classList.remove("activate");
-        }, 300); // Durée de l'animation
-    }
-
-     _updateDisplay(newValue) {
-        const totalMs = Math.floor(newValue);
-        const minutes = Math.floor(totalMs / 60000);
-        const seconds = Math.floor((totalMs % 60000) / 1000);
-        const centis = Math.floor((totalMs % 1000) / 10);
-        this.textMinutesRef.textContent = String(minutes).padStart(2, '0');
-        this.textSecondsRef.textContent = String(seconds).padStart(2, '0');
-        this.textCentisRef.textContent = String(centis).padStart(2, '0');
-    }
-
-    
-}
-
-
 
 
 
@@ -1635,9 +1017,6 @@ async function onDisplaySessionItems() {
             console.log(" [SESSION] génération de la liste");
         }
 
-
-        //vide tous les éléments dans timersInUseID
-        onResettimersInUseID();
         await releaseWakeLock();
 
         const divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
@@ -1731,10 +1110,6 @@ function onClickResetAllSessionItems() {
 
 async function eventResetAllSessionItems() {
     
-    //Vide le tableau d'instance
-    sessionAllItemsInstance = {};
-
-
     // Boucle sur la liste des key
     //Pour chaque éléments passe la variable à zero et set le texte
     sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
@@ -1750,9 +1125,12 @@ async function eventResetAllSessionItems() {
                 break;
             case "CHRONO":
                 userSessionItemsList[key].elapsedTime = 0;
+                userSessionItemsList[key].isRunning = false;
                 break;
             case "MINUTEUR":
                 userSessionItemsList[key].isDone = false;
+                userSessionItemsList[key].isRunning = false;
+                userSessionItemsList[key].remainingTime = userSessionItemsList[key].duration;
                 break;
         
             default:
@@ -1765,6 +1143,27 @@ async function eventResetAllSessionItems() {
     // reset également l'heure du début de session
     onSetSessionStartTime();
 
+
+    //si un minuteur tournais,
+    if (timersInUseID.minuteur !== null) {
+        console.log("un minuteur tourne : ", timersInUseID.minuteur);
+        //arrete l'interval
+        clearInterval(mainMinuteurInterval);
+        timersInUseID.minuteur = null;
+    }
+    //Si un chrono tournais
+    if (timersInUseID.chrono !== null) {
+        //l'arrete
+        sessionAllItemsInstance[timersInUseID.chrono]._clearChronoInterval();
+        timersInUseID.chrono = null;
+    }
+
+
+    //Vide le tableau d'instance
+    sessionAllItemsInstance = {};
+
+    //Demande l'arret du wakelock
+    releaseWakeLock();
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -3062,12 +2461,7 @@ function onDestroySortableGenSession() {
 // Retour depuis Info
 async function onClickReturnFromSession() {
 
-
-    //Mettre en place la sauvegarde des état pour minuteur et chrono
-    //suppression propre des éléments
-
-
-    //reset
+    //nettoyage du menu avant suppression
     onClearAllSessionElement();
 
     // ferme le menu
@@ -3086,6 +2480,10 @@ async function onClearAllSessionElement() {
         onConsoleLogEventListenerRegistry();
     };
 
+
+    //Demande un arret du wakelock
+    await releaseWakeLock();
+
     // Nettoyage de tous les minuteurs / chronos
     Object.values(sessionAllItemsInstance).forEach(instance => {
         if (instance && typeof instance.removeItem === "function") {
@@ -3093,12 +2491,6 @@ async function onClearAllSessionElement() {
         }
     });
 
-    //libère le verrouillage timer unique
-    if (devMode ===true){console.log("[SESSION] Libère timer unique");}
-    onResettimersInUseID();
-
-    //enlève également le wakeLock si active
-    await releaseWakeLock();
 
     //enlève ecouteur d'évènement visibility pour le wakelock
     document.removeEventListener("visibilitychange", handleVisibilityChange);
@@ -3118,17 +2510,6 @@ async function onClearAllSessionElement() {
     btnRecupInstance = null;
 }
 
-
-
-
-
-
-//reset de timersInUseID
-function onResettimersInUseID() {
-    Object.keys(timersInUseID).forEach(e => {
-        e = null;
-    });
-};
 
 //vérification si un timer toujours en cours
 function onCheckIfTimerInUse() {
