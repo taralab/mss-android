@@ -366,12 +366,10 @@ async function onOpenMenuSession(){
     };
 
 
-    //ajout l'écouteur d'évènement pour le wakeLock (à chaque fois et retire lorsque quitte le menu)
-    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     if (devMode === true){
         console.log("[SESSION] userSessionItemsList", userSessionItemsList);
-        console.log("[SESSION] Ajout Ecouteur visibilitychange pour wakeLock");
+        
     }
 
     // set l'heure d'initialisation de session dans le texte
@@ -2104,6 +2102,13 @@ function eventGenerateSessionList(){
     // reset également l'heure du début de session
     onSetSessionStartTime();
 
+    //arrète le main minuteur si tournait.
+    if (timersInUseID.minuteur !== null) {
+        clearInterval(mainMinuteurInterval);
+        console.log("un mail minuteur tournait, je l'arrete : ", timersInUseID.minuteur);
+        timersInUseID.minuteur = null;
+    }
+
     // Sauvegarde la nouvelle session en local storage
     onUpdateSessionItemsInStorage();
     onUpdateSessionTimeInStorage();
@@ -2492,9 +2497,7 @@ async function onClearAllSessionElement() {
     });
 
 
-    //enlève ecouteur d'évènement visibility pour le wakelock
-    document.removeEventListener("visibilitychange", handleVisibilityChange);
-    if (devMode ===true){console.log("[SESSION] Retire Ecouteur visibilitychange pour wakeLock");}
+
 
     onDestroySortableItemSession();
 

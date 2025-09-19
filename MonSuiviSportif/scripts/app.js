@@ -47,6 +47,14 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
+
+
+//ajout l'écouteur d'évènement pour le wakeLock 
+document.addEventListener("visibilitychange", handleVisibilityChange);
+console.log("[SESSION] Ajout Ecouteur visibilitychange pour wakeLock");
+
+
+
 // ------------------------- CONDITION D'UTILISATION ---------------------------
 
 
