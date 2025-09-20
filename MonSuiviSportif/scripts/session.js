@@ -75,13 +75,6 @@ let infoSessionTextArray = [
 ];
 
 
-//utilisation d'un seul élément de timer par type
-//identifier par son ID car seule l'id concerné peut l'arréter
-let timersInUseID = {
-    chrono : null,
-    minuteur: null,
-    recup : null
-};
 
 
 
@@ -1015,8 +1008,6 @@ async function onDisplaySessionItems() {
             console.log(" [SESSION] génération de la liste");
         }
 
-        await releaseWakeLock();
-
         const divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
         divSessionCompteurAreaRef.innerHTML = "";
 
@@ -1147,21 +1138,18 @@ async function eventResetAllSessionItems() {
         console.log("un minuteur tourne : ", timersInUseID.minuteur);
         //arrete l'interval
         clearInterval(mainMinuteurInterval);
-        timersInUseID.minuteur = null;
+        eventGestionTimer("minuteur",null);
     }
     //Si un chrono tournais
     if (timersInUseID.chrono !== null) {
         //l'arrete
         sessionAllItemsInstance[timersInUseID.chrono]._clearChronoInterval();
-        timersInUseID.chrono = null;
+        eventGestionTimer("chrono",null);
     }
 
 
     //Vide le tableau d'instance
     sessionAllItemsInstance = {};
-
-    //Demande l'arret du wakelock
-    releaseWakeLock();
 
     // Sauvegarde en localStorage
     onUpdateSessionItemsInStorage();
@@ -1211,10 +1199,9 @@ async function eventDeleteSessionItem(){
         //arrete l'interval
         clearInterval(mainMinuteurInterval);
             
-        //retire l'id 
-        timersInUseID.minuteur = null;
-        //demande un arret du wakeLock
-        releaseWakeLock();
+        //demande arret wakelock
+        eventGestionTimer("minuteur",null);
+
     }
 
 
@@ -2106,7 +2093,7 @@ function eventGenerateSessionList(){
     if (timersInUseID.minuteur !== null) {
         clearInterval(mainMinuteurInterval);
         console.log("un mail minuteur tournait, je l'arrete : ", timersInUseID.minuteur);
-        timersInUseID.minuteur = null;
+        eventGestionTimer("minuteur",null);
     }
 
     // Sauvegarde la nouvelle session en local storage
@@ -2213,14 +2200,57 @@ function onGenerateMultipleSessionItems(newSessionList) {
 
 let wakeLockInstance = null;
 
+//utilisation d'un seul élément de timer par type
+//identifier par son ID car seule l'id concerné peut l'arréter
+let timersInUseID = {
+    chrono : null,
+    minuteur: null,
+    recup : null
+};
+
+
+async function eventGestionTimer(typeTarget,value) {
+        
+    //set la valeur dans le gestionnaire des timers (ID ou null)
+    timersInUseID[typeTarget] = value;
+
+    //est ce qu'un timer est encore en cours
+    let isTimerAlreadyInUse = onCheckIfTimerInUse();
+    
+    //ensuite demande un release ou un request du wakelock selon
+
+    //si set un null et plus de timer en cours
+    if (value === null && !isTimerAlreadyInUse) {
+        //demande un arret du wakeLock
+        await releaseWakeLock();
+    }else{
+        //demande un lancement du wakeLock
+        await requestWakeLock();
+    }
+
+
+
+    //log
+    let logText = value === null ? "Liberation" : "Verrouillage";
+    console.log(`Event Timers. Demande de ${logText} du ${typeTarget} avec valeur : ${value}`);
+    console.log(timersInUseID);
+
+    if (wakeLockInstance) {
+        console.log("Statut du wakeLock : Activé !");
+    }else{
+        console.log("Statut du wakeLock : Désactivé !");
+    }
+
+}
+
 async function requestWakeLock() {
 
     //control si déjà en cours ne fait rien
     if(wakeLockInstance){
-        console.log("wakeLock déjà activé");
+        console.log("Request wakeLock :  déjà activé");
         return
     }else{
-        console.log("wakeLock Désactivé; Demande d'activation");
+        console.log("Request wakeLock : Désactivé; Demande d'activation");
     }
 
 
@@ -2239,6 +2269,8 @@ async function requestWakeLock() {
     } catch (err) {
         console.error("[SESSION] ❌ Erreur lors de l'activation du Wake Lock :", err);
     }
+
+
 }
 
 //Lorsque le wakeLock est perdu tout seul (exemple change d'appli, ou passe en arrière plan)
@@ -2251,16 +2283,6 @@ function onLooseWakeLock(){
 
 //lorsque le wake Lock est arrété manuellement
 async function releaseWakeLock() {
-
-
-    //n'arrete le wakeLock que s'il n'y a plus aucun timer en cours
-    let isTimerAlreadyInUse = onCheckIfTimerInUse();
-
-    if (isTimerAlreadyInUse) {
-        console.log("un timer est encore en cours. n'arrète pas le keep awake");
-    }else{
-        console.log("plus de timer en cours. Arrete keepAwake");
-    }
     try {
         if (wakeLockInstance) {
             await wakeLockInstance.release();
@@ -2486,9 +2508,6 @@ async function onClearAllSessionElement() {
     };
 
 
-    //Demande un arret du wakelock
-    await releaseWakeLock();
-
     // Nettoyage de tous les minuteurs / chronos
     Object.values(sessionAllItemsInstance).forEach(instance => {
         if (instance && typeof instance.removeItem === "function") {
@@ -2559,14 +2578,12 @@ async function callMainMinuteur(minuteurID) {
 
 async function onStartMainMinuteur(minuteurID){
     //verrouille l'utilisation des timer par l'id de l'appelant
-    timersInUseID.minuteur = minuteurID;
+    eventGestionTimer("minuteur",minuteurID);
 
     //affichage texte
     sessionAllItemsInstance[minuteurID]._updateBtnText("Pause");
 
-    console.log("stat minuteur");
-    //active wakeLock
-    await requestWakeLock();
+
 
     mainMinuteurRemainingTime = userSessionItemsList[minuteurID].remainingTime;
 
@@ -2588,13 +2605,12 @@ async function onStartMainMinuteur(minuteurID){
         const timeLeftMs = mainMinuteurTargetTime - now;
         mainMinuteurRemainingTime = Math.ceil(timeLeftMs / 1000);
 
-        console.log(mainMinuteurRemainingTime);
-        
-
+    
         //met à jour la variable
         userSessionItemsList[minuteurID].remainingTime = mainMinuteurRemainingTime;
 
-        console.log(userSessionItemsList[minuteurID]);
+        //console.log(mainMinuteurRemainingTime);
+        //console.log(userSessionItemsList[minuteurID]);
 
         //affichage lorsque l'instance existe (du coup si je suis dans le menu séance)
         if (sessionAllItemsInstance[minuteurID]) {
@@ -2627,10 +2643,8 @@ async function onStartMainMinuteur(minuteurID){
             //Joue le son de notification
             document.getElementById("audioSoundMinuteurEnd").play();
             
-            //retire l'id 
-            timersInUseID.minuteur = null;
-            //demande un arret du wakeLock
-            releaseWakeLock();
+            //Demande arrete wakeLock
+            eventGestionTimer("minuteur",null);
 
             console.log(userSessionItemsList);
         }
@@ -2644,10 +2658,8 @@ function onPauseMainMinuteur(minuteurID){
     //arrete l'interval
     clearInterval(mainMinuteurInterval);
 
-    //libère l'utilisation des timer par l'id de l'appelant
-    timersInUseID.minuteur = null;
-    //demande un arret 
-    releaseWakeLock();
+    //Demande arrete wakeLock
+    eventGestionTimer("minuteur",null);
 
 
     //affichage
@@ -2670,3 +2682,5 @@ function onSaveMinuteurState(minuteurID,isRunning,remainingTime,isDone){
         console.log("sauvegarde d'état minuteur : ");
         console.log(userSessionItemsList[minuteurID]);
 }
+
+

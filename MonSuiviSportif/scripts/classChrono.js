@@ -135,10 +135,8 @@ class Chrono {
         if(timersInUseID.chrono === null || timersInUseID.chrono === this.id){
             //si c'est libre ou si c'est moi, lance
             //verrouille l'utilisation des timer par mon id
-            timersInUseID.chrono = this.id;
-            await requestWakeLock();
-
-           if (devMode === true) {console.log("[SESSION] Verrouillage timer par : ",timersInUseID.chrono);} 
+            //gestion wakeLock
+            eventGestionTimer("chrono",this.id);
         }else{
             alert("Un chronomètre est déjà en cours");
             return
@@ -159,12 +157,8 @@ class Chrono {
     //reprise automatique
     async autoResume() {
         if (timersInUseID.chrono === null || timersInUseID.chrono === this.id) {
-            timersInUseID.chrono = this.id;
-            await requestWakeLock();
-
-            if (devMode === true) {
-                console.log("[SESSION] Verrouillage timer par : ", timersInUseID.chrono);
-            }
+            //gestion wakeLock
+            eventGestionTimer("chrono",this.id);
         } else {
             alert("Un chronomètre est déjà en cours");
             return;
@@ -189,7 +183,7 @@ class Chrono {
             const now = Date.now();
             this.elapsedTime = now - this.startTimeStamp;
 
-            console.log("chrono : ", this.elapsedTime);
+            // console.log("chrono : ", this.elapsedTime);
             this._updateDisplay(this.elapsedTime);
         }, 100);
     }
@@ -202,9 +196,8 @@ class Chrono {
         
         //Libère l'utilisation de timer si utilisé par celui-ci
         if (timersInUseID.chrono !== null && timersInUseID.chrono === this.id) {
-             if (devMode === true) {console.log("[SESSION] Libère timer unique");}
-            timersInUseID.chrono = null;
-            await releaseWakeLock();
+            //gestion wakeLock
+            eventGestionTimer("chrono",null);
         }
 
         // Sauvegarde l'état actuel en array et localstorage
@@ -262,8 +255,7 @@ class Chrono {
 
             // Libère le verrou si c’était lui
             if (timersInUseID.chrono === this.id) {
-                timersInUseID.chrono = null;
-                await releaseWakeLock(); // libère le wakeLock si nécessaire
+                eventGestionTimer("chrono",null);
             }
         }
 

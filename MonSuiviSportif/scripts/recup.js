@@ -181,8 +181,7 @@ function updateRecupDisplay() {
 async function startRecup() {
 
     //ajout un fake ID dans la tableau pour indiquer que c'est en cours d'utilisation
-    timersInUseID.recup = "timerRecupID";
-    await requestWakeLock();
+    eventGestionTimer("recup","timerRecupID");
 
     recupRemainingTime = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
     divRecupPopupRef.classList.remove("hide");
@@ -217,10 +216,8 @@ async function startRecup() {
 //Arrete récup
 function stopRecup() {
 
-    //vide l'objet pour libération
-    timersInUseID.recup = null;
-    //Demande la desactivation du wakeLock
-    releaseWakeLock();
+    //gestion wakelock
+    eventGestionTimer("recup",null);
     
     clearInterval(recupTimer);
     recupTimer = null;

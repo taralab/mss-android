@@ -170,10 +170,8 @@ class Minuteur {
             //arrete l'interval
             clearInterval(mainMinuteurInterval);
             
-            //retire l'id 
-            timersInUseID.minuteur = null;
-            //demande un arret du wakeLock
-            releaseWakeLock();
+            //gestion wakeLock
+            eventGestionTimer("minuteur",null);
         }
 
 
