@@ -5,33 +5,36 @@
 
 
 let userSessionItemsList = {
-        counter_utkyzqjy0: {
-            type: "counter/chrono/minuteur",
-            name: "NOUVEAU COMPTEUR",
-            displayOrder: 0,
-            currentSerie: 0,
-            serieTarget: 0,
-            repIncrement: 0,
-            totalCount: 0,
-            color: "white"
-        },
-        chrono_abddef:{
-            type : "CHRONO",
-            name:"CHRONO NAME",
-            displayOrder:1,
-            color: "white",
-            elapsedTime : 0 // en ms
-        },
-        minuteur_abcdef:{
-            type:"MINUTEUR",
-            name: "MINUTEUR NAME",
-            displayOrder : 2,
-            color : "white",
-            duration : 60,//en secondes
-            isDone :false,
-            isRunning : false,
-            remainingTime : 0,
-        }
+
+    //NE PAS enlever les commentaires
+
+        // counter_utkyzqjy0: {
+        //     type: "counter/chrono/minuteur",
+        //     name: "NOUVEAU COMPTEUR",
+        //     displayOrder: 0,
+        //     currentSerie: 0,
+        //     serieTarget: 0,
+        //     repIncrement: 0,
+        //     totalCount: 0,
+        //     color: "white"
+        // },
+        // chrono_abddef:{
+        //     type : "CHRONO",
+        //     name:"CHRONO NAME",
+        //     displayOrder:1,
+        //     color: "white",
+        //     elapsedTime : 0 // en ms
+        // },
+        // minuteur_abcdef:{
+        //     type:"MINUTEUR",
+        //     name: "MINUTEUR NAME",
+        //     displayOrder : 2,
+        //     color : "white",
+        //     duration : 60,//en secondes
+        //     isDone :false,
+        //     isRunning : false,
+        //     remainingTime : 0,
+        // }
     },
     maxSessionItems = 20,
     sessionItemsSortedKey = [],//array des clé trié par "displayOrder"
@@ -792,7 +795,9 @@ function onFormatChrono() {
         name: newChronoName,
         displayOrder: newDisplayOrder,
         color: sessionItemColorSelected,
-        elapsedTime : 0
+        elapsedTime : 0,
+        startTimeStamp : null,
+        isRunning : false
     }
 
     return formatedChrono;
@@ -2153,7 +2158,9 @@ function onGenerateMultipleSessionItems(newSessionList) {
                     name: e.name,
                     displayOrder: index,
                     color: e.color,
-                    elapsedTime : 0 // en ms
+                    elapsedTime : 0, // en ms,
+                    isRunning : false,
+                    startTimeStamp:null
                 };
 
                 // Inserte un nouveau chrono dans l'array
@@ -2162,13 +2169,16 @@ function onGenerateMultipleSessionItems(newSessionList) {
             case "MINUTEUR":
                 // Génération de l'ID
                 let minuteurId = getRandomShortID("minuteur_",userSessionItemsList);
+
                 let formatedMinuteur = {
                     type:"MINUTEUR",
                     name: e.name,
                     displayOrder : index,
                     color : e.color,
                     duration : e.duration,//en secondes
-                    isDone :false
+                    isDone :false,
+                    isRunning : false,
+                    remainingTime : e.duration
                 }
 
                 // Inserte un nouveau chrono dans l'array
