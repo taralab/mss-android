@@ -47,24 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-//Gestion des timers et wakeLocks
-
-function eventInitTimersAndWakeLock() {
-    //ajout l'écouteur d'évènement pour le wakeLock 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    console.log("[TIMERS] Ajout Ecouteur visibilitychange pour wakeLock");
-
-
-    //chargement ou création du STORE
-    if (localStorage.getItem(timersInUserStorageName) === null) {
-        console.log("[LOCAL STORAGE] Création du  store MSS_timersInUseID");
-        onUpdateSessionTimersInUseIDInStorage();
-    }else{
-        console.log("[LOCAL STORAGE] Le store MSS_timersInUseID existe : Chargement");
-        onGetSessionTimersInUseIDInStorage();
-    }
-
-}
 
 
 // ------------------------- CONDITION D'UTILISATION ---------------------------
