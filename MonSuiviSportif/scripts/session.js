@@ -40,6 +40,7 @@ let userSessionItemsList = {
     sessionStartTime = "--:--:--",//date-heure du début de session set lorsque clique sur reset all counter, ou générate session
     sessionStorageName = "MSS_sessionCounterList",
     sessionStartTimeStorageName = "MSS_sessionStartTime",
+    timersInUserStorageName = "MSS_timersInUseID",
     sessionItemSortableInstance = null,//instance pour le drag n drop des items
     genSessionSortableInstance = null,//instance drag n drop pour génération de session
     sessionActivityTypeToSend = null,//utilisé pour stocker le type d'activité à générer
@@ -93,26 +94,38 @@ let infoSessionTextArray = [
 
 // --------------------------------------- LOCAL STORAGE -----------------------------------------
 
+//ItemsList
 function onUpdateSessionItemsInStorage() {
     localStorage.setItem(sessionStorageName, JSON.stringify(userSessionItemsList));
 }
 
+function getSessionItemListFromLocalStorage() {
+    userSessionItemsList = {};
+    userSessionItemsList = JSON.parse(localStorage.getItem(sessionStorageName)) || {};
+}
+
+
+//timeStarted
 function onUpdateSessionTimeInStorage() {
     localStorage.setItem(sessionStartTimeStorageName, sessionStartTime);
 }
 
-
-
-function getSessionItemListFromLocalStorage() {
-    userSessionItemsList = {};
-
-    userSessionItemsList = JSON.parse(localStorage.getItem(sessionStorageName)) || {};
-
+function getSessionStartTimeFromLocalStorage() {
+    sessionStartTime = localStorage.getItem(sessionStartTimeStorageName) || "--:--:--";
 }
 
 
-function getSessionStartTimeFromLocalStorage() {
-    sessionStartTime = localStorage.getItem(sessionStartTimeStorageName) || "--:--:--";
+//timersInUseID
+function onUpdateSessionTimersInUseIDInStorage() {
+    localStorage.setItem(timersInUserStorageName,  JSON.stringify(timersInUseID));
+}
+
+
+function onGetSessionTimersInUseIDInStorage() {
+    const storedValue = localStorage.getItem(timersInUserStorageName);
+    if (storedValue !== null) {
+        timersInUseID = JSON.parse(storedValue);
+    }
 }
 
 
