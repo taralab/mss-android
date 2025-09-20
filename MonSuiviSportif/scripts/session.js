@@ -2227,6 +2227,9 @@ async function eventGestionTimer(typeTarget,value) {
     //set la valeur dans le gestionnaire des timers (ID ou null)
     timersInUseID[typeTarget] = value;
 
+    //sauvegarde l'état de timerInUseID
+    onUpdateSessionTimersInUseIDInStorage();
+
     //est ce qu'un timer est encore en cours
     let isTimerAlreadyInUse = onCheckIfTimerInUse();
     
