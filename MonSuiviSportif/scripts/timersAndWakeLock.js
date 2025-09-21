@@ -2,13 +2,17 @@
 function onUpdateSessionTimersInUseIDInStorage() {
     localStorage.setItem(timersInUserStorageName,  JSON.stringify(timersInUseID));
 
-    console.log(localStorage.getItem(timersInUserStorageName));
+    if (devMode === true){
+        console.log(localStorage.getItem(timersInUserStorageName));
+    }
 }
 
 
 function onGetSessionTimersInUseIDInStorage() {
     const storedValue = localStorage.getItem(timersInUserStorageName);
-    console.log(storedValue);
+    if (devMode === true){
+        console.log(storedValue);
+    }
     if (storedValue !== null) {
         timersInUseID = {};
         timersInUseID = JSON.parse(storedValue);
@@ -64,28 +68,33 @@ async function eventGestionTimer(typeTarget,value) {
 
 
     //log
-    let logText = value === null ? "Liberation" : "Verrouillage";
-    console.log(`Event Timers. Demande de ${logText} du ${typeTarget} avec valeur : ${value}`);
-    console.log(timersInUseID);
+    if (devMode === true){
+        let logText = value === null ? "Liberation" : "Verrouillage";
+        console.log(`Event Timers. Demande de ${logText} du ${typeTarget} avec valeur : ${value}`);
+        console.log(timersInUseID);
+        if (wakeLockInstance) {
+            console.log("Statut du wakeLock : Activé !");
+        }else{
+            console.log("Statut du wakeLock : Désactivé !");
+        }
 
-    if (wakeLockInstance) {
-        console.log("Statut du wakeLock : Activé !");
-    }else{
-        console.log("Statut du wakeLock : Désactivé !");
     }
+   
 
 }
 
 async function requestWakeLock() {
 
     //control si déjà en cours ne fait rien
-    if(wakeLockInstance){
-        console.log("Request wakeLock :  déjà activé");
-        return
-    }else{
-        console.log("Request wakeLock : Désactivé; Demande d'activation");
-    }
 
+    if (devMode === true){
+        if(wakeLockInstance){
+            console.log("Request wakeLock :  déjà activé");
+            return
+        }else{
+            console.log("Request wakeLock : Désactivé; Demande d'activation");
+        }
+    }
 
     try {
         if ('wakeLock' in navigator) {
@@ -200,9 +209,10 @@ function onCheckInitialMinuteurStatus() {
     //si un minuteur était en cours d'utilisation
     if (timersInUseID.minuteur !== null) {
 
-        console.log("[TIMER] Minuteur mal arrété. Demande de réinitialisation");
-        console.log(timersInUseID.minuteur);
-
+        if (devMode === true){
+            console.log("[TIMER] Minuteur mal arrété. Demande de réinitialisation");
+            console.log(timersInUseID.minuteur);
+        }
         //récupère l'id du minuteur en question
         const minuteurID = timersInUseID.minuteur;
 

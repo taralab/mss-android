@@ -400,7 +400,9 @@ async function onOpenMenuSession(){
     onCreateMainMenuSession();
 
 
-    console.log(userSessionItemsList);
+    if (devMode === true){
+        console.log(userSessionItemsList);
+    }
 }
    
    
@@ -672,7 +674,9 @@ function eventCreateSessionItem() {
 
             notifyType = "minuteurCreated";
 
-            console.log(userSessionItemsList);
+            if (devMode === true){
+                console.log(userSessionItemsList);
+            }
             break;
     
         default:
@@ -1144,7 +1148,9 @@ async function eventResetAllSessionItems() {
 
     //si un minuteur tournais,
     if (timersInUseID.minuteur !== null) {
-        console.log("un minuteur tourne : ", timersInUseID.minuteur);
+        if (devMode === true){
+            console.log("un minuteur tourne : ", timersInUseID.minuteur);
+        }            
         //arrete l'interval
         clearInterval(mainMinuteurInterval);
         eventGestionTimer("minuteur",null);
@@ -1200,8 +1206,9 @@ async function eventDeleteSessionItem(){
     //simplification variable
     const userSessionItem = userSessionItemsList[currentSessionItemEditorID];
 
-    console.log("type :",userSessionItem.type,"isRunning : ", userSessionItem.isRunning);
-
+    if (devMode === true){
+        console.log("type :",userSessionItem.type,"isRunning : ", userSessionItem.isRunning);
+    }
     //Gestion spécifique minuteur
     //si c'est un minuteur et qu'il est en cours d'utilisation
     if (userSessionItem.type === "MINUTEUR" && userSessionItem.isRunning === true && timersInUseID.minuteur === currentSessionItemEditorID) {
@@ -2101,7 +2108,9 @@ function eventGenerateSessionList(){
     //arrète le main minuteur si tournait.
     if (timersInUseID.minuteur !== null) {
         clearInterval(mainMinuteurInterval);
-        console.log("un mail minuteur tournait, je l'arrete : ", timersInUseID.minuteur);
+        if (devMode === true){
+            console.log("un mail minuteur tournait, je l'arrete : ", timersInUseID.minuteur);
+        }
         eventGestionTimer("minuteur",null);
     }
 
@@ -2442,13 +2451,17 @@ async function callMainMinuteur(minuteurID) {
     //ne fait rien si à zero ou terminé par défaut (done)
     if (userSessionItemsList[minuteurID].remainingTime <= 0 || userSessionItemsList[minuteurID].isDone === true) {
 
-        console.log("remainingTime à zero ou isDone = true");
+        if (devMode === true){
+            console.log("remainingTime à zero ou isDone = true");
+        }
         return;
     } else if(timersInUseID.minuteur !== null && timersInUseID.minuteur !== minuteurID){
         //Appels lancés uniquement si mainMinuteur est libre ou par celui qui l'utilise actuellement
         alert("Un Minuteur est déjà en cours d'utilisation !");
-        console.log(timersInUseID);
-        console.log("id appelant : ", minuteurID);
+        if (devMode === true){
+            console.log(timersInUseID);
+            console.log("id appelant : ", minuteurID);
+        }
         return;
     }
 
@@ -2456,7 +2469,9 @@ async function callMainMinuteur(minuteurID) {
     if (userSessionItemsList[minuteurID].isRunning){
         //PAUSE
         onPauseMainMinuteur(minuteurID);
-        console.log("demande pause");
+        if (devMode === true){
+            console.log("demande pause");
+        }
     }else {
         //START,RESTART
         onStartMainMinuteur(minuteurID);
@@ -2476,7 +2491,9 @@ async function onStartMainMinuteur(minuteurID){
 
     mainMinuteurRemainingTime = userSessionItemsList[minuteurID].remainingTime;
 
-    console.log(userSessionItemsList[minuteurID].remainingTime);
+    if (devMode === true){
+        console.log(userSessionItemsList[minuteurID].remainingTime);
+    }
 
     // Cible réelle en horloge système
     userSessionItemsList[minuteurID].targetTime = Date.now() + (mainMinuteurRemainingTime * 1000);
@@ -2503,11 +2520,11 @@ async function onStartMainMinuteur(minuteurID){
 
         //affichage lorsque l'instance existe (du coup si je suis dans le menu séance)
         if (sessionAllItemsInstance[minuteurID]) {
-            console.log("Affiche dans séance");
+            // console.log("Affiche dans séance");
             sessionAllItemsInstance[minuteurID]._updateTimeDisplay(mainMinuteurRemainingTime);
             sessionAllItemsInstance[minuteurID]._updateProgressBar(mainMinuteurRemainingTime);
         }else{
-            console.log("gestion hors séance");
+            // console.log("gestion hors séance");
         }
 
         
@@ -2535,14 +2552,16 @@ async function onStartMainMinuteur(minuteurID){
             //Demande arrete wakeLock
             eventGestionTimer("minuteur",null);
 
-            console.log(userSessionItemsList);
+            // console.log(userSessionItemsList);
         }
     }, 500); // vérifie toutes les 500ms pour plus de fluidité
 }
    
 function onPauseMainMinuteur(minuteurID){
 
-    console.log("pause demandé");
+    if (devMode === true){
+        console.log("pause demandé");
+    }
 
     //arrete l'interval
     clearInterval(mainMinuteurInterval);
@@ -2568,8 +2587,10 @@ function onSaveMinuteurState(minuteurID,isRunning,remainingTime,isDone){
 
         onUpdateSessionItemsInStorage();
 
-        console.log("sauvegarde d'état minuteur : ");
-        console.log(userSessionItemsList[minuteurID]);
+        if (devMode === true){
+            console.log("sauvegarde d'état minuteur : ");
+            console.log(userSessionItemsList[minuteurID]);
+        }
 }
 
 
