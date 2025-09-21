@@ -6,7 +6,7 @@
 
 let userSessionItemsList = {
 
-    //NE PAS enlever les commentaires
+    // NE PAS enlever les commentaires
 
         // counter_utkyzqjy0: {
         //     type: "counter/chrono/minuteur",
@@ -23,7 +23,9 @@ let userSessionItemsList = {
         //     name:"CHRONO NAME",
         //     displayOrder:1,
         //     color: "white",
-        //     elapsedTime : 0 // en ms
+        //     elapsedTime : 0, // en ms
+        //     isRunning : false,
+        //     startTimeStamp : null
         // },
         // minuteur_abcdef:{
         //     type:"MINUTEUR",
@@ -34,6 +36,7 @@ let userSessionItemsList = {
         //     isDone :false,
         //     isRunning : false,
         //     remainingTime : 0,
+        //     targetTime : null
         // }
     },
     maxSessionItems = 20,

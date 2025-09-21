@@ -1,5 +1,5 @@
 
-let currentExportVersion = 5;//version actuel des fichers d'import/export
+let currentExportVersion = 6;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -120,7 +120,19 @@ function onAddEventListenerForConfirmDeleteBdD() {
 }
 
 
+
+
+
+
+
 // -------------------------------------- PURGE ------------------------
+
+
+
+
+
+
+
 
 async function eventPurgeBackupFiles() {
 
@@ -244,11 +256,21 @@ async function onDeleteAllBackupFiles() {
 
 
 
+
+
+
 // ---------------------     EXPORT -------------------------------------
 
-//Lors d'un export manual ou auto
+
+
+
+
+
+
+// Lors d'un export manual ou auto
 // Step 1 sauvegarde de la date du jour dans setting
-//Step 2 lancement de export
+// Step 2 réinitialisation des chrono et minuteur avant export
+// Step 3 lancement de export
 
 // La date du jour pour l'export
 let exportDate,
@@ -318,11 +340,13 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
             
         getSessionItemListFromLocalStorage();//récupère les sessions qui eux sont dans le local storage
 
+        let formatedUserSessionItemsList = onResetSessionItemTimerForExport(userSessionItemsList);//réinitialise les timers avant export
+
         // 2. Création du contenu
         const fullExport = {
             formatVersion: currentExportVersion,
             documents: exportedDocs,
-            userSessionItemsList: userSessionItemsList
+            userSessionItemsList: formatedUserSessionItemsList
         };
 
         // 2 bis. Ajout du bloc d'intégrité
@@ -388,7 +412,48 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
 
 
 
+
+//fonction de réinitialisation des chrono et minuteur avant export
+
+function onResetSessionItemTimerForExport(sessionItemList) {
+    let formatedList = {},
+        sessionKeysList = Object.keys(sessionItemList);
+
+    //pour chaque item
+    sessionKeysList.forEach(key =>{
+        let itemTarget = { ...sessionItemList[key] };
+
+        switch (itemTarget.type) {
+            case "CHRONO":
+                //reinitialise les parametres
+                itemTarget.isRunning = false;
+                itemTarget.startTimeStamp = null;    
+                itemTarget.elapsedTime = 0
+                break;
+            case "MINUTEUR":
+                //réinitialise les parametres
+                itemTarget.isDone = false;
+                itemTarget.isRunning = false;
+                itemTarget.remainingTime = itemTarget.duration;
+                itemTarget.targetTime = null;
+                break;
+        
+            default:
+                break;
+        }
+
+        //et envoie les éléments formaté dans un nouvel object
+        formatedList[key] = itemTarget;
+    });
+
+    return formatedList;
+}
+
+
 // ----------------------------     sauvegarde automatique     ----------------------------------
+
+
+
 
 
 
@@ -475,7 +540,14 @@ function eventSaveResult(isAutoSave){
 
 
 
+
+
+
 // -------------------------------- IMPORT -----------------------------------------------------
+
+
+
+
 
 
 
@@ -550,15 +622,13 @@ async function eventImportBdD(inputRef) {
                         break;
 
                     case 3:
-                        console.log("[IMPORT] V3");
-                        importedDocs = jsonData.documents || [];
-                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
-                        isSaveVersionValid = true;
+                        console.log("[IMPORT] V3 plus supporté. Trop de changement depuis");
+                        isSaveVersionValid = false;
                         break;
 
                     case 4:
                         //Le fichier V4 ne contient plus les éléments vraiment supprimé.
-                        console.log("[IMPORT] V4");
+                        console.log("[IMPORT] V4 accepté mais n'importe pas userSessionItemsList");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
@@ -566,7 +636,15 @@ async function eventImportBdD(inputRef) {
                         
                     case 5:
                         //Le fichier V5 contient le nouveau STORE RECUP.
-                        console.log("[IMPORT] V5");
+                        console.log("[IMPORT] V5 accepté mais n'importe pas userSessionItemsList");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = {};
+                        isSaveVersionValid = true;
+                        break;
+
+                    case 6:
+                        //Le fichier V6 contient le nouveau format de sessionItemsList pour les timers.
+                        console.log("[IMPORT] V6");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
@@ -793,7 +871,15 @@ async function importBdD(dataToImport) {
 
 
 
+
+
+
+
+
 // -----------------------------------------------  Suppression des données de la base ----------------------------
+
+
+
 
 
 
@@ -882,7 +968,17 @@ async function deleteBase() {
 }
 
 
+
+
+
+
+
+
 // ------------------------------------ fonction générales --------------------------
+
+
+
+
 
 
 
