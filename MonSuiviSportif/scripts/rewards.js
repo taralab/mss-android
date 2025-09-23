@@ -786,6 +786,9 @@ function onSearchSpecifyRewards(activityTargetName,filteredKeys) {
         case "RUN-AND-BIKE":
             onTraiteRewardsBasicPalier(filteredKeys,"RUN-AND-BIKE-A-1-SEANCE","RUN-AND-BIKE-B-10-SEANCES","RUN-AND-BIKE-C-50-SEANCES","RUN-AND-BIKE-D-100-SEANCES");
             break;
+        case "TIR":
+            onTraiteRewardsBasicPalier(filteredKeys,"TIR-A-1-SEANCE","TIR-B-10-SEANCES","TIR-C-50-SEANCES","TIR-D-100-SEANCES");
+            break;
 
 
         default:

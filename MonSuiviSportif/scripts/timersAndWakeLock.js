@@ -68,7 +68,7 @@ async function eventGestionTimer(typeTarget,value) {
 
 
     //log
-    if (devMode === true){
+    if (devMode === false){
         let logText = value === null ? "Liberation" : "Verrouillage";
         console.log(`Event Timers. Demande de ${logText} du ${typeTarget} avec valeur : ${value}`);
         console.log(timersInUseID);

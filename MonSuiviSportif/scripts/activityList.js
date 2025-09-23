@@ -184,6 +184,11 @@ let activityChoiceArray = {
         displayName : "Run & Bike",
         colorNuanceClass : "nuance-blue-light",
         imgRef : "./images/icon-run-and-bike.webp"
+    },
+    "TIR": {
+        displayName : "Tir",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-tir.webp"
     }
 };
 

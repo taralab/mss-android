@@ -1083,6 +1083,34 @@ const allRewardsObject = {
         activityName: "RUN-AND-BIKE",
         groupColor: "nuance-blue-light",
         text: "100 séances de run & bike"
+    },
+    "TIR-A-1-SEANCE": {
+        imgRef: "./Badges/Badge-TIR-A.webp",
+        title: "Aux armes citoyens !",
+        activityName: "TIR",
+        groupColor: "nuance-blue-light",
+        text: "1 séance de tir"
+    },
+    "TIR-B-10-SEANCES": {
+        imgRef: "./Badges/Badge-TIR-B.webp",
+        title: "Une séance à 10 balles ?",
+        activityName: "TIR",
+        groupColor: "nuance-blue-light",
+        text: "10 séances de tir"
+    },
+    "TIR-C-50-SEANCES": {
+        imgRef: "./Badges/Badge-TIR-C.webp",
+        title: "Précision chirurgicale",
+        activityName: "TIR",
+        groupColor: "nuance-blue-light",
+        text: "50 séances de tir"
+    },
+    "TIR-D-100-SEANCES": {
+        imgRef: "./Badges/Badge-TIR-D.webp",
+        title: "Sniper (Palier 100)",
+        activityName: "TIR",
+        groupColor: "nuance-blue-light",
+        text: "100 séances de tir"
     }
 };
 
