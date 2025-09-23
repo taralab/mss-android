@@ -98,12 +98,13 @@ class ActivityItem {
 
     render() {
         const distance = this.distance ? `${this.distance} km` : "---";
-        const location = this.location ? this.location : "---";
+        const location = this.location ? highlightSearchTerm(this.location, userActivitySearchTerm) : "---";
         const date = onDisplayUserFriendlyDate(this.date);
         const distanceClass = this.isPlanned ? "item-data-distance-planned" : "item-data-distance";
         const durationClass = this.isPlanned ? "item-data-duration-planned" : "item-data-duration";
         const commentClass = this.isPlanned ? currentCommentPlannedClassName : currentCommentDoneClassName;
         const attribute = this.isPlanned ? activityTagPlanned : activityTagDone;
+        const comment = this.comment ? highlightSearchTerm(this.comment, userActivitySearchTerm) : "";
 
         this.element.innerHTML = `
             <div class="item-image-container">
@@ -120,7 +121,7 @@ class ActivityItem {
                     ${this.isPlanned ? `<button class="buttonAddCalendar">🗓️</button>` : ""}
                 </div>
                 <div class="item-data-area3">
-                    <p data-type="${attribute}" class="${commentClass}">${this.comment}</p>
+                    <p data-type="${attribute}" class="${commentClass}">${comment}</p>
                 </div>
             </div>
         `;
@@ -315,6 +316,7 @@ async function findActivityById(activityId) {
 function eventUpdateActivityList() {
     if (devMode === true) {console.log("[ACTUALISATION]Actualisation liste activités");};
  
+    userActivitySearchTerm = ""; //reset les stockage d'un éléments recherche pour la subrillance
 
     // 1 récupère les keys selon le filtre en cours
     // si pas de filtre ne récupère rien

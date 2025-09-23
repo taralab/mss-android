@@ -1617,4 +1617,16 @@ function removeEventForGlobalPopupConfirmation() {
 }
 
 
+//Fonction de mise en évidence d'un mot recherché
+function highlightSearchTerm(text, searchTerm) {
+    if (!searchTerm) return text;
 
+    // Échapper les caractères spéciaux
+    const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    // Regex : match exact (en ignorant la casse)
+    // On supprime \b pour permettre # devant le terme
+    const regex = new RegExp(escapedTerm, 'gi');
+
+    return text.replace(regex, match => `<span class="search-highlight">${match}</span>`);
+}

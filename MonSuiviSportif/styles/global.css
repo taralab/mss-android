@@ -3128,3 +3128,13 @@ select.session-type-color.disable{
 input.recup{
     margin-bottom: 10px;
 }
+
+
+/* Style pour un élément recherché */
+
+.search-highlight {
+    background-color: yellow;
+    font-weight: bold;
+    border-radius: 3px;
+    padding: 0 3px;
+}

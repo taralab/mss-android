@@ -1,6 +1,6 @@
 
 
-
+let userActivitySearchTerm = "";//pour stocker le mot recherché afin de gérer la mise en surbrillance
 
 
 // Référencement des icones de tries
@@ -602,6 +602,7 @@ function onUserSetResearchText() {
 function onSearchDataInActivities(filteredKeys, dataToSearch) {
     // Normaliser la recherche
     let textToFind = normalizeString(dataToSearch);
+    userActivitySearchTerm = textToFind;
 
     if (devMode === true) {
         console.log("[SEARCH] texte à trouver normalisé :", textToFind);
