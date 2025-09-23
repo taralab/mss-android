@@ -599,32 +599,40 @@ function onUserSetResearchText() {
 
 
 // Fonction de recherche
-function onSearchDataInActivities(filteredKeys,dataTosearch) {
-    
-    
-    // récupère le texte de recherche normalisé
-    let textToFind = normalizeString(dataTosearch);
+function onSearchDataInActivities(filteredKeys, dataToSearch) {
+    // Normaliser la recherche
+    let textToFind = normalizeString(dataToSearch);
 
-    if(devMode === true){
-        console.log("[SEARCH] text à trouver normalisé : ", textToFind);
+    if (devMode === true) {
+        console.log("[SEARCH] texte à trouver normalisé :", textToFind);
     }
-    
 
     let keysFound = [];
 
-    //  2 pour chaque éléments convertie location et comment puis vérifie correspondance et récupère la key
-    filteredKeys.forEach(key =>{
+    filteredKeys.forEach(key => {
+        const location = normalizeString(allUserActivityArray[key].location || "");
+        const comment = normalizeString(allUserActivityArray[key].comment || "");
 
-        const location = normalizeString(allUserActivityArray[key].location);
-        const comment = normalizeString(allUserActivityArray[key].comment);
+        if (textToFind.startsWith("#")) {
+            // Recherche stricte sur tag exact (mot #tag)
+            const locationWords = location.split(/\s+/);
+            const commentWords = comment.split(/\s+/);
 
-        if (location.includes(textToFind) || comment.includes(textToFind)){
-            keysFound.push(key)
+            const matchInLocation = locationWords.includes(textToFind);
+            const matchInComment = commentWords.includes(textToFind);
+
+            if (matchInLocation || matchInComment) {
+                keysFound.push(key);
+            }
+
+        } else {
+            // Recherche classique (partielle, dans tout le texte)
+            if (location.includes(textToFind) || comment.includes(textToFind)) {
+                keysFound.push(key);
+            }
         }
     });
 
-
-    // Retourne les keys 
     return keysFound;
 }
 
@@ -638,8 +646,9 @@ function normalizeString(str) {
     return str
         .toLowerCase() // Convertir en minuscules
         .normalize("NFD") // Normalisation Unicode pour décomposer les caractères accentués
-        .replace(/[\u0300-\u036f]/g, "") // Supprimer les marques diacritiques (accents)
-        .replace(/[^\w\s]/g, ''); // Enlever tous les caractères non alphanumériques et espaces
+        .replace(/[\u0300-\u036f]/g, "") // enlever accents
+        .replace(/[^\w\s#]/g, '') // garder alphanum, espaces et #
+        .trim();
 }
 
 
