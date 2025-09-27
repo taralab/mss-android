@@ -2626,7 +2626,6 @@ p.search-area  input{
 
 /* Pour les notes */
 p.search-area.notes{
-    background-color: orange;
     display: none;
 }
 
