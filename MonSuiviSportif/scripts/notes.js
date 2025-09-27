@@ -398,9 +398,6 @@ function eventUpdateNotesPage() {
         document.getElementById("pNoteListNoItem").style.display = "none";
     }
 
-    //note info
-    updateNoteInfo();
-
 
     //bouton add
     updateNoteBtnNewStatus();
@@ -410,17 +407,6 @@ function eventUpdateNotesPage() {
 
 
 
-
-
-
-
-//spécifique info
-function updateNoteInfo() {
-    let customInfoRef = document.getElementById("customInfo");
-
-    //affiche le nombre de notes
-    customInfoRef.innerHTML = `${itemNotesSortedKey.length}/${maxNotes}`;
-}
 
 //spécifique bouton new
 function updateNoteBtnNewStatus() {

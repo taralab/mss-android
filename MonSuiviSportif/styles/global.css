@@ -2624,6 +2624,11 @@ p.search-area  input{
     color: var(--colorMainTheme1);
 }
 
+/* Pour les notes */
+p.search-area.notes{
+    background-color: orange;
+    display: none;
+}
 
 
 /* Image activity prévious */

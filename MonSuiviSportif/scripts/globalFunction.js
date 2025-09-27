@@ -1008,19 +1008,12 @@ function onChangeMenu(menuTarget) {
             onOpenMenuEditSession();
             onHideCustomInfo();
         break;
-        case "NotesFromSession":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
-            pMenuTitleRef.innerHTML = "Notes";
-            onChangeDisplay(["divSession"],[],["divNotes"],[],[],[],[]);
-            onOpenMenuNotes(false);
-        break;
         case "NotesFromMain":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
             displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Notes";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divNotes"],[],[],[],[]);
             onOpenMenuNotes(true);
-            onDisplayCustomInfo();
         break;
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
@@ -1270,20 +1263,6 @@ function onLeaveMenu(menuTarget) {
             onOpenMenuSession();
             onDisplayCustomInfo();
         break;
-        case "NotesFromSession":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Notes");};
-            //retire les évènements qui concerne le menu et ses enfant
-            // onRemoveEventListenerInRegistry(["notes"]);
-
-            //On reviens sur le menu SEANCE
-            onChangeDisplay(["divNotes"],[],["divSession"],[],[],[],[]);
-            pMenuTitleRef.innerHTML = "Séance";
-            //création menu principal pour session car on reviens dans ce menu
-            onCreateMainMenuSession();
-            //pas de openMenuSession car il ne faut pas réinitialiser les éléments
-            // Remet l'heure d'initialisation de session dans le texte info
-            document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
-        break;
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Planning");};
             // Retire les écoute d'evènement qui concerne le menu et ses enfant
@@ -1419,7 +1398,6 @@ function onLeaveMenu(menuTarget) {
             hideDivScrollableMenu();
             onChangeDisplay(["divNotes"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
-            onHideCustomInfo();
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");};
