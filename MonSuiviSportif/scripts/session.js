@@ -2248,6 +2248,11 @@ function onclickReturnFromEditSession(event) {
 // --------------------------------- utilisation d'un modèle ------------------------------
 
 
+
+
+
+
+
 async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
 
     // vide la liste
