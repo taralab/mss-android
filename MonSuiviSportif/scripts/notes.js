@@ -273,6 +273,8 @@ async function onInsertNoteModificationInDB(noteToUpdate, key) {
 
 
 async function onOpenMenuNotes(){
+    //affiche le champ de recherche
+    onDisplaySearchNotesArea();
 
     //vide les éléments
     let divNoteListRef = document.getElementById("divNotesList");
@@ -751,6 +753,52 @@ async function onConfirmDeleteNote(keyTarget) {
 
 
 
+// -    -   -   -   -   -   -   -   - RECHERCHE DE NOTES -  --  -   -   -   -   -   -   -  
+
+
+
+
+
+
+let searchNoteTextTarget = "",//contient le texte à trouver
+    debounceNoteSearchTimeout; // pour le delai avant recherche
+
+function onDisplaySearchNotesArea() {
+    //affiche
+    document.getElementById("pSearchNoteArea").style.display = "flex";
+
+    //ajout l'évènement d'écoute
+    const inputSearchRef = document.getElementById("inputSearchNotes");
+    const onSearch = () => onUserSetNoteResearchText();
+    inputSearchRef.addEventListener("input",onSearch);
+    onAddEventListenerInRegistry("noteSearch",inputSearchRef,"input",onSearch);
+}
+
+function onHideSearchNotesArea() {
+    //Masque
+    document.getElementById("pSearchNoteArea").style.display = "none";
+
+    // Retire l'évènement d'écoute
+    onRemoveEventListenerInRegistry(["noteSearch"]);
+}
+
+
+function onUserSetNoteResearchText() {
+    clearTimeout(debounceNoteSearchTimeout); // ← on efface l’ancien délai s’il existe
+
+  debounceNoteSearchTimeout = setTimeout(() => {
+    onDisplayNotesList();
+  }, debounceSearchDelay); // ← lancé que si aucun nouvel appel ne survient dans les 1000 ms
+}
+
+
+
+
+
+// -    -   -   -   -   -   -   -   -   QUITTE MENU -   -   -   -   -       -   -   -   -   -
+
+
+
 // Quitte le menu
 function onClickReturnFromNotes() {
     //reset des éléments
@@ -768,6 +816,9 @@ function onClickReturnFromNotes() {
 
     //retire les ecoute d'évènement
     onRemoveEventListenerInRegistry(["noteItemEditor"]);
+
+    //enlève le champ recherche et son écouteur
+    onHideSearchNotesArea();
 
     //Quitte le menu 
     onLeaveMenu("Notes");
