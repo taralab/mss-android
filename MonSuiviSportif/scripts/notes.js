@@ -1,5 +1,4 @@
 let maxNotes = 40,
-    isNotesOpenFromMain = false,//pour savoir si ce menu est appelé depuis le me principal ou depuis Séance
     itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
 
 let allUserNotesArray = {
@@ -273,8 +272,7 @@ async function onInsertNoteModificationInDB(noteToUpdate, key) {
 
 
 
-async function onOpenMenuNotes(isFromMain){
-    isNotesOpenFromMain = isFromMain;//si ouvert depuis Main ou Séance
+async function onOpenMenuNotes(){
 
     //vide les éléments
     let divNoteListRef = document.getElementById("divNotesList");
@@ -771,15 +769,8 @@ function onClickReturnFromNotes() {
     //retire les ecoute d'évènement
     onRemoveEventListenerInRegistry(["noteItemEditor"]);
 
-    //Quitte le menu selon via quel menu d'origine il a été appelé
-
-    if (isNotesOpenFromMain) {
-        //appelé depuis le menu principal
-        onLeaveMenu("NotesFromMain");
-    }else{
-        //appelé depuis le menu séance
-        onLeaveMenu("NotesFromSession");
-    }
+    //Quitte le menu 
+    onLeaveMenu("Notes");
 
     
 }

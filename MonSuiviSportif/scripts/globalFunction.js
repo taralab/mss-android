@@ -228,7 +228,7 @@ function onGenerateMainMenuApp() {
 
     //crée les boutons
     //Planning
-    new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,()=>onChangeMenu("NotesFromMain"));
+    new Button_main_menu(btnMainMenuData.notes.imgRef,btnMainMenuData.notes.text,()=>onChangeMenu("Notes"));
     //Séance
     new Button_main_menu(btnMainMenuData.seance.imgRef,btnMainMenuData.seance.text,()=>onChangeMenu("Session"));
     //Stats
@@ -1008,7 +1008,7 @@ function onChangeMenu(menuTarget) {
             onOpenMenuEditSession();
             onHideCustomInfo();
         break;
-        case "NotesFromMain":
+        case "Notes":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
             displayDivScrollableMenu();
             pMenuTitleRef.innerHTML = "Notes";
@@ -1391,7 +1391,7 @@ function onLeaveMenu(menuTarget) {
             onChangeDisplay(["divCorbeille"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onGenerateMainMenuApp();
         break;
-        case "NotesFromMain":
+        case "Notes":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : Notes");};
             //retire les évènements qui concerne le menu et ses enfant
             // onRemoveEventListenerInRegistry(["sessionNotes"]);
