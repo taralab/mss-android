@@ -1,6 +1,6 @@
 let maxNotes = 40,
-    itemNotesSortedKey = [];//tableau des clé trié par ordre alpha sur le titre 
-
+    allItemNotesSortedKey = [],//tableau des clé trié par ordre alpha sur le titre 
+    totalNotes = 0;
 let allUserNotesArray = {
     testnotesA : {
         title: "titre Notes 1",
@@ -12,7 +12,6 @@ let allUserNotesArray = {
 },
 noteInstanceButtonAddNew = null,
 isNoteLoadedFromDB = false,//pour chargement unique depuis la base
-allInstanceItemNotes = {},
 defaultNoteColor = "yellow",
 noteEditorMode = "",//"creation ou modification"
 currentEditorNoteKey = "",
@@ -155,8 +154,8 @@ class itemNotes{
 
     updateNoteText(){
         //set les textes
-        this.pTitleRef.textContent = this.title;
-        this.pDetailRef.textContent = this.detail;
+        this.pTitleRef.innerHTML = this.title ? highlightSearchTerm(this.title, userNoteSearchTerm) : "";
+        this.pDetailRef.innerHTML = this.detail ? highlightSearchTerm(this.detail, userNoteSearchTerm) : "";
     }
 
     requestSetColor(){
@@ -291,16 +290,13 @@ async function onOpenMenuNotes(){
     }
 
 
-    //trie les clé par ordre de création
-    itemNotesSortedKey = getNoteSortedKeyByCreatedAt(allUserNotesArray);
-
     //affiche la liste
-    onDisplayNotesList();
+    eventUpdateNotesList();
 
 
     //Fin de liste
     //création du bouton add
-    let isMaxNoteReach = itemNotesSortedKey.length >= maxNotes;
+    let isMaxNoteReach = totalNotes >= maxNotes;
     noteInstanceButtonAddNew = new Button_add("Ajouter une note", () => onClickAddNewNote(), isMaxNoteReach, divNoteEndListRef);
 
     let newClotureList = document.createElement("span");
@@ -339,13 +335,23 @@ function onCreateMainMenuNotes() {
 
 
 //Affichage de la liste
-function onDisplayNotesList() {
+function eventUpdateNotesList() {
     //Vide le parent
     let divParentRef = document.getElementById("divNotesList");
     divParentRef.innerHTML = "";
 
-    itemNotesSortedKey.forEach(key =>{
-        allInstanceItemNotes[key] = new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
+    //trie les clé par ordre de création
+    allItemNotesSortedKey = getNoteSortedKeyByCreatedAt(allUserNotesArray);
+    totalNotes = allItemNotesSortedKey.length;
+
+
+    //filtre sur le texte inscrit dans "recherche"
+    let notesToDisplay = searchNotes();
+
+
+    //Séquence d'affichage
+    notesToDisplay.forEach(key =>{
+        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
     }); 
 
 }
@@ -392,7 +398,7 @@ function getNoteSortedKeyByCreatedAt(noteList) {
 //actualise les éléments hors item notes (info, boutton add new)
 function eventUpdateNotesPage() {
     //affiche "Aucune élément si besoin"
-    if (itemNotesSortedKey.length < 1) {
+    if (totalNotes < 1) {
         document.getElementById("pNoteListNoItem").style.display = "block";
     }else{
         document.getElementById("pNoteListNoItem").style.display = "none";
@@ -411,7 +417,7 @@ function eventUpdateNotesPage() {
 //spécifique bouton new
 function updateNoteBtnNewStatus() {
     //Si le max est atteind, désactive le bouton sinon l'active
-    if (itemNotesSortedKey.length >= maxNotes) {
+    if (totalNotes >= maxNotes) {
         noteInstanceButtonAddNew.disableButton();
     }else{
         noteInstanceButtonAddNew.enableButton();
@@ -522,7 +528,7 @@ function onClickEditNotes(keyNotes){
     currentEditorNoteKey = keyNotes;
 
     //set les éléments
-    const itemNoteData = allInstanceItemNotes[keyNotes];
+    const itemNoteData = allUserNotesArray[keyNotes];
 
     //stocke la couleur d'origine
     currentNoteColorSelected = itemNoteData.color;
@@ -623,13 +629,12 @@ async function eventSaveNewNote(){
     allUserNotesArray[noteKey] = newNoteAdded;
 
     //Ajoute aussi au tableau de clé
-    itemNotesSortedKey.push(noteKey);
+    allItemNotesSortedKey.push(noteKey);
 
 
-    //insère la note dans la page
-    let parentRef = document.getElementById("divNotesList");
-    allInstanceItemNotes[noteKey] = new itemNotes(noteKey,allUserNotesArray[noteKey].title,allUserNotesArray[noteKey].detail,parentRef,allUserNotesArray[noteKey].color);
-    
+    //actualise la liste
+    eventUpdateNotesList();
+
     //affiche et actualise les autres éléments du menu
     eventUpdateNotesPage();
 
@@ -658,16 +663,11 @@ async function eventSaveNoteModification() {
     allUserNotesArray[noteAdded._id] = noteAdded;
 
 
-    //let à jour l'instance
-    allInstanceItemNotes[noteAdded._id].title = noteAdded.title;
-    allInstanceItemNotes[noteAdded._id].detail = noteAdded.detail;
-    allInstanceItemNotes[noteAdded._id].color = noteAdded.color;
+    //actualise la liste
+    eventUpdateNotesList();
 
-    allInstanceItemNotes[noteAdded._id].requestSetColor();
-    allInstanceItemNotes[noteAdded._id].updateNoteText();
-
-
-    //Pas besoin d'action sur le tableau des clé car inchangé
+    //affiche et actualise les autres éléments du menu
+    eventUpdateNotesPage();
 
     //Notification
     onShowNotifyPopup("noteSaved");
@@ -732,14 +732,11 @@ async function onConfirmDeleteNote(keyTarget) {
     delete allUserNotesArray[keyTarget];
 
     //retrait du tableau de clé
-    let indexToRemove = itemNotesSortedKey.indexOf(keyTarget);
-    itemNotesSortedKey.splice(indexToRemove,1);
+    let indexToRemove = allItemNotesSortedKey.indexOf(keyTarget);
+    allItemNotesSortedKey.splice(indexToRemove,1);
 
-    //retrait du dom
-    allInstanceItemNotes[keyTarget].remove();
-
-    //retrait de l'instance
-    delete allInstanceItemNotes[keyTarget];
+    //actualise la liste
+    eventUpdateNotesList();
 
     //notification
     onShowNotifyPopup("noteDeleted");
@@ -760,7 +757,7 @@ async function onConfirmDeleteNote(keyTarget) {
 
 
 
-let searchNoteTextTarget = "",//contient le texte à trouver
+let userNoteSearchTerm = "",//contient le texte à trouver
     debounceNoteSearchTimeout; // pour le delai avant recherche
 
 function onDisplaySearchNotesArea() {
@@ -787,13 +784,61 @@ function onUserSetNoteResearchText() {
     clearTimeout(debounceNoteSearchTimeout); // ← on efface l’ancien délai s’il existe
 
   debounceNoteSearchTimeout = setTimeout(() => {
-    onDisplayNotesList();
+    eventUpdateNotesList();
   }, debounceSearchDelay); // ← lancé que si aucun nouvel appel ne survient dans les 1000 ms
 }
 
 
 
+function searchNotes() {
 
+    //récupère la valeur dans le champ recherche
+    let searchValue = document.getElementById("inputSearchNotes").value;
+
+    //si rien, retour toutes les keys
+    if (searchValue === "") {
+
+        return allItemNotesSortedKey;
+    }
+
+
+
+    // Normaliser la recherche
+    let textToFind = normalizeString(searchValue);
+    userNoteSearchTerm = textToFind;
+
+    if (devMode === true) {
+        console.log("[SEARCH] texte à trouver normalisé :", textToFind);
+    }
+
+    let keysFound = [];
+
+    allItemNotesSortedKey.forEach(key => {
+        const title = normalizeString(allUserNotesArray[key].title || "");
+        const detail = normalizeString(allUserNotesArray[key].detail || "");
+
+        if (textToFind.startsWith("#")) {
+            // Recherche stricte sur tag exact (mot #tag)
+            const titleWords = title.split(/\s+/);
+            const detailWords = detail.split(/\s+/);
+
+            const matchIntitle = titleWords.includes(textToFind);
+            const matchIndetail = detailWords.includes(textToFind);
+
+            if (matchIntitle || matchIndetail) {
+                keysFound.push(key);
+            }
+
+        } else {
+            // Recherche classique (partielle, dans tout le texte)
+            if (title.includes(textToFind) || detail.includes(textToFind)) {
+                keysFound.push(key);
+            }
+        }
+    });
+
+    return keysFound;
+}
 
 // -    -   -   -   -   -   -   -   -   QUITTE MENU -   -   -   -   -       -   -   -   -   -
 

@@ -2,7 +2,7 @@
 let corbeilleItemsList = {
     // "id":{type,displayType,name,deletedDate}
     },
-    dayBeforeDelete = 7; //nombre de jour avant la suppression
+    dayBeforeDelete = 30; //nombre de jour avant la suppression
 
 
 

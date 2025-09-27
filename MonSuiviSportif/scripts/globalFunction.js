@@ -1600,12 +1600,35 @@ function removeEventForGlobalPopupConfirmation() {
 function highlightSearchTerm(text, searchTerm) {
     if (!searchTerm) return text;
 
-    // Échapper les caractères spéciaux
-    const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // Fonction de normalisation : enlève accents, met en minuscule
+    const normalize = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-    // Regex : match exact (en ignorant la casse)
-    // On supprime \b pour permettre # devant le terme
-    const regex = new RegExp(escapedTerm, 'gi');
+    const normalizedText = normalize(text);
+    const normalizedSearchTerm = normalize(searchTerm);
 
-    return text.replace(regex, match => `<span class="search-highlight">${match}</span>`);
+    if (!normalizedSearchTerm) return text;
+
+    let result = '';
+    let lastIndex = 0;
+    let i = 0;
+
+    while (i < normalizedText.length) {
+        const index = normalizedText.indexOf(normalizedSearchTerm, i);
+        if (index === -1) {
+            result += text.slice(lastIndex);
+            break;
+        }
+
+        // Ajouter la partie entre les matchs
+        result += text.slice(lastIndex, index);
+
+        // Ajouter le match avec la surbrillance
+        const originalMatch = text.slice(index, index + normalizedSearchTerm.length);
+        result += `<span class="search-highlight">${originalMatch}</span>`;
+
+        i = index + normalizedSearchTerm.length;
+        lastIndex = i;
+    }
+
+    return result;
 }
