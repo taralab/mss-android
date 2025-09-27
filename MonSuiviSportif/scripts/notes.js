@@ -797,7 +797,7 @@ function searchNotes() {
 
     //si rien, retour toutes les keys
     if (searchValue === "") {
-
+        userNoteSearchTerm = "";
         return allItemNotesSortedKey;
     }
 
