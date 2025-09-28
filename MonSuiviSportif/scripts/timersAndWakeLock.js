@@ -68,7 +68,7 @@ async function eventGestionTimer(typeTarget,value) {
 
 
     //log
-    if (devMode === false){
+    if (devMode === true){
         let logText = value === null ? "Liberation" : "Verrouillage";
         console.log(`Event Timers. Demande de ${logText} du ${typeTarget} avec valeur : ${value}`);
         console.log(timersInUseID);
@@ -77,10 +77,7 @@ async function eventGestionTimer(typeTarget,value) {
         }else{
             console.log("Statut du wakeLock : Désactivé !");
         }
-
     }
-   
-
 }
 
 async function requestWakeLock() {

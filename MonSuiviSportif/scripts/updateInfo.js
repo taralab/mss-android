@@ -8,7 +8,9 @@ const updateName = "October-2025";
 const updateImageArray = [
       "./imageUpdate/UpdateRecupSlide1.webp",
       "./imageUpdate/UpdateRecupSlide2.webp",
-      "./imageUpdate/UpdateRecupSlide3.webp"
+      "./imageUpdate/UpdateRecupSlide3.webp",
+      "./imageUpdate/UpdateRecupSlide4.webp",
+      "./imageUpdate/UpdateRecupSlide5.webp"
     ];
 
 
