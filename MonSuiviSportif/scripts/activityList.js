@@ -189,6 +189,11 @@ let activityChoiceArray = {
         displayName : "Tir",
         colorNuanceClass : "nuance-blue-light",
         imgRef : "./images/icon-tir.webp"
+    },
+    "BOWLING": {
+        displayName : "Bowling",
+        colorNuanceClass : "nuance-olive",
+        imgRef : "./images/icon-bowling.webp"
     }
 };
 

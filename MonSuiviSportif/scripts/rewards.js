@@ -789,6 +789,9 @@ function onSearchSpecifyRewards(activityTargetName,filteredKeys) {
         case "TIR":
             onTraiteRewardsBasicPalier(filteredKeys,"TIR-A-1-SEANCE","TIR-B-10-SEANCES","TIR-C-50-SEANCES","TIR-D-100-SEANCES");
             break;
+        case "BOWLING":
+            onTraiteRewardsBasicPalier(filteredKeys,"BOWLING-A-1-SEANCE","BOWLING-B-10-SEANCES","BOWLING-C-50-SEANCES","BOWLING-D-100-SEANCES");
+            break;
 
 
         default:

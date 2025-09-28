@@ -1107,10 +1107,38 @@ const allRewardsObject = {
     },
     "TIR-D-100-SEANCES": {
         imgRef: "./Badges/Badge-TIR-D.webp",
-        title: "Sniper (Palier 100)",
+        title: "Tireur d'élite ! (Palier 100)",
         activityName: "TIR",
         groupColor: "nuance-blue-light",
         text: "100 séances de tir"
+    },
+    "BOWLING-A-1-SEANCE": {
+        imgRef: "./Badges/Badge-BOWLING-A.webp",
+        title: "Tous aux abrits !",
+        activityName: "BOWLING",
+        groupColor: "nuance-olive",
+        text: "1 séance de bowling"
+    },
+    "BOWLING-B-10-SEANCES": {
+        imgRef: "./Badges/Badge-BOWLING-B.webp",
+        title: "Les quilles n'ont plus qu'à prier",
+        activityName: "BOWLING",
+        groupColor: "nuance-olive",
+        text: "10 séances de bowling"
+    },
+    "BOWLING-C-50-SEANCES": {
+        imgRef: "./Badges/Badge-BOWLING-C.webp",
+        title: "Un spare aujourd’hui, un strike demain",
+        activityName: "BOWLING",
+        groupColor: "nuance-olive",
+        text: "50 séances de bowling"
+    },
+    "BOWLING-D-100-SEANCES": {
+        imgRef: "./Badges/Badge-BOWLING-D.webp",
+        title: "Et un strike, un ! (Palier 100)",
+        activityName: "BOWLING",
+        groupColor: "nuance-olive",
+        text: "100 séances de bowling"
     }
 };
 
