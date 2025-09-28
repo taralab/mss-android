@@ -304,8 +304,8 @@ async function onOpenMenuNotes(){
             newClotureList.innerHTML = `ℹ️ Vous pouver créer jusqu'à ${maxNotes} notes.`;
             divNoteEndListRef.appendChild(newClotureList);
 
-    //affiche et actualise les autres éléments du menu
-    eventUpdateNotesPage();
+    //Gestion du bouton "ADD new note"
+    updateNoteBtnNewStatus();
 
     //Création du menu principal
     onCreateMainMenuNotes();
@@ -346,11 +346,17 @@ function eventUpdateNotesList() {
 
 
     //filtre sur le texte inscrit dans "recherche"
-    let notesToDisplay = searchNotes();
+    let notesKeysToDisplay = searchNotes();
 
+    //affiche "Aucune notes à afficher" si besoin"
+    if (notesKeysToDisplay.length < 1) {
+        document.getElementById("pNoteListNoItem").style.display = "block";
+    }else{
+        document.getElementById("pNoteListNoItem").style.display = "none";
+    }
 
     //Séquence d'affichage
-    notesToDisplay.forEach(key =>{
+    notesKeysToDisplay.forEach(key =>{
         new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
     }); 
 
@@ -393,25 +399,6 @@ function getNoteSortedKeyByCreatedAt(noteList) {
 
     return keys;
 }
-
-
-//actualise les éléments hors item notes (info, boutton add new)
-function eventUpdateNotesPage() {
-    //affiche "Aucune élément si besoin"
-    if (totalNotes < 1) {
-        document.getElementById("pNoteListNoItem").style.display = "block";
-    }else{
-        document.getElementById("pNoteListNoItem").style.display = "none";
-    }
-
-
-    //bouton add
-    updateNoteBtnNewStatus();
-
-}
-
-
-
 
 
 //spécifique bouton new
@@ -635,8 +622,8 @@ async function eventSaveNewNote(){
     //actualise la liste
     eventUpdateNotesList();
 
-    //affiche et actualise les autres éléments du menu
-    eventUpdateNotesPage();
+    //Gestion du bouton "ADD new note"
+    updateNoteBtnNewStatus();
 
 
 
@@ -665,9 +652,8 @@ async function eventSaveNoteModification() {
 
     //actualise la liste
     eventUpdateNotesList();
-
-    //affiche et actualise les autres éléments du menu
-    eventUpdateNotesPage();
+    //Gestion du bouton "ADD new note"
+    updateNoteBtnNewStatus();
 
     //Notification
     onShowNotifyPopup("noteSaved");
@@ -741,8 +727,8 @@ async function onConfirmDeleteNote(keyTarget) {
     //notification
     onShowNotifyPopup("noteDeleted");
 
-    //actualisation des éléments de la page
-    eventUpdateNotesPage();
+    //Gestion du bouton "ADD new note"
+    updateNoteBtnNewStatus();
 }
 
 

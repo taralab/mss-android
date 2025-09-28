@@ -118,9 +118,6 @@ class Minuteur {
     // initialisation à la du minuteur
     initMinuteur(newName,newColorName,newinitialDuration,newRemainingTime,newIsDone){
 
-
-        console.log("valeur de IS done :", newIsDone);
-
         //Les variables
         this.name = newName;
         this.colorName = newColorName;
