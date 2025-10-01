@@ -196,6 +196,7 @@ class Counter {
         // Notification objectif atteind
         if (isTargetReach) {
             onShowNotifyPopup("counterTargetReach");
+            vibrationSimple();
         }
 
         // Sauvegarde en localStorage

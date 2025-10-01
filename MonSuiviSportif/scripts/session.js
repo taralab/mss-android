@@ -2553,6 +2553,9 @@ async function onStartMainMinuteur(minuteurID){
 
             //Joue le son de notification
             document.getElementById("audioSoundMinuteurEnd").play();
+
+            //fait la vibration
+            vibrationDouble();
             
             //Demande arrete wakeLock
             eventGestionTimer("minuteur",null);

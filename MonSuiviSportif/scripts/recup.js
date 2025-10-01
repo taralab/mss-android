@@ -199,11 +199,11 @@ async function startRecup() {
 
         updateRecupDisplay();
         if (recupRemainingTime <= 0) {
-            stopRecup()
+            stopRecup();
             onShowNotifyPopup("recupTargetReach");
             //Joue le son de notification
             document.getElementById("audioSoundMinuteurEnd").play();
-            vibrationRecupEnding();
+            vibrationDouble();
         };
     }, 500);
     isRecupActive = true;
