@@ -778,7 +778,8 @@ async function importBdD(dataToImport) {
                 autoSaveFrequency: e.data.autoSaveFrequency || defaultSetting.autoSaveFrequency,
                 fromSessionToActivityMode : e.data.fromSessionToActivityMode || defaultSetting.fromSessionToActivityMode,
                 devMode : e.data.devMode ?? defaultSetting.devMode,
-                animationEnabled: e.data.animationEnabled ?? defaultSetting.animationEnabled
+                animationEnabled: e.data.animationEnabled ?? defaultSetting.animationEnabled,
+                vibrationEnabled: e.data.vibrationEnabled ?? defaultSetting.vibrationEnabled
             });
 
             // Sauvegarde la modification

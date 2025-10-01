@@ -249,7 +249,8 @@ async function onCreateDBStore() {
             autoSaveFrequency: 7,
             fromSessionToActivityMode : "MINIMAL",
             devMode:false,
-            animationEnabled : true
+            animationEnabled : true,
+            vibrationEnabled : true
         }  
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
@@ -317,7 +318,8 @@ async function onLoadStores() {
                 autoSaveFrequency : settings.data.autoSaveFrequency || defaultSetting.autoSaveFrequency,
                 fromSessionToActivityMode : settings.data.fromSessionToActivityMode || defaultSetting.fromSessionToActivityMode,
                 devMode : settings.data.devMode ?? defaultSetting.devMode,
-                animationEnabled: settings.data.animationEnabled ?? defaultSetting.animationEnabled
+                animationEnabled: settings.data.animationEnabled ?? defaultSetting.animationEnabled,
+                vibrationEnabled: settings.data.vibrationEnabled ?? defaultSetting.vibrationEnabled
             };
         }
 

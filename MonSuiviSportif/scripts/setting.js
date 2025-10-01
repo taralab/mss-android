@@ -2,6 +2,7 @@
 
 // Boolean de dev pour les logs
 let devMode = false;
+    
 
 
 
@@ -103,7 +104,8 @@ let defaultSetting = {
     autoSaveFrequency : 7,
     fromSessionToActivityMode : "MINIMAL",
     devMode : false,
-    animationEnabled : true
+    animationEnabled : true,
+    vibrationEnabled : true
 };
 
 let userSetting = {},
@@ -125,7 +127,8 @@ let selectSettingCommentModePlannedRef,
     inputTimeSettingScheduleEndRef,
     selectSettingSessionCommentModeRef,
     pSettingSessionCommentModeExempleRef,
-    inputCheckboxAnimationStatusRef;
+    inputCheckboxAnimationStatusRef,
+    inputCheckboxVibrationStatusRef;
 
 
 
@@ -142,6 +145,7 @@ function onReferenceItemsSetting() {
     selectSettingSessionCommentModeRef = document.getElementById("selectSettingSessionCommentMode");
     pSettingSessionCommentModeExempleRef = document.getElementById("pSettingSessionCommentModeExemple");
     inputCheckboxAnimationStatusRef = document.getElementById("inputCheckboxAnimationStatus");
+    inputCheckboxVibrationStatusRef = document.getElementById("inputCheckboxVibrationStatus");
 }
 
 function onSetSettingItems() {
@@ -156,6 +160,8 @@ function onSetSettingItems() {
     inputTimeSettingScheduleEndRef.value = userSetting.agendaScheduleEnd;
     selectSettingSessionCommentModeRef.value = userSetting.fromSessionToActivityMode;
     inputCheckboxAnimationStatusRef.checked = userSetting.animationEnabled;
+    inputCheckboxVibrationStatusRef.checked = userSetting.vibrationEnabled;
+
 
     //set le texte d'exmple du mode d'affichage
     onChangeSettingSettionCommentMode(userSetting.fromSessionToActivityMode);
@@ -196,7 +202,8 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.agendaScheduleStart,  newValue: inputTimeSettingScheduleStartRef.value},
         { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value},
         { oldValue: userSetting.fromSessionToActivityMode, newValue:selectSettingSessionCommentModeRef.value},
-        { oldValue: userSetting.animationEnabled, newValue: inputCheckboxAnimationStatusRef.checked}
+        { oldValue: userSetting.animationEnabled, newValue: inputCheckboxAnimationStatusRef.checked},
+        { oldValue: userSetting.vibrationEnabled, newValue: inputCheckboxVibrationStatusRef.checked}
     ];
 
     // Vérification si une différence est présente
@@ -227,6 +234,7 @@ function onSaveUserSetting() {
     userSetting.agendaScheduleEnd = inputTimeSettingScheduleEndRef.value;
     userSetting.fromSessionToActivityMode = selectSettingSessionCommentModeRef.value;
     userSetting.animationEnabled = inputCheckboxAnimationStatusRef.checked;
+    userSetting.vibrationEnabled = inputCheckboxVibrationStatusRef.checked;
 
 
     // Met a jour le boolean devMode
