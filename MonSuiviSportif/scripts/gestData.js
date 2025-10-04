@@ -955,6 +955,7 @@ function onDeleteLocalStorage() {
     localStorage.removeItem('MSS_notifyPermission');
     localStorage.removeItem(sessionStorageName);
     localStorage.removeItem(sessionStartTimeStorageName);
+    localStorage.removeItem(timersInUserStorageName);
 }
 
 
