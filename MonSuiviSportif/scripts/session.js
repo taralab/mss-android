@@ -312,15 +312,15 @@ function onAddEventListenerForSendToActivity() {
     onAddEventListenerInRegistry("sessionSendToActivity",locDivFakeSelectSessionRef,"click",onCancelSend);
 
     //choix du lieu de l'activité avant envoie puis envoie
-    let btnSendToActivityLocationConfirmRef = document.getElementById("btnSendToActivityLocationConfirm");
+    let btnSendToActivityCustomiseConfirmRef = document.getElementById("btnSendToActivityCustomiseConfirm");
     const onConfirmSend = ()=>eventSendToSessionToActivity();
-    btnSendToActivityLocationConfirmRef.addEventListener("click",onConfirmSend);
-    onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityLocationConfirmRef,"click",onConfirmSend);
+    btnSendToActivityCustomiseConfirmRef.addEventListener("click",onConfirmSend);
+    onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityCustomiseConfirmRef,"click",onConfirmSend);
 
-    let btnSendToActivityLocationCancelRef = document.getElementById("btnSendToActivityLocationCancel");
+    let btnSendToActivityCustomiseCancelRef = document.getElementById("btnSendToActivityCustomiseCancel");
     const onReturnFromSendLocation = () => onClickReturnFromSendToActvityLocation();
-    btnSendToActivityLocationCancelRef.addEventListener("click",onReturnFromSendLocation);
-    onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityLocationCancelRef,"click",onReturnFromSendLocation);
+    btnSendToActivityCustomiseCancelRef.addEventListener("click",onReturnFromSendLocation);
+    onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityCustomiseCancelRef,"click",onReturnFromSendLocation);
 
 }
 
@@ -328,15 +328,19 @@ function onAddEventListenerForSendToActivity() {
 function eventSendToSessionToActivity() {
     //récupère le lieu
     let sessionLocation = document.getElementById("inputSendSessionToActivityLocation").value;
+
+    //récupère le boolean d'utilisateur de la valeur des timers
+    let isUseTimerReference = document.getElementById("inputCBSendToActivityUseTimer").checked;
+
     //Masque le popup
-    document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
+    document.getElementById("divSendSessionToActivityCustomise").classList.remove("show");
     //lance la génération
-    onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation);
+    onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation,isUseTimerReference);
 }
 
 function onClickReturnFromSendToActvityLocation() {
     //Masque le popup
-    document.getElementById("divSendSessionToActivityLocation").classList.remove("show");
+    document.getElementById("divSendSessionToActivityCustomise").classList.remove("show");
 }
 
 // ---------------------------------------- Fin écouteur evènement--------------------
@@ -1325,7 +1329,9 @@ function onResetSessionItemEditor() {
 
 // ----------------------------- ENVOIE VERS ACTIVITE ------------------------------------
 
-
+//Si au moins un timer est détecté, propose à l'user d'utiliser le temps total de tous les timers
+//à la place du calcul début de session et heure d'envoie.
+//il accepte ou non via une checkbox
 
 
 
@@ -1344,7 +1350,7 @@ function onClickSendSessionToActivity() {
 
 
 
-async function onSendSessionToActivity(activityTarget,sessionLocation) {
+async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference) {
     
     let sessionText = "";
 
@@ -1408,11 +1414,17 @@ async function onSendSessionToActivity(activityTarget,sessionLocation) {
     
     // Calcul de la durée passé en session 
     let sessionEndTime = onGetCurrentTimeAndSecond(),
+        sessionDuration = null;
+        
+    //selon le choix de l'utilisateur
+    if(isUseTimerReference){
+        //utilise la durée des timers
+        sessionDuration = onGetAllSessionTimersDuration();
+    }else{
+        //utilise la durée de la session
         sessionDuration = onGetSessionDuration(sessionStartTime,sessionEndTime);
-
-
-
-
+    }
+            
 
     //Remplit une variable avec des données pour une nouvelle activité
     let activityGenerateToInsert = {
@@ -1472,7 +1484,7 @@ class fakeOptionSessionBasic {
 
         this.element.addEventListener("click",(event)=>{
             event.stopPropagation();
-            onDisplaySendToActivityLocation(this.activityName);
+            onDisplaySendToActivityCustomise(this.activityName);
             //Vide la liste
             let parentRef = document.getElementById("divFakeSelectSessionList");
             parentRef.innerHTML = "";
@@ -1518,7 +1530,7 @@ class fakeOptionSessionFavourite {
 
         this.element.addEventListener("click", (event)=>{
             event.stopPropagation();
-            onDisplaySendToActivityLocation(this.activityName);
+            onDisplaySendToActivityCustomise(this.activityName);
             //Vide la liste
             let parentRef = document.getElementById("divFakeSelectSessionList");
             parentRef.innerHTML = "";
@@ -1593,17 +1605,28 @@ function onCloseFakeSelectSession(event) {
 }
 
 
-//Affiche la div de choix du lieu de l'activité
-function onDisplaySendToActivityLocation(activityTarget) {
-    //Affiche le popup de selection de la location
-    document.getElementById("divSendSessionToActivityLocation").classList.add("show");
+//Affiche la div de personnalisation de l'activité généré
+function onDisplaySendToActivityCustomise(activityTarget) {
 
 
     //reset l'input du lieu
     document.getElementById("inputSendSessionToActivityLocation").value = "";
+    //reset la checkbox "usertimerReference"
+    document.getElementById("inputCBSendToActivityUseTimer").checked = false;
+
+    //affiche ou non le champ "timer détecté"
+    if (checkIfTimerExist()) {
+        document.getElementById("divSendSessionToActivityTimerMSG").style.display = "block";
+    }else{
+        document.getElementById("divSendSessionToActivityTimerMSG").style.display = "none";
+    }
+
+    //Affiche le popup de selection de la location
+    document.getElementById("divSendSessionToActivityCustomise").classList.add("show");
+
 
     //set l'image de l'activité ciblée
-    let imgTargetRef = document.getElementById("imgSessionToActivityLocationPreview");
+    let imgTargetRef = document.getElementById("imgSessionToActivityCustomisePreview");
     imgTargetRef.src = activityChoiceArray[activityTarget].imgRef;
 
     //stocke le type d'activité dans une variable pour la suite
@@ -1638,11 +1661,36 @@ function onGetSessionDuration(heureDebut, heureFin) {
     return `${heures}:${minutes}:${secondes}`;
 }
 
+//récupère le temps total des timers de la session
+function onGetAllSessionTimersDuration() {
+    let totalDuration = 0;
+
+    Object.values(userSessionItemsList).forEach((data) => {
+        if (data.type === "MINUTEUR") {
+            // durée déjà en secondes
+            totalDuration += data.duration;
+        } else if (data.type === "CHRONO") {
+            // convertir ms en secondes (arrondi à l'entier inférieur)
+            totalDuration += Math.floor(data.elapsedTime / 1000);
+        }
+    });
+
+    // Convertir les secondes en HH:MM:SS
+    let heures = String(Math.floor(totalDuration / 3600)).padStart(2, '0');
+    let minutes = String(Math.floor((totalDuration % 3600) / 60)).padStart(2, '0');
+    let secondes = String(totalDuration % 60).padStart(2, '0');
+
+    return `${heures}:${minutes}:${secondes}`;
+}
 
 
 
-
-
+//vérifie si au moins un timer existe
+function checkIfTimerExist() {
+    return Object.values(userSessionItemsList).some(item =>
+        item.type === "MINUTEUR" || item.type === "CHRONO"
+    );
+}
 
 
 // ---------------------------- Génération de session ---------------------------------

@@ -264,17 +264,31 @@
                 </div>
 
                 <!-- Choix de lieu de l'activité généré -->
-                <div id="divSendSessionToActivityLocation" class="confirmationDeleteBdD">
+                <div id="divSendSessionToActivityCustomise" class="confirmationDeleteBdD">
                     <h2 class="deleteBdD">Envoyer vers une activité</h2>
-                    <img id="imgSessionToActivityLocationPreview" src="./images/icon-badminton.webp" alt="">
+                    <img id="imgSessionToActivityCustomisePreview" src="./images/icon-badminton.webp" alt="">
                     <label for="">Lieu de la séance :</label>
                     <input id="inputSendSessionToActivityLocation" type="text" placeholder="Lieu">
+
+                    <!-- Partie timer détecté -->
+                    <div id="divSendSessionToActivityTimerMSG">
+                        <p class="activity-editor">
+                            <span class="spanCheckbox">Utiliser la durée des timers :</span>
+                            <label class="switch">
+                                <input id="inputCBSendToActivityUseTimer" type="checkbox">
+                                <span class="slider"></span>
+                            </label>    
+                        </p>
+
+                    </div>
+
+
                     <div class="button-confirm-send">
-                        <button class="btn-menu" id="btnSendToActivityLocationCancel">
+                        <button class="btn-menu" id="btnSendToActivityCustomiseCancel">
                             <img src="./Icons/Icon-Return-cancel.webp" alt="" srcset="">
                             <span>Annuler</span>
                         </button>
-                        <button class="btn-menu btnFocus" id="btnSendToActivityLocationConfirm">
+                        <button class="btn-menu btnFocus" id="btnSendToActivityCustomiseConfirm">
                                Envoyer 
                         </button>
                     </div>
