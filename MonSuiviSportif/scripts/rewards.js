@@ -792,6 +792,12 @@ function onSearchSpecifyRewards(activityTargetName,filteredKeys) {
         case "BOWLING":
             onTraiteRewardsBasicPalier(filteredKeys,"BOWLING-A-1-SEANCE","BOWLING-B-10-SEANCES","BOWLING-C-50-SEANCES","BOWLING-D-100-SEANCES");
             break;
+        case "PARACHUTE-PARAPENTE":
+            onTraiteRewardsBasicPalier(filteredKeys,"PARACHUTE-PARAPENTE-A-1-SEANCE","PARACHUTE-PARAPENTE-B-10-SEANCES","PARACHUTE-PARAPENTE-C-50-SEANCES","PARACHUTE-PARAPENTE-D-100-SEANCES");
+            break;
+        case "PO":
+            onTraiteRewardsBasicPalier(filteredKeys,"PO-A-1-SEANCE","PO-B-10-SEANCES","PO-C-50-SEANCES","PO-D-100-SEANCES");
+            break;
 
 
         default:

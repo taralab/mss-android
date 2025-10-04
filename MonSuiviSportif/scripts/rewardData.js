@@ -1139,6 +1139,62 @@ const allRewardsObject = {
         activityName: "BOWLING",
         groupColor: "nuance-olive",
         text: "100 séances de bowling"
+    },
+    "PO-A-1-SEANCE": {
+        imgRef: "./Badges/Badge-PO-A.webp",
+        title: "À vos marques, prêt ? Rampez.",
+        activityName: "PARCOURS D'OBSTACLES",
+        groupColor: "nuance-marron",
+        text: "1 séance de parcours d'obstacles"
+    },
+    "PO-B-10-SEANCES": {
+        imgRef: "./Badges/Badge-PO-B.webp",
+        title: "Tu dois vraiment aimer ça…",
+        activityName: "PARCOURS D'OBSTACLES",
+        groupColor: "nuance-marron",
+        text: "10 séances de parcours d'obstacles"
+    },
+    "PO-C-50-SEANCES": {
+        imgRef: "./Badges/Badge-PO-C.webp",
+        title: "Obstacles maîtrisés",
+        activityName: "PARCOURS D'OBSTACLES",
+        groupColor: "nuance-marron",
+        text: "50 séances de parcours d'obstacles"
+    },
+    "PO-D-100-SEANCES": {
+        imgRef: "./Badges/Badge-PO-D.webp",
+        title: "Ninja Warrior (Palier 100)",
+        activityName: "PARCOURS D'OBSTACLES",
+        groupColor: "nuance-marron",
+        text: "100 séances de parcours d'obstacles"
+    },
+    "PARACHUTE-PARAPENTE-A-1-SEANCE": {
+        imgRef: "./Badges/Badge-PARACHUTE-PARAPENTE-A.webp",
+        title: "Atterrissage forcé !",
+        activityName: "PARACHUTE-PARAPENTE",
+        groupColor: "nuance-marron",
+        text: "1 séance de parachute ou de parapente"
+    },
+    "PARACHUTE-PARAPENTE-B-10-SEANCES": {
+        imgRef: "./Badges/Badge-PARACHUTE-PARAPENTE-B.webp",
+        title: "Un besoin de prendre l'air",
+        activityName: "PARACHUTE-PARAPENTE",
+        groupColor: "nuance-marron",
+        text: "10 séances de parachute ou de parapente"
+    },
+    "PARACHUTE-PARAPENTE-C-50-SEANCES": {
+        imgRef: "./Badges/Badge-PARACHUTE-PARAPENTE-C.webp",
+        title: "Ouverture assistée désactivée",
+        activityName: "PARACHUTE-PARAPENTE",
+        groupColor: "nuance-marron",
+        text: "50 séances de parachute ou de parapente"
+    },
+    "PARACHUTE-PARAPENTE-D-100-SEANCES": {
+        imgRef: "./Badges/Badge-PARACHUTE-PARAPENTE-D.webp",
+        title: "Chuteur opérationnel ! (Palier 100)",
+        activityName: "PARACHUTE-PARAPENTE",
+        groupColor: "nuance-marron",
+        text: "100 séances de parachute ou de parapente"
     }
 };
 

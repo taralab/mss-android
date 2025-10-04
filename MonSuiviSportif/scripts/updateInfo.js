@@ -10,8 +10,7 @@ const updateImageArray = [
       "./imageUpdate/UpdateRecupSlide2.webp",
       "./imageUpdate/UpdateRecupSlide3.webp",
       "./imageUpdate/UpdateRecupSlide4.webp",
-      "./imageUpdate/UpdateRecupSlide5.webp",
-      "./imageUpdate/UpdateRecupSlide6.webp"
+      "./imageUpdate/UpdateRecupSlide5.webp"
     ];
 
 

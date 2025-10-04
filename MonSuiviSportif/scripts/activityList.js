@@ -194,6 +194,16 @@ let activityChoiceArray = {
         displayName : "Bowling",
         colorNuanceClass : "nuance-olive",
         imgRef : "./images/icon-bowling.webp"
+    },
+    "PARACHUTE-PARAPENTE": {
+        displayName : "Parachute/Parapente",
+        colorNuanceClass : "nuance-marron",
+        imgRef : "./images/icon-parachute.webp"
+    },
+    "PO": {
+        displayName : "Parcours d'obstacles",
+        colorNuanceClass : "nuance-marron",
+        imgRef : "./images/icon-po.webp"
     }
 };
 
