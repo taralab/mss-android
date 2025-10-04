@@ -332,10 +332,13 @@ function eventSendToSessionToActivity() {
     //récupère le boolean d'utilisateur de la valeur des timers
     let isUseTimerReference = document.getElementById("inputCBSendToActivityUseTimer").checked;
 
+    //récupère la valeur du tag si présent
+    let userTag = document.getElementById("inputSendToActivityTAG").value;
+
     //Masque le popup
     document.getElementById("divSendSessionToActivityCustomise").classList.remove("show");
     //lance la génération
-    onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation,isUseTimerReference);
+    onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation,isUseTimerReference,userTag);
 }
 
 function onClickReturnFromSendToActvityLocation() {
@@ -1350,9 +1353,10 @@ function onClickSendSessionToActivity() {
 
 
 
-async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference) {
+async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference,tag) {
     
-    let sessionText = "";
+    let sessionText = "",
+        userTag = tag;
 
     //Boucle sur les éléments
     sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
@@ -1411,6 +1415,11 @@ async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimer
 
     });
 
+
+    //Ajoute le tag en majuscule si présent
+    if (userTag !== "") {
+        sessionText += `#${userTag.toUpperCase()}`;
+    }
     
     // Calcul de la durée passé en session 
     let sessionEndTime = onGetCurrentTimeAndSecond(),
@@ -1613,6 +1622,8 @@ function onDisplaySendToActivityCustomise(activityTarget) {
     document.getElementById("inputSendSessionToActivityLocation").value = "";
     //reset la checkbox "usertimerReference"
     document.getElementById("inputCBSendToActivityUseTimer").checked = false;
+    //reset le champ test 
+    document.getElementById("inputSendToActivityTAG").value = "";
 
     //affiche ou non le champ "timer détecté"
     if (checkIfTimerExist()) {

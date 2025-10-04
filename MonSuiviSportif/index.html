@@ -267,8 +267,16 @@
                 <div id="divSendSessionToActivityCustomise" class="confirmationDeleteBdD">
                     <h2 class="deleteBdD">Envoyer vers une activité</h2>
                     <img id="imgSessionToActivityCustomisePreview" src="./images/icon-badminton.webp" alt="">
-                    <label for="">Lieu de la séance :</label>
-                    <input id="inputSendSessionToActivityLocation" type="text" placeholder="Lieu">
+
+                    <p class="activity-editor">
+                        <label for="">Lieu de la séance :</label>
+                        <input id="inputSendSessionToActivityLocation" type="text" placeholder="Lieu">
+                    </p>
+                    <!-- Ajout d'un TAG -->
+                    <p class="activity-editor">
+                        <label for="">Ajouter un tag :</label>
+                        #<input type="text" id="inputSendToActivityTAG" placeholder="TAG">
+                    </p>
 
                     <!-- Partie timer détecté -->
                     <div id="divSendSessionToActivityTimerMSG">
@@ -279,8 +287,8 @@
                                 <span class="slider"></span>
                             </label>    
                         </p>
-
                     </div>
+
 
 
                     <div class="button-confirm-send">
