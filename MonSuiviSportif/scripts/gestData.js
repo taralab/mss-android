@@ -630,7 +630,7 @@ async function eventImportBdD(inputRef) {
                         //Le fichier V4 ne contient plus les éléments vraiment supprimé.
                         console.log("[IMPORT] V4 accepté mais n'importe pas userSessionItemsList");
                         importedDocs = jsonData.documents || [];
-                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        importedUserSessionItemsList = {};
                         isSaveVersionValid = true;
                         break;
                         
@@ -654,8 +654,8 @@ async function eventImportBdD(inputRef) {
                 }
 
                 if (!isSaveVersionValid) {
-                    alert("Les sauvegardes inférieures à V3 ne sont plus autorisées dans l'application");
-                    textResultRef.innerHTML = "Sauvegardes inférieures à V3 non autorisées !";
+                    alert("Les sauvegardes inférieures à V4 ne sont plus autorisées dans l'application");
+                    textResultRef.innerHTML = "Sauvegardes inférieures à V4 non autorisées !";
                     onSetLockGestDataButton(false);
                     return;
                 }
