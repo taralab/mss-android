@@ -2068,6 +2068,10 @@ p.compteur-name{
     max-width: 350px;
 }
 
+/* Test par défaut en majuscule via css */
+.text-uppercase{
+    text-transform: uppercase;
+}
 
 button.btn-counter-setting{
 
