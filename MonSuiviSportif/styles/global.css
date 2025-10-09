@@ -3149,3 +3149,59 @@ input.recup{
     border-radius: 3px;
     padding: 0 3px;
 }
+
+
+
+
+/* Styles paysage */
+@media (orientation: landscape) {
+
+    .main {
+        padding-left: 30px;
+    }
+
+    div.header{
+        justify-content: center;
+        gap: 10px;
+    }
+    /* Zones de sécurité */
+    .safe-area-top {
+        height:0px;
+        flex-shrink: 0;
+    }
+    .safe-area-bottom {
+        height: 0px;
+        flex-shrink: 0;
+    }
+
+
+
+
+    /* Bouton flottant */
+    button.newActivity{
+        bottom: 90px;
+        right: 45px;
+    }
+    button.new-from-template{
+        bottom: 180px;
+        right: 49px;
+    }
+
+
+    /* RECUP */
+    div.popup-recup{
+        bottom: 70px;
+    }
+    @keyframes recupSlideInScale {
+        0% { left: -300px; transform: scale(0.8); opacity: 0; }
+        60% { left: 55px; transform: scale(1.05); opacity: 1; } /* overshoot + pop */
+        100% { left: 50px; transform: scale(1); opacity: 1; }
+    }
+
+    /* Disparition inverse */
+    @keyframes recupSlideOutScale {
+        0% { left: 50px; transform: scale(1); opacity: 1; }
+        30% { left: 55px; transform: scale(1.05); opacity: 1; } /* léger recul + pop inversé */
+        100% { left: -300px; transform: scale(0.8); opacity: 0; }
+    }
+}
