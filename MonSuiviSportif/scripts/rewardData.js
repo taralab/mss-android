@@ -300,12 +300,33 @@ const allRewardsObject = {
         groupColor: "nuance-light-bluegray",
         text: "100 activités, peu importe le type"
     },
+     "ACTIVITE-B-500": {
+        imgRef: "./Badges/Badge-ACTIVITE-B-500.webp",
+        title: "La cinq-centième",
+        activityName: "COMMUN",
+        groupColor: "nuance-light-bluegray",
+        text: "500 activités, peu importe le type"
+    },
+     "ACTIVITE-C-1000": {
+        imgRef: "./Badges/Badge-ACTIVITE-C-1000.webp",
+        title: "Mille fois : Bravo !",
+        activityName: "COMMUN",
+        groupColor: "nuance-light-bluegray",
+        text: "1000 activités, peu importe le type"
+    },
     "POLYVALENT": {
         imgRef: "./Badges/Badge-POLYVALENT.webp",
         title: "Pluri-disciplinaire",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
         text: "5 activités différentes"
+    },
+    "POLYVALENT-B-10": {
+        imgRef: "./Badges/Badge-POLYVALENT-B.webp",
+        title: "Esprit sportif",
+        activityName: "COMMUN",
+        groupColor: "nuance-light-bluegray",
+        text: "10 activités différentes"
     },
     "DE-RETOUR": {
         imgRef: "./Badges/Badge-DE-RETOUR.webp",

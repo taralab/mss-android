@@ -571,6 +571,16 @@ function onSearchGeneralRewards(activityTarget) {
         if (devMode === true){console.log("[REWARDS] [GENERIQUE] POLYVALENT Resultat : " + isEligible);};
     }
 
+    // ESPRIT SPORFIT (10 activités différentes)
+    if (!userRewardsArray.includes("POLYVALENT-B-10")) {
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : POLYVALENT-B-10");};
+        let isEligible = onSearchVariousActivitiesNumber(rewardAllActivityNonPlannedKeys,10,activityTarget);
+        if (isEligible) {
+            rewardsEligibleArray.push("POLYVALENT-B-10");
+        }
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] POLYVALENT-B-10 Resultat : " + isEligible);};
+    }
+
 
     // ACTIVITE-FIRST 1re activité tout confondu
     if (!userRewardsArray.includes("ACTIVITE-FIRST")) {
@@ -590,6 +600,26 @@ function onSearchGeneralRewards(activityTarget) {
             rewardsEligibleArray.push("ACTIVITE-100");
         }
         if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-100 Resultat : " + isEligible);};
+    }
+
+    // 500 ieme activité tout confondu
+    if (!userRewardsArray.includes("ACTIVITE-B-500")) {
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : ACTIVITE-B-500");};
+            let isEligible = activityArrayLength >= 500;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push("ACTIVITE-B-500");
+        }
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-B-500 Resultat : " + isEligible);};
+    }
+
+    // 1000 ieme activité tout confondu
+    if (!userRewardsArray.includes("ACTIVITE-C-1000")) {
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : ACTIVITE-C-1000");};
+            let isEligible = activityArrayLength >= 1000;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push("ACTIVITE-C-1000");
+        }
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-C-1000 Resultat : " + isEligible);};
     }
 
 }
