@@ -213,6 +213,10 @@ let btnMainMenuData = {
     recup:{
         imgRef:"./Icons/Icon-Recup-Disable.webp",
         text:"Récup"
+    },
+    generateMemory:{
+        imgRef:"./Icons/Icon-Recup-Disable.webp",
+        text:"Générer"
     }
 }
 
@@ -589,7 +593,8 @@ const allEventListenerRegistry = {
     noteSearch:[],
     updateEvent:[],
     recupPopup:[],
-    recupEditor:[]
+    recupEditor:[],
+    memoryEditor:[]
 }
 
 
@@ -1033,6 +1038,19 @@ function onChangeMenu(menuTarget) {
             onDisplayCustomInfo();
             onOpenMenuRewards();
         break;
+        case "Memory" :
+            //traitement du menu reward à fermer
+            onResetRewardsMenu();
+            //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["rewards"]);
+
+            //gere l'apparition du menu memory
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : MEMORY");};
+            pMenuTitleRef.innerHTML = "Hall of Fame";
+            onChangeDisplay(["divRewards"],[],["divMemory"],[],[],[],[]);
+            onHideCustomInfo();
+            onOpenMenuMemory();
+        break;
         case "NewActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");};
             displayDivScrollableMenu();
@@ -1298,6 +1316,16 @@ function onLeaveMenu(menuTarget) {
             onChangeDisplay(["divRewards"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();
             onGenerateMainMenuApp();
+        break;
+        case "Memory":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
+             //retire les évènements qui concerne le menu et ses enfant
+            onRemoveEventListenerInRegistry(["memoryEditor"]);
+            //retourne dans le menu rewards
+            onChangeDisplay(["divMemory"],[],["divRewards"],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "Récompenses";
+            onDisplayCustomInfo();
+            onOpenMenuRewards();
         break;
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};

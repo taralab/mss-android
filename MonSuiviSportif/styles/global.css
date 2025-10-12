@@ -5,6 +5,7 @@
     --colorMainTheme1 : #30849e;
     --colorMainTheme2 : #40cccd;
     --colorMainTheme6 :#f56b8e;
+    --colorGold : #e5c301;
     --colorLightGray : #fff;
     --colorTextBtn: #7F8C8D;
     --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -1452,6 +1453,11 @@ div.reward-category{
 
 div.reward-category > img{
     margin-left: 10px;
+}
+
+div.reward-category.hall-of-fame{
+    border-bottom: solid 2px var(--colorGold);
+    color: var(--colorGold);
 }
 
 div.reward-category.special{
@@ -3153,7 +3159,95 @@ input.recup{
 
 
 
-/* Styles paysage */
+
+
+
+/* -------------------------------MEMORY (HALL OF FAME) ------------------------------ */
+
+
+
+p.memory-preview-area{
+    text-align: center;
+    margin: 10px 0px;
+}
+
+
+canvas.memory{
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-top: 1rem;
+    max-width: 100%;
+}
+
+.memory-control {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+    padding: 10px;
+}
+
+/* Conteneur principal manette */
+.controller {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem; /* distance entre la croix et les boutons zoom */
+    border-radius: 2rem;
+}
+
+/* Croix directionnelle style manette */
+.dpad {
+    display: grid;
+    grid-template-columns: 40px 40px 40px;
+    grid-template-rows: 40px 40px 40px;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+button.memory-pad-editor {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #ffffff);
+  color: white;
+  box-shadow: var(--boxShadowMoins);
+  transition: transform 0.1s, background 0.2s;
+}
+
+button.memory-pad-editor:active{
+    transform: scale(0.9);
+    background: radial-gradient(circle at 30% 30%, #e6e6e6, #e0e0e0);
+}
+
+
+/* Position de la croix */
+#memoryUp { grid-column: 2; grid-row: 1; }
+#memoryLeft { grid-column: 1; grid-row: 2; }
+#memoryRight { grid-column: 3; grid-row: 2; }
+#memoryDown { grid-column: 2; grid-row: 3; }
+
+/* Boutons de zoom façon A / B */
+.zoom-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+
+
+/* ---------------------------- Styles paysage ----------------------------------------*/
+
+
+
+
+
+
+
 @media (orientation: landscape) {
 
     .main {

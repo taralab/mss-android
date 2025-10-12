@@ -108,16 +108,22 @@ class RewardCardLocked{
 // -------------------------------Ecouteur d'évènements-----------------------------------
 
 
-function onAddEventListenerForFullScreenReward() {
+function onAddEventListenerForReward() {
     if (devMode === true){
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour reward fullscreen");
     };
 
-    //La div
+    //La div full screen
     let locDivFullScreenRewardsRef = document.getElementById("divFullScreenRewards");
     const onClick = () => onHiddenFullscreenRewards();
     locDivFullScreenRewardsRef.addEventListener("click",onClick);
     onAddEventListenerInRegistry("rewards",locDivFullScreenRewardsRef,"click",onClick);
+
+    //Le menu hall of Fame editor
+    let btnMemoryEditorRef = document.getElementById("btnMenuMemory");
+    const onclickMemory = () => onChangeMenu("Memory");
+    btnMemoryEditorRef.addEventListener("click", onclickMemory);
+    onAddEventListenerInRegistry("rewards",btnMemoryEditorRef,"click", onclickMemory);
 
 }
 
@@ -300,7 +306,7 @@ function onOpenMenuRewards(){
     onLoadUserRewardsList();
     
     // Ajout des évènements
-    onAddEventListenerForFullScreenReward();
+    onAddEventListenerForReward();
 
     if (devMode === true) {
         onConsoleLogEventListenerRegistry();

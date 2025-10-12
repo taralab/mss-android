@@ -1219,6 +1219,19 @@
 
                 <!-- ----------------------------------      DIV #REWARDS        ------------------------------------------------>
                 <div id="divRewards" class="new-interface">
+                    <!-- Zone hall Of Fame -->
+                    <div class="reward-category hall-of-fame">
+                        <img src="./Icons/Icon-Favoris-Sel.webp" alt="">
+                        <span>Hall of fame</span>
+                        <span>0/20</span>
+                        <button class="btn-menu" id="btnMenuMemory">
+                            <img src="./Icons/Icon-Upload-APP.webp" alt="" srcset="">
+                        </button>
+                    </div>
+                    <div class="rewards-grid" id="divHallOfFameList">
+                        <!-- Injection des badges Hall of fame -->
+                    </div>
+
                     <!-- Zone spécial event -->
                     <div class="reward-category special">
                         <img src="./Icons/Icon-Favoris-Sel.webp" alt="">
@@ -1264,8 +1277,63 @@
 
                 <!-- ----------------------------------  FIN    DIV REWARDS     ------------------------------------------------>
 
+                <!-- ----------------------------------     DIV MEMORY     ------------------------------------------------>
+
+                <div id="divMemory" class="new-interface">
+
+                    <p class="activity-editor">
+                        <label for="">Nom de l'évènement : </label>
+                        <input type="text" id="" placeholder="Ex: Marathon de Paris 2025">
+                    </p>
+
+                    <p class="activity-editor">
+                        <label>Date :</label>
+                        <input type="date" id="">
+                    </p>
 
 
+                    <p class="activity-editor">
+                        <label>Image :</label>
+                        <input type="file" id="image" accept="image/*">
+                    </p>
+
+                    <p class="memory-preview-area">
+                        <canvas class="memory" id="canvasMemory" width="300" height="300"></canvas>
+                    </p>
+
+                    <div class="memory-control">
+                        <div class="controller">
+                            <div class="dpad">
+                                <button class="memory-pad-editor" id="memoryUp">
+                                    <img src="./Icons/Icon-Nav-Up.webp" alt="">
+                                </button>       
+                                <button class="memory-pad-editor" id="memoryLeft">
+                                    <img src="./Icons/Icon-Nav-Left.webp" alt="">
+                                </button>
+                                <button class="memory-pad-editor" id="memoryRight">
+                                    <img src="./Icons/Icon-Nav-Right.webp" alt="">
+                                </button>
+                                <button class="memory-pad-editor" id="memoryDown">
+                                    <img src="./Icons/Icon-Nav-Down.webp" alt="">
+                                </button>
+                            </div>
+
+                            <div class="zoom-buttons">
+                                <button class="memory-pad-editor"id="memoryZoomIn">
+                                    <img src="./Icons/Icon-Zoom-Plus.webp" alt="">
+                                </button>
+                                <button class="memory-pad-editor" id="memoryZoomOut">
+                                    <img src="./Icons/Icon-Zoom-Moins.webp" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="memoryPreview"></div>
+                </div>
+
+
+                <!-- ----------------------------------     DIV MEMORY     ------------------------------------------------>
 
 
 
@@ -1493,6 +1561,7 @@
     <script src="./scripts/info.js?v=2.3.1"></script>
     <script src="./scripts/stat.js?v=2.3.1"></script>
     <script src="./scripts/rewardData.js?v=2.3.1"></script>
+    <script src="./scripts/memory.js?v=2.3.1"></script>
     <script src="./scripts/rewards.js?v=2.3.1"></script>
     <script src="./scripts/gestData.js?v=2.3.1"></script>
     <script src="./scripts/template.js?v=2.3.1"></script>
