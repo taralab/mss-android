@@ -3208,15 +3208,15 @@ canvas.memory{
 }
 
 button.memory-pad-editor {
-  width: 50px;
-  height: 50px;
-  font-size: 1.5rem;
-  border: none;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #ffffff);
-  color: white;
-  box-shadow: var(--boxShadowMoins);
-  transition: transform 0.1s, background 0.2s;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #ffffff);
+    color: white;
+    box-shadow: var(--boxShadowMoins);
+    transition: transform 0.1s, background 0.2s;
 }
 
 button.memory-pad-editor:active{
@@ -3225,11 +3225,11 @@ button.memory-pad-editor:active{
 }
 
 
-/* Position de la croix */
-#memoryUp { grid-column: 2; grid-row: 1; }
-#memoryLeft { grid-column: 1; grid-row: 2; }
-#memoryRight { grid-column: 3; grid-row: 2; }
-#memoryDown { grid-column: 2; grid-row: 3; }
+/* Position de la croix basé sur les ID*/
+#btnMemoryUp { grid-column: 2; grid-row: 1; }
+#btnMemoryLeft { grid-column: 1; grid-row: 2; }
+#btnMemoryRight { grid-column: 3; grid-row: 2; }
+#btnMemoryDown { grid-column: 2; grid-row: 3; }
 
 /* Boutons de zoom façon A / B */
 .zoom-buttons {
