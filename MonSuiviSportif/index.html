@@ -1277,13 +1277,13 @@
 
                 <!-- ----------------------------------  FIN    DIV REWARDS     ------------------------------------------------>
 
-                <!-- ----------------------------------     DIV MEMORY     ------------------------------------------------>
+                <!-- ----------------------------------     DIV #MEMORY     ------------------------------------------------>
 
                 <div id="divMemory" class="new-interface">
 
                     <p class="activity-editor">
                         <label for="">Nom de l'évènement : </label>
-                        <input type="text" id="inputMemoryTitle" placeholder="Ex: Marathon de Paris 2025">
+                        <input type="text" id="inputMemoryTitle" placeholder="Ex: Marathon de Paris 2025" maxlength="40">
                     </p>
 
                     <p class="activity-editor">
@@ -1329,11 +1329,16 @@
                         </div>
                     </div>
 
+                    <!-- Commentaire -->
+                    <p>
+                        <label for="">Commentaire : </label>
+                        <textarea name="" id="textareaMemoryComment" maxlength="100"></textarea>
+                    </p>
                     <div id="divMemoryPreview"></div>
                 </div>
 
 
-                <!-- ----------------------------------     DIV MEMORY     ------------------------------------------------>
+                <!-- ----------------------------------    FIN DIV MEMORY     ------------------------------------------------>
 
 
 

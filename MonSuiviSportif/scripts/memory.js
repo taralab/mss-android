@@ -4,6 +4,7 @@ let canvasMemoryRef = null,
     divMemoryPreviewRef = null,
     inputMemoryDateRef = null,
     inputMemoryTitleRef = null,
+    texteareaMemoryCommentRef = null,
     memoryMoveStep = 10, // déplacement en pixels
     memoryImageItem = null,
     memoryOffsetX = 0,
@@ -74,6 +75,10 @@ function onAddEventListenerForMemoryEditor() {
 
 
 // --------------------------OUVERTURE MENU ---------------------------------------------
+
+
+
+
 function onOpenMenuMemory(){
     if (devMode === true){console.log("[MEMORY] Ouverture menu MEMORY");};
 
@@ -113,6 +118,7 @@ function onInitMemoryItems() {
     divMemoryPreviewRef = document.getElementById('divMemoryPreview');
     inputMemoryDateRef = document.getElementById('inputMemoryDate');
     inputMemoryTitleRef = document.getElementById('inputMemoryTitle');
+    texteareaMemoryCommentRef = document.getElementById('textareaMemoryComment');
     memoryImageItem = new Image();
 
     memoryOffsetX = 0,
@@ -301,7 +307,8 @@ function onResetMemoryItems() {
     // Vide les champs
     inputMemoryDateRef.value = null;
     inputMemoryTitleRef.value = null;
-    inputImageMemoryRef.value =null;
+    inputImageMemoryRef.value = null;
+    texteareaMemoryCommentRef.value = null;
 
     //Vide l'image
     onClearMemoryPreview();
@@ -313,6 +320,7 @@ function onResetMemoryItems() {
     divMemoryPreviewRef = null;
     inputMemoryDateRef = null;
     inputMemoryTitleRef = null;
+    texteareaMemoryCommentRef = null;
     memoryImageItem = null;
     
 
