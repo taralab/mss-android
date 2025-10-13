@@ -1,7 +1,6 @@
 let canvasMemoryRef = null,
     memory_ctx = null,
     inputImageMemoryRef = null,
-    divMemoryPreviewRef = null,
     inputMemoryDateRef = null,
     inputMemoryTitleRef = null,
     texteareaMemoryCommentRef = null,
@@ -12,12 +11,25 @@ let canvasMemoryRef = null,
     memoryScale = 1,// facteur de zoom
     memoryScaleStep = 0.1, // pas de zoom
     memoryZoomSize = 512, // taille du crop
-    isMemoryImageLoaded = false;
+    isMemoryImageLoaded = false,
+    maxMemory = 10;//le nombre maximal de souvenir
 
 
-
+let allMemoryObjectList = {
+    id : {
+        title : "",
+        date : "",
+        imageData : "",
+        comment : ""
+    }
+},
+memoryToInsert = {};
 
 // -----------------------  ECOUTEUR D'EVENEMENTS --------------------------------------
+
+
+
+
 
 function onAddEventListenerForMemoryEditor() {
     if (devMode === true){
@@ -67,9 +79,97 @@ function onAddEventListenerForMemoryEditor() {
     const onImportImage = (event) => onInputMemoryImageChange(event);
     inputImageMemoryRef.addEventListener("change",onImportImage);
     onAddEventListenerInRegistry("memoryEditor",inputImageMemoryRef,"change",onImportImage);
+
+    //popup prévisualisation annulation
+    let divMemoryPreviewRef = document.getElementById("divMemoryPreview");
+    const cancelGenerateMemory = () => onCancelGenerateMemory();
+    divMemoryPreviewRef.addEventListener("click",cancelGenerateMemory);
+    onAddEventListenerInRegistry("memoryEditor",divMemoryPreviewRef,"click",cancelGenerateMemory);
+
+    //validation de la génération du memory
+    let btnMemoryDownloadRef = document.getElementById("btnMemoryDownload");
+    const valideGenerateMemory = (event) => onValideGenerateMemory(event);
+    btnMemoryDownloadRef.addEventListener("click",valideGenerateMemory);
+    onAddEventListenerInRegistry("memoryEditor",btnMemoryDownloadRef,"click",valideGenerateMemory);
+
 }
 
 
+
+// ------------------------- Fonction base de données ------------------------------------------
+
+// fonction pour récupérer les memory
+async function onLoadMemoryFromDB() {
+    allMemoryObjectList = {}; // devient un objet
+    try {
+        const result = await db.allDocs({ include_docs: true });
+
+        result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === memoryStoreName)
+            .forEach(doc => {
+                allMemoryObjectList[doc._id] = { ...doc }; // on garde tout
+            });
+
+        if (devMode === true) {
+            console.log("[DATABASE] [MEMORY] Activités chargées :", memoryStoreName);
+            const firstKey = Object.keys(allMemoryObjectList)[0];
+            console.log(allMemoryObjectList[firstKey]);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [MEMORY] Erreur lors du chargement:", err);
+    }
+}
+
+
+// Insertion nouveau memory (ID auto, )
+async function onInsertNewMemoryInDB(memoryToInsert) {
+     try {
+        const newMemory = {
+            type: memoryStoreName,
+            ...memoryToInsert
+        };
+
+        // Utilisation de post() pour génération automatique de l’ID
+        const response = await db.post(newMemory);
+
+        // Mise à jour de l’objet avec _id et _rev retournés
+        newMemory._id = response.id;
+        newMemory._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [MEMORY] Activité insérée :", newMemory);
+        }
+
+        return newMemory;
+    } catch (err) {
+        console.error("[DATABASE] [MEMORY] Erreur lors de l'insertion du mémory :", err);
+    }
+}
+
+
+
+
+// Sequence de suppression d'un Memory
+async function eventDeleteMemory(idToDelete) {
+
+    // Envoie vers la corbeille
+    await sendToRecycleBin(idToDelete);
+    
+    // retire l'objet de l'array
+    delete allMemoryObjectList[idToDelete];
+
+    if (devMode === true){console.log("allMemoryObjectList :",allMemoryObjectList);};
+
+   
+    // Actualisation de l'affichage de la liste
+    
+
+    // Popup notification
+    
+
+
+}
 
 
 
@@ -115,7 +215,6 @@ function onInitMemoryItems() {
     canvasMemoryRef = document.getElementById('canvasMemory');
     memory_ctx = canvasMemoryRef.getContext('2d');
     inputImageMemoryRef = document.getElementById('inputMemoryImage');
-    divMemoryPreviewRef = document.getElementById('divMemoryPreview');
     inputMemoryDateRef = document.getElementById('inputMemoryDate');
     inputMemoryTitleRef = document.getElementById('inputMemoryTitle');
     texteareaMemoryCommentRef = document.getElementById('textareaMemoryComment');
@@ -194,15 +293,15 @@ function onZoomOutMemoryImage() {
 }
 
 
-
 // Génération finale
 function onClickGenerateMemory() {
-    const title = document.getElementById('title').value.trim();
-    const date = document.getElementById('date').value;
+    const title = inputMemoryTitleRef.value.trim();
+    const date = inputMemoryDateRef.value;
     if (!isMemoryImageLoaded || !title || !date) {
         alert('Merci de remplir tous les champs et d’ajuster ton image.');
         return;
     }
+
     const finalCanvas = document.createElement('canvas');
     const fctx = finalCanvas.getContext('2d');
     const w = 512;
@@ -210,8 +309,11 @@ function onClickGenerateMemory() {
     finalCanvas.width = w;
     finalCanvas.height = h;
 
-    // Image cadrée
-    // Image cadrée avec zoom
+    // 🟩 Étape 1 — Fond blanc sur tout le canvas
+    fctx.fillStyle = "#fff";
+    fctx.fillRect(0, 0, w, h);
+
+    // 🟦 Étape 2 — Image cadrée (avec zoom)
     const minSide = Math.min(memoryImageItem.width, memoryImageItem.height);
     const zoomedSide = minSide / memoryScale; // tenir compte du zoom
     const startX = (memoryImageItem.width - zoomedSide) / 2 + memoryOffsetX;
@@ -220,39 +322,50 @@ function onClickGenerateMemory() {
     fctx.drawImage(
         memoryImageItem,
         startX, startY, zoomedSide, zoomedSide, // source
-        0, 0, w, w                              // destination
+        0, 0, w, w                              // destination (haut carré)
     );
 
-    // Fond sous l'image
+    // 🟨 Étape 3 — Fond sous l'image (zone texte)
     fctx.fillStyle = "#fff";
     fctx.fillRect(0, w, w, h - w);
 
-    // Ligne de séparation
+    // 🟧 Étape 4 — Ligne de séparation
     fctx.fillStyle = "#007bff";
     fctx.fillRect(w * 0.3, w + 3, w * 0.4, 3);
 
-    // Texte
+    // 🟥 Étape 5 — Texte (titre + date)
     fctx.fillStyle = "#111";
     fctx.textAlign = "center";
     fctx.font = "bold 28px Poppins";
     fctx.fillText(title, w / 2, w + 60);
     fctx.font = "18px Poppins";
     const formattedDate = new Date(date).toLocaleDateString("fr-FR", {
-      year: "numeric", month: "short"
+        day:"numeric", year: "numeric", month: "short"
     });
     fctx.fillText(`${formattedDate}`, w / 2, w + 100);
 
-
-    //   Bordure
+    // 🟪 Étape 6 — Bordure
     fctx.lineWidth = 10;
     fctx.strokeStyle = "#FFD700";
-    drawBorderRadius(fctx, 0, 0, w, h, 20); // 20 = rayon des coins
+    drawBorderRadius(fctx, 0, 0, w, h, 20);
 
+    // 🟫 Étape 7 — Conversion & affichage
     const finalImage = finalCanvas.toDataURL('image/webp', 0.8);
-    divMemoryPreviewRef.innerHTML = `<img src="${finalImage}" alt="souvenir">`;
+    const divMemoryPreviewRef = document.getElementById('divMemoryPreviewContent');
+    divMemoryPreviewRef.innerHTML = `<img class="memory-result" src="${finalImage}" alt="souvenir">`;
 
-    console.log("Souvenir généré ✅", finalImage);
-};
+    // Affichage 
+    document.getElementById("divMemoryPreview").style.display = "flex";
+
+    // Formatage pour la sauvegarde
+    memoryToInsert = {
+        title : title,
+        date : date,
+        imageData : finalImage,
+        comment : texteareaMemoryCommentRef.value
+    };
+
+}
 
 
 function onUpdateMemoryPreview() {
@@ -298,6 +411,52 @@ function onClearMemoryPreview() {
 
 
 
+//retour ou annulation préview 
+function onCancelGenerateMemory() {
+    //masque le popup
+    document.getElementById("divMemoryPreview").style.display = "none";
+}
+
+
+
+
+
+
+// Sauvegarde
+async function onValideGenerateMemory(event) {
+    //sauvegarde en base
+    let newMemoryDate = await onInsertNewMemoryInDB(memoryToInsert);
+
+    //sauvegarde dans l'array
+    allMemoryObjectList[newMemoryDate._id] = newMemoryDate;
+
+    //actualisation visuelle
+    console.log(allMemoryObjectList);
+
+    //notification
+}
+
+
+
+// Fonction de DEV pour calculer le poids de l'image importée
+function getBase64Size(base64String) {
+  // Supprime la partie "data:image/webp;base64," si présente
+  let base64Clean = base64String.split(',')[1] || base64String;
+
+  // Longueur du contenu base64 (en caractères)
+  const stringLength = base64Clean.length;
+
+  // Chaque caractère représente 6 bits → 3 octets pour 4 caractères
+  const sizeInBytes = (stringLength * 3) / 4;
+
+  // Conversion en Ko arrondie
+  const sizeInKB = sizeInBytes / 1024;
+
+  return sizeInKB.toFixed(2);
+}
+
+
+
 
 
 
@@ -317,7 +476,6 @@ function onResetMemoryItems() {
     canvasMemoryRef = null;
     memory_ctx = null;
     inputImageMemoryRef = null;
-    divMemoryPreviewRef = null;
     inputMemoryDateRef = null;
     inputMemoryTitleRef = null;
     texteareaMemoryCommentRef = null;

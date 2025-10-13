@@ -3177,6 +3177,7 @@ canvas.memory{
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     margin-top: 1rem;
     max-width: 100%;
+    background-color: white;
 }
 
 .memory-control {
@@ -3238,6 +3239,48 @@ button.memory-pad-editor:active{
   gap: 1.5rem;
 }
 
+
+
+
+/* Prévisualisation */
+#divMemoryPreview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none; /* caché par défaut */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 9999;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+#divMemoryPreviewContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 90vw;
+    max-height: 80vh;
+}
+
+
+
+/* L’image générée */
+#divMemoryPreviewContent img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    object-fit: contain;
+    display: block;
+}
 
 
 /* ---------------------------- Styles paysage ----------------------------------------*/

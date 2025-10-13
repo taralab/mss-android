@@ -141,7 +141,8 @@ let dbName = `MSS_db`,
     templateSessionStoreName = "TemplateSession",
     planningStoreName ="Planning",
     noteStoreName = "Notes",
-    recupStoreName = "Recup";
+    recupStoreName = "Recup",
+    memoryStoreName = "Memory";
     
 
 
