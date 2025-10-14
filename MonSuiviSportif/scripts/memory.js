@@ -23,7 +23,8 @@ let allMemoryObjectList = {
         comment : ""
     }
 },
-memoryToInsert = {};
+memoryToInsert = {},
+isMemoryAlreadyLoaded = false;//pour chargement unique depuis la base
 
 // -----------------------  ECOUTEUR D'EVENEMENTS --------------------------------------
 
@@ -82,7 +83,7 @@ function onAddEventListenerForMemoryEditor() {
 
     //popup prévisualisation annulation
     let divMemoryPreviewRef = document.getElementById("divMemoryPreview");
-    const cancelGenerateMemory = () => onCancelGenerateMemory();
+    const cancelGenerateMemory = () => onClosePopupMemoryResult();
     divMemoryPreviewRef.addEventListener("click",cancelGenerateMemory);
     onAddEventListenerInRegistry("memoryEditor",divMemoryPreviewRef,"click",cancelGenerateMemory);
 
@@ -412,7 +413,7 @@ function onClearMemoryPreview() {
 
 
 //retour ou annulation préview 
-function onCancelGenerateMemory() {
+function onClosePopupMemoryResult() {
     //masque le popup
     document.getElementById("divMemoryPreview").style.display = "none";
 }
@@ -424,16 +425,25 @@ function onCancelGenerateMemory() {
 
 // Sauvegarde
 async function onValideGenerateMemory(event) {
+    event.stopPropagation();
+
+    // Ferme le popup
+    onClosePopupMemoryResult();
+
+
+
     //sauvegarde en base
     let newMemoryDate = await onInsertNewMemoryInDB(memoryToInsert);
 
     //sauvegarde dans l'array
     allMemoryObjectList[newMemoryDate._id] = newMemoryDate;
 
-    //actualisation visuelle
+    // Quitte le menu
+    onClickReturnFromMemory();
     console.log(allMemoryObjectList);
 
     //notification
+    onShowNotifyPopup("memorySaved");
 }
 
 
@@ -457,6 +467,19 @@ function getBase64Size(base64String) {
 
 
 
+//Affichage des memory
+function onDisplayMemoryCardsList() {
+    // Vide le parent
+    divMemoryListRef.innerHTML = "";
+
+    //pour chaque key
+    Object.keys(allMemoryObjectList).forEach(key =>{
+        // Crée un éléments
+        let imageData = allMemoryObjectList[key].imageData;
+        new MemoryCard(key,imageData,divMemoryListRef);
+
+    });
+}
 
 
 

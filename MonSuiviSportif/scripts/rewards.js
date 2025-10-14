@@ -285,7 +285,7 @@ function onSearchVariousActivitiesNumber(allDataKeys,targetValue,currentActivity
 
 
 
-function onOpenMenuRewards(){
+async function onOpenMenuRewards(){
     if (devMode === true){console.log("[REWARDS] Ouverture menu Rewards");};
 
     // Reference les éléments
@@ -294,7 +294,7 @@ function onOpenMenuRewards(){
     pRewardsFullScreenTitleRef = document.getElementById("pRewardsFullScreenTitle");
     divRewardsListRef = document.getElementById("divRewardsList");
     divSpecialRewardsListRef = document.getElementById("divSpecialRewardsList");
-
+    divMemoryListRef = document.getElementById("divMemoryList");
 
 
     // affiche le nombre de trophé débloqué dans le menu contextuel
@@ -302,17 +302,28 @@ function onOpenMenuRewards(){
 
     document.getElementById("customInfo").innerHTML = textInfoToDisplay;
 
+
+    //Chargement des memory depuis la base la première fois
+    if (!isMemoryAlreadyLoaded){
+        await onLoadMemoryFromDB();
+    }
+
+    //affichage des memory si présent
+    if (Object.keys(allMemoryObjectList).length > 1 ){
+        onDisplayMemoryCardsList();
+    }
+
     // Prend les récompenses de l'utilisateur pour les afficher dans la liste
     onLoadUserRewardsList();
     
-    // Ajout des évènements
+    // Ajout des évènements pour le menu rewards
     onAddEventListenerForReward();
 
     if (devMode === true) {
         onConsoleLogEventListenerRegistry();
     }
 
-    //Création du menu principale
+    //Création du menu principal
     onCreateMainMenuReward();
 
 };
@@ -1111,15 +1122,21 @@ function onTraiteRewardsSpecificMARCHE(filteredKeys) {
 //    Reset le menu des récompenses
 
 function onResetRewardsMenu() {
+
+    //vide de contenu
     imgRewardsFullScreenRef= "";
     pRewardsFullScreenTextRef = "";
     pRewardsFullScreenTitleRef = "";
     divRewardsListRef.innerHTML = "";
     divSpecialRewardsListRef.innerHTML = "";
+    divMemoryListRef.innerHTML = "";
 
-    divRewardsListRef = "";
-    divSpecialRewardsListRef = "";
+    //vide les références
+    divRewardsListRef = null;
+    divSpecialRewardsListRef = null;
+    divMemoryListRef = null;
 
+    //vide les variables
     newRewardsToSee = [];
     rewardAllActivityNonPlannedKeys = [];
 }
