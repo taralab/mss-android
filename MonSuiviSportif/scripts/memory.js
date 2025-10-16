@@ -467,7 +467,11 @@ function getBase64Size(base64String) {
 
 
 
-//Affichage des memory
+//-----------------------------Affichage des memory -----------------------------------
+
+
+
+//dans la liste
 function onDisplayMemoryCardsList() {
     // Vide le parent
     divMemoryListRef.innerHTML = "";
@@ -482,8 +486,31 @@ function onDisplayMemoryCardsList() {
 }
 
 
+//En gros plan
+function onDisplayMemoryFullScreen(imageData) {
+    //set l'image
+    imgMemoryFullScreenRef.src = imageData;
 
-//retour
+    //Affiche
+    document.getElementById("divFullScreenMemory").classList.add("show");
+}
+
+//masque gros plan
+function onHiddenFullScreenMemory() {
+    console.log("masque");
+    if (devMode === true){console.log("cache la div de visualisation du mémory");};
+    document.getElementById("divFullScreenMemory").classList.remove("show");
+};
+
+
+
+
+//----------------------------- retour ----------------------------------------------
+
+
+
+
+
 
 function onResetMemoryItems() {
     // Vide les champs

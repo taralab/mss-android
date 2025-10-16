@@ -11,7 +11,7 @@ class MemoryCard{
         this.element.onclick = (event) => {
             // affiche en plein écran
             console.log("click sur Memory");
-            // onDisplayRewardsFullScreen(this.memoryKey,shareMode);
+            onDisplayMemoryFullScreen(this.imgData);
         };
 
         // Fonction de rendu

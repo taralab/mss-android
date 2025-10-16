@@ -11,10 +11,11 @@ let userRewardsArray = [],
 
 // Reference 
 let imgRewardsFullScreenRef,
-pRewardsFullScreenTitleRef,
-pRewardsFullScreenTextRef,
-divRewardsListRef,
-divSpecialRewardsListRef;
+    pRewardsFullScreenTitleRef,
+    pRewardsFullScreenTextRef,
+    divRewardsListRef,
+    divSpecialRewardsListRef,
+    imgMemoryFullScreenRef;
 
 
 
@@ -113,17 +114,24 @@ function onAddEventListenerForReward() {
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour reward fullscreen");
     };
 
-    //La div full screen
+    //La div reward full screen
     let locDivFullScreenRewardsRef = document.getElementById("divFullScreenRewards");
-    const onClick = () => onHiddenFullscreenRewards();
-    locDivFullScreenRewardsRef.addEventListener("click",onClick);
-    onAddEventListenerInRegistry("rewards",locDivFullScreenRewardsRef,"click",onClick);
+    const onClickRewardHidden = () => onHiddenFullscreenRewards();
+    locDivFullScreenRewardsRef.addEventListener("click",onClickRewardHidden);
+    onAddEventListenerInRegistry("rewards",locDivFullScreenRewardsRef,"click",onClickRewardHidden);
+
+    //La div memory full screen
+    let locDivFullScreenMemoryRef = document.getElementById("divFullScreenMemory");
+    const onClickMemoryHidden = () => onHiddenFullScreenMemory();
+    locDivFullScreenMemoryRef.addEventListener("click",onClickMemoryHidden);
+    onAddEventListenerInRegistry("rewards",locDivFullScreenMemoryRef,"click",onClickMemoryHidden);
+
 
     //Le menu hall of Fame editor
     let btnMemoryEditorRef = document.getElementById("btnMenuMemory");
-    const onclickMemory = () => onChangeMenu("Memory");
-    btnMemoryEditorRef.addEventListener("click", onclickMemory);
-    onAddEventListenerInRegistry("rewards",btnMemoryEditorRef,"click", onclickMemory);
+    const onClickMemoryEditor = () => onChangeMenu("Memory");
+    btnMemoryEditorRef.addEventListener("click", onClickMemoryEditor);
+    onAddEventListenerInRegistry("rewards",btnMemoryEditorRef,"click", onClickMemoryEditor);
 
 }
 
@@ -295,6 +303,7 @@ async function onOpenMenuRewards(){
     divRewardsListRef = document.getElementById("divRewardsList");
     divSpecialRewardsListRef = document.getElementById("divSpecialRewardsList");
     divMemoryListRef = document.getElementById("divMemoryList");
+    imgMemoryFullScreenRef = document.getElementById("imgMemoryFullScreen");
 
 
     // affiche le nombre de trophé débloqué dans le menu contextuel
@@ -1130,6 +1139,7 @@ function onResetRewardsMenu() {
     divRewardsListRef.innerHTML = "";
     divSpecialRewardsListRef.innerHTML = "";
     divMemoryListRef.innerHTML = "";
+    imgMemoryFullScreenRef.innerHTML = "";
 
     //vide les références
     divRewardsListRef = null;
