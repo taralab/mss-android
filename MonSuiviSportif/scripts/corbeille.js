@@ -88,6 +88,9 @@ class CorbeilleItem{
             case "Notes":
                 color = "#bfb32bff";
                 break;
+            case "Memory":
+                color = "#612bbfff";
+                break;
             default:
                 console.error("type couleur non définit");
                 break;
@@ -153,8 +156,16 @@ async function onLoadCorbeilleItemsListFromDB() {
                             displayType : "Notes",
                             name : doc.title,
                             deletedDate : doc.oldItemInfo.deletedDate
-                        }
-                
+                        };
+                        break;
+                    case "Memory":
+                        list[doc._id] = {
+                            type : doc.oldItemInfo.type,
+                            displayType : "Evènement",
+                            name : doc.title,
+                            deletedDate : doc.oldItemInfo.deletedDate
+                        };
+                        break;            
                     default:
                         break;
                 }
