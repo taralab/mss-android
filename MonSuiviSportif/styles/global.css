@@ -5,7 +5,7 @@
     --colorMainTheme1 : #30849e;
     --colorMainTheme2 : #40cccd;
     --colorMainTheme6 :#f56b8e;
-    --colorGold : #e5c301;
+    --colorGold : #e0be02;
     --colorLightGray : #fff;
     --colorTextBtn: #7F8C8D;
     --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -1459,6 +1459,7 @@ div.reward-category.hall-of-fame{
     border-bottom: solid 2px var(--colorGold);
     color: var(--colorGold);
 }
+
 
 div.reward-category.special{
     border-bottom: solid 2px var(--colorMainTheme6);

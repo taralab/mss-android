@@ -316,16 +316,27 @@ async function onOpenMenuRewards(){
 
     document.getElementById("customInfo").innerHTML = textInfoToDisplay;
 
+    //reset le tableau de keys pour les memory
+    memoryCardKeysList = [];
 
     //Chargement des memory depuis la base la première fois
     if (!isMemoryAlreadyLoaded){
         await onLoadMemoryFromDB();
+
+        //récupère les keys
+        memoryCardKeysList = Object.keys(allMemoryObjectList);
     }
 
+    //gestion text si memory ou pas
+    gestionTextAndBtnMemory();
+
+    console.log("memoryCardKeys: ", memoryCardKeysList);
+
     //affichage des memory si présent
-    if (Object.keys(allMemoryObjectList).length >= 1 ){
+    if (memoryCardKeysList.length >= 1 ){
         onDisplayMemoryCardsList();
     }
+
 
 
     // Prend les récompenses de l'utilisateur pour les afficher dans la liste

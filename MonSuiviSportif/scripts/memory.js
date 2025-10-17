@@ -14,7 +14,8 @@ let canvasMemoryRef = null,
     isMemoryImageLoaded = false,
     maxMemory = 10,//le nombre maximal de souvenir
     currentMemoryIdInView,
-    memoryCardInstanceList = {};
+    memoryCardInstanceList = {},
+    memoryCardKeysList = [];
 
 let allMemoryObjectList = {
     id : {
@@ -414,13 +415,20 @@ async function onValideGenerateMemory(event) {
     // Ferme le popup
     onClosePopupMemoryResult();
 
-
-
     //sauvegarde en base
     let newMemoryDate = await onInsertNewMemoryInDB(memoryToInsert);
 
     //sauvegarde dans l'array
     allMemoryObjectList[newMemoryDate._id] = newMemoryDate;
+
+    //ajoute la key au tableau de key
+    memoryCardKeysList.push(allMemoryObjectList[newMemoryDate._id]);
+
+    //gestion text si memory ou pas
+    gestionTextAndBtnMemory();
+
+    console.log("memoryCardKeys: ", memoryCardKeysList);
+
 
     // Quitte le menu
     onClickReturnFromMemory();
@@ -462,7 +470,7 @@ function onDisplayMemoryCardsList() {
     memoryCardInstanceList = {};
 
     //pour chaque key
-    Object.keys(allMemoryObjectList).forEach(key =>{
+    memoryCardKeysList.forEach(key =>{
         // Crée un éléments
         let imageData = allMemoryObjectList[key].imageData;
         memoryCardInstanceList[key] = new MemoryCard(key,imageData,divMemoryListRef);
@@ -488,7 +496,22 @@ function onHiddenFullScreenMemory() {
 
 
 
+// Gestion affichage message pour aucun Memory et disponibilité bouton
+function gestionTextAndBtnMemory() {
 
+    // Message pas d'item
+    let pTarget = document.getElementById("pMemoryListNoItem");
+    pTarget.style.display = memoryCardKeysList.length >= 1 ? "none" : "block";
+
+    //nombre d'item
+    let spanNbreTarget = document.getElementById("spanTextNbreMemory");
+    spanNbreTarget.textContent = `${memoryCardKeysList.length}/${maxMemory}`;
+
+    //Disponibilité bouton add new
+
+    let btnRef = document.getElementById("btnMenuMemory");
+    btnRef.disabled = memoryCardKeysList.length >= maxMemory;
+}
 
 
 // -+------------------------------ SUPPRESSION   ---------------------------------------
@@ -512,7 +535,6 @@ async function eventDeleteMemory() {
     //Retire le popup de visualisation
     onHiddenFullScreenMemory();
 
-
     let idToDelete = currentMemoryIdInView;
 
     // Envoie vers la corbeille
@@ -529,6 +551,13 @@ async function eventDeleteMemory() {
     delete memoryCardInstanceList[idToDelete];
 
     //supprime la key to tableau de key
+    let indexToDelete = memoryCardKeysList.indexOf(idToDelete);
+    memoryCardKeysList.splice(indexToDelete,1);
+
+
+    //gestion text si memory ou pas
+    gestionTextAndBtnMemory();
+    console.log("memoryCardKeys: ", memoryCardKeysList);
 
     // Popup notification
     onShowNotifyPopup("memoryDeleted");
