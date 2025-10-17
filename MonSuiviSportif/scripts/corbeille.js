@@ -234,9 +234,6 @@ async function eventUpdateCorbeilleList(){
 
     //Récupère les éléments dans la base
     corbeilleItemsList = await onLoadCorbeilleItemsListFromDB();
-    isCorbeilleItemsLoadedFromBase = true;
-    if (devMode === true){console.log("1er chargement de la corbeille depuis la base")};  
-
 
     if (Object.keys(corbeilleItemsList).length > 0) {
             //Insertion des classes
@@ -340,7 +337,8 @@ async function onCheckIfRestaurationPossible(itemType) {
   const maxValues = {
     Template: maxTemplate,
     TemplateSession: maxTemplateSession,
-    Notes: maxNotes
+    Notes: maxNotes,
+    Memory: maxMemory
   };
 
 
@@ -377,6 +375,9 @@ async function eventRestaureItem(key) {
             break;
         case "Notes":
             onNoteWasRestaured(itemRestaured);
+            break;
+        case "Memory":
+            onMemoryWasRestaured(itemRestaured);
             break;
         default:
             console.log("Erreur de type");
@@ -474,8 +475,10 @@ function onNoteWasRestaured(noteRestaured) {
 }
 
 
-
-
+//Spécifique restauration Memory
+function onMemoryWasRestaured(itemRestaured){
+    //Pour l'instant rien ici
+}
 
 
 
