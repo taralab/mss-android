@@ -126,6 +126,11 @@ function onAddEventListenerForReward() {
     locDivFullScreenMemoryRef.addEventListener("click",onClickMemoryHidden);
     onAddEventListenerInRegistry("rewards",locDivFullScreenMemoryRef,"click",onClickMemoryHidden);
 
+    //Pour la suppression d'un memory
+    let locBtnDeleteMemoryRef = document.getElementById("btnDeleteMemory");
+    const onClickDeleteMemoryBtn = (event) => onclickDeleteMemory(event);
+    locBtnDeleteMemoryRef.addEventListener("click",onClickDeleteMemoryBtn);
+    onAddEventListenerInRegistry("rewards",locBtnDeleteMemoryRef,"click",onClickDeleteMemoryBtn);
 
     //Le menu hall of Fame editor
     let btnMemoryEditorRef = document.getElementById("btnMenuMemory");
@@ -318,9 +323,10 @@ async function onOpenMenuRewards(){
     }
 
     //affichage des memory si présent
-    if (Object.keys(allMemoryObjectList).length > 1 ){
+    if (Object.keys(allMemoryObjectList).length >= 1 ){
         onDisplayMemoryCardsList();
     }
+
 
     // Prend les récompenses de l'utilisateur pour les afficher dans la liste
     onLoadUserRewardsList();

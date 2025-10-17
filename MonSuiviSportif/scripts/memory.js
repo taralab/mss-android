@@ -12,8 +12,9 @@ let canvasMemoryRef = null,
     memoryScaleStep = 0.1, // pas de zoom
     memoryZoomSize = 512, // taille du crop
     isMemoryImageLoaded = false,
-    maxMemory = 10;//le nombre maximal de souvenir
-
+    maxMemory = 10,//le nombre maximal de souvenir
+    currentMemoryIdInView,
+    memoryCardInstanceList = {};
 
 let allMemoryObjectList = {
     id : {
@@ -99,6 +100,10 @@ function onAddEventListenerForMemoryEditor() {
 
 // ------------------------- Fonction base de données ------------------------------------------
 
+
+
+
+
 // fonction pour récupérer les memory
 async function onLoadMemoryFromDB() {
     allMemoryObjectList = {}; // devient un objet
@@ -151,27 +156,6 @@ async function onInsertNewMemoryInDB(memoryToInsert) {
 
 
 
-// Sequence de suppression d'un Memory
-async function eventDeleteMemory(idToDelete) {
-
-    // Envoie vers la corbeille
-    await sendToRecycleBin(idToDelete);
-    
-    // retire l'objet de l'array
-    delete allMemoryObjectList[idToDelete];
-
-    if (devMode === true){console.log("allMemoryObjectList :",allMemoryObjectList);};
-
-   
-    // Actualisation de l'affichage de la liste
-    
-
-    // Popup notification
-    
-
-
-}
-
 
 
 
@@ -207,8 +191,8 @@ function onCreateMainMenuMemory() {
     //Retour
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromMemory());
 
-    //générer
-    new Button_main_menu_Valider("Générer",() => onClickGenerateMemory());
+    //Previsualiser
+    new Button_main_menu_Valider("Aperçu",() => onClickGenerateMemory());
 
 }
    
@@ -473,15 +457,15 @@ function getBase64Size(base64String) {
 
 //dans la liste
 function onDisplayMemoryCardsList() {
-    // Vide le parent
+    // Vide le parent et l'instance
     divMemoryListRef.innerHTML = "";
+    memoryCardInstanceList = {};
 
     //pour chaque key
     Object.keys(allMemoryObjectList).forEach(key =>{
         // Crée un éléments
         let imageData = allMemoryObjectList[key].imageData;
-        new MemoryCard(key,imageData,divMemoryListRef);
-
+        memoryCardInstanceList[key] = new MemoryCard(key,imageData,divMemoryListRef);
     });
 }
 
@@ -501,6 +485,56 @@ function onHiddenFullScreenMemory() {
     if (devMode === true){console.log("cache la div de visualisation du mémory");};
     document.getElementById("divFullScreenMemory").classList.remove("show");
 };
+
+
+
+
+
+
+// -+------------------------------ SUPPRESSION   ---------------------------------------
+
+
+
+// demande de suppression
+function onclickDeleteMemory(event){
+    event.stopPropagation();
+
+    // Popup de confirmation
+    let textToDisplay = `<b>Supprimer cet évènement ?</b>`;
+    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventDeleteMemory,textToDisplay,"delete");
+}
+
+
+
+// Sequence de suppression d'un Memory
+async function eventDeleteMemory() {
+
+    //Retire le popup de visualisation
+    onHiddenFullScreenMemory();
+
+
+    let idToDelete = currentMemoryIdInView;
+
+    // Envoie vers la corbeille
+    await sendToRecycleBin(idToDelete);
+    
+    // retire l'objet de l'array
+    delete allMemoryObjectList[idToDelete];
+
+    if (devMode === true){console.log("allMemoryObjectList :",allMemoryObjectList);};
+
+    // Retire du dom via l'instance
+    memoryCardInstanceList[idToDelete].removeItem();
+    //suppression de l'instance
+    delete memoryCardInstanceList[idToDelete];
+
+    //supprime la key to tableau de key
+
+    // Popup notification
+    onShowNotifyPopup("memoryDeleted");
+
+
+}
 
 
 

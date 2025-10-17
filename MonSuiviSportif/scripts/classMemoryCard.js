@@ -8,11 +8,13 @@ class MemoryCard{
         this.element = document.createElement("div");
         this.element.classList.add("reward-card", "unlocked");
 
-        this.element.onclick = (event) => {
+        //Ajout de l'évènement
+        this.element.addEventListener("click",() => {
             // affiche en plein écran
             console.log("click sur Memory");
+            currentMemoryIdInView = this.memoryKey;
             onDisplayMemoryFullScreen(this.imgData);
-        };
+        });
 
         // Fonction de rendu
         this.render();
@@ -27,5 +29,9 @@ class MemoryCard{
     }
 
 
+    //pour supprimer l'item
+    removeItem(){
+        this.element.remove();
+    }
 
 }

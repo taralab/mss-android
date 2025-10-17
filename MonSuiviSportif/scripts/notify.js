@@ -31,6 +31,7 @@ let notifyTextArray = {
     restaurationforbidden : {emoji : "❗",text: "Nombre maximale atteind"},
     recupTargetReach : {emoji : "💪",text: "C'est reparti !"},
     memorySaved : {emoji : "🏅",text: "Evènement ajouté !"},
+    memoryDeleted : {emoji : "🗑️",text: "Evènement supprimé !"}
 };
 
 
