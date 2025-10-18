@@ -656,7 +656,7 @@ async function eventImportBdD(inputRef) {
                         isSaveVersionValid = true;
                         break;
                     case 7:
-                        //Le fichier V7 contient le nouveau STORE MEMORY.
+                        //Le fichier V7 contient le nouveau STORE MEMORY et affichage discret mode pour recup.
                         console.log("[IMPORT] V7");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
@@ -856,7 +856,8 @@ async function importBdD(dataToImport) {
             Object.assign(userRecupData,{
                 isCustomMode : e.data.isCustomMode ?? defaultRecupData.isCustomMode,
                 predefinitValue : e.data.predefinitValue || defaultRecupData.predefinitValue,
-                customValue : e.data.customValue || defaultRecupData.customValue
+                customValue : e.data.customValue || defaultRecupData.customValue,
+                discretMode : e.data.discretMode ?? defaultRecupData.discretMode
                 }
             );
             await updateDocumentInDB(recupStoreName, (doc) => {

@@ -13,13 +13,15 @@ let recupTimer = null,
 let defaultRecupData = {
     isCustomMode : false,
     predefinitValue : 30,
-    customValue : 30
+    customValue : 30,
+    discretMode : false
 }
 
 let userRecupData = {
     isCustomMode : false,
     predefinitValue : 30,
-    customValue : 30
+    customValue : 30,
+    discretMode : false
 }
 
 //référence
@@ -134,6 +136,7 @@ async function onLoadRecupDataFromDB() {
             userRecupData.isCustomMode = resultRecup.data.isCustomMode;
             userRecupData.customValue = resultRecup.data.customValue;
             userRecupData.predefinitValue = resultRecup.data.predefinitValue;
+            userRecupData.discretMode = resultRecup.data.discretMode ?? false;
         }
 
         if (devMode === true) {
@@ -270,6 +273,10 @@ function onSetRecupEditorItem() {
     let inputRef = document.getElementById("inputRecupEditor");
     inputRef.value = userRecupData.customValue;
 
+    //le mode d'affichage
+    let displayInputCBRef = document.getElementById("inputCheckboxRecupDiscretStatus");
+    displayInputCBRef.checked = userRecupData.discretMode ?? false;
+
     //Le visuel
     onChangeRecupEditorMode(userRecupData.isCustomMode);
 }
@@ -401,13 +408,15 @@ async function onGetItemFromRecupEditor() {
     //récupère les éléments
     let isCustomMode = document.getElementById("inputCheckBoxRecupIsCustom").checked,
         prefefinitValue = document.getElementById("selectRecupEditor").value,
-        customValue = document.getElementById("inputRecupEditor").value || recupMinValue;
+        customValue = document.getElementById("inputRecupEditor").value || recupMinValue,
+        discretMode = document.getElementById("inputCheckboxRecupDiscretStatus").checked;
+
 
     //sauvegarde dans la variable
     userRecupData.isCustomMode = isCustomMode;
     userRecupData.predefinitValue = prefefinitValue;
     userRecupData.customValue = customValue;
-
+    userRecupData.discretMode = discretMode;
 
     //Sauvegarde en base
     // Insertion reward standard dans la base de donnée
