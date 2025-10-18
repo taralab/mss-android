@@ -1,5 +1,5 @@
 
-let currentExportVersion = 6;//version actuel des fichers d'import/export
+let currentExportVersion = 7;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -125,7 +125,7 @@ function onAddEventListenerForConfirmDeleteBdD() {
 
 
 
-// -------------------------------------- PURGE ------------------------
+// -------------------------------------- #PURGE ------------------------
 
 
 
@@ -259,7 +259,7 @@ async function onDeleteAllBackupFiles() {
 
 
 
-// ---------------------     EXPORT -------------------------------------
+// ---------------------     #EXPORT -------------------------------------
 
 
 
@@ -450,7 +450,13 @@ function onResetSessionItemTimerForExport(sessionItemList) {
 }
 
 
-// ----------------------------     sauvegarde automatique     ----------------------------------
+
+
+
+
+
+
+// ----------------------------     #sauvegarde automatique     ----------------------------------
 
 
 
@@ -543,7 +549,7 @@ function eventSaveResult(isAutoSave){
 
 
 
-// -------------------------------- IMPORT -----------------------------------------------------
+// -------------------------------- #IMPORT -----------------------------------------------------
 
 
 
@@ -645,6 +651,13 @@ async function eventImportBdD(inputRef) {
                     case 6:
                         //Le fichier V6 contient le nouveau format de sessionItemsList pour les timers.
                         console.log("[IMPORT] V6");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
+                    case 7:
+                        //Le fichier V7 contient le nouveau STORE MEMORY.
+                        console.log("[IMPORT] V7");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
@@ -850,7 +863,18 @@ async function importBdD(dataToImport) {
                 doc.data = userRecupData;
                 return doc;
             });
+        
+        //MEMORY
+        } else if (e.type === memoryStoreName){
+            let newMemoryToInsert = {
+                title : e.title,
+                date : e.date,
+                imageData : e.imageData,
+                comment : e.comment
+            };
+            await onInsertNewMemoryInDB(newMemoryToInsert);
         }
+
         // Traitement des pourcentages
         importCount++;
 
