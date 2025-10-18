@@ -206,11 +206,12 @@ function onInitMemoryItems() {
     texteareaMemoryCommentRef = document.getElementById('textareaMemoryComment');
     memoryImageItem = new Image();
 
-    memoryOffsetX = 0,
-    memoryOffsetY = 0,
-    memoryScale = 1,// facteur de zoom
-    memoryScaleStep = 0.1, // pas de zoom
-    memoryZoomSize = 512, // taille du crop
+    memoryOffsetX = 0;
+    memoryOffsetY = 0;
+    memoryScale = 1;// facteur de zoom
+    memoryScaleStep = 0.1; // pas de zoom
+    memoryZoomSize = 512; // taille du crop
+    memoryMoveStep = 10; //le pas du déplacement
     isMemoryImageLoaded = false;
 }
 
@@ -238,28 +239,34 @@ function onInputMemoryImageChange(event) {
 //Mouvement vers le bas
 function onMoveDownMemoryImage() {
     //Ajuste la position
-    memoryOffsetY -= memoryMoveStep;
+    memoryOffsetY -= getAdjustedMoveMemoryStep();
     //actualise l'affichage
     onUpdateMemoryPreview(); 
 }
 
 // Mouvement vers le haut
 function onMoveUpMemoryImage() {
-    memoryOffsetY += memoryMoveStep;
+    memoryOffsetY += getAdjustedMoveMemoryStep();
     onUpdateMemoryPreview();
 }
 
 // Mouvement vers la droite
 function onMoveRightMemoryImage() {
-    memoryOffsetX -= memoryMoveStep;
+    memoryOffsetX -= getAdjustedMoveMemoryStep();
     onUpdateMemoryPreview();
 }
 
 // Mouvement vers la gauche
 function onMoveLeftMemoryImage() {
-    memoryOffsetX += memoryMoveStep;
+    memoryOffsetX += getAdjustedMoveMemoryStep();
     onUpdateMemoryPreview();
 }
+
+//fonction pour ajuster le pas de déplacement
+function getAdjustedMoveMemoryStep() {
+    return memoryMoveStep / memoryScale;
+}
+
 
 //Zoom avant
 function onZoomInMemoryImage() {
