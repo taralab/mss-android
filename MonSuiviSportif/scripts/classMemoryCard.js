@@ -11,7 +11,6 @@ class MemoryCard{
         //Ajout de l'évènement
         this.element.addEventListener("click",() => {
             // affiche en plein écran
-            console.log("click sur Memory");
             currentMemoryIdInView = this.memoryKey;
             onDisplayMemoryFullScreen(this.imgData);
         });

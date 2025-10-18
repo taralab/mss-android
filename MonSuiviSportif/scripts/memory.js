@@ -434,7 +434,7 @@ async function onValideGenerateMemory(event) {
     //gestion text si memory ou pas
     gestionTextAndBtnMemory();
 
-    console.log("memoryCardKeys: ", memoryCardKeysList);
+    if (devMode === true){console.log("allMemoryObjectList :",allMemoryObjectList);};
 
 
     // Quitte le menu
@@ -496,7 +496,6 @@ function onDisplayMemoryFullScreen(imageData) {
 
 //masque gros plan
 function onHiddenFullScreenMemory() {
-    console.log("masque");
     if (devMode === true){console.log("cache la div de visualisation du mémory");};
     document.getElementById("divFullScreenMemory").classList.remove("show");
 };
@@ -564,7 +563,7 @@ async function eventDeleteMemory() {
 
     //gestion text si memory ou pas
     gestionTextAndBtnMemory();
-    console.log("memoryCardKeys: ", memoryCardKeysList);
+    if (devMode === true){console.log("allMemoryObjectList :",allMemoryObjectList);};
 
     // Popup notification
     onShowNotifyPopup("memoryDeleted");

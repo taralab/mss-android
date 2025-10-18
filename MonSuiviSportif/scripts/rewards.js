@@ -330,7 +330,7 @@ async function onOpenMenuRewards(){
     //gestion text si memory ou pas
     gestionTextAndBtnMemory();
 
-    console.log("memoryCardKeys: ", memoryCardKeysList);
+    if (devMode === true) {console.log("memoryCardKeys: ", memoryCardKeysList);};
 
     //affichage des memory si présent
     if (memoryCardKeysList.length >= 1 ){
