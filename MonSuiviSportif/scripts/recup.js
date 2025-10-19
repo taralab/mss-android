@@ -7,7 +7,8 @@ let recupTimer = null,
     isRecupAlreadyLoaded = false,
     recupMinValue = 5,
     recupMaxValue = 600,
-    recupTargetTime = null;
+    recupTargetTime = null,
+    recupCurrentModeStarted = "";//DISCRET ou FULLSCREEN
 
 
 let defaultRecupData = {
@@ -25,9 +26,11 @@ let userRecupData = {
 }
 
 //référence
-let divRecupPopupRef = null;
-    spanRecupTimeRef  = null;
-    btnCloseRecupPopupRef = null;
+let divRecupPopupRef = null,
+    divPopupRecupFullScreenRef = null,
+    spanRecupTimeRef  = null,
+    btnCloseRecupPopupRef = null,
+    btnCloseRecupFSPopupRef = null;
 
 
 
@@ -152,21 +155,31 @@ async function onLoadRecupDataFromDB() {
 function onReferenceRecupItems() {
     isRecupAlreadyReferenced = true;
     divRecupPopupRef = document.getElementById("divRecupPopup");
+    divPopupRecupFullScreenRef = document.getElementById("divPopupRecupFullScreen");
     spanRecupTimeRef = document.getElementById("spanRecupTime");
     btnCloseRecupPopupRef = document.getElementById("btnCloseRecupPopup");
+    btnCloseRecupFSPopupRef = document.getElementById("btnCloseRecupFSPopup");
 }
 
 
-//ajout des évenement pour popup Recup
+//ajout des évenement pour popup Recup DISCRET et FULLSCREEN
 function onAddEventForRecupPopup() {
+
+    //Pour fermer le mode discret
     btnCloseRecupPopupRef.addEventListener("click", stopRecup);
     onAddEventListenerInRegistry("recupPopup",btnCloseRecupPopupRef,"click",stopRecup);
+
+    //Pour fermer le mode FULLSCREEN
+    btnCloseRecupFSPopupRef.addEventListener("click",stopRecup);
+    onAddEventListenerInRegistry("recupPopup",btnCloseRecupFSPopupRef,"click",stopRecup);
 
     if (devMode === true) {
         console.log("[EVENT-LISTENER]",allEventListenerRegistry);
     }
-
 }
+
+
+
 
 //retrait des évènements pour popupRecup
 function onRemoveEventForRecupPopup() {
@@ -174,33 +187,64 @@ function onRemoveEventForRecupPopup() {
 }
 
 
-
-function updateRecupDisplay() {
+//actualisation affichage normal
+function updateRecupDiscretDisplay() {
     spanRecupTimeRef.textContent = `😴 ${recupRemainingTime}s`;
 }
 
+//actualisation affichage plein ecran
+function updateRecupFullScreenDisplay() {
+    
+}
 
 //lance la récupe
 async function startRecup() {
+
+    //Set le mode de lancement
+    recupCurrentModeStarted = userRecupData.discretMode ? "DISCRET" : "FULLSCREEN";
+
+    console.log("mode de lancement recup :", recupCurrentModeStarted);
 
     //ajout un fake ID dans la tableau pour indiquer que c'est en cours d'utilisation
     eventGestionTimer("recup","timerRecupID");
 
     recupRemainingTime = userRecupData.isCustomMode ? userRecupData.customValue : userRecupData.predefinitValue;
-    divRecupPopupRef.classList.remove("hide");
-    divRecupPopupRef.classList.add("active");
+
+    // active selon le mode en cours
+    if (recupCurrentModeStarted === "DISCRET") {
+        //Mode discret
+        divRecupPopupRef.classList.remove("hide");
+        divRecupPopupRef.classList.add("active");
+    }else if ((recupCurrentModeStarted === "FULLSCREEN")) {
+        //Mode FULLSCREEN
+        divPopupRecupFullScreenRef.style.display = "flex";
+    }
+
 
     // Cible réelle en horloge système
     recupTargetTime = Date.now() + (recupRemainingTime * 1000);
 
-    updateRecupDisplay();
+    //Première actualisation de l'affichage selon le mode lancé
+    if (recupCurrentModeStarted === "DISCRET") {
+        updateRecupDiscretDisplay();
+    }else if (recupCurrentModeStarted === "FULLSCREEN") {
+        updateRecupFullScreenDisplay();
+    }
+    
     recupTimer = setInterval(() => {
         const now = Date.now();
         const timeLeftMs = recupTargetTime - now;
         
         recupRemainingTime = Math.ceil(timeLeftMs / 1000);
 
-        updateRecupDisplay();
+        //Actualisation de l'affichage selon le mode lancé
+        if (recupCurrentModeStarted === "DISCRET") {
+            updateRecupDiscretDisplay();
+        }else if (recupCurrentModeStarted === "FULLSCREEN") {
+            updateRecupFullScreenDisplay();
+        }
+
+        //fin
         if (recupRemainingTime <= 0) {
             stopRecup();
             onShowNotifyPopup("recupTargetReach");
@@ -208,7 +252,7 @@ async function startRecup() {
             document.getElementById("audioSoundMinuteurEnd").play();
             vibrationDouble();
         };
-    }, 500);
+    }, 1000);
     isRecupActive = true;
 
     //ajout l'évènements pour le popup
@@ -225,8 +269,18 @@ function stopRecup() {
     clearInterval(recupTimer);
     recupTimer = null;
     isRecupActive = false;
-    divRecupPopupRef.classList.remove("active");
-    divRecupPopupRef.classList.add("hide");
+
+    //ferme 
+    
+    if (recupCurrentModeStarted === "DISCRET") {
+         //discret
+        divRecupPopupRef.classList.remove("active");
+        divRecupPopupRef.classList.add("hide");
+    }else if (recupCurrentModeStarted === "FULLSCREEN") {
+        //fullscreen
+        divPopupRecupFullScreenRef.style.display = "none";
+    }
+   
 
 
 

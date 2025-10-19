@@ -1426,12 +1426,25 @@
             <!-- ----------------------------------  FIN DIV #UPDATE INFO    ------------------------------------------------>
 
 
-            <!---------------------------------------   DIV Popup #RECUP --------------------------------------------------- -->
-            <!-- Affichage -->
+            <!---------------------------------------   DIV Popup #RECUP  --------------------------------------------------- -->
+            <!-- Affichage DISCRET-->
             <div id="divRecupPopup" class="popup-recup">
                 <span id="spanRecupTime">😴 15</span>
                 <button id="btnCloseRecupPopup">❌</button>
             </div>
+
+            <!-- Affichage FULLSCREEN -->
+            <div id="divPopupRecupFullScreen" class="recup-full-screen">
+                <div class="recup-timer-circle">
+                <svg class="recup-progress-ring" viewBox="0 0 220 220" preserveAspectRatio="xMidYMid meet">
+                    <circle class="recup-progress-ring__bg" r="100" cx="110" cy="110" />
+                    <circle class="recup-progress-ring__circle" r="100" cx="110" cy="110" />
+                </svg>
+                <div class="time-text">00:30</div>
+                </div>
+                <button id="btnCloseRecupFSPopup" class="btn-close-recup-fs">❌</button>
+            </div>
+
             <!-- editeur -->
             <div id="divEditRecup"class="popup-new-counter">
                     <div id="divEditRecupContent" class="popup-new-counter-content">
