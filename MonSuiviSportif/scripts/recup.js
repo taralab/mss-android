@@ -317,30 +317,55 @@ function formatRecupFSTime(sec) {
 }
 
 
-// === Affichage plein écran ===
+
+// === Affichage plein écran (avec animation fluide) ===
+let smoothRecupFrame; // pour requestAnimationFrame
+
 function updateRecupFullScreenDisplay() {
     const total = userRecupData.isCustomMode
         ? userRecupData.customValue
         : userRecupData.predefinitValue;
 
-    const percent = (recupRemainingTime / total) * 100;
-    setRecupFSProgress(percent);
-    divTextRecupFSRef.textContent = formatRecupFSTime(recupRemainingTime);
+    // Annule l'ancienne animation (évite les doubles)
+    cancelAnimationFrame(smoothRecupFrame);
 
-    // Couleurs dynamiques selon le temps restant
-    let newColor;
-    if (recupRemainingTime <= total * 0.25) {
-        newColor = "#ff6b4b"; // rouge doux fin de recup
-    } else if (recupRemainingTime <= total / 2) {
-        newColor = "gold"; // jaune à mi-parcours
-    } else {
-        newColor = "#00ff88"; // vert au début
+    const startTime = Date.now();
+    const startRemaining = recupRemainingTime;
+
+    // Animation fluide entre cette seconde et la suivante
+    function animate() {
+        const elapsed = (Date.now() - startTime) / 1000; // secondes depuis le dernier tick
+        const smoothRemaining = Math.max(startRemaining - elapsed, 0);
+
+        // Calcul du pourcentage fluide
+        const percent = (smoothRemaining / total) * 100;
+        setRecupFSProgress(percent);
+
+        // Mise à jour du texte toutes les ~100ms (visuellement stable)
+        divTextRecupFSRef.textContent = formatRecupFSTime(Math.ceil(smoothRemaining));
+
+        // Couleur dynamique
+        let newColor;
+        if (smoothRemaining <= total * 0.25) {
+            newColor = "#ff6b4b"; // rouge doux fin de recup
+        } else if (smoothRemaining <= total / 2) {
+            newColor = "gold"; // jaune à mi-parcours
+        } else {
+            newColor = "#00ff88"; // vert au début
+        }
+
+        if (newColor !== currentRecupFSColor) {
+            circleRecupFSRef.style.stroke = newColor;
+            currentRecupFSColor = newColor;
+        }
+
+        // Continue tant que la récup est active
+        if (isRecupActive && smoothRemaining > 0) {
+            smoothRecupFrame = requestAnimationFrame(animate);
+        }
     }
 
-    if (newColor !== currentRecupFSColor) {
-        circleRecupFSRef.style.stroke = newColor;
-        currentRecupFSColor = newColor;
-    }
+    animate(); // Lancement immédiat de l’animation fluide
 }
 
 
