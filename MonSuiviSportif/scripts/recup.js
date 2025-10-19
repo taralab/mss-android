@@ -223,8 +223,7 @@ async function startRecup() {
         divRecupPopupRef.classList.add("active");
     }else if ((recupCurrentModeStarted === "FULLSCREEN")) {
         //Mode FULLSCREEN
-        divPopupRecupFullScreenRef.classList.remove("hide");
-        divPopupRecupFullScreenRef.classList.add("active");
+        showRecupFullscreen();
     }
 
 
@@ -285,8 +284,7 @@ function stopRecup() {
         divRecupPopupRef.classList.add("hide");
     }else if (recupCurrentModeStarted === "FULLSCREEN") {
         //fullscreen
-        divPopupRecupFullScreenRef.classList.remove("active");
-        divPopupRecupFullScreenRef.classList.add("hide");
+        hideRecupFullscreen();
     }
    
     // Retrait des évènements
@@ -296,6 +294,29 @@ function stopRecup() {
 
 
 
+function showRecupFullscreen() {
+    divPopupRecupFullScreenRef.style.display = "flex";
+    divPopupRecupFullScreenRef.classList.add("animating"); // texte noir pendant animation
+    divPopupRecupFullScreenRef.classList.remove("hide");
+    divPopupRecupFullScreenRef.classList.add("active");
+
+    // Après la fin de l’animation (400ms), texte devient blanc
+    setTimeout(() => {
+        divPopupRecupFullScreenRef.classList.remove("animating");
+    }, 400);
+}
+
+function hideRecupFullscreen() {
+    divPopupRecupFullScreenRef.classList.add("animating"); // texte noir pendant disparition
+    divPopupRecupFullScreenRef.classList.remove("active");
+    divPopupRecupFullScreenRef.classList.add("hide");
+
+    // Masquer complètement après animation
+    setTimeout(() => {
+        divPopupRecupFullScreenRef.style.display = "none";
+        divPopupRecupFullScreenRef.classList.remove("animating");
+    }, 350); // durée animation
+}
 
 
 // ---------------------------FULLSCREEN DISPLAY----------------------------

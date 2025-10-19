@@ -3160,27 +3160,20 @@ input.recup{
 
 /* --------------------------------------------------- #RECUP FULLSCREEN------------------------- */
 
-/* Apparition avec zoom et léger overshoot (centré) */
+/* Animations : le background reste transparent au départ */
 @keyframes recupFullscreenIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  60% { transform: scale(1.05); opacity: 1; } /* overshoot */
-  100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(0.8); opacity: 0; background: rgba(0,0,0,0); }
+    60% { transform: scale(1.05); opacity: 1; background: rgba(0,0,0,0); }
+    100% { transform: scale(1); opacity: 1; background: rgba(0,0,0,0.9); } /* background visible */
 }
 
-/* Disparition inverse */
 @keyframes recupFullscreenOut {
-  0% { transform: scale(1); opacity: 1; }
-  30% { transform: scale(1.05); opacity: 1; } /* léger pop inversé */
-  100% { transform: scale(0.8); opacity: 0; }
+    0% { transform: scale(1); opacity: 1; background: rgba(0,0,0,0.9); }
+    30% { transform: scale(1.05); opacity: 1; background: rgba(0,0,0,0.9); }
+    100% { transform: scale(0.8); opacity: 0; background: rgba(0,0,0,0); } /* background disparaît */
 }
 
-.recup-full-screen.active {
-  animation: recupFullscreenIn 0.4s forwards;
-}
 
-.recup-full-screen.hide {
-  animation: recupFullscreenOut 0.35s forwards;
-}
 
 
 .recup-full-screen {
@@ -3189,24 +3182,33 @@ input.recup{
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
-    background: radial-gradient(circle at center, #111, #000);
-    opacity: 0;
-    transform: scale(0.95);
-    pointer-events: none; /* désactive les interactions quand invisible */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    align-items: center;
+    background: rgba(0,0,0,0); /* start transparent */
+    pointer-events: none;
     z-index: 1000;
 }
 
-.recup-full-screen.active {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
+/* texte pendant animation */
+.recup-full-screen.animating .recup-FS-text {
+    color: black;
 }
 
+/* texte normal après animation */
+.recup-full-screen .recup-FS-text {
+    color: white;
+}
+
+.recup-full-screen.active {
+    pointer-events: auto;
+    animation: recupFullscreenIn 0.4s forwards;
+}
+
+.recup-full-screen.hide {
+    animation: recupFullscreenOut 0.35s forwards;
+}
 
 
 .recup-timer-circle {
