@@ -211,7 +211,10 @@ async function startRecup() {
     //Set le mode de lancement
     recupCurrentModeStarted = userRecupData.discretMode ? "DISCRET" : "FULLSCREEN";
 
-    console.log("mode de lancement recup :", recupCurrentModeStarted);
+    if (devMode === true) {
+        console.log("mode de lancement recup :", recupCurrentModeStarted);
+    }
+    
 
     //ajout un fake ID dans la tableau pour indiquer que c'est en cours d'utilisation
     eventGestionTimer("recup","timerRecupID");

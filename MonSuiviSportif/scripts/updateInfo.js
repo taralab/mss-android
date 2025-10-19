@@ -2,16 +2,12 @@
 //vérifie si l'utilisateur possède ce nom dans la base 
 //pour savoir si on doit lui afficher le popup des nouveautés ou non
 //l'information sera stocké dans userInfo.updateNameList[]
-const updateName = "October-2025";
+const updateName = "Jan-2026";
 
 //tableau des images pour les nouveautés
 const updateImageArray = [
-      "./imageUpdate/UpdateRecupSlide1.webp",
-      "./imageUpdate/UpdateRecupSlide2.webp",
-      "./imageUpdate/UpdateRecupSlide3.webp",
-      "./imageUpdate/UpdateRecupSlide4.webp",
-      "./imageUpdate/UpdateRecupSlide5.webp",
-      "./imageUpdate/UpdateRecupSlide6.webp"
+      "./imageUpdate/UpdateAPI36Slide1.webp",
+      "./imageUpdate/UpdateAPI36Slide2.webp"
     ];
 
 

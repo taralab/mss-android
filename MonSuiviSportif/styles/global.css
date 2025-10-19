@@ -2766,14 +2766,13 @@ div.planning-editor{
 button.dynamic-button-add {
     height: 45px; min-height: 45px;
     min-width: 200px;
-    background-color: var(--colorMainTheme1);
-    border: solid 2px var(--colorMainTheme1);
-    border-radius: 10px;
-    /* font-weight: bold; */
+    background:var(--gradientHeader);
+    border-radius: 24px;
     font-size: 18px;
     margin: auto;
     margin-top: 20px;margin-bottom: 20px;
     color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 p.planningEditorPlus{
     color: white;

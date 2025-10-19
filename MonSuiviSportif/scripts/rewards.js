@@ -46,14 +46,14 @@ class RewardCardEnabled{
             this.element.classList.add("newRewards");
         };
 
-        this.element.onclick = (event) => {
-            // si c'est un new reward, enleve la class newRewards lorsque clique dessus
+        //évènement
+        this.element.addEventListener("click", (event) => {
             if (event.currentTarget.classList.contains("newRewards")) {
                 event.currentTarget.classList.remove("newRewards");
             }
-            // affiche en plein écran
-            onDisplayRewardsFullScreen(this.rewardKey,shareMode);
-        };
+            onDisplayRewardsFullScreen(this.rewardKey, shareMode);
+        });
+
 
         // Fonction de rendu
         this.render();
@@ -85,9 +85,10 @@ class RewardCardLocked{
         this.element = document.createElement("div");
         this.element.classList.add("reward-card", "locked");
 
-        this.element.onclick = () => {
+        //evènement
+        this.element.addEventListener("click", () => {
             onClickRewardLocked(this.element);
-        };
+        });
 
         // Fonction de rendu
         this.render();
