@@ -6,7 +6,7 @@ class MemoryCard{
 
         // Conteneur principal
         this.element = document.createElement("div");
-        this.element.classList.add("reward-card", "unlocked");
+        // this.element.classList.add(""); Class à ajouter ici si besoin
 
         //Ajout de l'évènement
         this.element.addEventListener("click",() => {

@@ -18,16 +18,28 @@ let canvasMemoryRef = null,
     memoryCardKeysList = [];
 
 let allMemoryObjectList = {
-    id : {
-        title : "",
-        date : "",
-        imageData : "",
-        comment : ""
-    }
-},
-memoryToInsert = {},
-isMemoryAlreadyLoaded = false;//pour chargement unique depuis la base
+        id : {
+            title : "",
+            date : "",
+            imageData : "",
+            comment : ""
+        }
+    },
+    memoryToInsert = {},
+    isMemoryAlreadyLoaded = false;//pour chargement unique depuis la base
 
+
+// Variables globales
+let backgroundMemoryImage = new Image();
+let isBackgroundMemoryLoaded = false;
+
+// Charger le background au moment où l'utilisateur ouvre le menu
+function loadBackgroundMemory() {
+    backgroundMemoryImage.src = "./Icons/HOF-Background.webp";
+    backgroundMemoryImage.onload = () => {
+        isBackgroundMemoryLoaded = true;
+    };
+};
 // -----------------------  ECOUTEUR D'EVENEMENTS --------------------------------------
 
 
@@ -177,6 +189,9 @@ function onOpenMenuMemory(){
     //ajout les écouteurs pour le menu
     onAddEventListenerForMemoryEditor();
 
+    // Appelle loadBackground() lorsque le menu est ouvert
+    loadBackgroundMemory();
+
 }
 
 
@@ -286,10 +301,12 @@ function onZoomOutMemoryImage() {
 }
 
 
-// Génération finale
+// Fonction principale
 function onClickGenerateMemory() {
     const title = inputMemoryTitleRef.value.trim();
+    const titleUpper = title.toUpperCase();
     const date = inputMemoryDateRef.value;
+
     if (!isMemoryImageLoaded || !title || !date) {
         alert('Merci de remplir tous les champs et d’ajuster ton image.');
         return;
@@ -298,68 +315,83 @@ function onClickGenerateMemory() {
     const finalCanvas = document.createElement('canvas');
     const fctx = finalCanvas.getContext('2d');
     const w = 512;
-    const h = 640;
+    const h = 768;
     finalCanvas.width = w;
     finalCanvas.height = h;
 
-    // 🟩 Étape 1 — Fond blanc sur tout le canvas
-    fctx.fillStyle = "#fff";
-    fctx.fillRect(0, 0, w, h);
+    // 🟟 Background complet
+    if (isBackgroundMemoryLoaded) {
+        fctx.drawImage(backgroundMemoryImage, 0, 0, w, h);
+    } else {
+        // fallback si le background n'est pas chargé
+        fctx.fillStyle = "#111";
+        fctx.fillRect(0, 0, w, h);
+    }
 
-    // 🟦 Étape 2 — Image cadrée (avec zoom)
+    // 🟦 Image principale cadrée (taille inchangée)
     const minSide = Math.min(memoryImageItem.width, memoryImageItem.height);
-    const zoomedSide = minSide / memoryScale; // tenir compte du zoom
+    const zoomedSide = minSide / memoryScale;
     const startX = (memoryImageItem.width - zoomedSide) / 2 + memoryOffsetX;
     const startY = (memoryImageItem.height - zoomedSide) / 2 + memoryOffsetY;
 
     fctx.drawImage(
         memoryImageItem,
-        startX, startY, zoomedSide, zoomedSide, // source
-        0, 0, w, w                              // destination (haut carré)
+        startX, startY, zoomedSide, zoomedSide,
+        110, 100, 300, 300
     );
 
-    // 🟨 Étape 3 — Fond sous l'image (zone texte)
-    fctx.fillStyle = "#fff";
-    fctx.fillRect(0, w, w, h - w);
-
-    // 🟧 Étape 4 — Ligne de séparation
-    fctx.fillStyle = "#007bff";
-    fctx.fillRect(w * 0.3, w + 3, w * 0.4, 3);
-
-    // 🟥 Étape 5 — Texte (titre + date)
-    fctx.fillStyle = "#111";
+    // 🟥 Texte (titre + date) en gold
+    fctx.fillStyle = "#FFF";
     fctx.textAlign = "center";
-    fctx.font = "bold 28px Poppins";
-    fctx.fillText(title, w / 2, w + 60);
-    fctx.font = "18px Poppins";
+
+    fctx.font = "bold 52px Poppins";
+    const maxTextWidth = 450; // largeur max pour le texte
+    const lineHeight = 60;
+    const textX = w / 2;
+    let textY = w + 10;
+
+    wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
+
+    fctx.font = "28px Poppins";
     const formattedDate = new Date(date).toLocaleDateString("fr-FR", {
-        day:"numeric", year: "numeric", month: "short"
+        day:"numeric", month:"short", year: "numeric"
     });
-    fctx.fillText(`${formattedDate}`, w / 2, w + 100);
+    fctx.fillText(formattedDate, w / 2, w + 150);
 
-    // 🟪 Étape 6 — Bordure
-    fctx.lineWidth = 10;
-    fctx.strokeStyle = "#FFD700";
-    drawBorderRadius(fctx, 0, 0, w, h, 20);
-
-    // 🟫 Étape 7 — Conversion & affichage
+    // 🟫 Conversion en image et affichage
     const finalImage = finalCanvas.toDataURL('image/webp', 0.8);
     const divMemoryPreviewRef = document.getElementById('divMemoryPreviewContent');
     divMemoryPreviewRef.innerHTML = `<img class="memory-result" src="${finalImage}" alt="souvenir">`;
 
-    // Affichage 
     document.getElementById("divMemoryPreview").style.display = "flex";
 
     // Formatage pour la sauvegarde
     memoryToInsert = {
-        title : title,
-        date : date,
-        imageData : finalImage,
-        comment : texteareaMemoryCommentRef.value
+        title: titleUpper,
+        date: date,
+        imageData: finalImage,
+        comment: texteareaMemoryCommentRef.value
     };
-
 }
 
+
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = context.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    context.fillText(line, x, y);
+}
 
 function onUpdateMemoryPreview() {
     memory_ctx.clearRect(0, 0, canvasMemoryRef.width, canvasMemoryRef.height);
