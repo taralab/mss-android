@@ -3096,6 +3096,7 @@ div.popup-recup button{
     background: none;
     border: none;
 }
+
 /* Apparition avec slide + overshoot + scale */
 @keyframes recupSlideInScale {
   0% { left: -300px; transform: scale(0.8); opacity: 0; }
@@ -3159,17 +3160,53 @@ input.recup{
 
 /* --------------------------------------------------- #RECUP FULLSCREEN------------------------- */
 
+/* Apparition avec zoom et léger overshoot (centré) */
+@keyframes recupFullscreenIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; } /* overshoot */
+  100% { transform: scale(1); opacity: 1; }
+}
 
-div.recup-full-screen {
+/* Disparition inverse */
+@keyframes recupFullscreenOut {
+  0% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(1.05); opacity: 1; } /* léger pop inversé */
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
+.recup-full-screen.active {
+  animation: recupFullscreenIn 0.4s forwards;
+}
+
+.recup-full-screen.hide {
+  animation: recupFullscreenOut 0.35s forwards;
+}
+
+
+.recup-full-screen {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
-    width: 100%;
     background: radial-gradient(circle at center, #111, #000);
-    display: none;
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none; /* désactive les interactions quand invisible */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
 }
+
+.recup-full-screen.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
 
 
 .recup-timer-circle {

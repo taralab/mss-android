@@ -223,7 +223,8 @@ async function startRecup() {
         divRecupPopupRef.classList.add("active");
     }else if ((recupCurrentModeStarted === "FULLSCREEN")) {
         //Mode FULLSCREEN
-        divPopupRecupFullScreenRef.style.display = "flex";
+        divPopupRecupFullScreenRef.classList.remove("hide");
+        divPopupRecupFullScreenRef.classList.add("active");
     }
 
 
@@ -284,7 +285,8 @@ function stopRecup() {
         divRecupPopupRef.classList.add("hide");
     }else if (recupCurrentModeStarted === "FULLSCREEN") {
         //fullscreen
-        divPopupRecupFullScreenRef.style.display = "none";
+        divPopupRecupFullScreenRef.classList.remove("active");
+        divPopupRecupFullScreenRef.classList.add("hide");
     }
    
     // Retrait des évènements
