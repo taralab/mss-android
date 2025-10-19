@@ -3157,19 +3157,18 @@ input.recup{
 
 
 
-
 /* --------------------------------------------------- #RECUP FULLSCREEN------------------------- */
 
 /* Animations : le background reste transparent au départ */
 @keyframes recupFullscreenIn {
     0% { transform: scale(0.8); opacity: 0; background: rgba(0,0,0,0); }
     60% { transform: scale(1.05); opacity: 1; background: rgba(0,0,0,0); }
-    100% { transform: scale(1); opacity: 1; background: rgba(0,0,0,0.9); } /* background visible */
+    100% { transform: scale(1); opacity: 1; background: rgba(0,0,0,0.7); } /* background visible */
 }
 
 @keyframes recupFullscreenOut {
-    0% { transform: scale(1); opacity: 1; background: rgba(0,0,0,0.9); }
-    30% { transform: scale(1.05); opacity: 1; background: rgba(0,0,0,0.9); }
+    0% { transform: scale(1); opacity: 1; background: rgba(0,0,0,0.7); }
+    30% { transform: scale(1.05); opacity: 1; background: rgba(0,0,0,0.7); }
     100% { transform: scale(0.8); opacity: 0; background: rgba(0,0,0,0); } /* background disparaît */
 }
 
@@ -3264,6 +3263,17 @@ button.btn-close-recup-fs {
     font-size: clamp(1rem, 3vw, 1.2rem);
     transition: opacity 0.3s;
 }
+
+p.recup-fs-title{
+    color: #00ff88;
+    font-size: 34px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+
+
+
 
 
 /* Style pour un élément recherché */

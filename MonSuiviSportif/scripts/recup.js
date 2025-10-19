@@ -32,7 +32,8 @@ let divRecupPopupRef = null,
     divTextRecupFSRef = null,
     btnCloseRecupPopupRef = null,
     btnCloseRecupFSPopupRef = null,
-    circleRecupFSRef = null;
+    circleRecupFSRef = null,
+    pRecupFSTitleRef = null;
 
 
 
@@ -163,6 +164,7 @@ function onReferenceRecupItems() {
     btnCloseRecupPopupRef = document.getElementById("btnCloseRecupPopup");
     btnCloseRecupFSPopupRef = document.getElementById("btnCloseRecupFSPopup");
     circleRecupFSRef = document.getElementById("circleRecupFS");
+    pRecupFSTitleRef = document.getElementById("pRecupFSTitle");
 
 
     //initialise les éléments pour la recup FS
@@ -380,6 +382,7 @@ function updateRecupFullScreenDisplay() {
         if (newColor !== currentRecupFSColor) {
             circleRecupFSRef.style.stroke = newColor;
             currentRecupFSColor = newColor;
+            pRecupFSTitleRef.style.color = newColor;
         }
 
         // Continue tant que la récup est active
