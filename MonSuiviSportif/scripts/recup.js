@@ -29,8 +29,10 @@ let userRecupData = {
 let divRecupPopupRef = null,
     divPopupRecupFullScreenRef = null,
     spanRecupTimeRef  = null,
+    divTextRecupFSRef = null,
     btnCloseRecupPopupRef = null,
-    btnCloseRecupFSPopupRef = null;
+    btnCloseRecupFSPopupRef = null,
+    circleRecupFSRef = null;
 
 
 
@@ -157,8 +159,15 @@ function onReferenceRecupItems() {
     divRecupPopupRef = document.getElementById("divRecupPopup");
     divPopupRecupFullScreenRef = document.getElementById("divPopupRecupFullScreen");
     spanRecupTimeRef = document.getElementById("spanRecupTime");
+    divTextRecupFSRef = document.getElementById("divTextRecupFS");
     btnCloseRecupPopupRef = document.getElementById("btnCloseRecupPopup");
     btnCloseRecupFSPopupRef = document.getElementById("btnCloseRecupFSPopup");
+    circleRecupFSRef = document.getElementById("circleRecupFS");
+
+
+    //initialise les éléments pour la recup FS
+    circleRecupFSRef.style.strokeDasharray = circumferenceRecup;
+    circleRecupFSRef.style.strokeDashoffset = 0;
 }
 
 
@@ -192,10 +201,7 @@ function updateRecupDiscretDisplay() {
     spanRecupTimeRef.textContent = `😴 ${recupRemainingTime}s`;
 }
 
-//actualisation affichage plein ecran
-function updateRecupFullScreenDisplay() {
-    
-}
+
 
 //lance la récupe
 async function startRecup() {
@@ -281,14 +287,61 @@ function stopRecup() {
         divPopupRecupFullScreenRef.style.display = "none";
     }
    
-
-
-
     // Retrait des évènements
     onRemoveEventForRecupPopup();
 }
 
 
+
+
+
+
+// ---------------------------FULLSCREEN DISPLAY----------------------------
+// FS = FULLSCREEN
+
+const radiusRecup = 100;
+const circumferenceRecup = 2 * Math.PI * radiusRecup;
+let currentRecupFSColor = "#00ff88";
+
+// === Fonction utilitaire pour gérer le remplissage du cercle ===
+function setRecupFSProgress(percent) {
+    const offset = circumferenceRecup - (percent / 100) * circumferenceRecup;
+    circleRecupFSRef.style.strokeDashoffset = offset;
+}
+
+// === Fonction utilitaire format temps ===
+function formatRecupFSTime(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, "0");
+    const s = Math.floor(sec % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+}
+
+
+// === Affichage plein écran ===
+function updateRecupFullScreenDisplay() {
+    const total = userRecupData.isCustomMode
+        ? userRecupData.customValue
+        : userRecupData.predefinitValue;
+
+    const percent = (recupRemainingTime / total) * 100;
+    setRecupFSProgress(percent);
+    divTextRecupFSRef.textContent = formatRecupFSTime(recupRemainingTime);
+
+    // Couleurs dynamiques selon le temps restant
+    let newColor;
+    if (recupRemainingTime <= total * 0.25) {
+        newColor = "#ff6b4b"; // rouge doux fin de recup
+    } else if (recupRemainingTime <= total / 2) {
+        newColor = "gold"; // jaune à mi-parcours
+    } else {
+        newColor = "#00ff88"; // vert au début
+    }
+
+    if (newColor !== currentRecupFSColor) {
+        circleRecupFSRef.style.stroke = newColor;
+        currentRecupFSColor = newColor;
+    }
+}
 
 
 

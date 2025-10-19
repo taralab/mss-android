@@ -3201,7 +3201,7 @@ svg.recup-progress-ring {
     transition: stroke 0.6s ease, stroke-dashoffset 0.1s linear;
 }
 
-.time-text {
+div.recup-FS-text {
     position: absolute;
     top: 50%;
     left: 50%;
