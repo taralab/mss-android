@@ -1,7 +1,8 @@
 let canvasMemoryRef = null,
     memory_ctx = null,
     inputImageMemoryRef = null,
-    inputMemoryDateRef = null,
+    inputMemoryDateStartRef = null,
+    inputMemoryDateEndRef = null,
     inputMemoryTitleRef = null,
     texteareaMemoryCommentRef = null,
     memoryMoveStep = 10, // déplacement en pixels
@@ -216,7 +217,8 @@ function onInitMemoryItems() {
     canvasMemoryRef = document.getElementById('canvasMemory');
     memory_ctx = canvasMemoryRef.getContext('2d');
     inputImageMemoryRef = document.getElementById('inputMemoryImage');
-    inputMemoryDateRef = document.getElementById('inputMemoryDate');
+    inputMemoryDateStartRef = document.getElementById('inputMemoryDateStart');
+    inputMemoryDateEndRef = document.getElementById("inputMemoryDateEnd");
     inputMemoryTitleRef = document.getElementById('inputMemoryTitle');
     texteareaMemoryCommentRef = document.getElementById('textareaMemoryComment');
     memoryImageItem = new Image();
@@ -305,7 +307,7 @@ function onZoomOutMemoryImage() {
 function onClickGenerateMemory() {
     const title = inputMemoryTitleRef.value.trim();
     const titleUpper = title.toUpperCase();
-    const date = inputMemoryDateRef.value;
+    const date = formatMemoryDate(inputMemoryDateStartRef.value, inputMemoryDateEndRef.value);
 
     if (!isMemoryImageLoaded || !title || !date) {
         alert('Merci de remplir tous les champs et d’ajuster ton image.');
@@ -353,10 +355,7 @@ function onClickGenerateMemory() {
     wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
 
     fctx.font = "28px Poppins";
-    const formattedDate = new Date(date).toLocaleDateString("fr-FR", {
-        day:"numeric", month:"short", year: "numeric"
-    });
-    fctx.fillText(formattedDate, w / 2, w + 150);
+    fctx.fillText(date, w / 2, w + 150);
 
     // 🟫 Conversion en image et affichage
     const finalImage = finalCanvas.toDataURL('image/webp', 0.8);
@@ -375,6 +374,54 @@ function onClickGenerateMemory() {
 }
 
 
+
+
+function formatMemoryDate(startDate, endDate) {
+
+  if (!startDate && !endDate) return "";
+
+  // Conversion en objet Date (si ce n’est pas déjà le cas)
+  const start = startDate ? new Date(startDate) : null;
+  const end = endDate ? new Date(endDate) : null;
+
+  // Liste des mois abrégés selon les conventions françaises
+  const months = ["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+
+  // Fonction utilitaire pour formater une seule date
+  const fmt = (d, showYear = true) => {
+    const day = d.getDate();
+    const month = months[d.getMonth()];
+    const year = d.getFullYear();
+    return showYear ? `${day} ${month} ${year}` : `${day} ${month}`;
+  };
+
+  // Cas 1 : une seule date connue
+  if (!end) return fmt(start);
+  if (!start) return fmt(end);
+
+  // Cas 2 : mêmes dates
+  if (start.getTime() === end.getTime()) return fmt(start);
+
+  // Cas 3 : même mois et même année
+  if (
+    start.getMonth() === end.getMonth() &&
+    start.getFullYear() === end.getFullYear()
+  ) {
+    return `${start.getDate()}–${end.getDate()} ${months[start.getMonth()]} ${start.getFullYear()}`;
+  }
+
+  // Cas 4 : mois différents mais même année
+  if (start.getFullYear() === end.getFullYear()) {
+    return `${fmt(start, false)} – ${fmt(end)}`;
+  }
+
+  // Cas 5 : années différentes
+  return `${fmt(start)} – ${fmt(end)}`;
+}
+
+
+
+// passage automatique à la ligne
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
     const words = text.split(' ');
     let line = '';
@@ -615,7 +662,8 @@ async function eventDeleteMemory() {
 
 function onResetMemoryItems() {
     // Vide les champs
-    inputMemoryDateRef.value = null;
+    inputMemoryDateStartRef.value = null;
+    inputMemoryDateEndRef.value = null;
     inputMemoryTitleRef.value = null;
     inputImageMemoryRef.value = null;
     texteareaMemoryCommentRef.value = null;
@@ -627,7 +675,8 @@ function onResetMemoryItems() {
     canvasMemoryRef = null;
     memory_ctx = null;
     inputImageMemoryRef = null;
-    inputMemoryDateRef = null;
+    inputMemoryDateStartRef = null;
+    inputMemoryDateEndRef = null;
     inputMemoryTitleRef = null;
     texteareaMemoryCommentRef = null;
     memoryImageItem = null;
