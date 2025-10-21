@@ -1297,6 +1297,39 @@
                         <input type="date" id="inputMemoryDateEnd">
                     </p>
 
+                    <!-- CLASSEMENT OU STADE ATTEIND -->
+                    <p class="activity-editor">
+                        <span id="spanTextMemoryClassement" class="textRecupEditorCB">Classement :</span>
+                        <label class="switch">
+                            <input id="inputCBMemoryClassementEnabled" type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                        <input type="number"
+                            id="inputMemoryClassement"
+                            placeholder="Classement (ex : 1582)"
+                            min="1"
+                            max="9999"
+                            step="1"
+                            inputmode="numeric"
+                            />
+                    </p>
+
+                    <p class="activity-editor">
+                        <span id="spanTextMemoryRoundReach" class="textRecupEditorCB">Niveau atteint :</span>
+                        <label class="switch">
+                            <input id="inputCBRoundReachEnabled" type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                        <select class="conditionUtilisation" id="selectMemoryRoundReach">
+                            <option value="Finale">Finale</option>
+                            <option value="Demi-finale">Demi-finale</option>
+                            <option value="Quart de finale">Quart de finale</option>
+                            <option value="8e de finale">8e de finale</option>
+                            <option value="16e de finale">16e de finale</option>
+                            <option value="32e de finale">32e de finale</option>
+                        </select>
+                    </p>
+
 
                     <p class="activity-editor">
                         <label>Image :</label>

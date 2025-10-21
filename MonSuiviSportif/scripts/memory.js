@@ -303,7 +303,6 @@ function onZoomOutMemoryImage() {
 }
 
 
-// Fonction principale
 function onClickGenerateMemory() {
     const title = inputMemoryTitleRef.value.trim();
     const titleUpper = title.toUpperCase();
@@ -321,16 +320,15 @@ function onClickGenerateMemory() {
     finalCanvas.width = w;
     finalCanvas.height = h;
 
-    // 🟟 Background complet
+    // 🟣 Arrière-plan
     if (isBackgroundMemoryLoaded) {
         fctx.drawImage(backgroundMemoryImage, 0, 0, w, h);
     } else {
-        // fallback si le background n'est pas chargé
         fctx.fillStyle = "#111";
         fctx.fillRect(0, 0, w, h);
     }
 
-    // 🟦 Image principale cadrée (taille inchangée)
+    // 🟦 Image principale
     const minSide = Math.min(memoryImageItem.width, memoryImageItem.height);
     const zoomedSide = minSide / memoryScale;
     const startX = (memoryImageItem.width - zoomedSide) / 2 + memoryOffsetX;
@@ -342,29 +340,55 @@ function onClickGenerateMemory() {
         110, 100, 300, 300
     );
 
-    // 🟥 Texte (titre + date) en gold
+    // 🟥 Titre + date
     fctx.fillStyle = "#FFF";
     fctx.textAlign = "center";
 
     fctx.font = "bold 52px Poppins";
-    const maxTextWidth = 450; // largeur max pour le texte
+    const maxTextWidth = 450;
     const lineHeight = 60;
     const textX = w / 2;
     let textY = w + 10;
-
     wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
 
     fctx.font = "28px Poppins";
     fctx.fillText(date, w / 2, w + 150);
 
-    // 🟫 Conversion en image et affichage
-    const finalImage = finalCanvas.toDataURL('image/webp', 0.8);
-    const divMemoryPreviewRef = document.getElementById('divMemoryPreviewContent');
+    // 🟨 CLASSEMENT / NIVEAU (affiché en bas à droite)
+    const showRank = document.getElementById("inputCBMemoryClassementEnabled").checked;
+    const showRound = document.getElementById("inputCBRoundReachEnabled").checked;
+
+    if (showRank) {
+        const rankValue = parseInt(document.getElementById("inputMemoryClassement").value);
+        if (!isNaN(rankValue) && rankValue > 0) {
+        fctx.textAlign = "right";
+        fctx.fillStyle =
+            rankValue === 1 ? "#E8C547" :  // or doux
+            rankValue === 2 ? "#BFC6CC" :  // argent clair
+            rankValue === 3 ? "#C58B5E" :  // bronze chaud
+            "#D5C5A0";                     // beige clair pour les autres
+        fctx.font = rankValue > 999 ? "bold 36px Poppins" : "bold 42px Poppins";
+        const rankDisplay = rankValue.toLocaleString("fr-FR");
+        fctx.fillText(`${rankDisplay}e`, w - 40, h - 40);
+        }
+    } else if (showRound) {
+        const roundValue = document.getElementById("selectMemoryRoundReach").value;
+        if (roundValue) {
+        fctx.textAlign = "right";
+        fctx.fillStyle = "#D5C5A0";
+        fctx.font = "bold 36px Poppins";
+        fctx.fillText(roundValue, w - 40, h - 40);
+        }
+    }
+
+    // 🟫 Conversion et affichage
+    const finalImage = finalCanvas.toDataURL("image/webp", 0.8);
+    const divMemoryPreviewRef = document.getElementById("divMemoryPreviewContent");
     divMemoryPreviewRef.innerHTML = `<img class="memory-result" src="${finalImage}" alt="souvenir">`;
 
     document.getElementById("divMemoryPreview").style.display = "flex";
 
-    // Formatage pour la sauvegarde
+    // Pour sauvegarde
     memoryToInsert = {
         title: titleUpper,
         date: date,
@@ -372,7 +396,6 @@ function onClickGenerateMemory() {
         comment: texteareaMemoryCommentRef.value
     };
 }
-
 
 
 
