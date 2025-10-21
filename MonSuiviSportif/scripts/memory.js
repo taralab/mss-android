@@ -4,6 +4,10 @@ let canvasMemoryRef = null,
     inputMemoryDateStartRef = null,
     inputMemoryDateEndRef = null,
     inputMemoryTitleRef = null,
+    inputMemoryRankRef = null,
+    selectMemoryRoundReachRef = null,
+    inputCBMemoryRankRef = null,
+    inputCBMemoryRoundReachRef = null,
     texteareaMemoryCommentRef = null,
     memoryMoveStep = 10, // déplacement en pixels
     memoryImageItem = null,
@@ -108,6 +112,16 @@ function onAddEventListenerForMemoryEditor() {
     btnMemoryDownloadRef.addEventListener("click",valideGenerateMemory);
     onAddEventListenerInRegistry("memoryEditor",btnMemoryDownloadRef,"click",valideGenerateMemory);
 
+
+    // Bouton pour activer l'input classement
+    const changeMemoryRankCB = (event) => onInputCBMemoryRankChange(event);
+    inputCBMemoryRankRef.addEventListener("change",changeMemoryRankCB);
+    onAddEventListenerInRegistry("memoryEditor",inputCBMemoryRankRef,"change",changeMemoryRankCB);
+
+    //Bouton pour activer l'input round reach
+    const changeMemoryRoundReach = (event) => onInputCBMemoryLevelReachChange(event);
+    inputCBMemoryRoundReachRef.addEventListener("change",changeMemoryRoundReach);
+    onAddEventListenerInRegistry("memoryEditor",inputCBMemoryRoundReachRef,"change",changeMemoryRoundReach);
 }
 
 
@@ -221,6 +235,10 @@ function onInitMemoryItems() {
     inputMemoryDateEndRef = document.getElementById("inputMemoryDateEnd");
     inputMemoryTitleRef = document.getElementById('inputMemoryTitle');
     texteareaMemoryCommentRef = document.getElementById('textareaMemoryComment');
+    inputCBMemoryRankRef = document.getElementById('inputCBMemoryRank');
+    inputCBMemoryRoundReachRef = document.getElementById('inputCBMemoryRoundReach');
+    inputMemoryRankRef = document.getElementById("inputMemoryRank");
+    selectMemoryRoundReachRef = document.getElementById("selectMemoryRoundReach");
     memoryImageItem = new Image();
 
     memoryOffsetX = 0;
@@ -230,6 +248,13 @@ function onInitMemoryItems() {
     memoryZoomSize = 512; // taille du crop
     memoryMoveStep = 10; //le pas du déplacement
     isMemoryImageLoaded = false;
+
+
+    //par défaut les inputs pour rank et round reach sont désactivé
+    inputMemoryRankRef.disabled = true;
+    selectMemoryRoundReachRef.disabled = true;
+    inputMemoryRankRef.classList.add("disable");
+    selectMemoryRoundReachRef.classList.add("disable");
 }
 
 
@@ -355,11 +380,11 @@ function onClickGenerateMemory() {
     fctx.fillText(date, w / 2, w + 150);
 
     // 🟨 CLASSEMENT / NIVEAU (affiché en bas à droite)
-    const showRank = document.getElementById("inputCBMemoryClassementEnabled").checked;
-    const showRound = document.getElementById("inputCBRoundReachEnabled").checked;
+    const showRank = inputCBMemoryRankRef.checked;
+    const showRound = inputCBMemoryRoundReachRef.checked;
 
     if (showRank) {
-        const rankValue = parseInt(document.getElementById("inputMemoryClassement").value);
+        const rankValue = parseInt(inputMemoryRankRef.value);
         if (!isNaN(rankValue) && rankValue > 0) {
         fctx.textAlign = "right";
         fctx.fillStyle =
@@ -372,7 +397,7 @@ function onClickGenerateMemory() {
         fctx.fillText(`${rankDisplay}e`, w - 40, h - 40);
         }
     } else if (showRound) {
-        const roundValue = document.getElementById("selectMemoryRoundReach").value;
+        const roundValue = selectMemoryRoundReachRef.value;
         if (roundValue) {
         fctx.textAlign = "right";
         fctx.fillStyle = "#D5C5A0";
@@ -515,6 +540,46 @@ function onClosePopupMemoryResult() {
 
 
 
+
+// Gestion rank ou niveau atteind
+//Le but est d'avoir un seul bouton d'active à chaque fois. l'un activé désactive l'autre
+
+//le classement
+function onInputCBMemoryRankChange(event) {
+    console.log("change rank",event.target.checked);
+    if (event.target.checked) {
+        //désactive les éléments de l'autre CB et son input
+        inputCBMemoryRoundReachRef.checked = false;
+        selectMemoryRoundReachRef.disabled = true;
+        selectMemoryRoundReachRef.classList.add("disable");
+        
+        //active mon input
+        inputMemoryRankRef.disabled = false;
+        inputMemoryRankRef.classList.remove("disable");
+    }else{
+        //désactive l'input
+        inputMemoryRankRef.disabled = true;
+        inputMemoryRankRef.classList.add("disable");
+    }
+}
+// LE niveau atteind
+function onInputCBMemoryLevelReachChange(event) {
+    console.log("change round : ",event.target.checked);
+    if (event.target.checked) {
+        //désactive les éléments de l'autre CB et son input
+        inputCBMemoryRankRef.checked = false;
+        inputMemoryRankRef.disabled = true;
+        inputMemoryRankRef.classList.add("disable");
+
+        //active mon input
+        selectMemoryRoundReachRef.disabled = false;
+        selectMemoryRoundReachRef.classList.remove("disable");
+    }else{
+        //désactive l'input
+        selectMemoryRoundReachRef.disabled = true;
+        selectMemoryRoundReachRef.classList.add("disable");
+    }
+}
 
 
 // Sauvegarde
@@ -690,6 +755,13 @@ function onResetMemoryItems() {
     inputMemoryTitleRef.value = null;
     inputImageMemoryRef.value = null;
     texteareaMemoryCommentRef.value = null;
+    inputCBMemoryRankRef.checked = false;
+    inputCBMemoryRoundReachRef.checked = false;
+    inputMemoryRankRef.value = "";
+    selectMemoryRoundReachRef.value = "Finale";
+    inputMemoryRankRef.disabled = true;
+    selectMemoryRoundReachRef.disabled = true;
+
 
     //Vide l'image
     onClearMemoryPreview();
@@ -703,6 +775,10 @@ function onResetMemoryItems() {
     inputMemoryTitleRef = null;
     texteareaMemoryCommentRef = null;
     memoryImageItem = null;
+    inputCBMemoryRankRef = null;
+    inputCBMemoryRoundReachRef = null;
+    inputMemoryRankRef = null;
+    selectMemoryRoundReachRef = null;
     
 
 }

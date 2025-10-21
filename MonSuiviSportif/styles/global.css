@@ -3137,12 +3137,12 @@ span.textRecupEditorCB.disable{
     font-weight: 500;
 }
 
-input.compteur.disable{
+input.disable{
     opacity: 0.5;  
     cursor: not-allowed; /* Change le curseur */
     background-color: rgb(189, 189, 189);
 }
-select.session-type-color.disable{
+div.new-interface select.disable, select.disable{
     opacity: 0.5;  
     cursor: not-allowed; /* Change le curseur */
     background-color: rgb(189, 189, 189);
@@ -3470,3 +3470,4 @@ button.memory-pad-editor:active{
         100% { left: -300px; transform: scale(0.8); opacity: 0; }
     }
 }
+

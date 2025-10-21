@@ -374,8 +374,8 @@ function updateRecupFullScreenDisplay() {
 
         // Couleur dynamique
         let newColor;
-        if (smoothRemaining <= total * 0.25) {
-            newColor = "#ff6b4b"; // rouge doux fin de recup
+        if (smoothRemaining <= 5) {
+            newColor = "#ff6b4b"; // rouge doux les 5 dernières secondes
         } else if (smoothRemaining <= total / 2) {
             newColor = "gold"; // jaune à mi-parcours
         } else {
