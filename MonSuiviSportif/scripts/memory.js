@@ -328,6 +328,103 @@ function onZoomOutMemoryImage() {
 }
 
 
+
+
+
+
+
+// *    *   *   *   *   *   *   *   TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *
+
+
+
+let isDragging = false;
+let lastTouchDistance = 0;
+let lastTouchX = 0;
+let lastTouchY = 0;
+
+
+
+const canvas = document.getElementById('canvasMemory');
+
+// Démarrage du toucher
+canvas.addEventListener('touchstart', onTouchStart, false);
+canvas.addEventListener('touchmove', onTouchMove, false);
+canvas.addEventListener('touchend', onTouchEnd, false);
+
+
+
+function onTouchStart(event) {
+    if (event.touches.length === 1) {
+        // un seul doigt → déplacement
+        isDragging = true;
+        lastTouchX = event.touches[0].clientX;
+        lastTouchY = event.touches[0].clientY;
+    } else if (event.touches.length === 2) {
+        // deux doigts → zoom
+        isDragging = false;
+        lastTouchDistance = getTouchDistance(event.touches);
+    }
+}
+
+function onTouchMove(event) {
+    event.preventDefault(); // empêche le scroll de la page
+
+    if (isDragging && event.touches.length === 1) {
+        const touch = event.touches[0];
+        const dx = touch.clientX - lastTouchX;
+        const dy = touch.clientY - lastTouchY;
+
+        // 👇 inversion des signes pour que le mouvement suive le doigt
+        memoryOffsetX -= dx / memoryScale;
+        memoryOffsetY -= dy / memoryScale;
+
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
+
+        onUpdateMemoryPreview();
+    }
+
+    else if (event.touches.length === 2) {
+        // Zoom
+        const newDistance = getTouchDistance(event.touches);
+        const zoomFactor = newDistance / lastTouchDistance;
+
+        const prevScale = memoryScale;
+        memoryScale *= zoomFactor;
+        memoryScale = Math.max(0.1, Math.min(memoryScale, 10)); // limite zoom
+
+        // Centrer le zoom sur le milieu du canvas
+        memoryOffsetX -= ((canvas.width / 2) * (1/prevScale - 1/memoryScale));
+        memoryOffsetY -= ((canvas.height / 2) * (1/prevScale - 1/memoryScale));
+
+        lastTouchDistance = newDistance;
+        onUpdateMemoryPreview();
+    }
+}
+
+function onTouchEnd(event) {
+    if (event.touches.length === 0) {
+        isDragging = false;
+        lastTouchDistance = 0;
+    }
+}
+
+// Calcule la distance entre deux doigts
+function getTouchDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+
+
+
+
+
+// *    *   *   *   *   *   *   *   FIN TACTILE *  *   *   *   *   *   *   *   *   *   *   *
+
+
+
 function onClickGenerateMemory() {
     const title = inputMemoryTitleRef.value.trim();
     const titleUpper = title.toUpperCase();
