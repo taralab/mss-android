@@ -333,8 +333,7 @@ function onZoomOutMemoryImage() {
 
 
 
-// *    *   *   *   *   *   *   *   TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *
-
+// *    *   *   *   *   *   *   *   TEST  TACTILE *  *   *   *   *   *   *   *   *   *   *   *
 
 
 let isDragging = false;
@@ -342,86 +341,115 @@ let lastTouchDistance = 0;
 let lastTouchX = 0;
 let lastTouchY = 0;
 
+// Pour la fluidité
+let isAnimating = false;
 
+// Pour l’inertie
+let velocityX = 0;
+let velocityY = 0;
+let lastMoveTime = 0;
 
-const canvas = document.getElementById('canvasMemory');
+// ============================
+//  BOUCLE DE RENDU FLUIDE
+// ============================
+function startRenderLoop() {
+  if (!isAnimating) {
+    isAnimating = true;
+    requestAnimationFrame(renderLoop);
+  }
+}
 
-// Démarrage du toucher
-canvas.addEventListener('touchstart', onTouchStart, false);
-canvas.addEventListener('touchmove', onTouchMove, false);
-canvas.addEventListener('touchend', onTouchEnd, false);
+function stopRenderLoop() {
+  isAnimating = false;
+}
 
+function renderLoop() {
+  onUpdateMemoryPreview();
+  if (isAnimating) requestAnimationFrame(renderLoop);
+}
 
+// ============================
+//  GESTION DU TACTILE
+// ============================
+canvasMemoryRef.addEventListener('touchstart', onTouchStart, false);
+canvasMemoryRef.addEventListener('touchmove', onTouchMove, false);
+canvasMemoryRef.addEventListener('touchend', onTouchEnd, false);
 
 function onTouchStart(event) {
-    if (event.touches.length === 1) {
-        // un seul doigt → déplacement
-        isDragging = true;
-        lastTouchX = event.touches[0].clientX;
-        lastTouchY = event.touches[0].clientY;
-    } else if (event.touches.length === 2) {
-        // deux doigts → zoom
-        isDragging = false;
-        lastTouchDistance = getTouchDistance(event.touches);
-    }
+  if (event.touches.length === 1) {
+    isDragging = true;
+    lastTouchX = event.touches[0].clientX;
+    lastTouchY = event.touches[0].clientY;
+    startRenderLoop();
+  } else if (event.touches.length === 2) {
+    isDragging = false;
+    lastTouchDistance = getTouchDistance(event.touches);
+    startRenderLoop();
+  }
 }
 
 function onTouchMove(event) {
-    event.preventDefault(); // empêche le scroll de la page
+  event.preventDefault();
 
-    if (isDragging && event.touches.length === 1) {
-        const touch = event.touches[0];
-        const dx = touch.clientX - lastTouchX;
-        const dy = touch.clientY - lastTouchY;
+  if (isDragging && event.touches.length === 1) {
+    const touch = event.touches[0];
+    const now = performance.now();
+    const dx = touch.clientX - lastTouchX;
+    const dy = touch.clientY - lastTouchY;
 
-        // 👇 inversion des signes pour que le mouvement suive le doigt
-        memoryOffsetX -= dx / memoryScale;
-        memoryOffsetY -= dy / memoryScale;
+    const dt = now - lastMoveTime || 16;
 
-        lastTouchX = touch.clientX;
-        lastTouchY = touch.clientY;
+    memoryOffsetX -= dx / memoryScale;
+    memoryOffsetY -= dy / memoryScale;
 
-        onUpdateMemoryPreview();
-    }
+    // inertie
+    velocityX = dx / dt;
+    velocityY = dy / dt;
 
-    else if (event.touches.length === 2) {
-        // Zoom
-        const newDistance = getTouchDistance(event.touches);
-        const zoomFactor = newDistance / lastTouchDistance;
-
-        const prevScale = memoryScale;
-        memoryScale *= zoomFactor;
-        memoryScale = Math.max(0.1, Math.min(memoryScale, 10)); // limite zoom
-
-        // Centrer le zoom sur le milieu du canvas
-        memoryOffsetX -= ((canvas.width / 2) * (1/prevScale - 1/memoryScale));
-        memoryOffsetY -= ((canvas.height / 2) * (1/prevScale - 1/memoryScale));
-
-        lastTouchDistance = newDistance;
-        onUpdateMemoryPreview();
-    }
+    lastTouchX = touch.clientX;
+    lastTouchY = touch.clientY;
+    lastMoveTime = now;
+  } else if (event.touches.length === 2) {
+    const newDistance = getTouchDistance(event.touches);
+    const zoomFactor = newDistance / lastTouchDistance;
+    const prevScale = memoryScale;
+    memoryScale *= zoomFactor;
+    memoryScale = Math.max(0.1, Math.min(memoryScale, 10));
+    memoryOffsetX -= ((canvasMemoryRef.width / 2) * (1 / prevScale - 1 / memoryScale));
+    memoryOffsetY -= ((canvasMemoryRef.height / 2) * (1 / prevScale - 1 / memoryScale));
+    lastTouchDistance = newDistance;
+  }
 }
 
 function onTouchEnd(event) {
-    if (event.touches.length === 0) {
-        isDragging = false;
-        lastTouchDistance = 0;
+  if (event.touches.length === 0) {
+    isDragging = false;
+    stopRenderLoop();
+
+    const friction = 0.95;
+    function inertia() {
+      if (Math.abs(velocityX) < 0.01 && Math.abs(velocityY) < 0.01) return;
+      memoryOffsetX -= velocityX * 10;
+      memoryOffsetY -= velocityY * 10;
+      velocityX *= friction;
+      velocityY *= friction;
+      onUpdateMemoryPreview();
+      requestAnimationFrame(inertia);
     }
+    inertia();
+  }
 }
 
-// Calcule la distance entre deux doigts
 function getTouchDistance(touches) {
-    const dx = touches[0].clientX - touches[1].clientX;
-    const dy = touches[0].clientY - touches[1].clientY;
-    return Math.sqrt(dx * dx + dy * dy);
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
 
 
 
-
-
-// *    *   *   *   *   *   *   *   FIN TACTILE *  *   *   *   *   *   *   *   *   *   *   *
+// *    *   *   *   *   *   *   *   FIN TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *
 
 
 
