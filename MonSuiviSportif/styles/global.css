@@ -3411,6 +3411,13 @@ button.memory-pad-editor:active{
 }
 
 
+
+/* La carte de l'image dans la visionneuse */
+div.memory-card{
+    width: 90px;
+}
+
+
 /* ---------------------------- Styles paysage ----------------------------------------*/
 
 

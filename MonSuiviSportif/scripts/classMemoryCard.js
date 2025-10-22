@@ -6,8 +6,8 @@ class MemoryCard{
 
         // Conteneur principal
         this.element = document.createElement("div");
-        // this.element.classList.add(""); Class à ajouter ici si besoin
-
+        this.element.classList.add("memory-card"); 
+        
         //Ajout de l'évènement
         this.element.addEventListener("click",() => {
             // affiche en plein écran

@@ -353,17 +353,41 @@ function onClickGenerateMemory() {
         fctx.fillRect(0, 0, w, h);
     }
 
-    // 🟦 Image principale
+    // 🟦 Image principale avec coins arrondis
     const minSide = Math.min(memoryImageItem.width, memoryImageItem.height);
     const zoomedSide = minSide / memoryScale;
     const startX = (memoryImageItem.width - zoomedSide) / 2 + memoryOffsetX;
     const startY = (memoryImageItem.height - zoomedSide) / 2 + memoryOffsetY;
 
+    // Coordonnées d’affichage sur le canvas final
+    const x = 55;
+    const y = 50;
+    const width = 400;
+    const height = 400;
+    const radius = 40; // 🔘 ajustable : rayon d’arrondi des coins
+
+    // Sauvegarde du contexte avant clipping
+    fctx.save();
+
+    // Dessine la forme arrondie et applique le clip
+    drawBorderRadius(fctx, x, y, width, height, radius);
+    fctx.clip();
+
+    // Dessine l’image à l’intérieur du masque arrondi
     fctx.drawImage(
         memoryImageItem,
         startX, startY, zoomedSide, zoomedSide,
-        110, 100, 300, 300
+        x, y, width, height
     );
+
+    // Restaure le contexte pour ne pas clipper le reste
+    fctx.restore();
+
+    // 🟡 Bord arrondi autour de l’image
+    fctx.lineWidth = 4;
+    fctx.strokeStyle = "#FFF";
+    drawBorderRadius(fctx, x, y, width, height, radius);
+    fctx.stroke();
 
     // 🟥 Titre + date
     fctx.fillStyle = "#FFF";
@@ -386,23 +410,23 @@ function onClickGenerateMemory() {
     if (showRank) {
         const rankValue = parseInt(inputMemoryRankRef.value);
         if (!isNaN(rankValue) && rankValue > 0) {
-        fctx.textAlign = "right";
-        fctx.fillStyle =
-            rankValue === 1 ? "#E8C547" :  // or doux
-            rankValue === 2 ? "#BFC6CC" :  // argent clair
-            rankValue === 3 ? "#C58B5E" :  // bronze chaud
-            "#D5C5A0";                     // beige clair pour les autres
-        fctx.font = rankValue > 999 ? "bold 36px Poppins" : "bold 42px Poppins";
-        const rankDisplay = rankValue.toLocaleString("fr-FR");
-        fctx.fillText(`${rankDisplay}e`, w - 40, h - 40);
+            fctx.textAlign = "right";
+            fctx.fillStyle =
+                rankValue === 1 ? "#E8C547" :  // or doux
+                rankValue === 2 ? "#BFC6CC" :  // argent clair
+                rankValue === 3 ? "#C58B5E" :  // bronze chaud
+                "#D5C5A0";                     // beige clair pour les autres
+            fctx.font = rankValue > 999 ? "bold 36px Poppins" : "bold 42px Poppins";
+            const rankDisplay = rankValue.toLocaleString("fr-FR");
+            fctx.fillText(`${rankDisplay}e`, w - 40, h - 40);
         }
     } else if (showRound) {
         const roundValue = selectMemoryRoundReachRef.value;
         if (roundValue) {
-        fctx.textAlign = "right";
-        fctx.fillStyle = "#D5C5A0";
-        fctx.font = "bold 36px Poppins";
-        fctx.fillText(roundValue, w - 40, h - 40);
+            fctx.textAlign = "right";
+            fctx.fillStyle = "#D5C5A0";
+            fctx.font = "bold 36px Poppins";
+            fctx.fillText(roundValue, w - 40, h - 40);
         }
     }
 
@@ -426,45 +450,45 @@ function onClickGenerateMemory() {
 
 function formatMemoryDate(startDate, endDate) {
 
-  if (!startDate && !endDate) return "";
+    if (!startDate && !endDate) return "";
 
-  // Conversion en objet Date (si ce n’est pas déjà le cas)
-  const start = startDate ? new Date(startDate) : null;
-  const end = endDate ? new Date(endDate) : null;
+    // Conversion en objet Date (si ce n’est pas déjà le cas)
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
 
-  // Liste des mois abrégés selon les conventions françaises
-  const months = ["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+    // Liste des mois abrégés selon les conventions françaises
+    const months = ["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
 
-  // Fonction utilitaire pour formater une seule date
-  const fmt = (d, showYear = true) => {
-    const day = d.getDate();
-    const month = months[d.getMonth()];
-    const year = d.getFullYear();
-    return showYear ? `${day} ${month} ${year}` : `${day} ${month}`;
-  };
+    // Fonction utilitaire pour formater une seule date
+    const fmt = (d, showYear = true) => {
+        const day = d.getDate();
+        const month = months[d.getMonth()];
+        const year = d.getFullYear();
+        return showYear ? `${day} ${month} ${year}` : `${day} ${month}`;
+    };
 
-  // Cas 1 : une seule date connue
-  if (!end) return fmt(start);
-  if (!start) return fmt(end);
+    // Cas 1 : une seule date connue
+    if (!end) return fmt(start);
+    if (!start) return fmt(end);
 
-  // Cas 2 : mêmes dates
-  if (start.getTime() === end.getTime()) return fmt(start);
+    // Cas 2 : mêmes dates
+    if (start.getTime() === end.getTime()) return fmt(start);
 
-  // Cas 3 : même mois et même année
-  if (
-    start.getMonth() === end.getMonth() &&
-    start.getFullYear() === end.getFullYear()
-  ) {
-    return `${start.getDate()}–${end.getDate()} ${months[start.getMonth()]} ${start.getFullYear()}`;
-  }
+    // Cas 3 : même mois et même année
+    if (
+        start.getMonth() === end.getMonth() &&
+        start.getFullYear() === end.getFullYear()
+    ) {
+        return `${start.getDate()}–${end.getDate()} ${months[start.getMonth()]} ${start.getFullYear()}`;
+    }
 
-  // Cas 4 : mois différents mais même année
-  if (start.getFullYear() === end.getFullYear()) {
-    return `${fmt(start, false)} – ${fmt(end)}`;
-  }
+    // Cas 4 : mois différents mais même année
+    if (start.getFullYear() === end.getFullYear()) {
+        return `${fmt(start, false)} – ${fmt(end)}`;
+    }
 
-  // Cas 5 : années différentes
-  return `${fmt(start)} – ${fmt(end)}`;
+    // Cas 5 : années différentes
+    return `${fmt(start)} – ${fmt(end)}`;
 }
 
 
@@ -506,7 +530,7 @@ function onUpdateMemoryPreview() {
     );
 }
 
-  //dessine les anglre
+  //dessine les angles
 function drawBorderRadius(ctx, x, y, width, height, radius) {
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
@@ -546,7 +570,7 @@ function onClosePopupMemoryResult() {
 
 //le classement
 function onInputCBMemoryRankChange(event) {
-    console.log("change rank",event.target.checked);
+
     if (event.target.checked) {
         //désactive les éléments de l'autre CB et son input
         inputCBMemoryRoundReachRef.checked = false;
@@ -564,7 +588,7 @@ function onInputCBMemoryRankChange(event) {
 }
 // LE niveau atteind
 function onInputCBMemoryLevelReachChange(event) {
-    console.log("change round : ",event.target.checked);
+
     if (event.target.checked) {
         //désactive les éléments de l'autre CB et son input
         inputCBMemoryRankRef.checked = false;
@@ -606,7 +630,6 @@ async function onValideGenerateMemory(event) {
 
     // Quitte le menu
     onClickReturnFromMemory();
-    console.log(allMemoryObjectList);
 
     //notification
     onShowNotifyPopup("memorySaved");
