@@ -398,10 +398,33 @@ function onClickGenerateMemory() {
     const lineHeight = 60;
     const textX = w / 2;
     let textY = w + 10;
-    wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
 
-    fctx.font = "28px Poppins";
-    fctx.fillText(date, w / 2, w + 150);
+    // 🧮 Dessine le titre et récupère le nombre de lignes
+    const lineCount = wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
+
+    // 🎯 Position spécifique selon le nombre de lignes
+    let dateOffsetY;
+
+    switch (lineCount) {
+        case 1:
+            dateOffsetY = 10; // ← ajustable : distance sous le titre à 1 ligne
+            break;
+        case 2:
+            dateOffsetY = 10; // ← ajustable : pour 2 lignes
+            break;
+        case 3:
+            dateOffsetY = -20; // ← ajustable : pour 3 lignes
+            break;
+        default:
+            // si titre très long (4+ lignes)
+            dateOffsetY = 240 + (lineCount - 3) * 40;
+            break;
+    }
+
+const dateY = textY + (lineCount * lineHeight) + dateOffsetY;
+
+fctx.font = "28px Poppins";
+fctx.fillText(date, w / 2, dateY);
 
     // 🟨 CLASSEMENT / NIVEAU (affiché en bas à droite)
     const showRank = inputCBMemoryRankRef.checked;
@@ -493,23 +516,31 @@ function formatMemoryDate(startDate, endDate) {
 
 
 
-// passage automatique à la ligne
+// passage automatique à la ligne avec comptage du nombre de ligne
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
     const words = text.split(' ');
     let line = '';
+    let lineCount = 0; // 👈 compteur de lignes
+
     for (let n = 0; n < words.length; n++) {
         const testLine = line + words[n] + ' ';
         const metrics = context.measureText(testLine);
         const testWidth = metrics.width;
+
         if (testWidth > maxWidth && n > 0) {
             context.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
+            lineCount++; // 🧮 nouvelle ligne dessinée
         } else {
             line = testLine;
         }
     }
+
     context.fillText(line, x, y);
+    lineCount++; // 🧮 dernière ligne
+
+    return lineCount; // ✅ on retourne le nombre total de lignes affichées
 }
 
 function onUpdateMemoryPreview() {
