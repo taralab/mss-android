@@ -3371,7 +3371,7 @@ button.memory-pad-editor:active{
 
 
 /* Prévisualisation */
-#divMemoryPreview {
+div.popup-memory-preview {
     position: fixed;
     top: 0;
     left: 0;
@@ -3388,7 +3388,7 @@ button.memory-pad-editor:active{
     padding: 1rem;
 }
 
-#divMemoryPreviewContent{
+div.memory-preview-content{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3399,7 +3399,7 @@ button.memory-pad-editor:active{
 
 
 /* L’image générée */
-#divMemoryPreviewContent img {
+div.memory-preview-content img {
     max-width: 100%;
     max-height: 100%;
     width: auto;

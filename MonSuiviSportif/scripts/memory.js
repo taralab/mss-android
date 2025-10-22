@@ -681,13 +681,13 @@ function onDisplayMemoryFullScreen(imageData) {
     imgMemoryFullScreenRef.src = imageData;
 
     //Affiche
-    document.getElementById("divFullScreenMemory").classList.add("show");
+    document.getElementById("divFullScreenMemory").style.display = "flex";
 }
 
 //masque gros plan
 function onHiddenFullScreenMemory() {
     if (devMode === true){console.log("cache la div de visualisation du mémory");};
-    document.getElementById("divFullScreenMemory").classList.remove("show");
+    document.getElementById("divFullScreenMemory").style.display = "none";
 };
 
 
