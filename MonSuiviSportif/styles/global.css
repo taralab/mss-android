@@ -3465,7 +3465,7 @@ div.memory-card{
     }
 
 
-    /* RECUP */
+    /* RECUP DISCRET*/
     div.popup-recup{
         bottom: 70px;
     }
@@ -3481,5 +3481,24 @@ div.memory-card{
         30% { left: 55px; transform: scale(1.05); opacity: 1; } /* léger recul + pop inversé */
         100% { left: -300px; transform: scale(0.8); opacity: 0; }
     }
+
+
+
+    /* Recup FULLSCREEN */
+
+    .recup-full-screen {
+        flex-direction:row;
+        gap: 20px;
+    }
+
+    p.recup-fs-title{
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .recup-timer-circle {
+        width: 80vh;    /* 🧩 prend 80% de la hauteur de l’écran */
+    }
+
 }
 
