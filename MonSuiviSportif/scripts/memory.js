@@ -95,6 +95,31 @@ function onAddEventListenerForMemoryEditor() {
     btnZoomOutRef.addEventListener("click",onClickZoomOut);
     onAddEventListenerInRegistry("memoryEditor",btnZoomOutRef,"click",onClickZoomOut);
 
+
+
+    //TACTILE
+    canvasMemoryRef.addEventListener('pointerdown', onMemoryPointerDown);
+    onAddEventListenerInRegistry("memoryEditor",canvasMemoryRef,'pointerdown', onMemoryPointerDown);
+
+    canvasMemoryRef.addEventListener('pointermove', onMemoryPointerMove);
+    onAddEventListenerInRegistry("memoryEditor",canvasMemoryRef,'pointermove', onMemoryPointerMove);
+
+    canvasMemoryRef.addEventListener('pointerup', onMemoryPointerUp);
+    onAddEventListenerInRegistry("memoryEditor",canvasMemoryRef,'pointerup', onMemoryPointerUp);
+
+    canvasMemoryRef.addEventListener('pointercancel', onMemoryPointerUp);
+    onAddEventListenerInRegistry("memoryEditor",canvasMemoryRef,'pointercancel', onMemoryPointerUp);
+
+    canvasMemoryRef.addEventListener('pointerout', onMemoryPointerUp);
+    onAddEventListenerInRegistry("memoryEditor",canvasMemoryRef,'pointerout', onMemoryPointerUp);
+
+    canvasMemoryRef.addEventListener('pointerleave', onMemoryPointerUp);
+    onAddEventListenerInRegistry("memoryEditor",canvasMemoryRef,'pointerleave', onMemoryPointerUp);
+
+
+
+
+
     // Import image
     const onImportImage = (event) => onInputMemoryImageChange(event);
     inputImageMemoryRef.addEventListener("change",onImportImage);
@@ -198,6 +223,9 @@ function onOpenMenuMemory(){
     //initialise les références
     onInitMemoryItems();
 
+    //reset les éléments pour le tactile
+    onResetMemoryTactile();
+
     //génération du menu principal
     onCreateMainMenuMemory();
 
@@ -276,6 +304,9 @@ function onInputMemoryImageChange(event) {
         memoryImageItem.src = reader.result;
     };
     reader.readAsDataURL(file);
+
+    //reset les éléments pour le tactile
+    onResetMemoryTactile();
 }
 
 //Mouvement vers le bas
@@ -336,103 +367,140 @@ function onZoomOutMemoryImage() {
 // *    *   *   *   *   *   *   *   TEST  TACTILE *  *   *   *   *   *   *   *   *   *   *   *
 
 
-let isDragging = false;
-let lastTouchDistance = 0;
-let lastTouchX = 0;
-let lastTouchY = 0;
 
-// Pour la fluidité
-let isAnimating = false;
+let isMemoryDragging = false,
+    memoryLastTouchDistance = 0,
+    memoryLastTouchX = 0,
+    memoryLastTouchY = 0;
 
-// Pour l’inertie
-let velocityX = 0;
-let velocityY = 0;
-let lastMoveTime = 0;
+let memoryActivePointer = new Map();
 
-// ============================
-//  BOUCLE DE RENDU FLUIDE
-// ============================
-function startRenderLoop() {
-  if (!isAnimating) {
-    isAnimating = true;
-    requestAnimationFrame(renderLoop);
-  }
+// Fluidité + inertie
+let isMemoryAnimating = false,
+    memoryVelocityX = 0,
+    memoryVelocityY = 0,
+    memoryLastMoveTime = 0;
+
+
+
+
+
+function onResetMemoryTactile() {
+    // Réinitialisation du toucher et du mouvement
+    isMemoryDragging = false;
+    memoryLastTouchDistance = 0;
+    memoryLastTouchX = 0;
+    memoryLastTouchY = 0;
+    memoryActivePointer.clear();
+    isMemoryAnimating = false;
+    memoryVelocityX = 0;
+    memoryVelocityY = 0;
+    memoryLastMoveTime = 0;
+
+    // Remet l'image au centre et au zoom initial
+    memoryOffsetX = 0;
+    memoryOffsetY = 0;
+    memoryScale = 1;
+
 }
 
-function stopRenderLoop() {
-  isAnimating = false;
+
+// ==================================
+//   Boucle d’animation fluide
+// ==================================
+function startMemoryRenderLoop() {
+    if (!isMemoryAnimating) {
+        isMemoryAnimating = true;
+        requestAnimationFrame(memoryRenderLoop);
+    }
 }
 
-function renderLoop() {
+function stopMemoryRenderLoop() {
+  isMemoryAnimating = false;
+}
+
+function memoryRenderLoop() {
   onUpdateMemoryPreview();
-  if (isAnimating) requestAnimationFrame(renderLoop);
+  if (isMemoryAnimating) requestAnimationFrame(memoryRenderLoop);
 }
 
-// ============================
-//  GESTION DU TACTILE
-// ============================
-canvasMemoryRef.addEventListener('touchstart', onTouchStart, false);
-canvasMemoryRef.addEventListener('touchmove', onTouchMove, false);
-canvasMemoryRef.addEventListener('touchend', onTouchEnd, false);
+// ==================================
+//   Gestion des POINTER EVENTS
+// ==================================
 
-function onTouchStart(event) {
-  if (event.touches.length === 1) {
-    isDragging = true;
-    lastTouchX = event.touches[0].clientX;
-    lastTouchY = event.touches[0].clientY;
-    startRenderLoop();
-  } else if (event.touches.length === 2) {
-    isDragging = false;
-    lastTouchDistance = getTouchDistance(event.touches);
-    startRenderLoop();
+
+function onMemoryPointerDown(event) {
+  event.preventDefault();
+  canvasMemoryRef.setPointerCapture(event.pointerId);
+  memoryActivePointer.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+  if (memoryActivePointer.size === 1) {
+    // un seul doigt → déplacement
+    isMemoryDragging = true;
+    memoryLastTouchX = event.clientX;
+    memoryLastTouchY = event.clientY;
+    startMemoryRenderLoop();
+  } else if (memoryActivePointer.size === 2) {
+    // deux doigts → zoom
+    isMemoryDragging = false;
+    memoryLastTouchDistance = getPointerDistance();
+    startMemoryRenderLoop();
   }
 }
 
-function onTouchMove(event) {
+function onMemoryPointerMove(event) {
+  if (!memoryActivePointer.has(event.pointerId)) return;
+  memoryActivePointer.set(event.pointerId, { x: event.clientX, y: event.clientY });
   event.preventDefault();
 
-  if (isDragging && event.touches.length === 1) {
-    const touch = event.touches[0];
+  if (isMemoryDragging && memoryActivePointer.size === 1) {
+    const touch = memoryActivePointer.get(event.pointerId);
     const now = performance.now();
-    const dx = touch.clientX - lastTouchX;
-    const dy = touch.clientY - lastTouchY;
-
-    const dt = now - lastMoveTime || 16;
+    const dx = touch.x - memoryLastTouchX;
+    const dy = touch.y - memoryLastTouchY;
+    const dt = now - memoryLastMoveTime || 16;
 
     memoryOffsetX -= dx / memoryScale;
     memoryOffsetY -= dy / memoryScale;
 
-    // inertie
-    velocityX = dx / dt;
-    velocityY = dy / dt;
+    memoryVelocityX = dx / dt;
+    memoryVelocityY = dy / dt;
 
-    lastTouchX = touch.clientX;
-    lastTouchY = touch.clientY;
-    lastMoveTime = now;
-  } else if (event.touches.length === 2) {
-    const newDistance = getTouchDistance(event.touches);
-    const zoomFactor = newDistance / lastTouchDistance;
+    memoryLastTouchX = touch.x;
+    memoryLastTouchY = touch.y;
+    memoryLastMoveTime = now;
+  }
+  else if (memoryActivePointer.size === 2) {
+    const newDistance = getPointerDistance();
+    const zoomFactor = newDistance / memoryLastTouchDistance;
+
     const prevScale = memoryScale;
     memoryScale *= zoomFactor;
     memoryScale = Math.max(0.1, Math.min(memoryScale, 10));
+
     memoryOffsetX -= ((canvasMemoryRef.width / 2) * (1 / prevScale - 1 / memoryScale));
     memoryOffsetY -= ((canvasMemoryRef.height / 2) * (1 / prevScale - 1 / memoryScale));
-    lastTouchDistance = newDistance;
+
+    memoryLastTouchDistance = newDistance;
   }
 }
 
-function onTouchEnd(event) {
-  if (event.touches.length === 0) {
-    isDragging = false;
-    stopRenderLoop();
+function onMemoryPointerUp(event) {
+  memoryActivePointer.delete(event.pointerId);
+  canvasMemoryRef.releasePointerCapture(event.pointerId);
 
+  if (memoryActivePointer.size === 0) {
+    isMemoryDragging = false;
+    stopMemoryRenderLoop();
+
+    // inertie
     const friction = 0.95;
     function inertia() {
-      if (Math.abs(velocityX) < 0.01 && Math.abs(velocityY) < 0.01) return;
-      memoryOffsetX -= velocityX * 10;
-      memoryOffsetY -= velocityY * 10;
-      velocityX *= friction;
-      velocityY *= friction;
+      if (Math.abs(memoryVelocityX) < 0.01 && Math.abs(memoryVelocityY) < 0.01) return;
+      memoryOffsetX -= memoryVelocityX * 10;
+      memoryOffsetY -= memoryVelocityY * 10;
+      memoryVelocityX *= friction;
+      memoryVelocityY *= friction;
       onUpdateMemoryPreview();
       requestAnimationFrame(inertia);
     }
@@ -440,13 +508,13 @@ function onTouchEnd(event) {
   }
 }
 
-function getTouchDistance(touches) {
-  const dx = touches[0].clientX - touches[1].clientX;
-  const dy = touches[0].clientY - touches[1].clientY;
+function getPointerDistance() {
+  const points = Array.from(memoryActivePointer.values());
+  if (points.length < 2) return 0;
+  const dx = points[0].x - points[1].x;
+  const dy = points[0].y - points[1].y;
   return Math.sqrt(dx * dx + dy * dy);
 }
-
-
 
 
 // *    *   *   *   *   *   *   *   FIN TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *

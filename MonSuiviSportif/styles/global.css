@@ -3419,8 +3419,8 @@ div.memory-card{
 
 
 #canvasMemory {
-  touch-action: none; /* empêche le navigateur de scroller ou zoomer la page */
-  will-change: transform; /* aide le GPU à garder le rendu fluide */
+    touch-action: none; /* empêche le navigateur de scroller ou zoomer la page */
+    will-change: transform; /* aide le GPU à garder le rendu fluide */
 }
 
 /* ---------------------------- Styles paysage ----------------------------------------*/
