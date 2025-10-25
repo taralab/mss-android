@@ -594,7 +594,8 @@ const allEventListenerRegistry = {
     updateEvent:[],
     recupPopup:[],
     recupEditor:[],
-    memoryEditor:[]
+    memoryEditor:[],
+    visionneuse:[]
 }
 
 
@@ -1311,7 +1312,7 @@ function onLeaveMenu(menuTarget) {
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
              //retire les évènements qui concerne le menu et ses enfant
-            onRemoveEventListenerInRegistry(["rewards"]);
+            onRemoveEventListenerInRegistry(["rewards","visionneuse"]);
             hideDivScrollableMenu();
             onChangeDisplay(["divRewards"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onHideCustomInfo();

@@ -1408,17 +1408,17 @@
 
             </div>
 
-              <!-- Visionneuse d'image plein écran -->
+            <!-- Visionneuse d'image plein écran -->
             <div id="divVisionneuse" class="visionneuse">
                 <div class="visionneuse-content">
                 <div class="visionneuse-slider" id="visionneuseSlider">
                     <!-- Images injectées en JS -->
                 </div>
-                    <button class="btn-close-visionneuse" onclick="onCloseVisionneuse()">✕</button>
-                    <button class="nav-arrow arrow-left" onclick="prevVisionneuseImage()">‹</button>
-                    <button class="nav-arrow arrow-right" onclick="nextVisionneuseImage()">›</button>
+                    <button id="btnVisionneuseClose" class="btn-close-visionneuse">✕</button>
+                    <button id="btnVisionneuseNavLeft" class="nav-arrow arrow-left">‹</button>
+                    <button id="btnVisionneuseNavRight" class="nav-arrow arrow-right">›</button>
                     
-                    <button class="btn-delete" onclick="deleteCurrentMemory()">🗑️ Supprimer</button>
+                    <button id="btnVisionneuseDelete" class="btn-delete-visionneuse"><img src="./Icons/Icon-Delete-color.webp" alt=""></button>
                 </div>
             </div>
 

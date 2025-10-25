@@ -333,6 +333,9 @@ async function onOpenMenuRewards(){
     }
 
 
+    // Ajout les éléments pour la visionneuse
+    onInitVisionneuse();
+
 
     // Prend les récompenses de l'utilisateur pour les afficher dans la liste
     onLoadUserRewardsList();
@@ -1170,6 +1173,8 @@ function onResetRewardsMenu() {
 function onClickReturnFromRewards() {
 
     onResetRewardsMenu();
+
+    onClearVisionneuse();
    
     // ferme le menu
     onLeaveMenu("Rewards");

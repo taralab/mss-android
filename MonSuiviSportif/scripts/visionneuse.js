@@ -1,7 +1,59 @@
-let currentVisionneuseIndex = 0;
-const visionneuseSliderRef = document.getElementById("visionneuseSlider");
-const divVisionneuseRef = document.getElementById("divVisionneuse");
+let currentVisionneuseIndex = 0,
+    visionneuseSliderRef = null,
+    divVisionneuseRef = null,
+    btnVisionneuseNavLeftRef = null,
+    btnVisionneuseNavRightRef = null,
+    btnVisionneuseCloseRef = null,
+    btnVisionneuseDeleteRef = null;
 
+
+
+function onInitVisionneuse() {
+
+    //référence
+    visionneuseSliderRef = document.getElementById("visionneuseSlider");
+    divVisionneuseRef = document.getElementById("divVisionneuse");
+
+    btnVisionneuseNavLeftRef = document.getElementById("btnVisionneuseNavLeft");
+    btnVisionneuseNavRightRef = document.getElementById("btnVisionneuseNavRight");
+    btnVisionneuseCloseRef = document.getElementById("btnVisionneuseClose");
+    btnVisionneuseDeleteRef = document.getElementById("btnVisionneuseDelete");
+
+
+    // Evènement
+    //image précedente
+    const onClickVisionneuseLeft = () => prevVisionneuseImage();
+    btnVisionneuseNavLeftRef.addEventListener("click",onClickVisionneuseLeft);
+    onAddEventListenerInRegistry("visionneuse",btnVisionneuseNavLeftRef,"click",onClickVisionneuseLeft);
+
+    //image suivante
+    const onClickVisionneuseRight = () => nextVisionneuseImage();
+    btnVisionneuseNavRightRef.addEventListener("click",onClickVisionneuseRight);
+    onAddEventListenerInRegistry("visionneuse",btnVisionneuseNavRightRef,"click",onClickVisionneuseRight);
+
+    //ferme visionneuse
+    const onClickCloseVisionneuse = () => onCloseVisionneuse();
+    btnVisionneuseCloseRef.addEventListener("click",onClickCloseVisionneuse);
+    onAddEventListenerInRegistry("visionneuse",btnVisionneuseCloseRef,"click",onClickCloseVisionneuse);
+
+    //demande de suppression
+    const onClickDeleteMemory = () => deleteCurrentMemory();
+    btnVisionneuseDeleteRef.addEventListener("click",onClickDeleteMemory);
+    onAddEventListenerInRegistry("visionneuse",btnVisionneuseDeleteRef,"click",onClickDeleteMemory);
+
+
+}
+
+
+function onClearVisionneuse() {
+    currentVisionneuseIndex = 0;
+    visionneuseSliderRef = null;
+    divVisionneuseRef = null;
+    btnVisionneuseNavLeftRef = null;
+    btnVisionneuseNavRightRef = null;
+    btnVisionneuseCloseRef = null;
+    btnVisionneuseDeleteRef = null;
+}
 
 // Ouvre la visionneuse depuis un objet de mémoire
 function onOpenVisionneuse(key) {
@@ -27,6 +79,7 @@ function onOpenVisionneuse(key) {
 
     divVisionneuseRef.style.display = "flex";
     updateVisionneuseSlider();
+    upDateVisionneuseNavBtn();
 }
 
 
@@ -46,6 +99,7 @@ function nextVisionneuseImage() {
     if (currentVisionneuseIndex < memoryCardKeysList.length - 1) {
         currentVisionneuseIndex++;
         updateVisionneuseSlider();
+        upDateVisionneuseNavBtn();
     }
 }
 
@@ -53,20 +107,29 @@ function prevVisionneuseImage() {
     if (currentVisionneuseIndex > 0) {
         currentVisionneuseIndex--;
         updateVisionneuseSlider();
+        upDateVisionneuseNavBtn();
     }
 }
 
-// Gestion du swipe tactile
-let startX = 0;
+// Gestion de l'affichage des boutons gauche droites
 
-visionneuseSliderRef.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-});
+function upDateVisionneuseNavBtn() {
+    // Gestion bouton de droite
+    if (currentVisionneuseIndex == 0) {
+        // Premier Masque bouton gauche
+        btnVisionneuseNavLeftRef.style.display = "none";
+    }else{
+        //affiche bouton gauche
+        btnVisionneuseNavLeftRef.style.display = "block";
+    }
 
-visionneuseSliderRef.addEventListener("touchend", e => {
-    const endX = e.changedTouches[0].clientX;
-    const delta = endX - startX;
 
-    if (delta > 50) prevVisionneuseImage();
-    if (delta < -50) nextVisionneuseImage();
-});
+    if (currentVisionneuseIndex >= (memoryCardKeysList.length - 1)) {
+        // Si c'est le dernier masque btn de droite
+        btnVisionneuseNavRightRef.style.display = "none";
+
+    }else{
+        // Affiche bouton droite
+        btnVisionneuseNavRightRef.style.display = "block";
+    }
+}

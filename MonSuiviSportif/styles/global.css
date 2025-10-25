@@ -3474,11 +3474,12 @@ div.visionneuse {
     max-height: 80vh;
     object-fit: contain;
     user-select: none;
+    pointer-events: none; /* <- permet au parent de recevoir tous les pointer events */
 }
 
 .btn-close-visionneuse {
     position: absolute;
-    top: 1rem;
+    top: 50px;
     right: 1rem;
     background: rgba(0, 0, 0, 0.4);
     border: none;
@@ -3515,14 +3516,13 @@ div.visionneuse {
 
 
 
-.btn-delete {
+.btn-delete-visionneuse {
     position: absolute;
-    bottom: 1rem;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     padding: 0.6rem 1.2rem;
     border: none;
-    background-color: #ff4d4d;
     color: white;
     border-radius: 8px;
     font-size: 1rem;
