@@ -430,90 +430,90 @@ function memoryRenderLoop() {
 
 
 function onMemoryPointerDown(event) {
-  event.preventDefault();
-  canvasMemoryRef.setPointerCapture(event.pointerId);
-  memoryActivePointer.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    event.preventDefault();
+    canvasMemoryRef.setPointerCapture(event.pointerId);
+    memoryActivePointer.set(event.pointerId, { x: event.clientX, y: event.clientY });
 
-  if (memoryActivePointer.size === 1) {
-    // un seul doigt → déplacement
-    isMemoryDragging = true;
-    memoryLastTouchX = event.clientX;
-    memoryLastTouchY = event.clientY;
-    startMemoryRenderLoop();
-  } else if (memoryActivePointer.size === 2) {
-    // deux doigts → zoom
-    isMemoryDragging = false;
-    memoryLastTouchDistance = getPointerDistance();
-    startMemoryRenderLoop();
-  }
+    if (memoryActivePointer.size === 1) {
+        // un seul doigt → déplacement
+        isMemoryDragging = true;
+        memoryLastTouchX = event.clientX;
+        memoryLastTouchY = event.clientY;
+        startMemoryRenderLoop();
+    } else if (memoryActivePointer.size === 2) {
+        // deux doigts → zoom
+        isMemoryDragging = false;
+        memoryLastTouchDistance = getPointerDistance();
+        startMemoryRenderLoop();
+    }
 }
 
 function onMemoryPointerMove(event) {
-  if (!memoryActivePointer.has(event.pointerId)) return;
-  memoryActivePointer.set(event.pointerId, { x: event.clientX, y: event.clientY });
-  event.preventDefault();
+    if (!memoryActivePointer.has(event.pointerId)) return;
+    memoryActivePointer.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    event.preventDefault();
 
-  if (isMemoryDragging && memoryActivePointer.size === 1) {
-    const touch = memoryActivePointer.get(event.pointerId);
-    const now = performance.now();
-    const dx = touch.x - memoryLastTouchX;
-    const dy = touch.y - memoryLastTouchY;
-    const dt = now - memoryLastMoveTime || 16;
+    if (isMemoryDragging && memoryActivePointer.size === 1) {
+        const touch = memoryActivePointer.get(event.pointerId);
+        const now = performance.now();
+        const dx = touch.x - memoryLastTouchX;
+        const dy = touch.y - memoryLastTouchY;
+        const dt = now - memoryLastMoveTime || 16;
 
-    memoryOffsetX -= dx / memoryScale;
-    memoryOffsetY -= dy / memoryScale;
+        memoryOffsetX -= dx / memoryScale;
+        memoryOffsetY -= dy / memoryScale;
 
-    memoryVelocityX = dx / dt;
-    memoryVelocityY = dy / dt;
+        memoryVelocityX = dx / dt;
+        memoryVelocityY = dy / dt;
 
-    memoryLastTouchX = touch.x;
-    memoryLastTouchY = touch.y;
-    memoryLastMoveTime = now;
-  }
-  else if (memoryActivePointer.size === 2) {
-    const newDistance = getPointerDistance();
-    const zoomFactor = newDistance / memoryLastTouchDistance;
+        memoryLastTouchX = touch.x;
+        memoryLastTouchY = touch.y;
+        memoryLastMoveTime = now;
+    }
+    else if (memoryActivePointer.size === 2) {
+        const newDistance = getPointerDistance();
+        const zoomFactor = newDistance / memoryLastTouchDistance;
 
-    const prevScale = memoryScale;
-    memoryScale *= zoomFactor;
-    memoryScale = Math.max(0.1, Math.min(memoryScale, 10));
+        const prevScale = memoryScale;
+        memoryScale *= zoomFactor;
+        memoryScale = Math.max(0.1, Math.min(memoryScale, 10));
 
-    memoryOffsetX -= ((canvasMemoryRef.width / 2) * (1 / prevScale - 1 / memoryScale));
-    memoryOffsetY -= ((canvasMemoryRef.height / 2) * (1 / prevScale - 1 / memoryScale));
+        memoryOffsetX -= ((canvasMemoryRef.width / 2) * (1 / prevScale - 1 / memoryScale));
+        memoryOffsetY -= ((canvasMemoryRef.height / 2) * (1 / prevScale - 1 / memoryScale));
 
-    memoryLastTouchDistance = newDistance;
-  }
+        memoryLastTouchDistance = newDistance;
+    }
 }
 
 function onMemoryPointerUp(event) {
-  memoryActivePointer.delete(event.pointerId);
-  canvasMemoryRef.releasePointerCapture(event.pointerId);
+    memoryActivePointer.delete(event.pointerId);
+    canvasMemoryRef.releasePointerCapture(event.pointerId);
 
-  if (memoryActivePointer.size === 0) {
-    isMemoryDragging = false;
-    stopMemoryRenderLoop();
+    if (memoryActivePointer.size === 0) {
+        isMemoryDragging = false;
+        stopMemoryRenderLoop();
 
-    // inertie
-    const friction = 0.95;
-    function inertia() {
-      if (Math.abs(memoryVelocityX) < 0.01 && Math.abs(memoryVelocityY) < 0.01) return;
-      memoryOffsetX -= memoryVelocityX * 10;
-      memoryOffsetY -= memoryVelocityY * 10;
-      memoryVelocityX *= friction;
-      memoryVelocityY *= friction;
-      onUpdateMemoryPreview();
-      requestAnimationFrame(inertia);
+        // inertie
+        const friction = 0.95;
+        function inertia() {
+        if (Math.abs(memoryVelocityX) < 0.01 && Math.abs(memoryVelocityY) < 0.01) return;
+        memoryOffsetX -= memoryVelocityX * 10;
+        memoryOffsetY -= memoryVelocityY * 10;
+        memoryVelocityX *= friction;
+        memoryVelocityY *= friction;
+        onUpdateMemoryPreview();
+        requestAnimationFrame(inertia);
+        }
+        inertia();
     }
-    inertia();
-  }
 }
 
 function getPointerDistance() {
-  const points = Array.from(memoryActivePointer.values());
-  if (points.length < 2) return 0;
-  const dx = points[0].x - points[1].x;
-  const dy = points[0].y - points[1].y;
-  return Math.sqrt(dx * dx + dy * dy);
+    const points = Array.from(memoryActivePointer.values());
+    if (points.length < 2) return 0;
+    const dx = points[0].x - points[1].x;
+    const dy = points[0].y - points[1].y;
+    return Math.sqrt(dx * dx + dy * dy);
 }
 
 
