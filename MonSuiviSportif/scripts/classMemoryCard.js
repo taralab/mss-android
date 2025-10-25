@@ -8,12 +8,13 @@ class MemoryCard{
         this.element = document.createElement("div");
         this.element.classList.add("memory-card"); 
         
-        //Ajout de l'évènement
-        this.element.addEventListener("click",() => {
-            // affiche en plein écran
+        // Clic sur la carte → ouverture de la visionneuse
+        this.element.addEventListener("click", () => {
+            console.log("click");
             currentMemoryIdInView = this.memoryKey;
-            onDisplayMemoryFullScreen(this.imgData);
+            onOpenVisionneuse(this.memoryKey);
         });
+
 
         // Fonction de rendu
         this.render();

@@ -3290,7 +3290,7 @@ p.recup-fs-title{
 
 
 
-/* -------------------------------MEMORY (HALL OF FAME) ------------------------------ */
+/* ------------------------------- #MEMORY (HALL OF FAME) ------------------------------ */
 
 
 
@@ -3422,6 +3422,116 @@ div.memory-card{
     touch-action: none; /* empêche le navigateur de scroller ou zoomer la page */
     will-change: transform; /* aide le GPU à garder le rendu fluide */
 }
+
+
+
+
+
+/* Visionneuse d'image */
+
+
+
+    /* === Visionneuse plein écran === */
+div.visionneuse {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(246, 246, 246);
+    display: none; /* caché par défaut */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.visionneuse-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.visionneuse-slider {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease;
+}
+
+.visionneuse-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visionneuse-slide img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    user-select: none;
+}
+
+.btn-close-visionneuse {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    }
+/* Flèches gauche/droite */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.arrow-left {
+    left: 1rem;
+}
+
+.arrow-right {
+    right: 1rem;
+}
+
+
+
+
+.btn-delete {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+
+
 
 /* ---------------------------- Styles paysage ----------------------------------------*/
 

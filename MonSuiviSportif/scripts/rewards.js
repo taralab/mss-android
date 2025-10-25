@@ -121,12 +121,6 @@ function onAddEventListenerForReward() {
     locDivFullScreenRewardsRef.addEventListener("click",onClickRewardHidden);
     onAddEventListenerInRegistry("rewards",locDivFullScreenRewardsRef,"click",onClickRewardHidden);
 
-    //La div memory full screen
-    let locDivFullScreenMemoryRef = document.getElementById("divFullScreenMemory");
-    const onClickMemoryHidden = () => onHiddenFullScreenMemory();
-    locDivFullScreenMemoryRef.addEventListener("click",onClickMemoryHidden);
-    onAddEventListenerInRegistry("rewards",locDivFullScreenMemoryRef,"click",onClickMemoryHidden);
-
     //Pour la suppression d'un memory
     let locBtnDeleteMemoryRef = document.getElementById("btnDeleteMemory");
     const onClickDeleteMemoryBtn = (event) => onclickDeleteMemory(event);
