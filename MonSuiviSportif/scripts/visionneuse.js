@@ -37,10 +37,8 @@ function onInitVisionneuse() {
     onAddEventListenerInRegistry("visionneuse",btnVisionneuseCloseRef,"click",onClickCloseVisionneuse);
 
     //demande de suppression
-    const onClickDeleteMemory = () => deleteCurrentMemory();
+    const onClickDeleteMemory = () => onclickDeleteMemory();
     btnVisionneuseDeleteRef.addEventListener("click",onClickDeleteMemory);
-    onAddEventListenerInRegistry("visionneuse",btnVisionneuseDeleteRef,"click",onClickDeleteMemory);
-
 
 }
 
@@ -133,3 +131,6 @@ function upDateVisionneuseNavBtn() {
         btnVisionneuseNavRightRef.style.display = "block";
     }
 }
+
+
+

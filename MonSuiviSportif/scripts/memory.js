@@ -18,7 +18,6 @@ let canvasMemoryRef = null,
     memoryZoomSize = 512, // taille du crop
     isMemoryImageLoaded = false,
     maxMemory = 10,//le nombre maximal de souvenir
-    currentMemoryIdInView,
     memoryCardInstanceList = {},
     memoryCardKeysList = [];
 
@@ -939,8 +938,7 @@ function gestionTextAndBtnMemory() {
 
 
 // demande de suppression
-function onclickDeleteMemory(event){
-    event.stopPropagation();
+function onclickDeleteMemory(){
 
     // Popup de confirmation
     let textToDisplay = `<b>Supprimer cet évènement ?</b>`;
@@ -951,11 +949,13 @@ function onclickDeleteMemory(event){
 
 // Sequence de suppression d'un Memory
 async function eventDeleteMemory() {
+    // Ferme le plein écran actuel (visionneuse)
+    onCloseVisionneuse();
 
     //Retire le popup de visualisation
     onHiddenFullScreenMemory();
 
-    let idToDelete = currentMemoryIdInView;
+    let idToDelete = memoryCardKeysList[currentVisionneuseIndex];
 
     // Envoie vers la corbeille
     await sendToRecycleBin(idToDelete);
@@ -967,6 +967,7 @@ async function eventDeleteMemory() {
 
     // Retire du dom via l'instance
     memoryCardInstanceList[idToDelete].removeItem();
+
     //suppression de l'instance
     delete memoryCardInstanceList[idToDelete];
 
@@ -974,6 +975,19 @@ async function eventDeleteMemory() {
     let indexToDelete = memoryCardKeysList.indexOf(idToDelete);
     memoryCardKeysList.splice(indexToDelete,1);
 
+    // 🔹 Si des images restent, on rouvre la visionneuse sur la suivante
+    if (memoryCardKeysList.length > 0) {
+        // Si on supprime la dernière image, on recule d’un cran
+        const newIndex = Math.min(indexToDelete, memoryCardKeysList.length - 1);
+        const newKey = memoryCardKeysList[newIndex];
+
+        //Lance à nouveau la visionneuse
+        onOpenVisionneuse(newKey);
+
+    } else {
+        // Sinon on ferme définitivement
+        onCloseVisionneuse();
+    }
 
     //gestion text si memory ou pas
     gestionTextAndBtnMemory();

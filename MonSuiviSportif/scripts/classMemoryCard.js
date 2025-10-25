@@ -11,7 +11,6 @@ class MemoryCard{
         // Clic sur la carte → ouverture de la visionneuse
         this.element.addEventListener("click", () => {
             console.log("click");
-            currentMemoryIdInView = this.memoryKey;
             onOpenVisionneuse(this.memoryKey);
         });
 

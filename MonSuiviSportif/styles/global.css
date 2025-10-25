@@ -3443,7 +3443,7 @@ div.visionneuse {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 10;
     overflow: hidden;
 }
 
