@@ -5,9 +5,8 @@ let userRewardsArray = [],
     rewardsEligibleArray = [], //stockes les trophés auxquels l'utilisateur est éligible 
     specialRewardsEligibleArray = [],//les trophes special event auxquels l'utilisateur est éligible
     newRewardsToSee = [],//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
-    rewardAllActivityNonPlannedKeys = [], // tableau qui contient les clé des activités non planifiées
-    currentRewardOnFullScreen = "",
-    imgShareMode = "";//pour les paramètre du partage "standard" ou "special"
+    rewardAllActivityNonPlannedKeys = []; // tableau qui contient les clé des activités non planifiées
+
 
 // Reference 
 let imgRewardsFullScreenRef,
@@ -15,9 +14,10 @@ let imgRewardsFullScreenRef,
     pRewardsFullScreenTextRef,
     divRewardsListRef,
     divSpecialRewardsListRef,
-    imgMemoryFullScreenRef;
-
-
+    imgMemoryFullScreenRef,
+    btnVisionneuseRewardCloseRef,
+    btnVisionneuseRewardLeftRef,
+    btnVisionneuseRewardRightRef;
 
 
 
@@ -28,13 +28,15 @@ let imgRewardsFullScreenRef,
 
 
 class RewardCardEnabled{
-    constructor(rewardKey,rewardTitle,imgRef,isNewReward,shareMode,parentRef){
+    constructor(rewardKey,rewardTitle,imgRef,isNewReward,shareMode,parentRef,currentIndex,isSpecialReward){
         this.rewardKey = rewardKey;
         this.rewardTitle = rewardTitle;
         this.imgRef = imgRef;
         this.isNewReward = isNewReward;
         this.shareMode = shareMode;
         this.parentRef = parentRef;
+        this.currentIndex = currentIndex;
+        this.isSpecialReward = isSpecialReward;
 
 
 
@@ -51,7 +53,7 @@ class RewardCardEnabled{
             if (event.currentTarget.classList.contains("newRewards")) {
                 event.currentTarget.classList.remove("newRewards");
             }
-            onDisplayRewardsFullScreen(this.rewardKey, shareMode);
+            onDisplayRewardVisionneuse(this.isSpecialReward,this.currentIndex);
         });
 
 
@@ -115,17 +117,20 @@ function onAddEventListenerForReward() {
         console.log("[EVENT-LISTENER] : Ajoute les évènements pour reward fullscreen");
     };
 
-    //La div reward full screen
-    let locDivFullScreenRewardsRef = document.getElementById("divFullScreenRewards");
+    //Fermer visionneuse reward
     const onClickRewardHidden = () => onHiddenFullscreenRewards();
-    locDivFullScreenRewardsRef.addEventListener("click",onClickRewardHidden);
-    onAddEventListenerInRegistry("rewards",locDivFullScreenRewardsRef,"click",onClickRewardHidden);
+    btnVisionneuseRewardCloseRef.addEventListener("click",onClickRewardHidden);
+    onAddEventListenerInRegistry("rewards",btnVisionneuseRewardCloseRef,"click",onClickRewardHidden);
 
-    //Pour la suppression d'un memory
-    let locBtnDeleteMemoryRef = document.getElementById("btnDeleteMemory");
-    const onClickDeleteMemoryBtn = (event) => onclickDeleteMemory(event);
-    locBtnDeleteMemoryRef.addEventListener("click",onClickDeleteMemoryBtn);
-    onAddEventListenerInRegistry("rewards",locBtnDeleteMemoryRef,"click",onClickDeleteMemoryBtn);
+    //bouton visionneuse reward gauche
+    const onClickPrevViewReward = () => onClickPreviewRewardVisionneuse();
+    btnVisionneuseRewardLeftRef.addEventListener("click",onClickPrevViewReward);
+    onAddEventListenerInRegistry("rewards",btnVisionneuseRewardLeftRef,"click",onClickPrevViewReward);
+
+    //bouton visionneuse reward droite
+    const onClickNextViewReward = () => onClickNextRewardVisionneuse();
+    btnVisionneuseRewardRightRef.addEventListener("click",onClickNextViewReward);
+    onAddEventListenerInRegistry("rewards",btnVisionneuseRewardRightRef,"click",onClickNextViewReward);
 
     //Le menu hall of Fame editor
     let btnMemoryEditorRef = document.getElementById("btnMenuMemory");
@@ -304,6 +309,9 @@ async function onOpenMenuRewards(){
     divSpecialRewardsListRef = document.getElementById("divSpecialRewardsList");
     divMemoryListRef = document.getElementById("divMemoryList");
     imgMemoryFullScreenRef = document.getElementById("imgMemoryFullScreen");
+    btnVisionneuseRewardCloseRef = document.getElementById("btnVisionneuseRewardClose");
+    btnVisionneuseRewardLeftRef = document.getElementById("btnVisionneuseRewardLeft");
+    btnVisionneuseRewardRightRef = document.getElementById("btnVisionneuseRewardRight");
 
 
     // affiche le nombre de trophé débloqué dans le menu contextuel
@@ -379,9 +387,9 @@ function onLoadUserRewardsList() {
     
     if (userSpecialRewardsArray.length > 0) {
         userSpecialRewardsArray.sort();
-        userSpecialRewardsArray.forEach(e=>{
+        userSpecialRewardsArray.forEach((e,index)=>{
             let isNewReward = newRewardsToSee.includes(e);
-            new RewardCardEnabled(e,allSpecialEventsRewardsObject[e].title,allSpecialEventsRewardsObject[e].imgRef,isNewReward,"special",divSpecialRewardsListRef);   
+            new RewardCardEnabled(e,allSpecialEventsRewardsObject[e].title,allSpecialEventsRewardsObject[e].imgRef,isNewReward,"special",divSpecialRewardsListRef,index,true);   
         });
     }else{
         divSpecialRewardsListRef.innerHTML = "😅 Rien de spécial... pour l’instant !";
@@ -394,9 +402,9 @@ function onLoadUserRewardsList() {
     // Les Rewards que possède déjà l'utilisateur 
     userRewardsArray.sort();
 
-    userRewardsArray.forEach(e=>{
+    userRewardsArray.forEach((e,index)=>{
         let isNewReward = newRewardsToSee.includes(e);
-        new RewardCardEnabled(e,allRewardsObject[e].title,allRewardsObject[e].imgRef,isNewReward,"standard",divRewardsListRef);
+        new RewardCardEnabled(e,allRewardsObject[e].title,allRewardsObject[e].imgRef,isNewReward,"standard",divRewardsListRef,index,false);
     });  
 
 
@@ -422,25 +430,87 @@ function onLoadUserRewardsList() {
 // ---------------------------------------- VISUALISATION   GROS PLAN    --------------------------------
 
 
-
+let currentRewardVisionneuseIndex = 0,
+    isRewardVisionneuseModeSpecial = false,
+    currentRewardVisionneuseKeysList = [];
 
 
 // Affiche en grand la récompense
-function onDisplayRewardsFullScreen(rewardName,shareMode) {
-    imgShareMode = shareMode;//Set le mode de partage
+function onDisplayRewardVisionneuse(isSpecialRewards,currentIndex) {
+
+    currentRewardVisionneuseIndex = currentIndex;
+    isRewardVisionneuseModeSpecial = isSpecialRewards;
+
+    // Charge les keys (standard ou special) selon le boolean
+    currentRewardVisionneuseKeysList = isSpecialRewards ? [...userSpecialRewardsArray] : [...userRewardsArray]; 
+
 
     if (devMode === true){
         console.log("[REWARDS]  demande de visualisation de récompense : " + rewardName)
-        console.log("mode de partage: ",imgShareMode);
-        ;};
-    currentRewardOnFullScreen = rewardName;
+    ;};
+
+    //Set le premier éléments
+    onSetRewardVisionneuseData(currentRewardVisionneuseIndex);
+
+    //initialise l'état des boutons de navigation GD
+    updateRewardVisionneuseBtn();
 
 
-    // Recherche dans les object standard et sinon dans les spécials events
+    //Affiche
+    document.getElementById("divFullScreenRewards").style.display = "flex";
+};
 
+
+function onClickNextRewardVisionneuse() {
+    //calcul
+    if (currentRewardVisionneuseIndex < currentRewardVisionneuseKeysList.length - 1) {
+        currentRewardVisionneuseIndex++
+    }
+    //set les data
+    onSetRewardVisionneuseData(currentRewardVisionneuseIndex);
+    //actualise les boutons GD
+    updateRewardVisionneuseBtn();
+}
+
+function onClickPreviewRewardVisionneuse() {
+    //calcul
+    if (currentRewardVisionneuseIndex > 0) {
+        currentRewardVisionneuseIndex--
+    }
+    //set les data
+    onSetRewardVisionneuseData(currentRewardVisionneuseIndex);
+    //actualise les boutons GD
+    updateRewardVisionneuseBtn();
+}
+
+function updateRewardVisionneuseBtn() {
+    // Gestion bouton de droite
+    if (currentRewardVisionneuseIndex == 0) {
+        // Premier Masque bouton gauche
+        btnVisionneuseRewardLeftRef.style.display = "none";
+    }else{
+        //affiche bouton gauche
+        btnVisionneuseRewardLeftRef.style.display = "block";
+    }
+
+
+    if (currentRewardVisionneuseIndex >= (currentRewardVisionneuseKeysList.length - 1)) {
+        // Si c'est le dernier masque btn de droite
+        btnVisionneuseRewardRightRef.style.display = "none";
+
+    }else{
+        // Affiche bouton droite
+        btnVisionneuseRewardRightRef.style.display = "block";
+    }
+}
+
+
+function onSetRewardVisionneuseData(index) {
+
+    let rewardName = currentRewardVisionneuseKeysList[index];
 
     // STANDARD REWARDS
-    if (Object.keys(allRewardsObject).includes(rewardName)) {
+    if (!isRewardVisionneuseModeSpecial) {
         // set les éléments et affiche
         imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
 
@@ -449,27 +519,22 @@ function onDisplayRewardsFullScreen(rewardName,shareMode) {
         pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
 
         // SPECIAL REWARDS
-    }else if (Object.keys(allSpecialEventsRewardsObject).includes(rewardName)){
+    }else{
         // set les éléments et affiche
         imgRewardsFullScreenRef.src = allSpecialEventsRewardsObject[rewardName].imgRef;
 
         pRewardsFullScreenTitleRef.innerHTML = allSpecialEventsRewardsObject[rewardName].title;
 
         pRewardsFullScreenTextRef.innerHTML = `Tu as ${allSpecialEventsRewardsObject[rewardName].text}.`;
-    }else{
-        console.log("erreur display REWARDS no found",rewardName);
     }
+}
 
-    document.getElementById("divFullScreenRewards").classList.add("show");
-
-
-};
 
 
 // Masque la récompense qui était en grand plan
 function onHiddenFullscreenRewards() {
     if (devMode === true){console.log("cache la div de visualisation de récompense");};
-    document.getElementById("divFullScreenRewards").classList.remove("show");
+    document.getElementById("divFullScreenRewards").style.display = "none";
 };
 
 
@@ -1160,6 +1225,9 @@ function onResetRewardsMenu() {
     divRewardsListRef = null;
     divSpecialRewardsListRef = null;
     divMemoryListRef = null;
+    btnVisionneuseRewardRightRef = null;
+    btnVisionneuseRewardLeftRef = null;
+    btnVisionneuseRewardCloseRef = null;
 
     //vide les variables
     newRewardsToSee = [];
