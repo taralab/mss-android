@@ -14,7 +14,6 @@ let imgRewardsFullScreenRef,
     pRewardsFullScreenTextRef,
     divRewardsListRef,
     divSpecialRewardsListRef,
-    imgMemoryFullScreenRef,
     btnVisionneuseRewardCloseRef,
     btnVisionneuseRewardLeftRef,
     btnVisionneuseRewardRightRef;
@@ -308,7 +307,6 @@ async function onOpenMenuRewards(){
     divRewardsListRef = document.getElementById("divRewardsList");
     divSpecialRewardsListRef = document.getElementById("divSpecialRewardsList");
     divMemoryListRef = document.getElementById("divMemoryList");
-    imgMemoryFullScreenRef = document.getElementById("imgMemoryFullScreen");
     btnVisionneuseRewardCloseRef = document.getElementById("btnVisionneuseRewardClose");
     btnVisionneuseRewardLeftRef = document.getElementById("btnVisionneuseRewardLeft");
     btnVisionneuseRewardRightRef = document.getElementById("btnVisionneuseRewardRight");
@@ -1219,7 +1217,6 @@ function onResetRewardsMenu() {
     divRewardsListRef.innerHTML = "";
     divSpecialRewardsListRef.innerHTML = "";
     divMemoryListRef.innerHTML = "";
-    imgMemoryFullScreenRef.innerHTML = "";
 
     //vide les références
     divRewardsListRef = null;
