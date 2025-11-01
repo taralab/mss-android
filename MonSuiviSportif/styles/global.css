@@ -1472,7 +1472,12 @@ div.reward-category.standard{
     margin-top: 20px;
 }
 
-
+div.std-reward-area{
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+}
 
 
 
@@ -1566,7 +1571,19 @@ div.reward-card.locked {
     opacity: 0.5;
 }
 
+div.reward-separator{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 1px rgb(220, 220, 220);
+    gap: 10px;
+    margin-bottom: 20px;
+}
 
+p.reward-separator-title{
+    color: var(--colorTextBtn);
+    font-weight: bold;
+}
 
 /* Tremblement pour les récompenses verrouillées */
 div.reward-card.locked.tremble {

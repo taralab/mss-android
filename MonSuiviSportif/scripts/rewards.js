@@ -5,7 +5,8 @@ let userRewardsArray = [],
     rewardsEligibleArray = [], //stockes les trophés auxquels l'utilisateur est éligible 
     specialRewardsEligibleArray = [],//les trophes special event auxquels l'utilisateur est éligible
     newRewardsToSee = [],//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
-    rewardAllActivityNonPlannedKeys = []; // tableau qui contient les clé des activités non planifiées
+    rewardAllActivityNonPlannedKeys = [],// tableau qui contient les clé des activités non planifiées
+    rewardStdCategoryList = [];//contient la liste des catégorie pour séparation
 
 
 // Reference 
@@ -24,6 +25,29 @@ let imgRewardsFullScreenRef,
 
 
 // ---------------------------------------- CLASS  -------------------------------------------
+
+class RewardSeparator{
+    constructor(text,parentRef){
+        this.text = text;
+        this.parentRef = parentRef;
+
+        // Conteneur principal
+        this.element = document.createElement("div");
+        this.element.classList.add("reward-separator");
+
+        // Fonction de rendu
+        this.render();
+    }
+
+    render(){
+        this.element.innerHTML = `
+            <p class="reward-separator-title">${this.text}</p>
+            <div class="rewards-grid" id="divRewardGrid_${this.text}"></div>
+        `;
+        // Insertion dans le parent
+        this.parentRef.appendChild(this.element);
+    }
+}
 
 
 class RewardCardEnabled{
@@ -375,8 +399,10 @@ function onCreateMainMenuReward() {
 // Creation des récompenses de l'user dans la liste
 function onLoadUserRewardsList() {
 
+    // Reset
     divRewardsListRef.innerHTML = "";
     divSpecialRewardsListRef.innerHTML = "";
+    rewardStdCategoryList = [];
 
     if (devMode === true){console.log("[REWARDS] Création de la liste des récompenses");};
 
@@ -386,6 +412,8 @@ function onLoadUserRewardsList() {
     if (userSpecialRewardsArray.length > 0) {
         userSpecialRewardsArray.sort();
         userSpecialRewardsArray.forEach((e,index)=>{
+
+            // Injection du reward
             let isNewReward = newRewardsToSee.includes(e);
             new RewardCardEnabled(e,allSpecialEventsRewardsObject[e].title,allSpecialEventsRewardsObject[e].imgRef,isNewReward,"special",divSpecialRewardsListRef,index,true);   
         });
@@ -401,8 +429,20 @@ function onLoadUserRewardsList() {
     userRewardsArray.sort();
 
     userRewardsArray.forEach((e,index)=>{
+
+        // Control et injection catégorie
+        if (!rewardStdCategoryList.includes(allRewardsObject[e].activityName)) {
+            rewardStdCategoryList.push(allRewardsObject[e].activityName);
+
+            //injection du séparateur
+            new RewardSeparator(allRewardsObject[e].activityName,divRewardsListRef);
+        }
+
+        // recupère l'id de la div catégorie
+        let parentRef = document.getElementById(`divRewardGrid_${allRewardsObject[e].activityName}`);
+
         let isNewReward = newRewardsToSee.includes(e);
-        new RewardCardEnabled(e,allRewardsObject[e].title,allRewardsObject[e].imgRef,isNewReward,"standard",divRewardsListRef,index,false);
+        new RewardCardEnabled(e,allRewardsObject[e].title,allRewardsObject[e].imgRef,isNewReward,"standard",parentRef,index,false);
     });  
 
 
@@ -411,12 +451,16 @@ function onLoadUserRewardsList() {
     // Récupère les clés pour les classé ordre alpha
     allRewardsKeys.sort();
 
+    //injection du séparateur
+    new RewardSeparator("LOCKED",divRewardsListRef);
+    let parentRef = document.getElementById("divRewardGrid_LOCKED");
+
     allRewardsKeys.forEach(key=>{
 
         let isPossessed = userRewardsArray.includes(key);
 
         if (!isPossessed) {
-            new RewardCardLocked(key,allRewardsObject[key].title,allRewardsObject[key].text,divRewardsListRef);
+            new RewardCardLocked(key,allRewardsObject[key].title,allRewardsObject[key].text,parentRef);
         }
     });
 
