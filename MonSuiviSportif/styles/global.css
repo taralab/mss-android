@@ -1541,24 +1541,28 @@ div.rewards-grid {
 
 
 div.reward-card {
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* background-color: #fff; */
+    /* border: 2px solid #ddd; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
     text-align: center;
     padding: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     max-width: 120px; 
 }
 
-div.reward-card.unlocked {
+/* div.reward-card.unlocked {
     border-color: var(--colorMainTheme1);
-    box-shadow: 0 4px 10px rgba(76, 142, 175, 0.3);
-}
+    box-shadow: 0 4px 10px rgba(76, 142, 175, 0.3); 
+} */
 
 
 
 div.reward-card.locked {
+    background-color: #fff; 
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 0.5;
 }
 
@@ -1598,7 +1602,7 @@ p.reward-condition {
 
 
 img.rewardCardEnable {
-    width: 90px;
+    width: 100px;
 }
 
 
@@ -1623,6 +1627,10 @@ img.rewardCardDisable {
 }
 
 .newRewards{
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     animation: pulse 1.5s infinite;
 }
 
@@ -1642,28 +1650,10 @@ img.rewardsListDisable {
 
 
 /* En plein écran */
-/* Cette div fait également office de bouton pour fermer la vue */
-div.fullScreenTrophy {
-    background-color: rgba(230, 230, 230, 0.9);
-    z-index: 2;
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    justify-content: center;
-    align-items: center; /* centre verticalement */
-    padding: 80px 20px; /* ⬅️ ajoute de l'espace cliquable */
-    box-sizing: border-box;
-}
 
-div.fullScreenTrophy.show {
-    display: flex; /* Change display pour l'afficher */
-}
 
 /* La div contenant l'ensemble des éléments du reward */
-div.tomate{
+div.visionneuse-content div.trophy-area{
     width: 90vw;
     height: 80vh;
     text-align: center;
@@ -1672,11 +1662,17 @@ div.tomate{
     border-radius: 20px;
     margin-left: 30px;
     margin-top: 100px;
+
+    /* Centrage du contenu */
+    display: flex;
+    flex-direction: column; /* Garde les éléments empilés verticalement */
+    justify-content: center; /* Centre verticalement */
+    align-items: center; /* Centre horizontalement */
 }
 
 
 img.trophyFullScreen{
-    width: 300px;
+    width: 80vw;
     margin: 10px;
 }
 
@@ -3482,8 +3478,13 @@ div.visionneuse {
     width: 3rem;
     height: 3rem;
     cursor: pointer;
-    }
-/* Flèches gauche/droite */
+
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* Supprime le flash bleu */
+    user-select: none;
+}
+    
+    
 .nav-arrow {
     position: absolute;
     top: 50%;
@@ -3496,8 +3497,26 @@ div.visionneuse {
     width: 4rem;
     height: 4rem;
     cursor: pointer;
+
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* Supprime le flash bleu */
+    user-select: none;
+
+    /* Animation fluide */
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
+/* Effet tactile (clic ou tap) */
+.nav-arrow:active {
+    transform: translateY(-50%) scale(0.9); /* léger zoom arrière au toucher */
+    background: rgba(0, 0, 0, 0.5); /* foncé au clic */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* ombre douce */
+}
+
+/* Optionnel : effet au survol sur desktop */
+.nav-arrow:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
 .arrow-left {
     left: 1rem;
 }
@@ -3603,5 +3622,29 @@ div.visionneuse {
         width: 80vh;    /* 🧩 prend 80% de la hauteur de l’écran */
     }
 
+
+
+    /* Visionneuse images */
+    .arrow-left {
+        left: 3rem;
+    }
+
+    .arrow-right {
+        right: 3rem;
+    }
+
+
+    div.visionneuse-content div.trophy-area{
+        width: 50vw;
+        height: 80vh;
+        margin-left: 150px;
+        margin-top: 50px;
+    }
+
+
+    img.trophyFullScreen{
+        width: 50vh;
+        margin: 10px;
+    }
 }
 
