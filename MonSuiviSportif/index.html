@@ -1313,7 +1313,7 @@
                     </p>
 
                     <p class="activity-editor">
-                        <span id="spanTextMemoryRoundReach" class="textRecupEditorCB">Niveau atteint :</span>
+                        <span id="spanTextMemoryRoundReach" class="textRecupEditorCB">Étape atteinte :</span>
                         <label class="switch">
                             <input id="inputCBMemoryRoundReach" type="checkbox">
                             <span class="slider"></span>
@@ -1327,6 +1327,22 @@
                             <option value="32e de finale">32e de finale</option>
                         </select>
                     </p>
+
+
+                    <!-- La durée -->
+                    <div class="number-container">
+                        <span class="input-number-symbol">⏱️</span>
+                        <input type="number" id="inputDurationMemoryHours" min="0" max="999" placeholder="HH">
+                        
+                        <span class="chrono-separator">:</span>
+                        <input type="number" id="inputDurationMemoryMinutes" min="0" max="59" placeholder=MM">
+                          
+                        <span class="chrono-separator">:</span>
+                        <input type="number" id="inputDurationMemorySeconds" min="0" max="59" placeholder="SS">
+
+                        <span class="chrono-separator">.</span>
+                        <input type="number" id="inputDurationMemoryCentieme" min="0" max="99" placeholder="CC">
+                    </div>
 
 
                     <p class="activity-editor">

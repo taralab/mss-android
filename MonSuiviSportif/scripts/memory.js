@@ -9,6 +9,10 @@ let canvasMemoryRef = null,
     inputCBMemoryRankRef = null,
     inputCBMemoryRoundReachRef = null,
     texteareaMemoryCommentRef = null,
+    inputDurationMemoryHoursRef = null,
+    inputDurationMemoryMinutesRef = null,
+    inputDurationMemorySecondsRef = null,
+    inputDurationMemoryCentiemeRef = null,
     memoryMoveStep = 10, // déplacement en pixels
     memoryImageItem = null,
     memoryOffsetX = 0,
@@ -266,6 +270,10 @@ function onInitMemoryItems() {
     inputCBMemoryRoundReachRef = document.getElementById('inputCBMemoryRoundReach');
     inputMemoryRankRef = document.getElementById("inputMemoryRank");
     selectMemoryRoundReachRef = document.getElementById("selectMemoryRoundReach");
+    inputDurationMemoryHoursRef = document.getElementById("inputDurationMemoryHours");
+    inputDurationMemoryMinutesRef = document.getElementById("inputDurationMemoryMinutes");
+    inputDurationMemorySecondsRef = document.getElementById("inputDurationMemorySeconds");
+    inputDurationMemoryCentiemeRef = document.getElementById("inputDurationMemoryCentieme");
     memoryImageItem = new Image();
 
     memoryOffsetX = 0;
@@ -551,31 +559,18 @@ function onClickGenerateMemory() {
     const startX = (memoryImageItem.width - zoomedSide) / 2 + memoryOffsetX;
     const startY = (memoryImageItem.height - zoomedSide) / 2 + memoryOffsetY;
 
-    // Coordonnées d’affichage sur le canvas final
     const x = 55;
     const y = 50;
     const width = 400;
     const height = 400;
-    const radius = 40; // 🔘 ajustable : rayon d’arrondi des coins
+    const radius = 40;
 
-    // Sauvegarde du contexte avant clipping
     fctx.save();
-
-    // Dessine la forme arrondie et applique le clip
     drawBorderRadius(fctx, x, y, width, height, radius);
     fctx.clip();
-
-    // Dessine l’image à l’intérieur du masque arrondi
-    fctx.drawImage(
-        memoryImageItem,
-        startX, startY, zoomedSide, zoomedSide,
-        x, y, width, height
-    );
-
-    // Restaure le contexte pour ne pas clipper le reste
+    fctx.drawImage(memoryImageItem, startX, startY, zoomedSide, zoomedSide, x, y, width, height);
     fctx.restore();
 
-    // 🟡 Bord arrondi autour de l’image
     fctx.lineWidth = 4;
     fctx.strokeStyle = "#FFF";
     drawBorderRadius(fctx, x, y, width, height, radius);
@@ -584,41 +579,28 @@ function onClickGenerateMemory() {
     // 🟥 Titre + date
     fctx.fillStyle = "#FFF";
     fctx.textAlign = "center";
-
     fctx.font = "bold 52px Poppins";
+
     const maxTextWidth = 450;
     const lineHeight = 60;
     const textX = w / 2;
     let textY = w + 10;
 
-    // 🧮 Dessine le titre et récupère le nombre de lignes
     const lineCount = wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
 
-    // 🎯 Position spécifique selon le nombre de lignes
     let dateOffsetY;
-
     switch (lineCount) {
-        case 1:
-            dateOffsetY = 10; // ← ajustable : distance sous le titre à 1 ligne
-            break;
-        case 2:
-            dateOffsetY = 10; // ← ajustable : pour 2 lignes
-            break;
-        case 3:
-            dateOffsetY = -20; // ← ajustable : pour 3 lignes
-            break;
-        default:
-            // si titre très long (4+ lignes)
-            dateOffsetY = 240 + (lineCount - 3) * 40;
-            break;
+        case 1: dateOffsetY = 10; break;
+        case 2: dateOffsetY = 10; break;
+        case 3: dateOffsetY = -20; break;
+        default: dateOffsetY = 240 + (lineCount - 3) * 40; break;
     }
 
-const dateY = textY + (lineCount * lineHeight) + dateOffsetY;
+    const dateY = textY + (lineCount * lineHeight) + dateOffsetY;
+    fctx.font = "28px Poppins";
+    fctx.fillText(date, w / 2, dateY);
 
-fctx.font = "28px Poppins";
-fctx.fillText(date, w / 2, dateY);
-
-    // 🟨 CLASSEMENT / NIVEAU (affiché en bas à droite)
+    // 🟨 CLASSEMENT / NIVEAU (bas à droite)
     const showRank = inputCBMemoryRankRef.checked;
     const showRound = inputCBMemoryRoundReachRef.checked;
 
@@ -627,10 +609,9 @@ fctx.fillText(date, w / 2, dateY);
         if (!isNaN(rankValue) && rankValue > 0) {
             fctx.textAlign = "right";
             fctx.fillStyle =
-                rankValue === 1 ? "#E8C547" :  // or doux
-                rankValue === 2 ? "#BFC6CC" :  // argent clair
-                rankValue === 3 ? "#C58B5E" :  // bronze chaud
-                "#D5C5A0";                     // beige clair pour les autres
+                rankValue === 1 ? "#E8C547" :
+                rankValue === 2 ? "#BFC6CC" :
+                rankValue === 3 ? "#C58B5E" : "#D5C5A0";
             fctx.font = rankValue > 999 ? "bold 36px Poppins" : "bold 42px Poppins";
             const rankDisplay = rankValue.toLocaleString("fr-FR");
             fctx.fillText(`${rankDisplay}e`, w - 40, h - 40);
@@ -645,6 +626,24 @@ fctx.fillText(date, w / 2, dateY);
         }
     }
 
+    // 🟪 DURÉE (bas à gauche)
+    let isDurationExist = onCheckMemoryDurationFilled();
+    if (isDurationExist) {
+        const heure = parseInt(inputDurationMemoryHoursRef.value) || 0;
+        const minute = parseInt(inputDurationMemoryMinutesRef.value) || 0;
+        const seconde = parseInt(inputDurationMemorySecondsRef.value) || 0;
+        const centieme = parseInt(inputDurationMemoryCentiemeRef.value) || 0;
+
+        const formattedDuration = formatMemoryDuration({ heure, minute, seconde, centieme });
+
+        if (formattedDuration) {
+            fctx.textAlign = "left";
+            fctx.fillStyle = "#FFF";
+            fctx.font = "bold 20px Poppins";
+            fctx.fillText(formattedDuration, 40, h - 40);
+        }
+    }
+
     // 🟫 Conversion et affichage
     const finalImage = finalCanvas.toDataURL("image/webp", 0.8);
     const divMemoryPreviewRef = document.getElementById("divMemoryPreviewContent");
@@ -652,7 +651,6 @@ fctx.fillText(date, w / 2, dateY);
 
     document.getElementById("divMemoryPreview").style.display = "flex";
 
-    // Pour sauvegarde
     memoryToInsert = {
         title: titleUpper,
         date: date,
@@ -660,6 +658,8 @@ fctx.fillText(date, w / 2, dateY);
         comment: texteareaMemoryCommentRef.value
     };
 }
+
+
 
 
 
@@ -879,6 +879,66 @@ function getBase64Size(base64String) {
 
 
 
+// Verifie si au moins une durée est renseigné
+
+function onCheckMemoryDurationFilled() {
+    const h = inputDurationMemoryHoursRef.value.trim();
+    const m = inputDurationMemoryMinutesRef.value.trim();
+    const s = inputDurationMemorySecondsRef.value.trim();
+    const c = inputDurationMemoryCentiemeRef.value.trim();
+
+    // Retourne true si au moins un champ a une valeur non vide et différente de 0
+    return [h, m, s, c].some(val => val !== "" && Number(val) > 0);
+}
+
+
+// Formate la date
+function formatMemoryDuration({ heure = 0, minute = 0, seconde = 0, centieme = 0 }) {
+  // Normalisation
+  heure = Number(heure) || 0;
+  minute = Number(minute) || 0;
+  seconde = Number(seconde) || 0;
+  centieme = Number(centieme) || 0;
+
+  // Si tout est nul → rien à afficher
+  if (heure === 0 && minute === 0 && seconde === 0 && centieme === 0) return "";
+
+  // Convertit un nombre en exposant Unicode
+  const toSuperscript = (num) => {
+    const map = { "0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹" };
+    return String(num).split("").map(d => map[d] || d).join("");
+  };
+
+  // --- Complétion des “trous” ---
+  if (heure > 0 && minute === 0 && (seconde > 0 || centieme > 0)) minute = 0;
+  if ((heure > 0 || minute > 0) && seconde === 0 && centieme > 0) seconde = 0;
+
+  const parts = [];
+
+  // --- Heures ---
+  if (heure > 0) parts.push(`${heure} h`);
+
+  // --- Minutes ---
+  if (minute > 0 || (heure > 0 && (seconde > 0 || centieme > 0))) {
+    parts.push(`${String(minute).padStart(2,"0")} min`);
+  }
+
+  // --- Secondes + centièmes ---
+  if (seconde > 0 || centieme > 0) {
+    let secPart;
+    if (centieme > 0) {
+      secPart = `${String(seconde).padStart(2,"0")}.${toSuperscript(String(centieme).padStart(2,"0"))}`;
+    } else {
+      secPart = `${String(seconde).padStart(2,"0")}″`;
+    }
+    parts.push(secPart);
+  }
+
+  return parts.join(" ");
+}
+
+
+
 //-----------------------------Affichage des memory -----------------------------------
 
 
@@ -1016,6 +1076,10 @@ function onResetMemoryItems() {
     inputMemoryTitleRef.value = null;
     inputImageMemoryRef.value = null;
     texteareaMemoryCommentRef.value = null;
+    inputDurationMemoryHoursRef.value = "";
+    inputDurationMemoryMinutesRef.value = "";
+    inputDurationMemorySecondsRef.value = "";
+    inputDurationMemoryCentiemeRef.value = "";
     inputCBMemoryRankRef.checked = false;
     inputCBMemoryRoundReachRef.checked = false;
     inputMemoryRankRef.value = "";
@@ -1040,6 +1104,10 @@ function onResetMemoryItems() {
     inputCBMemoryRoundReachRef = null;
     inputMemoryRankRef = null;
     selectMemoryRoundReachRef = null;
+    inputDurationMemoryHoursRef = null;
+    inputDurationMemoryMinutesRef = null;
+    inputDurationMemorySecondsRef = null;
+    inputDurationMemoryCentiemeRef = null;
     
 
 }
