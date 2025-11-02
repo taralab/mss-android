@@ -11,6 +11,7 @@ let userRewardsArray = [],
 
 // Reference 
 let imgRewardsFullScreenRef,
+    pRewardsFSActivityNameRef,
     pRewardsFullScreenTitleRef,
     pRewardsFullScreenTextRef,
     divRewardsListRef,
@@ -326,6 +327,7 @@ async function onOpenMenuRewards(){
 
     // Reference les éléments
     imgRewardsFullScreenRef = document.getElementById("imgRewardsFullScreen");
+    pRewardsFSActivityNameRef = document.getElementById("pRewardsFSActivityName");
     pRewardsFullScreenTextRef = document.getElementById("pRewardsFullScreenText");
     pRewardsFullScreenTitleRef = document.getElementById("pRewardsFullScreenTitle");
     divRewardsListRef = document.getElementById("divRewardsList");
@@ -554,6 +556,7 @@ function onSetRewardVisionneuseData(index) {
     // STANDARD REWARDS
     if (!isRewardVisionneuseModeSpecial) {
         // set les éléments et affiche
+        pRewardsFSActivityNameRef.innerHTML = allRewardsObject[rewardName].activityName;
         imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
 
         pRewardsFullScreenTitleRef.innerHTML = allRewardsObject[rewardName].title;
@@ -564,6 +567,7 @@ function onSetRewardVisionneuseData(index) {
     }else{
         // set les éléments et affiche
         imgRewardsFullScreenRef.src = allSpecialEventsRewardsObject[rewardName].imgRef;
+        pRewardsFSActivityNameRef.innerHTML = "";
 
         pRewardsFullScreenTitleRef.innerHTML = allSpecialEventsRewardsObject[rewardName].title;
 
@@ -1256,6 +1260,7 @@ function onResetRewardsMenu() {
 
     //vide de contenu
     imgRewardsFullScreenRef= "";
+    pRewardsFSActivityNameRef = "";
     pRewardsFullScreenTextRef = "";
     pRewardsFullScreenTitleRef = "";
     divRewardsListRef.innerHTML = "";

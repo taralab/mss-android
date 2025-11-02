@@ -1693,7 +1693,11 @@ img.trophyFullScreen{
     margin: 10px;
 }
 
-
+p.trophy-FS-activity-name{
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+}
 
 
 p.trophy{
