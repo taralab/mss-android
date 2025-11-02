@@ -1047,7 +1047,7 @@ function onChangeMenu(menuTarget) {
 
             //gere l'apparition du menu memory
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : MEMORY");};
-            pMenuTitleRef.innerHTML = "Hall of Fame";
+            pMenuTitleRef.innerHTML = "Ajouter un évent";
             onChangeDisplay(["divRewards"],[],["divMemory"],[],[],[],[]);
             onHideCustomInfo();
             onOpenMenuMemory();
