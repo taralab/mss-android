@@ -1321,7 +1321,7 @@ function onLeaveMenu(menuTarget) {
         case "Memory":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
              //retire les évènements qui concerne le menu et ses enfant
-            onRemoveEventListenerInRegistry(["memoryEditor"]);
+            onRemoveEventListenerInRegistry(["memoryEditor","visionneuse"]);
             //retourne dans le menu rewards
             onChangeDisplay(["divMemory"],[],["divRewards"],[],[],[],[]);
             pMenuTitleRef.innerHTML = "Récompenses";

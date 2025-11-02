@@ -373,7 +373,7 @@ async function onOpenMenuRewards(){
     // Ajout des évènements pour le menu rewards
     onAddEventListenerForReward();
 
-    if (devMode === true) {
+    if (devMode === false) {
         onConsoleLogEventListenerRegistry();
     }
 
