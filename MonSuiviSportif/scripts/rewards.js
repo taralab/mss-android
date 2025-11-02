@@ -10,7 +10,8 @@ let userRewardsArray = [],
 
 
 // Reference 
-let imgRewardsFullScreenRef,
+let divTrophyFSAreaRef,
+    imgRewardsFullScreenRef,
     pRewardsFSActivityNameRef,
     pRewardsFullScreenTitleRef,
     pRewardsFullScreenTextRef,
@@ -326,6 +327,7 @@ async function onOpenMenuRewards(){
     if (devMode === true){console.log("[REWARDS] Ouverture menu Rewards");};
 
     // Reference les éléments
+    divTrophyFSAreaRef = document.getElementById("divTrophyFSArea");
     imgRewardsFullScreenRef = document.getElementById("imgRewardsFullScreen");
     pRewardsFSActivityNameRef = document.getElementById("pRewardsFSActivityName");
     pRewardsFullScreenTextRef = document.getElementById("pRewardsFullScreenText");
@@ -506,25 +508,17 @@ function onDisplayRewardVisionneuse(isSpecialRewards,currentIndex) {
 
 
 function onClickNextRewardVisionneuse() {
-    //calcul
-    if (currentRewardVisionneuseIndex < currentRewardVisionneuseKeysList.length - 1) {
-        currentRewardVisionneuseIndex++
-    }
-    //set les data
-    onSetRewardVisionneuseData(currentRewardVisionneuseIndex);
     //actualise les boutons GD
     updateRewardVisionneuseBtn();
+
+    animateChange("right");
 }
 
 function onClickPreviewRewardVisionneuse() {
-    //calcul
-    if (currentRewardVisionneuseIndex > 0) {
-        currentRewardVisionneuseIndex--
-    }
-    //set les data
-    onSetRewardVisionneuseData(currentRewardVisionneuseIndex);
     //actualise les boutons GD
     updateRewardVisionneuseBtn();
+
+    animateChange("left");
 }
 
 function updateRewardVisionneuseBtn() {
@@ -573,6 +567,39 @@ function onSetRewardVisionneuseData(index) {
 
         pRewardsFullScreenTextRef.innerHTML = `Tu as ${allSpecialEventsRewardsObject[rewardName].text}.`;
     }
+}
+
+
+let isTrophyFSAnimating = false;
+
+function animateChange(direction) {
+    if (isTrophyFSAnimating) return; // empêche les clics multiples
+    isTrophyFSAnimating = true;
+
+    const outClass = direction === "right" ? "visionneuse-slide-out-left" : "visionneuse-slide-out-right";
+    const inClass = direction === "right" ? "visionneuse-slide-in-right" : "visionneuse-slide-in-left";
+
+    divTrophyFSAreaRef.classList.add(outClass);
+
+    divTrophyFSAreaRef.addEventListener("animationend", function handler() {
+        divTrophyFSAreaRef.removeEventListener("animationend", handler);
+
+        currentRewardVisionneuseIndex = direction === "right"
+        ? (currentRewardVisionneuseIndex + 1) % currentRewardVisionneuseKeysList.length
+        : (currentRewardVisionneuseIndex - 1 + currentRewardVisionneuseKeysList.length) % currentRewardVisionneuseKeysList.length;
+
+        onSetRewardVisionneuseData(currentRewardVisionneuseIndex);
+        updateRewardVisionneuseBtn();
+
+        divTrophyFSAreaRef.classList.remove(outClass);
+        divTrophyFSAreaRef.classList.add(inClass);
+
+        divTrophyFSAreaRef.addEventListener("animationend", function handler2() {
+            divTrophyFSAreaRef.removeEventListener("animationend", handler2);
+            divTrophyFSAreaRef.classList.remove(inClass);
+            isTrophyFSAnimating = false; // libère le clic ici
+        });
+    });
 }
 
 
@@ -1274,6 +1301,7 @@ function onResetRewardsMenu() {
     btnVisionneuseRewardRightRef = null;
     btnVisionneuseRewardLeftRef = null;
     btnVisionneuseRewardCloseRef = null;
+    divTrophyFSAreaRef = null;
 
     //vide les variables
     newRewardsToSee = [];
@@ -1293,3 +1321,6 @@ function onClickReturnFromRewards() {
     // ferme le menu
     onLeaveMenu("Rewards");
 }
+
+
+

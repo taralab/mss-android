@@ -89,12 +89,11 @@ div.header-dev{
 }
 
 .contenu-scrollable {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: none;
 }
-
 
 
 .hidden{
@@ -1685,6 +1684,8 @@ div.visionneuse-content div.trophy-area{
     flex-direction: column; /* Garde les éléments empilés verticalement */
     justify-content: center; /* Centre verticalement */
     align-items: center; /* Centre horizontalement */
+
+    transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 
@@ -2884,7 +2885,7 @@ input:checked + .slider::before {
 
 
 
-@keyframes slideInRight {
+@keyframes trophySlideInRight {
   from {
     opacity: 0;
     transform: translateX(30px); /* arrive de la droite */
@@ -2896,7 +2897,7 @@ input:checked + .slider::before {
 }
 
 .item-animate-in-horizontal {
-  animation: slideInRight 0.4s ease-out;
+  animation: trophySlideInRight 0.4s ease-out;
   animation-fill-mode: both;
   opacity: 0; /* important pour éviter l'apparition brutale */
 }
@@ -3508,7 +3509,7 @@ div.visionneuse {
     
 .nav-arrow {
     position: absolute;
-    bottom: 90px;
+    bottom: 50px;
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.1);
     border: none;
@@ -3564,6 +3565,40 @@ div.visionneuse {
 }
 
 
+
+/* Prefixe visionneuse trophy standard */
+.visionneuse-slide-out-left { animation: visionneuseSlideOutLeft 0.25s forwards; }
+.visionneuse-slide-in-right { animation: visionneuseSlideInRight 0.25s forwards; }
+.visionneuse-slide-out-right { animation: visionneuseSlideOutRight 0.25s forwards; }
+.visionneuse-slide-in-left { animation: visionneuseSlideInLeft 0.25s forwards; }
+
+@keyframes visionneuseSlideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes visionneuseSlideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes visionneuseSlideOutRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes visionneuseSlideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+
+.visionneuse-slide-out-left,
+.visionneuse-slide-out-right,
+.visionneuse-slide-in-left,
+.visionneuse-slide-in-right {
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* standard Material Design */
+}
 
 
 /* ---------------------------- Styles paysage ----------------------------------------*/
