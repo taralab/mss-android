@@ -1255,24 +1255,7 @@
                 </div>
 
 
-                <!-- Plein écran -->
-                <div id="divFullScreenRewards" class="visionneuse">
-                    <div  class="visionneuse-content">
-                        <div class="trophy-area" id="divTrophyFSArea">
-                            <p id="pRewardsFSActivityName" class="trophy-FS-activity-name"></p>
-                            <p>
-                                <img id="imgRewardsFullScreen" src="./Badges/Badge-BASKETBALL-A.webp" alt="" class="trophyFullScreen">
-                            </p>
-                            
-                            <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
-                            <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
-                        </div>
-                    </div>
-                    <button id="btnVisionneuseRewardClose" class="btn-close-visionneuse">X</button>
-                    <button id="btnVisionneuseRewardLeft" class="nav-arrow arrow-left"><</button>
-                    <button id="btnVisionneuseRewardRight" class="nav-arrow arrow-right">></button>
 
-                </div>
 
 
                 <!-- ----------------------------------  FIN    DIV REWARDS     ------------------------------------------------>
@@ -1401,13 +1384,14 @@
                 <!-- ----------------------------------    FIN DIV MEMORY     ------------------------------------------------>
             </div>
 
-            <!-- Visionneuse d'image plein écran -->
+            <!-- FULLSCREEN MEMORY -->
             <div id="divVisionneuse" class="visionneuse">
+                <div class="visionneuse-safe-area-top"></div>
                 <div class="visionneuse-content">
                     <div class="visionneuse-slider" id="visionneuseSlider">
                         <!-- Images injectées en JS -->
                     </div>
-                    <button id="btnVisionneuseClose" class="btn-close-visionneuse">✕</button>
+                    <button id="btnVisionneuseClose" class="btn-close-visionneuse">❌</button>
                     <button id="btnVisionneuseNavLeft" class="nav-arrow arrow-left">‹</button>
                     <button id="btnVisionneuseNavRight" class="nav-arrow arrow-right">›</button>
                     
@@ -1415,6 +1399,24 @@
                 </div>
             </div>
 
+            <!-- FULL SCREEN TROPHY -->
+            <div id="divFullScreenRewards" class="visionneuse">
+                <div class="visionneuse-safe-area-top"></div>
+                <div  class="visionneuse-content">
+                    <div class="trophy-area" id="divTrophyFSArea">
+                        <p id="pRewardsFSActivityName" class="trophy-FS-activity-name"></p>
+                        <p>
+                            <img id="imgRewardsFullScreen" src="./Badges/Badge-BASKETBALL-A.webp" alt="" class="trophyFullScreen">
+                        </p>
+                            
+                        <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
+                        <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
+                    </div>
+                    <button id="btnVisionneuseRewardClose" class="btn-close-visionneuse">❌</button>
+                </div>
+                <button id="btnVisionneuseRewardLeft" class="nav-arrow arrow-left"><</button>
+                <button id="btnVisionneuseRewardRight" class="nav-arrow arrow-right">></button>
+            </div>
             <!-- ----------------------------------      DIV POPUP NOTIFY     ------------------------------------------------>
             <div id="popupNotify" class="popupNotify">
                 <div id="divNotifyPopupEmoji" class="notify-emoji">👌</div>

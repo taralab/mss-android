@@ -1670,13 +1670,12 @@ img.rewardsListDisable {
 
 /* La div contenant l'ensemble des éléments du reward */
 div.visionneuse-content div.trophy-area{
-    width: 90vw;
+    width: 100vw;
     height: 60vh;
     text-align: center;
     /* border: solid 2px var(--colorMainTheme1);
     background-color: var(--colorLightGray); */
     border-radius: 20px;
-    margin-left: 30px;
     margin-top: 100px;
 
     /* Centrage du contenu */
@@ -3490,16 +3489,18 @@ div.visionneuse {
 
 .btn-close-visionneuse {
     position: absolute;
-    top: 50px;
+    top: 20px;
     right: 1rem;
-    background: rgba(0, 0, 0, 0.4);
+    width: 60px;
+    height: 40px;
     border: none;
-    color: white;
-    font-size: 2rem;
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
+    border-radius: 999px;
+    background-color: rgb(235, 235, 235);
+    color: #ffffff;
+    font-weight: 600;
     cursor: pointer;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+
 
     outline: none;
     -webkit-tap-highlight-color: transparent; /* Supprime le flash bleu */
@@ -3535,10 +3536,7 @@ div.visionneuse {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* ombre douce */
 }
 
-/* Optionnel : effet au survol sur desktop */
-.nav-arrow:hover {
-    background: rgba(0, 0, 0, 0.4);
-}
+
 .arrow-left {
     left: 1rem;
 }
@@ -3547,7 +3545,12 @@ div.visionneuse {
     right: 1rem;
 }
 
-
+div.visionneuse-safe-area-top{
+    height:36px; /* Ajustable si besoin */
+    flex-shrink: 0;
+    background-color: #31b5c4;
+    width: 100%;
+}
 
 
 .btn-delete-visionneuse {
