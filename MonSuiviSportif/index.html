@@ -1453,21 +1453,15 @@
 
 
             <!-- ----------------------------------  DIV #UPDATE INFO    ------------------------------------------------>
-            <div class="popup-update" id="divPopupUpdate">
-                <div class="popup-update-content" id="divPopupContent">
-                    <h2 class="popup-title">Nouveautés 🎉</h2>
-
-                    <div class="popup-image-area">
-                        <img id="imgUpdateA" alt="">
-                        <img id="imgUpdateB" alt="">
-
-                        <!-- Barre de progression -->
-                        <div class="popup-update-PB"><div class="popup-progress-fill" id="divPopupUpdatePB"></div></div>
-
-                        <!-- Compteur 1/N -->
-                        <div class="popup-update-Count" id="divPopupCountImgUpdate">1 / 3</div>
+            <div class="visionneuse" id="divPopupUpdate">
+                <div class="visionneuse-safe-area-top"></div>
+                <div class="visionneuse-content">
+                    <div class="visionneuse-slider" id="visionneuseUpdateSlider">
+                        <!-- Images injectées en JS -->
                     </div>
-
+                    <button id="btnUpdateViewClose" class="btn-close-visionneuse">❌</button>
+                    <button id="btnUpdateViewNavLeft" class="nav-arrow arrow-left">‹</button>
+                    <button id="btnUpdateViewNavRight" class="nav-arrow arrow-right">›</button>
                 </div>
             </div>
 
