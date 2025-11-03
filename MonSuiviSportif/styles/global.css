@@ -118,6 +118,16 @@ div.loading-screen{
     z-index: 1002;
     background-color: white;
     text-align: center;
+
+    opacity: 1;
+    transition: opacity 1s ease; /* durée et style de la transition */
+}
+
+
+/* Quand on ajoute cette classe, la div s’estompe */
+.loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none; /* évite de bloquer les clics */
 }
 
 div.loading-screen img{

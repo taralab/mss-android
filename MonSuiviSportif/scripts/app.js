@@ -418,7 +418,11 @@ async function firstActualisation() {
     eventInitTimersAndWakeLock();
 
 
-    // Enlève l'écran de chargement lorsque les éléments sont prêt
-    document.getElementById("divLoadingScreen").style.display = "none";
+    //gestion ecran de chargement
+    setTimeout(() => {
+        eventLoadingScreen();
+    }, 500);
+
 
 }
+

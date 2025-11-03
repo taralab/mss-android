@@ -68,7 +68,27 @@ class Button_add {
 
 
 
+// Gestion écran de chargement
+function eventLoadingScreen() {
+    console.log("Traitement écran de chargement");
 
+    const divLoadingScreenRef = document.getElementById("divLoadingScreen");
+    if (!divLoadingScreenRef) {
+        console.warn("⚠️ Élément #divLoadingScreen introuvable");
+        return;
+    }
+
+    // Ajoute la classe pour lancer la transition CSS
+    divLoadingScreenRef.classList.add('fade-out');
+
+    // Après la transition, on cache complètement la div
+    divLoadingScreenRef.addEventListener('transitionend',() => {
+        divLoadingScreenRef.style.display = 'none';
+        console.log("Écran de chargement retiré");
+        },
+        { once: true } // exécute une seule fois, puis auto-supprime le listener
+    );
+}
 
 
 
