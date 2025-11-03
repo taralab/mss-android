@@ -344,7 +344,7 @@ async function initApp() {
     await onLoadActivityFromDB(); // 4 Extraction liste activité
 
     await onLoadTemplateFromDB(); // 5 Extraction liste modèle
-    onUpdateTemplateKeys();// 6 récupère les clés des modèles d'activités triés
+    onUpdateTemplateKeys(); // 6 récupère les clés des modèles d'activités triés
 }
 
 
@@ -360,8 +360,8 @@ async function firstActualisation() {
 
 
     // CONDITION UTILISATION
-        console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
-        console.log("userInfo" , userInfo);
+    console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
+    console.log("userInfo" , userInfo);
     if (userInfo.conditionAccepted === false) {
         onGenerateConditionUtilisation();
         //la vérification des update event aura lieu après l'acceptation des conditions
@@ -396,7 +396,6 @@ async function firstActualisation() {
         if (isSaveRequired) {
             eventSaveData(true);
         }
-
     }
 
 
@@ -417,5 +416,9 @@ async function firstActualisation() {
 
     //Lancement de la gestion des timers et wakelock
     eventInitTimersAndWakeLock();
+
+
+    // Enlève l'écran de chargement lorsque les éléments sont prêt
+    document.getElementById("divLoadingScreen").style.display = "none";
 
 }
