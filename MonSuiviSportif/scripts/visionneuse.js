@@ -56,7 +56,6 @@ function onClearVisionneuse() {
 // Ouvre la visionneuse depuis un objet de mémoire
 function onOpenVisionneuse(key) {
 
-    console.log("openVisionneuse");
     // Récupère la position de la clé dans la liste
     const index = memoryCardKeysList.indexOf(key);
     if (index === -1) {

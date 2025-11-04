@@ -110,7 +110,7 @@ img.logo{
     width: 70px;
 }
 
-/* DIV CHARGEMENT */
+/* #LOADING SCREEN */
 div.loading-screen{
     position: fixed;
     width: 100vw;
@@ -3376,10 +3376,6 @@ div.memory-card{
 
 
 
-/* Visionneuse d'image */
-
-
-
     /* === Visionneuse plein écran === */
 div.visionneuse {
     position: fixed;
@@ -3415,7 +3411,8 @@ div.visionneuse {
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    margin-top: 40px;
 }
 
 .visionneuse-slide img {
@@ -3430,15 +3427,15 @@ div.visionneuse {
     position: absolute;
     top: 20px;
     right: 1rem;
-    width: 60px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border: none;
-    border-radius: 999px;
-    background-color: rgb(235, 235, 235);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
     color: #ffffff;
-    font-weight: 600;
+    /* font-weight: bold; */
     cursor: pointer;
-    font-size: clamp(1rem, 3vw, 1.2rem);
+    font-size: 24px;
 
 
     outline: none;
@@ -3450,38 +3447,35 @@ div.visionneuse {
 .nav-arrow {
     position: absolute;
     bottom: 50px;
-    transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.1);
     border: none;
     color: white;
-    font-size: 2rem;
+    font-size: 30px;
     border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
-
     outline: none;
     -webkit-tap-highlight-color: transparent; /* Supprime le flash bleu */
     user-select: none;
 
     /* Animation fluide */
-    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
 /* Effet tactile (clic ou tap) */
 .nav-arrow:active {
-    transform: translateY(-50%) scale(0.9); /* léger zoom arrière au toucher */
     background: rgba(0, 0, 0, 0.5); /* foncé au clic */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* ombre douce */
 }
 
 
 .arrow-left {
-    left: 1rem;
+    left: 25px;
 }
 
 .arrow-right {
-    right: 1rem;
+    right: 25px;
 }
 
 div.visionneuse-safe-area-top{
