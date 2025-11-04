@@ -2,7 +2,7 @@
 //vérifie si l'utilisateur possède ce nom dans la base 
 //pour savoir si on doit lui afficher le popup des nouveautés ou non
 //l'information sera stocké dans userInfo.updateNameList[]
-const updateName = "Marmaille";
+const updateName = "Rougail";
 
 //tableau des images pour les nouveautés
 const updateImageArray = [
@@ -79,6 +79,7 @@ function startUpdateEvent() {
     updateViewInfoSlider();
     // Première actualisation des boutons
     updateViewBtnInfo();
+    updateViewCounter();
 }
 
 
@@ -88,6 +89,7 @@ function nextViewUpdate() {
         currentUpdateViewIndex++;
         updateViewInfoSlider();
         updateViewBtnInfo();
+        updateViewCounter();
     }
 }
 
@@ -99,6 +101,7 @@ function prevViewUpdate() {
         currentUpdateViewIndex--;
         updateViewInfoSlider();
         updateViewBtnInfo();
+        updateViewCounter();    
     }
 }
 
@@ -132,6 +135,15 @@ function updateViewBtnInfo() {
     }
 }
 
+
+
+
+function updateViewCounter() {
+  const counterRef = document.getElementById("updateCounter");
+  if (counterRef) {
+    counterRef.textContent = `${currentUpdateViewIndex + 1} / ${updateImageArray.length}`;
+  }
+}
 
 
 

@@ -3500,6 +3500,24 @@ div.visionneuse-safe-area-top{
     transition: background 0.2s;
 }
 
+/* =    =   =   =   =Indicateurs de progression X/X ) = = = = = = =*/
+/* =    =   =   =   ==  =   =   =   =   =   =   =   =   =   =   = = = = = = =*/
+
+/* Compteur numérique ex : "2 / 5" */
+.visionneuse-counter {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #989898;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+
+
+/* =    =   =   =   ==  =   =   =   =   =   =   =   =   =   =   = = = = = = =*/
+
 
 
 /* Prefixe visionneuse trophy standard */
