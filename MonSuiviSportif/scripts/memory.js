@@ -533,11 +533,33 @@ function onClickGenerateMemory() {
     const titleUpper = title.toUpperCase();
     const date = formatMemoryDate(inputMemoryDateStartRef.value, inputMemoryDateEndRef.value);
 
-    if (!isMemoryImageLoaded || !title || !date) {
+
+    // Traitement champ manquant
+    const fields = [
+        { value: title, ref: inputMemoryTitleRef },
+        { value: date, ref: inputMemoryDateStartRef },
+        { value: isMemoryImageLoaded, ref: inputImageMemoryRef }
+    ];
+
+    let hasError = false;
+
+    // On met / enlève la classe en fonction du contenu
+    fields.forEach(field => {
+        if (!field.value) {
+            field.ref.classList.add("fieldRequired");
+            hasError = true;
+        } else {
+            field.ref.classList.remove("fieldRequired");
+        }
+    });
+
+    if (hasError) {
         alert('Merci de remplir tous les champs et d’ajuster ton image.');
         return;
     }
 
+
+    // Poursuite si aucun champ manquant
     const finalCanvas = document.createElement('canvas');
     const fctx = finalCanvas.getContext('2d');
     const w = 512;
@@ -1070,6 +1092,12 @@ async function eventDeleteMemory() {
 
 
 function onResetMemoryItems() {
+
+    // Retire field required si présent
+    inputMemoryTitleRef.classList.remove("fieldRequired");
+    inputMemoryDateStartRef.classList.remove("fieldRequired");
+    inputImageMemoryRef.classList.remove("fieldRequired");
+
     // Vide les champs
     inputMemoryDateStartRef.value = null;
     inputMemoryDateEndRef.value = null;
