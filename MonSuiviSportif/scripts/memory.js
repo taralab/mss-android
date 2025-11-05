@@ -8,7 +8,6 @@ let canvasMemoryRef = null,
     selectMemoryRoundReachRef = null,
     inputCBMemoryRankRef = null,
     inputCBMemoryRoundReachRef = null,
-    texteareaMemoryCommentRef = null,
     inputDurationMemoryHoursRef = null,
     inputDurationMemoryMinutesRef = null,
     inputDurationMemorySecondsRef = null,
@@ -21,7 +20,7 @@ let canvasMemoryRef = null,
     memoryScaleStep = 0.1, // pas de zoom
     memoryZoomSize = 512, // taille du crop
     isMemoryImageLoaded = false,
-    maxMemory = 10,//le nombre maximal de souvenir
+    maxMemory = 10,//Nbre maximal de souvenir. Peut monter à 20 sans problème, mais chargement dans le menu reward un peu plus long. 
     memoryCardInstanceList = {},
     memoryCardKeysList = [];
 
@@ -265,7 +264,6 @@ function onInitMemoryItems() {
     inputMemoryDateStartRef = document.getElementById('inputMemoryDateStart');
     inputMemoryDateEndRef = document.getElementById("inputMemoryDateEnd");
     inputMemoryTitleRef = document.getElementById('inputMemoryTitle');
-    texteareaMemoryCommentRef = document.getElementById('textareaMemoryComment');
     inputCBMemoryRankRef = document.getElementById('inputCBMemoryRank');
     inputCBMemoryRoundReachRef = document.getElementById('inputCBMemoryRoundReach');
     inputMemoryRankRef = document.getElementById("inputMemoryRank");
@@ -677,7 +675,6 @@ function onClickGenerateMemory() {
         title: titleUpper,
         date: date,
         imageData: finalImage,
-        comment: texteareaMemoryCommentRef.value
     };
 }
 
@@ -1103,7 +1100,6 @@ function onResetMemoryItems() {
     inputMemoryDateEndRef.value = null;
     inputMemoryTitleRef.value = null;
     inputImageMemoryRef.value = null;
-    texteareaMemoryCommentRef.value = null;
     inputDurationMemoryHoursRef.value = "";
     inputDurationMemoryMinutesRef.value = "";
     inputDurationMemorySecondsRef.value = "";
@@ -1126,7 +1122,6 @@ function onResetMemoryItems() {
     inputMemoryDateStartRef = null;
     inputMemoryDateEndRef = null;
     inputMemoryTitleRef = null;
-    texteareaMemoryCommentRef = null;
     memoryImageItem = null;
     inputCBMemoryRankRef = null;
     inputCBMemoryRoundReachRef = null;
