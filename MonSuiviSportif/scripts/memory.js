@@ -654,13 +654,13 @@ function onClickGenerateMemory() {
         const seconde = parseInt(inputDurationMemorySecondsRef.value) || 0;
         const centieme = parseInt(inputDurationMemoryCentiemeRef.value) || 0;
 
-        const formattedDuration = formatMemoryDuration({ heure, minute, seconde, centieme });
+        const { text: durationText, fontSize: durationFontSize } = formatMemoryDuration({ heure, minute, seconde, centieme });
 
-        if (formattedDuration) {
+        if (durationText) {
             fctx.textAlign = "left";
             fctx.fillStyle = "#FFF";
-            fctx.font = "bold 20px Poppins";
-            fctx.fillText(formattedDuration, 40, h - 40);
+            fctx.font = `bold ${durationFontSize}px Poppins`;
+            fctx.fillText(durationText, 40, h - 40);
         }
     }
 
@@ -911,50 +911,53 @@ function onCheckMemoryDurationFilled() {
 }
 
 
-// Formate la date
+// Formate la date et la taille selon le nombre d'élements à afficher
 function formatMemoryDuration({ heure = 0, minute = 0, seconde = 0, centieme = 0 }) {
-  // Normalisation
-  heure = Number(heure) || 0;
-  minute = Number(minute) || 0;
-  seconde = Number(seconde) || 0;
-  centieme = Number(centieme) || 0;
+    heure = Number(heure) || 0;
+    minute = Number(minute) || 0;
+    seconde = Number(seconde) || 0;
+    centieme = Number(centieme) || 0;
 
-  // Si tout est nul → rien à afficher
-  if (heure === 0 && minute === 0 && seconde === 0 && centieme === 0) return "";
-
-  // Convertit un nombre en exposant Unicode
-  const toSuperscript = (num) => {
-    const map = { "0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹" };
-    return String(num).split("").map(d => map[d] || d).join("");
-  };
-
-  // --- Complétion des “trous” ---
-  if (heure > 0 && minute === 0 && (seconde > 0 || centieme > 0)) minute = 0;
-  if ((heure > 0 || minute > 0) && seconde === 0 && centieme > 0) seconde = 0;
-
-  const parts = [];
-
-  // --- Heures ---
-  if (heure > 0) parts.push(`${heure} h`);
-
-  // --- Minutes ---
-  if (minute > 0 || (heure > 0 && (seconde > 0 || centieme > 0))) {
-    parts.push(`${String(minute).padStart(2,"0")} min`);
-  }
-
-  // --- Secondes + centièmes ---
-  if (seconde > 0 || centieme > 0) {
-    let secPart;
-    if (centieme > 0) {
-      secPart = `${String(seconde).padStart(2,"0")}.${toSuperscript(String(centieme).padStart(2,"0"))}`;
-    } else {
-      secPart = `${String(seconde).padStart(2,"0")}″`;
+    // Si rien du tout → pas d'affichage
+    if (heure === 0 && minute === 0 && seconde === 0 && centieme === 0) {
+        return { text: "", fontSize: 0 };
     }
-    parts.push(secPart);
-  }
 
-  return parts.join(" ");
+    const toSuperscript = (num) => {
+        const map = { "0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹" };
+        return String(num).split("").map(d => map[d] || d).join("");
+    };
+
+    const parts = [];
+    let count = 0;
+
+    if (heure > 0) { parts.push(`${heure} h`); count++; }
+    if (minute > 0) { parts.push(`${String(minute).padStart(2,"0")} min`); count++; }
+
+    if (seconde > 0 || centieme > 0) {
+        let secPart;
+        if (centieme > 0) {
+        secPart = `${String(seconde).padStart(2,"0")}.${toSuperscript(String(centieme).padStart(2,"0"))}`;
+        count += 2; // seconde + centième → deux unités
+        } else {
+        secPart = `${String(seconde).padStart(2,"0")}″`;
+        count++;
+        }
+        parts.push(secPart);
+    }
+
+    const text = parts.join(" ");
+
+    // 🟣 Détermination de la taille selon le nombre d’unités
+    let fontSize;
+    if (count === 1) fontSize = 36;
+    else if (count === 2) fontSize = 30;
+    else if (count === 3) fontSize = 26;
+    else fontSize = 24;
+
+    return { text, fontSize };
 }
+
 
 
 
