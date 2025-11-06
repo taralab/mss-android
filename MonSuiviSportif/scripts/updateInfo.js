@@ -81,6 +81,7 @@ function startUpdateEvent() {
     // Première actualisation des boutons
     updateViewBtnInfo();
     updateViewCounter();
+    updateCloseInfoBtn(); 
 }
 
 
@@ -91,6 +92,7 @@ function nextViewUpdate() {
         updateViewInfoSlider();
         updateViewBtnInfo();
         updateViewCounter();
+        updateCloseInfoBtn(); 
     }
 }
 
@@ -102,7 +104,8 @@ function prevViewUpdate() {
         currentUpdateViewIndex--;
         updateViewInfoSlider();
         updateViewBtnInfo();
-        updateViewCounter();    
+        updateViewCounter();
+        updateCloseInfoBtn();    
     }
 }
 
@@ -147,6 +150,10 @@ function updateViewCounter() {
 }
 
 
+// Le bouton de fermeture n'est visible qu'à la dernière slide
+function updateCloseInfoBtn() {
+    btnUpdateViewCloseRef.style.display = currentUpdateViewIndex >= (updateImageArray.length -1) ? "block": "none";
+}
 
 
 //ferme le popup
