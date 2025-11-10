@@ -1092,17 +1092,6 @@ function rewardsEvent(newRewardsList) {
 
     //  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
-    // Changement du style du bouton reward
-    let btnRewardMenuRef = document.getElementById("btnMenuRewards");
-
-    if (btnRewardMenuRef) {
-        document.getElementById("btnMenuRewards").classList.add("rewardAvailable");
-    }else{
-        if(devMode === true){
-            console.log("Le bouton reward n'est actuellement pas généré");
-        }
-        console.log("Le bouton reward n'est actuellement pas généré");
-    }
     
 }
 

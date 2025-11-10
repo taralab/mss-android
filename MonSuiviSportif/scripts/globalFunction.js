@@ -206,6 +206,10 @@ let btnMainMenuData = {
         imgRef:"./Icons/Icon-Stat.webp",
         text:"Stats"
     },
+    objectif:{
+        imgRef:"./Icons/Icon-Objectif.webp",
+        text:"Objectif"
+    },
     reward:{
         imgRef:"./Icons/Icon-Trophy.webp",
         text:"Trophées"
@@ -258,7 +262,7 @@ function onGenerateMainMenuApp() {
     //Stats
     new Button_main_menu(btnMainMenuData.stats.imgRef,btnMainMenuData.stats.text,()=>onChangeMenu("Stat"));
     //Reward
-    new Button_main_menu(btnMainMenuData.reward.imgRef,btnMainMenuData.reward.text,()=>onChangeMenu("Rewards"),true);
+    new Button_main_menu(btnMainMenuData.objectif.imgRef,btnMainMenuData.objectif.text,()=>onChangeMenu("Objectif"));
     //Plus
     new Button_main_menu(btnMainMenuData.plus.imgRef,btnMainMenuData.plus.text,()=>onClickMainMenuSup());
 }
