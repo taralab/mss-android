@@ -262,7 +262,7 @@ function onGenerateMainMenuApp() {
     //Stats
     new Button_main_menu(btnMainMenuData.stats.imgRef,btnMainMenuData.stats.text,()=>onChangeMenu("Stat"));
     //Reward
-    new Button_main_menu(btnMainMenuData.objectif.imgRef,btnMainMenuData.objectif.text,()=>onChangeMenu("Objectif"));
+    new Button_main_menu(btnMainMenuData.objectif.imgRef,btnMainMenuData.objectif.text,()=>onChangeMenu("Objectif_Dashboard"));
     //Plus
     new Button_main_menu(btnMainMenuData.plus.imgRef,btnMainMenuData.plus.text,()=>onClickMainMenuSup());
 }
@@ -1054,15 +1054,28 @@ function onChangeMenu(menuTarget) {
             onOpenMenuStat();
             onDisplayImgActivityPreview();
         break;
-        case "Rewards":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
-            displayDivScrollableMenu();
-            pMenuTitleRef.innerHTML = "Récompenses";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divRewards"],[],[],[],[]);
 
-            onDisplayCustomInfo();
-            onOpenMenuRewards();
+        case "Objectif_Dashboard":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Tableau de bord objectif");};
+            displayDivScrollableMenu();
+            pMenuTitleRef.innerHTML = "Mes objectifs";
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divObjectifDashboard"],[],[],[],[]);
+            onOpenMenuObjectifDashboard();
         break;
+        case "Objectif_Gestion":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Gestion objectif");};
+            pMenuTitleRef.innerHTML = "Gérer mes objectifs";
+            onChangeDisplay("divObjectifDashboard",[],["divObjectifGestion"],[],[],[],[]);
+            onOpenMenuObjectifGestion();
+        break;
+        case "Objectif_Editor":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Editeur objectif");};
+            pMenuTitleRef.innerHTML = "Editer un objectif";
+            onChangeDisplay("divObjectifGestion",[],["divObjectifEditor"],[],[],[],[]);
+            onOpenMenuObjectifEditor();
+        break;
+
+
         case "Memory" :
             //traitement du menu reward à fermer
             onResetRewardsMenu();
@@ -1106,7 +1119,15 @@ function onChangeMenu(menuTarget) {
 
         
         // Menu supplémentaire
+        case "Rewards":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
+            displayDivScrollableMenu();
+            pMenuTitleRef.innerHTML = "Récompenses";
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divRewards"],[],[],[],[]);
 
+            onDisplayCustomInfo();
+            onOpenMenuRewards();
+        break;
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");};
             displayDivScrollableMenu();
