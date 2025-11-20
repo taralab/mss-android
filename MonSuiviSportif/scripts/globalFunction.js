@@ -1,3 +1,18 @@
+const activityColorList = {
+    blue_light:"#00A9F4",
+    turquoise:"#17A2B8",
+    green_light:"#03e224",
+    orange:"#ffbd17",
+    olive:"#4B8B3B",
+    pink:"#FF69B4",
+    purple:"#800080",
+    red:"#FF6F61",
+    dark_grey:"#6C757D",
+    blue_grey:"#B0C4DE",
+    brown:"#9F5540"
+}
+
+
 
 // pour empecher que les éléments de la div soit cliquable.
 //Objectif : éviter les doubles clic de l'utilisateur
@@ -209,6 +224,10 @@ let btnMainMenuData = {
     objectif:{
         imgRef:"./Icons/Icon-Objectif.webp",
         text:"Objectif"
+    },
+    objectif_gestion:{
+        imgRef:"./Icons/Icon-Autres.webp",
+        text:"Gestion"
     },
     reward:{
         imgRef:"./Icons/Icon-Trophy.webp",
@@ -1065,13 +1084,13 @@ function onChangeMenu(menuTarget) {
         case "Objectif_Gestion":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Gestion objectif");};
             pMenuTitleRef.innerHTML = "Gérer mes objectifs";
-            onChangeDisplay("divObjectifDashboard",[],["divObjectifGestion"],[],[],[],[]);
+            onChangeDisplay(["divObjectifDashboard"],[],["divObjectifGestion"],[],[],[],[]);
             onOpenMenuObjectifGestion();
         break;
         case "Objectif_Editor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Editeur objectif");};
             pMenuTitleRef.innerHTML = "Editer un objectif";
-            onChangeDisplay("divObjectifGestion",[],["divObjectifEditor"],[],[],[],[]);
+            onChangeDisplay(["divObjectifGestion"],[],["divObjectifEditor"],[],[],[],[]);
             onOpenMenuObjectifEditor();
         break;
 
@@ -1363,6 +1382,22 @@ function onLeaveMenu(menuTarget) {
             onHideCustomInfo();
             onGenerateMainMenuApp();
         break;
+
+        case "Objectif_Dashboard":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Objectif dashboard");};
+            hideDivScrollableMenu();
+            onChangeDisplay(["divObjectifDashboard"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onGenerateMainMenuApp();
+        break;
+
+        case "Objectif_Gestion":
+            // Retour dans le dashboard
+            pMenuTitleRef.innerHTML = "Mes objectifs";
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Objectif dashboard");};
+            onChangeDisplay(["divObjectifGestion"],[],["divObjectifDashboard"],[],[],[],[]);
+            onOpenMenuObjectifDashboard();
+        break;
+
         case "Memory":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
              //retire les évènements qui concerne le menu et ses enfant

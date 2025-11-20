@@ -1256,15 +1256,94 @@
 
                 <!-- ----------------------------------      DIV #OBJECTIFS        ------------------------------------------------>
                 <!-- DASHBOARD -->
-                <div id="divObjectifDashboard" class="new-interface"></div>
+                <div id="divObjectifDashboard" class="new-interface">
+
+                    <div class="objectif-dashbaord-section">
+                        <span class="objectif-section-title">Hebdomadaire</span>
+                        <span class="objectif-section-info">3 jours restants</span>
+                    </div>
+
+                <!-- Zone hebdo -->
+                    <div class="rewards-grid">
+
+                        <!-- TEST LIGNE 1 -->
+                        <div class="objectif-card">
+                            <div class="objectif-top-row">
+                                <div class="objectif-card-icon"><img src="./images/icon-cap.webp"></div>
+                                <div class="objectif-progress-badge" style="--progress: 60 ; --bar-color:#00A9F4">
+                                    <svg viewBox="0 0 36 36">
+                                        <path class="objectif-track" d="M18 2.5
+                                            a 15.5 15.5 0 1 1 0 31
+                                            a 15.5 15.5 0 1 1 0 -31" />
+                                        <path class="objectif-progress" d="M18 2.5
+                                            a 15.5 15.5 0 1 1 0 31
+                                            a 15.5 15.5 0 1 1 0 -31" />
+                                    </svg>
+                                    <div class="objectif-card-value">15/20</div>
+                                </div>
+                            </div>
+                            <p>10 séances / semaine</p>
+                        </div>
+                    </div>
+
+                <!-- Zone mensuel -->
+                    <div class="section-divider"></div>
+                    <div class="objectif-dashbaord-section">
+                        <span class="objectif-section-title">Mensuel</span>
+                        <span class="objectif-section-info">22 jours restants</span>
+                    </div>
+                    <div class="rewards-grid">
+                        <!-- Injection -->
+                    </div>
+                </div>
+
                 <!-- GESTION -->
-                <div id="divObjectifGestion" class="new-interface"></div>
+                <div id="divObjectifGestion" class="new-interface">
+
+
+
+
+                </div>
+
                 <!-- EDITOR -->
-                <div id="divObjectifEditor" class="new-interface"></div>
+                <div id="divObjectifEditor" class="new-interface">
+
+                    <!-- Type d'activité -->
+                    <p class="activity-editor">
+                        <label for="">Activité : </label>
+                    </p>
+
+                    <div class="fake-selector" data-fake-editor-type="activityEditor" id="divBtnFakeSelectorActivityObjectif">
+                        <select class="select-locked" name="category" id="selectObjectifActivityChoice">
+                            <!-- Injection des options -->
+                        </select>
+                    </div>
+
+                    <!-- Rythme de suivi -->
+                    <p class="activity-editor">
+                        <label for="">Type de suivi : </label>
+                    </p>
+                    <select id="">
+                        <option value="WEEK">Hebdomadaire</option>
+                        <option value="MONTH">Mensuel</option>
+                    </select>
+
+                    <!-- Donnée à suivre -->
+                    <p class="activity-editor">
+                        <label for="">Données : </label>
+                    </p>
+                    <select id="">
+                        <option value="COUNT">Nbre de séance</option>
+                        <option value="DISTANCE">Distance</option>
+                        <option value="DURATION">Durée</option>
+                    </select>
+
+
+                </div>
 
 
 
-                <!-- ----------------------------------  FIN    DIV REWARDS     ------------------------------------------------>
+                <!-- ----------------------------------  FIN    DIV OBJECTIF     ------------------------------------------------>
 
                 <!-- ----------------------------------     DIV #MEMORY     ------------------------------------------------>
 
