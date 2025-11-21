@@ -1,8 +1,40 @@
 //=============================== General==============================
 // ====================================================================
 
-   
-   
+let objectifUserList = {
+        objectif_0 : {
+            title : "C-A-P_COUNT_MONTH",
+            activity : "C-A-P",
+            dataType : "COUNT",
+            rythmeType : "MONTH",
+            enableStatus: false,
+            targetValue : 50
+        },
+        objectif_1 : {
+            title : "ETIREMENT_DURATION_WEEK",
+            activity : "ETIREMENT",
+            dataType : "DURATION",
+            rythmeType : "WEEK",
+            enableStatus: true,
+            targetValue : 125
+        },
+        objectif_2 : {
+            title : "NATATION_DISTANCE_MONTH",
+            activity : "NATATION",
+            dataType : "DISTANCE",
+            rythmeType : "MONTH",
+            enableStatus: true,
+            targetValue : 4
+        },
+    },
+    objectifUserKeysList = [];
+
+
+// exemple pour controler doublon dans la liste des objectifs
+// if (objectifUserList[title]) {
+//     console.error("Doublon détecté !");
+//     return false;
+// }
 
 //=============================== Tableau de bords ====================
 // ====================================================================
