@@ -27,7 +27,8 @@ let objectifUserList = {
             targetValue : 4
         },
     },
-    objectifUserKeysList = [];
+    objectifUserKeysList = [],
+    maxObjectif = 20;
 
 
 
@@ -142,21 +143,48 @@ function onDisplayObjectifList() {
     // Récupère les keys
     objectifUserKeysList = Object.keys(objectifUserList);
 
-    //boucle sur les keys pour générer la liste
-    // Pour chaque key
-    objectifUserKeysList.forEach(key=>{
+    console.log(objectifUserKeysList.length);
 
-        let item = objectifUserList[key];
-        
-        console.log(item);
-        const itemConvertedText = onConvertObjectifToUserDisplay(item);
+    // Traitement selon présence d'élément ou pas
 
-        console.log(itemConvertedText);
+    if (objectifUserKeysList.length > 0) {
+        //boucle sur les keys pour générer la liste
+            // Pour chaque key
+        objectifUserKeysList.forEach(key=>{
+
+            let item = objectifUserList[key];
+            
+            const itemConvertedText = onConvertObjectifToUserDisplay(item);
+
+            console.log(itemConvertedText);
+
+            //genère une instance
+            new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
+        });
+    }else{
+        parentRef.innerHTML = "Nous n'avez pas encore défini d'objectif.";
+    }
 
 
-        //genère une instance
-        new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
-    });
+    // Zone End list
+
+    // Référence le parent et le vide
+    let endListParentRef = document.getElementById("divObjectifListEndList");
+    endListParentRef.innerHTML = "";
+
+
+    // Gestion du bouton "ajouter un suivi"
+    let isMaxObjectifReached = objectifUserKeysList.length >= maxObjectif;
+    new Button_add("Ajouter un objectif", () => onClickAddNewSuivi(), isMaxObjectifReached, endListParentRef);
+
+    //Création du texte fin de liste
+    let newClotureList = document.createElement("span");
+        newClotureList.classList.add("last-container");
+        newClotureList.innerHTML = `Créez jusqu'à ${maxObjectif} types d'objectif.`;
+    endListParentRef.appendChild(newClotureList);
+
+
+
 }
 
 // Converti les données en une information visuelle
@@ -198,7 +226,7 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
             break;
     }
 
-    convertedData.suiviText = `${dataToConvert.targetValue} ${textDataType}/${textRythmeType}`;
+    convertedData.suiviText = `${dataToConvert.targetValue} ${textDataType} / ${textRythmeType}`;
 
     // La référence de l'image
     convertedData.imgRef = activityChoiceArray[dataToConvert.activity].imgRef;
@@ -222,7 +250,13 @@ function onUpdateObjectifEnableStatus(idTarget,newEnabledStatus) {
 // Quitte le menu pour retourner dans le dashbaord
 function onLeaveMenuObjectifGestion() {
     //  vide ce menu
-
+    let divToEmpty = [
+        "divObjectifGestionList",
+        "divObjectifListEndList"
+    ];
+    divToEmpty.forEach(id=>{
+        document.getElementById(id).innerHTML = "";
+    });
 
     // Demande à retourner dans le dashbaord
     onLeaveMenu("Objectif_Gestion");
