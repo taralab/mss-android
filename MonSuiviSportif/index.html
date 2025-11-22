@@ -1306,38 +1306,47 @@
                 <!-- GESTION -->
                 <div id="divObjectifGestion" class="new-interface">
 
-                    <div class="objectif-list-container">
-                        <!-- <div class="activity-icon">
-                            <img src="./images/icon-cap.webp" alt="Course à pied">
-                        </div> -->
-                        <div class="objectif-card-icon objectif-list-icon"><img src="./images/icon-cap.webp"></div>
 
-                        <div class="objectif-list-text">
-                            <div class="objectif-list-title">Course à pied</div>
-                            <div class="objectif-list-sub">Objectif : 25 km/mois</div>
+                    <div id="divObjectifGestionList" class="full-width">
+                        <!-- Injection de la liste -->
+
+                        <!-- Exemple 1 -->
+                        <div class="objectif-list-container">
+                            <div class="objectif-card-icon objectif-list-icon">
+                                <img src="./images/icon-cap.webp">
+                            </div>
+
+                            <div class="objectif-list-text">
+                                <div class="objectif-list-title">Course à pied</div>
+                                <div class="objectif-list-sub">Objectif : 25 km/mois</div>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
                         </div>
 
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
 
+                        <!-- Exemple 2 -->
+                        <div class="objectif-list-container disabled">
+                            <div class="objectif-card-icon objectif-list-icon">
+                                <img src="./images/icon-yoga.webp">
+                            </div>
 
+                            <div class="objectif-list-text">
+                                <div class="objectif-list-title">Yoga</div>
+                                <div class="objectif-list-sub">Objectif : 2h/semaine</div>
+                            </div>
 
-                    <div class="objectif-list-container disabled">
-                        <div class="objectif-card-icon objectif-list-icon"><img src="./images/icon-yoga.webp"></div>
-
-                        <div class="objectif-list-text">
-                            <div class="objectif-list-title">Yoga</div>
-                            <div class="objectif-list-sub">Objectif : 2h/semaine</div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
                         </div>
 
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                        </label>
                     </div>
+                   
 
 
                     <!-- End list -->
@@ -1786,6 +1795,7 @@
     <script src="./scripts/planning.js?v=2.5.0"></script>
     <script src="./scripts/info.js?v=2.5.0"></script>
     <script src="./scripts/stat.js?v=2.5.0"></script>
+    <script src="./scripts/classObjectifListItem.js?v=2.5.0"></script>
     <script src="./scripts/objectif.js?v=2.5.0"></script>
     <script src="./scripts/rewardData.js?v=2.5.0"></script>
     <script src="./scripts/visionneuse.js?v=2.5.0"></script>

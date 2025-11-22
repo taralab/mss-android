@@ -3690,7 +3690,13 @@ div.objectif-dashbaord-section {
 
 
 /* Objectif editeur List */
-/* ---- CONTENEUR D’UNE LIGNE ---- */
+div.full-width{
+    width: 100%;
+}
+
+
+
+/* ---- CONTENEUR d'un objectif de LIGNE ---- */
 .objectif-list-container {
     display: flex;
     align-items: center;
@@ -3704,6 +3710,12 @@ div.objectif-dashbaord-section {
 
 }
 
+/* Div zone cliquable */
+div.objectif-list-click-area{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 /* ---- ICÔNE ---- */
 div.objectif-list-icon{
     margin-right: 14px;

@@ -7,7 +7,7 @@ let objectifUserList = {
             activity : "C-A-P",
             dataType : "COUNT",
             rythmeType : "MONTH",
-            enableStatus: false,
+            isEnabled: false,
             targetValue : 50
         },
         objectif_1 : {
@@ -15,7 +15,7 @@ let objectifUserList = {
             activity : "ETIREMENT",
             dataType : "DURATION",
             rythmeType : "WEEK",
-            enableStatus: true,
+            isEnabled: true,
             targetValue : 125
         },
         objectif_2 : {
@@ -23,11 +23,16 @@ let objectifUserList = {
             activity : "NATATION",
             dataType : "DISTANCE",
             rythmeType : "MONTH",
-            enableStatus: true,
+            isEnabled: true,
             targetValue : 4
         },
     },
     objectifUserKeysList = [];
+
+
+
+
+
 
 
 // exemple pour controler doublon dans la liste des objectifs
@@ -104,6 +109,8 @@ function onLeaveMenuObjectifDashboard() {
 
 function onOpenMenuObjectifGestion() {
     
+    onDisplayObjectifList();
+
 
 
     // Génération du menu principal
@@ -119,6 +126,84 @@ function onCreateMainMenuObjectifGestion() {
     //crée les boutons
     //Retour
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onLeaveMenuObjectifGestion());
+}
+
+
+
+
+// Genère la liste
+
+function onDisplayObjectifList() {
+
+    // Référence le parent et le vide
+    let parentRef = document.getElementById("divObjectifGestionList");
+    parentRef.innerHTML = "";
+
+    // Récupère les keys
+    objectifUserKeysList = Object.keys(objectifUserList);
+
+    //boucle sur les keys pour générer la liste
+    // Pour chaque key
+    objectifUserKeysList.forEach(key=>{
+
+        let item = objectifUserList[key];
+        
+        console.log(item);
+        const itemConvertedText = onConvertObjectifToUserDisplay(item);
+
+        console.log(itemConvertedText);
+
+
+        //genère une instance
+        new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
+    });
+}
+
+// Converti les données en une information visuelle
+function onConvertObjectifToUserDisplay(dataToConvert) {
+    
+    // Pour le nom de l'activité
+    let convertedData = {};
+    convertedData.activity = activityChoiceArray[dataToConvert.activity].displayName;
+
+    //pour type de suivi
+
+    let textDataType = ""; 
+    switch (dataToConvert.dataType) {
+        case "COUNT":
+            textDataType = "séance(s)";
+            break;
+        case "DISTANCE":
+            textDataType = "km";
+            break;
+        case "DURATION":
+            textDataType = "h";
+            break;
+    
+        default:
+            break;
+    };
+
+    // Pour le rythme de suivi
+    let textRythmeType ="";
+    switch (dataToConvert.rythmeType) {
+        case "WEEK":
+            textRythmeType = "semaine";
+            break;
+        case "MONTH":
+            textRythmeType = "mois";
+            break;
+    
+        default:
+            break;
+    }
+
+    convertedData.suiviText = `${dataToConvert.targetValue} ${textDataType}/${textRythmeType}`;
+
+    // La référence de l'image
+    convertedData.imgRef = activityChoiceArray[dataToConvert.activity].imgRef;
+
+    return convertedData;
 }
 
 
