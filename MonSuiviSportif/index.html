@@ -1264,26 +1264,8 @@
                     </div>
 
                 <!-- Zone hebdo -->
-                    <div class="rewards-grid">
-
-                        <!-- TEST LIGNE 1 -->
-                        <div class="objectif-card">
-                            <div class="objectif-top-row">
-                                <div class="objectif-card-icon"><img src="./images/icon-cap.webp"></div>
-                                <div class="objectif-progress-badge" style="--progress: 60 ; --bar-color:#00A9F4">
-                                    <svg viewBox="0 0 36 36">
-                                        <path class="objectif-track" d="M18 2.5
-                                            a 15.5 15.5 0 1 1 0 31
-                                            a 15.5 15.5 0 1 1 0 -31" />
-                                        <path class="objectif-progress" d="M18 2.5
-                                            a 15.5 15.5 0 1 1 0 31
-                                            a 15.5 15.5 0 1 1 0 -31" />
-                                    </svg>
-                                    <div class="objectif-card-value">15/20</div>
-                                </div>
-                            </div>
-                            <p>10 séances / semaine</p>
-                        </div>
+                    <div class="rewards-grid" id="divDashboardListAreaWeek">
+                        <!-- Injection -->
                     </div>
 
                 <!-- Zone mensuel -->
@@ -1292,7 +1274,7 @@
                         <span class="objectif-section-title">Mensuel</span>
                         <span class="objectif-section-info">22 jours restants</span>
                     </div>
-                    <div class="rewards-grid">
+                    <div class="rewards-grid" id="divDashboardListAreaMonth">
                         <!-- Injection -->
                     </div>
 
@@ -1757,6 +1739,7 @@
     <script src="./scripts/info.js?v=2.5.0"></script>
     <script src="./scripts/stat.js?v=2.5.0"></script>
     <script src="./scripts/classObjectifListItem.js?v=2.5.0"></script>
+    <script src="./scripts/classObjectifDashboardItem.js?v=2.5.0"></script>
     <script src="./scripts/objectif.js?v=2.5.0"></script>
     <script src="./scripts/rewardData.js?v=2.5.0"></script>
     <script src="./scripts/visionneuse.js?v=2.5.0"></script>

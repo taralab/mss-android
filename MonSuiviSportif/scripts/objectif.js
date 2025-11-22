@@ -51,12 +51,77 @@ let objectifUserList = {
 
 function onOpenMenuObjectifDashboard() {
     
+    // Affiche la liste
+    onDisplayDashboardItemsList();
 
 
 
     // Génération du menu principal
     onCreateMainMenuObjectifDashbaord();
 }
+
+
+
+function onDisplayDashboardItemsList() {
+
+    // traitement hebdo
+
+    // Référence le parent et le vide
+    let weekParentRef = document.getElementById("divDashboardListAreaWeek");
+    weekParentRef.innerHTML = "";
+
+    // Extrait les key nécessaires
+    let weekObjectifKeys = getObjectifEnabledKeys("WEEK");
+
+    console.log(weekObjectifKeys);
+    if (weekObjectifKeys.length > 0) {
+        // Pour chaque key hebdo "activé" 
+        weekObjectifKeys.forEach(key=>{
+            let item = objectifUserList[key];
+            // Converti les data
+            let convertedData = onConvertObjectifToUserDisplay(item);
+            // Génère un item
+            new ObjectifDashboardItem(
+                convertedData.activity,convertedData.suiviText,
+                "15/30",convertedData.imgRef,"50",
+                convertedData.color,weekParentRef
+            );
+        });
+    }else{
+        weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
+    }
+
+
+
+
+
+    // Traitement mensuel
+
+    // Référence le parent et le vide
+    let monthParentRef = document.getElementById("divDashboardListAreaMonth");
+    monthParentRef.innerHTML = "";
+
+    let monthObjectifKeys = getObjectifEnabledKeys("MONTH");
+    console.log(monthObjectifKeys);
+    if (monthObjectifKeys.length > 0) {
+        // Pour chaque key mensuel "activé" 
+        monthObjectifKeys.forEach(key=>{
+            let item = objectifUserList[key];
+            // Converti les data
+            let convertedData = onConvertObjectifToUserDisplay(item);
+            // Génère un item
+            new ObjectifDashboardItem(
+                convertedData.activity,convertedData.suiviText,
+                "15/30",convertedData.imgRef,"50",
+                convertedData.color,monthParentRef
+            );
+        });
+    }else{
+        monthParentRef.innerHTML = "Aucun objectif mensuel.";
+    }
+
+}
+
 
 
 
@@ -75,11 +140,26 @@ function onCreateMainMenuObjectifDashbaord() {
 
 
 
+// Récupère les key des objectifs activé selon le type de rythme demandé
+function getObjectifEnabledKeys(rythmeType) {
+    return Object.keys(objectifUserList).filter(key => {
+        const obj = objectifUserList[key];
+        return obj.rythmeType === rythmeType && obj.isEnabled === true;
+    });
+}
+
+
 
 // Demande à aller dans le menu gestion
 function onClickBtnMenuObjectifGestion(){
     // vide les éléments du dashbaord
-
+    let divIDArray = [
+        "divDashboardListAreaWeek",
+        "divDashboardListAreaMonth"
+    ];
+    divIDArray.forEach(id=>{
+        document.getElementById(id).innerHTML = "";
+    });
 
     // Demande le changement de menu
     onChangeMenu("Objectif_Gestion");
@@ -230,6 +310,10 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
 
     // La référence de l'image
     convertedData.imgRef = activityChoiceArray[dataToConvert.activity].imgRef;
+
+
+    // La couleur de la catégorie
+    convertedData.color = activityColorList[activityChoiceArray[dataToConvert.activity].categoryColor];
 
     return convertedData;
 }
