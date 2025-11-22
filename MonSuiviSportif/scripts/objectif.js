@@ -171,7 +171,7 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
     let textDataType = ""; 
     switch (dataToConvert.dataType) {
         case "COUNT":
-            textDataType = "séance(s)";
+            textDataType = "séances";
             break;
         case "DISTANCE":
             textDataType = "km";
@@ -206,6 +206,16 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
     return convertedData;
 }
 
+
+
+// Lorsque l'utilisateur change le status d'un objectif depuis la liste
+function onUpdateObjectifEnableStatus(idTarget,newEnabledStatus) {
+    // Sauvegarde du nouvel état dans l'array
+    objectifUserList[idTarget].isEnabled = newEnabledStatus;
+    console.log(objectifUserList);
+
+    // Sauvegarde en base
+}
 
 
 

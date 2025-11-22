@@ -75,10 +75,26 @@ class ObjectifListItem {
 
 
     bindEvent(){
+        // Click pour modifier
         let divClickEditOBjectifRef = this.element.querySelector(`#divObjectifItemList_${this.id}`);
         divClickEditOBjectifRef.addEventListener("click",()=>{
             console.log("Click div id : ",`divObjectifItemList_${this.id}`);
         });
+
+        // Change l'état (activité/désactivé)
+        let inputCBObjectifRef = this.element.querySelector(`#objectif_CB_${this.id}`);
+        inputCBObjectifRef.addEventListener("change",(event)=>{
+            this.changeEnableStatus(event.target.checked);
+        });
+
+    }
+
+    changeEnableStatus(newEnabledStatus){
+        // Met à jour cette instance visuellement
+        this.updateEnableStatus(newEnabledStatus);
+
+        // Actualisation en array et en base
+        onUpdateObjectifEnableStatus(this.id,event.target.checked);
     }
 
 }
