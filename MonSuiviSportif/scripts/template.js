@@ -408,7 +408,7 @@ function onCreateTemplateMenuList(templateKeysList) {
     templateKeysList.forEach((key,index)=>{
 
         let title = userTemplateListItems[key].title,
-            imgRef = activityChoiceArray[userTemplateListItems[key].activityName].imgRef;
+            imgRef = activityChoiceArray[userTemplateListItems[key].activityName].imgRef,
             delay = index * animCascadeDelay; // 60ms d’écart entre chaque élément : effet cascade
             
         new TemplateActivityItemList(key,title,imgRef,divTemplateListMenuRef,delay,userSetting.animationEnabled);

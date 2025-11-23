@@ -203,12 +203,12 @@ function onInitObjectifDashboard() {
     // Traitement jour restant pour la semaine
     let dayRemaningWeek = getDayRemaningWeek();
     let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
-    textWeekRef.innerHTML = `✅ ${dayRemaningWeek} jours restants`;
+    textWeekRef.innerHTML = `${dayRemaningWeek} jours restants`;
 
     // Traitement jours restant pour le mois
     let dayRemainingMonth = getDayRemaningMonth();
     let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
-    textMonthRef.innerHTML = `⚠️ ${dayRemainingMonth} jours restants`;
+    textMonthRef.innerHTML = `${dayRemainingMonth} jours restants`;
 
 }
 

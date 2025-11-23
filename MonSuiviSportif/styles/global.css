@@ -3575,16 +3575,29 @@ div.objectif-dashbaord-section {
     width: 100%;
 }
 
+
+.objectif-dashbaord-section > div {
+    display: flex;
+    align-items: center; /* centre verticalement l'image et le texte */
+    gap: 10px; /* espace entre l'image et le texte */
+}
+
+
 .objectif-section-title {
     color: var(--colorMainTheme1);
     font-weight: bold;
     font-size: 1.1rem;
 }
 
+
+
 .objectif-section-info {
   font-size: 0.9rem;
   color: #777;
+}
 
+.objectif-dashbaord-section img{
+    width: 50px;
 }
 
 /* Séparateur */
