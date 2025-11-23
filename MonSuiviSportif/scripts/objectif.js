@@ -362,7 +362,7 @@ function onDisplayObjectifList() {
     //Création du texte fin de liste
     let newClotureList = document.createElement("span");
         newClotureList.classList.add("last-container");
-        newClotureList.innerHTML = `Créez jusqu'à ${maxObjectif} types d'objectif.`;
+        newClotureList.innerHTML = `ℹ️ Créez jusqu'à ${maxObjectif} types d'objectif.`;
     endListParentRef.appendChild(newClotureList);
 
 

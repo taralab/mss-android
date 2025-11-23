@@ -226,7 +226,7 @@ let btnMainMenuData = {
         text:"Objectif"
     },
     objectif_gestion:{
-        imgRef:"./Icons/Icon-Autres.webp",
+        imgRef:"./Icons/Icon-Setting.webp",
         text:"Gestion"
     },
     reward:{
