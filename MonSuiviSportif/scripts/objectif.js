@@ -91,10 +91,12 @@ let objectifUserList = {
 
 function onOpenMenuObjectifDashboard() {
     
+
+    // Set les éléments
+    onInitObjectifDashboard();
+
     // Affiche la liste
     onDisplayDashboardItemsList();
-
-
 
     // Génération du menu principal
     onCreateMainMenuObjectifDashbaord();
@@ -187,6 +189,66 @@ function getObjectifEnabledKeys(rythmeType) {
         return obj.rythmeType === rythmeType && obj.isEnabled === true;
     });
 }
+
+
+
+function onInitObjectifDashboard() {
+    // Traitement jour restant pour la semaine
+    let dayRemaningWeek = getDayRemaningWeek();
+    let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
+    textWeekRef.innerHTML = `✅ ${dayRemaningWeek} jours restants`;
+
+    // Traitement jours restant pour le mois
+    let dayRemainingMonth = getDayRemaningMonth();
+    let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
+    textMonthRef.innerHTML = `⚠️ ${dayRemainingMonth} jours restants`;
+
+}
+
+
+// Combien de jours avant la fin de semaine
+function getDayRemaningWeek() {
+  const aujourdHui = new Date().getDay(); // 0 = dimanche, 1 = lundi, ... 6 = samedi
+  const dimanche = 0;
+
+  // Calcul : distance jusqu'à dimanche, puis +1 car on inclut dimanche
+  return ((dimanche - aujourdHui + 7) % 7) + 1;
+}
+
+// Combien de jour avant la fin du mois
+function getDayRemaningMonth() {
+  const now = new Date();
+  const annee = now.getFullYear();
+  const mois = now.getMonth(); // 0 = janvier
+
+  // Obtenir le dernier jour du mois en créant une date "jour 0" du mois suivant
+  const dernierJour = new Date(annee, mois + 1, 0).getDate();
+
+  const aujourdHui = now.getDate();
+
+  return (dernierJour - aujourdHui) + 1;
+}
+
+
+// La fourchette de date du début et fin de semaine
+function getCurrentWeekRange() {
+  const now = new Date();
+
+  // Copie la date actuelle
+  const monday = new Date(now);
+  const sunday = new Date(now);
+
+  // Trouve le lundi (début semaine)
+  const day = now.getDay(); // 0 = dimanche, 1 = lundi, etc.
+  const diffToMonday = (day === 0 ? -6 : 1 - day);
+  monday.setDate(now.getDate() + diffToMonday);
+
+  // Dimanche = lundi + 6 jours
+  sunday.setDate(monday.getDate() + 6);
+
+  return { monday, sunday };
+}
+
 
 
 
