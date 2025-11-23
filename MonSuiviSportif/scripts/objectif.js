@@ -26,6 +26,46 @@ let objectifUserList = {
             isEnabled: true,
             targetValue : 4
         },
+        objectif_3 : {
+            title : "MUSCULATION_COUNT_MONTH",
+            activity : "MUSCULATION",
+            dataType : "COUNT",
+            rythmeType : "MONTH",
+            isEnabled: true,
+            targetValue : 4
+        },
+        objectif_4 : {
+            title : "GYMNASTIQUE_COUNT_WEEK",
+            activity : "GYMNASTIQUE",
+            dataType : "COUNT",
+            rythmeType : "WEEK",
+            isEnabled: true,
+            targetValue : 4
+        },
+        objectif_5 : {
+            title : "NATATION_DISTANCE_MONTH",
+            activity : "NATATION",
+            dataType : "DISTANCE",
+            rythmeType : "MONTH",
+            isEnabled: false,
+            targetValue : 4
+        },
+        objectif_6 : {
+            title : "MARCHE-RANDO_DISTANCE_MONTH",
+            activity : "MARCHE-RANDO",
+            dataType : "DISTANCE",
+            rythmeType : "WEEK",
+            isEnabled: true,
+            targetValue : 4
+        },
+        objectif_7 : {
+            title : "NATATION_DISTANCE_MONTH",
+            activity : "NATATION",
+            dataType : "DISTANCE",
+            rythmeType : "MONTH",
+            isEnabled: false,
+            targetValue : 4
+        },
     },
     objectifUserKeysList = [],
     maxObjectif = 20;
