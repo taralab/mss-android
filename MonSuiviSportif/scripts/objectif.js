@@ -55,7 +55,7 @@ let objectifUserList = {
             activity : "MARCHE-RANDO",
             dataType : "DISTANCE",
             rythmeType : "WEEK",
-            isEnabled: true,
+            isEnabled: false,
             targetValue : 4
         },
         objectif_7 : {
@@ -114,6 +114,8 @@ function onDisplayDashboardItemsList() {
 
     // Extrait les key nécessaires
     let weekObjectifKeys = getObjectifEnabledKeys("WEEK");
+    // Et les tries
+    weekObjectifKeys.sort(getObjectifSortedKey(objectifUserList));
 
     console.log(weekObjectifKeys);
     if (weekObjectifKeys.length > 0) {
@@ -143,7 +145,12 @@ function onDisplayDashboardItemsList() {
     let monthParentRef = document.getElementById("divDashboardListAreaMonth");
     monthParentRef.innerHTML = "";
 
+    // Récupère les keys
     let monthObjectifKeys = getObjectifEnabledKeys("MONTH");
+    // et les tries
+    monthObjectifKeys.sort(getObjectifSortedKey(objectifUserList));
+
+
     console.log(monthObjectifKeys);
     if (monthObjectifKeys.length > 0) {
         // Pour chaque key mensuel "activé" 
@@ -325,7 +332,9 @@ function onDisplayObjectifList() {
     // Récupère les keys
     objectifUserKeysList = Object.keys(objectifUserList);
 
-    console.log(objectifUserKeysList.length);
+    // trie les keys sur type d'activité 
+    objectifUserKeysList.sort(getObjectifSortedKey(objectifUserList));
+
 
     // Traitement selon présence d'élément ou pas
 
@@ -337,8 +346,6 @@ function onDisplayObjectifList() {
             let item = objectifUserList[key];
             
             const itemConvertedText = onConvertObjectifToUserDisplay(item);
-
-            console.log(itemConvertedText);
 
             //genère une instance
             new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
@@ -368,6 +375,22 @@ function onDisplayObjectifList() {
 
 
 }
+
+
+
+// Fonction de trie par type d'activité
+function getObjectifSortedKey(list) {
+    return (a, b) => {
+        if (list[a].activity < list[b].activity) return -1;
+        if (list[a].activity > list[b].activity) return 1;
+
+        if (list[a].dataType < list[b].dataType) return -1;
+        if (list[a].dataType > list[b].dataType) return 1;
+
+        return 0;
+    };
+}
+
 
 // Converti les données en une information visuelle
 function onConvertObjectifToUserDisplay(dataToConvert) {
