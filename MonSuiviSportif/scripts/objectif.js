@@ -16,7 +16,7 @@ let objectifUserList = {
             dataType : "DURATION",
             rythmeType : "WEEK",
             isEnabled: true,
-            targetValue : 125
+            targetValue : 3600
         },
         objectif_2 : {
             title : "NATATION_DISTANCE_MONTH",
@@ -61,10 +61,10 @@ let objectifUserList = {
         objectif_7 : {
             title : "NATATION_DISTANCE_MONTH",
             activity : "NATATION",
-            dataType : "DISTANCE",
+            dataType : "COUNT",
             rythmeType : "MONTH",
             isEnabled: false,
-            targetValue : 4
+            targetValue : 10
         },
     },
     objectifUserKeysList = [],
@@ -76,11 +76,7 @@ let objectifUserList = {
 
 
 
-// exemple pour controler doublon dans la liste des objectifs
-// if (objectifUserList[title]) {
-//     console.error("Doublon détecté !");
-//     return false;
-// }
+
 
 //=============================== Tableau de bords ====================
 // ====================================================================
@@ -106,6 +102,14 @@ function onOpenMenuObjectifDashboard() {
 
 function onDisplayDashboardItemsList() {
 
+    // Récupère la semaine en cours
+    let currentWeekRange = getCurrentWeekRange();
+    console.log(currentWeekRange);
+
+    // Récupère le mois en cours
+    let currentMonthRange = getCurrentMonthRange();
+    console.log(currentMonthRange);
+
     // traitement hebdo
 
     // Référence le parent et le vide
@@ -124,19 +128,21 @@ function onDisplayDashboardItemsList() {
             let item = objectifUserList[key];
             // Converti les data
             let convertedData = onConvertObjectifToUserDisplay(item);
+
+            console.log(item);
+            // Lance le calcul sur les activité concernée
+            let result = onTraiteObjectif(item.activity,item.dataType,item.targetValue,currentWeekRange.monday, currentWeekRange.sunday);
+
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                "15/30",convertedData.imgRef,"50",
+                `${result.totalCount}/${item.targetValue}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,weekParentRef
             );
         });
     }else{
         weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
     }
-
-
-
 
 
     // Traitement mensuel
@@ -158,10 +164,15 @@ function onDisplayDashboardItemsList() {
             let item = objectifUserList[key];
             // Converti les data
             let convertedData = onConvertObjectifToUserDisplay(item);
+
+            // Lance le calcul sur les activité concernée
+            let result = onTraiteObjectif(item.activity,item.dataType,item.targetValue,currentMonthRange.firstDay, currentMonthRange.lastDay);
+
+            console.log(result);
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                "15/30",convertedData.imgRef,"50",
+                 `${result.totalCount}/${item.targetValue}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,monthParentRef
             );
         });
@@ -171,6 +182,97 @@ function onDisplayDashboardItemsList() {
 
 }
 
+
+function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateRangeEnd) {
+    console.log(`Traitement pour ${activityType} sur ${dataType}`);
+
+    // Récupère les key des activités concernées (type et dans la fourchette)
+    let activityKeysTarget = findActivityKeysByNameAndDateRange(allUserActivityArray,activityType,dateRangeStart,dateRangeEnd);
+
+    // Lance le calcul selon la data suivit
+    let result = {};
+
+    // Pour le nombre total, prend juste le nombre d'élément dans l'array
+    if (dataType === "COUNT") {
+        result.totalCount = activityKeysTarget.length;
+    }else{
+        // Pour DURATION et DISTANCE
+        result.totalCount = onCalculObjectifActivityCount(activityKeysTarget,allUserActivityArray,dataType);
+    }
+    
+    // Calcul du pourcentage accomplit (mettre 100% max)
+    let percent = targetValue === 0 ? 0 : (result.totalCount / targetValue) * 100;
+    result.percentValue = Math.min(percent, 100);
+
+
+
+    // Mettre en place la convertion iici
+
+
+
+
+
+    console.log(activityKeysTarget);
+    console.log("valeur total : " ,result);
+    return result;
+}
+
+
+// Recherche les key dont les activité correspondent a ce que je recherche
+function findActivityKeysByNameAndDateRange(obj, nameTarget, dateRangeStart, dateRangeEnd) {
+    console.log(`Traitement objectif pour ${nameTarget}, dans les dates ${dateRangeStart} et ${dateRangeEnd}`);
+
+    const start = new Date(dateRangeStart);
+    const end = new Date(dateRangeEnd);
+
+    const matchingKeys = [];
+
+    for (const key in obj) {
+        const item = obj[key];
+
+        if (!item || typeof item !== "object") continue;
+
+        const itemDate = new Date(item.date);
+        console.log(itemDate);
+
+        if (item.name === nameTarget && itemDate >= start && itemDate <= end) {
+            matchingKeys.push(key);
+        }
+
+    }
+
+  return matchingKeys;
+}
+
+
+
+// Calcul la somme selon le type de suivi
+function onCalculObjectifActivityCount(keys, activityArray, field) {
+  let total = 0;
+
+  for (const key of keys) {
+    const item = activityArray[key];
+    if (!item) continue;
+
+    switch (field) {
+      case "DISTANCE":
+            total += parseFloat(item.distance);
+        break;
+
+      case "DURATION":
+            // Convertit "HH:MM:SS" en secondes
+            const [h, m, s] = item.duration.split(":").map(Number);
+            const seconds = h * 3600 + m * 60 + s;
+            total += seconds;
+        break;
+
+      default:
+        throw new Error("Champ inconnu : utilisez 'distance' ou 'duration'");
+    }
+  }
+
+  return total;
+}
 
 
 
@@ -241,21 +343,41 @@ function getDayRemaningMonth() {
 function getCurrentWeekRange() {
   const now = new Date();
 
-  // Copie la date actuelle
   const monday = new Date(now);
   const sunday = new Date(now);
 
-  // Trouve le lundi (début semaine)
-  const day = now.getDay(); // 0 = dimanche, 1 = lundi, etc.
+  // Trouve le lundi
+  const day = now.getDay(); // 0 = dimanche, 1 = lundi...
   const diffToMonday = (day === 0 ? -6 : 1 - day);
   monday.setDate(now.getDate() + diffToMonday);
+
+  // Fixe à 1h du matin
+  monday.setHours(1, 0, 0, 0);
 
   // Dimanche = lundi + 6 jours
   sunday.setDate(monday.getDate() + 6);
 
+  // Fixe à 23:59:59.999
+  sunday.setHours(23, 59, 59, 999);
+
   return { monday, sunday };
 }
 
+
+// La fourchette de date du début et fin de mois
+function getCurrentMonthRange() {
+  const now = new Date();
+
+  // Premier jour du mois
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  firstDay.setHours(1, 0, 0, 0);
+
+  // Dernier jour du mois
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  lastDay.setHours(23, 59, 59, 999);
+
+  return { firstDay, lastDay };
+}
 
 
 
