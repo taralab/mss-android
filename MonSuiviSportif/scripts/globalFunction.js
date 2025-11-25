@@ -937,8 +937,18 @@ function timeFormatToInputNumber(timeString) {
     };
 }
 
+// Convertion secondes en heures minutes
+function onConvertSecondesToHours(totalSeconds) {
+    const heures = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const secondes = totalSeconds % 60;
 
-
+    return {
+        heures,
+        minutes: String(minutes).padStart(2, '0'),
+        secondes: String(secondes).padStart(2, '0')
+    };
+}
 
 // Fonction pour formater les entrées et garantir un affichage correct
 function formatNumberInput(input, max, digits) {

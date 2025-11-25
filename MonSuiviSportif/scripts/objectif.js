@@ -8,20 +8,20 @@ let objectifUserList = {
             dataType : "COUNT",
             rythmeType : "MONTH",
             isEnabled: false,
-            targetValue : 50
+            targetValue : 10
         },
         objectif_1 : {
-            title : "ETIREMENT_DURATION_WEEK",
+            title : "ETIREMENT_COUNT_WEEK",
             activity : "ETIREMENT",
-            dataType : "DURATION",
+            dataType : "COUNT",
             rythmeType : "WEEK",
             isEnabled: true,
-            targetValue : 3600
+            targetValue : 5
         },
         objectif_2 : {
-            title : "NATATION_DISTANCE_MONTH",
+            title : "NATATION_COUNT_MONTH",
             activity : "NATATION",
-            dataType : "DISTANCE",
+            dataType : "COUNT",
             rythmeType : "MONTH",
             isEnabled: true,
             targetValue : 4
@@ -32,14 +32,14 @@ let objectifUserList = {
             dataType : "COUNT",
             rythmeType : "MONTH",
             isEnabled: true,
-            targetValue : 4
+            targetValue : 20
         },
         objectif_4 : {
             title : "GYMNASTIQUE_COUNT_WEEK",
             activity : "GYMNASTIQUE",
             dataType : "COUNT",
             rythmeType : "WEEK",
-            isEnabled: true,
+            isEnabled: false,
             targetValue : 4
         },
         objectif_5 : {
@@ -51,20 +51,20 @@ let objectifUserList = {
             targetValue : 4
         },
         objectif_6 : {
-            title : "MARCHE-RANDO_DISTANCE_MONTH",
+            title : "MARCHE-RANDO_DISTANCE_WEEK",
             activity : "MARCHE-RANDO",
             dataType : "DISTANCE",
             rythmeType : "WEEK",
-            isEnabled: false,
-            targetValue : 4
+            isEnabled: true,
+            targetValue : 30
         },
         objectif_7 : {
-            title : "NATATION_DISTANCE_MONTH",
-            activity : "NATATION",
+            title : "VELO_COUNT_WEEK",
+            activity : "VELO",
             dataType : "COUNT",
-            rythmeType : "MONTH",
-            isEnabled: false,
-            targetValue : 10
+            rythmeType : "WEEK",
+            isEnabled: true,
+            targetValue : 3
         },
     },
     objectifUserKeysList = [],
@@ -104,11 +104,9 @@ function onDisplayDashboardItemsList() {
 
     // Récupère la semaine en cours
     let currentWeekRange = getCurrentWeekRange();
-    console.log(currentWeekRange);
 
     // Récupère le mois en cours
     let currentMonthRange = getCurrentMonthRange();
-    console.log(currentMonthRange);
 
     // traitement hebdo
 
@@ -121,7 +119,6 @@ function onDisplayDashboardItemsList() {
     // Et les tries
     weekObjectifKeys.sort(getObjectifSortedKey(objectifUserList));
 
-    console.log(weekObjectifKeys);
     if (weekObjectifKeys.length > 0) {
         // Pour chaque key hebdo "activé" 
         weekObjectifKeys.forEach(key=>{
@@ -129,14 +126,13 @@ function onDisplayDashboardItemsList() {
             // Converti les data
             let convertedData = onConvertObjectifToUserDisplay(item);
 
-            console.log(item);
             // Lance le calcul sur les activité concernée
             let result = onTraiteObjectif(item.activity,item.dataType,item.targetValue,currentWeekRange.monday, currentWeekRange.sunday);
 
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                `${result.totalCount}/${item.targetValue}`,convertedData.imgRef,result.percentValue,
+                `${result.totalCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,weekParentRef
             );
         });
@@ -156,8 +152,6 @@ function onDisplayDashboardItemsList() {
     // et les tries
     monthObjectifKeys.sort(getObjectifSortedKey(objectifUserList));
 
-
-    console.log(monthObjectifKeys);
     if (monthObjectifKeys.length > 0) {
         // Pour chaque key mensuel "activé" 
         monthObjectifKeys.forEach(key=>{
@@ -168,11 +162,10 @@ function onDisplayDashboardItemsList() {
             // Lance le calcul sur les activité concernée
             let result = onTraiteObjectif(item.activity,item.dataType,item.targetValue,currentMonthRange.firstDay, currentMonthRange.lastDay);
 
-            console.log(result);
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                 `${result.totalCount}/${item.targetValue}`,convertedData.imgRef,result.percentValue,
+                 `${result.totalCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,monthParentRef
             );
         });
@@ -186,7 +179,7 @@ function onDisplayDashboardItemsList() {
 function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateRangeEnd) {
     console.log(`Traitement pour ${activityType} sur ${dataType}`);
 
-    // Récupère les key des activités concernées (type et dans la fourchette)
+    // Récupère les key des activités concernées (type et dans la fourchette et non planifié)
     let activityKeysTarget = findActivityKeysByNameAndDateRange(allUserActivityArray,activityType,dateRangeStart,dateRangeEnd);
 
     // Lance le calcul selon la data suivit
@@ -209,18 +202,34 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
     // Mettre en place la convertion iici
 
 
+    // Unité de valeur
 
+    switch (dataType) {
+        case "COUNT":
+            // Aucun traitement parculier pour le moment pour COUNT
+            break;
+        case "DURATION":
+            let timeResult = onConvertSecondesToHours(result.totalCount);
+            result.totalCount = `${timeResult.heures}h${timeResult.minutes}`;
+            break;
 
+        case "DISTANCE":
+            result.totalCount = `${result.totalCount}km`
+            break;
+    
+        default:
+            break;
+    }
+    result.unitValue
 
-    console.log(activityKeysTarget);
-    console.log("valeur total : " ,result);
     return result;
 }
 
 
+
+
 // Recherche les key dont les activité correspondent a ce que je recherche
 function findActivityKeysByNameAndDateRange(obj, nameTarget, dateRangeStart, dateRangeEnd) {
-    console.log(`Traitement objectif pour ${nameTarget}, dans les dates ${dateRangeStart} et ${dateRangeEnd}`);
 
     const start = new Date(dateRangeStart);
     const end = new Date(dateRangeEnd);
@@ -233,9 +242,9 @@ function findActivityKeysByNameAndDateRange(obj, nameTarget, dateRangeStart, dat
         if (!item || typeof item !== "object") continue;
 
         const itemDate = new Date(item.date);
-        console.log(itemDate);
 
-        if (item.name === nameTarget && itemDate >= start && itemDate <= end) {
+        // Récupère les activités concernées, dans le créneaux et non planifiées
+        if (item.name === nameTarget && item.isPlanned === false && itemDate >= start && itemDate <= end) {
             matchingKeys.push(key);
         }
 
@@ -523,21 +532,27 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
 
     //pour type de suivi
 
-    let textDataType = ""; 
+    let textDataType = "",
+        convertedTargetValue;
     switch (dataToConvert.dataType) {
         case "COUNT":
             textDataType = "séances";
+            convertedTargetValue = dataToConvert.targetValue;
             break;
         case "DISTANCE":
             textDataType = "km";
+            convertedTargetValue = dataToConvert.targetValue;
             break;
         case "DURATION":
-            textDataType = "h";
+            textDataType = "";//ici le 'h' est géré dans le formatage des heures
+            let tempResult = onConvertSecondesToHours(dataToConvert.targetValue);
+            convertedTargetValue = tempResult.minutes === "00" ? `${tempResult.heures}h` : `${tempResult.heures}h${tempResult.minutes}`
             break;
     
         default:
             break;
     };
+
 
     // Pour le rythme de suivi
     let textRythmeType ="";
@@ -553,7 +568,7 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
             break;
     }
 
-    convertedData.suiviText = `${dataToConvert.targetValue} ${textDataType} / ${textRythmeType}`;
+    convertedData.suiviText = `${convertedTargetValue} ${textDataType} / ${textRythmeType}`;
 
     // La référence de l'image
     convertedData.imgRef = activityChoiceArray[dataToConvert.activity].imgRef;
@@ -571,7 +586,6 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
 function onUpdateObjectifEnableStatus(idTarget,newEnabledStatus) {
     // Sauvegarde du nouvel état dans l'array
     objectifUserList[idTarget].isEnabled = newEnabledStatus;
-    console.log(objectifUserList);
 
     // Sauvegarde en base
 }
