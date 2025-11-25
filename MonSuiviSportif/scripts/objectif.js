@@ -110,6 +110,8 @@ function onDisplayDashboardItemsList() {
 
     // traitement hebdo
 
+    let kpiWeekDoneArray = [];
+
     // Référence le parent et le vide
     let weekParentRef = document.getElementById("divDashboardListAreaWeek");
     weekParentRef.innerHTML = "";
@@ -135,13 +137,26 @@ function onDisplayDashboardItemsList() {
                 `${result.totalCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,weekParentRef
             );
+
+            // Stockage pour KPI
+            let convertKPIpercent = result.percentValue/100;
+            kpiWeekDoneArray.push(convertKPIpercent);
+
         });
     }else{
         weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
     }
 
+    // Traitement KPI hebdo
+    let weekDayInfo = getKPIWeeklyProgress();
+    let weekKPIImage = computeKPIFromRatios(kpiWeekDoneArray, weekDayInfo.daysPassed, weekDayInfo.daysTotal);
+    console.log(weekKPIImage);
+    // Set l'image du KPI
+    let imgKPIWeekRef = document.getElementById("imgKpiWeek");
+    imgKPIWeekRef.src = weekKPIImage ? weekKPIImage : "./Icons/MSS_KPI_Gris.webp";
 
     // Traitement mensuel
+    let kpiMonthDoneArray = [];
 
     // Référence le parent et le vide
     let monthParentRef = document.getElementById("divDashboardListAreaMonth");
@@ -165,13 +180,26 @@ function onDisplayDashboardItemsList() {
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                 `${result.totalCount}`,convertedData.imgRef,result.percentValue,
+                `${result.totalCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,monthParentRef
             );
+
+
+            // Stockage pour KPI
+            let convertKPIpercent = result.percentValue/100;
+            kpiMonthDoneArray.push(convertKPIpercent);
         });
     }else{
         monthParentRef.innerHTML = "Aucun objectif mensuel.";
     }
+
+    // Traitement KPI Mensuel
+    let monthDayInfo = getKPIMonthlyProgress();
+    let monthKPIImage = computeKPIFromRatios(kpiMonthDoneArray, monthDayInfo.daysPassed, monthDayInfo.daysTotal);
+    console.log(monthKPIImage);
+
+    let imgKpiMonthRef = document.getElementById("imgKpiMonth");
+    imgKpiMonthRef.src = monthKPIImage ? monthKPIImage : "./Icons/MSS_KPI_Gris.webp";
 
 }
 
@@ -224,7 +252,6 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
 
     return result;
 }
-
 
 
 
@@ -387,6 +414,74 @@ function getCurrentMonthRange() {
 
   return { firstDay, lastDay };
 }
+
+
+
+
+
+
+
+// --------------------------------- KPI ---------------------------------------------
+
+
+
+
+
+
+const KPI_IMAGES = [
+    { min: 1.20, image: "./Icons/MSS_KPI-vert-fonce.webp" },   // KPI ≥ 1.20
+    { min: 1.00, image: "./Icons/MSS_KPI-vert-clair.webp" },  // 1.00 ≤ KPI < 1.20
+    { min: 0.80, image: "./Icons/MSS_KPI-jaune.webp" }, // 0.80 ≤ KPI < 1.00
+    { min: 0.60, image: "./Icons/MSS_KPI-orange.webp" },           // 0.60 ≤ KPI < 0.80
+    { min: 0.00, image: "./Icons/MSS_KPI-rouge.webp" }        // KPI < 0.60
+];
+
+
+
+// Calcul le KPI
+function computeKPIFromRatios(ratios, daysPassed, daysTotal) {
+    if (!ratios.length) return null;
+
+    // 1. Moyenne = score global
+    const scoreGlobal = ratios.reduce((a, b) => a + b, 0) / ratios.length;
+
+    // 2. Ratio du temps
+    const ratioTime = daysPassed / daysTotal;
+
+    // 3. KPI final
+    const kpi = scoreGlobal / ratioTime;
+
+    // 4. Trouver l’image correspondant au KPI
+    const item = KPI_IMAGES.find(level => kpi >= level.min);
+
+    return item ? item.image : null;
+}
+
+
+// Combien de jours depuis le début de semaine et total de jours
+function getKPIWeeklyProgress(date = new Date()) {
+  // 0 = dimanche → on le transforme pour que lundi = 0, mardi = 1…
+  const dayOfWeek = (date.getDay() + 6) % 7;
+
+  const daysPassed = dayOfWeek + 1;  // ex : lundi = 1, mardi = 2…
+  const daysTotal = 7;
+
+  return { daysPassed, daysTotal };
+}
+
+
+// Combien de jours depuis le début du mois et total de jours
+function getKPIMonthlyProgress(date = new Date()) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  const daysPassed = date.getDate(); // 1 → 31
+  const daysTotal = new Date(year, month + 1, 0).getDate(); // nb jours du mois
+
+  return { daysPassed, daysTotal };
+}
+
+
 
 
 
