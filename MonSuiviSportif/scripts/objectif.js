@@ -35,19 +35,19 @@ let objectifUserList = {
             targetValue : 20
         },
         objectif_4 : {
-            title : "GYMNASTIQUE_COUNT_WEEK",
+            title : "GYMNASTIQUE_DURATION_WEEK",
             activity : "GYMNASTIQUE",
-            dataType : "COUNT",
+            dataType : "DURATION",
             rythmeType : "WEEK",
-            isEnabled: false,
-            targetValue : 4
+            isEnabled: true,
+            targetValue : 3600
         },
         objectif_5 : {
-            title : "NATATION_DISTANCE_MONTH",
+            title : "NATATION_DISTANCE_WEEK",
             activity : "NATATION",
             dataType : "DISTANCE",
-            rythmeType : "MONTH",
-            isEnabled: false,
+            rythmeType : "WEEK",
+            isEnabled: true,
             targetValue : 4
         },
         objectif_6 : {
@@ -227,28 +227,28 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
 
 
 
-    // Mettre en place la convertion iici
+    // Mettre en place la convertion ici sinon met OK si objectif atteind
 
+    if (result.totalCount >= targetValue) {
+        result.totalCount = "OK";
+    }else{
+        switch (dataType) {
+            case "COUNT":
+                // Aucun traitement parculier pour le moment pour COUNT
+                break;
+            case "DURATION":
+                let timeResult = onConvertSecondesToHours(result.totalCount);
+                result.totalCount = `${timeResult.heures}h${timeResult.minutes}`;
+                break;
 
-    // Unité de valeur
-
-    switch (dataType) {
-        case "COUNT":
-            // Aucun traitement parculier pour le moment pour COUNT
-            break;
-        case "DURATION":
-            let timeResult = onConvertSecondesToHours(result.totalCount);
-            result.totalCount = `${timeResult.heures}h${timeResult.minutes}`;
-            break;
-
-        case "DISTANCE":
-            result.totalCount = `${result.totalCount}km`
-            break;
-    
-        default:
-            break;
+            case "DISTANCE":
+                result.totalCount = `${result.totalCount}km`
+                break;
+        
+            default:
+                break;
+        }
     }
-    result.unitValue
 
     return result;
 }
