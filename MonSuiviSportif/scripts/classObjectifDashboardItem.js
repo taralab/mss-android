@@ -1,11 +1,12 @@
 class ObjectifDashboardItem {
-    constructor(activityName,textSuiviTarget,textCurrentValue,imgRef,progressValue,categoryColor,parentRef){
+    constructor(activityName,textSuiviTarget,textCurrentValue,imgRef,progressValue,categoryColor,unit,parentRef){
         this.activityName = activityName;
         this.textSuiviTarget = textSuiviTarget;
         this.textCurrentValue = textCurrentValue;
         this.imgRef = imgRef;
         this.progressValue = progressValue;
         this.categoryColor = categoryColor;
+        this.unit = unit;
         this.parentRef = parentRef;
 
 
@@ -38,7 +39,10 @@ class ObjectifDashboardItem {
                             a 15.5 15.5 0 1 1 0 31
                             a 15.5 15.5 0 1 1 0 -31" />
                     </svg>
-                    <div class="objectif-card-value">${this.textCurrentValue}</div>
+                    <div class="objectif-card-value">
+                        <span class="value-number">${this.textCurrentValue}</span>
+                        <span class="value-unit">${this.unit ?? ""}</span>
+                    </div>
                 </div>
             </div>
             <p>${this.textSuiviTarget}</p>

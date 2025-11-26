@@ -19,12 +19,12 @@ let objectifUserList = {
             targetValue : 5
         },
         objectif_2 : {
-            title : "NATATION_COUNT_MONTH",
+            title : "NATATION_COUNT_WEEK",
             activity : "NATATION",
             dataType : "COUNT",
-            rythmeType : "MONTH",
+            rythmeType : "WEEK",
             isEnabled: true,
-            targetValue : 4
+            targetValue : 1
         },
         objectif_3 : {
             title : "MUSCULATION_COUNT_MONTH",
@@ -32,14 +32,14 @@ let objectifUserList = {
             dataType : "COUNT",
             rythmeType : "MONTH",
             isEnabled: true,
-            targetValue : 20
+            targetValue : 15
         },
         objectif_4 : {
             title : "GYMNASTIQUE_DURATION_WEEK",
             activity : "GYMNASTIQUE",
             dataType : "DURATION",
             rythmeType : "WEEK",
-            isEnabled: true,
+            isEnabled: false,
             targetValue : 3600
         },
         objectif_5 : {
@@ -47,7 +47,7 @@ let objectifUserList = {
             activity : "NATATION",
             dataType : "DISTANCE",
             rythmeType : "WEEK",
-            isEnabled: true,
+            isEnabled: false,
             targetValue : 4
         },
         objectif_6 : {
@@ -56,7 +56,7 @@ let objectifUserList = {
             dataType : "DISTANCE",
             rythmeType : "WEEK",
             isEnabled: true,
-            targetValue : 30
+            targetValue : 20
         },
         objectif_7 : {
             title : "VELO_COUNT_WEEK",
@@ -64,7 +64,7 @@ let objectifUserList = {
             dataType : "COUNT",
             rythmeType : "WEEK",
             isEnabled: true,
-            targetValue : 3
+            targetValue : 2
         },
     },
     objectifUserKeysList = [],
@@ -135,7 +135,7 @@ function onDisplayDashboardItemsList() {
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
                 `${result.totalCount}`,convertedData.imgRef,result.percentValue,
-                convertedData.color,weekParentRef
+                convertedData.color,result.unit,weekParentRef
             );
 
             // Stockage pour KPI
@@ -181,7 +181,7 @@ function onDisplayDashboardItemsList() {
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
                 `${result.totalCount}`,convertedData.imgRef,result.percentValue,
-                convertedData.color,monthParentRef
+                convertedData.color,result.unit,monthParentRef
             );
 
 
@@ -226,7 +226,6 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
     result.percentValue = Math.min(percent, 100);
 
 
-
     // Mettre en place la convertion ici sinon met OK si objectif atteind
 
     if (result.totalCount >= targetValue) {
@@ -235,14 +234,19 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
         switch (dataType) {
             case "COUNT":
                 // Aucun traitement parculier pour le moment pour COUNT
+                result.unit = "";
                 break;
             case "DURATION":
                 let timeResult = onConvertSecondesToHours(result.totalCount);
                 result.totalCount = `${timeResult.heures}h${timeResult.minutes}`;
+                result.unit = "";
                 break;
 
             case "DISTANCE":
-                result.totalCount = `${result.totalCount}km`
+                // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
+                result.totalCount = parseFloat(result.totalCount.toFixed(2));
+
+                result.unit = "km";//Pour afficher 'km' dans le rond
                 break;
         
             default:

@@ -3706,7 +3706,21 @@ div.objectif-dashboard-grid {
     font-size: 0.9rem;
 }
 
+.objectif-card-value {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
 
+
+.objectif-card-value .value-unit {
+    font-size: 0.55rem;
+    opacity: 0.7;
+    margin-top: 2px;
+}
 
 
 
