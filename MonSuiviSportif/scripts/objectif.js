@@ -236,19 +236,19 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
         switch (dataType) {
             case "COUNT":
                 // Aucun traitement parculier pour le moment pour COUNT
-                result.unit = "";
+                result.unit = "Restant";
                 break;
             case "DURATION":
                 let timeResult = onConvertSecondesToHours(result.remainingCount);
                 result.remainingCount = `${timeResult.heures}h${timeResult.minutes}`;
-                result.unit = "";
+                result.unit = "Restant";
                 break;
 
             case "DISTANCE":
                 // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
                 result.remainingCount = parseFloat(result.remainingCount.toFixed(2));
 
-                result.unit = "km";//Pour afficher 'km' dans le rond
+                result.unit = "Restant";//Pour afficher 'km' dans le rond
                 break;
         
             default:
