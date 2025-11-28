@@ -134,7 +134,7 @@ function onDisplayDashboardItemsList() {
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                `${result.totalCount}`,convertedData.imgRef,result.percentValue,
+                `${result.remainingCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,result.unit,weekParentRef
             );
 
@@ -180,7 +180,7 @@ function onDisplayDashboardItemsList() {
             // Génère un item
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.suiviText,
-                `${result.totalCount}`,convertedData.imgRef,result.percentValue,
+                `${result.remainingCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,result.unit,monthParentRef
             );
 
@@ -225,11 +225,13 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
     let percent = targetValue === 0 ? 0 : (result.totalCount / targetValue) * 100;
     result.percentValue = Math.min(percent, 100);
 
+    // Nombre restant
+    result.remainingCount = targetValue - result.totalCount;
 
     // Mettre en place la convertion ici sinon met OK si objectif atteind
 
-    if (result.totalCount >= targetValue) {
-        result.totalCount = "OK";
+    if (result.remainingCount <= 0) {
+        result.remainingCount = "OK";
     }else{
         switch (dataType) {
             case "COUNT":
@@ -237,14 +239,14 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
                 result.unit = "";
                 break;
             case "DURATION":
-                let timeResult = onConvertSecondesToHours(result.totalCount);
-                result.totalCount = `${timeResult.heures}h${timeResult.minutes}`;
+                let timeResult = onConvertSecondesToHours(result.remainingCount);
+                result.remainingCount = `${timeResult.heures}h${timeResult.minutes}`;
                 result.unit = "";
                 break;
 
             case "DISTANCE":
                 // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
-                result.totalCount = parseFloat(result.totalCount.toFixed(2));
+                result.remainingCount = parseFloat(result.remainingCount.toFixed(2));
 
                 result.unit = "km";//Pour afficher 'km' dans le rond
                 break;
