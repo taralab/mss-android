@@ -541,7 +541,7 @@ function onOpenMenuObjectifGestion() {
 
 //Création du menu principal
 function onCreateMainMenuObjectifGestion() {
-       // Vide le précedent contenu
+    // Vide le précedent contenu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
     divMainMenuParentRef.innerHTML = "";
 
@@ -596,7 +596,7 @@ function onDisplayObjectifList() {
 
     // Gestion du bouton "ajouter un suivi"
     let isMaxObjectifReached = objectifUserKeysList.length >= maxObjectif;
-    new Button_add("Ajouter un objectif", () => onClickAddNewSuivi(), isMaxObjectifReached, endListParentRef);
+    new Button_add("Ajouter un objectif", () => onClickAddNewObjectif(), isMaxObjectifReached, endListParentRef);
 
     //Création du texte fin de liste
     let newClotureList = document.createElement("span");
@@ -693,9 +693,8 @@ function onUpdateObjectifEnableStatus(idTarget,newEnabledStatus) {
 
 
 
-// Quitte le menu pour retourner dans le dashbaord
-function onLeaveMenuObjectifGestion() {
-    //  vide ce menu
+// Vide tous le menu gestion
+function onResetMenuObjectifGestion() {
     let divToEmpty = [
         "divObjectifGestionList",
         "divObjectifListEndList"
@@ -703,13 +702,29 @@ function onLeaveMenuObjectifGestion() {
     divToEmpty.forEach(id=>{
         document.getElementById(id).innerHTML = "";
     });
+}
 
-    // Demande à retourner dans le dashbaord
+
+
+// Quitte le menu pour retourner dans le dashbaord
+function onLeaveMenuObjectifGestion() {
+    //  vide ce menu
+    onResetMenuObjectifGestion();
+
+    // Demande à retourner dans le dashbaord ou dans l'éditeur
     onLeaveMenu("Objectif_Gestion");
 
 }
 
 
+// Demande à partir dans le menu editeur
+function onClickAddNewObjectif(){
+    //  vide ce menu
+    onResetMenuObjectifGestion();
+
+    onChangeMenu("Objectif_Editor");
+    
+}
 
 
 
@@ -721,7 +736,13 @@ function onLeaveMenuObjectifGestion() {
 
 
 function onOpenMenuObjectifEditor() {
-    
+
+    // Demande la création du main menu
+    onCreateMainMenuObjectifEditor();
+
+    // Reset les éléments pour afficher
+
+
 }
 
 
@@ -729,10 +750,24 @@ function onOpenMenuObjectifEditor() {
 
 //Création du menu principal
 function onCreateMainMenuObjectifEditor() {
-    
+    // Vide le précedent contenu
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
+
+    //crée les boutons
+    //Retour
+    new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onLeaveMenuObjectifEditor());
+
+    //Valider
+    new Button_main_menu_Valider("Valider",() => onClickSaveFromObjectifEditor());
 }
+
+
 
 // Quitte le menu
 function onLeaveMenuObjectifEditor() {
-    
+    // vide les éléments
+
+    // Demande à quitter le menu
+    onLeaveMenu("Objectif_Editor");
 }

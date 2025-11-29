@@ -1408,6 +1408,14 @@ function onLeaveMenu(menuTarget) {
             onOpenMenuObjectifDashboard();
         break;
 
+        case "Objectif_Editor":
+            // Retour dans objectif gestion
+            pMenuTitleRef.innerHTML = "Gérer mes objectifs";
+            onChangeDisplay(["divObjectifEditor"],[],["divObjectifGestion"],[],[],[],[]);
+            onOpenMenuObjectifGestion();
+        break;
+
+
         case "Memory":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
              //retire les évènements qui concerne le menu et ses enfant
