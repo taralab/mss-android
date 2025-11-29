@@ -730,8 +730,15 @@ function onClickAddNewObjectif(){
 
 //=============================== Editeur =============================
 // ====================================================================
-
-
+let selectObjectifEditorTypeRef = null,
+    selectObjectifEditorRythmeRef = null,
+    inputObjectifEditorCountRef = null,
+    inputObjectifEditorDistanceRef = null,
+    inputObjectifEditorDurationHourRef = null,
+    inputObjectifEditorDurationMinuteRef = null,
+    divObjectifEditorDynamicAreaCountRef = null,
+    divObjectifEditorDynamicAreaDistanceRef = null,
+    divObjectifEditorDynamicAreaDurationRef = null;
 
 
 
@@ -740,11 +747,46 @@ function onOpenMenuObjectifEditor() {
     // Demande la création du main menu
     onCreateMainMenuObjectifEditor();
 
-    // Reset les éléments pour afficher
+    // Lance le référencement
+    onAddReferenceForObjectifEditor();
 
+    // Reset les éléments pour afficher
+    onInitObjectifEditor();
 
 }
 
+
+
+// Referencement
+
+function onAddReferenceForObjectifEditor() {
+    selectObjectifEditorTypeRef = document.getElementById("selectObjectifEditorType");
+    selectObjectifEditorRythmeRef = document.getElementById("selectObjectifEditorRythme");
+    inputObjectifEditorCountRef = document.getElementById("inputObjectifEditorCount");
+    inputObjectifEditorDistanceRef = document.getElementById("inputObjectifEditorDistance");
+    inputObjectifEditorDurationHourRef = document.getElementById("inputObjectifEditorDurationHour");
+    inputObjectifEditorDurationMinuteRef = document.getElementById("inputObjectifEditorDurationMinute");
+    divObjectifEditorDynamicAreaCountRef = document.getElementById("divObjectifEditorDynamicAreaCount");
+    divObjectifEditorDynamicAreaDistanceRef = document.getElementById("divObjectifEditorDynamicAreaDistance");
+    divObjectifEditorDynamicAreaDurationRef = document.getElementById("divObjectifEditorDynamicAreaDuration");
+}
+
+
+// Ecoute d'évènement 
+
+function onAddEventListenerForObjectifEditor() {
+    if (devMode === true){
+        console.log("[OBJECTIF EDITOR] [EVENT-LISTENER] : Ajout les évènements pour l'éditeur d'objectif");
+    };
+
+    // Le selecteur pour changer le type d'item
+    let selectItemSessionTypeRef = document.getElementById("selectItemSessionType");
+    const onSelectItemSessionType = (event) => onChangeSessionItemType(event.target.value);
+    selectItemSessionTypeRef.addEventListener("change",onSelectItemSessionType);
+    onAddEventListenerInRegistry("sessionItemEditor",selectItemSessionTypeRef,"change",onSelectItemSessionType);
+
+
+}
 
 
 
@@ -764,9 +806,42 @@ function onCreateMainMenuObjectifEditor() {
 
 
 
+
+// Function Reset les éléments pour objectif editor
+function onInitObjectifEditor() {
+    selectObjectifEditorTypeRef.value = "COUNT";
+    selectObjectifEditorRythmeRef.value = "WEEK";
+    inputObjectifEditorCountRef.value = "";
+    inputObjectifEditorDistanceRef.value = "";
+    inputObjectifEditorDurationHourRef.value = "";
+    inputObjectifEditorDurationMinuteRef.value = "";
+
+    // Pour l'affichage de la zone dynamique
+    // divObjectifEditorDynamicAreaCountRef.style.display = "block";
+    // divObjectifEditorDynamicAreaDistanceRef.style.display = "none";
+    // divObjectifEditorDynamicAreaDurationRef.style.display = "none";
+}
+
+
+// Enlève les références pour objectif editor
+function onClearReferenceForObjectifEditor() {
+    selectObjectifEditorTypeRef = null;
+    selectObjectifEditorRythmeRef = null;
+    inputObjectifEditorCountRef = null;
+    inputObjectifEditorDistanceRef = null;
+    inputObjectifEditorDurationHourRef = null;
+    inputObjectifEditorDurationMinuteRef = null;
+    divObjectifEditorDynamicAreaCountRef = null;
+    divObjectifEditorDynamicAreaDistanceRef = null;
+    divObjectifEditorDynamicAreaDurationRef = null;
+}
+
+
 // Quitte le menu
 function onLeaveMenuObjectifEditor() {
     // vide les éléments
+    onClearReferenceForObjectifEditor();
+
 
     // Demande à quitter le menu
     onLeaveMenu("Objectif_Editor");

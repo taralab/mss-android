@@ -638,7 +638,8 @@ const allEventListenerRegistry = {
     recupPopup:[],
     recupEditor:[],
     memoryEditor:[],
-    visionneuse:[]
+    visionneuse:[],
+    objectifEditor:[]
 }
 
 
