@@ -337,7 +337,7 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
 };
 
 
-let fakeOptionTargetMode = "";//pour connaitre à quel système s'addresse le fake selecteur (activityEditor ou templateEditor)
+let fakeOptionTargetMode = "";//pour connaitre à quel système s'addresse le fake selecteur (activityEditor ,templateEditor , ou objectifEditor)
 
 
 function onGenerateFakeOptionList(idParentTarget) {
@@ -554,8 +554,10 @@ function onChangeActivityTypeFromFakeSelect(activityType) {
         realSelectorTargetRef = document.getElementById("selectorCategoryChoice");
     } else if (fakeOptionTargetMode === "templateEditor"){
         realSelectorTargetRef = document.getElementById("selectorTemplateCategoryChoice");
+    } else if (fakeOptionTargetMode === "objectifEditor"){
+        realSelectorTargetRef = document.getElementById("selectorObjectifCategoryChoice");
     }else {
-        console.log("ERREUR dans le mode du fake");
+        console.log("ERREUR dans le mode du fake : ", fakeOptionTargetMode);
     }
 
 
@@ -568,6 +570,8 @@ function onChangeActivityTypeFromFakeSelect(activityType) {
         onChangeActivityPreview(activityType);
     } else if (fakeOptionTargetMode === "templateEditor"){
         onChangeTemplatePreview(activityType);
+    } else if (fakeOptionTargetMode === "objectifEditor"){
+        onChangeObjectifPreview(activityType);
     }else {
         console.log("ERREUR dans le mode du fake");
     }
@@ -1103,6 +1107,7 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Editer un objectif";
             onChangeDisplay(["divObjectifGestion"],[],["divObjectifEditor"],[],[],[],[]);
             onOpenMenuObjectifEditor();
+            onDisplayImgActivityPreview();
         break;
 
 
@@ -1415,6 +1420,7 @@ function onLeaveMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Gérer mes objectifs";
             onChangeDisplay(["divObjectifEditor"],[],["divObjectifGestion"],[],[],[],[]);
             onOpenMenuObjectifGestion();
+            onHideImgActivityPreview();
         break;
 
 

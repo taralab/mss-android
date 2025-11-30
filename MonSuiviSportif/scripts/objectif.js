@@ -747,7 +747,8 @@ let selectObjectifEditorTypeRef = null,
     inputObjectifEditorDurationMinuteRef = null,
     divObjectifEditorDynamicAreaCountRef = null,
     divObjectifEditorDynamicAreaDistanceRef = null,
-    divObjectifEditorDynamicAreaDurationRef = null;
+    divObjectifEditorDynamicAreaDurationRef = null,
+    imgEditorObjectifActivityPreviewRef = null;
 
 
 
@@ -781,6 +782,7 @@ function onAddReferenceForObjectifEditor() {
     divObjectifEditorDynamicAreaCountRef = document.getElementById("divObjectifEditorDynamicAreaCount");
     divObjectifEditorDynamicAreaDistanceRef = document.getElementById("divObjectifEditorDynamicAreaDistance");
     divObjectifEditorDynamicAreaDurationRef = document.getElementById("divObjectifEditorDynamicAreaDuration");
+    imgEditorObjectifActivityPreviewRef = document.getElementById("imgEditorActivityPreview");
 }
 
 
@@ -790,6 +792,14 @@ function onAddEventListenerForObjectifEditor() {
     if (devMode === true){
         console.log("[OBJECTIF EDITOR] [EVENT-LISTENER] : Ajout les évènements pour l'éditeur d'objectif");
     };
+
+
+    // FakeSelector
+    let fakeSelectRef = document.getElementById("divBtnFakeSelectorActivityObjectif");
+    const onClickObjectifChoice = () => onClickFakeSelect('objectifEditor');
+    fakeSelectRef.addEventListener("click",onClickObjectifChoice);
+    onAddEventListenerInRegistry("objectifEditor",fakeSelectRef,"click",onClickObjectifChoice);
+
 
     // Le selecteur pour changer le type d'item
     let selectItemObjectifTypeRef = document.getElementById("selectObjectifEditorType");
@@ -864,6 +874,7 @@ function onInitObjectifEditor() {
     divObjectifEditorDynamicAreaCountRef.style.display = "block";
     divObjectifEditorDynamicAreaDistanceRef.style.display = "none";
     divObjectifEditorDynamicAreaDurationRef.style.display = "none";
+    imgEditorObjectifActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C-A-P"].imgRef;
 }
 
 
@@ -888,8 +899,11 @@ function onChangeObjectifEditorType(itemType) {
 }
 
 
-
-
+// Pour changer la prévisualisation de l'activité sélectionné
+function onChangeObjectifPreview(activityName){
+    if (devMode === true){console.log(activityName);};
+    imgTemplateEditorPreviewRef.src = activityChoiceArray[activityName].imgRef;
+};
 
 
 
