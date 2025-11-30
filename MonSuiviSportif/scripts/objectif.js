@@ -3,15 +3,15 @@
 
 let objectifUserList = {
         objectif_0 : {
-            title : "C-A-P_COUNT_MONTH",
+            title : "C-A-P_MONTH_COUNT",
             activity : "C-A-P",
             dataType : "COUNT",
             rythmeType : "MONTH",
-            isEnabled: false,
-            targetValue : 10
+            isEnabled: true,
+            targetValue : 0
         },
         objectif_1 : {
-            title : "ETIREMENT_COUNT_WEEK",
+            title : "ETIREMENT_WEEK_COUNT",
             activity : "ETIREMENT",
             dataType : "COUNT",
             rythmeType : "WEEK",
@@ -19,7 +19,7 @@ let objectifUserList = {
             targetValue : 5
         },
         objectif_2 : {
-            title : "NATATION_COUNT_WEEK",
+            title : "NATATION_WEEK_COUNT",
             activity : "NATATION",
             dataType : "COUNT",
             rythmeType : "WEEK",
@@ -27,7 +27,7 @@ let objectifUserList = {
             targetValue : 1
         },
         objectif_3 : {
-            title : "MUSCULATION_COUNT_MONTH",
+            title : "MUSCULATION_MONTH_COUNT",
             activity : "MUSCULATION",
             dataType : "COUNT",
             rythmeType : "MONTH",
@@ -35,7 +35,7 @@ let objectifUserList = {
             targetValue : 15
         },
         objectif_4 : {
-            title : "GYMNASTIQUE_DURATION_WEEK",
+            title : "GYMNASTIQUE_WEEK_DURATION",
             activity : "GYMNASTIQUE",
             dataType : "DURATION",
             rythmeType : "WEEK",
@@ -43,7 +43,7 @@ let objectifUserList = {
             targetValue : 3600
         },
         objectif_5 : {
-            title : "NATATION_DISTANCE_WEEK",
+            title : "NATATION_WEEK_DISTANCE",
             activity : "NATATION",
             dataType : "DISTANCE",
             rythmeType : "WEEK",
@@ -51,7 +51,7 @@ let objectifUserList = {
             targetValue : 4
         },
         objectif_6 : {
-            title : "MARCHE-RANDO_DISTANCE_WEEK",
+            title : "MARCHE-RANDO_WEEK_DISTANCE",
             activity : "MARCHE-RANDO",
             dataType : "DISTANCE",
             rythmeType : "WEEK",
@@ -59,7 +59,7 @@ let objectifUserList = {
             targetValue : 20
         },
         objectif_7 : {
-            title : "VELO_COUNT_WEEK",
+            title : "VELO_WEEK_COUNT",
             activity : "VELO",
             dataType : "COUNT",
             rythmeType : "WEEK",
@@ -748,7 +748,8 @@ let selectObjectifEditorTypeRef = null,
     divObjectifEditorDynamicAreaCountRef = null,
     divObjectifEditorDynamicAreaDistanceRef = null,
     divObjectifEditorDynamicAreaDurationRef = null,
-    imgEditorObjectifActivityPreviewRef = null;
+    imgEditorObjectifActivityPreviewRef = null,
+    selectorObjectifCategoryChoiceRef = null;
 
 
 
@@ -787,6 +788,7 @@ function onAddReferenceForObjectifEditor() {
     divObjectifEditorDynamicAreaDistanceRef = document.getElementById("divObjectifEditorDynamicAreaDistance");
     divObjectifEditorDynamicAreaDurationRef = document.getElementById("divObjectifEditorDynamicAreaDuration");
     imgEditorObjectifActivityPreviewRef = document.getElementById("imgEditorActivityPreview");
+    selectorObjectifCategoryChoiceRef = document.getElementById("selectorObjectifCategoryChoice");
 }
 
 
@@ -913,13 +915,55 @@ function onChangeObjectifPreview(activityName){
 
 
 
+// procédure sauvegarde d'un nouvel objectif
+function onClickSaveFromObjectifEditor() {
+    // Generation du titre et control de doublon
+    let objectifTitle = onGenerateObjectifTitle();
+
+    let isDoublon = onCheckObjectifDoublon(objectifTitle);
+
+    if (isDoublon) {
+        alert("Vous suivez déjà ces éléments ! ");
+        return
+    }
+
+    // Control des éléments obligatoire
+
+    // Formatage
+
+    // Sauvegarde en base
+
+    // Ajout en array
+}
 
 
+// Génère un titre pour l'objectif
+function onGenerateObjectifTitle() {
+    // construite le titre unique
+    let activityName = selectorObjectifCategoryChoiceRef.value,
+        rythme = selectObjectifEditorRythmeRef.value,
+        dataType = selectObjectifEditorTypeRef.value;
+    
+    let objectifTitle = `${activityName}_${rythme}_${dataType}`;
 
+    console.log("Objectif title : ",objectifTitle);
+    return objectifTitle;
+}
+
+
+// Recherche de doublon dans les objectifs sur les titres
+function onCheckObjectifDoublon(titleToCheck) {
+    return Object.values(objectifUserList).some(obj => obj.title === titleToCheck);
+}
 
 
 // Enlève les références pour objectif editor
 function onClearReferenceForObjectifEditor() {
+
+    // Vide la liste d'option dans le selecteur d'activité
+    selectorObjectifCategoryChoiceRef.innerHTML = "";
+
+    // Vide les références
     selectObjectifEditorTypeRef = null;
     selectObjectifEditorRythmeRef = null;
     inputObjectifEditorCountRef = null;
@@ -929,6 +973,7 @@ function onClearReferenceForObjectifEditor() {
     divObjectifEditorDynamicAreaCountRef = null;
     divObjectifEditorDynamicAreaDistanceRef = null;
     divObjectifEditorDynamicAreaDurationRef = null;
+    selectorObjectifCategoryChoiceRef = null;
 }
 
 
