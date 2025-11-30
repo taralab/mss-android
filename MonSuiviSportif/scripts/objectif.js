@@ -749,7 +749,8 @@ let selectObjectifEditorTypeRef = null,
     divObjectifEditorDynamicAreaDistanceRef = null,
     divObjectifEditorDynamicAreaDurationRef = null,
     imgEditorObjectifActivityPreviewRef = null,
-    selectorObjectifCategoryChoiceRef = null;
+    selectorObjectifCategoryChoiceRef = null,
+    inputObjectifEditorCheckBoxRef = null;
 
 
 
@@ -789,6 +790,7 @@ function onAddReferenceForObjectifEditor() {
     divObjectifEditorDynamicAreaDurationRef = document.getElementById("divObjectifEditorDynamicAreaDuration");
     imgEditorObjectifActivityPreviewRef = document.getElementById("imgEditorActivityPreview");
     selectorObjectifCategoryChoiceRef = document.getElementById("selectorObjectifCategoryChoice");
+    inputObjectifEditorCheckBoxRef = document.getElementById("inputObjectifEditorCheckBox");
 }
 
 
@@ -875,6 +877,7 @@ function onInitObjectifEditor() {
     inputObjectifEditorDistanceRef.value = "";
     inputObjectifEditorDurationHourRef.value = "00";
     inputObjectifEditorDurationMinuteRef.value = "00";
+    inputObjectifEditorCheckBoxRef.checked =  "true";
 
     // Pour l'affichage de la zone dynamique
     divObjectifEditorDynamicAreaCountRef.style.display = "block";
@@ -918,7 +921,13 @@ function onChangeObjectifPreview(activityName){
 // procédure sauvegarde d'un nouvel objectif
 function onClickSaveFromObjectifEditor() {
     // Generation du titre et control de doublon
-    let objectifTitle = onGenerateObjectifTitle();
+
+    // construite le titre unique
+    let activityName = selectorObjectifCategoryChoiceRef.value,
+        rythme = selectObjectifEditorRythmeRef.value,
+        dataType = selectObjectifEditorTypeRef.value;
+    
+    let objectifTitle = `${activityName}_${rythme}_${dataType}`;
 
     let isDoublon = onCheckObjectifDoublon(objectifTitle);
 
@@ -927,34 +936,76 @@ function onClickSaveFromObjectifEditor() {
         return
     }
 
-    // Control des éléments obligatoire
+    // Recupère la target value et control champ obligatoire
+    let objectifTargetValue = onFormatObjectifValue(dataType);
 
-    // Formatage
 
+    console.log(objectifTargetValue);
+    if (objectifTargetValue <= 0) {
+        alert("Veuillez remplir une valeur ! ");
+        return
+    }
+
+
+    let isSuiviEnabled = inputObjectifEditorCheckBoxRef.checked;
+
+    // Formatage finale
+    let objectifFormatedToSave = {
+        title : objectifTitle,
+        activity : activityName,
+        dataType : dataType,
+        rythmeType : rythme,
+        isEnabled: isSuiviEnabled,
+        targetValue : objectifTargetValue
+    }
+
+    console.log("Data to save : ", objectifFormatedToSave);
     // Sauvegarde en base
 
     // Ajout en array
 }
 
 
-// Génère un titre pour l'objectif
-function onGenerateObjectifTitle() {
-    // construite le titre unique
-    let activityName = selectorObjectifCategoryChoiceRef.value,
-        rythme = selectObjectifEditorRythmeRef.value,
-        dataType = selectObjectifEditorTypeRef.value;
-    
-    let objectifTitle = `${activityName}_${rythme}_${dataType}`;
 
-    console.log("Objectif title : ",objectifTitle);
-    return objectifTitle;
-}
 
 
 // Recherche de doublon dans les objectifs sur les titres
 function onCheckObjectifDoublon(titleToCheck) {
     return Object.values(objectifUserList).some(obj => obj.title === titleToCheck);
 }
+
+
+
+
+function onFormatObjectifValue(dataType){
+    // Selon le type, récupère les éléments
+
+    let targetCount = 0;
+
+    switch (dataType) {
+        case "COUNT":
+            targetCount = parseInt(inputObjectifEditorCountRef.value) || 0;
+            break;
+        case "DURATION":
+            let hoursToSecond = parseInt(inputObjectifEditorDurationHourRef.value) * 3600 || 0,
+                minutesToSecond = parseInt(inputObjectifEditorDurationMinuteRef.value) * 60 || 0;
+            targetCount = hoursToSecond + minutesToSecond;
+            break;
+
+        case "DISTANCE":
+            targetCount = inputObjectifEditorDistanceRef.value || 0;
+            break;
+    
+        default:
+            break;
+    }
+
+    return targetCount;
+
+}
+
+
+
 
 
 // Enlève les références pour objectif editor
@@ -974,6 +1025,7 @@ function onClearReferenceForObjectifEditor() {
     divObjectifEditorDynamicAreaDistanceRef = null;
     divObjectifEditorDynamicAreaDurationRef = null;
     selectorObjectifCategoryChoiceRef = null;
+    inputObjectifEditorCheckBoxRef = null;
 }
 
 
