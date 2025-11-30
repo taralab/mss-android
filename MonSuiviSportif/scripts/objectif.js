@@ -728,8 +728,17 @@ function onClickAddNewObjectif(){
 
 
 
+
+
+
 //=============================== Editeur =============================
 // ====================================================================
+
+
+
+
+
+
 let selectObjectifEditorTypeRef = null,
     selectObjectifEditorRythmeRef = null,
     inputObjectifEditorCountRef = null,
@@ -752,6 +761,9 @@ function onOpenMenuObjectifEditor() {
 
     // Reset les éléments pour afficher
     onInitObjectifEditor();
+
+    // Ajout les écouteurs d'évènement
+    onAddEventListenerForObjectifEditor();
 
 }
 
@@ -780,11 +792,43 @@ function onAddEventListenerForObjectifEditor() {
     };
 
     // Le selecteur pour changer le type d'item
-    let selectItemSessionTypeRef = document.getElementById("selectItemSessionType");
-    const onSelectItemSessionType = (event) => onChangeSessionItemType(event.target.value);
-    selectItemSessionTypeRef.addEventListener("change",onSelectItemSessionType);
-    onAddEventListenerInRegistry("sessionItemEditor",selectItemSessionTypeRef,"change",onSelectItemSessionType);
+    let selectItemObjectifTypeRef = document.getElementById("selectObjectifEditorType");
+    const onSelectItemObjectifType = (event) => onChangeObjectifEditorType(event.target.value);
+    selectItemObjectifTypeRef.addEventListener("change",onSelectItemObjectifType);
+    onAddEventListenerInRegistry("objectifEditor",selectItemObjectifTypeRef,"change",onSelectItemObjectifType);
 
+
+
+    // les input pour la DURATION
+    let inputDurationIDs = [
+        "inputObjectifEditorDurationHour",
+        "inputObjectifEditorDurationMinute"
+    ];
+
+    inputDurationIDs.forEach(input=>{
+        let inputRef = document.getElementById(input);
+        // onInput
+        let maxDuration = parseInt(inputRef.max);
+        const onInputItem = (event)=> formatNumberInput(event.target, maxDuration, 2);
+        inputRef.addEventListener("input",onInputItem);
+        onAddEventListenerInRegistry("objectifEditor",inputRef,"input",onInputItem);
+
+        //onFocus
+        const onFocus = (event) => selectAllText(event.target);
+        inputRef.addEventListener("focus",onFocus);
+        onAddEventListenerInRegistry("objectifEditor",inputRef,"focus",onFocus);
+
+        //onBlur
+        const onBlur = (event) => formatNumberInput(event.target, maxDuration, 2);
+        inputRef.addEventListener("blur",onBlur);
+        onAddEventListenerInRegistry("objectifEditor",inputRef,"blur",onBlur);
+
+        //onContextMenu
+        const onContextMenu = (event) => disableContextMenu(event);
+        inputRef.addEventListener("contextmenu",onContextMenu);
+        onAddEventListenerInRegistry("objectifEditor",inputRef,"contextmenu",onContextMenu);
+
+    });
 
 }
 
@@ -813,14 +857,47 @@ function onInitObjectifEditor() {
     selectObjectifEditorRythmeRef.value = "WEEK";
     inputObjectifEditorCountRef.value = "";
     inputObjectifEditorDistanceRef.value = "";
-    inputObjectifEditorDurationHourRef.value = "";
-    inputObjectifEditorDurationMinuteRef.value = "";
+    inputObjectifEditorDurationHourRef.value = "00";
+    inputObjectifEditorDurationMinuteRef.value = "00";
 
     // Pour l'affichage de la zone dynamique
-    // divObjectifEditorDynamicAreaCountRef.style.display = "block";
-    // divObjectifEditorDynamicAreaDistanceRef.style.display = "none";
-    // divObjectifEditorDynamicAreaDurationRef.style.display = "none";
+    divObjectifEditorDynamicAreaCountRef.style.display = "block";
+    divObjectifEditorDynamicAreaDistanceRef.style.display = "none";
+    divObjectifEditorDynamicAreaDurationRef.style.display = "none";
 }
+
+
+
+
+// Changement de type d'élément pour objectif dans l'éditeur
+function onChangeObjectifEditorType(itemType) {
+    // 1. Masque les 3 zones dynamiques
+    let objectifTypecAreaIDs = {
+        COUNT : divObjectifEditorDynamicAreaCountRef,
+        DISTANCE : divObjectifEditorDynamicAreaDistanceRef,
+        DURATION : divObjectifEditorDynamicAreaDurationRef
+    };
+    let dynamicTypeAreaKeys = Object.keys(objectifTypecAreaIDs);
+    dynamicTypeAreaKeys.forEach(key=>{
+        objectifTypecAreaIDs[key].style.display = "none";
+    });
+        
+
+    // 2. Affiche la zone demandée
+    objectifTypecAreaIDs[itemType].style.display = "block";
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Enlève les références pour objectif editor

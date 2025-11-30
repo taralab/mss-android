@@ -200,7 +200,7 @@ function onAddEventListenerforSessionItemEditor() {
 
         //onFocus
         const onFocus = (event) => selectAllText(event.target);
-        inputRef.addEventListener("focus",onfocus);
+        inputRef.addEventListener("focus",onFocus);
         onAddEventListenerInRegistry("sessionItemEditor",inputRef,"focus",onFocus);
 
         //onBlur

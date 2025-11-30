@@ -1411,6 +1411,7 @@ function onLeaveMenu(menuTarget) {
 
         case "Objectif_Editor":
             // Retour dans objectif gestion
+            onRemoveEventListenerInRegistry(["objectifEditor"]);
             pMenuTitleRef.innerHTML = "Gérer mes objectifs";
             onChangeDisplay(["divObjectifEditor"],[],["divObjectifGestion"],[],[],[],[]);
             onOpenMenuObjectifGestion();
