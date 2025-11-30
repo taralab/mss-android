@@ -766,6 +766,10 @@ function onOpenMenuObjectifEditor() {
     // Ajout les écouteurs d'évènement
     onAddEventListenerForObjectifEditor();
 
+
+    // Génère la liste d'activité pour les objectif dans le fake selector
+    onGenerateActivityOptionChoice("selectorObjectifCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
 }
 
 

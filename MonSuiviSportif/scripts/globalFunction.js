@@ -563,6 +563,7 @@ function onChangeActivityTypeFromFakeSelect(activityType) {
 
     // set la nouvelle valeur dans le vrai selecteur caché
     realSelectorTargetRef.value = activityType;
+    console.log(realSelectorTargetRef);
 
 
     // set l'image de prévisualisation
