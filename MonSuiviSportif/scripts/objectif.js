@@ -2,70 +2,14 @@
 // ====================================================================
 
 let objectifUserList = {
-        objectif_0 : {
-            title : "C-A-P_MONTH_COUNT",
-            activity : "C-A-P",
-            dataType : "COUNT",
-            rythmeType : "MONTH",
-            isEnabled: true,
-            targetValue : 0
-        },
-        objectif_1 : {
-            title : "ETIREMENT_WEEK_COUNT",
-            activity : "ETIREMENT",
-            dataType : "COUNT",
-            rythmeType : "WEEK",
-            isEnabled: true,
-            targetValue : 5
-        },
-        objectif_2 : {
-            title : "NATATION_WEEK_COUNT",
-            activity : "NATATION",
-            dataType : "COUNT",
-            rythmeType : "WEEK",
-            isEnabled: true,
-            targetValue : 1
-        },
-        objectif_3 : {
-            title : "MUSCULATION_MONTH_COUNT",
-            activity : "MUSCULATION",
-            dataType : "COUNT",
-            rythmeType : "MONTH",
-            isEnabled: true,
-            targetValue : 15
-        },
-        objectif_4 : {
-            title : "GYMNASTIQUE_WEEK_DURATION",
-            activity : "GYMNASTIQUE",
-            dataType : "DURATION",
-            rythmeType : "WEEK",
-            isEnabled: false,
-            targetValue : 3600
-        },
-        objectif_5 : {
-            title : "NATATION_WEEK_DISTANCE",
-            activity : "NATATION",
-            dataType : "DISTANCE",
-            rythmeType : "WEEK",
-            isEnabled: false,
-            targetValue : 4
-        },
-        objectif_6 : {
-            title : "MARCHE-RANDO_WEEK_DISTANCE",
-            activity : "MARCHE-RANDO",
-            dataType : "DISTANCE",
-            rythmeType : "WEEK",
-            isEnabled: true,
-            targetValue : 20
-        },
-        objectif_7 : {
-            title : "VELO_WEEK_COUNT",
-            activity : "VELO",
-            dataType : "COUNT",
-            rythmeType : "WEEK",
-            isEnabled: true,
-            targetValue : 2
-        },
+        // objectif_0 : {
+        //     title : "C-A-P_MONTH_COUNT",
+        //     activity : "C-A-P",
+        //     dataType : "COUNT",
+        //     rythmeType : "MONTH",
+        //     isEnabled: true,
+        //     targetValue : 0
+        // }
     },
     objectifUserKeysList = [],
     maxObjectif = 20;
@@ -762,7 +706,29 @@ async function onInsertNewObjectifInDB(objectifToInsert) {
 }
 
 
+// Fonction pour récupérer les objectif depuis la base
+async function onLoadObjectifFromDB() {
+    objectifUserList = {}
+    try {
+        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
 
+        // Filtrer et extraire uniquement les champs nécessaires
+        result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === objectifStoreName)
+            .forEach(doc => {
+                objectifUserList[doc._id] = doc;
+            });
+        
+        if (devMode === true) {
+            console.log("[DATABASE] [OBJECTIF] Loading objectifUserList :", objectifUserList);
+            const firstKey = Object.keys(objectifUserList)[0];
+            console.log(objectifUserList[firstKey]);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [OBJECTIF] Erreur lors du chargement:", err);
+    }
+}
 
 
 let selectObjectifEditorTypeRef = null,

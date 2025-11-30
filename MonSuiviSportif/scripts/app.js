@@ -345,7 +345,8 @@ async function initApp() {
     await onLoadActivityFromDB(); // 4 Extraction liste activité
 
     await onLoadTemplateFromDB(); // 5 Extraction liste modèle
-    onUpdateTemplateKeys(); // 6 récupère les clés des modèles d'activités triés
+    await onLoadObjectifFromDB(); // 6 Extraction liste objectif
+    onUpdateTemplateKeys(); // 7 récupère les clés des modèles d'activités triés
 }
 
 
