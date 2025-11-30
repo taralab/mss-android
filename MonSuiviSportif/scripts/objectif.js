@@ -9,6 +9,10 @@ let objectifUserList = {
         //     rythmeType : "MONTH",
         //     isEnabled: true,
         //     targetValue : 0
+        //     notification : {
+        //        sent : false,
+        //        dateSent: "24-12-2025"
+        //      }
         // }
     },
     objectifUserKeysList = [],
@@ -948,7 +952,11 @@ async function onClickSaveFromObjectifEditor() {
         dataType : dataType,
         rythmeType : rythme,
         isEnabled: isSuiviEnabled,
-        targetValue : objectifTargetValue
+        targetValue : objectifTargetValue,
+        notification : {
+            sent : false,
+            sentDate : ""
+        }
     };
 
     console.log("Data to save : ", objectifFormatedToSave);
