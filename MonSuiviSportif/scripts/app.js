@@ -142,7 +142,8 @@ let dbName = `MSS_db`,
     planningStoreName ="Planning",
     noteStoreName = "Notes",
     recupStoreName = "Recup",
-    memoryStoreName = "Memory";
+    memoryStoreName = "Memory",
+    objectifStoreName = "Objectif";
     
 
 

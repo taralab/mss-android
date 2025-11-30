@@ -736,6 +736,32 @@ function onClickAddNewObjectif(){
 
 
 
+// Insertion nouvelle objectif (ID auto, )
+async function onInsertNewObjectifInDB(objectifToInsert) {
+    try {
+        const newObjectif = {
+            type: objectifStoreName,
+            ...objectifToInsert
+        };
+
+        // Utilisation de post() pour génération automatique de l’ID
+        const response = await db.post(newObjectif);
+
+        // Mise à jour de l’objet avec _id et _rev retournés
+        newObjectif._id = response.id;
+        newObjectif._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [OBJECTIF] Objectif insérée :", newObjectif);
+        }
+
+        return newObjectif;
+    } catch (err) {
+        console.error("[DATABASE] [OBJECTIF] Erreur lors de l'insertion de l'objectif :", err);
+    }
+}
+
+
 
 
 
@@ -919,7 +945,7 @@ function onChangeObjectifPreview(activityName){
 
 
 // procédure sauvegarde d'un nouvel objectif
-function onClickSaveFromObjectifEditor() {
+async function onClickSaveFromObjectifEditor() {
     // Generation du titre et control de doublon
 
     // construite le titre unique
@@ -957,12 +983,22 @@ function onClickSaveFromObjectifEditor() {
         rythmeType : rythme,
         isEnabled: isSuiviEnabled,
         targetValue : objectifTargetValue
-    }
+    };
 
     console.log("Data to save : ", objectifFormatedToSave);
+
+
     // Sauvegarde en base
+    let newObjectifToAdd = await onInsertNewObjectifInDB(objectifFormatedToSave);
 
     // Ajout en array
+    objectifUserList[newObjectifToAdd._id] = newObjectifToAdd;
+
+    // Ferme le menu
+    onLeaveMenuObjectifEditor();
+
+    // Popup notification
+    onShowNotifyPopup("objectifCreated");
 }
 
 
