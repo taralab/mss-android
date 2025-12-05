@@ -78,7 +78,7 @@ class ObjectifListItem {
         // Click pour modifier
         let divClickEditOBjectifRef = this.element.querySelector(`#divObjectifItemList_${this.id}`);
         divClickEditOBjectifRef.addEventListener("click",()=>{
-            console.log("Click div id : ",`divObjectifItemList_${this.id}`);
+            onClickModifyObjectif(this.id);
         });
 
         // Change l'état (activité/désactivé)

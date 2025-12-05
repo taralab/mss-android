@@ -644,7 +644,8 @@ const allEventListenerRegistry = {
     recupEditor:[],
     memoryEditor:[],
     visionneuse:[],
-    objectifEditor:[]
+    objectifEditor:[],
+    objectifPopupModify:[]
 }
 
 

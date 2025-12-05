@@ -481,11 +481,14 @@ function onOpenMenuObjectifGestion() {
     
     onDisplayObjectifList();
 
-
-
     // Génération du menu principal
     onCreateMainMenuObjectifGestion();
+
+    //Ajout évènement pour le popup de modification d'objectif
+    onAddEventListenerForObjectifGestion();
 }
+
+
 
 //Création du menu principal
 function onCreateMainMenuObjectifGestion() {
@@ -556,6 +559,42 @@ function onDisplayObjectifList() {
 
 }
 
+
+
+
+
+// Ajout d'écouteur
+function onAddEventListenerForObjectifGestion() {
+    
+    // Pour le popup de modification
+
+    // La div générale avec action retour
+    let divModifyObjectifPopupRef = document.getElementById("divModifyObjectif");
+    const onClickCancelModifyObjectif = () => onCancelModifyObjectif();
+    divModifyObjectifPopupRef.addEventListener("click",onClickCancelModifyObjectif);
+    onAddEventListenerInRegistry("objectifPopupModify",divModifyObjectifPopupRef,"click",onClickCancelModifyObjectif);
+
+
+    //Le menu de navigation
+    // Retour
+    let btnReturnRef = document.getElementById("btnReturnObjectifModify");
+    const onClickCancel = ()=> onCancelModifyObjectif();
+    btnReturnRef.addEventListener("click",onClickCancel);
+    onAddEventListenerInRegistry("objectifPopupModify",btnReturnRef,"click",onClickCancel);
+
+    // Supprimer
+    let btnDeleteRef = document.getElementById("btnDeleteObjectifItem");
+    const onClickDelete = () => onClickDeleteOBjectif();
+    btnDeleteRef.addEventListener("click", onClickDelete);
+    onAddEventListenerInRegistry("objectifPopupModify",btnDeleteRef,"click", onClickDelete);
+
+    //Valider
+    let btnValideRef = document.getElementById("btnValideObjectifModify");
+    const onclickConfirm = () => onConfirmModifyObjectif();
+    btnValideRef.addEventListener("click",onclickConfirm);
+    onAddEventListenerInRegistry("objectifPopupModify",btnValideRef,"click",onclickConfirm);
+
+}
 
 
 // Fonction de trie par type d'activité
@@ -650,6 +689,10 @@ function onResetMenuObjectifGestion() {
     divToEmpty.forEach(id=>{
         document.getElementById(id).innerHTML = "";
     });
+
+
+    // Enlève les écouteurs
+    onRemoveEventListenerInRegistry(["objectifPopupModify"]);
 }
 
 
@@ -659,7 +702,7 @@ function onLeaveMenuObjectifGestion() {
     //  vide ce menu
     onResetMenuObjectifGestion();
 
-    // Demande à retourner dans le dashbaord ou dans l'éditeur
+    // Demande à retourner dans le dashbaord
     onLeaveMenu("Objectif_Gestion");
 
 }
@@ -681,6 +724,11 @@ function onClickAddNewObjectif(){
 
 //=============================== Editeur =============================
 // ====================================================================
+
+
+
+
+
 
 
 
@@ -1013,6 +1061,47 @@ function onFormatObjectifValue(dataType){
     return targetCount;
 
 }
+
+
+
+
+
+// -------------------------------------        MODIFICATION OBJECTIF ------------------------------
+
+
+
+function onClickModifyObjectif(id) {
+    // set les éléments du popup
+    onSetObjectifModifyPopup(id);
+
+    // Le fait apparaitre
+    document.getElementById("divModifyObjectif").style.display = "flex";
+}
+
+
+function onSetObjectifModifyPopup(id) {
+
+    let objectifData = objectifUserList[id],
+        activityData = activityChoiceArray[objectifData.activity];
+
+    // l'icone d'activité
+    let imgRef = document.getElementById("imgIconModifyObjectif");
+    imgRef.src = activityData.imgRef;
+
+    //Le texte de suivi
+    let pSuiviRef = document.getElementById("textModifyObjectifTypeSuivi");
+    pSuiviRef.textContent = `${objectifData.dataType}/${objectifData.rythmeType}`;
+}
+
+
+
+// Annul modification
+
+function onCancelModifyObjectif() {
+    document.getElementById("divModifyObjectif").style.display = "none";
+}
+
+
 
 
 
