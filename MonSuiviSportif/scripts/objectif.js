@@ -816,6 +816,10 @@ function onOpenMenuObjectifEditor() {
     // Génère la liste d'activité pour les objectif dans le fake selector
     onGenerateActivityOptionChoice("selectorObjectifCategoryChoice");
     onGenerateFakeOptionList("divFakeSelectOptList");
+
+    // Met l'activité par défaut dans le selecteur (soit le 1er favoris, soit CAP)
+    selectorObjectifCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0]  : "C-A-P";
+
 }
 
 
@@ -928,6 +932,7 @@ function onInitObjectifEditor() {
     divObjectifEditorDynamicAreaDistanceRef.style.display = "none";
     divObjectifEditorDynamicAreaDurationRef.style.display = "none";
     imgEditorObjectifActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C-A-P"].imgRef;
+
 }
 
 
