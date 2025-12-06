@@ -1208,7 +1208,6 @@ function onSetModifyObjectifPopupType(objectifData) {
     let dynamicTypeAreaKeys = Object.keys(objectifTypecAreaIDs);
     dynamicTypeAreaKeys.forEach(key=>{
         let targetRef = document.getElementById(objectifTypecAreaIDs[key]);
-        console.log(key);
         targetRef.style.display = "none";
     });
         
@@ -1343,6 +1342,7 @@ async function onClickSaveFromObjectifModify() {
     // Vérification si pas besoin de sauvegarde, ferme le popup
     if (objectifTargetValue === oldItemData.targetValue) {
         // Ferme le popup
+        document.getElementById("divModifyObjectif").style.display = "none";
 
 
         return;
@@ -1375,7 +1375,9 @@ async function onClickSaveFromObjectifModify() {
     // Ferme le popup
     document.getElementById("divModifyObjectif").style.display = "none";
 
-    // Notification
+    // Popup notification
+    onShowNotifyPopup("objectifModified");
+
 
     //modifie l'item en cours d'affichage(instance à faire) avec formatage spécial pour les heures
     let convertedTargetValue = "";

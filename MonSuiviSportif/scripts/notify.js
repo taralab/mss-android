@@ -32,7 +32,8 @@ let notifyTextArray = {
     recupTargetReach : {emoji : "💪",text: "C'est reparti !"},
     memorySaved : {emoji : "🏅",text: "Evènement ajouté !"},
     memoryDeleted : {emoji : "🗑️",text: "Evènement supprimé !"},
-    objectifCreated : {emoji :"🎯",text: "Objectif ajouté !"}
+    objectifCreated : {emoji :"🎯",text: "Objectif ajouté !"},
+    objectifModified : {emoji :"🎯",text: "Objectif modifié !"}
 };
 
 
