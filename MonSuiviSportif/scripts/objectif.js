@@ -16,7 +16,12 @@ let objectifUserList = {
         // }
     },
     objectifUserKeysList = [],
-    maxObjectif = 20;
+    maxObjectif = 20,
+    currentObjectifModifyID = "",
+    objectifItemListInstance = {};
+
+
+
 
 
 
@@ -81,7 +86,7 @@ function onDisplayDashboardItemsList() {
 
             // Génère un item
             new ObjectifDashboardItem(
-                convertedData.activity,convertedData.suiviText,
+                convertedData.activity,convertedData.textTargetValue,convertedData.suiviText,
                 `${result.remainingCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,result.unit,weekParentRef
             );
@@ -127,7 +132,7 @@ function onDisplayDashboardItemsList() {
 
             // Génère un item
             new ObjectifDashboardItem(
-                convertedData.activity,convertedData.suiviText,
+                convertedData.activity,convertedData.textTargetValue,convertedData.suiviText,
                 `${result.remainingCount}`,convertedData.imgRef,result.percentValue,
                 convertedData.color,result.unit,monthParentRef
             );
@@ -512,6 +517,10 @@ function onDisplayObjectifList() {
     let parentRef = document.getElementById("divObjectifGestionList");
     parentRef.innerHTML = "";
 
+    //Vide l'objet des instance
+    objectifItemListInstance = {};
+
+
     // Récupère les keys
     objectifUserKeysList = Object.keys(objectifUserList);
 
@@ -531,7 +540,10 @@ function onDisplayObjectifList() {
             const itemConvertedText = onConvertObjectifToUserDisplay(item);
 
             //genère une instance
-            new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
+            let newObjectifInstance = new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.textTargetValue,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
+
+            //stocke l'instance
+            objectifItemListInstance[key] = newObjectifInstance; 
         });
     }else{
         parentRef.innerHTML = "Nous n'avez pas encore défini d'objectif.";
@@ -628,7 +640,7 @@ function onAddEventListenerForObjectifGestion() {
 
     //Valider
     let btnValideRef = document.getElementById("btnValideObjectifModify");
-    const onclickConfirm = () => onConfirmModifyObjectif();
+    const onclickConfirm = () => onClickSaveFromObjectifModify();
     btnValideRef.addEventListener("click",onclickConfirm);
     onAddEventListenerInRegistry("objectifPopupModify",btnValideRef,"click",onclickConfirm);
 
@@ -694,7 +706,8 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
             break;
     }
 
-    convertedData.suiviText = `${convertedTargetValue} ${textDataType} / ${textRythmeType}`;
+    convertedData.suiviText = `${textDataType} / ${textRythmeType}`;
+    convertedData.textTargetValue = convertedTargetValue;
 
     // La référence de l'image
     convertedData.imgRef = activityChoiceArray[dataToConvert.activity].imgRef;
@@ -727,6 +740,9 @@ function onResetMenuObjectifGestion() {
     divToEmpty.forEach(id=>{
         document.getElementById(id).innerHTML = "";
     });
+
+    //Vide l'objet des instance
+    objectifItemListInstance = {};
 
 
     // Enlève les écouteurs
@@ -1109,11 +1125,45 @@ function onFormatObjectifValue(dataType){
 
 
 
-// -------------------------------------        MODIFICATION OBJECTIF ------------------------------
+// -------------------------------------        #MODIFICATION OBJECTIF ------------------------------
+
+
+
+
+
+// Modification objectif
+async function onInsertObjectifModificationInDB(objectifToUpdate, key) {
+    try {
+        let existingDoc = await db.get(key);
+
+        // Exclure `_id` et `_rev` de objectifToUpdate pour éviter qu'ils ne soient écrasés
+        const { _id, _rev, ...safeObjectifUpdate } = objectifToUpdate;
+
+        const updatedDoc = {
+            ...existingDoc,  // Garde `_id` et `_rev`
+            ...safeObjectifUpdate // Applique les nouvelles valeurs en évitant d'écraser `_id` et `_rev`
+        };
+
+        // Sauvegarde dans la base
+        const response = await db.put(updatedDoc);
+
+        if (devMode) console.log("[OBJECTIF] Objectif mis à jour :", response);
+
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour de l'objectif :", err);
+        return false; // Indique que la mise à jour a échoué
+    }
+}
+
 
 
 
 function onClickModifyObjectif(id) {
+
+    // recupère l'id en cours
+    currentObjectifModifyID = id;
+
     // set les éléments du popup
     onSetObjectifModifyPopup(id);
 
@@ -1239,8 +1289,97 @@ function onCancelModifyObjectif() {
 
 
 
+function onFormatModifyObjectifValue(dataType){
+    // Selon le type, récupère les éléments
+
+    let targetCount = 0;
+
+    switch (dataType) {
+        case "COUNT":
+            let inputCountRef = document.getElementById("inputModifyObjectifCount");
+            targetCount = parseInt(inputCountRef.value) || 0;
+            break;
+        case "DURATION":
+            let inputDurationHourRef = document.getElementById("inputModifyObjectifDurationHour"),
+                inputDurationMinuteRef = document.getElementById("inputModifyObjectifDurationMinute");
 
 
+            let hoursToSecond = parseInt(inputDurationHourRef.value) * 3600 || 0,
+                minutesToSecond = parseInt(inputDurationMinuteRef.value) * 60 || 0;
+            targetCount = hoursToSecond + minutesToSecond;
+            break;
+
+        case "DISTANCE":
+            let inputDistanceRef = document.getElementById("inputModifyObjectifDistance");
+            targetCount = inputDistanceRef.value || 0;
+            break;
+    
+        default:
+            break;
+    }
+
+    return targetCount;
+
+}
+
+
+// Demande de sauvegarde des modifications
+
+async function onClickSaveFromObjectifModify() {
+    
+
+    // Recupère les anciens éléments pour comparaison 
+    let oldItemData = objectifUserList[currentObjectifModifyID];
+
+    let objectifTargetValue = onFormatModifyObjectifValue(oldItemData.dataType);
+
+
+    // Vérification champ obligatoire
+    if (objectifTargetValue <=0) {
+        alert("Veuillez renseigner une valeur !");
+        return
+    }
+
+    // Vérification si pas besoin de sauvegarde, ferme le popup
+    if (objectifTargetValue === oldItemData.targetValue) {
+        // Ferme le popup
+
+
+        return;
+    }
+
+
+
+    // Formatage finale
+    let objectifFormatedToSave = {
+        title : oldItemData.title,
+        activity : oldItemData.activity,
+        dataType : oldItemData.dataType,
+        rythmeType : oldItemData.rythmeType,
+        isEnabled: oldItemData.isEnabled,
+        targetValue : objectifTargetValue,
+        notification : {
+            sent : false,
+            sentDate : ""
+        }
+    };
+
+
+    //sauvegarde modification en base
+    await onInsertObjectifModificationInDB(objectifFormatedToSave, currentObjectifModifyID);
+
+    // Sauvegarde modification en array
+    objectifUserList[currentObjectifModifyID].targetValue = objectifFormatedToSave.targetValue;
+    objectifUserList[currentObjectifModifyID].notification = objectifFormatedToSave.notification;
+
+    // Ferme le popup
+    document.getElementById("divModifyObjectif").style.display = "none";
+
+    // Notification
+
+    //modifie l'item en cours d'affichage(instance à faire)
+    objectifItemListInstance[currentObjectifModifyID].updateSuiviText(objectifFormatedToSave.targetValue);
+}
 
 
 // Enlève les références pour objectif editor

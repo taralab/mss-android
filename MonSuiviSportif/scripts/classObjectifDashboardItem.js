@@ -1,7 +1,8 @@
 class ObjectifDashboardItem {
-    constructor(activityName,textSuiviTarget,textCurrentValue,imgRef,progressValue,categoryColor,unit,parentRef){
+    constructor(activityName,textTargetNumber,textTargetValue,textCurrentValue,imgRef,progressValue,categoryColor,unit,parentRef){
         this.activityName = activityName;
-        this.textSuiviTarget = textSuiviTarget;
+        this.textTargetNumber = textTargetNumber;
+        this.textTargetValue = textTargetValue;
         this.textCurrentValue = textCurrentValue;
         this.imgRef = imgRef;
         this.progressValue = progressValue;
@@ -45,7 +46,7 @@ class ObjectifDashboardItem {
                     </div>
                 </div>
             </div>
-            <p>${this.textSuiviTarget}</p>
+            <p>${this.textTargetNumber} ${this.textTargetValue} </p>
         `;
     }
 }

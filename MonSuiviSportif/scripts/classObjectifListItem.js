@@ -1,7 +1,8 @@
 class ObjectifListItem {
-    constructor(id,activityName,suiviText,isEnabled,imgRef,parentRef) {
+    constructor(id,activityName,textTargetNumber,suiviText,isEnabled,imgRef,parentRef) {
         this.id = id;
         this.activityName = activityName;
+        this.textTargetNumber = null;//set depuis la fonction updateSuiviText
         this.suiviText = suiviText;
         this.isEnabled = null;//set depuis la fonction updateEnableStatus
         this.parentRef = parentRef;
@@ -9,6 +10,7 @@ class ObjectifListItem {
 
         // Références
         this.checkboxRef = null;
+        this.textSuiviRef = null;
 
         // conteneur principal
         this.element = document.createElement("div");
@@ -27,6 +29,10 @@ class ObjectifListItem {
         //le statut
         this.updateEnableStatus(isEnabled);
 
+        //le texte de suivi
+        this.updateSuiviText(textTargetNumber);
+
+
         // Ecouter d'évènement
         this.bindEvent();
     }
@@ -40,7 +46,7 @@ class ObjectifListItem {
                 </div>
                 <div class="objectif-list-text">
                     <div class="objectif-list-title">${this.activityName}</div>
-                    <div class="objectif-list-sub">Objectif : ${this.suiviText}</div>
+                    <div class="objectif-list-sub" id="objectif_Text_${this.id}"></div>
                 </div>
             </div>
             <label class="switch">
@@ -54,6 +60,7 @@ class ObjectifListItem {
     // referencement
     reference(){
         this.checkboxRef = this.element.querySelector(`#objectif_CB_${this.id}`);
+        this.textSuiviRef = this.element.querySelector(`#objectif_Text_${this.id}`);
     }
 
     // Set le statut activé/désactivé
@@ -95,6 +102,15 @@ class ObjectifListItem {
 
         // Actualisation en array et en base
         onUpdateObjectifEnableStatus(this.id,event.target.checked);
+    }
+
+
+    updateSuiviText(newValue){
+        // Récupère la nouvelle valeur
+        this.textTargetNumber = newValue;
+
+        //Set le texte
+        this.textSuiviRef.textContent = `Objectif: ${this.textTargetNumber} ${this.suiviText}`;
     }
 
 }
