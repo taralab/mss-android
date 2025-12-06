@@ -1377,8 +1377,16 @@ async function onClickSaveFromObjectifModify() {
 
     // Notification
 
-    //modifie l'item en cours d'affichage(instance à faire)
-    objectifItemListInstance[currentObjectifModifyID].updateSuiviText(objectifFormatedToSave.targetValue);
+    //modifie l'item en cours d'affichage(instance à faire) avec formatage spécial pour les heures
+    let convertedTargetValue = "";
+    if (objectifFormatedToSave.dataType === "DURATION") {
+        let tempResult = onConvertSecondesToHours(objectifFormatedToSave.targetValue);
+        convertedTargetValue = tempResult.minutes === "00" ? `${tempResult.heures}h` : `${tempResult.heures}h${tempResult.minutes}`
+            
+    }else{
+        convertedTargetValue = objectifFormatedToSave.targetValue;
+    }
+    objectifItemListInstance[currentObjectifModifyID].updateSuiviText(convertedTargetValue);
 }
 
 
