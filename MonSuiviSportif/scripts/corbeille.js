@@ -91,6 +91,9 @@ class CorbeilleItem{
             case "Memory":
                 color = "#612bbfff";
                 break;
+            case "Objectif":
+                color = "#c52ab5ff";
+                break;
             default:
                 console.error("type couleur non définit");
                 break;
@@ -162,6 +165,14 @@ async function onLoadCorbeilleItemsListFromDB() {
                         list[doc._id] = {
                             type : doc.oldItemInfo.type,
                             displayType : "Evènement",
+                            name : doc.title,
+                            deletedDate : doc.oldItemInfo.deletedDate
+                        };
+                        break;   
+                    case "Objectif":
+                        list[doc._id] = {
+                            type : doc.oldItemInfo.type,
+                            displayType : "Objectif",
                             name : doc.title,
                             deletedDate : doc.oldItemInfo.deletedDate
                         };

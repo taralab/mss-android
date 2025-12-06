@@ -113,4 +113,11 @@ class ObjectifListItem {
         this.textSuiviRef.textContent = `Objectif: ${this.textTargetNumber} ${this.suiviText}`;
     }
 
+
+
+    //pour supprimer l'item
+    removeItem(){
+        this.element.remove();
+    }
+
 }

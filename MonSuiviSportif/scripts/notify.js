@@ -33,7 +33,8 @@ let notifyTextArray = {
     memorySaved : {emoji : "🏅",text: "Evènement ajouté !"},
     memoryDeleted : {emoji : "🗑️",text: "Evènement supprimé !"},
     objectifCreated : {emoji :"🎯",text: "Objectif ajouté !"},
-    objectifModified : {emoji :"🎯",text: "Objectif modifié !"}
+    objectifModified : {emoji :"🎯",text: "Objectif modifié !"},
+    objectifDeleted : {emoji : "🗑️",text: "Objectif supprimé !"}
 };
 
 

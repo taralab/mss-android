@@ -634,7 +634,7 @@ function onAddEventListenerForObjectifGestion() {
 
     // Supprimer
     let btnDeleteRef = document.getElementById("btnDeleteObjectifItem");
-    const onClickDelete = () => onClickDeleteOBjectif();
+    const onClickDelete = () => onClickDeleteObjectif();
     btnDeleteRef.addEventListener("click", onClickDelete);
     onAddEventListenerInRegistry("objectifPopupModify",btnDeleteRef,"click", onClickDelete);
 
@@ -1390,6 +1390,68 @@ async function onClickSaveFromObjectifModify() {
     }
     objectifItemListInstance[currentObjectifModifyID].updateSuiviText(convertedTargetValue);
 }
+
+
+
+
+// ------------------------  #SUPPRESSION ----------------------------------------------
+
+function onClickDeleteObjectif() {
+    let textToDisplay = `<b>Supprimer cet objectif ?</b>`;
+    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,eventDeleteObjectif,textToDisplay,"delete");
+
+}
+
+
+async function eventDeleteObjectif() {
+    // Masque le popup de modification
+    document.getElementById("divModifyObjectif").style.display = "none";
+
+
+    console.log(objectifUserList);
+    console.log(objectifUserKeysList);
+    console.log(objectifItemListInstance);
+
+    //retire de l'array
+    delete objectifUserList[currentObjectifModifyID];
+
+
+    //supprime du tableau de key aussi
+    let indexToDeleteKey = objectifUserKeysList.indexOf(currentObjectifModifyID);
+    objectifUserKeysList.splice(indexToDeleteKey,1);
+
+
+    //suppression du dom
+    objectifItemListInstance[currentObjectifModifyID].removeItem();
+    //et de l'instance
+    delete objectifItemListInstance[currentObjectifModifyID];
+
+    //Envoie vers la corbeille
+    await sendToRecycleBin(currentObjectifModifyID);
+
+    console.log(objectifUserList);
+    console.log(objectifUserKeysList);
+    console.log(objectifItemListInstance);
+
+    // Popup notification
+    onShowNotifyPopup("objectifDeleted");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Enlève les références pour objectif editor
