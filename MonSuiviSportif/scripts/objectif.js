@@ -1093,9 +1093,93 @@ function onSetObjectifModifyPopup(id) {
     let imgRef = document.getElementById("imgIconModifyObjectif");
     imgRef.src = activityData.imgRef;
 
-    //Le texte de suivi
-    let pSuiviRef = document.getElementById("textModifyObjectifTypeSuivi");
-    pSuiviRef.textContent = `${objectifData.dataType}/${objectifData.rythmeType}`;
+    // Affiche le bon input dans la zone dynamique
+    onSetModifyObjectifPopupType(objectifData);
+}
+
+
+
+
+// Changement de type d'élément pour modification d'objectif
+function onSetModifyObjectifPopupType(objectifData) {
+    // 1. Masque les 3 zones dynamiques
+    let objectifTypecAreaIDs = {
+        COUNT : "divModifyObjectifCount",
+        DISTANCE : "divModifyObjectifDistance",
+        DURATION : "divModifyObjectifDuration"
+    };
+    let dynamicTypeAreaKeys = Object.keys(objectifTypecAreaIDs);
+    dynamicTypeAreaKeys.forEach(key=>{
+        let targetRef = document.getElementById(objectifTypecAreaIDs[key]);
+        console.log(key);
+        targetRef.style.display = "none";
+    });
+        
+    // Pour le texte userfriendly du type de suivi
+    let suiviText = "",
+        dataType = "",
+        rythmeType = "";
+    
+    // 3. Récupère le format userFriendly pour le rythme et ensuite set le texte final
+    rythmeType = objectifData.rythmeType === "WEEK" ? "semaine" : "mois";
+
+    
+
+    // 2. Set la valeur par défaut et le type de suivi
+    switch (objectifData.dataType) {
+        case "COUNT":
+            // L'input de valeur
+            let inputCountRef = document.getElementById("inputModifyObjectifCount");
+            inputCountRef.value = objectifData.targetValue;
+
+            // Le texte du type de suivi
+            dataType = "séances";
+
+            suiviText = `${dataType} / ${rythmeType}`;
+            let textCountSuiviRef = document.getElementById("spanModifyObjectifCount");
+            textCountSuiviRef.innerHTML = suiviText;
+            break;
+        case "DISTANCE":
+            // L'input de valeur
+            let inputDistanceRef = document.getElementById("inputModifyObjectifDistance");
+            inputDistanceRef.value = objectifData.targetValue;
+
+            // Le texte du type de suivi
+            dataType = "km";
+
+            suiviText = `${dataType} / ${rythmeType}`;
+            let textDistanceSuiviRef = document.getElementById("spanModifyObjectifDistance");
+            textDistanceSuiviRef.innerHTML = suiviText;
+            break;
+        case "DURATION":
+
+            // Convertion secondes en HH/MM
+            let duration = onConvertSecondesToHours(objectifData.targetValue);
+
+            let inputHourRef = document.getElementById("inputModifyObjectifDurationHour");
+            inputHourRef.value = duration.heures;
+            let inputMinuteRef = document.getElementById("inputModifyObjectifDurationMinute");
+            inputMinuteRef.value = duration.minutes;
+
+            // Le texte du type de suivi
+            dataType = "min";//Min parce que c'est ce qui est affiché à la fin de l'input
+
+            suiviText = `${dataType} / ${rythmeType}`;
+            let textdurationSuiviRef = document.getElementById("spanModifyObjectifDuration");
+            textdurationSuiviRef.innerHTML = suiviText;
+            break;
+        default:
+            console.log("Erreur Switch : ",objectifData.dataType);
+            break;
+    }
+
+
+
+
+
+    // 4. Affiche la zone demandée
+    let targetRef = document.getElementById(objectifTypecAreaIDs[objectifData.dataType]);
+    targetRef.style.display = "block";
 }
 
 

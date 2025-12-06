@@ -1382,14 +1382,32 @@
                         <h2 class="session-item-editor">Modifier l'objectif</h2>
 
                         <img id="imgIconModifyObjectif" src="" alt="" srcset="">
+
                         <!-- ZONE Dynamique -->
-                        
+                        <!-- COUNT -->
+                        <div class="number-container" id="divModifyObjectifCount">
+                            <input id="inputModifyObjectifCount" type="number" class="distance">
+                            <span class="chrono-separator" id="spanModifyObjectifCount">Séances</span>
+                        </div>
+
+                        <!-- DISTANCE -->
+                        <div class="number-container" id="divModifyObjectifDistance">
+                            <span class="input-number-symbol">⟷</span>
+                            <input id="inputModifyObjectifDistance" type="number" class="distance">
+                            <span class="chrono-separator" id="spanModifyObjectifDistance">km</span>
+                        </div>
+
+                        <!-- DURATION -->
+                        <div class="number-container" id="divModifyObjectifDuration">
+                            <span class="input-number-symbol">⏱️</span>
+                            <input type="number" id="inputModifyObjectifDurationHour" min="0" max="99" value="00" placeholder="00">
+                            <span class="chrono-separator">h</span>
+                            <input type="number" id="inputModifyObjectifDurationMinute" min="0" max="59" value="00" placeholder="00">
+                            <span class="chrono-separator" id="spanModifyObjectifDuration">min</span>
+                        </div>
 
 
                         <!-- FIN ZONE Dynamique -->
-
-                        <!-- Texte suivi -->
-                        <p id="textModifyObjectifTypeSuivi"></p>
 
                         
                         <!-- Navigation -->
