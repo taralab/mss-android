@@ -574,6 +574,44 @@ function onAddEventListenerForObjectifGestion() {
     divModifyObjectifPopupRef.addEventListener("click",onClickCancelModifyObjectif);
     onAddEventListenerInRegistry("objectifPopupModify",divModifyObjectifPopupRef,"click",onClickCancelModifyObjectif);
 
+    //La div intérieure contenur les actions
+    let divModifyObjectifContentRef = document.getElementById("divModifyObjectifContent");
+    const onDivModifyObjectifContent = (event) => onClickDivModifyObjectifContent(event);
+    divModifyObjectifContentRef.addEventListener("click",onDivModifyObjectifContent);
+    onAddEventListenerInRegistry("objectifPopupModify",divModifyObjectifContentRef,"click",onDivModifyObjectifContent);
+
+
+    // les input pour la DURATION
+    let inputDurationIDs = [
+        "inputModifyObjectifDurationHour",
+        "inputModifyObjectifDurationMinute"
+    ];
+
+    inputDurationIDs.forEach(input=>{
+        let inputRef = document.getElementById(input);
+        // onInput
+        let maxDuration = parseInt(inputRef.max);
+        const onInputItem = (event)=> formatNumberInput(event.target, maxDuration, 2);
+        inputRef.addEventListener("input",onInputItem);
+        onAddEventListenerInRegistry("objectifPopupModify",inputRef,"input",onInputItem);
+
+        //onFocus
+        const onFocus = (event) => selectAllText(event.target);
+        inputRef.addEventListener("focus",onFocus);
+        onAddEventListenerInRegistry("objectifPopupModify",inputRef,"focus",onFocus);
+
+        //onBlur
+        const onBlur = (event) => formatNumberInput(event.target, maxDuration, 2);
+        inputRef.addEventListener("blur",onBlur);
+        onAddEventListenerInRegistry("objectifPopupModify",inputRef,"blur",onBlur);
+
+        //onContextMenu
+        const onContextMenu = (event) => disableContextMenu(event);
+        inputRef.addEventListener("contextmenu",onContextMenu);
+        onAddEventListenerInRegistry("objectifPopupModify",inputRef,"contextmenu",onContextMenu);
+
+    });
+
 
     //Le menu de navigation
     // Retour
@@ -1081,7 +1119,16 @@ function onClickModifyObjectif(id) {
 
     // Le fait apparaitre
     document.getElementById("divModifyObjectif").style.display = "flex";
+
 }
+
+
+
+// Empeche le popup de modification de se fermer lorsque l'on clique dans la zone
+function onClickDivModifyObjectifContent(event){
+    event.stopPropagation();
+}
+
 
 
 function onSetObjectifModifyPopup(id) {
