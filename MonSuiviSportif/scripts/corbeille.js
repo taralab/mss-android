@@ -68,7 +68,7 @@ class CorbeilleItem{
     addEvent(){
         let btnRestaureItemRef = this.container.querySelector(`#btnRestaure_${this.key}`);
         btnRestaureItemRef.addEventListener("click", ()=>{
-            eventAskForRestauration(this.type,this.key);
+            eventAskForRestauration(this.type,this.key,this.name);
         });
     }
 
@@ -317,13 +317,29 @@ async function sendToRecycleBin(key) {
 // *    *   *   *       *   *   RESTAURATION *  *   *   *   *   *
 
 
-async function eventAskForRestauration(itemType,itemKey) {
+async function eventAskForRestauration(itemType,itemKey,title = "") {
     
     // Toujours restaurer pour les activité. pour les reste, on vérifie si le max n'est pas atteind
     let restaurationAutorized = false;
     
     if (itemType === "ActivityList") {
         restaurationAutorized = true;
+    }else if(itemType === "Objectif"){
+
+        // Vérifie le nombre maximale
+        let objectifRestaurationAutorized = await onCheckIfRestaurationPossible(itemType);
+
+        //vérifie si ce type de suivi existe dejà
+        let isObjectifDoublon = onCheckObjectifDoublon(title);
+
+        // Pour autoriser la restauration, il faut que le max ne soit pas atteind 
+        //Et ce cela ne crée pas de doublon
+        if (objectifRestaurationAutorized === true && isObjectifDoublon === false) {
+            restaurationAutorized = true;
+        }else{
+            restaurationAutorized = false;
+        }
+
     }else{
         restaurationAutorized = await onCheckIfRestaurationPossible(itemType);
     }
@@ -349,13 +365,15 @@ async function onCheckIfRestaurationPossible(itemType) {
     Template: maxTemplate,
     TemplateSession: maxTemplateSession,
     Notes: maxNotes,
-    Memory: maxMemory
+    Memory: maxMemory,
+    Objectif : maxObjectif
   };
 
 
   //récupère les documents et compte ceux dont le type correspondent
   const result = await db.allDocs({ include_docs: true });
   const count = result.rows.filter(r => r.doc.type === itemType).length;
+
 
   //retour si oui ou non le max  n'a pas été atteind
   return count < (maxValues[itemType] || 0);
@@ -389,6 +407,9 @@ async function eventRestaureItem(key) {
             break;
         case "Memory":
             onMemoryWasRestaured(itemRestaured);
+            break;
+        case "Objectif":
+            onObjectifWasRestaured(itemRestaured);
             break;
         default:
             console.log("Erreur de type");
@@ -492,6 +513,11 @@ function onMemoryWasRestaured(itemRestaured){
 }
 
 
+// Spécifique restauration objectif
+function onObjectifWasRestaured(itemRestaured){
+    // L'ajoute à l'array déjà remplit au chargement de l'app
+    objectifUserList[itemRestaured._id] = itemRestaured;
+};
 
 
 // *    *   *   *   *   *   *   SUPPRESSION DEFINITIVE *    *   *   *   *   *   *
