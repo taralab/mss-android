@@ -86,8 +86,8 @@ function onDisplayDashboardItemsList() {
 
             // Génère un item
             new ObjectifDashboardItem(
-                convertedData.activity,convertedData.textTargetValue,convertedData.suiviText,
-                `${result.remainingCount}`,convertedData.imgRef,result.percentValue,
+                convertedData.activity,convertedData.textTargetValue,convertedData.textSuiviType,
+                `${result.remainingCount}`,convertedData.imgRef,
                 convertedData.color,result.unit,weekParentRef
             );
 
@@ -132,8 +132,8 @@ function onDisplayDashboardItemsList() {
 
             // Génère un item
             new ObjectifDashboardItem(
-                convertedData.activity,convertedData.textTargetValue,convertedData.suiviText,
-                `${result.remainingCount}`,convertedData.imgRef,result.percentValue,
+                convertedData.activity,convertedData.textTargetValue,convertedData.textSuiviType,
+                `${result.remainingCount}`,convertedData.imgRef,
                 convertedData.color,result.unit,monthParentRef
             );
 
@@ -189,19 +189,19 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
         switch (dataType) {
             case "COUNT":
                 // Aucun traitement parculier pour le moment pour COUNT
-                result.unit = "Restant";
+                result.unit = "";
                 break;
             case "DURATION":
                 let timeResult = onConvertSecondesToHours(result.remainingCount);
                 result.remainingCount = `${timeResult.heures}h${timeResult.minutes}`;
-                result.unit = "Restant";
+                result.unit = "";
                 break;
 
             case "DISTANCE":
                 // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
                 result.remainingCount = parseFloat(result.remainingCount.toFixed(2));
 
-                result.unit = "Restant";//Pour afficher 'km' dans le rond
+                result.unit = "km";//Pour afficher 'km' dans le rond
                 break;
         
             default:
@@ -540,7 +540,7 @@ function onDisplayObjectifList() {
             const itemConvertedText = onConvertObjectifToUserDisplay(item);
 
             //genère une instance
-            let newObjectifInstance = new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.textTargetValue,itemConvertedText.suiviText,item.isEnabled,itemConvertedText.imgRef,parentRef);
+            let newObjectifInstance = new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.textTargetValue,itemConvertedText.textSuiviType,item.isEnabled,itemConvertedText.imgRef,parentRef);
 
             //stocke l'instance
             objectifItemListInstance[key] = newObjectifInstance; 
@@ -706,7 +706,7 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
             break;
     }
 
-    convertedData.suiviText = `${textDataType} / ${textRythmeType}`;
+    convertedData.textSuiviType = `${textDataType} / ${textRythmeType}`;
     convertedData.textTargetValue = convertedTargetValue;
 
     // La référence de l'image

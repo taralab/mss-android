@@ -1,11 +1,10 @@
 class ObjectifDashboardItem {
-    constructor(activityName,textTargetNumber,textTargetValue,textCurrentValue,imgRef,progressValue,categoryColor,unit,parentRef){
+    constructor(activityName,textTargetValue,textSuiviType,textCurrentValue,imgRef,categoryColor,unit,parentRef){
         this.activityName = activityName;
-        this.textTargetNumber = textTargetNumber;
         this.textTargetValue = textTargetValue;
+        this.textSuiviType = textSuiviType;
         this.textCurrentValue = textCurrentValue;
         this.imgRef = imgRef;
-        this.progressValue = progressValue;
         this.categoryColor = categoryColor;
         this.unit = unit;
         this.parentRef = parentRef;
@@ -13,7 +12,7 @@ class ObjectifDashboardItem {
 
         // Conteneur principal
         this.element = document.createElement("div");
-        this.element.classList.add("objectif-card");
+        this.element.classList.add("dashbaord-objectif-card");
 
         // Fonction de rendu
         this.render();
@@ -27,26 +26,19 @@ class ObjectifDashboardItem {
 
     render(){
         this.element.innerHTML = `
-            <div class="objectif-top-row">
-                <div class="objectif-card-icon">
-                    <img src=${this.imgRef}>
-                </div>
-                <div class="objectif-progress-badge" style="--progress: ${this.progressValue} ; --bar-color:${this.categoryColor}">
-                    <svg viewBox="0 0 36 36">
-                        <path class="objectif-track" d="M18 2.5
-                            a 15.5 15.5 0 1 1 0 31
-                            a 15.5 15.5 0 1 1 0 -31" />
-                        <path class="objectif-progress" d="M18 2.5
-                            a 15.5 15.5 0 1 1 0 31
-                            a 15.5 15.5 0 1 1 0 -31" />
-                    </svg>
-                    <div class="objectif-card-value">
-                        <span class="value-number">${this.textCurrentValue}</span>
-                        <span class="value-unit">${this.unit ?? ""}</span>
-                    </div>
+            <div class="donut-wrapper">
+                .<div class="donut"></div>
+
+                <div class="dashbaord-objectif-icon">
+                <img src="${this.imgRef}" alt="">
                 </div>
             </div>
-            <p>${this.textTargetNumber} ${this.textTargetValue} </p>
+
+            <div class="dashbaord-objectif-title">${this.activityName}</div>
+            <div class="dashbaord-objectif-remaining">
+                ${this.textCurrentValue} ${this.unit} <small>restants</small>
+            </div>
+            <div class="dashbaord-objectif-target">Objectif : ${this.textTargetValue} ${this.textSuiviType}</div>
         `;
     }
 }

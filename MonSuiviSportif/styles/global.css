@@ -3618,113 +3618,90 @@ div.objectif-dashboard-grid {
 }
 
 
-/* Card style */
-.objectif-card {
-    background: white;
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    display: flex;
-    flex-direction: column;
-    font-family: system-ui, sans-serif;
-    width: 100%;
+/* DASHBOARD OBJECTIF Card style */
+.dashbaord-objectif-card {
+    min-width: 200px;      /* jamais plus petit que ça */
+    max-width: 340px;      /* jamais plus large que ça */
+    width: 100%;           /* occupe la colonne */
+    margin: auto;          /* centre la carte dans la colonne */
+    
+    background: #fff;
+    padding: 24px 18px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.06);
 }
 
-/* Top: icon left, badge right */
-.objectif-top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+  /* -------- DEMI-DONUT CREUX -------- */
 
-/* Icon style */
-.objectif-card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--imageActivityBG);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.objectif-card-icon img {
-    width: 60%;
-    height: 60%;
-    object-fit: contain;
-}
-
-
-/* Text under */
-.objectif-card p {
-    margin-top: 14px;
-    font-size: 0.95rem;
-    color: #5c5c5c;
-}
-
-
-
-.objectif-progress-badge {
-    --size: 58px;
-    --progress: 0;
-    --bar-color: #4CAF50;
-    --track-color: #e0e0e0;
-    --stroke-width: 3;
-
-    width: var(--size);
-    height: var(--size);
+  .donut-wrapper {
+    width: 130px;          /* avant : 160px */
+    height: 65px;          /* avant : 80px */
+    margin: 0 auto;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.objectif-progress-badge svg {
-    width: 100%;
-    height: 100%;
+.donut {
+    width: 130px;          /* avant : 160px */
+    height: 130px;         /* avant : 160px */
+    border-radius: 50%;
+    background: rgba(210, 210, 210, 0.18);
+
+    clip-path: inset(0 0 50% 0);
+    opacity: 1;         /* léger pour effet propre */
 }
 
-.objectif-track,
-.objectif-progress {
-    fill: none;
-    stroke-width: var(--stroke-width);
-    stroke-linecap: round;
-}
-
-.objectif-track {
-    stroke: var(--track-color);
-}
-
-.objectif-progress {
-    stroke: var(--bar-color);
-    stroke-dasharray: 98;
-    stroke-dashoffset: calc(98 - (98 * var(--progress) / 100));
-    transition: stroke-dashoffset 0.4s ease;
-}
-
-.objectif-card-value {
+/* Trou intérieur */
+.donut::after {
+    content: "";
     position: absolute;
+
+    width: 90px;           /* avant : 110px */
+    height: 90px;          /* avant : 110px */
+    background: #fff;
+    border-radius: 50%;
+
+    top: 20px;             /* avant : 25px */
+    left: 20px;            /* avant : 25px */
+}
+
+
+  /* Icône centrée */
+  .dashbaord-objectif-icon {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .dashbaord-objectif-icon img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .dashbaord-objectif-title {
+    margin-top: 20px;
+    font-size: 1.3rem;
     font-weight: 600;
-    font-size: 0.9rem;
-}
+    color: #222;
+  }
 
-.objectif-card-value {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-}
+  .dashbaord-objectif-remaining {
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin: 8px 0;
+  }
 
+  .dashbaord-objectif-remaining small {
+    font-size: 1.1rem;
+    color: #555;
+  }
 
-.objectif-card-value .value-unit {
-    font-size: 0.55rem;
-    opacity: 0.5;
-    margin-top: 2px;
-}
-
-
+  .dashbaord-objectif-target {
+    font-size: 0.80rem;
+    color: #666;
+    font-weight: normal;
+  }
 
 /* Objectif editeur List */
 div.full-width{
