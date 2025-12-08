@@ -3611,7 +3611,7 @@ div.objectif-dashbaord-section {
 
 div.objectif-dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
     gap: 15px;
     width: 100%;
     margin-bottom: 10px;
@@ -3620,70 +3620,37 @@ div.objectif-dashboard-grid {
 
 /* DASHBOARD OBJECTIF Card style */
 .dashbaord-objectif-card {
-    min-width: 200px;      /* jamais plus petit que ça */
-    max-width: 340px;      /* jamais plus large que ça */
+    min-width: 180px;      /* jamais plus petit que ça */
+    max-width: 230px;      /* jamais plus large que ça */
     width: 100%;           /* occupe la colonne */
     margin: auto;          /* centre la carte dans la colonne */
     
     background: #fff;
-    padding: 24px 18px;
+    padding: 12px 9px;
     border-radius: 22px;
     text-align: center;
     box-shadow: 0 10px 24px rgba(0,0,0,0.06);
-}
-
-  /* -------- DEMI-DONUT CREUX -------- */
-
-  .donut-wrapper {
-    width: 130px;          /* avant : 160px */
-    height: 65px;          /* avant : 80px */
-    margin: 0 auto;
     position: relative;
-}
-
-.donut {
-    width: 130px;          /* avant : 160px */
-    height: 130px;         /* avant : 160px */
-    border-radius: 50%;
-    background: rgba(210, 210, 210, 0.18);
-
-    clip-path: inset(0 0 50% 0);
-    opacity: 1;         /* léger pour effet propre */
-}
-
-/* Trou intérieur */
-.donut::after {
-    content: "";
-    position: absolute;
-
-    width: 90px;           /* avant : 110px */
-    height: 90px;          /* avant : 110px */
-    background: #fff;
-    border-radius: 50%;
-
-    top: 20px;             /* avant : 25px */
-    left: 20px;            /* avant : 25px */
+    overflow: hidden;
 }
 
 
-  /* Icône centrée */
-  .dashbaord-objectif-icon {
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+.dashbaord-objectif-card img {
+    width: 40px;
+}
+  
+/* Message “Objectif atteint !” */
+.objectif-done-message {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #02bc1d;
+    margin-bottom: 8px;
+}
 
-  .dashbaord-objectif-icon img {
-    width: 45px;
-    height: 45px;
-  }
-
-  .dashbaord-objectif-title {
-    margin-top: 20px;
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #222;
+  .dashbaord-objectif-label{
+    font-size: 0.85rem;
+    color: #777;
+    font-weight: 500;
   }
 
   .dashbaord-objectif-remaining {
@@ -3693,8 +3660,8 @@ div.objectif-dashboard-grid {
   }
 
   .dashbaord-objectif-remaining small {
-    font-size: 1.1rem;
-    color: #555;
+    font-size: 1.2rem;
+    color: #333;
   }
 
   .dashbaord-objectif-target {
@@ -3702,6 +3669,7 @@ div.objectif-dashboard-grid {
     color: #666;
     font-weight: normal;
   }
+
 
 /* Objectif editeur List */
 div.full-width{

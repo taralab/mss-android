@@ -88,7 +88,7 @@ function onDisplayDashboardItemsList() {
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.textTargetValue,convertedData.textSuiviType,
                 `${result.remainingCount}`,convertedData.imgRef,
-                convertedData.color,result.unit,weekParentRef
+                convertedData.color,result.unit,weekParentRef,result.isObjectifDone
             );
 
             // Stockage pour KPI
@@ -134,7 +134,7 @@ function onDisplayDashboardItemsList() {
             new ObjectifDashboardItem(
                 convertedData.activity,convertedData.textTargetValue,convertedData.textSuiviType,
                 `${result.remainingCount}`,convertedData.imgRef,
-                convertedData.color,result.unit,monthParentRef
+                convertedData.color,result.unit,monthParentRef,result.isObjectifDone
             );
 
 
@@ -181,10 +181,10 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
     // Nombre restant
     result.remainingCount = targetValue - result.totalCount;
 
-    // Mettre en place la convertion ici sinon met OK si objectif atteind
-
+    // Mettre en place la convertion ici sinon met boolean à true si objectif atteind
+    result.isObjectifDone = false;
     if (result.remainingCount <= 0) {
-        result.remainingCount = "OK";
+        result.isObjectifDone = true;
     }else{
         switch (dataType) {
             case "COUNT":

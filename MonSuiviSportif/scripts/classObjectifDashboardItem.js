@@ -1,5 +1,5 @@
 class ObjectifDashboardItem {
-    constructor(activityName,textTargetValue,textSuiviType,textCurrentValue,imgRef,categoryColor,unit,parentRef){
+    constructor(activityName,textTargetValue,textSuiviType,textCurrentValue,imgRef,categoryColor,unit,parentRef,isObjectifDone = false){
         this.activityName = activityName;
         this.textTargetValue = textTargetValue;
         this.textSuiviType = textSuiviType;
@@ -8,6 +8,28 @@ class ObjectifDashboardItem {
         this.categoryColor = categoryColor;
         this.unit = unit;
         this.parentRef = parentRef;
+        this.isObjectifDone = isObjectifDone;
+
+
+
+        // Contenu dynamique selon l'état
+
+        this.contentToInject = {
+            normal : `
+                <img src="${this.imgRef}" alt="">
+                <div class="dashbaord-objectif-label">Restant :</div>
+                <div class="dashbaord-objectif-remaining">
+                    ${this.textCurrentValue}  <small>${this.unit}</small>
+                </div>
+                <div class="dashbaord-objectif-target">Objectif : ${this.textTargetValue} ${this.textSuiviType}</div>
+            `,
+            done :`
+
+                <img src="${this.imgRef}" alt="">
+                <div class="dashbaord-objectif-target">Objectif : ${this.textTargetValue} ${this.textSuiviType}</div>
+                                <div class="objectif-done-message">Fait ! 🎉</div>
+            `
+        }
 
 
         // Conteneur principal
@@ -25,20 +47,6 @@ class ObjectifDashboardItem {
 
 
     render(){
-        this.element.innerHTML = `
-            <div class="donut-wrapper">
-                .<div class="donut"></div>
-
-                <div class="dashbaord-objectif-icon">
-                <img src="${this.imgRef}" alt="">
-                </div>
-            </div>
-
-            <div class="dashbaord-objectif-title">${this.activityName}</div>
-            <div class="dashbaord-objectif-remaining">
-                ${this.textCurrentValue} ${this.unit} <small>restants</small>
-            </div>
-            <div class="dashbaord-objectif-target">Objectif : ${this.textTargetValue} ${this.textSuiviType}</div>
-        `;
+        this.element.innerHTML = this.isObjectifDone ? this.contentToInject["done"] : this.contentToInject["normal"];
     }
 }
