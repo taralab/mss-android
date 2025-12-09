@@ -1,5 +1,5 @@
 
-let currentExportVersion = 7;//version actuel des fichers d'import/export
+let currentExportVersion = 8;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -662,6 +662,14 @@ async function eventImportBdD(inputRef) {
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
                         break;
+                    case 8:
+                        //Le fichier V8 contient le nouveau STORE OBJECTIF.
+                        console.log("[IMPORT] V8");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
+
                     default:
                         throw new Error("⚠️ Format de fichier inconnu.");
                 }
@@ -874,6 +882,22 @@ async function importBdD(dataToImport) {
                 comment : e.comment
             };
             await onInsertNewMemoryInDB(newMemoryToInsert);
+
+        //OBJECTIF
+        } else if (e.type === objectifStoreName){
+            let newObjectifToInsert = {
+                title : e.title,
+                activity : e.activity,
+                dataType : e.dataType,
+                rythmeType : e.rythmeType,
+                isEnabled: e.isEnabled,
+                targetValue : e.targetValue,
+                notification : {
+                    sent : e.notification.sent,
+                    dateSent: e.notification.dateSent
+                }
+            };
+            await onInsertNewObjectifInDB(newObjectifToInsert);
         }
 
         // Traitement des pourcentages
