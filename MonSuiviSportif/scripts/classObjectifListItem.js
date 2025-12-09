@@ -42,7 +42,7 @@ class ObjectifListItem {
         this.element.innerHTML = `
             <div class="objectif-list-click-area" id="divObjectifItemList_${this.id}">
                 <div class="objectif-card-icon objectif-list-icon">
-                    <img src="${this.imgRef}">
+                    <img class="activity" src="${this.imgRef}">
                 </div>
                 <div class="objectif-list-text">
                     <div class="objectif-list-title">${this.activityName}</div>
@@ -101,7 +101,7 @@ class ObjectifListItem {
         this.updateEnableStatus(newEnabledStatus);
 
         // Actualisation en array et en base
-        onUpdateObjectifEnableStatus(this.id,event.target.checked);
+        onUpdateObjectifEnableStatus(this.id,newEnabledStatus);
     }
 
 

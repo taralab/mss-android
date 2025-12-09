@@ -3618,6 +3618,13 @@ div.objectif-dashboard-grid {
 }
 
 
+div.edit-objectif-dyn-area{
+    width: 100%;
+    text-align: center;
+}
+
+
+
 /* DASHBOARD OBJECTIF Card style */
 .dashbaord-objectif-card {
     min-width: 180px;      /* jamais plus petit que ça */
@@ -3675,6 +3682,21 @@ div.objectif-dashboard-grid {
 div.full-width{
     width: 100%;
 }
+
+
+/* -------------------- POPUP Modify Objectif */
+
+div.popup-modif-objectif-dyn-area{
+    margin-bottom: 20px;
+}
+
+img.popup-modif-objectif{
+    margin-top: 20px;
+    width: 40px;
+}
+
+
+
 
 
 
