@@ -3663,7 +3663,7 @@ div.edit-objectif-dyn-area{
   .dashbaord-objectif-remaining {
     font-size: 2.3rem;
     font-weight: 700;
-    margin: 8px 0;
+    margin-bottom: 8px;
   }
 
   .dashbaord-objectif-remaining small {
