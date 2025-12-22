@@ -65,7 +65,6 @@ function onDisplayDashboardItemsList() {
 
     // * * * *  traitement hebdo    * * * * * *
 
-    let kpiWeekDoneArray = [];
 
     // Référence le parent et le vide
     let weekParentRef = document.getElementById("divDashboardListAreaWeek");
@@ -91,10 +90,6 @@ function onDisplayDashboardItemsList() {
                 weekParentRef,
             );
 
-            // Stockage pour KPI
-            let convertKPIpercent = result.percentValue/100;
-            kpiWeekDoneArray.push(convertKPIpercent);
-
         });
     }else{
         weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
@@ -102,20 +97,14 @@ function onDisplayDashboardItemsList() {
 
     // Traitement KPI hebdo
     kpiWeekContext = getKPIWeeklyContext();
-    let weekKPIImage = computeKPIFromRatios(kpiWeekDoneArray, kpiWeekContext.daysPassed, kpiWeekContext.daysTotal);
-    console.log(weekKPIImage);
-    // Set l'image du KPI
-    let imgKPIWeekRef = document.getElementById("imgKpiWeek");
-    imgKPIWeekRef.src = weekKPIImage ? weekKPIImage : "./Icons/MSS_KPI_Gris.webp";
+
 
 
 
 
     // * * * *  traitement mensuel    * * * * * *
     
-    
-    
-    let kpiMonthDoneArray = [];
+
 
     // Référence le parent et le vide
     let monthParentRef = document.getElementById("divDashboardListAreaMonth");
@@ -142,9 +131,6 @@ function onDisplayDashboardItemsList() {
             );
 
 
-            // Stockage pour KPI
-            let convertKPIpercent = result.percentValue/100;
-            kpiMonthDoneArray.push(convertKPIpercent);
         });
     }else{
         monthParentRef.innerHTML = "Aucun objectif mensuel.";
@@ -152,11 +138,6 @@ function onDisplayDashboardItemsList() {
 
     // Traitement KPI Mensuel
     kpiMonthContext = getKPIMonthlyContext();
-    let monthKPIImage = computeKPIFromRatios(kpiMonthDoneArray, kpiMonthContext.daysPassed, kpiMonthContext.daysTotal);
-    console.log(monthKPIImage);
-
-    let imgKpiMonthRef = document.getElementById("imgKpiMonth");
-    imgKpiMonthRef.src = monthKPIImage ? monthKPIImage : "./Icons/MSS_KPI_Gris.webp";
 
 }
 
@@ -167,7 +148,7 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
     // Récupère les key des activités concernées (type et dans la fourchette et non planifié)
     let activityKeysTarget = findActivityKeysByNameAndDateRange(allUserActivityArray,activityType,dateRangeStart,dateRangeEnd);
 
-    // Lance le calcul selon la data suivit
+    // Lance le calcul selon la data 'suivi'
     let result = {};
 
     // Pour le nombre total, prend juste le nombre d'élément dans l'array
@@ -178,40 +159,10 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
         result.doneValue = onCalculObjectifActivityCount(activityKeysTarget,allUserActivityArray,dataType);
     }
     
-    // Calcul du pourcentage accomplit (mettre 100% max)
-    let percent = targetValue === 0 ? 0 : (result.doneValue / targetValue) * 100;
-    result.percentValue = Math.min(percent, 100);
 
     // Nombre restant
     result.remainingValue = targetValue - result.doneValue;
 
-    // Mettre en place la convertion ici sinon met boolean à true si objectif atteind
-    result.isObjectifDone = false;
-    if (result.remainingValue <= 0) {
-        result.isObjectifDone = true;
-    }else{
-        switch (dataType) {
-            case "COUNT":
-                // Aucun traitement parculier pour le moment pour COUNT
-                result.unit = "";
-                break;
-            case "DURATION":
-                let timeResult = onConvertSecondesToHours(result.remainingValue);
-                result.remainingValue = `${timeResult.heures}h${timeResult.minutes}`;
-                result.unit = "";
-                break;
-
-            case "DISTANCE":
-                // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
-                result.remainingValue = parseFloat(result.remainingValue.toFixed(2));
-
-                result.unit = "km";//Pour afficher 'km' dans le rond
-                break;
-        
-            default:
-                break;
-        }
-    }
 
     return result;
 }
@@ -415,24 +366,6 @@ const KPI_IMAGES = [
 
 
 
-// Calcul le KPI
-function computeKPIFromRatios(ratios, daysPassed, daysTotal) {
-    if (!ratios.length) return null;
-
-    // 1. Moyenne = score global
-    const scoreGlobal = ratios.reduce((a, b) => a + b, 0) / ratios.length;
-
-    // 2. Ratio du temps
-    const ratioTime = daysPassed / daysTotal;
-
-    // 3. KPI final
-    const kpi = scoreGlobal / ratioTime;
-
-    // 4. Trouver l’image correspondant au KPI
-    const item = KPI_IMAGES.find(level => kpi >= level.min);
-
-    return item ? item.image : null;
-}
 
 
 // Combien de jours depuis le début de semaine et total de jours

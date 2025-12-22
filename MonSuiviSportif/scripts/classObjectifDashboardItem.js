@@ -8,6 +8,8 @@ class ObjectifDashboardItem {
         this.imgRef = activityChoiceArray[this.activityName].imgRef;
         this.parentRef = parentRef;
 
+        console.log("RemaingValue : ", this.remainingValue);
+        
 
         //Vérifie si objectif atteind ou non
         this.isObjectifDone = this.remainingValue <=0;
