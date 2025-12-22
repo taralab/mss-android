@@ -946,9 +946,19 @@ function timeFormatToInputNumber(timeString) {
 
 // Convertion secondes en heures minutes
 function onConvertSecondesToHours(totalSeconds) {
-    const heures = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const secondes = totalSeconds % 60;
+    const seconds = Number(totalSeconds);
+
+    if (!Number.isFinite(seconds) || seconds < 0) {
+        return {
+            heures: 0,
+            minutes: "00",
+            secondes: "00"
+        };
+    }
+
+    const heures = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secondes = seconds % 60;
 
     return {
         heures,

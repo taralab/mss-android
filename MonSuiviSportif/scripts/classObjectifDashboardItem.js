@@ -1,35 +1,27 @@
 class ObjectifDashboardItem {
-    constructor(activityName,textTargetValue,textSuiviType,textCurrentValue,imgRef,categoryColor,unit,parentRef,isObjectifDone = false){
+    constructor(activityName,rythmeType,dataType,remainingValue,targetValue,parentRef){
         this.activityName = activityName;
-        this.textTargetValue = textTargetValue;
-        this.textSuiviType = textSuiviType;
-        this.textCurrentValue = textCurrentValue;
-        this.imgRef = imgRef;
-        this.categoryColor = categoryColor;
-        this.unit = unit;
+        this.rythmeType = rythmeType;
+        this.dataType = dataType;
+        this.remainingValue = Number(remainingValue);
+        this.targetValue = Number(targetValue);
+        this.imgRef = activityChoiceArray[this.activityName].imgRef;
         this.parentRef = parentRef;
-        this.isObjectifDone = isObjectifDone;
 
 
+        //Vérifie si objectif atteind ou non
+        this.isObjectifDone = this.remainingValue <=0;
 
-        // Contenu dynamique selon l'état
 
-        this.contentToInject = {
-            normal : `
-                <img src="${this.imgRef}" alt="">
-                <div class="dashbaord-objectif-label">Restant :</div>
-                <div class="dashbaord-objectif-remaining">
-                    ${this.textCurrentValue}  <small>${this.unit}</small>
-                </div>
-                <div class="dashbaord-objectif-target">Objectif : ${this.textTargetValue} ${this.textSuiviType}</div>
-            `,
-            done :`
+        // Les éléments formatés pour affichage
+        this.unit = null;
+        this.convertedValue = null;
+        this.contentToInject = {};
+        this.convertedRythme = null;//Semaine,mois
+        this.convertedType = null;//Séances,km
+        this.convertedTargetValue = null;
 
-                <img src="${this.imgRef}" alt="">
-                <div class="dashbaord-objectif-target">Objectif : ${this.textTargetValue} ${this.textSuiviType}</div>
-                                <div class="objectif-done-message">Fait ! 🎉</div>
-            `
-        }
+
 
 
         // Conteneur principal
@@ -37,6 +29,7 @@ class ObjectifDashboardItem {
         this.element.classList.add("dashbaord-objectif-card");
 
         // Fonction de rendu
+        this.convertToDisplay();
         this.render();
 
         // Insertion dans le parent
@@ -46,7 +39,76 @@ class ObjectifDashboardItem {
 
 
 
+    convertToDisplay(){
+        // Convertion pour dataType
+
+        switch (this.dataType) {
+            case "COUNT":
+                // Aucun traitement parculier pour le moment pour COUNT
+                this.convertedValue = this.remainingValue;
+                this.unit = "";
+                this.convertedType = "séances";
+                this.convertedTargetValue = this.targetValue;
+                break;
+            case "DURATION":
+                let timeRemainingResult = onConvertSecondesToHours(this.remainingValue);
+                this.convertedValue = `${timeRemainingResult.heures}h${timeRemainingResult.minutes}`;
+                this.unit = "";
+
+                let timeTargetResult = onConvertSecondesToHours(this.targetValue);
+                this.convertedTargetValue = `${timeTargetResult.heures}h${timeTargetResult.minutes}`;
+                break;
+
+            case "DISTANCE":
+                // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
+                this.convertedValue = parseFloat(this.remainingValue.toFixed(2));
+                this.convertedType = "km";
+                this.unit = "km";
+                console.log(this.targetValue);
+                this.convertedTargetValue = parseFloat(this.targetValue.toFixed(2));
+                break;
+        
+            default:
+                break;
+        };
+
+
+        // Convertion pour nommage rythme
+        switch (this.rythmeType) {
+            case "WEEK":
+                this.convertedRythme = "semaine";
+                break;
+            case "MONTH":
+                this.convertedRythme = "mois";
+                break;
+        
+            default:
+                break;
+        };
+
+
+        console.log("remainingValue : ", this.convertedValue);
+        // Traitement
+        this.contentToInject = {
+            normal : `
+                <img src="${this.imgRef}" alt="">
+                <div class="dashbaord-objectif-label">Restant :</div>
+                <div class="dashbaord-objectif-remaining">
+                    ${this.convertedValue}  <small>${this.unit}</small>
+                </div>
+                <div class="dashbaord-objectif-target">Objectif : ${this.convertedTargetValue} ${this.convertedType} / ${this.convertedRythme}</div>
+            `,
+            done :`
+
+                <img src="${this.imgRef}" alt="">
+                <div class="dashbaord-objectif-target">Objectif : ${this.convertedTargetValue} ${this.convertedType} / ${this.convertedRythme}</div>
+                                <div class="objectif-done-message">Fait ! 🎉</div>
+            `
+        }
+
+    };
+
     render(){
         this.element.innerHTML = this.isObjectifDone ? this.contentToInject["done"] : this.contentToInject["normal"];
-    }
+    };
 }
