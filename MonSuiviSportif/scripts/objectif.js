@@ -61,7 +61,9 @@ function onDisplayDashboardItemsList() {
     // Récupère le mois en cours
     let currentMonthRange = getCurrentMonthRange();
 
-    // traitement hebdo
+
+
+    // * * * *  traitement hebdo    * * * * * *
 
     let kpiWeekDoneArray = [];
 
@@ -101,14 +103,20 @@ function onDisplayDashboardItemsList() {
     }
 
     // Traitement KPI hebdo
-    let weekDayInfo = getKPIWeeklyProgress();
-    let weekKPIImage = computeKPIFromRatios(kpiWeekDoneArray, weekDayInfo.daysPassed, weekDayInfo.daysTotal);
+    kpiWeekContext = getKPIWeeklyContext();
+    let weekKPIImage = computeKPIFromRatios(kpiWeekDoneArray, kpiWeekContext.daysPassed, kpiWeekContext.daysTotal);
     console.log(weekKPIImage);
     // Set l'image du KPI
     let imgKPIWeekRef = document.getElementById("imgKpiWeek");
     imgKPIWeekRef.src = weekKPIImage ? weekKPIImage : "./Icons/MSS_KPI_Gris.webp";
 
-    // Traitement mensuel
+
+
+
+    // * * * *  traitement mensuel    * * * * * *
+    
+    
+    
     let kpiMonthDoneArray = [];
 
     // Référence le parent et le vide
@@ -147,8 +155,8 @@ function onDisplayDashboardItemsList() {
     }
 
     // Traitement KPI Mensuel
-    let monthDayInfo = getKPIMonthlyProgress();
-    let monthKPIImage = computeKPIFromRatios(kpiMonthDoneArray, monthDayInfo.daysPassed, monthDayInfo.daysTotal);
+    kpiMonthContext = getKPIMonthlyContext();
+    let monthKPIImage = computeKPIFromRatios(kpiMonthDoneArray, kpiMonthContext.daysPassed, kpiMonthContext.daysTotal);
     console.log(monthKPIImage);
 
     let imgKpiMonthRef = document.getElementById("imgKpiMonth");
@@ -168,18 +176,18 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
 
     // Pour le nombre total, prend juste le nombre d'élément dans l'array
     if (dataType === "COUNT") {
-        result.totalCount = activityKeysTarget.length;
+        result.doneValue = activityKeysTarget.length;
     }else{
         // Pour DURATION et DISTANCE
-        result.totalCount = onCalculObjectifActivityCount(activityKeysTarget,allUserActivityArray,dataType);
+        result.doneValue = onCalculObjectifActivityCount(activityKeysTarget,allUserActivityArray,dataType);
     }
     
     // Calcul du pourcentage accomplit (mettre 100% max)
-    let percent = targetValue === 0 ? 0 : (result.totalCount / targetValue) * 100;
+    let percent = targetValue === 0 ? 0 : (result.doneValue / targetValue) * 100;
     result.percentValue = Math.min(percent, 100);
 
     // Nombre restant
-    result.remainingCount = targetValue - result.totalCount;
+    result.remainingCount = targetValue - result.doneValue;
 
     // Mettre en place la convertion ici sinon met boolean à true si objectif atteind
     result.isObjectifDone = false;
@@ -382,8 +390,22 @@ function getCurrentMonthRange() {
 
 // --------------------------------- KPI ---------------------------------------------
 
+//Le délais (en jours) avant pris en compte pour duration et distance
+const kpiWeekExemptDay = 2,
+    kpiMonthExemptDay = 7;
+
+let kpiWeekContext = {
+    passedDay: 2,
+    totalDay: 7,
+    remainingDay: 5
+};
 
 
+let kpiMonthContext = {
+    passedDay: 10,
+    totalDay: 30,
+    remainingDay: 20
+};
 
 
 
@@ -418,26 +440,29 @@ function computeKPIFromRatios(ratios, daysPassed, daysTotal) {
 
 
 // Combien de jours depuis le début de semaine et total de jours
-function getKPIWeeklyProgress(date = new Date()) {
+function getKPIWeeklyContext(date = new Date()) {
   // 0 = dimanche → on le transforme pour que lundi = 0, mardi = 1…
   const dayOfWeek = (date.getDay() + 6) % 7;
 
   const daysPassed = dayOfWeek + 1;  // ex : lundi = 1, mardi = 2…
   const daysTotal = 7;
+  const remainingDay = daysTotal - daysPassed;
 
-  return { daysPassed, daysTotal };
+  return { daysPassed, daysTotal, remainingDay};
 }
 
 
 // Combien de jours depuis le début du mois et total de jours
-function getKPIMonthlyProgress(date = new Date()) {
+function getKPIMonthlyContext(date = new Date()) {
   const year = date.getFullYear();
   const month = date.getMonth();
 
   const daysPassed = date.getDate(); // 1 → 31
   const daysTotal = new Date(year, month + 1, 0).getDate(); // nb jours du mois
 
-  return { daysPassed, daysTotal };
+  const remainingDay = daysTotal - daysPassed;
+
+  return { daysPassed, daysTotal, remainingDay };
 }
 
 
@@ -722,11 +747,13 @@ function onConvertObjectifToUserDisplay(dataToConvert) {
 
 
 // Lorsque l'utilisateur change le status d'un objectif depuis la liste
-function onUpdateObjectifEnableStatus(idTarget,newEnabledStatus) {
+async function onUpdateObjectifEnableStatus(idTarget,newEnabledStatus) {
     // Sauvegarde du nouvel état dans l'array
     objectifUserList[idTarget].isEnabled = newEnabledStatus;
 
     // Sauvegarde en base
+    await onInsertObjectifModificationInDB(objectifUserList[idTarget],idTarget);
+
 }
 
 
