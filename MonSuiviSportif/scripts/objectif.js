@@ -51,14 +51,26 @@ function onOpenMenuObjectifDashboard() {
     onDisplayDashboardItemsList();
 
     // Lance le traitement du kpi hebdo
-    let kpiWeeklyColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
-    onSetKpiImage(kpiWeeklyColor,"imgKpiWeek");
-    console.log("kpi hebdo : ",kpiWeeklyColor);
+    if (Object.keys(weekKpiObject).length > 0) {
+        let kpiWeeklyColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
+        onSetKpiImage(kpiWeeklyColor,"imgKpiWeek");
+        console.log("kpi hebdo : ",kpiWeeklyColor);
+    }else{
+        //si pas d'élément met l'icone grise
+        document.getElementById("imgKpiWeek").src = "./Icons/MSS_KPI-GREY.webp";
+    }
 
-    //lance le traitement du kpi mensuel
-    let kpiMonthlyColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiWeekContext.totalDay,kpiMonthExemptDay);
-    onSetKpiImage(kpiMonthlyColor,"imgKpiMonth");
-    console.log("kpi mensuel : ",kpiMonthlyColor);
+
+    if(Object.keys(monthKpiObject).length > 0){
+        //lance le traitement du kpi mensuel
+        let kpiMonthlyColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiWeekContext.totalDay,kpiMonthExemptDay);
+        onSetKpiImage(kpiMonthlyColor,"imgKpiMonth");
+        console.log("kpi mensuel : ",kpiMonthlyColor);
+    }else{
+        //si pas d'élément met l'icone grise
+        document.getElementById("imgKpiMonth").src = "./Icons/MSS_KPI-GREY.webp";
+    }
+
 }
 
 
@@ -343,7 +355,7 @@ function getCurrentMonthRange() {
 
 
 
-// --------------------------------- KPI ---------------------------------------------
+// --------------------------------- #KPI ---------------------------------------------
 
 
 
@@ -386,31 +398,44 @@ function onInitKpiElement() {
 
 
 
-// Combien de jours depuis le début de semaine et total de jours
+// Contexte KPI hebdomadaire
+// Règle métier : aujourd'hui est encore un jour disponible
 function getKPIWeeklyContext(date = new Date()) {
-  // 0 = dimanche → on le transforme pour que lundi = 0, mardi = 1…
+  // JS : dimanche = 0 → on transforme pour que lundi = 0
   const dayOfWeek = (date.getDay() + 6) % 7;
 
-  const passedDay = dayOfWeek + 1;  // ex : lundi = 1, mardi = 2…
+  // Jours réellement "consommés" pour le KPI
+  // Aujourd'hui n'est PAS encore consommé
+  const passedDay = dayOfWeek;
+
   const totalDay = 7;
-  const remainingDay = totalDay - passedDay;
 
-  return { passedDay, totalDay, remainingDay};
-}
-
-
-// Combien de jours depuis le début du mois et total de jours
-function getKPIMonthlyContext(date = new Date()) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-
-  const passedDay = date.getDate(); // 1 → 31
-  const totalDay = new Date(year, month + 1, 0).getDate(); // nb jours du mois
-
+  // Jours encore disponibles (aujourd'hui inclus)
   const remainingDay = totalDay - passedDay;
 
   return { passedDay, totalDay, remainingDay };
 }
+
+
+
+// Contexte KPI mensuel
+// Règle métier : aujourd'hui est encore un jour disponible
+function getKPIMonthlyContext(date = new Date()) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  // getDate() retourne 1 → 31
+  // On enlève 1 pour ne PAS compter aujourd'hui comme consommé
+  const passedDay = date.getDate() - 1;
+
+  const totalDay = new Date(year, month + 1, 0).getDate();
+
+  // Jours encore disponibles (aujourd'hui inclus)
+  const remainingDay = totalDay - passedDay;
+
+  return { passedDay, totalDay, remainingDay };
+}
+
 
 
 
@@ -495,7 +520,7 @@ function calculKpiForDurationAndDistance(
     // Période de tolérance en début de cycle :
     // si l'utilisateur n'a encore rien fait,
     // on ne le pénalise pas immédiatement
-    if (passedDay <= exemptDay && doneValue === 0) {
+    if ((passedDay + 1) <= exemptDay && doneValue === 0) {
         console.log("Encore dans les jours d'exemption et l'utilisateur n'a rien fait. Retourne GREEN");
         return "GREEN";
     }
@@ -551,13 +576,13 @@ function onSetKpiImage(color,idTarget) {
 
     // Tableau référentiel kpi color/image
     let kpiImg = {
-        GREEN :"./Icons/MSS_KPI_GREEN",
-        ORANGE : "./Icons/MSS_KPI_ORANGE",
-        RED :"./Icons/MSS_KPI_GREEN"
+        GREEN :"./Icons/MSS_KPI-GREEN.webp",
+        ORANGE : "./Icons/MSS_KPI-ORANGE.webp",
+        RED :"./Icons/MSS_KPI-RED.webp"
     }
 
-    let targetRef = document.getElementById("idTarget");
-    targetRef.src = kpiImg.color;
+    let targetRef = document.getElementById(idTarget);
+    targetRef.src = kpiImg[color];
 }
 
 
