@@ -18,8 +18,8 @@ class ObjectifDashboardItem {
         this.unit = null;
         this.convertedValue = null;
         this.contentToInject = {};
-        this.convertedRythme = null;//Semaine,mois
-        this.convertedType = null;//Séances,km
+        this.convertedRythme = "";//Semaine,mois
+        this.convertedType = "";//Séances,km
         this.convertedTargetValue = null;
 
 

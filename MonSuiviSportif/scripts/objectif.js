@@ -40,15 +40,25 @@ let objectifUserList = {
 
 function onOpenMenuObjectifDashboard() {
     
+    // Génération du menu principal
+    onCreateMainMenuObjectifDashbaord();
+
 
     // Set les éléments
-    onInitObjectifDashboard();
+    onInitKpiElement();
 
     // Affiche la liste
     onDisplayDashboardItemsList();
 
-    // Génération du menu principal
-    onCreateMainMenuObjectifDashbaord();
+    // Lance le traitement du kpi hebdo
+    let kpiWeeklyColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
+    onSetKpiImage(kpiWeeklyColor,"imgKpiWeek");
+    console.log("kpi hebdo : ",kpiWeeklyColor);
+
+    //lance le traitement du kpi mensuel
+    let kpiMonthlyColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiWeekContext.totalDay,kpiMonthExemptDay);
+    onSetKpiImage(kpiMonthlyColor,"imgKpiMonth");
+    console.log("kpi mensuel : ",kpiMonthlyColor);
 }
 
 
@@ -62,8 +72,15 @@ function onDisplayDashboardItemsList() {
     let currentMonthRange = getCurrentMonthRange();
 
 
+    // Reset les objets qui vont stocker les informations du KPI
+    weekKpiObject = {};
+    monthKpiObject = {};
+
+
 
     // * * * *  traitement hebdo    * * * * * *
+
+
 
 
     // Référence le parent et le vide
@@ -90,13 +107,25 @@ function onDisplayDashboardItemsList() {
                 weekParentRef,
             );
 
+            // Stock également les éléments pour les kpi hebdo
+            weekKpiObject[`kpi_${key}`] = {
+                activity: item.activity,
+                dataType: item.dataType,
+
+                targetValue: item.targetValue,
+                doneValue: result.doneValue,
+                remainingValue: result.remainingValue
+
+            };
+
+            console.log(weekKpiObject);
+
         });
     }else{
         weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
     }
 
-    // Traitement KPI hebdo
-    kpiWeekContext = getKPIWeeklyContext();
+
 
 
 
@@ -130,14 +159,24 @@ function onDisplayDashboardItemsList() {
                 monthParentRef,
             );
 
+            // Stock également les éléments pour les kpi mensuel
+            monthKpiObject[`kpi_${key}`] = {
+                activity: item.activity,
+                dataType: item.dataType,
+
+                targetValue: item.targetValue,
+                doneValue: result.doneValue,
+                remainingValue: result.remainingValue
+
+            };
+
 
         });
     }else{
         monthParentRef.innerHTML = "Aucun objectif mensuel.";
     }
 
-    // Traitement KPI Mensuel
-    kpiMonthContext = getKPIMonthlyContext();
+
 
 }
 
@@ -255,42 +294,7 @@ function getObjectifEnabledKeys(rythmeType) {
 
 
 
-function onInitObjectifDashboard() {
-    // Traitement jour restant pour la semaine
-    let dayRemaningWeek = getDayRemaningWeek();
-    let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
-    textWeekRef.innerHTML = `${dayRemaningWeek} jours restants`;
 
-    // Traitement jours restant pour le mois
-    let dayRemainingMonth = getDayRemaningMonth();
-    let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
-    textMonthRef.innerHTML = `${dayRemainingMonth} jours restants`;
-
-}
-
-
-// Combien de jours avant la fin de semaine
-function getDayRemaningWeek() {
-  const aujourdHui = new Date().getDay(); // 0 = dimanche, 1 = lundi, ... 6 = samedi
-  const dimanche = 0;
-
-  // Calcul : distance jusqu'à dimanche, puis +1 car on inclut dimanche
-  return ((dimanche - aujourdHui + 7) % 7) + 1;
-}
-
-// Combien de jour avant la fin du mois
-function getDayRemaningMonth() {
-  const now = new Date();
-  const annee = now.getFullYear();
-  const mois = now.getMonth(); // 0 = janvier
-
-  // Obtenir le dernier jour du mois en créant une date "jour 0" du mois suivant
-  const dernierJour = new Date(annee, mois + 1, 0).getDate();
-
-  const aujourdHui = now.getDate();
-
-  return (dernierJour - aujourdHui) + 1;
-}
 
 
 // La fourchette de date du début et fin de semaine
@@ -341,6 +345,10 @@ function getCurrentMonthRange() {
 
 // --------------------------------- KPI ---------------------------------------------
 
+
+
+
+
 //Le délais (en jours) avant pris en compte pour duration et distance
 const kpiWeekExemptDay = 2,
     kpiMonthExemptDay = 7;
@@ -359,16 +367,22 @@ let kpiMonthContext = {
 };
 
 
-
-const KPI_IMAGES = [
-    { min: 1.20, image: "./Icons/MSS_KPI-vert-fonce.webp" },   // KPI ≥ 1.20
-    { min: 1.00, image: "./Icons/MSS_KPI-vert-clair.webp" },  // 1.00 ≤ KPI < 1.20
-    { min: 0.80, image: "./Icons/MSS_KPI-jaune.webp" }, // 0.80 ≤ KPI < 1.00
-    { min: 0.60, image: "./Icons/MSS_KPI-orange.webp" },           // 0.60 ≤ KPI < 0.80
-    { min: 0.00, image: "./Icons/MSS_KPI-rouge.webp" }        // KPI < 0.60
-];
+let weekKpiObject = {},
+    monthKpiObject = {};
 
 
+function onInitKpiElement() {
+    // Traitement jour restant pour la semaine
+    kpiWeekContext = getKPIWeeklyContext();
+    let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
+    textWeekRef.innerHTML = `${kpiWeekContext.remainingDay} jours restants`;
+
+    // Traitement jours restant pour le mois
+    kpiMonthContext = getKPIMonthlyContext();
+    let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
+    textMonthRef.innerHTML = `${kpiMonthContext.remainingDay} jours restants`;
+
+}
 
 
 
@@ -377,11 +391,11 @@ function getKPIWeeklyContext(date = new Date()) {
   // 0 = dimanche → on le transforme pour que lundi = 0, mardi = 1…
   const dayOfWeek = (date.getDay() + 6) % 7;
 
-  const daysPassed = dayOfWeek + 1;  // ex : lundi = 1, mardi = 2…
-  const daysTotal = 7;
-  const remainingDay = daysTotal - daysPassed;
+  const passedDay = dayOfWeek + 1;  // ex : lundi = 1, mardi = 2…
+  const totalDay = 7;
+  const remainingDay = totalDay - passedDay;
 
-  return { daysPassed, daysTotal, remainingDay};
+  return { passedDay, totalDay, remainingDay};
 }
 
 
@@ -390,15 +404,161 @@ function getKPIMonthlyContext(date = new Date()) {
   const year = date.getFullYear();
   const month = date.getMonth();
 
-  const daysPassed = date.getDate(); // 1 → 31
-  const daysTotal = new Date(year, month + 1, 0).getDate(); // nb jours du mois
+  const passedDay = date.getDate(); // 1 → 31
+  const totalDay = new Date(year, month + 1, 0).getDate(); // nb jours du mois
 
-  const remainingDay = daysTotal - daysPassed;
+  const remainingDay = totalDay - passedDay;
 
-  return { daysPassed, daysTotal, remainingDay };
+  return { passedDay, totalDay, remainingDay };
 }
 
 
+
+function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
+
+    const keys = Object.keys(kpiObject);
+
+    // 1️⃣ Calcul KPI individuel
+    keys.forEach(key => {
+        const item = kpiObject[key];
+
+        if (item.dataType === "COUNT") {
+            console.log("Traitement kpi pour COUNT");
+            item.kpiValue = calculKpiForCOUNT(
+                item.remainingValue,
+                passedDay,
+                totalDay
+            );
+        } else {
+            console.log("Traitement kpi pour distance ou duration");
+            console.log(item);
+            console.log("PassedDay : ", passedDay,"totalDay :",totalDay,"ExemptDay : ",exemptDay);
+            item.kpiValue = calculKpiForDurationAndDistance(
+                item.doneValue,
+                item.targetValue,
+                passedDay,
+                totalDay,
+                exemptDay
+            );
+        }
+
+        console.log(item.kpiValue);
+    });
+
+    // 2️⃣ KPI global = pire couleur
+    const globalKpi = getWorstKpiColor(kpiObject);
+
+    return globalKpi;
+}
+
+
+//Pour les 'COUNT' on par sur le principe que l'on peut faire une activité d'un type par jour.
+function calculKpiForCOUNT(remainingValue, passedDay, totalDay) {
+    const remainingDay = totalDay - passedDay;
+
+    if (remainingValue > remainingDay) return "RED";
+    if (remainingValue === remainingDay) return "ORANGE";
+    return "GREEN";
+}
+
+
+
+
+
+
+
+/**
+    * Calcule le KPI (GREEN / ORANGE / RED) pour un objectif
+    * de type DISTANCE ou DURATION.
+    *
+    * Le KPI mesure le RYTHME :
+    * - ce que l'utilisateur a déjà fait
+    * - par rapport au temps déjà écoulé dans le cycle
+    * “Est-ce que l’utilisateur avance assez vite par rapport au temps qui passe pour atteindre son objectif de distance ou de durée ?”
+    *Elle ne juge pas la performance, elle juge le rythme.
+ */
+function calculKpiForDurationAndDistance(
+    doneValue,     // valeur déjà réalisée (km, secondes, etc.)
+    targetValue,   // objectif total à atteindre
+    passedDay,     // nombre de jours écoulés dans le cycle
+    totalDay,      // nombre total de jours du cycle
+    exemptDay      // nombre de jours de tolérance au début du cycle
+) {
+
+    // Cas de sécurité : aucun jour n'est encore passé
+    // → impossible d'être en retard
+    if (passedDay === 0) {
+        console.log("Aucun jour de passé. Retourne GREEN");
+        return "GREEN";
+    }
+
+    // Période de tolérance en début de cycle :
+    // si l'utilisateur n'a encore rien fait,
+    // on ne le pénalise pas immédiatement
+    if (passedDay <= exemptDay && doneValue === 0) {
+        console.log("Encore dans les jours d'exemption et l'utilisateur n'a rien fait. Retourne GREEN");
+        return "GREEN";
+    }
+
+    // Progression réelle de l'objectif (ex: 30km / 70km)
+    const progression = doneValue / targetValue;
+
+    // Progression du temps écoulé (ex: jour 3 / 7)
+    const timeProgress = passedDay / totalDay;
+
+    // Indice de rythme :
+    // > 1  → en avance
+    // = 1  → dans le rythme
+    // < 1  → en retard
+    const indice = progression / timeProgress;
+
+    // Traduction de l'indice en couleur KPI
+    if (indice >= 1) return "GREEN";        // bon rythme ou avance
+    if (indice >= 0.8) return "ORANGE";     // rythme juste
+    return "RED";                           // retard important
+}
+
+
+
+
+
+
+// Trouve la pire couleur
+const kpiPriority = {
+    GREEN: 1,
+    ORANGE: 2,
+    RED: 3
+};
+
+function getWorstKpiColor(kpiObject) {
+    let worst = "GREEN";
+
+    Object.values(kpiObject).forEach(item => {
+        if (kpiPriority[item.kpiValue] > kpiPriority[worst]) {
+            worst = item.kpiValue;
+        }
+    });
+
+    return worst;
+}
+
+
+
+
+
+// Set l'image du KPI
+function onSetKpiImage(color,idTarget) {
+
+    // Tableau référentiel kpi color/image
+    let kpiImg = {
+        GREEN :"./Icons/MSS_KPI_GREEN",
+        ORANGE : "./Icons/MSS_KPI_ORANGE",
+        RED :"./Icons/MSS_KPI_GREEN"
+    }
+
+    let targetRef = document.getElementById("idTarget");
+    targetRef.src = kpiImg.color;
+}
 
 
 
