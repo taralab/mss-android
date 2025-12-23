@@ -1,12 +1,19 @@
 class ObjectifListItem {
-    constructor(id,activityName,textTargetNumber,suiviText,isEnabled,imgRef,parentRef) {
+    constructor(id,activityName,rythmeType,dataType,targetValue,isEnabled,parentRef) {
         this.id = id;
         this.activityName = activityName;
-        this.textTargetNumber = null;//set depuis la fonction updateSuiviText
-        this.suiviText = suiviText;
-        this.isEnabled = null;//set depuis la fonction updateEnableStatus
+        this.rythmeType = rythmeType;
+        this.dataType = dataType;
+        this.targetValue = Number(targetValue);
+        console.log(this.targetValue);
+
         this.parentRef = parentRef;
-        this.imgRef = imgRef;
+        this.imgRef = activityChoiceArray[activityName].imgRef;
+
+
+        this.isEnabled = null;//set depuis la fonction updateEnableStatus
+        this.displayText = "";
+        this.activityDisplayName = activityChoiceArray[activityName].displayName;
 
         // Références
         this.checkboxRef = null;
@@ -30,7 +37,7 @@ class ObjectifListItem {
         this.updateEnableStatus(isEnabled);
 
         //le texte de suivi
-        this.updateSuiviText(textTargetNumber);
+        this.updateSuiviText(this.targetValue);
 
 
         // Ecouter d'évènement
@@ -45,7 +52,7 @@ class ObjectifListItem {
                     <img class="activity" src="${this.imgRef}">
                 </div>
                 <div class="objectif-list-text">
-                    <div class="objectif-list-title">${this.activityName}</div>
+                    <div class="objectif-list-title">${this.activityDisplayName}</div>
                     <div class="objectif-list-sub" id="objectif_Text_${this.id}"></div>
                 </div>
             </div>
@@ -105,14 +112,67 @@ class ObjectifListItem {
     }
 
 
-    updateSuiviText(newValue){
+    updateSuiviText(newTargetValue){
         // Récupère la nouvelle valeur
-        this.textTargetNumber = newValue;
+        this.targetValue = Number(newTargetValue);
+
+        let textToDisplay = this.convertDisplayText();
 
         //Set le texte
-        this.textSuiviRef.textContent = `Objectif: ${this.textTargetNumber} ${this.suiviText}`;
+        this.textSuiviRef.textContent = textToDisplay;
     }
 
+
+
+    convertDisplayText(){
+
+        let convertedRythme = "",
+            convertedType = "",
+            convertedTargetValue = "";
+
+        switch (this.dataType) {
+            case "COUNT":
+                // Aucun traitement parculier pour le moment pour COUNT
+                convertedType = "séances";
+                convertedTargetValue = this.targetValue;
+                console.log(convertedTargetValue);
+                break;
+
+            case "DURATION":
+                let timeTargetResult = onConvertSecondesToHours(this.targetValue);
+                convertedTargetValue = `${timeTargetResult.heures}h${timeTargetResult.minutes}`;
+                convertedType = "";
+                break;
+
+            case "DISTANCE":
+                // Arrondit à deux chiffre après la virgule et n'affiche jamais le dernier zero si présent
+                convertedType = "km";
+                convertedTargetValue = parseFloat(this.targetValue.toFixed(2));
+                break;
+        
+            default:
+                break;
+        };
+
+
+        // Convertion pour nommage rythme
+        switch (this.rythmeType) {
+            case "WEEK":
+                convertedRythme = "semaine";
+                break;
+            case "MONTH":
+                convertedRythme = "mois";
+                break;
+        
+            default:
+                break;
+        };
+
+
+        let finalText = `Objectif : ${convertedTargetValue} ${convertedType} / ${convertedRythme}`;
+
+        return finalText;
+    }
 
 
     //pour supprimer l'item

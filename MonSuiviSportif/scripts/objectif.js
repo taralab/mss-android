@@ -491,10 +491,10 @@ function onDisplayObjectifList() {
 
             let item = objectifUserList[key];
             
-            const itemConvertedText = onConvertObjectifToUserDisplay(item);
+            console.log(item);
 
             //genère une instance
-            let newObjectifInstance = new ObjectifListItem(key,itemConvertedText.activity,itemConvertedText.textTargetValue,itemConvertedText.textSuiviType,item.isEnabled,itemConvertedText.imgRef,parentRef);
+            let newObjectifInstance = new ObjectifListItem(key,item.activity,item.rythmeType,item.dataType,item.targetValue,item.isEnabled,parentRef);
 
             //stocke l'instance
             objectifItemListInstance[key] = newObjectifInstance; 
@@ -614,64 +614,6 @@ function getObjectifSortedKey(list) {
     };
 }
 
-
-// Converti les données en une information visuelle
-function onConvertObjectifToUserDisplay(dataToConvert) {
-    
-    // Pour le nom de l'activité
-    let convertedData = {};
-    convertedData.activity = activityChoiceArray[dataToConvert.activity].displayName;
-
-    //pour type de suivi
-
-    let textDataType = "",
-        convertedTargetValue;
-    switch (dataToConvert.dataType) {
-        case "COUNT":
-            textDataType = "séances";
-            convertedTargetValue = dataToConvert.targetValue;
-            break;
-        case "DISTANCE":
-            textDataType = "km";
-            convertedTargetValue = dataToConvert.targetValue;
-            break;
-        case "DURATION":
-            textDataType = "";//ici le 'h' est géré dans le formatage des heures
-            let tempResult = onConvertSecondesToHours(dataToConvert.targetValue);
-            convertedTargetValue = tempResult.minutes === "00" ? `${tempResult.heures}h` : `${tempResult.heures}h${tempResult.minutes}`
-            break;
-    
-        default:
-            break;
-    };
-
-
-    // Pour le rythme de suivi
-    let textRythmeType ="";
-    switch (dataToConvert.rythmeType) {
-        case "WEEK":
-            textRythmeType = "semaine";
-            break;
-        case "MONTH":
-            textRythmeType = "mois";
-            break;
-    
-        default:
-            break;
-    }
-
-    convertedData.textSuiviType = `${textDataType} / ${textRythmeType}`;
-    convertedData.textTargetValue = convertedTargetValue;
-
-    // La référence de l'image
-    convertedData.imgRef = activityChoiceArray[dataToConvert.activity].imgRef;
-
-
-    // La couleur de la catégorie
-    convertedData.color = activityColorList[activityChoiceArray[dataToConvert.activity].categoryColor];
-
-    return convertedData;
-}
 
 
 
@@ -1334,17 +1276,7 @@ async function onClickSaveFromObjectifModify() {
     // Popup notification
     onShowNotifyPopup("objectifModified");
 
-
-    //modifie l'item en cours d'affichage(instance à faire) avec formatage spécial pour les heures
-    let convertedTargetValue = "";
-    if (objectifFormatedToSave.dataType === "DURATION") {
-        let tempResult = onConvertSecondesToHours(objectifFormatedToSave.targetValue);
-        convertedTargetValue = tempResult.minutes === "00" ? `${tempResult.heures}h` : `${tempResult.heures}h${tempResult.minutes}`
-            
-    }else{
-        convertedTargetValue = objectifFormatedToSave.targetValue;
-    }
-    objectifItemListInstance[currentObjectifModifyID].updateSuiviText(convertedTargetValue);
+    objectifItemListInstance[currentObjectifModifyID].updateSuiviText(objectifFormatedToSave.targetValue);
 }
 
 
