@@ -63,7 +63,7 @@ function onOpenMenuObjectifDashboard() {
 
     if(Object.keys(monthKpiObject).length > 0){
         //lance le traitement du kpi mensuel
-        let kpiMonthlyColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiWeekContext.totalDay,kpiMonthExemptDay);
+        let kpiMonthlyColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiMonthContext.totalDay,kpiMonthExemptDay);
         onSetKpiImage(kpiMonthlyColor,"imgKpiMonth");
         console.log("kpi mensuel : ",kpiMonthlyColor);
     }else{
