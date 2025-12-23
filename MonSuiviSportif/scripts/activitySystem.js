@@ -44,10 +44,6 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
 
 
 
-// Genere la liste pour l'editeur d'activité
-onGenerateActivityOptionChoice("selectorCategoryChoice");
-onGenerateFakeOptionList("divFakeSelectOptList");
-
 
 
 
@@ -381,17 +377,30 @@ function onOpenNewActivity() {
     activityEditorMode = "creation";
     if (devMode === true){console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);};
 
+
+    // Genere la liste pour l'editeur d'activité
+    onGenerateActivityOptionChoice("selectorCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
+
     // Initialise les éléments
     onResetActivityInputs();
 
     //création menu principal
     onCreateMainMenuActivityEditor(false);
+
+
+
+
     
 };
 
 function onOpenNewActivityFromTemplate(templateItem) {
 
     activityEditorMode = "creation";
+
+    // Genere la liste pour l'editeur d'activité
+    onGenerateActivityOptionChoice("selectorCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
 
     // Initialise les éléments
     onResetActivityInputs();
@@ -699,6 +708,12 @@ function onChangeActivityPlanned(checkBoxValue) {
 
 // clique sur un item
 function onClickOnActivity(keyRef) {
+
+    // Genere la liste pour l'editeur d'activité
+    onGenerateActivityOptionChoice("selectorCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
+
+
     onResetActivityInputs();
 
     currentActivityEditorID = keyRef;
