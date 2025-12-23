@@ -140,9 +140,6 @@ function onDisplayDashboardItemsList() {
 
 
 
-
-
-
     // * * * *  traitement mensuel    * * * * * *
     
 
@@ -454,6 +451,10 @@ function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
                 passedDay,
                 totalDay
             );
+
+            // Traitement et insertion des éléments d'explication
+            item.explanation = traitementKPIexplanation(item.dataType, item.remainingValue,passedDay, totalDay);
+            
         } else {
             console.log("Traitement kpi pour distance ou duration");
             console.log(item);
@@ -465,9 +466,12 @@ function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
                 totalDay,
                 exemptDay
             );
+
+            // Traitement et insertion des éléments d'explication
+            item.explanation = traitementKPIexplanation(item.dataType, item.remainingValue,passedDay, totalDay);
         }
 
-        console.log(item.kpiValue);
+        console.log(item);
     });
 
     // 2️⃣ KPI global = pire couleur
@@ -586,6 +590,34 @@ function onSetKpiImage(color,idTarget) {
 }
 
 
+
+
+
+// Traitement pour le texte d'explication du kpi
+function traitementKPIexplanation(dataType, remainingValue, passedDay, totalDay) {
+    let explanation = {};
+    const remainingDay = totalDay - passedDay; // jours restants incluant aujourd'hui
+
+    switch (dataType) {
+        case "COUNT":
+            explanation.remainingValue = remainingValue;
+            explanation.remainingDay = remainingDay;
+            break;
+
+        case "DURATION":
+        case "DISTANCE":
+            explanation.remainingValue = remainingValue;
+            // Sécurisation : si dernier jour du cycle, éviter division par zéro
+            explanation.requiredPerDay = remainingDay > 0 ? remainingValue / remainingDay : remainingValue;
+            break;
+
+        default:
+            console.log("Erreur : DataType inconnu");
+            break;
+    }
+
+    return explanation;
+}
 
 // Demande à aller dans le menu gestion
 function onClickBtnMenuObjectifGestion(){
