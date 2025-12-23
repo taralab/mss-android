@@ -5,7 +5,6 @@ class ObjectifListItem {
         this.rythmeType = rythmeType;
         this.dataType = dataType;
         this.targetValue = Number(targetValue);
-        console.log(this.targetValue);
 
         this.parentRef = parentRef;
         this.imgRef = activityChoiceArray[activityName].imgRef;
@@ -135,7 +134,6 @@ class ObjectifListItem {
                 // Aucun traitement parculier pour le moment pour COUNT
                 convertedType = "séances";
                 convertedTargetValue = this.targetValue;
-                console.log(convertedTargetValue);
                 break;
 
             case "DURATION":

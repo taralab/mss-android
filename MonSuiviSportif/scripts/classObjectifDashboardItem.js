@@ -8,7 +8,6 @@ class ObjectifDashboardItem {
         this.imgRef = activityChoiceArray[this.activityName].imgRef;
         this.parentRef = parentRef;
 
-        console.log("RemaingValue : ", this.remainingValue);
         
 
         //Vérifie si objectif atteind ou non
@@ -66,7 +65,6 @@ class ObjectifDashboardItem {
                 this.convertedValue = parseFloat(this.remainingValue.toFixed(2));
                 this.convertedType = "km";
                 this.unit = "km";
-                console.log(this.targetValue);
                 this.convertedTargetValue = parseFloat(this.targetValue.toFixed(2));
                 break;
         
@@ -89,7 +87,6 @@ class ObjectifDashboardItem {
         };
 
 
-        console.log("remainingValue : ", this.convertedValue);
         // Traitement
         this.contentToInject = {
             normal : `

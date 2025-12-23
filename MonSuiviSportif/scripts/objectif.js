@@ -143,7 +143,11 @@ function onDisplayDashboardItemsList() {
 
 
 function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateRangeEnd) {
-    console.log(`Traitement pour ${activityType} sur ${dataType}`);
+
+    if (devMode === true) {
+        console.log(`Traitement pour ${activityType} sur ${dataType}`);
+    }
+
 
     // Récupère les key des activités concernées (type et dans la fourchette et non planifié)
     let activityKeysTarget = findActivityKeysByNameAndDateRange(allUserActivityArray,activityType,dateRangeStart,dateRangeEnd);
@@ -491,7 +495,10 @@ function onDisplayObjectifList() {
 
             let item = objectifUserList[key];
             
-            console.log(item);
+            if (devMode === true) {
+                console.log(item);
+            }
+
 
             //genère une instance
             let newObjectifInstance = new ObjectifListItem(key,item.activity,item.rythmeType,item.dataType,item.targetValue,item.isEnabled,parentRef);
@@ -1296,9 +1303,12 @@ async function eventDeleteObjectif() {
     document.getElementById("divModifyObjectif").style.display = "none";
 
 
-    console.log(objectifUserList);
-    console.log(objectifUserKeysList);
-    console.log(objectifItemListInstance);
+    if (devMode === true) {
+        console.log(objectifUserList);
+        console.log(objectifUserKeysList);
+        console.log(objectifItemListInstance);
+    }
+
 
     //retire de l'array
     delete objectifUserList[currentObjectifModifyID];
@@ -1317,9 +1327,13 @@ async function eventDeleteObjectif() {
     //Envoie vers la corbeille
     await sendToRecycleBin(currentObjectifModifyID);
 
-    console.log(objectifUserList);
-    console.log(objectifUserKeysList);
-    console.log(objectifItemListInstance);
+
+    if (devMode === true) {
+        console.log(objectifUserList);
+        console.log(objectifUserKeysList);
+        console.log(objectifItemListInstance);
+    }
+
 
     // Popup notification
     onShowNotifyPopup("objectifDeleted");
