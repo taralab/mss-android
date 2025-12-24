@@ -383,7 +383,12 @@ let weekKpiObject = {},
     globalWeeklyKPIColor ="";
 
 
-
+let kpiGlobalText = {
+    GREEN : "Tu es dans le rythme 👍 ",
+    ORANGE : "Attention, le rythme devient juste !",
+    RED : "Tu es en retard sur certains objectifs "
+    },
+    maxKpiORANGEItemToDisplay = 2;
 
 
 
@@ -410,13 +415,80 @@ function onAddEventListenerForKPIDashboard() {
 
 // Affiche les détails pour le kpi hebdo
 function onDisplayKpiWeekDetail() {
-    
+    let globalText = kpiGlobalText[globalWeeklyKPIColor];
+    console.log("GlobalText : " , globalText);
+
+    let itemsListToDisplay = {};
+
+    if (globalWeeklyKPIColor === "GREEN") {
+        //KPI vert pas besoin de détail
+        console.log("affiche Detail kpi : Aucun détail car kpi vert");
+        return;
+    } else if(globalWeeklyKPIColor === "ORANGE"){
+        //KPI jaune récupère les éléments à afficher
+        itemsListToDisplay = Object.values(weekKpiObject).filter(item=>item.kpiValue === globalWeeklyKPIColor);
+
+        //n'affiche que deux élement jaune max
+        Object.entries(itemsListToDisplay)
+            .slice(0, maxKpiORANGEItemToDisplay)
+            .forEach(([key, value]) => {
+                console.log(key, value);
+        });
+
+    }else if(globalWeeklyKPIColor === "RED"){
+        //KPI jaune ou rouge, récupère les éléments à afficher
+        console.log(weekKpiObject);
+        itemsListToDisplay = Object.values(weekKpiObject).filter(item=>item.kpiValue === globalWeeklyKPIColor);
+
+        console.log(Object.keys(itemsListToDisplay).length);
+        console.log(itemsListToDisplay);
+
+
+        //affiche tous ceux en rouge
+        Object.keys(itemsListToDisplay).forEach(key=>{
+
+            let item = itemsListToDisplay[key];
+            let finalTextToDisplay = "";
+
+
+            if (item.dataType === "COUNT") {
+                finalTextToDisplay = `${item.activity} : ${item.explanation.remainingValue} séances restantes pour ${item.explanation.remainingDay} jours`;
+            }else if (item.dataType === "DISTANCE") {
+                // Convertion deux chiffre après la virgule
+
+                let remainingDistance = parseFloat(item.explanation.remainingValue.toFixed(2)),
+                requieredDistance = parseFloat(item.explanation.requiredPerDay.toFixed(2));
+
+                finalTextToDisplay = `${item.activity} : ${remainingDistance} km restants, moyenne requise : ${requieredDistance} km/jours`;
+            }else if(item.dataType === "DURATION"){
+                // Convertion des heurs
+                let remainingDuration = onConvertSecondesToHours(item.explanation.remainingValue),
+                requiredDuration = onConvertSecondesToHours(item.explanation.requiredPerDay);
+
+                finalTextToDisplay = `${item.activity} : ${remainingDuration.heures}h${remainingDuration.minutes} restantes, moyenne requise : ${requiredDuration.heures}h${requiredDuration.minutes} /jours`;
+            }else{
+                console.warn("Erreur dataType");
+            }
+            
+            console.log(finalTextToDisplay);
+
+
+        });
+    }else{
+        console.warn("Erreur couleur kpi");
+    }
+
+
+
 }
 
 // Affiche les détail pour le kpi mensuel
 function onDisplayKpiMonthDetail() {
-    
+    let globalText = kpiGlobalText[globalMonthlyKPIColor];
+    console.log("GlobalText : " , globalText);
 }
+
+
 
 
 
