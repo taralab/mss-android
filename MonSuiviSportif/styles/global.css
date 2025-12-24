@@ -3766,6 +3766,21 @@ div.objectif-list-icon{
     color: #6b7280 !important;   /* gris */
 }
 
+
+
+/* Objectif KPI */
+img.kpi-value{
+    width: 40px;
+    margin-bottom: 20px;
+}
+
+p.kpi-value-title{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+
 /* ---------------------------- Styles paysage ----------------------------------------*/
 
 
