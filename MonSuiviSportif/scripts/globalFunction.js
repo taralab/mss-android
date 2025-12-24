@@ -645,7 +645,8 @@ const allEventListenerRegistry = {
     memoryEditor:[],
     visionneuse:[],
     objectifEditor:[],
-    objectifPopupModify:[]
+    objectifPopupModify:[],
+    objectifKPI:[]
 }
 
 
@@ -668,7 +669,7 @@ function onRemoveEventListenerInRegistry(categoryArray) {
             });
             // Vide le tableau après suppression
             allEventListenerRegistry[category] = [];
-            if(devMode === true){
+            if(devMode === false){
                 console.log(`[EVENT-LISTENER] : Tous les écouteurs de ${category} ont été supprimés.`);
             }
         } else {

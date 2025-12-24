@@ -52,9 +52,9 @@ function onOpenMenuObjectifDashboard() {
 
     // Lance le traitement du kpi hebdo
     if (Object.keys(weekKpiObject).length > 0) {
-        let kpiWeeklyColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
-        onSetKpiImage(kpiWeeklyColor,"imgKpiWeek");
-        console.log("kpi hebdo : ",kpiWeeklyColor);
+        globalWeeklyKPIColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
+        onSetKpiImage(globalWeeklyKPIColor,"imgKpiWeek");
+        console.log("kpi hebdo : ",globalWeeklyKPIColor);
     }else{
         //si pas d'élément met l'icone grise
         document.getElementById("imgKpiWeek").src = "./Icons/MSS_KPI-GREY.webp";
@@ -63,14 +63,17 @@ function onOpenMenuObjectifDashboard() {
 
     if(Object.keys(monthKpiObject).length > 0){
         //lance le traitement du kpi mensuel
-        let kpiMonthlyColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiMonthContext.totalDay,kpiMonthExemptDay);
-        onSetKpiImage(kpiMonthlyColor,"imgKpiMonth");
-        console.log("kpi mensuel : ",kpiMonthlyColor);
+        globalMonthlyKPIColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiMonthContext.totalDay,kpiMonthExemptDay);
+        onSetKpiImage(globalMonthlyKPIColor,"imgKpiMonth");
+        console.log("kpi mensuel : ",globalMonthlyKPIColor);
     }else{
         //si pas d'élément met l'icone grise
         document.getElementById("imgKpiMonth").src = "./Icons/MSS_KPI-GREY.webp";
     }
 
+
+    // Ajout écouteur evènement pour les boutons du kpi
+    onAddEventListenerForKPIDashboard();
 }
 
 
@@ -367,8 +370,6 @@ let kpiWeekContext = {
     totalDay: 7,
     remainingDay: 5
 };
-
-
 let kpiMonthContext = {
     passedDay: 10,
     totalDay: 30,
@@ -377,9 +378,56 @@ let kpiMonthContext = {
 
 
 let weekKpiObject = {},
-    monthKpiObject = {};
+    monthKpiObject = {},
+    globalMonthlyKPIColor = "",
+    globalWeeklyKPIColor ="";
 
 
+
+
+
+
+// Ecouteur d'évènement pour le kpi
+function onAddEventListenerForKPIDashboard() {
+
+    //Pour la Hebdomadaire
+    if(Object.keys(weekKpiObject).length > 0){
+        let imgKpiWeekRef = document.getElementById("imgKpiWeek");
+        const onClickImgKPIWeek = () => onDisplayKpiWeekDetail();
+        imgKpiWeekRef.addEventListener("click",onClickImgKPIWeek);
+        onAddEventListenerInRegistry("objectifKPI",imgKpiWeekRef,"click",onClickImgKPIWeek);
+    }
+
+    // Pour mensuel
+    if(Object.keys(monthKpiObject).length > 0){
+        let imgKpiMonthRef = document.getElementById("imgKpiMonth");
+        const onClickImgKPIMonth = () => onDisplayKpiMonthDetail();
+        imgKpiMonthRef.addEventListener("click",onClickImgKPIMonth);
+        onAddEventListenerInRegistry("objectifKPI",imgKpiMonthRef,"click",onClickImgKPIMonth);
+    }
+    
+}
+
+// Affiche les détails pour le kpi hebdo
+function onDisplayKpiWeekDetail() {
+    
+}
+
+// Affiche les détail pour le kpi mensuel
+function onDisplayKpiMonthDetail() {
+    
+}
+
+
+
+
+
+
+
+
+
+
+    
 function onInitKpiElement() {
     // Traitement jour restant pour la semaine
     kpiWeekContext = getKPIWeeklyContext();
@@ -619,6 +667,8 @@ function traitementKPIexplanation(dataType, remainingValue, passedDay, totalDay)
     return explanation;
 }
 
+
+
 // Demande à aller dans le menu gestion
 function onClickBtnMenuObjectifGestion(){
     // vide les éléments du dashbaord
@@ -630,6 +680,8 @@ function onClickBtnMenuObjectifGestion(){
         document.getElementById(id).innerHTML = "";
     });
 
+    onRemoveEventListenerInRegistry(["objectifKPI"]);
+
     // Demande le changement de menu
     onChangeMenu("Objectif_Gestion");
 
@@ -639,6 +691,7 @@ function onClickBtnMenuObjectifGestion(){
 // Quitte le menu pour retourner dans le main menu
 function onLeaveMenuObjectifDashboard() {
     
+    onRemoveEventListenerInRegistry(["objectifKPI"]);
 
     onLeaveMenu("Objectif_Dashboard");
 }
