@@ -3778,8 +3778,11 @@ p.kpi-value-title{
     font-weight: bold;
     margin-bottom: 20px;
 }
-
-
+p.kpi-detail-precision{
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+}
 
 /* ---------------------------- Styles paysage ----------------------------------------*/
 

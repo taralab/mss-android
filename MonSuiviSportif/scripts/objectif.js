@@ -54,7 +54,9 @@ function onOpenMenuObjectifDashboard() {
     if (Object.keys(weekKpiObject).length > 0) {
         globalWeeklyKPIColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
         onSetKpiImage(globalWeeklyKPIColor,"imgKpiWeek");
-        console.log("kpi hebdo : ",globalWeeklyKPIColor);
+        if (devMode === true) {
+            console.log("kpi hebdo : ",globalWeeklyKPIColor);
+        }
     }else{
         //si pas d'élément met l'icone grise
         document.getElementById("imgKpiWeek").src = "./Icons/MSS_KPI-GREY.webp";
@@ -65,7 +67,10 @@ function onOpenMenuObjectifDashboard() {
         //lance le traitement du kpi mensuel
         globalMonthlyKPIColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiMonthContext.totalDay,kpiMonthExemptDay);
         onSetKpiImage(globalMonthlyKPIColor,"imgKpiMonth");
-        console.log("kpi mensuel : ",globalMonthlyKPIColor);
+        if (devMode === true) {
+            console.log("kpi mensuel : ",globalMonthlyKPIColor);
+        }
+
     }else{
         //si pas d'élément met l'icone grise
         document.getElementById("imgKpiMonth").src = "./Icons/MSS_KPI-GREY.webp";
@@ -132,8 +137,6 @@ function onDisplayDashboardItemsList() {
                 remainingValue: result.remainingValue
 
             };
-
-            console.log(weekKpiObject);
 
         });
     }else{
@@ -385,7 +388,7 @@ let weekKpiObject = {},
 
 let kpiGlobalText = {
     GREEN : "Tu es dans le rythme 👍 ",
-    ORANGE : "Attention, le rythme devient juste !",
+    ORANGE : "Attention, le rythme devient juste :",
     RED : "Tu es en retard sur certains objectifs :"
     },
     maxKpiORANGEItemToDisplay = 2;
@@ -417,6 +420,22 @@ function onAddEventListenerForKPIDashboard() {
         onAddEventListenerInRegistry("objectifKPI",imgKpiMonthRef,"click",onClickImgKPIMonth);
     }
     
+    //Pour le popup detail uniquement si besoin
+    if (Object.keys(monthKpiObject).length > 0 || Object.keys(weekKpiObject).length > 0) {
+        // Pour fermer le popup
+        let mainPopupRef = document.getElementById("divPopupKPIDetail");
+        const onClickInMainPopup = () => onCloseKpiPopupDetail();
+        mainPopupRef.addEventListener("click",onClickInMainPopup);
+        onAddEventListenerInRegistry("objectifKPI",mainPopupRef,"click",onClickInMainPopup);
+
+
+        // Pour empécher la fermeture lorsque l'on clique à l'intérieur
+        let popupContentRef = document.getElementById("divPopupKPIDetailContent");
+        const onClickInPopupContent = (event) => onClickInsideKpiDetailContent(event);
+        popupContentRef.addEventListener("click",onClickInPopupContent);
+        onAddEventListenerInRegistry("objectifKPI",popupContentRef,"click",onClickInPopupContent);
+    }
+
 }
 
 // Affiche les détails pour le kpi hebdo
@@ -437,20 +456,27 @@ function onDisplayKpiWeekDetail() {
     if (globalWeeklyKPIColor === "GREEN") {
         //KPI vert pas besoin de détail
         console.log("affiche Detail kpi : Aucun détail car kpi vert");
-        return;
+        // insère la précision d'exemption hebdomadaire
+        let pExemption = document.createElement("p");
+        pExemption.classList.add("kpi-detail-precision");
+        pExemption.textContent = `* Une tolérance de ${kpiWeekExemptDay} jours est appliquée en début de cycle hebdomadaire si aucune activité n’est enregistrée.`;
+        parentRef.appendChild(pExemption);
+
     } else if(globalWeeklyKPIColor === "ORANGE"){
         //KPI jaune récupère les éléments à afficher
         itemsListToDisplay = Object.values(weekKpiObject).filter(item=>item.kpiValue === globalWeeklyKPIColor);
 
-        //n'affiche que deux élement jaune max
+        //n'affiche que deux élement Orange max
         Object.entries(itemsListToDisplay)
             .slice(0, maxKpiORANGEItemToDisplay)
             .forEach(([key, value]) => {
                 console.log(key, value);
+                //injection des éléments
+                new KpiDetailItem(value.dataType,value.activity,value.explanation,parentRef);
         });
 
     }else if(globalWeeklyKPIColor === "RED"){
-        //KPI jaune ou rouge, récupère les éléments à afficher
+        //KPI rouge, récupère les éléments à afficher
         console.log(weekKpiObject);
         itemsListToDisplay = Object.values(weekKpiObject).filter(item=>item.kpiValue === globalWeeklyKPIColor);
 
@@ -472,18 +498,35 @@ function onDisplayKpiWeekDetail() {
     }
 
 
+
     //affichage du popup
     document.getElementById("divPopupKPIDetail").style.display = "flex";
 }
 
+
+
 // Affiche les détail pour le kpi mensuel
 function onDisplayKpiMonthDetail() {
-    let itemsListToDisplay = {},
-    textListToDisplay = [];
+
+    //référence le parent et le vide
+    let parentRef = document.getElementById("divPopupKPIDetailContent");
+    parentRef.innerHTML = "";
+
+
+    //insere le texte principal
+    onInsertKpiGlobalAvis(globalMonthlyKPIColor,parentRef);
+
+    let itemsListToDisplay = {};
 
     if (globalMonthlyKPIColor === "GREEN") {
         //KPI vert pas besoin de détail
         console.log("affiche Detail kpi : Aucun détail car kpi vert");
+
+        // insère la précision d'exemption mensuel
+        let pExemption = document.createElement("p");
+        pExemption.classList.add("kpi-detail-precision");
+        pExemption.textContent = `* Une tolérance de ${kpiMonthExemptDay} jours est appliquée en début de cycle mensuel si aucune activité n’est enregistrée.`;
+        parentRef.appendChild(pExemption);
 
     } else if(globalMonthlyKPIColor === "ORANGE"){
         //KPI jaune récupère les éléments à afficher
@@ -493,7 +536,8 @@ function onDisplayKpiMonthDetail() {
         Object.entries(itemsListToDisplay)
             .slice(0, maxKpiORANGEItemToDisplay)
             .forEach(([key, value]) => {
-                console.log(key, value);
+                //injection des éléments
+                new KpiDetailItem(value.dataType,value.activity,value.explanation,parentRef);
         });
 
     }else if(globalMonthlyKPIColor === "RED"){
@@ -510,13 +554,17 @@ function onDisplayKpiMonthDetail() {
 
             let item = itemsListToDisplay[key];
 
-
+            //injection des éléments
+            new KpiDetailItem(item.dataType,item.activity,item.explanation,parentRef);
 
         });
     }else{
         console.warn("Erreur couleur kpi");
     }
     
+
+    //affichage du popup
+    document.getElementById("divPopupKPIDetail").style.display = "flex";
 }
 
 
@@ -613,7 +661,10 @@ function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
         const item = kpiObject[key];
 
         if (item.dataType === "COUNT") {
-            console.log("Traitement kpi pour COUNT");
+            if (devMode === true) {
+                console.log("Traitement kpi pour COUNT");
+            }
+
             item.kpiValue = calculKpiForCOUNT(
                 item.remainingValue,
                 passedDay,
@@ -624,9 +675,12 @@ function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
             item.explanation = traitementKPIexplanation(item.dataType, item.remainingValue,passedDay, totalDay);
             
         } else {
-            console.log("Traitement kpi pour distance ou duration");
-            console.log(item);
-            console.log("PassedDay : ", passedDay,"totalDay :",totalDay,"ExemptDay : ",exemptDay);
+            if (devMode === true) {
+                console.log("Traitement kpi pour distance ou duration");
+                console.log(item);
+                console.log("PassedDay : ", passedDay,"totalDay :",totalDay,"ExemptDay : ",exemptDay);
+            }
+
             item.kpiValue = calculKpiForDurationAndDistance(
                 item.doneValue,
                 item.targetValue,
@@ -639,7 +693,6 @@ function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
             item.explanation = traitementKPIexplanation(item.dataType, item.remainingValue,passedDay, totalDay);
         }
 
-        console.log(item);
     });
 
     // 2️⃣ KPI global = pire couleur
@@ -778,6 +831,18 @@ function traitementKPIexplanation(dataType, remainingValue, passedDay, totalDay)
 
     return explanation;
 }
+
+
+
+// Pour popup detail stop propagation et fermeture
+function onClickInsideKpiDetailContent(event){
+    event.stopPropagation();
+};
+
+//ferme le popup kpi detail
+function onCloseKpiPopupDetail(){
+    document.getElementById("divPopupKPIDetail").style.display = "none";
+};
 
 
 
@@ -1329,8 +1394,6 @@ async function onClickSaveFromObjectifEditor() {
     // Recupère la target value et control champ obligatoire
     let objectifTargetValue = onFormatObjectifValue(dataType);
 
-
-    console.log(objectifTargetValue);
     if (objectifTargetValue <= 0) {
         alert("Veuillez remplir une valeur ! ");
         return
@@ -1353,7 +1416,10 @@ async function onClickSaveFromObjectifEditor() {
         }
     };
 
-    console.log("Data to save : ", objectifFormatedToSave);
+    if (devMode === true) {
+        console.log("Data to save : ", objectifFormatedToSave);
+    }
+
 
 
     // Sauvegarde en base
