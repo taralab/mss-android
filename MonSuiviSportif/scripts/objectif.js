@@ -422,8 +422,17 @@ function onAddEventListenerForKPIDashboard() {
 // Affiche les détails pour le kpi hebdo
 function onDisplayKpiWeekDetail() {
 
-    let itemsListToDisplay = {},
-    textListToDisplay = [];
+    //référence le parent et le vide
+    let parentRef = document.getElementById("divPopupKPIDetailContent");
+    parentRef.innerHTML = "";
+
+
+    //insere le texte principal
+    onInsertKpiGlobalAvis(globalWeeklyKPIColor,parentRef);
+
+    let itemsListToDisplay = {};
+
+
 
     if (globalWeeklyKPIColor === "GREEN") {
         //KPI vert pas besoin de détail
@@ -453,33 +462,9 @@ function onDisplayKpiWeekDetail() {
         Object.keys(itemsListToDisplay).forEach(key=>{
 
             let item = itemsListToDisplay[key];
-            let finalTextToDisplay = "";
 
-
-            if (item.dataType === "COUNT") {
-                finalTextToDisplay = `${item.activity} : ${item.explanation.remainingValue} séances restantes pour ${item.explanation.remainingDay} jours`;
-            }else if (item.dataType === "DISTANCE") {
-
-                // Convertion deux chiffre après la virgule
-                let remainingDistance = parseFloat(item.explanation.remainingValue.toFixed(2)),
-                requieredDistance = parseFloat(item.explanation.requiredPerDay.toFixed(2));
-
-                finalTextToDisplay = `${item.activity} : ${remainingDistance} km restants, moyenne requise : ${requieredDistance} km/jours`;
-            }else if(item.dataType === "DURATION"){
-                // Convertion des heures
-                let remainingDuration = onConvertSecondesToHours(item.explanation.remainingValue),
-                requiredDuration = onConvertSecondesToHours(item.explanation.requiredPerDay);
-
-                finalTextToDisplay = `${item.activity} : ${remainingDuration.heures}h${remainingDuration.minutes} restantes, moyenne requise : ${requiredDuration.heures}h${requiredDuration.minutes} / jours`;
-            }else{
-                console.warn("Erreur dataType");
-            }
-            
-            console.log(finalTextToDisplay);
-
-            //insère le texte dans un tableau
-            textListToDisplay.push(finalTextToDisplay);
-
+            //injection des éléments
+            new KpiDetailItem(item.dataType,item.activity,item.explanation,parentRef);
 
         });
     }else{
@@ -487,10 +472,8 @@ function onDisplayKpiWeekDetail() {
     }
 
 
-    // injecte le contenu dans le popup et l'affiche
-    onInsertKpiDetailText(globalWeeklyKPIColor,textListToDisplay);
-    
-
+    //affichage du popup
+    document.getElementById("divPopupKPIDetail").style.display = "flex";
 }
 
 // Affiche les détail pour le kpi mensuel
@@ -526,52 +509,19 @@ function onDisplayKpiMonthDetail() {
         Object.keys(itemsListToDisplay).forEach(key=>{
 
             let item = itemsListToDisplay[key];
-            let finalTextToDisplay = "";
 
-
-            if (item.dataType === "COUNT") {
-                finalTextToDisplay = `${item.activity} : ${item.explanation.remainingValue} séances restantes pour ${item.explanation.remainingDay} jours`;
-            }else if (item.dataType === "DISTANCE") {
-
-                // Convertion deux chiffre après la virgule
-                let remainingDistance = parseFloat(item.explanation.remainingValue.toFixed(2)),
-                requieredDistance = parseFloat(item.explanation.requiredPerDay.toFixed(2));
-
-                finalTextToDisplay = `${item.activity} : ${remainingDistance} km restants, moyenne requise : ${requieredDistance} km/jours`;
-            }else if(item.dataType === "DURATION"){
-                // Convertion des heures
-                let remainingDuration = onConvertSecondesToHours(item.explanation.remainingValue),
-                requiredDuration = onConvertSecondesToHours(item.explanation.requiredPerDay);
-
-                finalTextToDisplay = `${item.activity} : ${remainingDuration.heures}h${remainingDuration.minutes} restantes, moyenne requise : ${requiredDuration.heures}h${requiredDuration.minutes} / jours`;
-            }else{
-                console.warn("Erreur dataType");
-            }
-            
-            console.log(finalTextToDisplay);
-
-            //insère le texte dans un tableau
-            textListToDisplay.push(finalTextToDisplay);
 
 
         });
     }else{
         console.warn("Erreur couleur kpi");
     }
-
-
-    // injecte le contenu dans le popup et l'affiche
-    onInsertKpiDetailText(globalMonthlyKPIColor,textListToDisplay);
     
 }
 
 
-
-function onInsertKpiDetailText(globalKPIValue,textArray) {
-
-    //référence le parent et le vide
-    let parentRef = document.getElementById("divPopupKPIDetailContent");
-    parentRef.innerHTML = "";
+// Insertion image principale et commentaire principal
+function onInsertKpiGlobalAvis(globalKPIValue,parentRef) {
 
     //génération de l'image du kpi
     let imgKpiDetail = document.createElement("img");
@@ -587,20 +537,7 @@ function onInsertKpiDetailText(globalKPIValue,textArray) {
     mainKPIText.classList.add("kpi-value-title");
     //et l'insère
     parentRef.appendChild(mainKPIText);
-
-    //Pour chaque élément
-    textArray.forEach(text=>{
-        //créer un paragraphe
-        let element = document.createElement("p");
-        element.textContent = text;
-
-        //et l'insère
-        parentRef.appendChild(element);
-    });
     
-
-    //Affiche
-    document.getElementById("divPopupKPIDetail").style.display= "flex";
 }
 
 
