@@ -1088,7 +1088,9 @@ function rewardsEvent(newRewardsList) {
 
     // *    *   * INTEGRER ICI une animation dans l'application*  *   *
 
+    let newRewardsCount = newRewardsToSee.length;
 
+    onShowPopupReward(newRewardsCount);
 
     //  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
@@ -1254,10 +1256,37 @@ function onTraiteRewardsSpecificMARCHE(filteredKeys) {
 
 
 
+// ------------------------------- POPUP NOTIFICATION REWARD ----------------------------------------
 
 
+function onShowPopupReward(count = 1) {
+    const overlay = document.getElementById('reward-notify-overlay');
+    const container = overlay.querySelector('.reward-notify-container');
+    const countEl = overlay.querySelector('.reward-notify-count');
 
+    countEl.textContent = count;
 
+    overlay.classList.remove('hidden');
+    container.classList.remove('fade-out');
+
+    // reset état
+    container.style.opacity = '0';
+
+    // force reflow
+    void container.offsetWidth;
+
+    container.style.opacity = '1';
+
+    const DISPLAY_DURATION = 2500;
+
+    setTimeout(() => {
+        container.classList.add('fade-out');
+    }, DISPLAY_DURATION);
+
+    setTimeout(() => {
+    overlay.classList.add('hidden');
+    }, DISPLAY_DURATION + 750);
+}
 
 
 

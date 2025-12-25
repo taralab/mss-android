@@ -1843,6 +1843,134 @@ input.fieldRequired{
 
 
 
+
+
+
+
+
+
+
+/* ------------------------------------------ REWARD POPUP --------------------------------------------- */
+
+
+
+
+/* Overlay */
+#reward-notify-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+#reward-notify-overlay.hidden {
+  display: none;
+}
+
+/* Container */
+.reward-notify-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+}
+
+/* Icône */
+.reward-notify-icon {
+  font-size: 64px;
+  transform: translateY(-140px) scale(0.85);
+  opacity: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: icon-drop 700ms cubic-bezier(.22,1.61,.36,1) forwards;
+}
+
+/* Texte */
+.reward-notify-text {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: text-appear 400ms ease-out forwards;
+    animation-delay: 850ms;
+
+    background: rgba(214, 214, 214, 0.7); /* semi-transparent noir */
+    backdrop-filter: blur(4px);       /* léger flou derrière */                    /* texte blanc */
+    padding: 6px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(195, 0, 255, 0.5); /* doré subtil */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+
+}
+
+.reward-notify-count {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.reward-notify-label {
+  font-size: 14px;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+/* Animations */
+
+@keyframes icon-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-140px) scale(0.85);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(12px) scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes text-appear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Disparition */
+.reward-notify-container.fade-out {
+  animation: fade-out 700ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /*  ---------------------------------------- TEMPLATE -----------------------------------------------------*/
 
 
@@ -3774,6 +3902,7 @@ img.kpi-value{
     margin-bottom: 20px;
 }
 
+
 p.kpi-value-title{
     font-weight: bold;
     margin-bottom: 20px;
@@ -3783,6 +3912,20 @@ p.kpi-detail-precision{
     color: #666;
     font-style: italic;
 }
+
+
+
+
+
+
+img.kpi-detail{
+    box-shadow: var(--boxShadow);
+    border-radius: 10px;
+}
+
+
+
+
 
 /* ---------------------------- Styles paysage ----------------------------------------*/
 
