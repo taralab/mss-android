@@ -456,11 +456,15 @@ function onDisplayKpiWeekDetail() {
     if (globalWeeklyKPIColor === "GREEN") {
         //KPI vert pas besoin de détail
         console.log("affiche Detail kpi : Aucun détail car kpi vert");
-        // insère la précision d'exemption hebdomadaire
-        let pExemption = document.createElement("p");
-        pExemption.classList.add("kpi-detail-precision");
-        pExemption.textContent = `* Une tolérance de ${kpiWeekExemptDay} jours est appliquée en début de cycle hebdomadaire si aucune activité n’est enregistrée.`;
-        parentRef.appendChild(pExemption);
+
+        // insère la précision d'exemption hebdomadaire si dans le créneaux et si besoin
+        if ( (kpiWeekContext.passedDay +1) <= kpiWeekExemptDay) {
+            let pExemption = document.createElement("p");
+            pExemption.classList.add("kpi-detail-precision");
+            pExemption.textContent = `* Une tolérance de ${kpiWeekExemptDay} jours est appliquée en début de cycle hebdomadaire si aucune activité n’est enregistrée.`;
+            parentRef.appendChild(pExemption);
+        }
+
 
     } else if(globalWeeklyKPIColor === "ORANGE"){
         //KPI jaune récupère les éléments à afficher
@@ -522,11 +526,18 @@ function onDisplayKpiMonthDetail() {
         //KPI vert pas besoin de détail
         console.log("affiche Detail kpi : Aucun détail car kpi vert");
 
+
         // insère la précision d'exemption mensuel
-        let pExemption = document.createElement("p");
-        pExemption.classList.add("kpi-detail-precision");
-        pExemption.textContent = `* Une tolérance de ${kpiMonthExemptDay} jours est appliquée en début de cycle mensuel si aucune activité n’est enregistrée.`;
-        parentRef.appendChild(pExemption);
+        console.log("passedDay = ", kpiMonthContext.passedDay);
+        console.log("exemptDay = ",kpiMonthExemptDay);
+
+        if ( (kpiMonthContext.passedDay +1) <= kpiMonthExemptDay) {
+            let pExemption = document.createElement("p");
+            pExemption.classList.add("kpi-detail-precision");
+            pExemption.textContent = `* Une tolérance de ${kpiMonthExemptDay} jours est appliquée en début de cycle mensuel si aucune activité n’est enregistrée.`;
+            parentRef.appendChild(pExemption);
+        }
+
 
     } else if(globalMonthlyKPIColor === "ORANGE"){
         //KPI jaune récupère les éléments à afficher
