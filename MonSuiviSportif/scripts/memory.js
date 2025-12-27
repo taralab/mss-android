@@ -568,8 +568,9 @@ const MEMORY_LAYOUT = {
     },
 
     duration: {
-        x: 40,
+        x: 30,
         y: 738,
+        font:"bold 28px Poppins",
         align: "left",
         color: "#FFF",
     },
@@ -578,7 +579,7 @@ const MEMORY_LAYOUT = {
         x: 150,
         y: 683,
         align: "center",
-        font: "28px Poppins",
+        font: "24px Poppins",
         color: "#FFF",
         unit: "km",
     },
@@ -587,7 +588,7 @@ const MEMORY_LAYOUT = {
         x: 330,
         y: 683,
         align: "left",
-        font: "28px Poppins",
+        font: "24px Poppins",
         color: "#FFF",
         unit: "m"
     },
@@ -626,8 +627,12 @@ function onClickGenerateMemory() {
     drawDate(ctx, date);
 
     drawDistance(ctx);
-    drawElevationIcon(ctx);
-    drawElevation(ctx);
+
+    let isElevationIconRequired = drawElevation(ctx);
+    if (isElevationIconRequired) {
+        drawElevationIcon(ctx);
+    }
+        
 
     drawRankOrRound(ctx);
     drawDuration(ctx);
@@ -802,7 +807,7 @@ function drawDuration(ctx) {
 
     ctx.save();
     ctx.textAlign = cfg.align;
-    ctx.font = `bold ${fontSize}px Poppins`;
+    ctx.font = cfg.font;
     ctx.fillStyle = cfg.color;
     ctx.fillText(text, cfg.x, cfg.y);
     ctx.restore();
@@ -857,7 +862,7 @@ function drawElevation(ctx) {
 
     // Formatage du texte
     const text = formatMemoryElevationFromInputs(elevationValue, elevationType);
-    if (!text) return;
+    if (!text) return false;//si pas de texte, pas d'icone non plus
 
     const cfg = MEMORY_LAYOUT.elevation;
 
@@ -870,6 +875,8 @@ function drawElevation(ctx) {
     ctx.fillText(text, cfg.x, cfg.y);
 
     ctx.restore();
+
+    return true;//un texte présent on met l'icone aussi
 }
 
 
