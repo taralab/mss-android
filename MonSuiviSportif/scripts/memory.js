@@ -544,9 +544,9 @@ const MEMORY_LAYOUT = {
 
     title: {
         x: 256,
-        y: 480,
+        y: 520,
         maxWidth: 450,
-        lineHeight: 60,
+        lineHeight: 50,
         maxLines: 3,
         font: "bold 42px Poppins",
         align: "center",
@@ -728,20 +728,54 @@ function drawWrappedTitle(ctx, title) {
     ctx.font = cfg.font;
     ctx.fillStyle = cfg.color;
     ctx.textAlign = cfg.align;
+    ctx.textBaseline = "middle";
 
-    wrapText(
+    const lines = getWrappedLines(
         ctx,
         title,
-        cfg.x,
-        cfg.y,
         cfg.maxWidth,
-        cfg.lineHeight,
         cfg.maxLines
     );
+
+    const totalHeight = lines.length * cfg.lineHeight;
+    let startY = cfg.y - totalHeight / 2 + cfg.lineHeight / 2;
+
+    lines.forEach((line, index) => {
+        ctx.fillText(
+            line,
+            cfg.x,
+            startY + index * cfg.lineHeight
+        );
+    });
 
     ctx.restore();
 }
 
+
+function getWrappedLines(ctx, text, maxWidth, maxLines) {
+    const words = text.split(" ");
+    const lines = [];
+    let line = "";
+
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + " ";
+        const metrics = ctx.measureText(testLine);
+
+        if (metrics.width > maxWidth && line !== "") {
+            lines.push(line.trim());
+            line = words[i] + " ";
+            if (lines.length === maxLines) break;
+        } else {
+            line = testLine;
+        }
+    }
+
+    if (lines.length < maxLines && line) {
+        lines.push(line.trim());
+    }
+
+    return lines;
+}
 
 
 // Création de la date
