@@ -524,6 +524,10 @@ function getPointerDistance() {
 
 // *    *   *   *   *   *   *   *   FIN TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *
 
+
+const iconMemoryElevation = new Image();
+    iconMemoryElevation.src = "./icons/icon_elevation.svg";
+
 const MEMORY_LAYOUT = {
     canvas: {
         width: 512,
@@ -558,14 +562,14 @@ const MEMORY_LAYOUT = {
     },
 
     rank: {
-        x: 472,
-        y: 728,
+        x: 482,
+        y: 745,
         align: "right",
     },
 
     duration: {
         x: 40,
-        y: 728,
+        y: 738,
         align: "left",
         color: "#FFF",
     },
@@ -574,19 +578,28 @@ const MEMORY_LAYOUT = {
         x: 150,
         y: 683,
         align: "center",
-        font: "bold 32px Poppins",
+        font: "28px Poppins",
         color: "#FFF",
         unit: "km",
     },
 
     elevation: {
-        x: 472,
+        x: 330,
         y: 683,
-        align: "right",
-        font: "bold 32px Poppins",
+        align: "left",
+        font: "28px Poppins",
         color: "#FFF",
-        unit: "m+",
-    }
+        unit: "m"
+    },
+
+    elevationIcon: { // icône séparée
+        x: 280, // position fixe sur le canvas
+        y: 652,
+        size: 40,
+        image: iconMemoryElevation, // Image SVG chargée
+        offsetX: 0,
+        offsetY: 0,
+    },
 };
 
 
@@ -613,6 +626,7 @@ function onClickGenerateMemory() {
     drawDate(ctx, date);
 
     drawDistance(ctx);
+    drawElevationIcon(ctx);
     drawElevation(ctx);
 
     drawRankOrRound(ctx);
@@ -826,34 +840,50 @@ function formatMemoryDistance(newValue) {
                   maximumFractionDigits: 2
               });
 
-    return `${formatted} km`;
+    return `⟷ ${formatted} km`;
 }
 
 
 
-// Création du dénivelé
+
+// Création du dénivelé (texte uniquement)
 function drawElevation(ctx) {
-    // Ici référencer les htmls pour nombre et type dénivelé
-    let selectElevationRef = document.getElementById("selectMemoryElevation");
+    // Récupération des éléments DOM
+    const selectElevationRef = document.getElementById("selectMemoryElevation");
     const elevationType = selectElevationRef.value;
 
-
-    let inputMemoryElevationRef = document.getElementById("inputMemoryElevation");
-
+    const inputMemoryElevationRef = document.getElementById("inputMemoryElevation");
     const elevationValue = inputMemoryElevationRef.value;
-    const text = formatMemoryElevationFromInputs(elevationValue,elevationType);
 
+    // Formatage du texte
+    const text = formatMemoryElevationFromInputs(elevationValue, elevationType);
     if (!text) return;
 
     const cfg = MEMORY_LAYOUT.elevation;
 
     ctx.save();
-    ctx.textAlign = cfg.align;
+
+    // Dessin du texte
+    ctx.textAlign = cfg.align;  // alignement défini dans le layout
     ctx.font = cfg.font;
     ctx.fillStyle = cfg.color;
     ctx.fillText(text, cfg.x, cfg.y);
+
     ctx.restore();
 }
+
+
+function drawElevationIcon(ctx) {
+    const cfg = MEMORY_LAYOUT.elevationIcon;
+    if (!cfg.image?.complete) return;
+
+    const iconX = cfg.x + (cfg.offsetX || 0);
+    const iconY = cfg.y + (cfg.offsetY || 0);
+    const iconSize = cfg.size || 28;
+
+    ctx.drawImage(cfg.image, iconX, iconY, iconSize, iconSize);
+}
+
 
 function formatMemoryElevationFromInputs(newValue,elevationType) {
     const value = parseInt(newValue, 10);//texte en base 10=decimal
