@@ -42,7 +42,7 @@ let isBackgroundMemoryLoaded = false;
 
 // Charger le background au moment où l'utilisateur ouvre le menu
 function loadBackgroundMemory() {
-    backgroundMemoryImage.src = "./Icons/HOF-Background-v2.webp";
+    backgroundMemoryImage.src = "./Icons/HOF-Background-v3.webp";
     backgroundMemoryImage.onload = () => {
         isBackgroundMemoryLoaded = true;
     };
@@ -558,7 +558,7 @@ const MEMORY_LAYOUT = {
         y: 632,
         font: "28px Poppins",
         align: "center",
-        color: "#FFF",
+        color: "#d1cdd8",
     },
 
     rank: {
@@ -580,7 +580,7 @@ const MEMORY_LAYOUT = {
         y: 683,
         align: "center",
         font: "24px Poppins",
-        color: "#FFF",
+        color: "#d1cdd8",
         unit: "km",
     },
 
@@ -589,7 +589,7 @@ const MEMORY_LAYOUT = {
         y: 683,
         align: "left",
         font: "24px Poppins",
-        color: "#FFF",
+        color: "#d1cdd8",
         unit: "m"
     },
 
