@@ -42,7 +42,7 @@ let isBackgroundMemoryLoaded = false;
 
 // Charger le background au moment où l'utilisateur ouvre le menu
 function loadBackgroundMemory() {
-    backgroundMemoryImage.src = "./Icons/HOF-Background-v3.webp";
+    backgroundMemoryImage.src = "./Icons/HOF-Background-V3.webp";
     backgroundMemoryImage.onload = () => {
         isBackgroundMemoryLoaded = true;
     };
@@ -526,7 +526,7 @@ function getPointerDistance() {
 
 
 const iconMemoryElevation = new Image();
-    iconMemoryElevation.src = "./icons/icon_elevation.svg";
+    iconMemoryElevation.src = "./Icons/icon_elevation.svg";
 
 const MEMORY_LAYOUT = {
     canvas: {
