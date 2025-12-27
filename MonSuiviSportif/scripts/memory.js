@@ -42,7 +42,7 @@ let isBackgroundMemoryLoaded = false;
 
 // Charger le background au moment où l'utilisateur ouvre le menu
 function loadBackgroundMemory() {
-    backgroundMemoryImage.src = "./Icons/HOF-Background.webp";
+    backgroundMemoryImage.src = "./Icons/HOF-Background-v2.webp";
     backgroundMemoryImage.onload = () => {
         isBackgroundMemoryLoaded = true;
     };
@@ -524,24 +524,114 @@ function getPointerDistance() {
 
 // *    *   *   *   *   *   *   *   FIN TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *
 
+const MEMORY_LAYOUT = {
+    canvas: {
+        width: 512,
+        height: 768,
+    },
+
+    image: {
+        x: 57,
+        y: 28,
+        width: 400,
+        height: 400,
+        radius: 40,
+    },
+
+    title: {
+        x: 256,
+        y: 480,
+        maxWidth: 450,
+        lineHeight: 60,
+        maxLines: 3,
+        font: "bold 42px Poppins",
+        align: "center",
+        color: "#FFF",
+    },
+
+    date: {
+        x: 256,
+        y: 632,
+        font: "28px Poppins",
+        align: "center",
+        color: "#FFF",
+    },
+
+    rank: {
+        x: 472,
+        y: 728,
+        align: "right",
+    },
+
+    duration: {
+        x: 40,
+        y: 728,
+        align: "left",
+        color: "#FFF",
+    },
+
+    distance: {
+        x: 150,
+        y: 683,
+        align: "center",
+        font: "bold 32px Poppins",
+        color: "#FFF",
+        unit: "km",
+    },
+
+    elevation: {
+        x: 472,
+        y: 683,
+        align: "right",
+        font: "bold 32px Poppins",
+        color: "#FFF",
+        unit: "m+",
+    }
+};
+
 
 
 function onClickGenerateMemory() {
-    const title = inputMemoryTitleRef.value.trim();
-    const titleUpper = title.toUpperCase();
-    const date = formatMemoryDate(inputMemoryDateStartRef.value, inputMemoryDateEndRef.value);
+
+    if (!validateMemoryInputs()) return;
+
+    const title = inputMemoryTitleRef.value.trim().toUpperCase();
+    const date = formatMemoryDate(
+        inputMemoryDateStartRef.value,
+        inputMemoryDateEndRef.value
+    );
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = MEMORY_LAYOUT.canvas.width;
+    canvas.height = MEMORY_LAYOUT.canvas.height;
+
+    drawBackground(ctx);
+    drawMainImage(ctx);
+    drawWrappedTitle(ctx, title);
+    drawDate(ctx, date);
+
+    drawDistance(ctx);
+    drawElevation(ctx);
+
+    drawRankOrRound(ctx);
+    drawDuration(ctx);
+
+    exportMemoryCanvas(canvas, title, date);
+};
 
 
-    // Traitement champ manquant
+// Vérification des champs obligatoires
+function validateMemoryInputs() {
     const fields = [
-        { value: title, ref: inputMemoryTitleRef },
-        { value: date, ref: inputMemoryDateStartRef },
+        { value: inputMemoryTitleRef.value.trim(), ref: inputMemoryTitleRef },
+        { value: inputMemoryDateStartRef.value, ref: inputMemoryDateStartRef },
         { value: isMemoryImageLoaded, ref: inputImageMemoryRef }
     ];
 
     let hasError = false;
 
-    // On met / enlève la classe en fonction du contenu
     fields.forEach(field => {
         if (!field.value) {
             field.ref.classList.add("fieldRequired");
@@ -552,136 +642,247 @@ function onClickGenerateMemory() {
     });
 
     if (hasError) {
-        alert('Merci de remplir tous les champs et d’ajuster ton image.');
-        return;
+        alert("Merci de remplir tous les champs et d’ajuster ton image.");
+        return false;
     }
 
+    return true;
+}
 
-    // Poursuite si aucun champ manquant
-    const finalCanvas = document.createElement('canvas');
-    const fctx = finalCanvas.getContext('2d');
-    const w = 512;
-    const h = 768;
-    finalCanvas.width = w;
-    finalCanvas.height = h;
 
-    // 🟣 Arrière-plan
+
+// Création de l'arrière plan
+function drawBackground(ctx) {
+    const { width, height } = MEMORY_LAYOUT.canvas;
+
     if (isBackgroundMemoryLoaded) {
-        fctx.drawImage(backgroundMemoryImage, 0, 0, w, h);
+        ctx.drawImage(backgroundMemoryImage, 0, 0, width, height);
     } else {
-        fctx.fillStyle = "#111";
-        fctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#111";
+        ctx.fillRect(0, 0, width, height);
     }
+}
 
-    // 🟦 Image principale avec coins arrondis
+
+
+// Création du logo
+function drawMainImage(ctx) {
+    const cfg = MEMORY_LAYOUT.image;
+
     const minSide = Math.min(memoryImageItem.width, memoryImageItem.height);
     const zoomedSide = minSide / memoryScale;
+
     const startX = (memoryImageItem.width - zoomedSide) / 2 + memoryOffsetX;
     const startY = (memoryImageItem.height - zoomedSide) / 2 + memoryOffsetY;
 
-    const x = 55;
-    const y = 50;
-    const width = 400;
-    const height = 400;
-    const radius = 40;
+    ctx.save();
+    drawBorderRadius(ctx, cfg.x, cfg.y, cfg.width, cfg.height, cfg.radius);
+    ctx.clip();
 
-    fctx.save();
-    drawBorderRadius(fctx, x, y, width, height, radius);
-    fctx.clip();
-    fctx.drawImage(memoryImageItem, startX, startY, zoomedSide, zoomedSide, x, y, width, height);
-    fctx.restore();
+    ctx.drawImage(
+        memoryImageItem,
+        startX,
+        startY,
+        zoomedSide,
+        zoomedSide,
+        cfg.x,
+        cfg.y,
+        cfg.width,
+        cfg.height
+    );
 
-    fctx.lineWidth = 4;
-    fctx.strokeStyle = "#FFF";
-    drawBorderRadius(fctx, x, y, width, height, radius);
-    fctx.stroke();
+    ctx.restore();
 
-    // 🟥 Titre + date
-    fctx.fillStyle = "#FFF";
-    fctx.textAlign = "center";
-    fctx.font = "bold 52px Poppins";
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#FFF";
+    drawBorderRadius(ctx, cfg.x, cfg.y, cfg.width, cfg.height, cfg.radius);
+    ctx.stroke();
+}
 
-    const maxTextWidth = 450;
-    const lineHeight = 60;
-    const textX = w / 2;
-    let textY = w + 10;
 
-    const lineCount = wrapText(fctx, titleUpper, textX, textY, maxTextWidth, lineHeight);
 
-    let dateOffsetY;
-    switch (lineCount) {
-        case 1: dateOffsetY = 10; break;
-        case 2: dateOffsetY = 10; break;
-        case 3: dateOffsetY = -20; break;
-        default: dateOffsetY = 240 + (lineCount - 3) * 40; break;
+// Création du titre
+function drawWrappedTitle(ctx, title) {
+    const cfg = MEMORY_LAYOUT.title;
+
+    ctx.save();
+    ctx.font = cfg.font;
+    ctx.fillStyle = cfg.color;
+    ctx.textAlign = cfg.align;
+
+    wrapText(
+        ctx,
+        title,
+        cfg.x,
+        cfg.y,
+        cfg.maxWidth,
+        cfg.lineHeight,
+        cfg.maxLines
+    );
+
+    ctx.restore();
+}
+
+
+
+// Création de la date
+function drawDate(ctx, date) {
+    const cfg = MEMORY_LAYOUT.date;
+
+    ctx.save();
+    ctx.font = cfg.font;
+    ctx.fillStyle = cfg.color;
+    ctx.textAlign = cfg.align;
+    ctx.fillText(date, cfg.x, cfg.y);
+    ctx.restore();
+}
+
+
+
+//création du classement
+function drawRankOrRound(ctx) {
+    const cfg = MEMORY_LAYOUT.rank;
+
+    if (inputCBMemoryRankRef.checked) {
+        const rank = parseInt(inputMemoryRankRef.value);
+        if (isNaN(rank)) return;
+
+        ctx.save();
+        ctx.textAlign = cfg.align;
+        ctx.font = rank > 999 ? "bold 36px Poppins" : "bold 42px Poppins";
+        ctx.fillStyle =
+            rank === 1 ? "#E8C547" :
+            rank === 2 ? "#BFC6CC" :
+            rank === 3 ? "#C58B5E" : "#D5C5A0";
+
+        ctx.fillText(`${rank}e`, cfg.x, cfg.y);
+        ctx.restore();
+
+    } else if (inputCBMemoryRoundReachRef.checked) {
+        const round = selectMemoryRoundReachRef.value;
+        if (!round) return;
+
+        ctx.save();
+        ctx.textAlign = cfg.align;
+        ctx.font = "bold 36px Poppins";
+        ctx.fillStyle = "#D5C5A0";
+        ctx.fillText(round, cfg.x, cfg.y);
+        ctx.restore();
     }
+}
 
-    const dateY = textY + (lineCount * lineHeight) + dateOffsetY;
-    fctx.font = "28px Poppins";
-    fctx.fillText(date, w / 2, dateY);
+// Création de la durée
+function drawDuration(ctx) {
+    if (!onCheckMemoryDurationFilled()) return;
 
-    // 🟨 CLASSEMENT / NIVEAU (bas à droite)
-    const showRank = inputCBMemoryRankRef.checked;
-    const showRound = inputCBMemoryRoundReachRef.checked;
+    const { text, fontSize } = formatMemoryDuration({
+        heure: +inputDurationMemoryHoursRef.value || 0,
+        minute: +inputDurationMemoryMinutesRef.value || 0,
+        seconde: +inputDurationMemorySecondsRef.value || 0,
+        centieme: +inputDurationMemoryCentiemeRef.value || 0,
+    });
 
-    if (showRank) {
-        const rankValue = parseInt(inputMemoryRankRef.value);
-        if (!isNaN(rankValue) && rankValue > 0) {
-            fctx.textAlign = "right";
-            fctx.fillStyle =
-                rankValue === 1 ? "#E8C547" :
-                rankValue === 2 ? "#BFC6CC" :
-                rankValue === 3 ? "#C58B5E" : "#D5C5A0";
-            fctx.font = rankValue > 999 ? "bold 36px Poppins" : "bold 42px Poppins";
-            const rankDisplay = rankValue.toLocaleString("fr-FR");
-            fctx.fillText(`${rankDisplay}e`, w - 40, h - 40);
-        }
-    } else if (showRound) {
-        const roundValue = selectMemoryRoundReachRef.value;
-        if (roundValue) {
-            fctx.textAlign = "right";
-            fctx.fillStyle = "#D5C5A0";
-            fctx.font = "bold 36px Poppins";
-            fctx.fillText(roundValue, w - 40, h - 40);
-        }
-    }
+    if (!text) return;
 
-    // 🟪 DURÉE (bas à gauche)
-    let isDurationExist = onCheckMemoryDurationFilled();
-    if (isDurationExist) {
-        const heure = parseInt(inputDurationMemoryHoursRef.value) || 0;
-        const minute = parseInt(inputDurationMemoryMinutesRef.value) || 0;
-        const seconde = parseInt(inputDurationMemorySecondsRef.value) || 0;
-        const centieme = parseInt(inputDurationMemoryCentiemeRef.value) || 0;
+    const cfg = MEMORY_LAYOUT.duration;
 
-        const { text: durationText, fontSize: durationFontSize } = formatMemoryDuration({ heure, minute, seconde, centieme });
+    ctx.save();
+    ctx.textAlign = cfg.align;
+    ctx.font = `bold ${fontSize}px Poppins`;
+    ctx.fillStyle = cfg.color;
+    ctx.fillText(text, cfg.x, cfg.y);
+    ctx.restore();
+}
 
-        if (durationText) {
-            fctx.textAlign = "left";
-            fctx.fillStyle = "#FFF";
-            fctx.font = `bold ${durationFontSize}px Poppins`;
-            fctx.fillText(durationText, 40, h - 40);
-        }
-    }
+// Creation de la distance
+function drawDistance(ctx) {
+    let inputDistanceRef = document.getElementById("inputMemoryDistance");
+    const value = inputDistanceRef?.value;
+    const text = formatMemoryDistance(value);
 
-    // 🟫 Conversion et affichage
-    const finalImage = finalCanvas.toDataURL("image/webp", 0.8);
-    const divMemoryPreviewRef = document.getElementById("divMemoryPreviewContent");
-    divMemoryPreviewRef.innerHTML = `<img class="memory-result" src="${finalImage}" alt="souvenir">`;
+    if (!text) return;
+
+    const cfg = MEMORY_LAYOUT.distance;
+
+    ctx.save();
+    ctx.textAlign = cfg.align;
+    ctx.font = cfg.font;
+    ctx.fillStyle = cfg.color;
+    ctx.fillText(text, cfg.x, cfg.y);
+    ctx.restore();
+}
+
+function formatMemoryDistance(newValue) {
+    const value = parseFloat(newValue);
+
+    if (isNaN(value) || value <= 0) return null;
+
+    // Arrondi intelligent (2 décimales max)
+    const formatted =
+        value % 1 === 0
+            ? value.toLocaleString("fr-FR")
+            : value.toLocaleString("fr-FR", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2
+              });
+
+    return `${formatted} km`;
+}
+
+
+
+// Création du dénivelé
+function drawElevation(ctx) {
+    // Ici référencer les htmls pour nombre et type dénivelé
+    let selectElevationRef = document.getElementById("selectMemoryElevation");
+    const elevationType = selectElevationRef.value;
+
+
+    let inputMemoryElevationRef = document.getElementById("inputMemoryElevation");
+
+    const elevationValue = inputMemoryElevationRef.value;
+    const text = formatMemoryElevationFromInputs(elevationValue,elevationType);
+
+    if (!text) return;
+
+    const cfg = MEMORY_LAYOUT.elevation;
+
+    ctx.save();
+    ctx.textAlign = cfg.align;
+    ctx.font = cfg.font;
+    ctx.fillStyle = cfg.color;
+    ctx.fillText(text, cfg.x, cfg.y);
+    ctx.restore();
+}
+
+function formatMemoryElevationFromInputs(newValue,elevationType) {
+    const value = parseInt(newValue, 10);//texte en base 10=decimal
+    if (isNaN(value) || value <= 0) return null;
+
+    const sign = elevationType === "-" ? "D−" : "D+";
+    return `${sign} ${value.toLocaleString("fr-FR")} m`;
+}
+
+
+// Export de l'image
+function exportMemoryCanvas(canvas, title, date) {
+    const imageData = canvas.toDataURL("image/webp", 0.8);
+
+    document.getElementById("divMemoryPreviewContent").innerHTML =
+        `<img class="memory-result" src="${imageData}" alt="souvenir">`;
 
     document.getElementById("divMemoryPreview").style.display = "flex";
 
     memoryToInsert = {
-        title: titleUpper,
-        date: date,
-        imageData: finalImage,
+        title,
+        date,
+        imageData
     };
 }
 
 
 
-
-
+// Formatage des dates
 function formatMemoryDate(startDate, endDate) {
 
     if (!startDate && !endDate) return "";
