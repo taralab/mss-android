@@ -12,6 +12,9 @@ let canvasMemoryRef = null,
     inputDurationMemoryMinutesRef = null,
     inputDurationMemorySecondsRef = null,
     inputDurationMemoryCentiemeRef = null,
+    selectMemoryElevationRef = null,
+    inputMemoryElevationRef = null,
+    inputMemoryDistanceRef = null,
     memoryMoveStep = 10, // déplacement en pixels
     memoryImageItem = null,
     memoryOffsetX = 0,
@@ -23,6 +26,7 @@ let canvasMemoryRef = null,
     maxMemory = 10,//Nbre maximal de souvenir. Peut monter à 20 sans problème, mais chargement dans le menu reward un peu plus long. 
     memoryCardInstanceList = {},
     memoryCardKeysList = [];
+
 
 let allMemoryObjectList = {
         id : {
@@ -272,7 +276,11 @@ function onInitMemoryItems() {
     inputDurationMemoryMinutesRef = document.getElementById("inputDurationMemoryMinutes");
     inputDurationMemorySecondsRef = document.getElementById("inputDurationMemorySeconds");
     inputDurationMemoryCentiemeRef = document.getElementById("inputDurationMemoryCentieme");
+    selectMemoryElevationRef = document.getElementById("selectMemoryElevation");
+    inputMemoryElevationRef = document.getElementById("inputMemoryElevation");
+    inputMemoryDistanceRef = document.getElementById("inputMemoryDistance");
     memoryImageItem = new Image();
+
 
     memoryOffsetX = 0;
     memoryOffsetY = 0;
@@ -524,9 +532,9 @@ function getPointerDistance() {
 
 // *    *   *   *   *   *   *   *   FIN TEST TACTILE *  *   *   *   *   *   *   *   *   *   *   *
 
-
 const iconMemoryElevation = new Image();
     iconMemoryElevation.src = "./Icons/icon_elevation.svg";
+
 
 const MEMORY_LAYOUT = {
     canvas: {
@@ -849,8 +857,7 @@ function drawDuration(ctx) {
 
 // Creation de la distance
 function drawDistance(ctx) {
-    let inputDistanceRef = document.getElementById("inputMemoryDistance");
-    const value = inputDistanceRef?.value;
+    const value = inputMemoryDistanceRef?.value;
     const text = formatMemoryDistance(value);
 
     if (!text) return;
@@ -888,10 +895,8 @@ function formatMemoryDistance(newValue) {
 // Création du dénivelé (texte uniquement)
 function drawElevation(ctx) {
     // Récupération des éléments DOM
-    const selectElevationRef = document.getElementById("selectMemoryElevation");
-    const elevationType = selectElevationRef.value;
+    const elevationType = selectMemoryElevationRef.value;
 
-    const inputMemoryElevationRef = document.getElementById("inputMemoryElevation");
     const elevationValue = inputMemoryElevationRef.value;
 
     // Formatage du texte
@@ -1375,6 +1380,9 @@ function onResetMemoryItems() {
     inputMemoryDateEndRef.value = null;
     inputMemoryTitleRef.value = null;
     inputImageMemoryRef.value = null;
+    selectMemoryElevationRef.value = "+";
+    inputMemoryElevationRef.value = "";
+    inputMemoryDistanceRef.value = "";
     inputDurationMemoryHoursRef.value = "";
     inputDurationMemoryMinutesRef.value = "";
     inputDurationMemorySecondsRef.value = "";
@@ -1397,6 +1405,9 @@ function onResetMemoryItems() {
     inputMemoryDateStartRef = null;
     inputMemoryDateEndRef = null;
     inputMemoryTitleRef = null;
+    selectMemoryElevationRef = null;
+    inputMemoryElevationRef = null;
+    inputMemoryDistanceRef = null;
     memoryImageItem = null;
     inputCBMemoryRankRef = null;
     inputCBMemoryRoundReachRef = null;
@@ -1406,7 +1417,6 @@ function onResetMemoryItems() {
     inputDurationMemoryMinutesRef = null;
     inputDurationMemorySecondsRef = null;
     inputDurationMemoryCentiemeRef = null;
-    
 
 }
 
