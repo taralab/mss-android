@@ -3618,7 +3618,29 @@ div.visionneuse-safe-area-top{
 }
 
 
-.btn-delete-visionneuse {
+div.btn-gestion-visionneuse {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    text-align: center;
+}
+
+div.btn-gestion-visionneuse button{
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 40px;
+    height: 40px;
+    margin : 0px 20px;
+}
+
+/* A supprimé si téléchargement et suppression ok */
+/* .btn-delete-visionneuse {
     position: absolute;
     bottom: 50px;
     left: 50%;
@@ -3630,7 +3652,7 @@ div.visionneuse-safe-area-top{
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.2s;
-}
+} */
 
 /* =    =   =   =   =Indicateurs de progression X/X ) = = = = = = =*/
 /* =    =   =   =   ==  =   =   =   =   =   =   =   =   =   =   = = = = = = =*/

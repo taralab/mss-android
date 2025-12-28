@@ -365,7 +365,7 @@ async function exportDBToJson(isAutoSave,isInCloud = false) {
             ? `MSS_V${currentExportVersion}_AUTOSAVE_${exportDate}_${exportTimeFileName}.json`
             : `MSS_V${currentExportVersion}_${exportDate}_${exportTimeFileName}_${userInfo.pseudo}.json`;
 
-        // 4. Écriture dans "Documents"
+        // 4. Écriture dans "Documents" (documents sandboxées. par le dossier document public de l'utilisateur)
         await Filesystem.writeFile({
             path: fileName,
             data: jsonData,

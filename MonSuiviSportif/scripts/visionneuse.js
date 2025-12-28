@@ -4,7 +4,8 @@ let currentVisionneuseIndex = 0,
     btnVisionneuseNavLeftRef = null,
     btnVisionneuseNavRightRef = null,
     btnVisionneuseCloseRef = null,
-    btnVisionneuseDeleteRef = null;
+    btnVisionneuseDeleteRef = null,
+    btnVisionneuseShareRef = null;
 
 
 
@@ -18,6 +19,7 @@ function onInitVisionneuse() {
     btnVisionneuseNavRightRef = document.getElementById("btnVisionneuseNavRight");
     btnVisionneuseCloseRef = document.getElementById("btnVisionneuseClose");
     btnVisionneuseDeleteRef = document.getElementById("btnVisionneuseDelete");
+    btnVisionneuseShareRef = document.getElementById("btnVisionneuseShare");
 
 
     // Evènement
@@ -40,6 +42,10 @@ function onInitVisionneuse() {
     const onClickDeleteMemory = () => onclickDeleteMemory();
     btnVisionneuseDeleteRef.addEventListener("click",onClickDeleteMemory);
 
+    //téléchargement memory
+    const onClickShareMemory = () => shareMemoryImage();
+    btnVisionneuseShareRef.addEventListener("click",onClickShareMemory);
+    onAddEventListenerInRegistry("visionneuse",btnVisionneuseShareRef,"click",onClickShareMemory);
 }
 
 
@@ -51,6 +57,7 @@ function onClearVisionneuse() {
     btnVisionneuseNavRightRef = null;
     btnVisionneuseCloseRef = null;
     btnVisionneuseDeleteRef = null;
+    btnVisionneuseShareRef = null;
 }
 
 // Ouvre la visionneuse depuis un objet de mémoire

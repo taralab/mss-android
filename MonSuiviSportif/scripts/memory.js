@@ -1359,6 +1359,97 @@ async function eventDeleteMemory() {
 }
 
 
+async function shareMemoryImage() {
+    const platform = window.Capacitor ? Capacitor.getPlatform() : "web";
+
+    let idToShare = memoryCardKeysList[currentVisionneuseIndex];
+    let imageData = allMemoryObjectList[idToShare].imageData;
+
+    if (!imageData) {
+        console.warn("Aucune image à partager");
+        return;
+    }
+
+    const fileName = `MSS-Event_${Date.now()}.webp`;
+    let tempFile = null;
+
+    if (platform === "web") {
+        // --------------------------
+        // Web : téléchargement direct
+        // --------------------------
+        const link = document.createElement("a");
+        link.href = imageData;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        console.log("✅ Image téléchargée côté Web");
+
+    } else if (platform === "android" || platform === "ios") {
+        // -----------------------------------------
+        // Mobile : écrire le fichier temporaire
+        // puis partager avec @capacitor/share
+        // -----------------------------------------
+        const Filesystem = Capacitor.Plugins.Filesystem;
+        const Share = Capacitor.Plugins.Share;
+
+        if (!Filesystem || !Share) {
+            console.error("Plugins Filesystem ou Share non disponibles");
+            return;
+        }
+
+        try {
+            // Retire le préfixe data:image/webp;base64,
+            const base64Data = imageData.split(",")[1];
+
+            // 1️⃣ Écriture temporaire
+            await Filesystem.writeFile({
+                path: fileName,
+                data: base64Data,
+                directory: "CACHE"
+            });
+
+            tempFile = { fileName };
+
+            // 2️⃣ Récupérer le chemin natif utilisable
+            const fileUri = await Filesystem.getUri({
+                path: fileName,
+                directory: "CACHE"
+            });
+
+            // 3️⃣ Partage via Capacitor Share
+            await Share.share({
+                title: "Partager l'évent",
+                text: `Mon event ${allMemoryObjectList[idToShare].title}`,
+                url: fileUri.uri, // chemin du fichier temporaire
+                dialogTitle: "Partager avec..."
+            });
+
+            console.log("✅ Image partagée avec succès");
+
+        } catch (err) {
+            console.error("❌ Erreur lors du partage :", err);
+
+        } finally {
+            // 4 Nettoyage du fichier temporaire
+            if (tempFile?.fileName) {
+                try {
+                    await Filesystem.deleteFile({
+                        path: tempFile.fileName,
+                        directory: "CACHE"
+                    });
+                    console.log("🗑 Fichier temporaire supprimé");
+                } catch (e) {
+                    console.warn("Impossible de supprimer le fichier temporaire", e);
+                }
+            }
+        }
+
+    } else {
+        console.warn("Plateforme non supportée :", platform);
+    }
+}
 
 
 //----------------------------- retour ----------------------------------------------
