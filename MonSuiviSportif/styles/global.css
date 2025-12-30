@@ -3939,7 +3939,12 @@ p.kpi-detail-precision{
 
 
 
-
+.objectif-separator {
+    display: block;
+    margin: 16px 0 8px;
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+}
 
 
 

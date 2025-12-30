@@ -944,6 +944,13 @@ function onCreateMainMenuObjectifGestion() {
 
 function onDisplayObjectifList() {
 
+
+    // Variable pour le séparateur selon le rythme
+    let separatorInserted = {
+        WEEK: false,
+        MONTH: false
+    };
+
     // Référence le parent et le vide
     let parentRef = document.getElementById("divObjectifGestionList");
     parentRef.innerHTML = "";
@@ -970,6 +977,24 @@ function onDisplayObjectifList() {
             
             if (devMode === true) {
                 console.log(item);
+            }
+
+
+            // Insertion du séparateur UNE SEULE FOIS par type de rythme
+            if (!separatorInserted[item.rythmeType]) {
+
+                let separatorSpan = document.createElement("span");
+                separatorSpan.classList.add("objectif-separator");
+
+                // Texte ou data-attribute selon votre besoin
+                separatorSpan.innerText =
+                    item.rythmeType === "WEEK"
+                        ? "- Hebdomadaires -"
+                        : "- Mensuels -";
+
+                parentRef.appendChild(separatorSpan);
+
+                separatorInserted[item.rythmeType] = true;
             }
 
 
@@ -1081,14 +1106,17 @@ function onAddEventListenerForObjectifGestion() {
 }
 
 
-// Fonction de trie par type d'activité
+// Fonction de trie
 function getObjectifSortedKey(list) {
     return (a, b) => {
+
+        // Trie d'abord par rythme semaine puis mois
+        if (list[a].rythmeType < list[b].rythmeType) return 1;
+        if (list[a].rythmeType > list[b].rythmeType) return -1;
+        
+        //ensuite par nom d'activité
         if (list[a].activity < list[b].activity) return -1;
         if (list[a].activity > list[b].activity) return 1;
-
-        if (list[a].dataType < list[b].dataType) return -1;
-        if (list[a].dataType > list[b].dataType) return 1;
 
         return 0;
     };
