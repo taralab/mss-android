@@ -20,7 +20,13 @@ let objectifUserList = {
     currentObjectifModifyID = "",
     objectifItemListInstance = {};
 
-
+let infoObjectifTextArray = [
+    `ℹ️ Activez/Désactivez vos suivis dans le menu gestion.`,
+    `ℹ️ Le smiley indique si vous êtes dans le bon rythme.`,
+    `ℹ️ Vous pouvez suivre jusqu'à ${maxObjectif} éléments.`,
+    `ℹ️ Vous ne suivez plus un éléments temporairement ? Désactivez le.`,
+    `ℹ️ Pensez à consulter votre rythme avant vos activités du jour.`
+];
 
 
 
@@ -43,6 +49,8 @@ function onOpenMenuObjectifDashboard() {
     // Génération du menu principal
     onCreateMainMenuObjectifDashbaord();
 
+    //information aléatoire
+    onSetObjectifDasboardInfoText();
 
     // Set les éléments
     onInitKpiElement();
@@ -81,6 +89,13 @@ function onOpenMenuObjectifDashboard() {
     onAddEventListenerForKPIDashboard();
 }
 
+
+
+// Message aleatoire pour le menu objectif dashboard
+function onSetObjectifDasboardInfoText() {
+    let textRef = document.getElementById("textObjectifDashboardInfo");
+    textRef.textContent = getRandomSessionInfo(infoObjectifTextArray);
+}
 
 
 function onDisplayDashboardItemsList() {
