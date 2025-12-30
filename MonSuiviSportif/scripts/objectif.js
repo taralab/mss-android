@@ -404,7 +404,7 @@ let weekKpiObject = {},
 let kpiGlobalText = {
     GREEN : "Tu es dans le rythme 👍 ",
     ORANGE : "Attention, le rythme devient juste :",
-    RED : "Tu es en retard sur certains objectifs :"
+    RED : "Rythme actuel insuffisant pour certains objectifs :"
     },
     maxKpiORANGEItemToDisplay = 2;
 

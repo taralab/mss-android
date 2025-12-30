@@ -3928,6 +3928,7 @@ img.kpi-value{
 p.kpi-value-title{
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: center;
 }
 p.kpi-detail-precision{
     font-size: 14px;
