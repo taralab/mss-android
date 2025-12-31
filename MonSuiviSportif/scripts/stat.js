@@ -618,7 +618,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
 
         // Traitement valeur la plus élevée (mise en gras) et l'image de la couronne
-        if (activityCount[e].count === higherCountValue) {
+        if (activityCount[e].count === higherCountValue && higherCountValue !== 0) {
             document.getElementById(`spanGraphCountMonthName-${e}`).classList.add("StatHigherValueActivity");
             document.getElementById(`stat-number-${e}`).classList.add("StatHigherValueActivity");
             document.getElementById(`imgStatCount_${e}`).classList.add("display");
@@ -632,7 +632,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
-        if (activityCount[e].distance === higherDistanceValue) {
+        if (activityCount[e].distance === higherDistanceValue && higherDistanceValue!== 0) {
             document.getElementById(`spanGraphDistanceMonthName-${e}`).classList.add("StatHigherValueDistance");
             document.getElementById(`stat-distance-${e}`).classList.add("StatHigherValueDistance");
             document.getElementById(`imgStatDistance_${e}`).classList.add("display");
@@ -646,7 +646,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         document.getElementById(`stat-PB-Duration-${e}`).style = "--progress:" + onCalculStatPercent(higherDurationValue,activityCount[e].duration) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
-        if (activityCount[e].duration === higherDurationValue) {
+        if (activityCount[e].duration === higherDurationValue && higherDurationValue !== 0) {
             document.getElementById(`spanGraphDurationMonthName-${e}`).classList.add("StatHigherValueDuration");
             document.getElementById(`stat-duration-${e}`).classList.add("StatHigherValueDuration");
             document.getElementById(`imgStatDuration_${e}`).classList.add("display");
