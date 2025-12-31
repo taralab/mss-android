@@ -1411,6 +1411,8 @@ div.stat-month {
     flex-direction: column; 
     align-items: center;
     min-width: 40px;
+    padding-top: 30px;
+    position: relative;
 }
 
 .stat-month span {
@@ -1419,18 +1421,29 @@ div.stat-month {
     color: #555;
 }
 
+img.stat-crown{
+    width: 25px;
+    position: absolute;
+    top: 0px;
+    display: none;
+}
+
+img.stat-crown.display{
+    display: block;
+}
+
 span.StatHigherValueActivity{
     font-weight: bolder;
-    color: #666;
+    color: #000000;
 }
 
 span.StatHigherValueDuration{
     font-weight: bolder;
-    color: var(--colorMainTheme6);
+    color: #000000;
 }
 span.StatHigherValueDistance{
     font-weight: bolder;
-    color: var(--colorMainTheme1);
+    color: #000000;
 }
 
 /* Vertical Progress Bar */

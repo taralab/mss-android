@@ -580,6 +580,12 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
     let parent = document.getElementById("divStat");
 
 
+    // Retire les img des couronnes visible
+    let imgCrownToRemoveClass = parent.querySelectorAll(".display");
+    imgCrownToRemoveClass.forEach(e=>{
+        e.classList.remove("display");
+    });
+
     // Retire les class StatHigherValueXXX
     let statActivityToRemoveClass = parent.querySelectorAll(".StatHigherValueActivity"),
         statDurationToRemoveClass = parent.querySelectorAll(".StatHigherValueDuration"),
@@ -611,10 +617,11 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         document.getElementById(`stat-number-${e}`).innerHTML = activityCount[e].count;
         document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
 
-        // Traitement valeur la plus élevée (mise en gras)
+        // Traitement valeur la plus élevée (mise en gras) et l'image de la couronne
         if (activityCount[e].count === higherCountValue) {
             document.getElementById(`spanGraphCountMonthName-${e}`).classList.add("StatHigherValueActivity");
             document.getElementById(`stat-number-${e}`).classList.add("StatHigherValueActivity");
+            document.getElementById(`imgStatCount_${e}`).classList.add("display");
         }
 
     });
@@ -628,6 +635,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         if (activityCount[e].distance === higherDistanceValue) {
             document.getElementById(`spanGraphDistanceMonthName-${e}`).classList.add("StatHigherValueDistance");
             document.getElementById(`stat-distance-${e}`).classList.add("StatHigherValueDistance");
+            document.getElementById(`imgStatDistance_${e}`).classList.add("display");
         }
     });
 
@@ -641,6 +649,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         if (activityCount[e].duration === higherDurationValue) {
             document.getElementById(`spanGraphDurationMonthName-${e}`).classList.add("StatHigherValueDuration");
             document.getElementById(`stat-duration-${e}`).classList.add("StatHigherValueDuration");
+            document.getElementById(`imgStatDuration_${e}`).classList.add("display");
         }
     });
 
