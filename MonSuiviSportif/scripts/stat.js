@@ -445,6 +445,7 @@ function onTreateStatGraphic(activityKeysList) {
         // Lancement du comptage sur la première année du tableau
         getActivityStatCountByMonth(activityKeysList,yearArray[0]);
 
+        
 }
 
 
@@ -547,7 +548,72 @@ function getActivityStatCountByMonth(activityKeysList,yearTarget) {
 
     onSetResumeByYear(totalCountYear,totalDistanceYear,formatDuration(totalDurationYear));
     onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxDurationMonth].duration);
+
+    // traitement information mois en cours
+    onSetStatMonthInformation(countActivityByMonth,yearTarget);
 }
+
+
+
+
+
+
+// Set les informations spécifique pour le mois en cours
+//!!! On n'affiche ces informations uniquement si ça correspond à l'année en cours
+// pour le pas perturber l'utilisateur
+function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
+
+
+    let currentMonthData= {},
+        previousMonthData = {};
+
+
+    //trouver l'année et le mois en cours
+    let currentYear = new Date().getFullYear(),
+        currentMonthIndex = new Date().getMonth();
+    console.log(`Stat information : Année en cours : ${currentYear}.Mois en cours : ${currentMonthIndex}`);
+
+    //si pas l'année en cours n'affiche pas les informations et met fin à l'instruction
+    if (currentYear !== yearFilterTarget) {
+        console.log("Stat ne corresponds pas à l'année en cours. N'affiche pas les infos");
+
+
+        return;
+    }
+
+    // Récupère les informations du mois en cours et les traites
+    currentMonthData = statDataArray[monthStatNamesArray[currentMonthIndex]];
+
+    console.log(currentMonthData);
+
+    // Référence les éléments
+    let textStatCurrentMonthActivityRef = document.getElementById("textStatCurrentMonthActivity"),
+        textStatCurrentMonthDurationRef = document.getElementById("textStatCurrentMonthDuration"),
+        textStatCurrentMonthDistanceRef = document.getElementById("textStatCurrentMonthDistance");
+
+    // Count
+    textStatCurrentMonthActivityRef.innerHTML = currentMonthData.count;
+
+    // Duration
+    let convertedDuration = formatMinutesToHoursForGraph(currentMonthData.duration);
+    textStatCurrentMonthDurationRef.innerHTML = convertedDuration;
+
+    // Distance
+    textStatCurrentMonthDistanceRef.innerHTML = `${currentMonthData.distance} km`;
+
+    //si on est en janvier, pas de comparaison avec le mois précédent
+    if (currentMonthIndex === 0) {
+        
+        return;
+    }
+
+    // Sinon on récupère les éléments du mois précédent pour comparaison
+    previousMonthData = statDataArray[monthStatNamesArray[currentMonthIndex -1]]
+
+    // Référence les éléments
+    
+}
+
 
 
 // convertir les minutes au format 2h45
