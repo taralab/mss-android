@@ -1374,28 +1374,115 @@ h2.stat-title-1{
     justify-content: baseline;
 }
 
-h3.stat{
-    padding-left: 10px;
-    justify-content: baseline;
-}
-h3.stat-title-activity{
-    color: #666;
+/* HEADER DIV de chaque DIV STAT */
+
+
+.stat-header {
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-h3.stat-title-duration{
+/* LEFT */
+div.stat-header-left{
+    padding-left: 10px;
+}
+.stat-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* RIGHT */
+.stat-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+    padding-right: 10px;
+}
+
+.stat-current-value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.stat-period {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    font-weight: 200;
+}
+
+.stat-evolution {
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+.stat-evolution {
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+.stat-evolution {
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+.stat-delta {
+    font-weight: 600;
+}
+
+.stat-up {
+    color: #16a34a; /* vert doux */
+}
+
+.stat-down {
+    color: #6b7280;
+}
+
+.stat-neutral {
+    color: #9ca3af;
+}
+
+.stat-ref {
+    color: #9ca3af;
+    margin-left: 4px;
+    font-weight: 200;
+}
+
+.stat-title-count{
+    color: #333;
+}
+.stat-title-distance{
+    color:var(--colorMainTheme1);
+}
+.stat-title-duration{
     color: var(--colorMainTheme6);
 }
 
-h3.stat-title-distance{
-    color: var(--colorMainTheme1);
-}
+/* ---------------------------------------- */
+
+
+
+
+
+
+
 
 
 /* Month Container */
 div.stat-months {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
     gap: 10px;
     width: calc(100% - 20px);
     max-width: calc(100% - 20px);
@@ -1411,7 +1498,7 @@ div.stat-month {
     flex-direction: column; 
     align-items: center;
     min-width: 40px;
-    padding-top: 30px;
+    padding-top: 25px;
     position: relative;
 }
 
