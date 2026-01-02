@@ -565,8 +565,12 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
 
 
     let currentMonthData= {},
-        previousMonthData = {};
-
+        previousMonthData = {},
+        idHeaderRightArrayRef = [
+            "divHeaderStatActivity",
+            "divHeaderStatDistance",
+            "divHeaderStatDuration"
+        ];
 
     //trouver l'année et le mois en cours
     let currentYear = new Date().getFullYear(),
@@ -577,8 +581,17 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     if (currentYear !== yearFilterTarget) {
         console.log("Stat ne corresponds pas à l'année en cours. N'affiche pas les infos");
 
+        // Masque les headers du coté droit
+        idHeaderRightArrayRef.forEach(id=>{
+            document.getElementById(id).style.display= "none";
+        });
 
         return;
+    }else{
+        //sinon les affiche
+        idHeaderRightArrayRef.forEach(id=>{
+            document.getElementById(id).style.display= "flex";
+        });
     }
 
     // Récupère les informations du mois en cours et les traites
@@ -603,7 +616,28 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
 
     //si on est en janvier, pas de comparaison avec le mois précédent
     if (currentMonthIndex === 0) {
-        
+        let idTextComparaisonMonthRef = [
+                "textStatComparaisonActivity",
+                "textStatComparaisonDistance",
+                "textStatComparaisonDuration"
+            ],
+            idTextComparaisonValueRef = [
+                "textStatCurrentEvoActivity",
+                "textStatCurrentEvoDistance",
+                "textStatCurrentEvoDuration"
+            ];
+
+        // Set un texte par défaut
+        idTextComparaisonMonthRef.forEach(id=>{
+            let textRef = document.getElementById(id);
+            textRef.textContent = "Aucune référence disponible.";
+        });
+
+        //vide la partie valeur
+        idTextComparaisonValueRef.forEach(id=>{
+            let textRef = document.getElementById(id);
+            textRef.textContent = "";
+        });
         return;
     }
 
