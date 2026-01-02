@@ -570,17 +570,32 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
             "divHeaderStatActivity",
             "divHeaderStatDistance",
             "divHeaderStatDuration"
+        ],
+        idTextComparaisonMonthRef = [
+            "textStatComparaisonActivity",
+            "textStatComparaisonDistance",
+            "textStatComparaisonDuration"
+        ],
+        idTextComparaisonValueRef = [
+            "textStatCurrentEvoActivity",
+            "textStatCurrentEvoDistance",
+            "textStatCurrentEvoDuration"
         ];
 
     //trouver l'année et le mois en cours
     let currentYear = new Date().getFullYear(),
         currentMonthIndex = new Date().getMonth();
-    console.log(`Stat information : Année en cours : ${currentYear}.Mois en cours : ${currentMonthIndex}`);
+
+    if (devMode === true) {
+        console.log(`Stat information : Année en cours : ${currentYear}.Mois en cours : ${currentMonthIndex}`);
+    }
+
 
     //si pas l'année en cours n'affiche pas les informations et met fin à l'instruction
     if (currentYear !== yearFilterTarget) {
-        console.log("Stat ne corresponds pas à l'année en cours. N'affiche pas les infos");
-
+        if (devMode === true) {
+            console.log("Stat ne corresponds pas à l'année en cours. N'affiche pas les infos");
+        }
         // Masque les headers du coté droit
         idHeaderRightArrayRef.forEach(id=>{
             document.getElementById(id).style.display= "none";
@@ -596,8 +611,6 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
 
     // Récupère les informations du mois en cours et les traites
     currentMonthData = statDataArray[monthStatNamesArray[currentMonthIndex]];
-
-    console.log(currentMonthData);
 
     // Référence les éléments
     let textStatCurrentMonthActivityRef = document.getElementById("textStatCurrentMonthActivity"),
@@ -616,16 +629,7 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
 
     //si on est en janvier, pas de comparaison avec le mois précédent
     if (currentMonthIndex === 0) {
-        let idTextComparaisonMonthRef = [
-                "textStatComparaisonActivity",
-                "textStatComparaisonDistance",
-                "textStatComparaisonDuration"
-            ],
-            idTextComparaisonValueRef = [
-                "textStatCurrentEvoActivity",
-                "textStatCurrentEvoDistance",
-                "textStatCurrentEvoDuration"
-            ];
+
 
         // Set un texte par défaut
         idTextComparaisonMonthRef.forEach(id=>{
@@ -645,10 +649,120 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     previousMonthData = statDataArray[monthStatNamesArray[currentMonthIndex -1]]
 
     // Référence les éléments
-    
+    let textStatComparaisonActivityRef = document.getElementById("textStatComparaisonActivity"),
+        textStatComparaisonDistanceRef = document.getElementById("textStatComparaisonDistance"),
+        textStatComparaisonDurationRef = document.getElementById("textStatComparaisonDuration"),
+        textStatCurrentEvoActivityRef = document.getElementById("textStatCurrentEvoActivity"),
+        textStatCurrentEvoDistanceRef = document.getElementById("textStatCurrentEvoDistance"),
+        textStatCurrentEvoDurationRef = document.getElementById("textStatCurrentEvoDuration");
+
+
+    //retire la class de la couleur verte (positif)
+    idTextComparaisonValueRef.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.classList.remove("stat-up");
+    });
+
+    // Lance le calcul
+    let evolutionResult = onCalculStatEvolution(previousMonthData,currentMonthData);
+
+    if (devMode === true) {
+        console.log("EvolutionResult : ",evolutionResult);
+    }
+
+
+    let frenchMonthNameArray = [
+            'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+            'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'
+        ],
+        previousMonthFrenchName = frenchMonthNameArray[currentMonthIndex -1];
+
+    // Activité nbre
+    textStatCurrentEvoActivityRef.textContent = evolutionResult.activity;
+    textStatComparaisonActivityRef.textContent = `vs ${previousMonthFrenchName}`;
+    //si positif ajoute la couleur verte
+    if (evolutionResult.activity.includes("+")) {
+        textStatCurrentEvoActivityRef.classList.add("stat-up");
+    }
+
+    //duration
+    textStatCurrentEvoDistanceRef.textContent = evolutionResult.distance;
+    textStatComparaisonDistanceRef.textContent = `vs ${previousMonthFrenchName}`;
+    //si positif ajoute la couleur verte
+    if (evolutionResult.distance.includes("+")) {
+        textStatCurrentEvoDistanceRef.classList.add("stat-up");
+    }
+
+
+    // Distance
+    textStatCurrentEvoDurationRef.textContent = evolutionResult.duration; 
+    textStatComparaisonDurationRef.textContent = `vs ${previousMonthFrenchName}`;
+    //si positif ajoute la couleur verte
+    if (evolutionResult.duration.includes("+")) {
+        textStatCurrentEvoDurationRef.classList.add("stat-up");
+    }
 }
 
+// Calul l'évolution pour le mois en cours dans les stats
+function onCalculStatEvolution(previousMonthValue,currentMonthValue) {
+    let activityEvolutionValue = currentMonthValue.count - previousMonthValue.count,
+        distanceEvolutionValue = currentMonthValue.distance - previousMonthValue.distance,
+        durationEvolutionValue = currentMonthValue.duration - previousMonthValue.duration;
 
+    // Traitement des préfixes
+    let activityEvolutionPrefix = onCheckStatEvolutionPrefix(activityEvolutionValue),
+        distanceEvolutionPrefix = onCheckStatEvolutionPrefix(distanceEvolutionValue),
+        durationEvolutionPrefix = onCheckStatEvolutionPrefix(durationEvolutionValue);
+
+    // Génération texte finale
+    let activityText = "";
+    if (Math.abs(activityEvolutionValue) === 0) {
+        activityText = activityEvolutionPrefix;
+    }else{
+        activityText = `${activityEvolutionPrefix}${Math.abs(activityEvolutionValue)}`;
+    }
+
+    //si distance égale à zero ne met pas le chiffre. juste le texte "Aucune variation"
+    let distanceText = "";
+    if (Math.abs(distanceEvolutionValue) === 0) {
+        distanceText = distanceEvolutionPrefix;
+    }else{
+        distanceText = `${distanceEvolutionPrefix}${Math.abs(distanceEvolutionValue).toFixed(1)}`;
+    }
+    
+
+    let durationConvertedValue = formatMinutesToHoursForGraph(Math.abs(durationEvolutionValue)),
+        durationText = "";
+
+    if (Math.abs(durationEvolutionValue) === 0) {
+        durationText = durationEvolutionPrefix;
+    }else{
+        durationText = `${durationEvolutionPrefix}${durationConvertedValue}`;
+    }
+
+    
+    let result = {
+        activity : activityText,
+        distance : distanceText,
+        duration: durationText
+    };
+
+    return result;
+}
+
+// Trouve le préfix
+function onCheckStatEvolutionPrefix(value) {
+    let prefix = "";
+    if (value > 0) {
+       prefix = `▲ +`;
+    } else if (value < 0) {
+       prefix =`▼ -`;
+    } else {
+       prefix =`Aucune variation`;
+    }
+
+    return prefix;
+}
 
 // convertir les minutes au format 2h45
 function formatMinutesToHoursForGraph(minutes) {

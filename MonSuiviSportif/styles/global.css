@@ -1418,7 +1418,7 @@ div.stat-header-left{
 .stat-period {
     font-size: 0.7rem;
     color: #9ca3af;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 .stat-evolution {
@@ -1438,24 +1438,19 @@ div.stat-header-left{
 
 .stat-delta {
     font-weight: 600;
+    color: #6b7280;
 }
 
 .stat-up {
     color: #16a34a; /* vert doux */
 }
 
-.stat-down {
-    color: #6b7280;
-}
 
-.stat-neutral {
-    color: #9ca3af;
-}
 
 .stat-ref {
     color: #9ca3af;
     margin-left: 4px;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 .stat-title-count{
