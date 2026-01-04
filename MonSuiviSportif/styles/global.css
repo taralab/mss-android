@@ -2018,10 +2018,10 @@ input.fieldRequired{
     animation-delay: 850ms;
 
     background: rgba(214, 214, 214, 0.7); /* semi-transparent noir */
-    backdrop-filter: blur(4px);       /* léger flou derrière */                    /* texte blanc */
+    backdrop-filter: blur(4px);       /* léger flou derrière */    /* texte blanc */
     padding: 6px 14px;
     border-radius: 10px;
-    border: 1px solid rgba(195, 0, 255, 0.5); /* doré subtil */
+    border: 1px solid rgba(195, 0, 255, 0.5); 
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 
 }

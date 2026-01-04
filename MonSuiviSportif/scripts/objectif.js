@@ -411,7 +411,7 @@ let kpiGlobalText = {
 // Tableau référentiel kpi color/image
 let KPIArrayImg = {
     GREEN :"./Icons/MSS_KPI-GREEN.webp",
-    ORANGE : "./Icons/MSS_KPI-ORANGE.webp",
+    ORANGE : "./Icons/MSS_KPI-ORANGE-V2.webp",
     RED :"./Icons/MSS_KPI-RED.webp"
 };
 
