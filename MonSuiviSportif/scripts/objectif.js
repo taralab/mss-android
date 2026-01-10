@@ -628,10 +628,14 @@ function onInitKpiElement() {
     let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
     textWeekRef.innerHTML = `${kpiWeekContext.remainingDay} jours restants`;
 
+    console.log(kpiWeekContext);
+
     // Traitement jours restant pour le mois
     kpiMonthContext = getKPIMonthlyContext();
     let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
     textMonthRef.innerHTML = `${kpiMonthContext.remainingDay} jours restants`;
+
+    console.log(kpiMonthContext);
 
 }
 
@@ -652,7 +656,11 @@ function getKPIWeeklyContext(date = new Date()) {
   // Jours encore disponibles (aujourd'hui inclus)
   const remainingDay = totalDay - passedDay;
 
-  return { passedDay, totalDay, remainingDay };
+    //determine si c'est le dernier jours
+    let isLastDay = false;
+    isLastDay = totalDay === (passedDay + 1) ? true : false;
+
+  return { passedDay, totalDay, remainingDay, isLastDay };
 }
 
 
@@ -660,19 +668,24 @@ function getKPIWeeklyContext(date = new Date()) {
 // Contexte KPI mensuel
 // Règle métier : aujourd'hui est encore un jour disponible
 function getKPIMonthlyContext(date = new Date()) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
+    const year = date.getFullYear();
+    const month = date.getMonth();
 
-  // getDate() retourne 1 → 31
-  // On enlève 1 pour ne PAS compter aujourd'hui comme consommé
-  const passedDay = date.getDate() - 1;
+    // getDate() retourne 1 → 31
+    // On enlève 1 pour ne PAS compter aujourd'hui comme consommé
+    const passedDay = date.getDate() - 1;
 
-  const totalDay = new Date(year, month + 1, 0).getDate();
+    const totalDay = new Date(year, month + 1, 0).getDate();
 
-  // Jours encore disponibles (aujourd'hui inclus)
-  const remainingDay = totalDay - passedDay;
+    // Jours encore disponibles (aujourd'hui inclus)
+    const remainingDay = totalDay - passedDay;
 
-  return { passedDay, totalDay, remainingDay };
+    //determine si c'est le dernier jours
+    let isLastDay = false;
+    isLastDay = totalDay === (passedDay + 1) ? true : false;
+
+
+  return { passedDay, totalDay, remainingDay, isLastDay };
 }
 
 
