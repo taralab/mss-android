@@ -58,35 +58,10 @@ function onOpenMenuObjectifDashboard() {
     // Affiche la liste
     onDisplayDashboardItemsList();
 
-    // Lance le traitement du kpi hebdo
-    if (Object.keys(weekKpiObject).length > 0) {
-        globalWeeklyKPIColor = traitementDuKPI(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
-        onSetKpiImage(globalWeeklyKPIColor,"imgKpiWeek");
-        if (devMode === true) {
-            console.log("kpi hebdo : ",globalWeeklyKPIColor);
-        }
-    }else{
-        //si pas d'élément met l'icone grise
-        document.getElementById("imgKpiWeek").src = "./Icons/MSS_KPI-GREY.webp";
-    }
+    //traitement du kpi
+    eventTraiteKPI();
 
-
-    if(Object.keys(monthKpiObject).length > 0){
-        //lance le traitement du kpi mensuel
-        globalMonthlyKPIColor = traitementDuKPI(monthKpiObject,kpiMonthContext.passedDay,kpiMonthContext.totalDay,kpiMonthExemptDay);
-        onSetKpiImage(globalMonthlyKPIColor,"imgKpiMonth");
-        if (devMode === true) {
-            console.log("kpi mensuel : ",globalMonthlyKPIColor);
-        }
-
-    }else{
-        //si pas d'élément met l'icone grise
-        document.getElementById("imgKpiMonth").src = "./Icons/MSS_KPI-GREY.webp";
-    }
-
-
-    // Ajout écouteur evènement pour les boutons du kpi
-    onAddEventListenerForKPIDashboard();
+    
 }
 
 
@@ -107,15 +82,7 @@ function onDisplayDashboardItemsList() {
     let currentMonthRange = getCurrentMonthRange();
 
 
-    // Reset les objets qui vont stocker les informations du KPI
-    weekKpiObject = {};
-    monthKpiObject = {};
-
-
-
     // * * * *  traitement hebdo    * * * * * *
-
-
 
 
     // Référence le parent et le vide
@@ -132,8 +99,8 @@ function onDisplayDashboardItemsList() {
         weekObjectifKeys.forEach(key=>{
             let item = objectifUserList[key];
 
-            // Lance le calcul sur les activité concernée
-            let result = onTraiteObjectif(item.activity,item.dataType,item.targetValue,currentWeekRange.monday, currentWeekRange.sunday);
+            // Lance le calcul sur les activité concernée pour le dashboard
+            let result = onTraiteDashboardObjectif(item.activity,item.dataType,item.targetValue,currentWeekRange.monday, currentWeekRange.sunday);
 
             // Génère un item
             new ObjectifDashboardItem(
@@ -141,18 +108,6 @@ function onDisplayDashboardItemsList() {
                 result.remainingValue,item.targetValue,
                 weekParentRef,
             );
-
-            // Stock également les éléments pour les kpi hebdo
-            weekKpiObject[`kpi_${key}`] = {
-                activity: item.activity,
-                dataType: item.dataType,
-
-                targetValue: item.targetValue,
-                doneValue: result.doneValue,
-                remainingValue: result.remainingValue
-
-            };
-
         });
     }else{
         weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
@@ -179,8 +134,8 @@ function onDisplayDashboardItemsList() {
         monthObjectifKeys.forEach(key=>{
             let item = objectifUserList[key];
 
-            // Lance le calcul sur les activité concernée
-            let result = onTraiteObjectif(item.activity,item.dataType,item.targetValue,currentMonthRange.firstDay, currentMonthRange.lastDay);
+            // Lance le calcul sur les activité concernée pour le dashboard
+            let result = onTraiteDashboardObjectif(item.activity,item.dataType,item.targetValue,currentMonthRange.firstDay, currentMonthRange.lastDay);
 
             // Génère un item
             new ObjectifDashboardItem(
@@ -188,30 +143,14 @@ function onDisplayDashboardItemsList() {
                 result.remainingValue,item.targetValue,
                 monthParentRef,
             );
-
-            // Stock également les éléments pour les kpi mensuel
-            monthKpiObject[`kpi_${key}`] = {
-                activity: item.activity,
-                dataType: item.dataType,
-
-                targetValue: item.targetValue,
-                doneValue: result.doneValue,
-                remainingValue: result.remainingValue
-
-            };
-
-
         });
     }else{
         monthParentRef.innerHTML = "Aucun objectif mensuel.";
     }
-
-
-
 }
 
 
-function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateRangeEnd) {
+function onTraiteDashboardObjectif(activityType,dataType,targetValue,dateRangeStart,dateRangeEnd) {
 
     if (devMode === true) {
         console.log(`Traitement pour ${activityType} sur ${dataType}`);
@@ -239,6 +178,11 @@ function onTraiteObjectif(activityType,dataType,targetValue,dateRangeStart,dateR
 
     return result;
 }
+
+
+
+
+
 
 
 
@@ -453,6 +397,183 @@ function onAddEventListenerForKPIDashboard() {
 
 }
 
+
+
+function eventTraiteKPI(){
+    // Récupère la semaine en cours
+    let currentKPIWeekRange = getCurrentKPIWeekRange(kpiWeekContext.isLastDay);
+
+    // Récupère le mois en cours
+    let currentKPIMonthRange = getCurrentKPIMonthRange(kpiMonthContext.isLastDay);
+
+
+    // Reset les objets qui vont stocker les informations du KPI
+    weekKpiObject = {};
+    monthKpiObject = {};
+
+
+
+    // Pas de traitement du kpi le lundi et le 1er jours du mois
+
+    if (kpiWeekContext.passedDay.length === 0) {
+        console.log("Pas de traitement du kpi le lundi");
+    }else{
+        //TRAITEMENT HEBDO
+        weekKpiObject = traiteKPIRange(currentKPIWeekRange.monday,currentKPIWeekRange.endDay,"WEEK");
+    }
+
+    if (kpiMonthContext.passedDay === 0) {
+        console.log("Pas de traitement du kpi le 1er jours du mois");
+    }else{
+        // TRAITEMENT MENSUEL
+        monthKpiObject = traiteKPIRange(currentKPIMonthRange.firstDay,currentKPIMonthRange.endDay,"MONTH");
+    }
+
+
+
+    // Lance le traitement du kpi hebdo
+    if (Object.keys(weekKpiObject).length > 0) {
+        globalWeeklyKPIColor = traitementDuKPICouleur(weekKpiObject,kpiWeekContext.passedDay,kpiWeekContext.totalDay,kpiWeekExemptDay);
+        onSetKpiImage(globalWeeklyKPIColor,"imgKpiWeek");
+        if (devMode === true) {
+            console.log("kpi hebdo : ",globalWeeklyKPIColor);
+        }
+    }else{
+        //si pas d'élément met l'icone grise
+        document.getElementById("imgKpiWeek").src = "./Icons/MSS_KPI-GREY.webp";
+    }
+
+
+    if(Object.keys(monthKpiObject).length > 0){
+        //lance le traitement du kpi mensuel
+        globalMonthlyKPIColor = traitementDuKPICouleur(monthKpiObject,kpiMonthContext.passedDay,kpiMonthContext.totalDay,kpiMonthExemptDay);
+        onSetKpiImage(globalMonthlyKPIColor,"imgKpiMonth");
+        if (devMode === true) {
+            console.log("kpi mensuel : ",globalMonthlyKPIColor);
+        }
+
+    }else{
+        //si pas d'élément met l'icone grise
+        document.getElementById("imgKpiMonth").src = "./Icons/MSS_KPI-GREY.webp";
+    }
+
+
+    // Ajout écouteur evènement pour les boutons du kpi
+    onAddEventListenerForKPIDashboard();
+
+}
+
+
+function traiteKPIRange(firstDay,endDay,suiviType) {
+
+    let tempKPIObject = {};
+
+    // Récupère les keys
+    let targetObjectifKeys = getObjectifEnabledKeys(suiviType);
+
+    if (targetObjectifKeys.length > 0) {
+        // Pour chaque key mensuel "activé" 
+        targetObjectifKeys.forEach(key=>{
+            let item = objectifUserList[key];
+
+            // Lance le calcul sur les activité concernée pour le dashboard
+            let result = onTraiteDashboardObjectif(item.activity,item.dataType,item.targetValue,firstDay, endDay);
+
+            // Stock les éléments pour les kpi mensuel
+            tempKPIObject[`kpi_${key}`] = {
+                activity: item.activity,
+                dataType: item.dataType,
+
+                targetValue: item.targetValue,
+                doneValue: result.doneValue,
+                remainingValue: result.remainingValue
+            };
+        });
+    }
+
+    return tempKPIObject;
+}
+
+
+
+/**
+ * Retourne la plage de dates de la semaine courante
+ * - Début : lundi de la semaine courante à 01:00
+ * - Fin   : aujourd’hui ou hier à 23:59:59.999 selon isLastDay
+ *
+ * @param {boolean} isLastDay
+ *        true  → la période se termine aujourd’hui
+ *        false → la période se termine hier
+ *
+ * @returns {{ monday: Date, endDay: Date }}
+ */
+function getCurrentKPIWeekRange(isLastDay) {
+  const now = new Date();
+
+  // Initialisation du lundi à partir de la date courante
+  const monday = new Date(now);
+
+  // getDay() : 0 = dimanche, 1 = lundi, ..., 6 = samedi
+  const day = now.getDay();
+
+  // Calcul du décalage pour revenir au lundi de la semaine courante
+  const diffToMonday = (day === 0 ? -6 : 1 - day);
+  monday.setDate(now.getDate() + diffToMonday);
+
+  // Fixe l'heure de début à 01:00:00.000
+  monday.setHours(1, 0, 0, 0);
+
+  // Détermination de la date de fin
+  // Aujourd’hui si isLastDay === true, sinon hier
+  const endDay = new Date(now);
+  if (!isLastDay) {
+    endDay.setDate(endDay.getDate() - 1);
+  }
+
+  // Fixe l'heure de fin à 23:59:59.999
+  endDay.setHours(23, 59, 59, 999);
+
+  return { monday, endDay };
+}
+
+
+/**
+ * Retourne la plage de dates du mois courant
+ * - Début : premier jour du mois à 01:00
+ * - Fin   : aujourd’hui ou hier à 23:59:59.999 selon isLastDay
+ *
+ * @param {boolean} isLastDay
+ *        true  → la période se termine aujourd’hui
+ *        false → la période se termine hier
+ *
+ * @returns {{ firstDay: Date, endDay: Date }}
+ */
+function getCurrentKPIMonthRange(isLastDay) {
+  const now = new Date();
+
+  // Premier jour du mois courant
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  // Fixe l'heure de début à 01:00:00.000
+  firstDay.setHours(1, 0, 0, 0);
+
+  // Détermination de la date de fin
+  // Aujourd’hui si isLastDay === true, sinon hier
+  const endDay = new Date(now);
+  if (!isLastDay) {
+    endDay.setDate(endDay.getDate() - 1);
+  }
+
+  // Fixe l'heure de fin à 23:59:59.999
+  endDay.setHours(23, 59, 59, 999);
+
+  return { firstDay, endDay };
+}
+
+
+
+
+
 // Affiche les détails pour le kpi hebdo
 function onDisplayKpiWeekDetail() {
 
@@ -657,8 +778,7 @@ function getKPIWeeklyContext(date = new Date()) {
   const remainingDay = totalDay - passedDay;
 
     //determine si c'est le dernier jours
-    let isLastDay = false;
-    isLastDay = totalDay === (passedDay + 1) ? true : false;
+    const isLastDay = totalDay === (passedDay + 1) ? true : false;
 
   return { passedDay, totalDay, remainingDay, isLastDay };
 }
@@ -681,8 +801,7 @@ function getKPIMonthlyContext(date = new Date()) {
     const remainingDay = totalDay - passedDay;
 
     //determine si c'est le dernier jours
-    let isLastDay = false;
-    isLastDay = totalDay === (passedDay + 1) ? true : false;
+    const isLastDay = totalDay === (passedDay + 1) ? true : false;
 
 
   return { passedDay, totalDay, remainingDay, isLastDay };
@@ -691,7 +810,7 @@ function getKPIMonthlyContext(date = new Date()) {
 
 
 
-function traitementDuKPI(kpiObject,passedDay,totalDay,exemptDay) {
+function traitementDuKPICouleur(kpiObject,passedDay,totalDay,exemptDay) {
 
     const keys = Object.keys(kpiObject);
 
