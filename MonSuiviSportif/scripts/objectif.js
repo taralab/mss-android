@@ -25,7 +25,7 @@ let infoObjectifTextArray = [
     `ℹ️ Le smiley indique si vous êtes dans le bon rythme.`,
     `ℹ️ Vous pouvez suivre jusqu'à ${maxObjectif} éléments.`,
     `ℹ️ Vous ne suivez plus un éléments temporairement ? Désactivez le.`,
-    `ℹ️ Pensez à consulter votre rythme avant vos activités du jour.`
+    `ℹ️ Votre rythme n'est évalué qu'à compté du deuxième jour.`
 ];
 
 
@@ -323,6 +323,9 @@ function getCurrentMonthRange() {
 
 
 
+
+
+
 //Le délais (en jours) avant pris en compte pour duration et distance
 const kpiWeekExemptDay = 2,
     kpiMonthExemptDay = 7;
@@ -330,12 +333,18 @@ const kpiWeekExemptDay = 2,
 let kpiWeekContext = {
     passedDay: 2,
     totalDay: 7,
-    remainingDay: 5
+    remainingDay: 5,
+    isLastDay : false
 };
+
+let kpiWeekEndDay, //Contient la dernière date prise en compte
+    kpiMonthEndDay;//Contient la dernière date prise en compte
+
 let kpiMonthContext = {
     passedDay: 10,
     totalDay: 30,
-    remainingDay: 20
+    remainingDay: 20,
+    isLastDay : false
 };
 
 
@@ -402,10 +411,11 @@ function onAddEventListenerForKPIDashboard() {
 function eventTraiteKPI(){
     // Récupère la semaine en cours
     let currentKPIWeekRange = getCurrentKPIWeekRange(kpiWeekContext.isLastDay);
+    kpiWeekEndDay = currentKPIWeekRange.endDay;//pour afficher la date dans les details lors de la visualisation
 
     // Récupère le mois en cours
     let currentKPIMonthRange = getCurrentKPIMonthRange(kpiMonthContext.isLastDay);
-
+    kpiMonthEndDay = currentKPIMonthRange.endDay;//pour afficher la date dans les details lors de la visualisation
 
     // Reset les objets qui vont stocker les informations du KPI
     weekKpiObject = {};
@@ -414,8 +424,9 @@ function eventTraiteKPI(){
 
 
     // Pas de traitement du kpi le lundi et le 1er jours du mois
+    console.log(kpiWeekContext);
 
-    if (kpiWeekContext.passedDay.length === 0) {
+    if (kpiWeekContext.passedDay === 0) {
         console.log("Pas de traitement du kpi le lundi");
     }else{
         //TRAITEMENT HEBDO
@@ -583,7 +594,7 @@ function onDisplayKpiWeekDetail() {
 
 
     //insere le texte principal
-    onInsertKpiGlobalAvis(globalWeeklyKPIColor,parentRef);
+    onInsertKpiGlobalAvis(globalWeeklyKPIColor,kpiWeekEndDay,parentRef);
 
     let itemsListToDisplay = {};
 
@@ -654,7 +665,7 @@ function onDisplayKpiMonthDetail() {
 
 
     //insere le texte principal
-    onInsertKpiGlobalAvis(globalMonthlyKPIColor,parentRef);
+    onInsertKpiGlobalAvis(globalMonthlyKPIColor,kpiMonthEndDay,parentRef);
 
     let itemsListToDisplay = {};
 
@@ -716,7 +727,18 @@ function onDisplayKpiMonthDetail() {
 
 
 // Insertion image principale et commentaire principal
-function onInsertKpiGlobalAvis(globalKPIValue,parentRef) {
+function onInsertKpiGlobalAvis(globalKPIValue,kpiDate,parentRef) {
+
+    //La date du kpi
+    let formatedDate = onConvertKpiDetailDate(kpiDate);
+
+    let datekpiText = document.createElement("p");
+    datekpiText.classList.add("objectif-list-sub");
+    datekpiText.textContent = `Au ${formatedDate} : `;
+
+    //Et insertion
+    parentRef.appendChild(datekpiText);
+
 
     //génération de l'image du kpi
     let imgKpiDetail = document.createElement("img");
@@ -736,8 +758,21 @@ function onInsertKpiGlobalAvis(globalKPIValue,parentRef) {
 }
 
 
+// Converti la date du kpi pour l'utilisateur
+function onConvertKpiDetailDate(initialDate) {
+    
+    let dateToFormat = new Date(initialDate);
 
+    const formattedDate = new Intl.DateTimeFormat("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit"
+    }).format(dateToFormat);
 
+    return formattedDate
+}
 
 
 
