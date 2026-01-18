@@ -657,10 +657,10 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
         textStatCurrentEvoDurationRef = document.getElementById("textStatCurrentEvoDuration");
 
 
-    //retire la class de la couleur verte (positif)
+    //retire les class de couleur ne laisse que la class normal
     idTextComparaisonValueRef.forEach(id=>{
         let itemRef = document.getElementById(id);
-        itemRef.classList.remove("stat-up");
+        itemRef.className = "stat-delta";
     });
 
     // Lance le calcul
@@ -671,6 +671,12 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     }
 
 
+    // Traitement des couleurs du delta, uniquement après le 20 janviers si négatif
+    let statDeltaColor = {};
+    statDeltaColor = traitementCouleurStat(currentMonthData,previousMonthData,currentMonthIndex);
+
+    console.log(statDeltaColor);
+
     let frenchMonthNameArray = [
             'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
             'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'
@@ -680,27 +686,22 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     // Activité nbre
     textStatCurrentEvoActivityRef.textContent = evolutionResult.activity;
     textStatComparaisonActivityRef.textContent = `vs ${previousMonthFrenchName}`;
-    //si positif ajoute la couleur verte
-    if (evolutionResult.activity.includes("+")) {
-        textStatCurrentEvoActivityRef.classList.add("stat-up");
-    }
+    //Ajout la class de la couleur
+    textStatCurrentEvoActivityRef.classList.add(statDeltaColor.activityCount);
+
 
     //duration
     textStatCurrentEvoDistanceRef.textContent = evolutionResult.distance;
     textStatComparaisonDistanceRef.textContent = `vs ${previousMonthFrenchName}`;
-    //si positif ajoute la couleur verte
-    if (evolutionResult.distance.includes("+")) {
-        textStatCurrentEvoDistanceRef.classList.add("stat-up");
-    }
-
+    //Ajoute la class de la couleur
+    textStatCurrentEvoDistanceRef.classList.add(statDeltaColor.activityDuration);
 
     // Distance
     textStatCurrentEvoDurationRef.textContent = evolutionResult.duration; 
     textStatComparaisonDurationRef.textContent = `vs ${previousMonthFrenchName}`;
-    //si positif ajoute la couleur verte
-    if (evolutionResult.duration.includes("+")) {
-        textStatCurrentEvoDurationRef.classList.add("stat-up");
-    }
+    //Ajoute la class de la couleur
+    textStatCurrentEvoDurationRef.classList.add(statDeltaColor.activityDistance);
+
 }
 
 // Calul l'évolution pour le mois en cours dans les stats
@@ -749,6 +750,50 @@ function onCalculStatEvolution(previousMonthValue,currentMonthValue) {
 
     return result;
 }
+
+//traitement des couleurs d'évolution pour les stats, uniquement après le 20 du mois
+function traitementCouleurStat(currentMonthData,previousMonthData,currentMonthIndex) {
+
+    // Trouve la class de la couleur de l'évolution
+    let statEvoActivityColor = onCheckStatEvolutionClassColor(currentMonthData.count,previousMonthData.count,currentMonthIndex),
+    statEvoDurationColor = onCheckStatEvolutionClassColor(currentMonthData.duration,previousMonthData.duration,currentMonthIndex),
+    statEvoDistanceColor = onCheckStatEvolutionClassColor(currentMonthData.distance,previousMonthData.distance,currentMonthIndex);
+
+    return {activityCount : statEvoActivityColor, activityDuration : statEvoDurationColor, activityDistance : statEvoDistanceColor};
+
+}
+
+
+// Trouve la class de la couleur selon l'évolution par rapport au mois précédent
+function onCheckStatEvolutionClassColor(currentValue, previousValue, currentMonthIndex) {
+    
+    // Janvier (0) : aucune référence
+    if (currentMonthIndex === 0) {
+        return 'stat-evo-normal';
+    }
+
+    // Cas particulier : mois précédent = 0
+    if (previousValue === 0) {
+        return currentValue > 0 ? 'stat-evo-positif' : 'stat-evo-normal';
+    }
+
+
+    //Si nous sommes avant le 20 du mois, renvoie gris pour les résultats négatif
+    // Seulement après le 20 met les couleurs pour alerter l'utilisateur sur les résultats négatif
+
+    // regarde si nous sommes le 20 du mois ou plus
+    const dateToday = new Date().getDate();
+
+    const ratio = currentValue / previousValue;
+
+    if (ratio > 1) return 'stat-evo-positif';        // > 100 %
+    if (ratio === 1) return 'stat-evo-normal';       // = 100 %
+    if (ratio >= 0.8) return dateToday >= 20 ? 'stat-evo-less-100': 'stat-evo-normal';         // 80–100 %
+    if (ratio >= 0.5) return dateToday >= 20 ? 'stat-evo-less-80': 'stat-evo-normal';      // 50–80 %
+
+    return dateToday >= 20 ? 'stat-evo-less-50' :'stat-evo-normal';                         // < 50 %
+}
+
 
 // Trouve le préfix
 function onCheckStatEvolutionPrefix(value) {

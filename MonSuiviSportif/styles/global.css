@@ -44,6 +44,13 @@
         #3eb8e0 45%,
         #51d2f6 100%
     );
+
+
+    --stat_delta-less-50: #e74c3c;
+    --stat_delta-less-80: #f69800;
+    --stat_delta-less-100: #f1b96a; /* orange désaturé */
+    --stat_delta-normal: #9aa0a6;
+    --stat_delta-positif: #16a34a;
 }
 
 
@@ -1421,15 +1428,7 @@ div.stat-header-left{
     font-weight: 400;
 }
 
-.stat-evolution {
-    font-size: 0.75rem;
-    margin-top: 2px;
-}
 
-.stat-evolution {
-    font-size: 0.75rem;
-    margin-top: 2px;
-}
 
 .stat-evolution {
     font-size: 0.75rem;
@@ -1441,10 +1440,24 @@ div.stat-header-left{
     color: #6b7280;
 }
 
-.stat-up {
-    color: #16a34a; /* vert doux */
+.stat-evo-normal {
+    color: var(--stat_delta-normal);
 }
 
+.stat-evo-positif{
+    color: var(--stat_delta-positif);
+}
+.stat-evo-less-100{
+    color: var(--stat_delta-less-100);
+}
+
+.stat-evo-less-80{
+    color: var(--stat_delta-less-80);
+}
+
+.stat-evo-less-50{
+    color: var(--stat_delta-less-50);
+}
 
 
 .stat-ref {
