@@ -328,6 +328,7 @@ function onAddEventListenerForSendToActivity() {
 function eventSendToSessionToActivity() {
     //récupère le lieu
     let sessionLocation = document.getElementById("inputSendSessionToActivityLocation").value;
+    let formatedSessionLocation = onSetToUppercase(sessionLocation);
 
     //récupère le boolean d'utilisateur de la valeur des timers
     let isUseTimerReference = document.getElementById("inputCBSendToActivityUseTimer").checked;
@@ -338,7 +339,7 @@ function eventSendToSessionToActivity() {
     //Masque le popup
     document.getElementById("divSendSessionToActivityCustomise").classList.remove("show");
     //lance la génération
-    onSendSessionToActivity(sessionActivityTypeToSend,sessionLocation,isUseTimerReference,userTag);
+    onSendSessionToActivity(sessionActivityTypeToSend,formatedSessionLocation,isUseTimerReference,userTag);
 }
 
 function onClickReturnFromSendToActvityLocation() {
