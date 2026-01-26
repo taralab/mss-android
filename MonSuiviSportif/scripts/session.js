@@ -333,13 +333,25 @@ function eventSendToSessionToActivity() {
     //récupère le boolean d'utilisateur de la valeur des timers
     let isUseTimerReference = document.getElementById("inputCBSendToActivityUseTimer").checked;
 
-    //récupère la valeur du tag si présent
-    let userTag = document.getElementById("inputSendToActivityTAG").value;
+    //récupère les valeur des tag si présents
+    let userTagArray = [],
+        tagIDs = [
+            "inputSendToActivityTAG1",
+            "inputSendToActivityTAG2",
+            "inputSendToActivityTAG3"
+        ];
+
+    // Récupère les valeurs des TAG
+    tagIDs.forEach(id=>{
+        let value = document.getElementById(id).value;
+        userTagArray.push(value);
+    });
+
 
     //Masque le popup
     document.getElementById("divSendSessionToActivityCustomise").classList.remove("show");
     //lance la génération
-    onSendSessionToActivity(sessionActivityTypeToSend,formatedSessionLocation,isUseTimerReference,userTag);
+    onSendSessionToActivity(sessionActivityTypeToSend,formatedSessionLocation,isUseTimerReference,userTagArray);
 }
 
 function onClickReturnFromSendToActvityLocation() {
@@ -1354,10 +1366,10 @@ function onClickSendSessionToActivity() {
 
 
 
-async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference,tag) {
+async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference,tagArray) {
     
     let sessionText = "",
-        userTag = tag;
+        userTagArray = tagArray;
 
     //Boucle sur les éléments
     sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
@@ -1417,10 +1429,13 @@ async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimer
     });
 
 
-    //Ajoute le tag en majuscule si présent
-    if (userTag !== "") {
-        sessionText += `#${userTag.toUpperCase()}`;
-    }
+    //Ajoute les tag en majuscule si présent
+    userTagArray.forEach(tag=>{
+        if (tag !== "") {
+            sessionText += `#${tag.toUpperCase()}\n`;
+        }
+    });
+
     
     // Calcul de la durée passé en session 
     let sessionEndTime = onGetCurrentTimeAndSecond(),
@@ -1624,7 +1639,9 @@ function onDisplaySendToActivityCustomise(activityTarget) {
     //reset la checkbox "usertimerReference"
     document.getElementById("inputCBSendToActivityUseTimer").checked = false;
     //reset le champ test 
-    document.getElementById("inputSendToActivityTAG").value = "";
+    document.getElementById("inputSendToActivityTAG1").value = "";
+    document.getElementById("inputSendToActivityTAG2").value = "";
+    document.getElementById("inputSendToActivityTAG3").value = "";
 
     //affiche ou non le champ "timer détecté"
     if (checkIfTimerExist()) {
