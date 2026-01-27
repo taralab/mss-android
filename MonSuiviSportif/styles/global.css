@@ -627,6 +627,13 @@ button.btn-sort-Selected{
     padding-top: 5px;
 }
 
+/* TAG TEST */
+.item-data-area-tag{
+    color: rgb(164, 164, 164);
+    font-style: italic;
+    font-weight: bold;
+    font-size: 10px;
+}
 
 /* Styles pour les paragraphes */
 .item-data-area1 p, .item-data-area2 p, .item-data-area3 p {

@@ -119,6 +119,10 @@ class ActivityItem {
                 <div class="item-data-area3">
                     <p data-type="${attribute}" class="${commentClass}">${comment}</p>
                 </div>
+                <div class="item-data-area-tag">
+                    #CITRON #BANANE #TOMATES
+                </div>
+
             </div>
         `;
 
