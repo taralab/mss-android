@@ -775,6 +775,10 @@ function onEditActivity(activityTarget) {
     textareaCommentRef.value = activityTarget.comment;
     inputIsPlannedRef.checked = activityTarget.isPlanned;
 
+    // Les TAG
+    inputActivityTAG1Ref.value = activityTarget.tagList[0] || "";
+    inputActivityTAG2Ref.value = activityTarget.tagList[1] || "";
+    inputActivityTAG3Ref.value = activityTarget.tagList[2] || "";
 
     // gestion du format duration
     let convertDuration = timeFormatToInputNumber(activityTarget.duration);
@@ -888,7 +892,8 @@ function onCheckIfModifiedRequired(activityToInsertFormat) {
         { oldValue: currentActivityDataInView.location, newValue: activityToInsertFormat.location },
         { oldValue: currentActivityDataInView.comment, newValue:  activityToInsertFormat.comment },
         { oldValue: currentActivityDataInView.duration, newValue:  activityToInsertFormat.duration },
-        { oldValue: currentActivityDataInView.isPlanned, newValue:  activityToInsertFormat.isPlanned }
+        { oldValue: currentActivityDataInView.isPlanned, newValue:  activityToInsertFormat.isPlanned },
+        { oldValue: currentActivityDataInView.tagList, newValue:  activityToInsertFormat.tagList }
     ];
 
     if (devMode) {
