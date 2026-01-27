@@ -1780,3 +1780,32 @@ function highlightSearchTerm(text, searchTerm) {
 
     return result;
 }
+
+
+// Formatage des TAG
+function onFormatTAG(tagIdsArray) {
+    let tagArray = [];
+
+    tagIdsArray.forEach(id=>{
+        let tagValue = document.getElementById(id).value;
+        if (tagValue !== "") {
+            //Normalise le TAG
+            let formatedTag = normalizeTag(tagValue);
+            //insère dans un tableau
+            tagArray.push(formatedTag);
+        } 
+
+    });
+    
+    return tagArray;
+}
+
+// Normalise un tag
+function normalizeTag(input){
+    return input
+        .trim()
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")   // accents
+        .replace(/[^A-Z0-9]/g, "");        // lettres + chiffres
+}

@@ -9,7 +9,8 @@ let activityToInsertFormat = {
     duration : "",
     comment : "",
     createdAt : "",
-    isPlanned : false
+    isPlanned : false,
+    tagList : ["TAG1","TAG2","TAG3"]
 };
 
 
@@ -34,6 +35,9 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     inputDurationActivityMinutesRef = document.getElementById("inputDurationActivityMinutes"),
     inputDurationActivitySecondsRef = document.getElementById("inputDurationActivitySeconds"),
     textareaCommentRef = document.getElementById("textareaComment"),
+    inputActivityTAG1Ref = document.getElementById("inputActivityTAG1"),
+    inputActivityTAG2Ref = document.getElementById("inputActivityTAG2"),
+    inputActivityTAG3Ref = document.getElementById("inputActivityTAG3"),
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
     divItemListRef = document.getElementById("divItemList"),
     imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview"),
@@ -481,6 +485,9 @@ function onResetActivityInputs() {
     inputDurationActivityMinutesRef.value = "00";
     inputDurationActivitySecondsRef.value = "00";
     textareaCommentRef.value = "";
+    inputActivityTAG1Ref.value = "";
+    inputActivityTAG2Ref.value = "";
+    inputActivityTAG3Ref.value = "";
     inputIsPlannedRef.checked = false;
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
@@ -816,6 +823,16 @@ function onFormatActivity() {
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputActivityNumberToTime();
 
+    //traitement des tag
+    let tagIdsArray = [
+        "inputActivityTAG1",
+        "inputActivityTAG2",
+        "inputActivityTAG3"
+    ];
+    activityToInsertFormat.tagList = onFormatTAG(tagIdsArray);
+
+    console.log(activityToInsertFormat);
+
     // Ne set la date de création que lors d'une création et non lors d'une modification
     if (activityEditorMode === "creation") {
         activityToInsertFormat.createdAt = new Date().toISOString();
@@ -843,6 +860,9 @@ function onFormatActivity() {
     };
 
 };
+
+
+
 
 
 // Sauvegarde uniquement si une modification a bien été effectuée dans les données
