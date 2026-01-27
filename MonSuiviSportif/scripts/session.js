@@ -340,18 +340,13 @@ function eventSendToSessionToActivity() {
             "inputSendToActivityTAG2",
             "inputSendToActivityTAG3"
         ];
-
-    // Récupère les valeurs des TAG
-    tagIDs.forEach(id=>{
-        let value = document.getElementById(id).value;
-        userTagArray.push(value);
-    });
+    let userTagList = onFormatTAG(tagIDs);
 
 
     //Masque le popup
     document.getElementById("divSendSessionToActivityCustomise").classList.remove("show");
     //lance la génération
-    onSendSessionToActivity(sessionActivityTypeToSend,formatedSessionLocation,isUseTimerReference,userTagArray);
+    onSendSessionToActivity(sessionActivityTypeToSend,formatedSessionLocation,isUseTimerReference,userTagList);
 }
 
 function onClickReturnFromSendToActvityLocation() {
@@ -1366,10 +1361,9 @@ function onClickSendSessionToActivity() {
 
 
 
-async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference,tagArray) {
+async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimerReference,tagList) {
     
-    let sessionText = "",
-        userTagArray = tagArray;
+    let sessionText = "";
 
     //Boucle sur les éléments
     sessionItemsSortedKey = getSortedKeysByDisplayOrder(userSessionItemsList);
@@ -1428,14 +1422,6 @@ async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimer
 
     });
 
-
-    //Ajoute les tag en majuscule si présent
-    userTagArray.forEach(tag=>{
-        if (tag !== "") {
-            sessionText += `#${tag.toUpperCase()}\n`;
-        }
-    });
-
     
     // Calcul de la durée passé en session 
     let sessionEndTime = onGetCurrentTimeAndSecond(),
@@ -1460,7 +1446,8 @@ async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimer
         duration : sessionDuration,
         comment : sessionText,
         createdAt : new Date().toISOString(),
-        isPlanned : false
+        isPlanned : false,
+        tagList : tagList
     };
 
     // Lance la sauvegarde d'une nouvelle activité
