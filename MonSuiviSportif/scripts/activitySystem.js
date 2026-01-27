@@ -54,7 +54,7 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
 // class ActivityItem
 
 class ActivityItem {
-    constructor(id, imgRef, distance, duration, date, location, comment, parentRef, isPlanned,delayMs = 0, animationEnabled = true) {
+    constructor(id, imgRef, distance, duration, date, location, comment, parentRef, isPlanned,delayMs = 0, animationEnabled = true,tagList = []) {
         this.id = id;
         this.imgRef = imgRef;
         this.itemContainerClass = isPlanned ? ["item-container", "item-planned"] : ["item-container"];
@@ -67,6 +67,9 @@ class ActivityItem {
         this.isPlanned = isPlanned;
         this.delayMs = delayMs;
         this.animationEnabled = animationEnabled;
+        this.tagList = tagList;
+
+        this.formatedTagText = "";
 
         // Conteneur principal
         this.element = document.createElement("div");
@@ -92,6 +95,8 @@ class ActivityItem {
         this.element.addEventListener("click", () => {
             onClickOnActivity(this.id);
         });
+
+        this.formatTag();
 
         this.render();
     }
@@ -124,7 +129,7 @@ class ActivityItem {
                     <p data-type="${attribute}" class="${commentClass}">${comment}</p>
                 </div>
                 <div class="item-data-area-tag">
-                    #CITRON #BANANE #TOMATES
+                    ${this.formatedTagText}
                 </div>
 
             </div>
@@ -143,6 +148,12 @@ class ActivityItem {
 
         // Insertion dans le parent
         this.parentRef.appendChild(this.element);
+    }
+
+    formatTag(){
+        this.tagList.forEach(tag=>{
+            this.formatedTagText += `#${tag} `;
+        });
     }
 }
 
@@ -592,7 +603,8 @@ function onInsertActivityCycle() {
                 divItemListRef,
                 activityData.isPlanned,
                 delay,
-                userSetting.animationEnabled
+                userSetting.animationEnabled,
+                activityData.tagList
             );
 
             // gestion derniere activité de la liste

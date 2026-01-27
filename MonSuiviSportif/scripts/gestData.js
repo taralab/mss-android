@@ -751,7 +751,8 @@ async function importBdD(dataToImport) {
                 duration: e.duration,
                 comment: e.comment,
                 createdAt: e.createdAt,
-                isPlanned: e.isPlanned
+                isPlanned: e.isPlanned,
+                tagList: e.tagList || []
             });
             await onInsertNewActivityInDB(activityToInsertFormat);
 
