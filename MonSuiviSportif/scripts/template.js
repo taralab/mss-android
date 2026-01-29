@@ -485,7 +485,7 @@ function onSetTemplateItems(templateItem) {
 
     // Ajoute les TAG si existant
     templateItem.tagList.forEach(tag=>{
-        onAddTemplateTag(tag);
+        onAddTemplateTag(tag,false);
     });
 
     // gestion du format duration
@@ -1021,7 +1021,7 @@ function onInputTemplateTag() {
         newDiv.textContent = `Créer ${normalizedTAG}`;
 
         // Tap = création du nouveau tag
-        newDiv.onclick = () => onAddTemplateTag(normalizedTAG);
+        newDiv.onclick = () => onAddTemplateTag(normalizedTAG,true);
 
         divTemplateTagSuggestionRef.appendChild(newDiv);
     } 
@@ -1033,7 +1033,7 @@ function onInputTemplateTag() {
         newDiv.textContent = tag;
 
         // Tap = ajout du tag sélectionné
-        newDiv.onclick = () => onAddTemplateTag(tag);
+        newDiv.onclick = () => onAddTemplateTag(tag,false);
 
         divTemplateTagSuggestionRef.appendChild(newDiv);
         });
@@ -1045,7 +1045,7 @@ function onInputTemplateTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-function onAddTemplateTag(tag,isTagSaveRequired = false) {
+async function onAddTemplateTag(tag,isTagSaveRequired = false) {
 
     // Règle métier : maximum 3 tags sélectionnés
     if (divTemplateSelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
@@ -1065,7 +1065,12 @@ function onAddTemplateTag(tag,isTagSaveRequired = false) {
 
     //Sauvegarde du tag en base si nécessaire
     if (isTagSaveRequired) {
-        
+        // Insertion des TAG dans la base de donnée
+        await updateDocumentInDB(tagStoreName, (doc) => {
+            doc.userTagList = [...userTagsList] // conversion Set → Array;
+                return doc;
+        });
+        console.log("NOUVEAU TAG : Sauvegarde en base");
     }
 
 

@@ -143,7 +143,8 @@ let dbName = `MSS_db`,
     noteStoreName = "Notes",
     recupStoreName = "Recup",
     memoryStoreName = "Memory",
-    objectifStoreName = "Objectif";
+    objectifStoreName = "Objectif",
+    tagStoreName = "Tag";
     
 
 
@@ -259,6 +260,8 @@ async function onCreateDBStore() {
 
     await createStore(specialRewardsStoreName, { type: specialRewardsStoreName, specialRewards: [] });
     
+    await createStore(tagStoreName, { type: tagStoreName, userTagList:[] });
+
     await createStore(planningStoreName, { type: planningStoreName, userPlanning : defaultPlanningArray});
 
     await createStore(recupStoreName,{
@@ -297,6 +300,12 @@ async function onLoadStores() {
         if (specialRewards) {
             userSpecialRewardsArray = specialRewards.specialRewards;
         }
+
+        const tagList = await db.get(tagStoreName).catch(() => null);
+        if (Array.isArray(tagList?.userTagList)) {
+            tagList.userTagList.forEach(tag => userTagsList.add(tag));
+        }
+        console.log(userTagsList);
 
         const favoris = await db.get(favorisStoreName).catch(() => null);
         if (favoris) {

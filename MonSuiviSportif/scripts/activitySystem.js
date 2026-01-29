@@ -451,7 +451,7 @@ function onOpenNewActivityFromTemplate(templateItem) {
 
     //TAG
     templateItem.tagList.forEach(tag=>{
-        onAddActivityTag(tag);
+        onAddActivityTag(tag,false);
     });
 
 
@@ -787,7 +787,7 @@ function onEditActivity(activityTarget) {
 
     // Les TAG (ajoute si existant)
     activityTarget.tagList.forEach(tag=>{
-        onAddActivityTag(tag);
+        onAddActivityTag(tag,false);
     });
 
     // gestion du format duration
@@ -1131,7 +1131,7 @@ function onInputActivityTag() {
     newDiv.textContent = `Créer ${normalizedTAG}`;
 
     // Tap = création du nouveau tag
-    newDiv.onclick = () => onAddActivityTag(normalizedTAG);
+    newDiv.onclick = () => onAddActivityTag(normalizedTAG,true);
 
     divActivityTagSuggestionRef.appendChild(newDiv);
   } 
@@ -1143,7 +1143,7 @@ function onInputActivityTag() {
       newDiv.textContent = tag;
 
       // Tap = ajout du tag sélectionné
-      newDiv.onclick = () => onAddActivityTag(tag);
+      newDiv.onclick = () => onAddActivityTag(tag,false);
 
       divActivityTagSuggestionRef.appendChild(newDiv);
     });
@@ -1155,28 +1155,33 @@ function onInputActivityTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-function onAddActivityTag(tag,isTagSaveRequired = false) {
+async function onAddActivityTag(tag,isTagSaveRequired = false) {
 
-  // Règle métier : maximum 'X' tags sélectionnés
-  if (divActivitySelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
-    alert(`${MAX_SELECTED_TAG} tags maximum`);
-    return;
-  }
+    // Règle métier : maximum 'X' tags sélectionnés
+    if (divActivitySelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
+        alert(`${MAX_SELECTED_TAG} tags maximum`);
+        return;
+    }
 
-  // Empêche l’ajout du même tag deux fois
-  if ([...divActivitySelectedTagsRef.children].some(item =>
-    item.querySelector(".tag-label")?.textContent === tag
-  )) {
-    return;
-  }
+    // Empêche l’ajout du même tag deux fois
+    if ([...divActivitySelectedTagsRef.children].some(item =>
+        item.querySelector(".tag-label")?.textContent === tag
+    )) {
+        return;
+    }
 
-  // Ajoute le tag à la base utilisateur (pour futures suggestions)
-  userTagsList.add(tag);
+    // Ajoute le tag à la base utilisateur (pour futures suggestions)
+    userTagsList.add(tag);
 
-  //Sauvegarde du tag en base si nécessaire
-  if (isTagSaveRequired) {
-    
-  }
+    //Sauvegarde du tag en base si nécessaire
+    if (isTagSaveRequired) {
+        // Insertion des TAG dans la base de donnée
+        await updateDocumentInDB(tagStoreName, (doc) => {
+            doc.userTagList = [...userTagsList] // conversion Set → Array;
+                return doc;
+        });
+        console.log("NOUVEAU TAG : Sauvegarde en base");
+    }
 
 
 

@@ -1808,13 +1808,9 @@ function normalizeTag(input) {
 
   // Ensemble des tags connus de l’utilisateur (base de suggestion)
 // Set = pas de doublons
-const userTagsList = new Set([
-  "TRAIL",
-  "ENDURANCE",
-  "RECUP",
-  "ZONE2",
-  "VO2MAX"
-]);
+const userTagsList = new Set([]);
 
 const MAX_TAG_LENGTH = 20;
 const MAX_SELECTED_TAG = 3;
+
+
