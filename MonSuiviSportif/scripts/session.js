@@ -322,6 +322,13 @@ function onAddEventListenerForSendToActivity() {
     btnSendToActivityCustomiseCancelRef.addEventListener("click",onReturnFromSendLocation);
     onAddEventListenerInRegistry("sessionSendToActivity",btnSendToActivityCustomiseCancelRef,"click",onReturnFromSendLocation);
 
+
+    //Les TAG
+    inputSessionSendTagRef = document.getElementById("inputSessionSendTag");
+    const onInputTag = () => onInputSessionSendTag();
+    inputSessionSendTagRef.addEventListener("input",onInputTag);
+    onAddEventListenerInRegistry("sessionSendToActivity",inputSessionSendTagRef,"input",onInputTag);
+
 }
 
 
@@ -334,13 +341,7 @@ function eventSendToSessionToActivity() {
     let isUseTimerReference = document.getElementById("inputCBSendToActivityUseTimer").checked;
 
     //récupère les valeur des tag si présents
-    let userTagArray = [],
-        tagIDs = [
-            "inputSendToActivityTAG1",
-            "inputSendToActivityTAG2",
-            "inputSendToActivityTAG3"
-        ];
-    let userTagList = onFormatTAG(tagIDs);
+    let userTagList = getSendSessionSelectedTagsArray();
 
 
     //Masque le popup
@@ -1620,15 +1621,20 @@ function onCloseFakeSelectSession(event) {
 //Affiche la div de personnalisation de l'activité généré
 function onDisplaySendToActivityCustomise(activityTarget) {
 
+    // Reférencement des éléments de tag
+    inputSessionSendTagRef = document.getElementById("inputSessionSendTag");
+    divSessionSendTagSuggestionRef = document.getElementById("divSessionSendTagSuggestion");
+    divSessionSendSelectedTagsRef = document.getElementById("divSessionSendSelectedTags");
+
 
     //reset l'input du lieu
     document.getElementById("inputSendSessionToActivityLocation").value = "";
     //reset la checkbox "usertimerReference"
     document.getElementById("inputCBSendToActivityUseTimer").checked = false;
-    //reset le champ test 
-    document.getElementById("inputSendToActivityTAG1").value = "";
-    document.getElementById("inputSendToActivityTAG2").value = "";
-    document.getElementById("inputSendToActivityTAG3").value = "";
+    //reset les éléments de tag 
+    inputSessionSendTagRef.value = "";
+    divSessionSendTagSuggestionRef.innerHTML = "";
+    divSessionSendSelectedTagsRef.innerHTML = "";
 
     //affiche ou non le champ "timer détecté"
     if (checkIfTimerExist()) {
@@ -2666,3 +2672,130 @@ function onSaveMinuteurState(minuteurID,isRunning,remainingTime,isDone){
 }
 
 
+
+
+
+
+// --------------------------------#TAG -------------------------
+
+let inputSessionSendTagRef = null,
+    divSessionSendTagSuggestionRef = null,
+    divSessionSendSelectedTagsRef = null;
+
+
+
+function onInputSessionSendTag() {
+    const normalizedTAG = normalizeTag(inputSessionSendTagRef.value);
+
+    // Réinitialise les suggestions à chaque frappe
+    divSessionSendTagSuggestionRef.innerHTML = "";
+
+    // Si input vide après normalisation → rien à afficher
+    if (!normalizedTAG) return;
+
+    // Recherche des tags existants qui commencent par la saisie
+    const matches = Array.from(userTagsList)
+        .filter(tag => tag.startsWith(normalizedTAG))
+        .slice(0, 5); // limite UX : max 5 suggestions
+
+    // Aucun match → proposer la création du tag
+    if (matches.length === 0) {
+        const newDiv = document.createElement("div");
+        newDiv.className = "tag-suggestion create";
+        newDiv.textContent = `Créer ${normalizedTAG}`;
+
+        // Tap = création du nouveau tag
+        newDiv.onclick = () => onAddSessionSendTag(normalizedTAG);
+
+        divSessionSendTagSuggestionRef.appendChild(newDiv);
+    } 
+    // Des matchs existent → les afficher
+    else {
+        matches.forEach(tag => {
+        const newDiv = document.createElement("div");
+        newDiv.className = "tag-suggestion";
+        newDiv.textContent = tag;
+
+        // Tap = ajout du tag sélectionné
+        newDiv.onclick = () => onAddSessionSendTag(tag);
+
+        divSessionSendTagSuggestionRef.appendChild(newDiv);
+        });
+    }
+}
+
+
+
+/**
+ * Ajoute un tag sélectionné / créé à la liste des tags actifs
+ */
+function onAddSessionSendTag(tag,isTagSaveRequired = false) {
+
+    // Règle métier : maximum 3 tags sélectionnés
+    if (divSessionSendSelectedTagsRef.children.length >= 3) {
+        alert("3 tags maximum");
+        return;
+    }
+
+    // Empêche l’ajout du même tag deux fois
+    if ([...divSessionSendSelectedTagsRef.children].some(item =>
+        item.querySelector(".tag-label")?.textContent === tag
+    )) {
+        return;
+    }
+
+    // Ajoute le tag à la base utilisateur (pour futures suggestions)
+    userTagsList.add(tag);
+
+    //Sauvegarde du tag en base si nécessaire
+    if (isTagSaveRequired) {
+        
+    }
+
+
+
+
+    // Conteneur principal du tag
+    const newDiv = document.createElement("div");
+    newDiv.className = "tag";
+
+    // Libellé du tag
+    const newLabelSpan = document.createElement("span");
+    newLabelSpan.className = "tag-label";
+    newLabelSpan.textContent = tag;
+
+    // Croix visuelle (indice UX de suppression)
+    const newCloseSpan = document.createElement("span");
+    newCloseSpan.className = "close";
+    newCloseSpan.textContent = "×";
+
+    // Construction du tag
+    newDiv.appendChild(newLabelSpan);
+    newDiv.appendChild(newCloseSpan);
+
+    // UX mobile :
+    // Tap n’importe où sur le tag = suppression
+    newDiv.onclick = () => {
+        newDiv.remove();
+    };
+
+    // Ajout du tag à l’écran
+    divSessionSendSelectedTagsRef.appendChild(newDiv);
+
+    // Reset de l’input et des suggestions
+    inputSessionSendTagRef.value = "";
+    divSessionSendTagSuggestionRef.innerHTML = "";
+}
+
+
+
+
+/**
+ * Retourne les tags sélectionnés sous forme de tableau
+ * @returns {string[]}
+ */
+function getSendSessionSelectedTagsArray() {
+  return [...divSessionSendSelectedTagsRef.children].map(item =>
+    item.querySelector(".tag-label")?.textContent
+  );
+}

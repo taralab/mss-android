@@ -292,20 +292,7 @@
                         <label for="">Lieu de la séance :</label>
                         <input id="inputSendSessionToActivityLocation" type="text" placeholder="Lieu" class="text-uppercase">
                     </p>
-                    <!-- Ajout d'un TAG -->
-                     <!-- TAG 1 -->
-                    <p class="activity-editor">
-                        <label for="">Ajouter des tag :</label>
-                        #<input type="text" id="inputSendToActivityTAG1" placeholder="TAG 1" class="text-uppercase" maxlength="20">
-                    </p>
-                    <!-- TAG 2 -->
-                    <p class="activity-editor">
-                        #<input type="text" id="inputSendToActivityTAG2" placeholder="TAG 2" class="text-uppercase" maxlength="20">
-                    </p>
-                    <!-- TAG 3 -->
-                    <p class="activity-editor">
-                        #<input type="text" id="inputSendToActivityTAG3" placeholder="TAG 3" class="text-uppercase" maxlength="20">
-                    </p>
+
 
                     <!-- Partie timer détecté -->
                     <div id="divSendSessionToActivityTimerMSG">
@@ -318,8 +305,24 @@
                         </p>
                     </div>
 
+                    <!-- Ajout d'un TAG -->
+                    <h2 class="tag-title">Ajouter des tags</h2>
+                    <small style="color:#666">Appuie sur un tag pour le supprimer</small>
 
+                    <div class="tags" id="divSessionSendSelectedTags"></div>
 
+                    <div class="input-tag-wrapper">
+                        <input
+                        class="input-tag"
+                        id="inputSessionSendTag"
+                        type="text"
+                        maxlength="20"
+                        placeholder="Tape un tag"
+                        />
+
+                        <div class="tag-suggestions" id="divSessionSendTagSuggestion"></div>
+                    </div>
+                    
                     <div class="button-confirm-send">
                         <button class="btn-menu" id="btnSendToActivityCustomiseCancel">
                             <img src="./Icons/Icon-Return-cancel.webp" alt="" srcset="">
