@@ -563,7 +563,10 @@ function onChangeActivityTypeFromFakeSelect(activityType) {
 
     // set la nouvelle valeur dans le vrai selecteur caché
     realSelectorTargetRef.value = activityType;
-    console.log(realSelectorTargetRef);
+    if (devMode === true) {
+        console.log(realSelectorTargetRef);
+    }
+
 
 
     // set l'image de prévisualisation
@@ -1814,3 +1817,14 @@ const MAX_TAG_LENGTH = 20;
 const MAX_SELECTED_TAG = 3;
 
 
+
+async function onSaveTagInDB() {
+    await updateDocumentInDB(tagStoreName, (doc) => {
+        doc.userTagList = [...userTagsList] // conversion Set → Array;
+            return doc;
+    });
+    if (devMode === true) {
+        console.log(`[TAG] : Nouveau tag. Sauvegarde en base`);
+    }
+   
+}

@@ -2729,7 +2729,7 @@ function onInputSessionSendTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-async function onAddSessionSendTag(tag,isTagSaveRequired = false) {
+function onAddSessionSendTag(tag,isTagSaveRequired = false) {
 
     // Règle métier : maximum 'X' tags sélectionnés
     if (divSessionSendSelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
@@ -2750,11 +2750,7 @@ async function onAddSessionSendTag(tag,isTagSaveRequired = false) {
     //Sauvegarde du tag en base si nécessaire
     if (isTagSaveRequired) {
         // Insertion des TAG dans la base de donnée
-        await updateDocumentInDB(tagStoreName, (doc) => {
-            doc.userTagList = [...userTagsList] // conversion Set → Array;
-                return doc;
-        });
-        console.log("NOUVEAU TAG : Sauvegarde en base");
+        onSaveTagInDB();
     }
 
 

@@ -305,7 +305,6 @@ async function onLoadStores() {
         if (Array.isArray(tagList?.userTagList)) {
             tagList.userTagList.forEach(tag => userTagsList.add(tag));
         }
-        console.log(userTagsList);
 
         const favoris = await db.get(favorisStoreName).catch(() => null);
         if (favoris) {

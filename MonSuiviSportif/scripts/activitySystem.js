@@ -852,8 +852,6 @@ function onFormatActivity() {
     //Récupère les tag
     activityToInsertFormat.tagList = getActivitySelectedTagsArray();
 
-    console.log(activityToInsertFormat);
-
     // Ne set la date de création que lors d'une création et non lors d'une modification
     if (activityEditorMode === "creation") {
         activityToInsertFormat.createdAt = new Date().toISOString();
@@ -1155,7 +1153,7 @@ function onInputActivityTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-async function onAddActivityTag(tag,isTagSaveRequired = false) {
+function onAddActivityTag(tag,isTagSaveRequired = false) {
 
     // Règle métier : maximum 'X' tags sélectionnés
     if (divActivitySelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
@@ -1176,15 +1174,8 @@ async function onAddActivityTag(tag,isTagSaveRequired = false) {
     //Sauvegarde du tag en base si nécessaire
     if (isTagSaveRequired) {
         // Insertion des TAG dans la base de donnée
-        await updateDocumentInDB(tagStoreName, (doc) => {
-            doc.userTagList = [...userTagsList] // conversion Set → Array;
-                return doc;
-        });
-        console.log("NOUVEAU TAG : Sauvegarde en base");
+        onSaveTagInDB();
     }
-
-
-
 
   // Conteneur principal du tag
   const newDiv = document.createElement("div");
