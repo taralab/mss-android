@@ -4191,3 +4191,82 @@ p.kpi-detail-precision{
     }
 }
 
+/* -------------------------------------------- #TAG --------------------------------------------- */
+
+
+h2.tag-title {
+    margin-top: 0;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #111;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+  .tag:active {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+
+  .tag .close {
+    font-size: 16px;
+    line-height: 1;
+    opacity: 0.7;
+  }
+
+  .tag:hover .close {
+    opacity: 1;
+  }
+
+    .input-tag-wrapper {
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    input.input-tag {
+      width: 100%;
+      border: none;
+      font-size: 18px;
+      outline: none;
+    }
+
+    .tag-suggestions {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-top: 12px;
+    }
+
+    .tag-suggestion {
+      background: #e0e0e0;
+      padding: 10px 16px;
+      border-radius: 20px;
+      white-space: nowrap;
+      font-size: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .tag-suggestion.create {
+      background: #d0ebff;
+      color: #004a77;
+      font-style: italic;
+    }

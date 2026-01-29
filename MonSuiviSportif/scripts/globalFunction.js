@@ -1782,30 +1782,38 @@ function highlightSearchTerm(text, searchTerm) {
 }
 
 
-// Formatage des TAG
-function onFormatTAG(tagIdsArray) {
-    let tagArray = [];
 
-    tagIdsArray.forEach(id=>{
-        let tagValue = document.getElementById(id).value;
-        if (tagValue !== "") {
-            //Normalise le TAG
-            let formatedTag = normalizeTag(tagValue);
-            //insère dans un tableau
-            tagArray.push(formatedTag);
-        } 
-
-    });
-    
-    return tagArray;
-}
 
 // Normalise un tag
-function normalizeTag(input){
-    return input
-        .trim()
-        .toUpperCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")   // accents
-        .replace(/[^A-Z0-9]/g, "");        // lettres + chiffres
+/**
+ * Normalise la saisie utilisateur pour garantir
+ * - cohérence des tags
+ * - facilité de matching
+ *
+ * Étapes :
+ * 1. trim() → supprime espaces début/fin
+ * 2. toUpperCase() → tags en majuscules
+ * 3. normalize + regex → supprime accents
+ * 4. regex finale → garde uniquement A-Z et chiffres
+ */
+function normalizeTag(input) {
+  return input
+    .trim()
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Z0-9]/g, "");
 }
+
+
+  // Ensemble des tags connus de l’utilisateur (base de suggestion)
+// Set = pas de doublons
+const userTagsList = new Set([
+  "TRAIL",
+  "ENDURANCE",
+  "RECUP",
+  "ZONE2",
+  "VO2MAX"
+]);
+
+const MAX_TAG_LENGTH = 20;

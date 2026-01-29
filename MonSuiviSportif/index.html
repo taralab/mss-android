@@ -153,19 +153,24 @@
                         </p>
 
                         <!-- Ajout d'un TAG -->
-                        <!-- TAG 1 -->
-                        <p class="activity-editor">
-                            <label for="">TAG :</label>
-                            #<input type="text" id="inputActivityTAG1" placeholder="TAG 1" class="text-uppercase" maxlength="20">
-                        </p>
-                        <!-- TAG 2 -->
-                        <p class="activity-editor">
-                            #<input type="text" id="inputActivityTAG2" placeholder="TAG 2" class="text-uppercase" maxlength="20">
-                        </p>
-                        <!-- TAG 3 -->
-                        <p class="activity-editor">
-                            #<input type="text" id="inputActivityTAG3" placeholder="TAG 3" class="text-uppercase" maxlength="20">
-                        </p>
+
+                        <h2 class="tag-title">Ajouter des tags</h2>
+                        <small style="color:#666">Appuie sur un tag pour le supprimer</small>
+
+                        <div class="tags" id="divActivitySelectedTags"></div>
+
+                        <div class="input-tag-wrapper">
+                            <input
+                            class="input-tag"
+                            id="inputActivityTag"
+                            type="text"
+                            maxlength="20"
+                            placeholder="Tape un tag"
+                            />
+
+                            <div class="tag-suggestions" id="divActivityTagSuggestion"></div>
+                        </div>
+
                 </div>
 
 

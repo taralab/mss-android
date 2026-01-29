@@ -35,9 +35,9 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     inputDurationActivityMinutesRef = document.getElementById("inputDurationActivityMinutes"),
     inputDurationActivitySecondsRef = document.getElementById("inputDurationActivitySeconds"),
     textareaCommentRef = document.getElementById("textareaComment"),
-    inputActivityTAG1Ref = document.getElementById("inputActivityTAG1"),
-    inputActivityTAG2Ref = document.getElementById("inputActivityTAG2"),
-    inputActivityTAG3Ref = document.getElementById("inputActivityTAG3"),
+    inputActivityTagRef = document.getElementById("inputActivityTag"),
+    divActivityTagSuggestionRef = document.getElementById("divActivityTagSuggestion"),
+    divActivitySelectedTagsRef = document.getElementById("divActivitySelectedTags"),
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
     divItemListRef = document.getElementById("divItemList"),
     imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview"),
@@ -216,6 +216,11 @@ function onAddEventListenerForActivityEditor() {
         inputRef.addEventListener("contextmenu",onContextMenu);
         onAddEventListenerInRegistry("activityEditor",inputRef,"contextmenu",onContextMenu);
     });
+
+    //Les TAG
+    const onInputTag = () => onInputActivityTag();
+    inputActivityTagRef.addEventListener("input",onInputTag);
+    onAddEventListenerInRegistry("activityEditor",inputActivityTagRef,"input",onInputTag);
 
 }
 
@@ -496,9 +501,9 @@ function onResetActivityInputs() {
     inputDurationActivityMinutesRef.value = "00";
     inputDurationActivitySecondsRef.value = "00";
     textareaCommentRef.value = "";
-    inputActivityTAG1Ref.value = "";
-    inputActivityTAG2Ref.value = "";
-    inputActivityTAG3Ref.value = "";
+    inputActivityTagRef.value = ""; 
+    divActivityTagSuggestionRef.innerHTML = "";
+    divActivitySelectedTagsRef.innerHTML = "";
     inputIsPlannedRef.checked = false;
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
@@ -775,10 +780,10 @@ function onEditActivity(activityTarget) {
     textareaCommentRef.value = activityTarget.comment;
     inputIsPlannedRef.checked = activityTarget.isPlanned;
 
-    // Les TAG
-    inputActivityTAG1Ref.value = activityTarget.tagList[0] || "";
-    inputActivityTAG2Ref.value = activityTarget.tagList[1] || "";
-    inputActivityTAG3Ref.value = activityTarget.tagList[2] || "";
+    // Les TAG (ajoute si existant)
+    activityTarget.tagList.forEach(tag=>{
+      onAddActivityTag(tag);
+    });
 
     // gestion du format duration
     let convertDuration = timeFormatToInputNumber(activityTarget.duration);
@@ -839,13 +844,8 @@ function onFormatActivity() {
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputActivityNumberToTime();
 
-    //traitement des tag
-    let tagIdsArray = [
-        "inputActivityTAG1",
-        "inputActivityTAG2",
-        "inputActivityTAG3"
-    ];
-    activityToInsertFormat.tagList = onFormatTAG(tagIdsArray);
+    //Récupère les tag
+    activityToInsertFormat.tagList = getActivitySelectedTagsArray();
 
     console.log(activityToInsertFormat);
 
@@ -1087,16 +1087,6 @@ function onAnnulDeleteActivity(event) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 // Fonction récupérer les valeur des inputs number et les convertir au format input time
 function inputActivityNumberToTime() {
 
@@ -1111,3 +1101,123 @@ function inputActivityNumberToTime() {
 
 
 
+// -------------------------------------- TAG -----------------------------------------------
+
+
+
+function onInputActivityTag() {
+  const normalizedTAG = normalizeTag(inputActivityTagRef.value);
+
+  // Réinitialise les suggestions à chaque frappe
+  divActivityTagSuggestionRef.innerHTML = "";
+
+  // Si input vide après normalisation → rien à afficher
+  if (!normalizedTAG) return;
+
+  // Recherche des tags existants qui commencent par la saisie
+  const matches = Array.from(userTagsList)
+    .filter(tag => tag.startsWith(normalizedTAG))
+    .slice(0, 5); // limite UX : max 5 suggestions
+
+  // Aucun match → proposer la création du tag
+  if (matches.length === 0) {
+    const newDiv = document.createElement("div");
+    newDiv.className = "tag-suggestion create";
+    newDiv.textContent = `Créer ${normalizedTAG}`;
+
+    // Tap = création du nouveau tag
+    newDiv.onclick = () => onAddActivityTag(normalizedTAG);
+
+    divActivityTagSuggestionRef.appendChild(newDiv);
+  } 
+  // Des matchs existent → les afficher
+  else {
+    matches.forEach(tag => {
+      const newDiv = document.createElement("div");
+      newDiv.className = "tag-suggestion";
+      newDiv.textContent = tag;
+
+      // Tap = ajout du tag sélectionné
+      newDiv.onclick = () => onAddActivityTag(tag);
+
+      divActivityTagSuggestionRef.appendChild(newDiv);
+    });
+  }
+}
+
+
+
+/**
+ * Ajoute un tag sélectionné / créé à la liste des tags actifs
+ */
+function onAddActivityTag(tag,isTagSaveRequired = false) {
+
+  // Règle métier : maximum 3 tags sélectionnés
+  if (divActivitySelectedTagsRef.children.length >= 3) {
+    alert("3 tags maximum");
+    return;
+  }
+
+  // Empêche l’ajout du même tag deux fois
+  if ([...divActivitySelectedTagsRef.children].some(item =>
+    item.querySelector(".tag-label")?.textContent === tag
+  )) {
+    return;
+  }
+
+  // Ajoute le tag à la base utilisateur (pour futures suggestions)
+  userTagsList.add(tag);
+
+  //Sauvegarde du tag en base si nécessaire
+  if (isTagSaveRequired) {
+    
+  }
+
+
+
+
+  // Conteneur principal du tag
+  const newDiv = document.createElement("div");
+  newDiv.className = "tag";
+
+  // Libellé du tag
+  const newLabelSpan = document.createElement("span");
+  newLabelSpan.className = "tag-label";
+  newLabelSpan.textContent = tag;
+
+  // Croix visuelle (indice UX de suppression)
+  const newCloseSpan = document.createElement("span");
+  newCloseSpan.className = "close";
+  newCloseSpan.textContent = "×";
+
+  // Construction du tag
+  newDiv.appendChild(newLabelSpan);
+  newDiv.appendChild(newCloseSpan);
+
+  // UX mobile :
+  // Tap n’importe où sur le tag = suppression
+  newDiv.onclick = () => {
+    newDiv.remove();
+  };
+
+  // Ajout du tag à l’écran
+  divActivitySelectedTagsRef.appendChild(newDiv);
+
+  // Reset de l’input et des suggestions
+  inputActivityTagRef.value = "";
+  divActivityTagSuggestionRef.innerHTML = "";
+}
+
+
+
+
+
+/**
+ * Retourne les tags sélectionnés sous forme de tableau
+ * @returns {string[]}
+ */
+function getActivitySelectedTagsArray() {
+  return [...divActivitySelectedTagsRef.children].map(item =>
+    item.querySelector(".tag-label")?.textContent
+  );
+}
