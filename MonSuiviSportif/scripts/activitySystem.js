@@ -449,6 +449,11 @@ function onOpenNewActivityFromTemplate(templateItem) {
     textareaCommentRef.value = templateItem.comment;
     inputIsPlannedRef.checked = templateItem.isPlanned;
 
+    //TAG
+    templateItem.tagList.forEach(tag=>{
+        onAddActivityTag(tag);
+    });
+
 
     // gestion du format duration
     let convertDuration = timeFormatToInputNumber(templateItem.duration);
@@ -782,7 +787,7 @@ function onEditActivity(activityTarget) {
 
     // Les TAG (ajoute si existant)
     activityTarget.tagList.forEach(tag=>{
-      onAddActivityTag(tag);
+        onAddActivityTag(tag);
     });
 
     // gestion du format duration
