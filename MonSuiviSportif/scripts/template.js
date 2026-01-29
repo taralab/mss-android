@@ -22,7 +22,10 @@ let imgTemplateEditorPreviewRef = document.getElementById("imgEditorActivityPrev
     inputDurationTemplateHoursRef = document.getElementById("inputDurationTemplateHours"),
     inputDurationTemplateMinutesRef = document.getElementById("inputDurationTemplateMinutes"),
     inputDurationTemplateSecondsRef = document.getElementById("inputDurationTemplateSeconds"),
-    textareaTemplateCommentRef = document.getElementById("textareaTemplateComment");
+    textareaTemplateCommentRef = document.getElementById("textareaTemplateComment"),
+    inputTemplateTagRef = document.getElementById("inputTemplateTag"),
+    divTemplateTagSuggestionRef = document.getElementById("divTemplateTagSuggestion"),
+    divTemplateSelectedTagsRef = document.getElementById("divTemplateSelectedTags");
 
 
 
@@ -135,6 +138,11 @@ function onAddEventListenerForTemplateEditor() {
         inputRef.addEventListener("contextmenu",onContextMenu);
         onAddEventListenerInRegistry("templateEditor",inputRef,"contextmenu",onContextMenu);
     });
+
+    // TAG
+    const onInputTag = () => onInputTemplateTag();
+    inputTemplateTagRef.addEventListener("input",onInputTag);
+    onAddEventListenerInRegistry("templateEditor",inputTemplateTagRef,"input",onInputTag);
 
 }
 
@@ -475,6 +483,10 @@ function onSetTemplateItems(templateItem) {
     textareaTemplateCommentRef.value = templateItem.comment;
     inputTemplateIsPlannedRef.checked = templateItem.isPlanned;
 
+    // Ajoute les TAG si existant
+    templateItem.tagList.forEach(tag=>{
+        onAddTemplateTag(tag);
+    });
 
     // gestion du format duration
     let convertDuration = timeFormatToInputNumber(templateItem.duration);
@@ -526,7 +538,8 @@ let templateToInsertFormat = {
     distance : "",
     duration : "",
     comment : "",
-    isPlanned : false
+    isPlanned : false,
+    tagList : []
 };
 
 
@@ -601,6 +614,9 @@ function onFormatTemplate() {
     templateToInsertFormat.duration = inputTemplateNumberToTime();
     templateToInsertFormat.isPlanned = inputTemplateIsPlannedRef.checked;
 
+    // Récupère les TAG
+    templateToInsertFormat.tagList = getTemplateSelectedTagsArray();
+
     // Demande d'insertion dans la base soit en creation ou en modification
 
     if (templateEditorMode === "creation") {
@@ -624,7 +640,8 @@ function onCheckIfTemplateModifiedRequired(templateToInsertFormat) {
         { oldValue: currentTemplateInView.location, newValue: templateToInsertFormat.location },
         { oldValue: currentTemplateInView.comment, newValue:  templateToInsertFormat.comment },
         { oldValue: currentTemplateInView.duration, newValue:  templateToInsertFormat.duration },
-        { oldValue: currentTemplateInView.isPlanned, newValue:  templateToInsertFormat.isPlanned }
+        { oldValue: currentTemplateInView.isPlanned, newValue:  templateToInsertFormat.isPlanned },
+        { oldValue: currentTemplateInView.tagList, newValue:  templateToInsertFormat.tagList }
     ];
 
     if (devMode) {
@@ -738,6 +755,9 @@ function onResetTemplateInputs() {
     inputDurationTemplateSecondsRef.value = "00";
     textareaTemplateCommentRef.value = "";
     inputTemplateIsPlannedRef.checked = false;
+    inputTemplateTagRef.value = "";
+    divTemplateTagSuggestionRef.innerHTML = "";
+    divTemplateSelectedTagsRef.innerHTML = "";
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
     selectorTemplateCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C-A-P";
@@ -972,6 +992,129 @@ function inputTemplateNumberToTime() {
     return `${hhh}:${mm}:${ss}`;
 }
 
+
+
+// ---------------------------------- TAG ---------------------------------------------------
+
+
+
+
+
+function onInputTemplateTag() {
+    const normalizedTAG = normalizeTag(inputTemplateTagRef.value);
+
+    // Réinitialise les suggestions à chaque frappe
+    divTemplateTagSuggestionRef.innerHTML = "";
+
+    // Si input vide après normalisation → rien à afficher
+    if (!normalizedTAG) return;
+
+    // Recherche des tags existants qui commencent par la saisie
+    const matches = Array.from(userTagsList)
+        .filter(tag => tag.startsWith(normalizedTAG))
+        .slice(0, 5); // limite UX : max 5 suggestions
+
+    // Aucun match → proposer la création du tag
+    if (matches.length === 0) {
+        const newDiv = document.createElement("div");
+        newDiv.className = "tag-suggestion create";
+        newDiv.textContent = `Créer ${normalizedTAG}`;
+
+        // Tap = création du nouveau tag
+        newDiv.onclick = () => onAddTemplateTag(normalizedTAG);
+
+        divTemplateTagSuggestionRef.appendChild(newDiv);
+    } 
+    // Des matchs existent → les afficher
+    else {
+        matches.forEach(tag => {
+        const newDiv = document.createElement("div");
+        newDiv.className = "tag-suggestion";
+        newDiv.textContent = tag;
+
+        // Tap = ajout du tag sélectionné
+        newDiv.onclick = () => onAddTemplateTag(tag);
+
+        divTemplateTagSuggestionRef.appendChild(newDiv);
+        });
+    }
+}
+
+
+
+/**
+ * Ajoute un tag sélectionné / créé à la liste des tags actifs
+ */
+function onAddTemplateTag(tag,isTagSaveRequired = false) {
+
+    // Règle métier : maximum 3 tags sélectionnés
+    if (divTemplateSelectedTagsRef.children.length >= 3) {
+        alert("3 tags maximum");
+        return;
+    }
+
+    // Empêche l’ajout du même tag deux fois
+    if ([...divTemplateSelectedTagsRef.children].some(item =>
+        item.querySelector(".tag-label")?.textContent === tag
+    )) {
+        return;
+    }
+
+    // Ajoute le tag à la base utilisateur (pour futures suggestions)
+    userTagsList.add(tag);
+
+    //Sauvegarde du tag en base si nécessaire
+    if (isTagSaveRequired) {
+        
+    }
+
+
+
+
+    // Conteneur principal du tag
+    const newDiv = document.createElement("div");
+    newDiv.className = "tag";
+
+    // Libellé du tag
+    const newLabelSpan = document.createElement("span");
+    newLabelSpan.className = "tag-label";
+    newLabelSpan.textContent = tag;
+
+    // Croix visuelle (indice UX de suppression)
+    const newCloseSpan = document.createElement("span");
+    newCloseSpan.className = "close";
+    newCloseSpan.textContent = "×";
+
+    // Construction du tag
+    newDiv.appendChild(newLabelSpan);
+    newDiv.appendChild(newCloseSpan);
+
+    // UX mobile :
+    // Tap n’importe où sur le tag = suppression
+    newDiv.onclick = () => {
+        newDiv.remove();
+    };
+
+    // Ajout du tag à l’écran
+    divTemplateSelectedTagsRef.appendChild(newDiv);
+
+    // Reset de l’input et des suggestions
+    inputTemplateTagRef.value = "";
+    divTemplateTagSuggestionRef.innerHTML = "";
+}
+
+
+
+
+/**
+ * Retourne les tags sélectionnés sous forme de tableau
+ * @returns {string[]}
+ */
+function getTemplateSelectedTagsArray() {
+    return [...divTemplateSelectedTagsRef.children].map(item =>
+        item.querySelector(".tag-label")?.textContent
+    );
+}
 
 
 
