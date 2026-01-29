@@ -627,12 +627,22 @@ button.btn-sort-Selected{
     padding-top: 5px;
 }
 
-/* TAG TEST */
+/* TAG affiché dans la liste d'activité */
 .item-data-area-tag{
-    color: rgb(164, 164, 164);
-    font-style: italic;
-    font-weight: bold;
-    font-size: 10px;
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.activity-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  background: #EEF3F4;
+  color: #4B6A70;
+  font-weight: 500;
 }
 
 /* Styles pour les paragraphes */
@@ -4088,6 +4098,96 @@ p.kpi-detail-precision{
 
 
 
+/* -------------------------------------------- #TAG --------------------------------------------- */
+
+
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+    margin-left: 10px;
+}
+
+
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background:#223A40;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+  .tag:active {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+
+  .tag .close {
+    font-size: 16px;
+    line-height: 1;
+    opacity: 0.7;
+  }
+
+  .tag:hover .close {
+    opacity: 1;
+  }
+
+.input-tag-wrapper {
+    margin-left: 10px;
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 70px;
+}
+
+input.input-tag {
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    outline: none;
+}
+
+.tag-suggestions {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-top: 12px;
+}
+
+.tag-suggestion {
+    background: #e0e0e0;
+    padding: 10px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.tag-suggestion.create {
+    background: #d0ebff;
+    color: #004a77;
+    font-style: italic;
+}
+
+small.info-tag{
+    margin-left: 10px;
+    color:#666;
+}
+
+
+
+
+
+
 /* ---------------------------- Styles paysage ----------------------------------------*/
 
 
@@ -4191,82 +4291,3 @@ p.kpi-detail-precision{
     }
 }
 
-/* -------------------------------------------- #TAG --------------------------------------------- */
-
-
-h2.tag-title {
-    margin-top: 0;
-}
-
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-
-
-.tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #111;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-  .tag:active {
-    transform: scale(0.95);
-    opacity: 0.7;
-  }
-
-  .tag .close {
-    font-size: 16px;
-    line-height: 1;
-    opacity: 0.7;
-  }
-
-  .tag:hover .close {
-    opacity: 1;
-  }
-
-    .input-tag-wrapper {
-      background: white;
-      border-radius: 12px;
-      padding: 12px;
-    }
-
-    input.input-tag {
-      width: 100%;
-      border: none;
-      font-size: 18px;
-      outline: none;
-    }
-
-    .tag-suggestions {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-top: 12px;
-    }
-
-    .tag-suggestion {
-      background: #e0e0e0;
-      padding: 10px 16px;
-      border-radius: 20px;
-      white-space: nowrap;
-      font-size: 14px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .tag-suggestion.create {
-      background: #d0ebff;
-      color: #004a77;
-      font-style: italic;
-    }

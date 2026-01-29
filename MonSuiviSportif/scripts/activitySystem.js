@@ -69,8 +69,6 @@ class ActivityItem {
         this.animationEnabled = animationEnabled;
         this.tagList = tagList;
 
-        this.formatedTagText = "";
-
         // Conteneur principal
         this.element = document.createElement("div");
         this.itemContainerClass.forEach(cls => this.element.classList.add(cls));//parce ce que itemContainerClass est un array
@@ -95,8 +93,6 @@ class ActivityItem {
         this.element.addEventListener("click", () => {
             onClickOnActivity(this.id);
         });
-
-        this.formatTag();
 
         this.render();
     }
@@ -129,11 +125,15 @@ class ActivityItem {
                     <p data-type="${attribute}" class="${commentClass}">${comment}</p>
                 </div>
                 <div class="item-data-area-tag">
-                    ${this.formatedTagText}
+
                 </div>
 
             </div>
         `;
+
+        //Traitement TAG
+        const tagContainer = this.element.querySelector(".item-data-area-tag");
+        this.formatTags(tagContainer);
 
         // Ajout du bouton ICS s’il est présent
         if (this.isPlanned) {
@@ -150,9 +150,15 @@ class ActivityItem {
         this.parentRef.appendChild(this.element);
     }
 
-    formatTag(){
-        this.tagList.forEach(tag=>{
-            this.formatedTagText += `#${tag} `;
+
+    formatTags(container) {
+        container.innerHTML = "";
+
+        this.tagList.forEach(tag => {
+            const span = document.createElement("span");
+            span.className = "activity-tag";
+            span.textContent = tag;
+            container.appendChild(span);
         });
     }
 }
