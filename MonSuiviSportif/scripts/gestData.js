@@ -1,5 +1,5 @@
 
-let currentExportVersion = 8;//version actuel des fichers d'import/export
+let currentExportVersion = 9;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
 
@@ -634,37 +634,43 @@ async function eventImportBdD(inputRef) {
 
                     case 4:
                         //Le fichier V4 ne contient plus les éléments vraiment supprimé.
-                        console.log("[IMPORT] V4 accepté mais n'importe pas userSessionItemsList");
-                        importedDocs = jsonData.documents || [];
-                        importedUserSessionItemsList = {};
-                        isSaveVersionValid = true;
+                        console.log("[IMPORT] V4 plus supporté. Trop de changement depuis");
+                        isSaveVersionValid = false;
                         break;
                         
                     case 5:
                         //Le fichier V5 contient le nouveau STORE RECUP.
-                        console.log("[IMPORT] V5 accepté mais n'importe pas userSessionItemsList");
-                        importedDocs = jsonData.documents || [];
-                        importedUserSessionItemsList = {};
-                        isSaveVersionValid = true;
+                        console.log("[IMPORT] V5 plus supporté. Trop de changement depuis");
+                        isSaveVersionValid = false;
                         break;
 
                     case 6:
                         //Le fichier V6 contient le nouveau format de sessionItemsList pour les timers.
-                        console.log("[IMPORT] V6");
-                        importedDocs = jsonData.documents || [];
-                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
-                        isSaveVersionValid = true;
+                        console.log("[IMPORT] V6 plus supporté. Trop de changement depuis");
+                        isSaveVersionValid = false;
                         break;
+
                     case 7:
-                        //Le fichier V7 contient le nouveau STORE MEMORY et affichage discret mode pour recup.
+                        //Le fichier V7 contient le nouveau STORE MEMORY et affichage discret mode pour recup (12-2025).
                         console.log("[IMPORT] V7");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
                         break;
+
                     case 8:
-                        //Le fichier V8 contient le nouveau STORE OBJECTIF.
+                        //Le fichier V8 contient le nouveau STORE OBJECTIF. (05-02-2026)
                         console.log("[IMPORT] V8");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
+
+                    case 9:
+                        //Le fichier V9 contient le nouveau STORE ALLTAGLIST, 
+                        // les activité ont des TAG
+                        // NOUVEAU STORE POUR LES EVALUATIONS
+                        console.log("[IMPORT] V9");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
@@ -675,8 +681,8 @@ async function eventImportBdD(inputRef) {
                 }
 
                 if (!isSaveVersionValid) {
-                    alert("Les sauvegardes inférieures à V4 ne sont plus autorisées dans l'application");
-                    textResultRef.innerHTML = "Sauvegardes inférieures à V4 non autorisées !";
+                    alert("Les sauvegardes inférieures à V7 ne sont plus autorisées dans l'application");
+                    textResultRef.innerHTML = "Sauvegardes inférieures à V7 non autorisées !";
                     onSetLockGestDataButton(false);
                     return;
                 }
@@ -765,7 +771,8 @@ async function importBdD(dataToImport) {
                 distance: e.distance,
                 duration: e.duration,
                 comment: e.comment,
-                isPlanned:e.isPlanned
+                isPlanned: e.isPlanned,
+                tagList: e.tagList || []
             });
             await onInsertNewTemplateInDB(templateToInsertFormat);
 
