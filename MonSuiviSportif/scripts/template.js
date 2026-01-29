@@ -1048,8 +1048,8 @@ function onInputTemplateTag() {
 function onAddTemplateTag(tag,isTagSaveRequired = false) {
 
     // Règle métier : maximum 3 tags sélectionnés
-    if (divTemplateSelectedTagsRef.children.length >= 3) {
-        alert("3 tags maximum");
+    if (divTemplateSelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
+        alert(`${MAX_SELECTED_TAG} tags maximum`);
         return;
     }
 

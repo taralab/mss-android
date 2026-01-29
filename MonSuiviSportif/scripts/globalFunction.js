@@ -1817,3 +1817,4 @@ const userTagsList = new Set([
 ]);
 
 const MAX_TAG_LENGTH = 20;
+const MAX_SELECTED_TAG = 3;

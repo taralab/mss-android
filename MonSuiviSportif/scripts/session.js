@@ -2731,9 +2731,9 @@ function onInputSessionSendTag() {
  */
 function onAddSessionSendTag(tag,isTagSaveRequired = false) {
 
-    // Règle métier : maximum 3 tags sélectionnés
-    if (divSessionSendSelectedTagsRef.children.length >= 3) {
-        alert("3 tags maximum");
+    // Règle métier : maximum 'X' tags sélectionnés
+    if (divSessionSendSelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
+        alert(`${MAX_SELECTED_TAG} tags maximum`);
         return;
     }
 
