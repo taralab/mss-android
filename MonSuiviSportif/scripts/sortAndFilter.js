@@ -14,7 +14,7 @@ function onResetSortAndFilter(){
 };
 
 let selectFilterTagRef = document.getElementById("selectFilterTag"),
-    currentTagFilter = "AUCUN";
+    currentTagFilter = "TAG";
 
 
 
@@ -569,10 +569,10 @@ function onUpdateSelectorFilterTAG() {
     //vide le selecteur
     selectFilterTagRef.innerHTML = "";
 
-    //met "aucun" du début
+    //met "TAG" du début
     let newOption = document.createElement("option");
-    newOption.value = "AUCUN";
-    newOption.textContent = "AUCUN";
+    newOption.value = "TAG";
+    newOption.textContent = "TAG";
     selectFilterTagRef.appendChild(newOption);
 
     //trie alphabetique
@@ -596,6 +596,9 @@ function onUserChangeFilterTAG(event) {
 
     //recupère le tag selectionné
     currentTagFilter = selectFilterTagRef.value;
+
+    //gestion du style selon si tag en cours ou non
+    onSetTagFilterColor();
 
     // Actualisation de l'affichage des activités
     eventUpdateActivityList();
@@ -629,8 +632,22 @@ function onSearchTagInActivities(filteredKeyes,tagToSearch) {
 //si l'utilisateur utilise la recherche, enlève le filtre sur les TAG
 //C'est l'un ou l'autre
 function disableFilterByTAG() {
-    if (currentTagFilter !=="AUCUN") {
-        selectFilterTagRef.value = "AUCUN";
-        currentTagFilter = "AUCUN";
+    if (currentTagFilter !=="TAG") {
+        selectFilterTagRef.value = "TAG";
+        currentTagFilter = "TAG";
+
+        onSetTagFilterColor();
     }
+}
+
+
+// Le style change si un tag est en cours
+function onSetTagFilterColor() {
+    
+    if (currentTagFilter === "TAG") {
+        selectFilterTagRef.classList.remove("active");
+    }else{
+        selectFilterTagRef.classList.add("active");
+    }
+
 }

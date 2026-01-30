@@ -376,7 +376,7 @@ function eventUpdateActivityList() {
 
         // 3 Puis lance le trie sur le resultat obtenue
         sortedKeys = onSortActivity(currentSortType,userSearchResultKeys);
-    }else if (currentTagFilter!== "AUCUN"){
+    }else if (currentTagFilter!== "TAG"){
         if (devMode === false) {console.log("[ACTUALISATION] TAG EN COURS. lance la recherche pour :",currentTagFilter);};
         userSelectedTagKeys = (filteredDataKeys && filteredDataKeys.length > 0)
             ? onSearchTagInActivities(filteredDataKeys,currentTagFilter)

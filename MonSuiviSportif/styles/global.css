@@ -529,6 +529,12 @@ select.activity-sort{
 
 
 
+select.activity-sort.active{
+    background-color:var(--colorMainTheme6);
+    color: white;
+
+}
+
 
 
 /*  ----------------------------------------- Listes des items -------------------------------------- */
