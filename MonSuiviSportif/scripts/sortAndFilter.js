@@ -519,24 +519,11 @@ function onSearchDataInActivities(filteredKeys, dataToSearch) {
         const location = normalizeString(allUserActivityArray[key].location || "");
         const comment = normalizeString(allUserActivityArray[key].comment || "");
 
-        if (textToFind.startsWith("#")) {
-            // Recherche stricte sur tag exact (mot #tag)
-            const locationWords = location.split(/\s+/);
-            const commentWords = comment.split(/\s+/);
-
-            const matchInLocation = locationWords.includes(textToFind);
-            const matchInComment = commentWords.includes(textToFind);
-
-            if (matchInLocation || matchInComment) {
-                keysFound.push(key);
-            }
-
-        } else {
-            // Recherche classique (partielle, dans tout le texte)
-            if (location.includes(textToFind) || comment.includes(textToFind)) {
-                keysFound.push(key);
-            }
+        // Recherche classique (partielle, dans tout le texte)
+        if (location.includes(textToFind) || comment.includes(textToFind)) {
+            keysFound.push(key);
         }
+
     });
 
     return keysFound;
