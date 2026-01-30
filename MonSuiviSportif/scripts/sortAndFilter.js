@@ -599,3 +599,26 @@ function onUserChangeFilterTAG(event) {
     // Actualisation de l'affichage des activités
     eventUpdateActivityList();
 }
+
+
+
+
+function onSearchTagInActivities(filteredKeyes,tagToSearch) {
+    
+    let keysFound = [];
+
+    filteredKeyes.forEach(key=>{
+
+        //récupère les tags de l'activité
+        let activityTagList = allUserActivityArray[key].tagList;
+
+        //si le tag recherché est présent dans l'array, retourne le key
+        if (activityTagList.includes(tagToSearch)) {
+             keysFound.push(key);
+        }
+
+    });
+
+    return keysFound;
+
+}
