@@ -1835,8 +1835,8 @@ function eventAddNewTag(tagToAdd) {
         userTagsList.push(tagToAdd);
 
         //actualise les options du selecteur de tag dans la liste d'affiche d'activité
-        onUpdateSelectorSortTAG();
-        
+        onUpdateSelectorFilterTAG();
+
         // Insertion des TAG dans la base de donnée
         onSaveTagInDB();
 

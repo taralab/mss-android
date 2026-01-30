@@ -411,7 +411,7 @@ async function firstActualisation() {
 
     // TAG incrémente la liste des tag dans le selecteur de la liste d'activité
     console.log("TAG Incrementation de la liste des tag dans le selecteur");
-    onUpdateSelectorSortTAG();
+    onUpdateSelectorFilterTAG();
 
     // ACTIVITY
 

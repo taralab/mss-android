@@ -13,6 +13,8 @@ function onResetSortAndFilter(){
 
 };
 
+let selectFilterTagRef = document.getElementById("selectFilterTag");
+
 
 
 // --------------------------- ecoute d'évènement------------------------
@@ -27,12 +29,18 @@ function onListenSortFilterSearchBtn() {
     onAddEventListenerInRegistry("sortFilterSearch",selectChangeActivitySortTypeRef,"change",onChangeSort);
 
 
-    // Filtre
+    // Filtre par activité
     //Pour chaque bouton de filtre
     const btnFilterRef = document.getElementById("divFakeActivitySelectorFilter");
     const onFilter = () => onClickFakeSelectFilter();
     btnFilterRef.addEventListener("click",onFilter);
     onAddEventListenerInRegistry("sortFilterSearch",btnFilterRef,"click",onFilter);
+
+
+    // filtre par TAG
+    const onChangeFilterTAG = (event) => onUserChangeFilterTAG(event);
+    selectFilterTagRef.addEventListener("change",onChangeFilterTAG);
+    onAddEventListenerInRegistry("sortFilterSearch",selectFilterTagRef,"change",onChangeFilterTAG);
 
     //Recherche
     const inputSearchRef = document.getElementById("inputSearchActivity");
@@ -549,21 +557,19 @@ function normalizeString(str) {
 // -------------------------------- #TAG --------------------------
 
 
-let selectSortTagRef = document.getElementById("selectSortTag");
-
 /**
  * Actualise la liste des tag dans le selecteur
  * 
  */
-function onUpdateSelectorSortTAG() {
+function onUpdateSelectorFilterTAG() {
     //vide le selecteur
-    selectSortTagRef.innerHTML = "";
+    selectFilterTagRef.innerHTML = "";
 
     //met "aucun" du début
     let newOption = document.createElement("option");
     newOption.value = "AUCUN";
     newOption.textContent = "AUCUN";
-    selectSortTagRef.appendChild(newOption);
+    selectFilterTagRef.appendChild(newOption);
 
     //trie alphabetique
     userTagsList.sort();
@@ -574,6 +580,22 @@ function onUpdateSelectorSortTAG() {
         let newOption = document.createElement("option");
         newOption.value = tag;
         newOption.textContent = tag;
-        selectSortTagRef.appendChild(newOption);
+        selectFilterTagRef.appendChild(newOption);
     });
+}
+
+//changement de tag dans le selecteur
+function onUserChangeFilterTAG(event) {
+    console.log(event.target.value);
+    //vide le champ recherche car c'est soit tag ou soit recherche
+    document.getElementById("inputSearchActivity").value = "";
+
+    //recupère le tag selectionné
+
+    //si AUCUN, pas de recherche par tag
+
+    //si un TAG lance recherche par tag
+
+    // Actualisation de l'affichage des activités
+    eventUpdateActivityList();
 }
