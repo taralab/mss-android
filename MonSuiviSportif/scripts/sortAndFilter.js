@@ -3,12 +3,6 @@
 let userActivitySearchTerm = "";//pour stocker le mot recherché afin de gérer la mise en surbrillance
 
 
-// Référencement des icones de tries
-
-let btnSortDistanceRef = document.getElementById("btnSortDistance"),
-    btnSortDuration = document.getElementById("btnSortDuration"),
-    btnSortDate = document.getElementById("btnSortDate");
-
 
 // Remet les tries et filtres par défaut
 function onResetSortAndFilter(){
@@ -20,73 +14,18 @@ function onResetSortAndFilter(){
 };
 
 
-// Set les icones de trie selon le trie en cours
-function onSetIconSort() {
-
-    if (devMode === true){console.log("[SORT FILTER] modifie de style des icones de filtre");};
-    
-    //reset les texte de filtre
-    btnSortDistanceRef.innerHTML = "Distance";
-    btnSortDuration.innerHTML = "Chrono";
-    btnSortDate.innerHTML = "Date";
-
-
-
-
-    // Bouton de tri par distance
-    if (currentSortType === "distanceCroissante" || currentSortType === "distanceDecroissante") {
-        btnSortDistanceRef.classList.add("btn-sort-Selected");
-        btnSortDistanceRef.classList.remove("btn-sort-Non-Selected");
-        btnSortDistanceRef.innerHTML = currentSortType === "distanceCroissante" ? "Distance ▼" : "Distance ▲";
-    } else {
-        btnSortDistanceRef.classList.add("btn-sort-Non-Selected");
-        btnSortDistanceRef.classList.remove("btn-sort-Selected");
-    }
-
-    // Bouton de tri par durée
-    if (currentSortType === "chronoCroissant" || currentSortType === "chronoDecroissant") {
-        btnSortDuration.classList.add("btn-sort-Selected");
-        btnSortDuration.classList.remove("btn-sort-Non-Selected");
-        btnSortDuration.innerHTML = currentSortType === "chronoCroissant" ? "Chrono ▼" : "Chrono ▲";
-    } else {
-        btnSortDuration.classList.add("btn-sort-Non-Selected");
-        btnSortDuration.classList.remove("btn-sort-Selected");
-    }
-
-    // Bouton de tri par date
-    if (currentSortType === "dateRecente" || currentSortType === "dateAncienne") {
-        btnSortDate.classList.add("btn-sort-Selected");
-        btnSortDate.classList.remove("btn-sort-Non-Selected");
-        btnSortDate.innerHTML = currentSortType === "dateRecente" ? "Date ▲" : "Date ▼";
-
-    } else {
-        btnSortDate.classList.add("btn-sort-Non-Selected");
-        btnSortDate.classList.remove("btn-sort-Selected");
-    }
-};
-
-
 
 // --------------------------- ecoute d'évènement------------------------
 
 // Trie
 function onListenSortFilterSearchBtn() {
 
-    // Trie
-    const btnSortIDList = [
-        'btnSortDistance',
-        'btnSortDuration',
-        'btnSortDate'
-    ];
+    //Trie
+    const selectChangeActivitySortTypeRef = document.getElementById("selectActivitySortType");
+    const onChangeSort = () => onUserChangeSortType(); 
+    selectChangeActivitySortTypeRef.addEventListener("change",onChangeSort);
+    onAddEventListenerInRegistry("sortFilterSearch",selectChangeActivitySortTypeRef,"change",onChangeSort);
 
-    btnSortIDList.forEach(id=>{
-        //Pour chaque bouton de trie
-        const btnSortRef = document.getElementById(id);
-        const sortType = btnSortRef.dataset.sortParameter;
-        const onSort = () => onUserChangeSortType(sortType); 
-        btnSortRef.addEventListener("click",onSort);
-        onAddEventListenerInRegistry("sortFilterSearch",btnSortRef,"click",onSort);
-    });
 
     // Filtre
     //Pour chaque bouton de filtre
@@ -478,44 +417,12 @@ function onResetFakeSelecFilterRadio() {
 let currentSortType = "dateRecente";
 
 // Fonction de selecteur de trie personnalisé (appelé depuis l'utilisateur)
-function onUserChangeSortType(sortCategory) {
-    if (devMode === true){console.log("[SORT FILTER] type de trie précédent : "+ currentSortType);};
-
-
-    switch (sortCategory) {
-
-
-        case "date":
-            if (currentSortType === "dateRecente") {
-                currentSortType = "dateAncienne";
-            }else{
-                currentSortType = "dateRecente";
-            };
-        break;
-        case "duration":
-            if (currentSortType === "chronoCroissant") {
-                currentSortType = "chronoDecroissant";
-            }else{
-                currentSortType = "chronoCroissant";
-            };
-        break;
-        case "distance":
-            if (currentSortType === "distanceCroissante"){
-                currentSortType = "distanceDecroissante";
-            }else{
-                currentSortType = "distanceCroissante";               
-            };
-        break;
+function onUserChangeSortType() {
     
-        default:
-            console.log(" [SORT FILTER] erreur lors du changement de categorie de trie");
-        break;
-    };
+    // Récupère le trie choisit
+    currentSortType = document.getElementById("selectActivitySortType").value;
 
-
-    if (devMode === true){console.log(`[SORT FILTER] Changement du type de trie sur ${sortCategory}  pour ${currentSortType}`);};
-
-
+    if (devMode === true){console.log(`[SORT FILTER] Changement du type de trie pour ${currentSortType}`);};
 
     // Actualisation de l'affichage des activités
     eventUpdateActivityList();
@@ -567,8 +474,6 @@ function onSortActivity(sortType, filteredDataKeys) {
     if (devMode === true) {
         console.log("[SORT FILTER] Nbre de Clés triées :", sortedKeys.length);
     }
-
-    onSetIconSort();
 
     return sortedKeys;
 }

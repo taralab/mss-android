@@ -515,7 +515,8 @@ select.item-category-selector{
 }
 
 
-button.btn-sort{
+
+select.activity-sort{
     font-weight: bold;
     height: 30px;
     padding: 5px 10px;
@@ -524,26 +525,7 @@ button.btn-sort{
     color: var(--colorMainTheme6);
     border: 1px solid #f990d4;
     border-radius: 15px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-
-button.btn-sort-Non-Selected{
-    background-color: #fff8fd;
-    color: var(--colorMainTheme6);
-    border: 1px solid #f990d4;
-    border-radius: 15px;
-}
-
-button.btn-sort-Selected{
-    border: none;
-    border-radius: 20px;
-    background-color: var(--colorMainTheme6);
-    color: #ffffff;
-}
-
-
-
 
 
 

@@ -51,9 +51,14 @@
 
                 <div class="item-data-container">
                     <div class="item-data-area1" id="divActivtySort">
-                        <button id="btnSortDistance" class="btn-sort" data-sort-parameter="distance">Distance</button>
-                        <button id="btnSortDuration" class="btn-sort" data-sort-parameter="duration">Chrono</button>
-                        <button id="btnSortDate" class="btn-sort" data-sort-parameter="date">Date</button>
+                        <select name="" id="selectActivitySortType" class="activity-sort">
+                            <option value="dateRecente">Date ▲</option>
+                            <option value="dateAncienne">Date ▼</option>
+                            <option value="distanceDecroissante">Dist. ▲</option>
+                            <option value="distanceCroissante">Dist. ▼</option>
+                            <option value="chronoDecroissant">Chrono ▲</option>
+                            <option value="chronoCroissant">Chrono ▼</option>
+                        </select>
                     </div>
                 </div> 
             </div>          
