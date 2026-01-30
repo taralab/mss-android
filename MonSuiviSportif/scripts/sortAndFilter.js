@@ -13,7 +13,8 @@ function onResetSortAndFilter(){
 
 };
 
-let selectFilterTagRef = document.getElementById("selectFilterTag");
+let selectFilterTagRef = document.getElementById("selectFilterTag"),
+    currentTagFilter = "AUCUN";
 
 
 
@@ -494,11 +495,14 @@ function onSortActivity(sortType, filteredDataKeys) {
 // Lorsque l'utilisateur tape un texte dans le champ de recherche
 let debounceSearchTimeout; 
 function onUserSetResearchText() {
-  clearTimeout(debounceSearchTimeout); // ← on efface l’ancien délai s’il existe
+    clearTimeout(debounceSearchTimeout); // ← on efface l’ancien délai s’il existe
 
-  debounceSearchTimeout = setTimeout(() => {
-    eventUpdateActivityList();
-  }, debounceSearchDelay); // ← lancé que si aucun nouvel appel ne survient dans les 1000 ms
+    //dès que l'utilisateur tape dans recherche, enleve le filtre sur les tag.
+    disableFilterByTAG();
+
+    debounceSearchTimeout = setTimeout(() => {
+        eventUpdateActivityList();
+    }, debounceSearchDelay); // ← lancé que si aucun nouvel appel ne survient dans les 1000 ms
 }
 
 
@@ -591,10 +595,7 @@ function onUserChangeFilterTAG(event) {
     document.getElementById("inputSearchActivity").value = "";
 
     //recupère le tag selectionné
-
-    //si AUCUN, pas de recherche par tag
-
-    //si un TAG lance recherche par tag
+    currentTagFilter = selectFilterTagRef.value;
 
     // Actualisation de l'affichage des activités
     eventUpdateActivityList();
@@ -621,4 +622,15 @@ function onSearchTagInActivities(filteredKeyes,tagToSearch) {
 
     return keysFound;
 
+}
+
+
+//appelé depuis l'input recherche.
+//si l'utilisateur utilise la recherche, enlève le filtre sur les TAG
+//C'est l'un ou l'autre
+function disableFilterByTAG() {
+    if (currentTagFilter !=="AUCUN") {
+        selectFilterTagRef.value = "AUCUN";
+        currentTagFilter = "AUCUN";
+    }
 }

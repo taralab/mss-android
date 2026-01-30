@@ -361,7 +361,8 @@ function eventUpdateActivityList() {
 
     // 2 si il y a un élément à rechercher,filtre sur les éléments récupérés par la recherche ou sinon sur tous les éléments
     let userSearchResultKeys = [],
-        sortedKeys = [];
+        sortedKeys = [],
+        userSelectedTagKeys = [];
 
     let searchActivityValue = document.getElementById("inputSearchActivity").value;
     if (devMode === true) {console.log("[ACTUALISATION] Valeur de l'INPUT recherche :" ,searchActivityValue);};
@@ -375,8 +376,15 @@ function eventUpdateActivityList() {
 
         // 3 Puis lance le trie sur le resultat obtenue
         sortedKeys = onSortActivity(currentSortType,userSearchResultKeys);
+    }else if (currentTagFilter!== "AUCUN"){
+        if (devMode === false) {console.log("[ACTUALISATION] TAG EN COURS. lance la recherche pour :",currentTagFilter);};
+        userSelectedTagKeys = (filteredDataKeys && filteredDataKeys.length > 0)
+            ? onSearchTagInActivities(filteredDataKeys,currentTagFilter)
+            : onSearchTagInActivities(Object.keys(allUserActivityArray),currentTagFilter
+        );
+        sortedKeys = onSortActivity(currentSortType,userSelectedTagKeys);
     } else {
-        if (devMode === true) {console.log("[ACTUALISATION] Champ de recherche vide. Passe directement au trie par : ", currentSortType);};
+        if (devMode === true) {console.log("[ACTUALISATION] Champ de recherche vide et TAG VIDE. Passe directement au trie par : ", currentSortType);};
         // 3  si pas d'élément à rechercher, lance le trie soit selon le filtre encours soit via toutes les data
         sortedKeys = (filteredDataKeys && filteredDataKeys.length > 0)
         ? onSortActivity(currentSortType,filteredDataKeys)
