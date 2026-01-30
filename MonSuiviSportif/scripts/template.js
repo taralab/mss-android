@@ -485,7 +485,7 @@ function onSetTemplateItems(templateItem) {
 
     // Ajoute les TAG si existant
     templateItem.tagList.forEach(tag=>{
-        onAddTemplateTag(tag,false);
+        onAddTemplateTag(tag);
     });
 
     // gestion du format duration
@@ -1021,7 +1021,7 @@ function onInputTemplateTag() {
         newDiv.textContent = `Créer ${normalizedTAG}`;
 
         // Tap = création du nouveau tag
-        newDiv.onclick = () => onAddTemplateTag(normalizedTAG,true);
+        newDiv.onclick = () => onAddTemplateTag(normalizedTAG);
 
         divTemplateTagSuggestionRef.appendChild(newDiv);
     } 
@@ -1033,7 +1033,7 @@ function onInputTemplateTag() {
         newDiv.textContent = tag;
 
         // Tap = ajout du tag sélectionné
-        newDiv.onclick = () => onAddTemplateTag(tag,false);
+        newDiv.onclick = () => onAddTemplateTag(tag);
 
         divTemplateTagSuggestionRef.appendChild(newDiv);
         });
@@ -1045,7 +1045,7 @@ function onInputTemplateTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-function onAddTemplateTag(tag,isTagSaveRequired = false) {
+function onAddTemplateTag(tag) {
 
     // Règle métier : maximum 3 tags sélectionnés
     if (divTemplateSelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
@@ -1061,16 +1061,7 @@ function onAddTemplateTag(tag,isTagSaveRequired = false) {
     }
 
     // Ajoute le tag à la base utilisateur (pour futures suggestions)
-    userTagsList.add(tag);
-
-    //Sauvegarde du tag en base si nécessaire
-    if (isTagSaveRequired) {
-        // Insertion des TAG dans la base de donnée
-        onSaveTagInDB();
-    }
-
-
-
+    eventAddNewTag(tag);
 
     // Conteneur principal du tag
     const newDiv = document.createElement("div");

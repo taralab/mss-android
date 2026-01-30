@@ -303,7 +303,7 @@ async function onLoadStores() {
 
         const tagList = await db.get(tagStoreName).catch(() => null);
         if (Array.isArray(tagList?.userTagList)) {
-            tagList.userTagList.forEach(tag => userTagsList.add(tag));
+            userTagsList = tagList.userTagList;
         }
 
         const favoris = await db.get(favorisStoreName).catch(() => null);
@@ -408,6 +408,10 @@ async function firstActualisation() {
         }
     }
 
+
+    // TAG incrémente la liste des tag dans le selecteur de la liste d'activité
+    console.log("TAG Incrementation de la liste des tag dans le selecteur");
+    onUpdateSelectorSortTAG();
 
     // ACTIVITY
 

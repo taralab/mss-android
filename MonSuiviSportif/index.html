@@ -51,6 +51,7 @@
 
                 <div class="item-data-container">
                     <div class="item-data-area1" id="divActivtySort">
+                        <!-- Trie basique -->
                         <select name="" id="selectActivitySortType" class="activity-sort">
                             <option value="dateRecente">Date ▲</option>
                             <option value="dateAncienne">Date ▼</option>
@@ -59,6 +60,18 @@
                             <option value="chronoDecroissant">Chrono ▲</option>
                             <option value="chronoCroissant">Chrono ▼</option>
                         </select>
+
+                        <!-- Trie par tag -->
+                        <div style="display: flex;">
+                            <span>TAG</span>
+                            <select name="" id="selectSortTag" class="activity-sort">
+                                <!-- Injection des options -->
+                                <option value="">AUCUN</option>
+                                <option value="MARATHON">MARATHON</option>
+                            </select>    
+                        </div>
+
+
                     </div>
                 </div> 
             </div>          

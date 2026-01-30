@@ -1810,8 +1810,7 @@ function normalizeTag(input) {
 
 
   // Ensemble des tags connus de l’utilisateur (base de suggestion)
-// Set = pas de doublons
-const userTagsList = new Set([]);
+let userTagsList = [];
 
 const MAX_TAG_LENGTH = 20;
 const MAX_SELECTED_TAG = 3;
@@ -1820,11 +1819,27 @@ const MAX_SELECTED_TAG = 3;
 
 async function onSaveTagInDB() {
     await updateDocumentInDB(tagStoreName, (doc) => {
-        doc.userTagList = [...userTagsList] // conversion Set → Array;
+        doc.userTagList = userTagsList;
             return doc;
     });
     if (devMode === true) {
         console.log(`[TAG] : Nouveau tag. Sauvegarde en base`);
     }
    
+}
+
+
+function eventAddNewTag(tagToAdd) {
+    //evite les doublons
+    if (!userTagsList.includes(tagToAdd)) {
+        userTagsList.push(tagToAdd);
+
+        //actualise les options du selecteur de tag dans la liste d'affiche d'activité
+        onUpdateSelectorSortTAG();
+        
+        // Insertion des TAG dans la base de donnée
+        onSaveTagInDB();
+
+        console.log("Sauvegarde de la liste des tag");
+    }
 }

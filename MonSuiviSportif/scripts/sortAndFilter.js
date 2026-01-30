@@ -546,3 +546,34 @@ function normalizeString(str) {
 
 
 
+// -------------------------------- #TAG --------------------------
+
+
+let selectSortTagRef = document.getElementById("selectSortTag");
+
+/**
+ * Actualise la liste des tag dans le selecteur
+ * 
+ */
+function onUpdateSelectorSortTAG() {
+    //vide le selecteur
+    selectSortTagRef.innerHTML = "";
+
+    //met "aucun" du début
+    let newOption = document.createElement("option");
+    newOption.value = "AUCUN";
+    newOption.textContent = "AUCUN";
+    selectSortTagRef.appendChild(newOption);
+
+    //trie alphabetique
+    userTagsList.sort();
+
+    // Pour chaque tag
+    userTagsList.forEach(tag=>{
+        // Crée un option
+        let newOption = document.createElement("option");
+        newOption.value = tag;
+        newOption.textContent = tag;
+        selectSortTagRef.appendChild(newOption);
+    });
+}
