@@ -668,7 +668,7 @@ async function eventImportBdD(inputRef) {
 
                     case 9:
                         //Le fichier V9 contient le nouveau STORE ALLTAGLIST, 
-                        // les activité ont des TAG
+                        // les activités ont des TAG
                         // NOUVEAU STORE POUR LES EVALUATIONS
                         console.log("[IMPORT] V9");
                         importedDocs = jsonData.documents || [];
@@ -787,6 +787,13 @@ async function importBdD(dataToImport) {
         }else if (e.type === specialRewardsStoreName){
            await updateDocumentInDB(specialRewardsStoreName, (doc) => {
             doc.specialRewards = e.specialRewards;
+            return doc;
+        });
+
+        //TAG
+        }else if (e.type === tagStoreName){
+           await updateDocumentInDB(tagStoreName, (doc) => {
+            doc.userTagList = e.userTagList;
             return doc;
         });
 
