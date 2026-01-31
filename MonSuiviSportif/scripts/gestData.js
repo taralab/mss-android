@@ -9,6 +9,8 @@ function onOpenMenuGestData() {
     //Set la date de la dernière sauvegarde manuelle
     document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
 
+    //vide le texte résultat purge
+    document.getElementById("pResultPurgeTAG").innerHTML = "";
 
     //affiche le compte des sauvegardes locales
     onCountBackupFiles();
@@ -75,11 +77,18 @@ function onAddEventListenerForGestDataMenu() {
     locDeleteBtnRef.addEventListener("click",onClickDeteleBdD);
     onAddEventListenerInRegistry("gestData",locDeleteBtnRef,"click",onClickDeteleBdD);
 
-    //Bouton purge
+    //Bouton purge sauvegarde
     let locPurgeBtnRef = document.getElementById("btnPurgeLocalBackup");
     const onClickPurge = () => sequencePurgeBackupFiles();
     locPurgeBtnRef.addEventListener("click",onClickPurge);
     onAddEventListenerInRegistry("gestData",locPurgeBtnRef,"click",onClickPurge);
+
+    //Bouton purge TAG
+
+    let btnPurgeTAGRef = document.getElementById("btnPurgeTAG");
+    const onClickPurgeTag = () => onPurgeTAG();
+    btnPurgeTAGRef.addEventListener("click",onClickPurgeTag);
+    onAddEventListenerInRegistry("gestData",btnPurgeTAGRef,"click",onClickPurgeTag);
 
 }
 
@@ -1131,6 +1140,66 @@ function eventActivateGestDataBtn(iDtarget) {
     }, 300);
 
 }
+
+
+// ----------------------------------- GESTION DES #TAG---------------------------------
+
+
+
+
+function onPurgeTAG() {
+    //récupère tous les tag utilisés dans les actités.
+
+    let allActivityKeys = Object.keys(allUserActivityArray);
+    const tagsInUseList = [];
+
+    allActivityKeys.forEach(key=>{
+        let activityTagList = allUserActivityArray[key].tagList
+
+        //ajoute dans un tableau les tags présents dans les activités 
+        activityTagList.forEach(tag=>{
+            if (!tagsInUseList.includes(tag)) {
+                tagsInUseList.push(tag);
+            }
+            
+        });
+    });
+
+    
+    let initialTagReferencielNbre = userTagsList.length;
+
+    //compare avec le tableau de référenciel et retire du référenciel ceux qui ne sont pas utilisé
+    userTagsList = userTagsList.filter(tag => 
+        tagsInUseList.includes(tag)
+    );
+
+    let finalTagReferencielNbre = userTagsList.length;
+
+    //actualise les options du selecteur de tag dans la liste d'affiche d'activité
+    onUpdateSelectorFilterTAG();
+
+    // Sauvegarde du nouveau référentiel dans la base
+    onSaveTagInDB();
+
+
+    //affiche le résultat du traitement
+    let tagDeleted = initialTagReferencielNbre - finalTagReferencielNbre;
+
+    let textResultRef = document.getElementById("pResultPurgeTAG");
+    if (tagDeleted === 0) {
+        textResultRef.textContent = "Aucun tag à supprimer !";
+    }else{
+        textResultRef.textContent = `${tagDeleted} tags supprimés !`;
+    }
+}
+
+
+
+
+
+
+
+
 
 // Retour depuis Gestion des données
 function onClickReturnFromGestData() {
