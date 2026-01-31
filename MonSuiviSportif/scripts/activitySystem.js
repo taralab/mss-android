@@ -157,7 +157,7 @@ class ActivityItem {
         this.tagList.forEach(tag => {
             const span = document.createElement("span");
             span.className = "activity-tag";
-            span.textContent = `#${tag}`;
+            span.textContent = tag;
             container.appendChild(span);
         });
     }
@@ -1192,7 +1192,7 @@ function onAddActivityTag(tag) {
   // Libellé du tag
   const newLabelSpan = document.createElement("span");
   newLabelSpan.className = "tag-label";
-  newLabelSpan.textContent = `#${tag}`;
+  newLabelSpan.textContent = tag;
 
   // Croix visuelle (indice UX de suppression)
   const newCloseSpan = document.createElement("span");

@@ -2755,7 +2755,7 @@ function onAddSessionSendTag(tag) {
     // Libellé du tag
     const newLabelSpan = document.createElement("span");
     newLabelSpan.className = "tag-label";
-    newLabelSpan.textContent = `#${tag}`;
+    newLabelSpan.textContent = tag;
 
     // Croix visuelle (indice UX de suppression)
     const newCloseSpan = document.createElement("span");

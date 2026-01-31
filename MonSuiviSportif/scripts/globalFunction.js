@@ -1834,6 +1834,7 @@ function eventAddNewTag(tagToAdd) {
     if (!userTagsList.includes(tagToAdd)) {
         userTagsList.push(tagToAdd);
 
+        console.log('Ajout du tag : ',tagToAdd);
         //actualise les options du selecteur de tag dans la liste d'affiche d'activité
         onUpdateSelectorFilterTAG();
 
