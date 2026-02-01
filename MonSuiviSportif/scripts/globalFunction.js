@@ -1825,9 +1825,10 @@ function normalizeTag(input) {
   // Ensemble des tags connus de l’utilisateur (base de suggestion)
 let tagReferenciel = [];
 
+
 const MAX_TAG_LENGTH = 20;
 const MAX_SELECTED_TAG = 3;
-
+const DEFAULT_TAG_VALUE = "TAG";
 
 
 async function onSaveTagInDB() {

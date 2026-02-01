@@ -14,7 +14,7 @@ function onResetSortAndFilter(){
 };
 
 let selectFilterTagRef = document.getElementById("selectFilterTag"),
-    currentTagFilter = "TAG";
+    currentTagFilter = DEFAULT_TAG_VALUE;
 
 
 
@@ -571,8 +571,8 @@ function onUpdateSelectorFilterTAG() {
 
     //met "TAG" du début
     let newOption = document.createElement("option");
-    newOption.value = "TAG";
-    newOption.textContent = "TAG";
+    newOption.value = DEFAULT_TAG_VALUE;
+    newOption.textContent = DEFAULT_TAG_VALUE;
     selectFilterTagRef.appendChild(newOption);
 
     //trie alphabetique
@@ -632,9 +632,9 @@ function onSearchTagInActivities(filteredKeyes,tagToSearch) {
 //si l'utilisateur utilise la recherche, enlève le filtre sur les TAG
 //C'est l'un ou l'autre
 function disableFilterByTAG() {
-    if (currentTagFilter !=="TAG") {
-        selectFilterTagRef.value = "TAG";
-        currentTagFilter = "TAG";
+    if (currentTagFilter !== DEFAULT_TAG_VALUE) {
+        selectFilterTagRef.value = DEFAULT_TAG_VALUE;
+        currentTagFilter = DEFAULT_TAG_VALUE;
 
         onSetTagFilterColor();
     }
@@ -644,7 +644,7 @@ function disableFilterByTAG() {
 // Le style change si un tag est en cours
 function onSetTagFilterColor() {
     
-    if (currentTagFilter === "TAG") {
+    if (currentTagFilter === DEFAULT_TAG_VALUE) {
         selectFilterTagRef.classList.remove("active");
     }else{
         selectFilterTagRef.classList.add("active");
