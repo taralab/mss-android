@@ -1787,6 +1787,15 @@ function highlightSearchTerm(text, searchTerm) {
 
 
 
+
+// ------------------------------------------ #TAG -----------------------------------------------
+
+
+
+
+
+
+
 // Normalise un tag
 /**
  * Normalise la saisie utilisateur pour garantir
@@ -1804,9 +1813,13 @@ function normalizeTag(input) {
     .trim()
     .toUpperCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^A-Z0-9]/g, "");
+    .replace(/[\u0300-\u036f]/g, "")     // supprime accents
+    .replace(/\s+/g, "-")               // espaces → tirets
+    .replace(/[^A-Z0-9-]/g, "")         // garde lettres, chiffres, -
+    .replace(/-+/g, "-")                // évite les ---
+    .replace(/^-|-$/g, "");             // supprime - début/fin
 }
+
 
 
   // Ensemble des tags connus de l’utilisateur (base de suggestion)
