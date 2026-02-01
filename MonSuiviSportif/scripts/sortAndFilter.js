@@ -586,7 +586,12 @@ function onUpdateSelectorFilterTAG() {
         newOption.textContent = tag;
         selectFilterTagRef.appendChild(newOption);
     });
+
+    //mais focus sur le tag toujours en cours
+    selectFilterTagRef.value = currentTagFilter;
 }
+
+
 
 //changement de tag dans le selecteur
 function onUserChangeFilterTAG(event) {

@@ -1148,7 +1148,7 @@ function eventActivateGestDataBtn(iDtarget) {
 
 
 function onPurgeTAG() {
-    //récupère tous les tag utilisés dans les actités.
+    //récupère tous les tag utilisés dans les activités.
 
     let allActivityKeys = Object.keys(allUserActivityArray);
     const tagsInUseList = [];
@@ -1175,8 +1175,18 @@ function onPurgeTAG() {
 
     let finalTagReferencielNbre = tagReferenciel.length;
 
+
+    // Remet le tag par défaut
+    currentTagFilter = DEFAULT_TAG_VALUE;
+
     //actualise les options du selecteur de tag dans la liste d'affiche d'activité
     onUpdateSelectorFilterTAG();
+
+    //gestion du style selon si tag en cours ou non
+    onSetTagFilterColor();
+
+    // Actualisation de l'affichage des activités
+    eventUpdateActivityList();
 
     // Sauvegarde du nouveau référentiel dans la base
     onSaveTagInDB();
