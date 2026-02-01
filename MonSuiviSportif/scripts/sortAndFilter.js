@@ -576,10 +576,10 @@ function onUpdateSelectorFilterTAG() {
     selectFilterTagRef.appendChild(newOption);
 
     //trie alphabetique
-    userTagsList.sort();
+    tagReferenciel.sort();
 
     // Pour chaque tag
-    userTagsList.forEach(tag=>{
+    tagReferenciel.forEach(tag=>{
         // Crée un option
         let newOption = document.createElement("option");
         newOption.value = tag;

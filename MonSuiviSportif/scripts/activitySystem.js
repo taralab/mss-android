@@ -1132,7 +1132,7 @@ function onInputActivityTag() {
   if (!normalizedTAG) return;
 
   // Recherche des tags existants qui commencent par la saisie
-  const matches = Array.from(userTagsList)
+  const matches = Array.from(tagReferenciel)
     .filter(tag => tag.startsWith(normalizedTAG))
     .slice(0, 5); // limite UX : max 5 suggestions
 

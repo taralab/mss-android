@@ -1823,7 +1823,7 @@ function normalizeTag(input) {
 
 
   // Ensemble des tags connus de l’utilisateur (base de suggestion)
-let userTagsList = [];
+let tagReferenciel = [];
 
 const MAX_TAG_LENGTH = 20;
 const MAX_SELECTED_TAG = 3;
@@ -1832,7 +1832,7 @@ const MAX_SELECTED_TAG = 3;
 
 async function onSaveTagInDB() {
     await updateDocumentInDB(tagStoreName, (doc) => {
-        doc.userTagList = userTagsList;
+        doc.tagReferenciel = tagReferenciel;
             return doc;
     });
     if (devMode === true) {
@@ -1844,8 +1844,8 @@ async function onSaveTagInDB() {
 
 function eventAddNewTag(tagToAdd) {
     //evite les doublons
-    if (!userTagsList.includes(tagToAdd)) {
-        userTagsList.push(tagToAdd);
+    if (!tagReferenciel.includes(tagToAdd)) {
+        tagReferenciel.push(tagToAdd);
 
         console.log('Ajout du tag : ',tagToAdd);
         //actualise les options du selecteur de tag dans la liste d'affiche d'activité

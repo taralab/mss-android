@@ -260,7 +260,7 @@ async function onCreateDBStore() {
 
     await createStore(specialRewardsStoreName, { type: specialRewardsStoreName, specialRewards: [] });
     
-    await createStore(tagStoreName, { type: tagStoreName, userTagList:[] });
+    await createStore(tagStoreName, { type: tagStoreName, tagReferenciel:[] });
 
     await createStore(planningStoreName, { type: planningStoreName, userPlanning : defaultPlanningArray});
 
@@ -301,9 +301,9 @@ async function onLoadStores() {
             userSpecialRewardsArray = specialRewards.specialRewards;
         }
 
-        const tagList = await db.get(tagStoreName).catch(() => null);
-        if (Array.isArray(tagList?.userTagList)) {
-            userTagsList = tagList.userTagList;
+        const dbTagList = await db.get(tagStoreName).catch(() => null);
+        if (Array.isArray(dbTagList?.tagReferenciel)) {
+            tagReferenciel = dbTagList.tagReferenciel;
         }
 
         const favoris = await db.get(favorisStoreName).catch(() => null);

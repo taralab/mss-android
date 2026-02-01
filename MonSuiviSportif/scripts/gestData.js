@@ -802,7 +802,7 @@ async function importBdD(dataToImport) {
         //TAG
         }else if (e.type === tagStoreName){
            await updateDocumentInDB(tagStoreName, (doc) => {
-            doc.userTagList = e.userTagList;
+            doc.tagReferenciel = e.tagReferenciel;
             return doc;
         });
 
@@ -1166,14 +1166,14 @@ function onPurgeTAG() {
     });
 
     
-    let initialTagReferencielNbre = userTagsList.length;
+    let initialTagReferencielNbre = tagReferenciel.length;
 
     //compare avec le tableau de référenciel et retire du référenciel ceux qui ne sont pas utilisé
-    userTagsList = userTagsList.filter(tag => 
+    tagReferenciel = tagReferenciel.filter(tag => 
         tagsInUseList.includes(tag)
     );
 
-    let finalTagReferencielNbre = userTagsList.length;
+    let finalTagReferencielNbre = tagReferenciel.length;
 
     //actualise les options du selecteur de tag dans la liste d'affiche d'activité
     onUpdateSelectorFilterTAG();
