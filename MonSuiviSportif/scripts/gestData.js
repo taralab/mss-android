@@ -1147,7 +1147,7 @@ function eventActivateGestDataBtn(iDtarget) {
 
 
 
-function onPurgeTAG() {
+async function onPurgeTAG() {
     //récupère tous les tag utilisés dans les activités.
 
     let allActivityKeys = Object.keys(allUserActivityArray);
@@ -1165,7 +1165,36 @@ function onPurgeTAG() {
         });
     });
 
-    
+
+    //récupère tous les tags utilisé dans les templates
+    let allTemplates = {};
+    try {
+        const result = await db.allDocs({ include_docs: true });
+
+        result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === templateStoreName)
+            .forEach(doc => {
+                allTemplates[doc._id] = { ...doc }; // on garde tout
+            });
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE TAG] Erreur lors du chargement:", err);
+    }
+
+    let allTemplateKeys = Object.keys(allTemplates);
+    allTemplateKeys.forEach(key=>{
+        let templateTagList= allTemplates[key].tagList;
+
+        //ajoute dans un tableau les tags présents dans les templates
+        templateTagList.forEach(tag=>{
+            if (!tagsInUseList.includes(tag)) {
+                tagsInUseList.push(tag);
+            }
+            
+        });
+    });
+
+
     let initialTagReferencielNbre = tagReferenciel.length;
 
     //compare avec le tableau de référenciel et retire du référenciel ceux qui ne sont pas utilisé
