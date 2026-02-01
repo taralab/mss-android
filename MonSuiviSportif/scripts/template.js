@@ -1055,7 +1055,7 @@ function onAddTemplateTag(tag,isTagSaveRequired = false) {
 
     // Empêche l’ajout du même tag deux fois
     if ([...divTemplateSelectedTagsRef.children].some(item =>
-        item.querySelector(".tag-label")?.textContent === tag
+        item.querySelector(".tag-label")?.dataset.tag === tag
     )) {
         return;
     }
@@ -1072,7 +1072,8 @@ function onAddTemplateTag(tag,isTagSaveRequired = false) {
     // Libellé du tag
     const newLabelSpan = document.createElement("span");
     newLabelSpan.className = "tag-label";
-    newLabelSpan.textContent = tag;
+    newLabelSpan.dataset.tag = tag;
+    newLabelSpan.textContent = `#${tag}`;
 
     // Croix visuelle (indice UX de suppression)
     const newCloseSpan = document.createElement("span");
@@ -1105,9 +1106,9 @@ function onAddTemplateTag(tag,isTagSaveRequired = false) {
  * @returns {string[]}
  */
 function getTemplateSelectedTagsArray() {
-    return [...divTemplateSelectedTagsRef.children].map(item =>
-        item.querySelector(".tag-label")?.textContent
-    );
+    return [...divTemplateSelectedTagsRef.children]
+    .map(item => item.querySelector(".tag-label")?.dataset.tag)
+    .filter(Boolean); // sécurité si jamais null/undefined
 }
 
 

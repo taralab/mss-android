@@ -572,7 +572,7 @@ function onUpdateSelectorFilterTAG() {
     //met "TAG" du début
     let newOption = document.createElement("option");
     newOption.value = DEFAULT_TAG_VALUE;
-    newOption.textContent = DEFAULT_TAG_VALUE;
+    newOption.textContent = `#${DEFAULT_TAG_VALUE}`;
     selectFilterTagRef.appendChild(newOption);
 
     //trie alphabetique
@@ -583,7 +583,7 @@ function onUpdateSelectorFilterTAG() {
         // Crée un option
         let newOption = document.createElement("option");
         newOption.value = tag;
-        newOption.textContent = tag;
+        newOption.textContent = `#${tag}`;
         selectFilterTagRef.appendChild(newOption);
     });
 

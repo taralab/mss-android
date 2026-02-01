@@ -157,7 +157,7 @@ class ActivityItem {
         this.tagList.forEach(tag => {
             const span = document.createElement("span");
             span.className = "activity-tag";
-            span.textContent = tag;
+            span.textContent = `#${tag}`;
             container.appendChild(span);
         });
     }
@@ -901,6 +901,8 @@ function onFormatActivity() {
 // Sauvegarde uniquement si une modification a bien été effectuée dans les données
 function onCheckIfModifiedRequired(activityToInsertFormat) {
     
+    console.log(currentActivityDataInView.tagList);
+
     // Création d'une liste de champs à comparer
     const fieldsToCompare = [
         { oldValue: currentActivityDataInView.name, newValue: activityToInsertFormat.name },
@@ -1177,7 +1179,7 @@ function onAddActivityTag(tag,isTagSaveRequired = false) {
 
     // Empêche l’ajout du même tag deux fois
     if ([...divActivitySelectedTagsRef.children].some(item =>
-        item.querySelector(".tag-label")?.textContent === tag
+        item.querySelector(".tag-label")?.dataset.tag === tag
     )) {
         return;
     }
@@ -1192,10 +1194,11 @@ function onAddActivityTag(tag,isTagSaveRequired = false) {
   const newDiv = document.createElement("div");
   newDiv.className = "tag";
 
-  // Libellé du tag
-  const newLabelSpan = document.createElement("span");
-  newLabelSpan.className = "tag-label";
-  newLabelSpan.textContent = tag;
+    // Libellé du tag
+    const newLabelSpan = document.createElement("span");
+    newLabelSpan.className = "tag-label";
+    newLabelSpan.dataset.tag = tag;     // valeur métier
+    newLabelSpan.textContent = `#${tag}`; // affichage uniquement
 
   // Croix visuelle (indice UX de suppression)
   const newCloseSpan = document.createElement("span");
@@ -1229,7 +1232,7 @@ function onAddActivityTag(tag,isTagSaveRequired = false) {
  * @returns {string[]}
  */
 function getActivitySelectedTagsArray() {
-  return [...divActivitySelectedTagsRef.children].map(item =>
-    item.querySelector(".tag-label")?.textContent
-  );
+  return [...divActivitySelectedTagsRef.children]
+    .map(item => item.querySelector(".tag-label")?.dataset.tag)
+    .filter(Boolean); // sécurité si jamais null/undefined
 }
