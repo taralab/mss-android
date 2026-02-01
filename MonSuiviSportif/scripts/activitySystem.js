@@ -465,7 +465,7 @@ function onOpenNewActivityFromTemplate(templateItem) {
 
     //TAG
     templateItem.tagList.forEach(tag=>{
-        onAddActivityTag(tag);
+        onAddActivityTag(tag,false);
     });
 
 
@@ -801,7 +801,7 @@ function onEditActivity(activityTarget) {
 
     // Les TAG (ajoute si existant)
     activityTarget.tagList.forEach(tag=>{
-        onAddActivityTag(tag);
+        onAddActivityTag(tag,false);
     });
 
     // gestion du format duration
@@ -1143,7 +1143,7 @@ function onInputActivityTag() {
     newDiv.textContent = `Créer ${normalizedTAG}`;
 
     // Tap = création du nouveau tag
-    newDiv.onclick = () => onAddActivityTag(normalizedTAG);
+    newDiv.onclick = () => onAddActivityTag(normalizedTAG,true);
 
     divActivityTagSuggestionRef.appendChild(newDiv);
   } 
@@ -1155,7 +1155,7 @@ function onInputActivityTag() {
       newDiv.textContent = tag;
 
       // Tap = ajout du tag sélectionné
-      newDiv.onclick = () => onAddActivityTag(tag);
+      newDiv.onclick = () => onAddActivityTag(tag,false);
 
       divActivityTagSuggestionRef.appendChild(newDiv);
     });
@@ -1167,7 +1167,7 @@ function onInputActivityTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-function onAddActivityTag(tag) {
+function onAddActivityTag(tag,isTagSaveRequired = false) {
 
     // Règle métier : maximum 'X' tags sélectionnés
     if (divActivitySelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
@@ -1182,8 +1182,11 @@ function onAddActivityTag(tag) {
         return;
     }
 
-    // Ajoute le tag à la base utilisateur (pour futures suggestions)
-    eventAddNewTag(tag);
+    // Ajoute le tag à la base utilisateur (pour futures suggestions) et sauvegarde
+    if (isTagSaveRequired) {
+        eventAddNewTag(tag);
+    }
+
 
   // Conteneur principal du tag
   const newDiv = document.createElement("div");

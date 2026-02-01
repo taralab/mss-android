@@ -2705,7 +2705,7 @@ function onInputSessionSendTag() {
         newDiv.textContent = `Créer ${normalizedTAG}`;
 
         // Tap = création du nouveau tag
-        newDiv.onclick = () => onAddSessionSendTag(normalizedTAG);
+        newDiv.onclick = () => onAddSessionSendTag(normalizedTAG,true);
 
         divSessionSendTagSuggestionRef.appendChild(newDiv);
     } 
@@ -2717,7 +2717,7 @@ function onInputSessionSendTag() {
         newDiv.textContent = tag;
 
         // Tap = ajout du tag sélectionné
-        newDiv.onclick = () => onAddSessionSendTag(tag);
+        newDiv.onclick = () => onAddSessionSendTag(tag,false);
 
         divSessionSendTagSuggestionRef.appendChild(newDiv);
         });
@@ -2729,7 +2729,7 @@ function onInputSessionSendTag() {
 /**
  * Ajoute un tag sélectionné / créé à la liste des tags actifs
  */
-function onAddSessionSendTag(tag) {
+function onAddSessionSendTag(tag,isTagSaveRequired = false) {
 
     // Règle métier : maximum 'X' tags sélectionnés
     if (divSessionSendSelectedTagsRef.children.length >= MAX_SELECTED_TAG) {
@@ -2744,8 +2744,10 @@ function onAddSessionSendTag(tag) {
         return;
     }
 
-    // Ajoute le tag à la base utilisateur (pour futures suggestions)
-    eventAddNewTag(tag);
+    // Ajoute le tag à la base utilisateur (pour futures suggestions) et sauvegarde
+    if (isTagSaveRequired) {
+        eventAddNewTag(tag);
+    }
 
 
     // Conteneur principal du tag
