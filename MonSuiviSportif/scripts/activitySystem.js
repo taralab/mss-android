@@ -1123,46 +1123,40 @@ function inputActivityNumberToTime() {
 // -------------------------------------- TAG -----------------------------------------------
 
 
-
 function onInputActivityTag() {
-  const normalizedTAG = normalizeTag(inputActivityTagRef.value);
+    const normalizedTAG = normalizeTag(inputActivityTagRef.value);
 
-  // Réinitialise les suggestions à chaque frappe
-  divActivityTagSuggestionRef.innerHTML = "";
+    // Réinitialise les suggestions à chaque frappe
+    divActivityTagSuggestionRef.innerHTML = "";
 
-  // Si input vide après normalisation → rien à afficher
-  if (!normalizedTAG) return;
+    // Si input vide après normalisation → rien à afficher
+    if (!normalizedTAG) return;
 
-  // Recherche des tags existants qui commencent par la saisie
-  const matches = Array.from(tagReferenciel)
-    .filter(tag => tag.startsWith(normalizedTAG))
-    .slice(0, 5); // limite UX : max 5 suggestions
+    const matches = Array.from(tagReferenciel)
+        .filter(tag => tag.startsWith(normalizedTAG))
+        .slice(0, 5);
 
-  // Aucun match → proposer la création du tag
-  if (matches.length === 0) {
-    const newDiv = document.createElement("div");
-    newDiv.className = "tag-suggestion create";
-    newDiv.textContent = `Créer ${normalizedTAG}`;
+    const exactMatchExists = tagReferenciel.includes(normalizedTAG);
 
-    // Tap = création du nouveau tag
-    newDiv.onclick = () => onAddActivityTag(normalizedTAG,true);
+    // ✅ Toujours proposer la création si pas d'égalité exacte
+    if (!exactMatchExists) {
+        const newDiv = document.createElement("div");
+        newDiv.className = "tag-suggestion create";
+        newDiv.textContent = `Créer ${normalizedTAG}`;
+        newDiv.onclick = () => onAddActivityTag(normalizedTAG, true);
+        divActivityTagSuggestionRef.appendChild(newDiv);
+    }
 
-    divActivityTagSuggestionRef.appendChild(newDiv);
-  } 
-  // Des matchs existent → les afficher
-  else {
+    // Ensuite afficher les suggestions existantes
     matches.forEach(tag => {
-      const newDiv = document.createElement("div");
-      newDiv.className = "tag-suggestion";
-      newDiv.textContent = tag;
-
-      // Tap = ajout du tag sélectionné
-      newDiv.onclick = () => onAddActivityTag(tag,false);
-
-      divActivityTagSuggestionRef.appendChild(newDiv);
+        const newDiv = document.createElement("div");
+        newDiv.className = "tag-suggestion";
+        newDiv.textContent = tag;
+        newDiv.onclick = () => onAddActivityTag(tag, false);
+        divActivityTagSuggestionRef.appendChild(newDiv);
     });
-  }
 }
+
 
 
 

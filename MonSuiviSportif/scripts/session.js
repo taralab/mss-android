@@ -2693,35 +2693,29 @@ function onInputSessionSendTag() {
     // Si input vide après normalisation → rien à afficher
     if (!normalizedTAG) return;
 
-    // Recherche des tags existants qui commencent par la saisie
     const matches = Array.from(tagReferenciel)
         .filter(tag => tag.startsWith(normalizedTAG))
-        .slice(0, 5); // limite UX : max 5 suggestions
+        .slice(0, 5);
 
-    // Aucun match → proposer la création du tag
-    if (matches.length === 0) {
+    const exactMatchExists = tagReferenciel.includes(normalizedTAG);
+
+    // ✅ Toujours proposer la création si pas d'égalité exacte
+    if (!exactMatchExists) {
         const newDiv = document.createElement("div");
         newDiv.className = "tag-suggestion create";
         newDiv.textContent = `Créer ${normalizedTAG}`;
-
-        // Tap = création du nouveau tag
-        newDiv.onclick = () => onAddSessionSendTag(normalizedTAG,true);
-
+        newDiv.onclick = () => onAddSessionSendTag(normalizedTAG, true);
         divSessionSendTagSuggestionRef.appendChild(newDiv);
-    } 
-    // Des matchs existent → les afficher
-    else {
-        matches.forEach(tag => {
+    }
+
+    // Ensuite afficher les suggestions existantes
+    matches.forEach(tag => {
         const newDiv = document.createElement("div");
         newDiv.className = "tag-suggestion";
         newDiv.textContent = tag;
-
-        // Tap = ajout du tag sélectionné
-        newDiv.onclick = () => onAddSessionSendTag(tag,false);
-
+        newDiv.onclick = () => onAddSessionSendTag(tag, false);
         divSessionSendTagSuggestionRef.appendChild(newDiv);
-        });
-    }
+    });
 }
 
 
