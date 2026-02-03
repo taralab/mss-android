@@ -525,8 +525,20 @@ select.activity-sort{
     color: var(--colorMainTheme6);
     border: 1px solid #f990d4;
     border-radius: 15px;
+    max-width: 110px;
 }
 
+
+
+select.activity-sort.tag{
+    width: 130px;
+    max-width: 130px;
+
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+    
+}
 
 
 select.activity-sort.active{
