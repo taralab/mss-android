@@ -329,7 +329,9 @@ async function onLoadStores() {
                 fromSessionToActivityMode : settings.data.fromSessionToActivityMode || defaultSetting.fromSessionToActivityMode,
                 devMode : settings.data.devMode ?? defaultSetting.devMode,
                 animationEnabled: settings.data.animationEnabled ?? defaultSetting.animationEnabled,
-                vibrationEnabled: settings.data.vibrationEnabled ?? defaultSetting.vibrationEnabled
+                vibrationEnabled: settings.data.vibrationEnabled ?? defaultSetting.vibrationEnabled,
+                evaluationMode: settings.data.evaluationMode || defaultSetting.evaluationMode,
+                evaluationNotifyEnabled : settings.data.evaluationNotifyEnabled ?? defaultSetting.evaluationNotifyEnabled
             };
         }
 

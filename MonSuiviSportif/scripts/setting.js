@@ -105,7 +105,9 @@ let defaultSetting = {
     fromSessionToActivityMode : "MINIMAL",
     devMode : false,
     animationEnabled : true,
-    vibrationEnabled : true
+    vibrationEnabled : true,
+    evaluationMode : "noSet",//SMILEY ou ETOILE,
+    evaluationNotifyEnabled : true
 };
 
 let userSetting = {},
