@@ -130,7 +130,9 @@ let selectSettingCommentModePlannedRef,
     selectSettingSessionCommentModeRef,
     pSettingSessionCommentModeExempleRef,
     inputCheckboxAnimationStatusRef,
-    inputCheckboxVibrationStatusRef;
+    inputCheckboxVibrationStatusRef,
+    inputCBIsEvalNotifyEnabledRef,
+    selectSettingEvalModeRef;
 
 
 
@@ -148,6 +150,8 @@ function onReferenceItemsSetting() {
     pSettingSessionCommentModeExempleRef = document.getElementById("pSettingSessionCommentModeExemple");
     inputCheckboxAnimationStatusRef = document.getElementById("inputCheckboxAnimationStatus");
     inputCheckboxVibrationStatusRef = document.getElementById("inputCheckboxVibrationStatus");
+    inputCBIsEvalNotifyEnabledRef = document.getElementById("inputCBIsEvalNotifyEnabled");
+    selectSettingEvalModeRef = document.getElementById("selectSettingEvalMode");
 }
 
 function onSetSettingItems() {
@@ -163,7 +167,8 @@ function onSetSettingItems() {
     selectSettingSessionCommentModeRef.value = userSetting.fromSessionToActivityMode;
     inputCheckboxAnimationStatusRef.checked = userSetting.animationEnabled;
     inputCheckboxVibrationStatusRef.checked = userSetting.vibrationEnabled;
-
+    inputCBIsEvalNotifyEnabledRef.checked = userSetting.evaluationNotifyEnabled;
+    selectSettingEvalModeRef.value = userSetting.evaluationMode;
 
     //set le texte d'exmple du mode d'affichage
     onChangeSettingSettionCommentMode(userSetting.fromSessionToActivityMode);
@@ -205,7 +210,9 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value},
         { oldValue: userSetting.fromSessionToActivityMode, newValue:selectSettingSessionCommentModeRef.value},
         { oldValue: userSetting.animationEnabled, newValue: inputCheckboxAnimationStatusRef.checked},
-        { oldValue: userSetting.vibrationEnabled, newValue: inputCheckboxVibrationStatusRef.checked}
+        { oldValue: userSetting.vibrationEnabled, newValue: inputCheckboxVibrationStatusRef.checked},
+        { oldValue: userSetting.evaluationNotifyEnabled, newValue: inputCBIsEvalNotifyEnabledRef.checked},
+        { oldValue: userSetting.evaluationMode, newValue: selectSettingEvalModeRef.value}
     ];
 
     // Vérification si une différence est présente
@@ -237,7 +244,8 @@ function onSaveUserSetting() {
     userSetting.fromSessionToActivityMode = selectSettingSessionCommentModeRef.value;
     userSetting.animationEnabled = inputCheckboxAnimationStatusRef.checked;
     userSetting.vibrationEnabled = inputCheckboxVibrationStatusRef.checked;
-
+    userSetting.evaluationNotifyEnabled = inputCBIsEvalNotifyEnabledRef.checked;
+    userSetting.evaluationMode = selectSettingEvalModeRef.value;
 
     // Met a jour le boolean devMode
     devMode = userSetting.devMode;
