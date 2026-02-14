@@ -144,7 +144,9 @@ let dbName = `MSS_db`,
     recupStoreName = "Recup",
     memoryStoreName = "Memory",
     objectifStoreName = "Objectif",
-    tagStoreName = "Tag";
+    tagStoreName = "Tag",
+    evaluationStoreName = "Evaluation",
+    evaluationReminderStoreName = "EvaluationReminders";
     
 
 
@@ -272,6 +274,10 @@ async function onCreateDBStore() {
             customValue : defaultRecupData.customValue
         }
     });
+
+    await createStore(evaluationStoreName, { type : evaluationStoreName, data:{}});
+
+    await createStore(evaluationReminderStoreName, { type: evaluationReminderStoreName, data:{}});
 
 }
 
