@@ -825,7 +825,6 @@ async function importBdD(dataToImport) {
                 devMode : e.data.devMode ?? defaultSetting.devMode,
                 animationEnabled: e.data.animationEnabled ?? defaultSetting.animationEnabled,
                 vibrationEnabled: e.data.vibrationEnabled ?? defaultSetting.vibrationEnabled,
-                evaluationMode: e.data.evaluationMode || defaultSetting.evaluationMode,
                 evaluationNotifyEnabled : e.data.evaluationNotifyEnabled ?? defaultSetting.evaluationNotifyEnabled
             });
 
