@@ -4,97 +4,9 @@ let evaluations = {
     modificationDate : "YYYY-MM-DD",//Peut servir pour des statistiques
     appreciation: 1,        // numéraire
     marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Je me suis cassé le pied",
-
-  },
-    "2025-01": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 5,        // numéraire
-    marquant: "GOAL",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "",
-
-  },
-    "2025-02": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 3,        // numéraire
-    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Pas terrible",
-
-  },
-    "2025-03": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 4,        // numéraire
-    marquant: "OBSTACLE",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Salle de sport fermée",
-
-  },
-    "2025-05": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 1,        // numéraire
-    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "",
-
-  },
-    "2025-07": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 2,        // numéraire
-    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Pas terrible",
-
-  },
-    "2025-08": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 1,        // numéraire
-    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Je me suis cassé le pied",
-
-  },
-    "2025-10": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 1,        // numéraire
-    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Commentaire 2025-10",
-
-  },
-    "2025-11": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 5,        // numéraire
-    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Je me suis cassé le pied",
-
-  },
-    "2025-12": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 4,        // numéraire
-    marquant: "SPECIAL",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Tout à bien fonctionné",
-
-  },
-    "2024-07": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 5,        // numéraire
-    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Je me suis cassé le pied",
-
-  },
-    "2024-08": {//Toujours le mois à deux digits
-    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
-    modificationDate : "",//Peut servir pour des statistiques
-    appreciation: 3,        // numéraire
-    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
-    comment: "Je me suis cassé le pied",
-
+    comment: "Je me suis cassé le pied"
   }
+ 
 };
 
 
@@ -210,7 +122,6 @@ const EVAL_APPRECIATION_DATA = {
 let initialEvalData = {},
   evalEditorMode = "",//CREATION ou MODIFICATION
   currentEvaluationMonth = "";
-
 
 
 
@@ -513,7 +424,7 @@ function onDisplayModifyEvaluation(monthTarget) {
 
 
 
-function onValideEval() {
+async function onValideEval() {
   //regarde si le champ obligatoire est remplit (apprecation)
 
   if(Number(selectEvalAppreciationRef.value) === 0){
@@ -547,13 +458,22 @@ function onValideEval() {
       //sauvegarde dans l'array
       evaluations[currentEvaluationMonth] = dataToSave;
 
-      //sauvegarde en base
-
-
       //ICI détecter si le module stat evaluation est présent pour mise à jour visuelle
       onCheckIfStatEvalUpdateRequired(currentEvaluationMonth);
 
-      console.log("dataToSave = ", dataToSave);
+      if (devMode === true) {
+        console.log("dataToSave = ", dataToSave);
+      }
+
+
+      // Sauvegarde la modification en base
+      await updateDocumentInDB(evaluationStoreName, (doc) => {
+        doc.data = evaluations;
+        return doc;
+      });
+
+      onShowNotifyPopup("evaluationModify");
+
     }else{
       console.log("Aucune modification. Traitement sauvegarde annulé");
     }
@@ -566,19 +486,24 @@ function onValideEval() {
     //sauvegarde dans l'array
     evaluations[currentEvaluationMonth] = dataToSave;
 
-    //sauvegarde en base
-
 
     //ICI détecter si le module stat evaluation est présent pour mise à jour visuelle
     onCheckIfStatEvalUpdateRequired(currentEvaluationMonth);
 
-    console.log("dataToSave = ", dataToSave);
+    if (devMode === true) {
+      console.log("dataToSave = ", dataToSave);
+    }
+
+
+    // Sauvegarde la modification en base
+    await updateDocumentInDB(evaluationStoreName, (doc) => {
+      doc.data = evaluations;
+      return doc;
+    });
+
+    onShowNotifyPopup("evaluationModify");
 
   }
-
-  console.log(evaluations);
-
-
 
   //ferme le popup
   onCloseEvalPopup();

@@ -317,6 +317,12 @@ async function onLoadStores() {
             userFavoris = favoris.favorisList;
         }
 
+        const evaluation = await db.get(evaluationStoreName).catch(() => null);
+        if (evaluation) {
+            evaluations = evaluation.data;
+        }
+
+
         const settings = await db.get(settingStoreName).catch(() => null);
         if (settings) {
 
