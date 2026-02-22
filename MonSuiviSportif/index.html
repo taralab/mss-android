@@ -1948,34 +1948,26 @@
             
 
             <!-------------------------------------- Module popup evaluation  -------------------------------------------------->
-            <div class="popup-new-counter" id="divPopupEvaluation">
-                <div class="popup-new-counter-content" id="divPopupEvaluationContent">
+            <div class="popup-eval" id="divPopupEvaluation">
+                <div class="popup-eval-content" id="divPopupEvaluationContent">
                     <h2 class="session-item-editor">Evaluation du mois</h2>
-                    <p id="pEvaluationEditorMontTitle">Juin 2026</p>
+                    <p id="pEvaluationEditorMontTitle" class="eval-editor-month-title">Juin 2026</p>
 
-                    <!-- Evaluation -->
-                    <div>
-                        <label for="">Appréciation : </label>
-                        <select name="" id="selectEvalAppreciation" class="eval">
-                            <!-- Injection des options -->
-                        </select>
+                    <div class="form-group">
+                        <label>Appréciation :</label>
+                        <select id="selectEvalAppreciation" class="eval"></select>
                     </div>
 
-                    <!-- Marquant -->
-                    <div>
-                        <label for="">Marquant : </label>
-                        <select class="eval" id="selectEvalMarquant">
-                            <!-- Injection des options -->
-                        </select>
+                    <div class="form-group">
+                        <label>Marquant :</label>
+                        <select id="selectEvalMarquant" class="eval"></select>
                     </div>
 
-                    <!-- Commentaire -->
-                    <div>
-                        <label for="">Commentaire: </label>
-                        <textarea name="" id="textareaEvalComment" maxlength="250"></textarea>
+                    <div class="form-group">
+                        <label>Commentaire :</label>
+                        <textarea id="textareaEvalComment" maxlength="250"></textarea>
                     </div>
-                    
-                    <!-- Bouton de navigation -->
+
                     <div class="custom-editor-btn-menu">
                         <button id="btnReturnEvalEditor" class="btn-menu return">
                             <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
@@ -1983,7 +1975,7 @@
                         </button>
                         <button id="btnValideEvalEditor" class="btn-menu btnFocus">
                             Valider
-                        </button>  
+                        </button>
                     </div>
                 </div>
             </div>

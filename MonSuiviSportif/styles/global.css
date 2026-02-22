@@ -4189,12 +4189,71 @@ small.info-tag{
 /* ------------------------------------------------ EVALUATION ----------------------------------------------*/
 
 
+/* popup nommage nouveau compteur */
+.popup-eval {
+    display: none;
+    position: fixed;
+    inset: 0;
+    display: none;
+    background: rgba(0,0,0,0.4);
+
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 20px;
+    box-sizing: border-box;
+}
+
+.popup-eval-content {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    padding: 25px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* espace propre entre blocs */
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+select.eval,
+#textareaEvalComment {
+    width: 90%;
+    box-sizing: border-box;
+}
+
+select.eval {
+    height: 35px;
+    border-radius: 10px;
+}
+
+#textareaEvalComment {
+    min-height: 100px;
+    resize: vertical;
+}
+
+p.eval-editor-month-title{
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin: 5px 0 10px 0;
+}
+
 
 select.eval {
     border: var(--inputBorder);
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
-    width: 100%;height: 30px;
+    height: 30px;
     color: #555;
     border-radius: 10px;
     background-color: white;
@@ -4211,7 +4270,13 @@ select.fieldRequired{
     border : solid 2px var(--colorMainTheme6);
 }
 
-
+.custom-editor-btn-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
 
 
 /* Partie stat */
