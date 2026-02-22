@@ -58,8 +58,10 @@ function onOpenMenuStat(){
 
     displayGeneralStats(statActivityNonPlannedKeys);
     // traitement des graphiques
-    onTreateStatGraphic(statActivityNonPlannedKeys);
+    let defaultEvaluationYear = onTreateStatGraphic(statActivityNonPlannedKeys);
 
+    //Affichage et traitement evaluations
+    onDisplayEvalMonthItem(defaultEvaluationYear);
 
 
     // Ecouteur d'évènement
@@ -292,10 +294,16 @@ function onChangeStatActivitySelector(value) {
         // Appeler la fonction pour afficher les statistiques générales
         displayGeneralStats(statActivityNonPlannedKeys);
         // traitement des graphiques
-        onTreateStatGraphic(statActivityNonPlannedKeys);
+        let defaultEvaluationYear = onTreateStatGraphic(statActivityNonPlannedKeys);
+
+        //Affichage et traitement evaluations
+        onDisplayEvalMonthItem(defaultEvaluationYear);
     } else {
         // Appeler la fonction pour afficher les statistiques de l'activité sélectionnée
         displayActivityStats(value);
+
+        //Masquage des evaluations
+        onHideEvalMonthItem();
     }
 }
 
@@ -411,41 +419,42 @@ function onTreateStatGraphic(activityKeysList) {
         console.log("[STAT] Traitement des graphiques");
         console.log("[STAT] extraction et trie des années");
     };
-        // extraction des années 
-        let yearArray = [];
-        activityKeysList.forEach(key=>{
-            const dateObject = new Date(allUserActivityArray[key].date);
-            const year = dateObject.getFullYear();
-            if (!yearArray.includes(year)) {
-                yearArray.push(year);
-            }
-        });
+        
+    // extraction des années 
+    let yearArray = [];
+    activityKeysList.forEach(key=>{
+        const dateObject = new Date(allUserActivityArray[key].date);
+        const year = dateObject.getFullYear();
+        if (!yearArray.includes(year)) {
+            yearArray.push(year);
+        }
+    });
 
-        // Trie par ordre décroissant
-        yearArray.sort((a, b) => b - a);
+    // Trie par ordre décroissant
+    yearArray.sort((a, b) => b - a);
 
-        if (devMode === true){
-            console.log(yearArray);
-        };
+    if (devMode === true){
+        console.log(yearArray);
+    };
 
 
 
-        // creation des options pour les années
-        let selectRef = document.getElementById("selectStatGraphYear");
-        selectRef.innerHTML = "";
+    // creation des options pour les années
+    let selectRef = document.getElementById("selectStatGraphYear");
+    selectRef.innerHTML = "";
     
-        yearArray.forEach(e=>{
-            let newOption = document.createElement("option");
-            newOption.value = e;
-            newOption.innerHTML = e;
-    
-            selectRef.appendChild(newOption);
-        });
+    yearArray.forEach(e=>{
+        let newOption = document.createElement("option");
+        newOption.value = e;
+        newOption.innerHTML = e;    
+        selectRef.appendChild(newOption);
+    });
 
-        // Lancement du comptage sur la première année du tableau
-        getActivityStatCountByMonth(activityKeysList,yearArray[0]);
+    // Lancement du comptage sur la première année du tableau
+    getActivityStatCountByMonth(activityKeysList,yearArray[0]);
 
         
+    return  yearArray[0];//retour l'année pour affichage de l'évaluation
 }
 
 
@@ -937,6 +946,9 @@ function onChangeSelectorYearGraph(yearTarget){
 
     if (currentActivitySelected === "GENERAL") {
         getActivityStatCountByMonth(statActivityNonPlannedKeys,Number(yearTarget));
+
+        //Affichage et traitement evaluations
+        onDisplayEvalMonthItem(yearTarget);
     } else {
         // Récupère uniquement les données concernant l'activité en question et non planifié
         let activitiesTargetData = Object.entries(allUserActivityArray)
@@ -944,6 +956,9 @@ function onChangeSelectorYearGraph(yearTarget){
             .map(([key, value]) => key);
 
         getActivityStatCountByMonth(activitiesTargetData,Number(yearTarget));
+
+        //Masquage des evaluations
+        onHideEvalMonthItem();
     }    
 }
 
@@ -1182,6 +1197,8 @@ function onResetStatGraph() {
     });
 
 
+    //Reset la partie evaluation
+    resetStatEvaluationGraph();
  
 }
 

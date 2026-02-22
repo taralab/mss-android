@@ -545,6 +545,9 @@ function onValideEval() {
       //sauvegarde en base
 
 
+      //ICI détecter si le module stat evaluation est présent pour mise à jour visuelle
+      onCheckIfStatEvalUpdateRequired(currentEvaluationMonth);
+
       console.log("dataToSave = ", dataToSave);
     }else{
       console.log("Aucune modification. Traitement sauvegarde annulé");
@@ -560,19 +563,47 @@ function onValideEval() {
 
     //sauvegarde en base
 
+
+    //ICI détecter si le module stat evaluation est présent pour mise à jour visuelle
+    onCheckIfStatEvalUpdateRequired(currentEvaluationMonth);
+
     console.log("dataToSave = ", dataToSave);
 
   }
 
   console.log(evaluations);
 
-  //ICI détecter si le module stat evaluation est présent pour mise à jour
 
 
   //ferme le popup
   onCloseEvalPopup();
 }
 
+
+//vérification si actualisation stat eval nécessaire
+function onCheckIfStatEvalUpdateRequired(monthTarget) {
+  //regarde si deux images avec l'id du mois sont existant
+
+  const imgEvaluationID = `imgStatEvalAppreciation_${monthTarget}`,
+    imgMarquantID = `imgStatEvalMarquant_${monthTarget}`;
+
+  const imgAppreciationRef = document.getElementById(imgEvaluationID),
+    imgMarquantRef = document.getElementById(imgMarquantID);
+
+  if (imgAppreciationRef !== null && imgMarquantRef !== null) {
+    console.log("Actualisation affichage requis");
+
+    //Récupère les éléments
+    let appreciationValue = evaluations[monthTarget].appreciation,
+    marquantValue = evaluations[monthTarget].marquant;
+
+    //Set les nouvelles images
+    imgAppreciationRef.src = EVAL_APPRECIATION_DATA[appreciationValue].imgRef;
+    imgMarquantRef.src = EVAL_MARQUANT_DATA[marquantValue].imgRef; 
+
+  }
+
+}
 
 // Vérification si sauvegarde nécessaire
 function onCheckIfEvalModifySaveRequired() {
@@ -666,155 +697,186 @@ function  onGenerateEvalMonthItem(yearTarget){
   let monthAreaParentRef = document.getElementById("divEvalStatMonth");
     monthAreaParentRef.innerHTML = "";
 
-    const monthNameArray = [
-      "Jan","Fév","Mars","Avr","Mai","Juin","Jui",
-      "Aout","Sept","Oct","Nov","Déc"
-    ];
+  const monthNameArray = [
+    "Jan","Fév","Mars","Avr","Mai","Juin","Jui",
+    "Aout","Sept","Oct","Nov","Déc"
+  ];
 
 
-    for (let i = 1; i <= 12; i++) {
-      //12 pour 12 mois de l'années
+  for (let i = 1; i <= 12; i++) {
+    //12 pour 12 mois de l'années
 
 
-      //contruction de la keys
-      const month2Digits = String(i).padStart(2, '0');
-      let monthKey = `${yearTarget}-${month2Digits}`;
+    //contruction de la keys
+    const month2Digits = String(i).padStart(2, '0');
+    let monthKey = `${yearTarget}-${month2Digits}`;
 
-      // récupère la fourchette des mois des activités existantes
-      let monthRange = onFindEvalMonthRange();
-      //regarde si le mois en question est antérieur ou supérieur aux spectres des activités
-      let isMonthInRange = isYearEvalMonthInRange(monthKey, monthRange.firstMonthEver, monthRange.lastMonthEver);
+    // récupère la fourchette des mois des activités existantes
+    let monthRange = onFindEvalMonthRange();
+    //regarde si le mois en question est antérieur ou supérieur aux spectres des activités
+    let isMonthInRange = isYearEvalMonthInRange(monthKey, monthRange.firstMonthEver, monthRange.lastMonthEver);
 
-      console.log("Traitement boucle mensuel");
-      console.log("CurrentMonthKey : ", monthKey);
-      console.log("isMonthInRange ? ", isMonthInRange);
-      console.log("monthRange :" ,monthRange);
+    console.log("Traitement boucle mensuel");
+    console.log("CurrentMonthKey : ", monthKey);
+    console.log("isMonthInRange ? ", isMonthInRange);
+    console.log("monthRange :" ,monthRange);
 
-      //si hors du spectre
-      if (!isMonthInRange) {  
-        //On grise
+    //si hors du spectre
+    if (!isMonthInRange) {  
+      //On grise
 
-        //Création de la div du mois
-        let newDivMonth = document.createElement("div");
-        newDivMonth.classList.add("eval-month-disabled");
+      //Création de la div du mois
+      let newDivMonth = document.createElement("div");
+      newDivMonth.classList.add("eval-month-disabled");
 
-        //création du span pour le texte
-        let newSpanMonthText = document.createElement("span");
-        newSpanMonthText.textContent = monthNameArray[i-1];
+      //création du span pour le texte
+      let newSpanMonthText = document.createElement("span");
+      newSpanMonthText.textContent = monthNameArray[i-1];
 
-        //insertion du span dans la div
-        newDivMonth.appendChild(newSpanMonthText);
+      //insertion du span dans la div
+      newDivMonth.appendChild(newSpanMonthText);
 
-        //insertion de la div mensuel
-        monthAreaParentRef.appendChild(newDivMonth);
+      //insertion de la div mensuel
+      monthAreaParentRef.appendChild(newDivMonth);
         
 
 
-        // Sinon est qu'une clé correspond ?
-      }else if (Object.keys(evaluations).includes(monthKey)){
+    // Sinon est qu'une clé correspond ?
+    }else if (Object.keys(evaluations).includes(monthKey)){
 
-        //Récupère les éléments
-        let appreciationValue = evaluations[monthKey].appreciation,
-          marquantValue = evaluations[monthKey].marquant;
+      //Récupère les éléments
+      let appreciationValue = evaluations[monthKey].appreciation,
+        marquantValue = evaluations[monthKey].marquant;
 
-
-        //Création de la div du mois
-        let newDivMonth = document.createElement("div");
-        newDivMonth.classList.add("eval-month-enabled");
-
-        //création de la div des images
-        let newDivImg = document.createElement("div");
-        newDivImg.classList.add("eval-month-img");
-
-        //création des images
-        let newImgAppreciation = document.createElement("img");
-        newImgAppreciation.src = EVAL_APPRECIATION_DATA[appreciationValue].imgRef;
-        let newImgMarquant = document.createElement("img");
-        newImgMarquant.src = EVAL_MARQUANT_DATA[marquantValue].imgRef;
-
-        //création du span pour le texte
-        let newSpanMonthText = document.createElement("span");
-        newSpanMonthText.textContent = monthNameArray[i-1];
+      //Création de la div du mois (cliquable)
+      let newDivMonth = document.createElement("div");
+      newDivMonth.classList.add("eval-month-enabled");
+      newDivMonth.addEventListener("click", ()=> onAskEvaluation(monthKey));
 
 
-        //insertion des images dans la div image
-        newDivImg.appendChild(newImgAppreciation);
-        newDivImg.appendChild(newImgMarquant);
+      //création de la div des images
+      let newDivImg = document.createElement("div");
+      newDivImg.classList.add("eval-month-img");
 
-        newDivMonth.appendChild(newDivImg);
+      //création des images
+      let newImgAppreciation = document.createElement("img");
+      newImgAppreciation.src = EVAL_APPRECIATION_DATA[appreciationValue].imgRef;
+      newImgAppreciation.id = `imgStatEvalAppreciation_${monthKey}`;//id utilisé lors d'une modification pour réactualisation
 
-        //insertion du span dans la div
-        newDivMonth.appendChild(newSpanMonthText);
+      let newImgMarquant = document.createElement("img");
+      newImgMarquant.src = EVAL_MARQUANT_DATA[marquantValue].imgRef;
+      newImgMarquant.id = `imgStatEvalMarquant_${monthKey}`;//id utilisé lors d'une modification pour réactualisation
 
-        //insertion de la div mensuel
-        monthAreaParentRef.appendChild(newDivMonth);
+      //création du span pour le texte
+      let newSpanMonthText = document.createElement("span");
+      newSpanMonthText.textContent = monthNameArray[i-1];
+
+
+      //insertion des images dans la div image
+      newDivImg.appendChild(newImgAppreciation);
+      newDivImg.appendChild(newImgMarquant);
+
+      newDivMonth.appendChild(newDivImg);
+
+      //insertion du span dans la div
+      newDivMonth.appendChild(newSpanMonthText);
+
+      //insertion de la div mensuel
+      monthAreaParentRef.appendChild(newDivMonth);
 
 
 
         //aucune clé correspondante
-      }else{
-        //on met les deux éléments avec l'image non évaluée
+    }else{
+      //on met les deux éléments avec l'image non évaluée
 
 
-        //Création de la div du mois
-        let newDivMonth = document.createElement("div");
-        newDivMonth.classList.add("eval-month-enabled");
+      //Création de la div du mois (clicable)
+      let newDivMonth = document.createElement("div");
+      newDivMonth.classList.add("eval-month-enabled");
+      newDivMonth.addEventListener("click", ()=> onAskEvaluation(monthKey));
 
-        //création de la div des images
-        let newDivImg = document.createElement("div");
-        newDivImg.classList.add("eval-month-img");
+      //création de la div des images
+      let newDivImg = document.createElement("div");
+      newDivImg.classList.add("eval-month-img");
 
-        //création des images
-        let newImgAppreciation = document.createElement("img");
-        newImgAppreciation.src = "./Icons/mss_no-set.webp";
-        let newImgMarquant = document.createElement("img");
-        newImgMarquant.src = "./Icons/mss_no-set.webp";
+      //création des images
+      let newImgAppreciation = document.createElement("img");
+      newImgAppreciation.src = "./Icons/mss_no-set.webp";
+      newImgAppreciation.id = `imgStatEvalAppreciation_${monthKey}`;//id utilisé lors d'une modification pour réactualisation
 
-        //création du span pour le texte
-        let newSpanMonthText = document.createElement("span");
-        newSpanMonthText.textContent = monthNameArray[i-1];
+      let newImgMarquant = document.createElement("img");
+      newImgMarquant.src = "./Icons/mss_no-set.webp";
+      newImgMarquant.id = `imgStatEvalMarquant_${monthKey}`;//id utilisé lors d'une modification pour réactualisation
+
+      //création du span pour le texte
+      let newSpanMonthText = document.createElement("span");
+      newSpanMonthText.textContent = monthNameArray[i-1];
 
 
-        //insertion des images dans la div image
-        newDivImg.appendChild(newImgAppreciation);
-        newDivImg.appendChild(newImgMarquant);
+      //insertion des images dans la div image
+      newDivImg.appendChild(newImgAppreciation);
+      newDivImg.appendChild(newImgMarquant);
 
-        newDivMonth.appendChild(newDivImg);
+      newDivMonth.appendChild(newDivImg);
 
-        //insertion du span dans la div
-        newDivMonth.appendChild(newSpanMonthText);
+      //insertion du span dans la div
+      newDivMonth.appendChild(newSpanMonthText);
 
-        //insertion de la div mensuel
-        monthAreaParentRef.appendChild(newDivMonth);
+      //insertion de la div mensuel
+      monthAreaParentRef.appendChild(newDivMonth);
 
-      }
+    }
 
       
-    }
   }
+}
 
 
-  //recupère le premiers et le dernier mois contenant des activités 
+//recupère le premiers et le dernier mois contenant des activités 
 function  onFindEvalMonthRange(){
 
-    const monthRange = {
-      firstMonthEver :"2025-01",//a rendre dynamique
-      lastMonthEver : "2026-05"//a rendre dynamique
-    }
+  const monthRange = {
+    firstMonthEver :"2025-01",//a rendre dynamique
+    lastMonthEver : "2026-05"//a rendre dynamique
+  };
 
-    return monthRange;
-  }
+  return monthRange;
+};
 
 
 function  isYearEvalMonthInRange(date, min, max) {
   console.log(`verification Range : date : ${date}, min = ${min}, max = ${max}`);
 
-    return date >= min && date <= max;
-  }
+  return date >= min && date <= max;
+};
 
 
 
+//affiche la partie evaluation stat
+function onDisplayEvalMonthItem(yearTarget) {
+  //rend la div visible
+  document.getElementById("divStatGraphiqueEvaluation").style.display = "block";
+
+
+  //et lance la génération
+  onGenerateEvalMonthItem(yearTarget);
+}
+
+
+//Masque la partie evaluation stat
+function onHideEvalMonthItem() {
+  //masque le div et vide le contenu des mois
+  document.getElementById("divStatGraphiqueEvaluation").style.display = "none";
+  document.getElementById("divEvalStatMonth").innerHTML = "";
+
+
+}
 
 
 
-
+// Reset la partie stat evaluation graphique
+function resetStatEvaluationGraph() {
+  document.getElementById("divStatGraphiqueEvaluation").style.display = "none";
+  document.getElementById("divEvalStatMonth").innerHTML = "";
+}

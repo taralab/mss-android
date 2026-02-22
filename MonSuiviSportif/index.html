@@ -1027,7 +1027,18 @@
                         </section>
                     </div>
 
-                    
+                    <!-- EVALUATION -->
+                    <div class="statGraphique" id="divStatGraphiqueEvaluation">
+                        <div class="stat-header">
+                            <div class="stat-header-left">
+                                <h3 class="stat-title stat-title-count">Evaluations</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-months eval-months" id="divEvalStatMonth">
+                            <!-- Injection des mois -->
+                        </div>
+                    </div>
 
                     <!-- COUNT -->
                     <div class="statGraphique">
@@ -1935,6 +1946,48 @@
 
             <!---------------------------------------   FIN Popup #REWARD --------------------------------------------------- -->
             
+
+            <!-------------------------------------- Module popup evaluation  -------------------------------------------------->
+            <div class="popup-new-counter" id="divPopupEvaluation">
+                <div class="popup-new-counter-content" id="divPopupEvaluationContent">
+                    <h2 class="session-item-editor">Evaluation du mois</h2>
+                    <p id="pEvaluationEditorMontTitle">Juin 2026</p>
+
+                    <!-- Evaluation -->
+                    <div>
+                        <label for="">Appréciation : </label>
+                        <select name="" id="selectEvalAppreciation" class="eval">
+                            <!-- Injection des options -->
+                        </select>
+                    </div>
+
+                    <!-- Marquant -->
+                    <div>
+                        <label for="">Marquant : </label>
+                        <select class="eval" id="selectEvalMarquant">
+                            <!-- Injection des options -->
+                        </select>
+                    </div>
+
+                    <!-- Commentaire -->
+                    <div>
+                        <label for="">Commentaire: </label>
+                        <textarea name="" id="textareaEvalComment" maxlength="250"></textarea>
+                    </div>
+                    
+                    <!-- Bouton de navigation -->
+                    <div class="custom-editor-btn-menu">
+                        <button id="btnReturnEvalEditor" class="btn-menu return">
+                            <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
+                            <span>Retour</span>
+                        </button>
+                        <button id="btnValideEvalEditor" class="btn-menu btnFocus">
+                            Valider
+                        </button>  
+                    </div>
+                </div>
+            </div>
+            <!--  fin module popup evaluation -->
 
 
 
