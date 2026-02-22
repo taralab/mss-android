@@ -684,8 +684,6 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     let statDeltaColor = {};
     statDeltaColor = traitementCouleurStat(currentMonthData,previousMonthData,currentMonthIndex);
 
-    console.log(statDeltaColor);
-
     let frenchMonthNameArray = [
             'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
             'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'

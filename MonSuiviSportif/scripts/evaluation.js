@@ -515,14 +515,17 @@ function onDisplayModifyEvaluation(monthTarget) {
 
 function onValideEval() {
   //regarde si le champ obligatoire est remplit (apprecation)
-  console.log(selectEvalAppreciationRef.value);
 
   if(Number(selectEvalAppreciationRef.value) === 0){
     //Ajoute la class rouge
     selectEvalAppreciationRef.classList.add("fieldRequired");
 
-    console.log("Evaluation : Champ obligatoire non renseigné");
+    if (devMode === true) {
+      console.log("Evaluation : Champ obligatoire non renseigné");
+    }
+
     //Envoie une notification
+    onShowNotifyPopup("inputIncrementEmpty");
 
     //arret la séquence
     return
@@ -718,10 +721,13 @@ function  onGenerateEvalMonthItem(yearTarget){
     //regarde si le mois en question est antérieur ou supérieur aux spectres des activités
     let isMonthInRange = isYearEvalMonthInRange(monthKey, monthRange.firstMonthEver, monthRange.lastMonthEver);
 
-    console.log("Traitement boucle mensuel");
-    console.log("CurrentMonthKey : ", monthKey);
-    console.log("isMonthInRange ? ", isMonthInRange);
-    console.log("monthRange :" ,monthRange);
+    if (devMode === true) {
+      console.log("Traitement boucle mensuel");
+      console.log("CurrentMonthKey : ", monthKey);
+      console.log("isMonthInRange ? ", isMonthInRange);
+      console.log("monthRange :" ,monthRange);
+    }
+
 
     //si hors du spectre
     if (!isMonthInRange) {  
@@ -838,9 +844,21 @@ function  onGenerateEvalMonthItem(yearTarget){
 //recupère le premiers et le dernier mois contenant des activités 
 function  onFindEvalMonthRange(){
 
+
+  // Le mois en cours au format "YYYY-MM"
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const lastMonth = `${year}-${month}`;
+
+
+  //Le premier tout d'activité (non planifié) au format "YYYY-MM"
+  const firstMonth = getOldestYearMonth(allUserActivityArray);
+
+
   const monthRange = {
-    firstMonthEver :"2025-01",//a rendre dynamique
-    lastMonthEver : "2026-05"//a rendre dynamique
+    firstMonthEver :firstMonth,
+    lastMonthEver : lastMonth
   };
 
   return monthRange;
@@ -848,12 +866,38 @@ function  onFindEvalMonthRange(){
 
 
 function  isYearEvalMonthInRange(date, min, max) {
-  console.log(`verification Range : date : ${date}, min = ${min}, max = ${max}`);
+
+  if (devMode === true) {
+    console.log(`verification Range : date : ${date}, min = ${min}, max = ${max}`);
+  }
+
 
   return date >= min && date <= max;
 };
 
 
+
+function getOldestYearMonth(allUserActivityArray) {
+  if (!allUserActivityArray || typeof allUserActivityArray !== "object") {
+    return null;
+  }
+
+  let oldestDate = null;
+
+  for (const item of Object.values(allUserActivityArray)) {
+    if (!item || item.isPlanned === true) continue;
+
+    const date = item.date;
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+
+    if (oldestDate === null || date < oldestDate) {
+      oldestDate = date;
+    }
+  }
+
+  return oldestDate ? oldestDate.slice(0, 7) : null;
+}
 
 //affiche la partie evaluation stat
 function onDisplayEvalMonthItem(yearTarget) {
