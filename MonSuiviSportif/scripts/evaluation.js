@@ -431,7 +431,8 @@ function onChangeEvalMarquant(value) {
   textareaEvalCommentRef.placeholder = EVAL_MARQUANT_DATA[newValue].placeholder;
 
   //Set l'image background du sélecteur
-  selectEvalMarquantRef.style.backgroundImage = `url('.${EVAL_MARQUANT_DATA[newValue].imgRef}')`;
+  selectEvalMarquantRef.style.backgroundImage = `url('${EVAL_MARQUANT_DATA[newValue].imgRef}')`;
+
 }
 
 
@@ -441,7 +442,8 @@ function onChangeEvalAppreciation(value) {
   let newValue= value;
 
   //Set l'image background du sélecteur
-   selectEvalAppreciationRef.style.backgroundImage = `url('.${EVAL_APPRECIATION_DATA[newValue].imgRef}')`;
+  selectEvalAppreciationRef.style.backgroundImage = `url('${EVAL_APPRECIATION_DATA[newValue].imgRef}')`;
+
 
    //Traitement champ obligatoire. Enlève le rouge si correspondant pas à 0
    if (newValue !== 0 && selectEvalAppreciationRef.classList.contains("fieldRequired")) {
