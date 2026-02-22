@@ -6,6 +6,94 @@ let evaluations = {
     marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
     comment: "Je me suis cassé le pied",
 
+  },
+    "2025-01": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 5,        // numéraire
+    marquant: "GOAL",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "",
+
+  },
+    "2025-02": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 3,        // numéraire
+    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Pas terrible",
+
+  },
+    "2025-03": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 4,        // numéraire
+    marquant: "OBSTACLE",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Salle de sport fermée",
+
+  },
+    "2025-05": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 1,        // numéraire
+    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "",
+
+  },
+    "2025-07": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 2,        // numéraire
+    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Pas terrible",
+
+  },
+    "2025-08": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 1,        // numéraire
+    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Je me suis cassé le pied",
+
+  },
+    "2025-10": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 1,        // numéraire
+    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Commentaire 2025-10",
+
+  },
+    "2025-11": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 5,        // numéraire
+    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Je me suis cassé le pied",
+
+  },
+    "2025-12": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 4,        // numéraire
+    marquant: "SPECIAL",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Tout à bien fonctionné",
+
+  },
+    "2024-07": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 5,        // numéraire
+    marquant: "noSet",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Je me suis cassé le pied",
+
+  },
+    "2024-08": {//Toujours le mois à deux digits
+    evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
+    modificationDate : "",//Peut servir pour des statistiques
+    appreciation: 3,        // numéraire
+    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    comment: "Je me suis cassé le pied",
+
   }
 };
 
@@ -564,8 +652,169 @@ function onClickInsideEvalPopupContent(event) {
 
 
 
-// TEST A RETIRER
-function onTestModify(monthTarget) {
-  
-  onAskEvaluation(monthTarget);
-}
+
+// ------------------Partie statistique evaluation------------------------
+
+//Si statistique général, la div principale sera en display flex sinon
+//en display none.
+//On se basera sur le display pour savoir si c'est en cours d'affichage ou non
+
+
+
+function  onGenerateEvalMonthItem(yearTarget){
+  //vide le parent
+  let monthAreaParentRef = document.getElementById("divEvalStatMonth");
+    monthAreaParentRef.innerHTML = "";
+
+    const monthNameArray = [
+      "Jan","Fév","Mars","Avr","Mai","Juin","Jui",
+      "Aout","Sept","Oct","Nov","Déc"
+    ];
+
+
+    for (let i = 1; i <= 12; i++) {
+      //12 pour 12 mois de l'années
+
+
+      //contruction de la keys
+      const month2Digits = String(i).padStart(2, '0');
+      let monthKey = `${yearTarget}-${month2Digits}`;
+
+      // récupère la fourchette des mois des activités existantes
+      let monthRange = onFindEvalMonthRange();
+      //regarde si le mois en question est antérieur ou supérieur aux spectres des activités
+      let isMonthInRange = isYearEvalMonthInRange(monthKey, monthRange.firstMonthEver, monthRange.lastMonthEver);
+
+      console.log("Traitement boucle mensuel");
+      console.log("CurrentMonthKey : ", monthKey);
+      console.log("isMonthInRange ? ", isMonthInRange);
+      console.log("monthRange :" ,monthRange);
+
+      //si hors du spectre
+      if (!isMonthInRange) {  
+        //On grise
+
+        //Création de la div du mois
+        let newDivMonth = document.createElement("div");
+        newDivMonth.classList.add("eval-month-disabled");
+
+        //création du span pour le texte
+        let newSpanMonthText = document.createElement("span");
+        newSpanMonthText.textContent = monthNameArray[i-1];
+
+        //insertion du span dans la div
+        newDivMonth.appendChild(newSpanMonthText);
+
+        //insertion de la div mensuel
+        monthAreaParentRef.appendChild(newDivMonth);
+        
+
+
+        // Sinon est qu'une clé correspond ?
+      }else if (Object.keys(evaluations).includes(monthKey)){
+
+        //Récupère les éléments
+        let appreciationValue = evaluations[monthKey].appreciation,
+          marquantValue = evaluations[monthKey].marquant;
+
+
+        //Création de la div du mois
+        let newDivMonth = document.createElement("div");
+        newDivMonth.classList.add("eval-month-enabled");
+
+        //création de la div des images
+        let newDivImg = document.createElement("div");
+        newDivImg.classList.add("eval-month-img");
+
+        //création des images
+        let newImgAppreciation = document.createElement("img");
+        newImgAppreciation.src = EVAL_APPRECIATION_DATA[appreciationValue].imgRef;
+        let newImgMarquant = document.createElement("img");
+        newImgMarquant.src = EVAL_MARQUANT_DATA[marquantValue].imgRef;
+
+        //création du span pour le texte
+        let newSpanMonthText = document.createElement("span");
+        newSpanMonthText.textContent = monthNameArray[i-1];
+
+
+        //insertion des images dans la div image
+        newDivImg.appendChild(newImgAppreciation);
+        newDivImg.appendChild(newImgMarquant);
+
+        newDivMonth.appendChild(newDivImg);
+
+        //insertion du span dans la div
+        newDivMonth.appendChild(newSpanMonthText);
+
+        //insertion de la div mensuel
+        monthAreaParentRef.appendChild(newDivMonth);
+
+
+
+        //aucune clé correspondante
+      }else{
+        //on met les deux éléments avec l'image non évaluée
+
+
+        //Création de la div du mois
+        let newDivMonth = document.createElement("div");
+        newDivMonth.classList.add("eval-month-enabled");
+
+        //création de la div des images
+        let newDivImg = document.createElement("div");
+        newDivImg.classList.add("eval-month-img");
+
+        //création des images
+        let newImgAppreciation = document.createElement("img");
+        newImgAppreciation.src = "./Icons/mss_no-set.webp";
+        let newImgMarquant = document.createElement("img");
+        newImgMarquant.src = "./Icons/mss_no-set.webp";
+
+        //création du span pour le texte
+        let newSpanMonthText = document.createElement("span");
+        newSpanMonthText.textContent = monthNameArray[i-1];
+
+
+        //insertion des images dans la div image
+        newDivImg.appendChild(newImgAppreciation);
+        newDivImg.appendChild(newImgMarquant);
+
+        newDivMonth.appendChild(newDivImg);
+
+        //insertion du span dans la div
+        newDivMonth.appendChild(newSpanMonthText);
+
+        //insertion de la div mensuel
+        monthAreaParentRef.appendChild(newDivMonth);
+
+      }
+
+      
+    }
+  }
+
+
+  //recupère le premiers et le dernier mois contenant des activités 
+function  onFindEvalMonthRange(){
+
+    const monthRange = {
+      firstMonthEver :"2025-01",//a rendre dynamique
+      lastMonthEver : "2026-05"//a rendre dynamique
+    }
+
+    return monthRange;
+  }
+
+
+function  isYearEvalMonthInRange(date, min, max) {
+  console.log(`verification Range : date : ${date}, min = ${min}, max = ${max}`);
+
+    return date >= min && date <= max;
+  }
+
+
+
+
+
+
+
