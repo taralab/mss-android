@@ -908,6 +908,22 @@ async function importBdD(dataToImport) {
             };
             await onInsertNewMemoryInDB(newMemoryToInsert);
 
+
+        //EVALUATION    
+        } else if (e.type === evaluationStoreName){
+            await updateDocumentInDB(evaluationStoreName, (doc) => {
+                doc.data = e.data;
+                return doc;
+            });
+
+
+        //EVALUATION REMINDER    
+        } else if (e.type === evaluationReminderStoreName){
+            await updateDocumentInDB(evaluationReminderStoreName, (doc) => {
+                doc.data = e.data;
+                return doc;
+            });
+
         //OBJECTIF
         } else if (e.type === objectifStoreName){
             let newObjectifToInsert = {
