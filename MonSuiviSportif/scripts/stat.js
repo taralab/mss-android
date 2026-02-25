@@ -666,10 +666,10 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
         textStatCurrentEvoDurationRef = document.getElementById("textStatCurrentEvoDuration");
 
 
-    //retire les class de couleur ne laisse que la class normal
+    //retire les class de couleur 
     idTextComparaisonValueRef.forEach(id=>{
         let itemRef = document.getElementById(id);
-        itemRef.className = "stat-delta";
+        itemRef.className = "";
     });
 
     // Lance le calcul

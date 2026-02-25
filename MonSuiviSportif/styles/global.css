@@ -1458,21 +1458,26 @@ div.stat-header-left{
 }
 
 .stat-evo-normal {
+    font-weight: 600;
     color: var(--stat_delta-normal);
 }
 
 .stat-evo-positif{
+    font-weight: 600;
     color: var(--stat_delta-positif);
 }
 .stat-evo-less-100{
+    font-weight: 600;
     color: var(--stat_delta-less-100);
 }
 
 .stat-evo-less-80{
+    font-weight: 600;
     color: var(--stat_delta-less-80);
 }
 
 .stat-evo-less-50{
+    font-weight: 600;
     color: var(--stat_delta-less-50);
 }
 
