@@ -701,13 +701,13 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     textStatCurrentEvoDistanceRef.textContent = evolutionResult.distance;
     textStatComparaisonDistanceRef.textContent = `vs ${previousMonthFrenchName}`;
     //Ajoute la class de la couleur
-    textStatCurrentEvoDistanceRef.classList.add(statDeltaColor.activityDuration);
+    textStatCurrentEvoDistanceRef.classList.add(statDeltaColor.activityDistance);
 
     // Distance
     textStatCurrentEvoDurationRef.textContent = evolutionResult.duration; 
     textStatComparaisonDurationRef.textContent = `vs ${previousMonthFrenchName}`;
     //Ajoute la class de la couleur
-    textStatCurrentEvoDurationRef.classList.add(statDeltaColor.activityDistance);
+    textStatCurrentEvoDurationRef.classList.add(statDeltaColor.activityDuration);
 
 }
 
