@@ -999,23 +999,43 @@ function disableContextMenu(event) {
 
 
 // Affiche la date au format userFriendly
-function onDisplayUserFriendlyDate(date){
-    let friendlyDate = "";
+function onDisplayUserFriendlyDate(dateStr) {
+    const today = new Date();
+    const inputDate = new Date(dateStr);
 
-    if (date === dateToday) {
-        friendlyDate = "Auj.";
-    }else if (date === dateYesterday) {
-        friendlyDate = "Hier";
-    }else{
-        friendlyDate = onFormatDateToFr(date);
-    };
+    // Normalisation à minuit pour éviter les erreurs d’heure
+    today.setHours(0, 0, 0, 0);
+    inputDate.setHours(0, 0, 0, 0);
 
-    return friendlyDate;
+    const diffTime = today - inputDate;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    // Aujourd’hui
+    if (diffDays === 0) {
+        return "Auj.";
+    }
+
+    // Hier
+    if (diffDays === 1) {
+        return "Hier";
+    }
+
+    // Détermination du début de semaine (lundi)
+    const startOfWeek = new Date(today);
+    const day = today.getDay(); // 0 = dimanche, 1 = lundi...
+    const diffToMonday = (day === 0 ? -6 : 1 - day);
+    startOfWeek.setDate(today.getDate() + diffToMonday);
+
+    // Si dans la semaine en cours
+    if (inputDate >= startOfWeek && inputDate < today) {
+        return inputDate.toLocaleDateString("fr-FR", {
+            weekday: "short"
+        });
+    }
+
+    // Sinon → format FR classique
+    return onFormatDateToFr(dateStr);
 }
-
-
-
-
 
 
 
@@ -1053,12 +1073,6 @@ function displayDivScrollableMenu() {
 function hideDivScrollableMenu() {
     document.getElementById("mainDivScrollable").style.display = "none";
 }
-
-
-
-let dateToday = onFindDateTodayUS(),
-    dateYesterday = onFindDateYesterdayUS();
-
 
 
 
