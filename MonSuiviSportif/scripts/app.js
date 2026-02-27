@@ -322,6 +322,10 @@ async function onLoadStores() {
             evaluations = evaluation.data;
         }
 
+        const evalReminder = await db.get(evaluationReminderStoreName).catch(() => null);
+        if (evalReminder) {
+            evaluationReminders = evalReminder.data;
+        }
 
         const settings = await db.get(settingStoreName).catch(() => null);
         if (settings) {

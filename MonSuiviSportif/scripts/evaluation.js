@@ -993,6 +993,7 @@ function getEvalNotifyPreviousMonthKey() {
 }
 
 
-setTimeout(() => {
-  onCheckPopupEvaluationNotify();
-}, 3000);
+// Pour test à retirer à la fin du dev
+// setTimeout(() => {
+//   onCheckPopupEvaluationNotify();
+// }, 3000);
