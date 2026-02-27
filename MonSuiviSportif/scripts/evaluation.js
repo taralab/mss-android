@@ -20,7 +20,7 @@ let evaluationReminders = {
 
 let isEvaluationPopupOpen = false,//utilisé pour éviter le double affichage
   isEvaluationNotifyOpen = false,//utilisé pour éviter le double affichage
-  dateLimiteEvaluation = 27;//entre le premier et le 7 du mois
+  dateLimiteEvaluation = 7;//entre le premier et le 7 du mois
 
 
 
