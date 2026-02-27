@@ -18,6 +18,10 @@ let evaluationReminders = {
   }
 };
 
+let isEvaluationPopupOpen = false,//utilisé pour éviter le double affichage
+  isEvaluationNotifyOpen = false,//utilisé pour éviter le double affichage
+  dateLimiteEvaluation = 27;//entre le premier et le 7 du mois
+
 
 
 // Référence
@@ -226,6 +230,8 @@ function onConvertEvalMonth(monthTarget) {
 function onAskEvaluation(monthTarget) {
 
   currentEvaluationMonth = monthTarget;
+  isEvaluationPopupOpen = true;
+
 
   //vérifie le monthTarget dans la base
   let evaluationKeys = Object.keys(evaluations);
@@ -602,6 +608,8 @@ function onCloseEvalPopup() {
   //retirer les écoutes d'évènement
   onRemoveEventListenerInRegistry(["evaluationPopup"]);
 
+  isEvaluationPopupOpen = false;
+
 }
 
 // Empeche de fermer la div lorsque l'utilisateur clique dans cette zone
@@ -851,3 +859,140 @@ function resetStatEvaluationGraph() {
   document.getElementById("divStatGraphiqueEvaluation").style.display = "none";
   document.getElementById("divEvalStatMonth").innerHTML = "";
 }
+
+
+
+
+// ---------------------------- NOTIFICATION EVALUATION ----------------------------------
+
+
+
+//Afficher le popup si :
+//Entre le 1 et le 7
+//Activité antérieure au mois en cours
+//Mois précédent non évalué (!evaluation[key])
+//Pas déjà rappelé (!evaluationReminders[key])
+//Popup non déjà affiché (!isEvaluationPopupOpen)
+
+//Déclenches la vérification :
+//Au lancement complet (cold start)
+
+//Au retour en foreground (resume)
+
+
+
+function onCheckPopupEvaluationNotify() {
+  console.log("Evaluation, vérification condition affichage popup");
+
+  // Notification activée ?
+  if (!userSetting.evaluationNotifyEnabled) {
+    console.log("Evaluation notify : Notification désactivé");
+    return
+  } 
+
+  // Entre le 1 et le 7 ?
+  let iSEvalDateInRange = onCheckEvalDatePopupNotifyRange();
+  if (!iSEvalDateInRange) {
+    console.log("Evaluation notify : Pas dans le créneaux d'evaluation");
+    return
+  } 
+
+  // Popup déjà ouvert ?
+  if (isEvaluationPopupOpen) {
+    console.log("Evaluation notify : Popup d'évaluation déjà en cours d'affichage");
+    return
+  }
+
+  // Notification déjà ouverte ?
+  if (isEvaluationNotifyOpen) {
+    console.log("Evaluation notify : Popup de notification déjà en cours d'affichage");
+    return
+  }
+
+
+  // Mois précédent déjà évalué ,
+  let previousMonthKey = getEvalNotifyPreviousMonthKey();
+  console.log("Evaluation notify : Previous month Key : ", previousMonthKey);
+
+  if (evaluations[previousMonthKey]) {
+    console.log("Evaluation notify : Mois précédent déjà evalué");
+    return
+  }
+
+  // Popup de notification déjà présenté une fois à l'utilisateur ?
+  if (evaluationReminders[previousMonthKey].reminderShown) {
+    console.log("Evaluation notify : Notification déjà présenté à l'utilisateur");
+    return
+  }
+
+
+  // Activité antérieure existante ?
+  let hasActivityBefore = hasActivityBeforeCurrentMonth(allUserActivityArray);
+  if (!hasActivityBefore) {
+    console.log("Evaluation notify : Aucune activité antérieur au mois en cours");
+    return
+  }
+
+  console.log("Toutes les conditions sont réunis pour affiche popup notification evaluation");
+
+ 
+  
+}
+
+
+
+//vérifie si au moins une activité antérieur au mois en cours
+function hasActivityBeforeCurrentMonth(allActivityArray) {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1; // 1–12
+
+  const currentMonthKey = `${currentYear}-${String(currentMonth).padStart(2, '0')}`;
+
+  for (const key in allActivityArray) {
+    const activity = allActivityArray[key];
+
+    if (!activity.date) continue;
+
+    // activity.date format "YYYY-MM-DD"
+    const activityMonthKey = activity.date.substring(0, 7);
+
+    if (activityMonthKey < currentMonthKey) {
+      return true; // dès qu’on trouve une activité antérieure → stop
+    }
+  }
+
+  return false;
+}
+
+//vérifie si les dates sont bonnes (entre le premier et le 7 du mois)
+function onCheckEvalDatePopupNotifyRange() {
+  return new Date().getDate() <= dateLimiteEvaluation;
+}
+
+
+//récupère la key du mois précédent
+function getEvalNotifyPreviousMonthKey() {
+  const now = new Date();
+  let year = now.getFullYear();
+  let month = now.getMonth(); // 0-11
+
+  // obtenir le mois précédent
+  month -= 1;
+  if (month < 0) { // janvier
+    month = 11; // décembre
+    year -= 1; //pour l'année précédente si concerne le mois de décembre
+  }
+
+  // Format YYYY-MM
+  const locPreviousMonthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+
+  console.log(locPreviousMonthKey);
+
+  return locPreviousMonthKey;
+}
+
+
+setTimeout(() => {
+  onCheckPopupEvaluationNotify();
+}, 3000);

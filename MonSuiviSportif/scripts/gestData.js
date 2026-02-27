@@ -678,7 +678,7 @@ async function eventImportBdD(inputRef) {
                     case 9:
                         //Le fichier V9 contient le nouveau STORE ALLTAGLIST, 
                         // les activités ont des TAG
-                        // NOUVEAU STORE POUR LES EVALUATIONS
+                        // NOUVEAUX STORES POUR LES EVALUATIONS
                         console.log("[IMPORT] V9");
                         importedDocs = jsonData.documents || [];
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
