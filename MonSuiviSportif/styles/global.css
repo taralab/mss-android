@@ -4341,6 +4341,41 @@ div.eval-month-disabled span{
 }
 
 
+/* Bouton principal */
+
+.btn-eval-notify{
+  padding: 14px;
+  border-radius: 28px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.eval-notify-btn-primary {
+  border: none;
+  background: var(--colorMainTheme1); /* vert doux */
+  color: white;
+}
+
+
+/* Bouton secondaire */
+.eval-notify-btn-secondary {
+  border: 2px solid var(--colorMainTheme1);
+  background: transparent;
+  color: var(--colorMainTheme1);
+  font-size: 16px;
+}
+
+
+/* Bouton texte désactiver */
+.eval-notify-btn-third {
+    border: 2px solid;
+    border: none;
+    color: #777;
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: 400;
+}
+
 
 
 /* ---------------------------- Styles paysage ----------------------------------------*/

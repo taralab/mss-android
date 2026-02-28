@@ -883,7 +883,7 @@ function resetStatEvaluationGraph() {
 
 function onCheckPopupEvaluationNotify() {
   console.log("Evaluation, vérification condition affichage popup");
-onDisplayEvalPopupNotify();
+
   // Notification activée ?
   if (!userSetting.evaluationNotifyEnabled) {
     console.log("Evaluation notify : Notification désactivé");
@@ -934,29 +934,26 @@ onDisplayEvalPopupNotify();
   }
 
   console.log("Toutes les conditions sont réunis pour affiche popup notification evaluation");
-  onDisplayEvalPopupNotify();
+  onDisplayEvalPopupNotify(previousMonthKey);
 
-
- 
-  
 }
 
 
 
 //affichage du popup de notification
-function onDisplayEvalPopupNotify() {
+function onDisplayEvalPopupNotify(monthTarget) {
   document.getElementById("divPopupNotifyEvaluation").style.display = "flex";
 
   //ajoute les écouteurs d'évènements
   //Evaluer maintenant
   let btnEvalNowRef = document.getElementById("btnPopupEvalNotifyNow");
-  const clickEvalNow = () => onClickEvalNowFromNotify();
+  const clickEvalNow = () => onClickEvalNowFromNotify(monthTarget);
   btnEvalNowRef.addEventListener("click",clickEvalNow);
   onAddEventListenerInRegistry("evalPopupNotify",btnEvalNowRef,"click",clickEvalNow);
 
   //Evaluer plus tard
   let btnEvalLaterRef = document.getElementById("btnPopupEvalNotifyLater");
-  const clickEvalLater = () => onClickEvalLaterFromNotify();
+  const clickEvalLater = () => onClickEvalLaterFromNotify(monthTarget);
   btnEvalLaterRef.addEventListener("click",clickEvalLater);
   onAddEventListenerInRegistry("evalPopupNotify",btnEvalLaterRef,"click",clickEvalLater);
 
@@ -986,11 +983,16 @@ function onHideEvalPopupNotify() {
 
 
 // Demande à évaluer maintenant via popup de notification
-function onClickEvalNowFromNotify() {
+function onClickEvalNowFromNotify(monthTarget) {
+
   console.log("click eval now");
+  console.log("Mois cible :" ,monthTarget);
 
   //lance la fonction adéquate
+  onAskEvaluation(monthTarget);
 
+  //traitement de la gestion des notifications evaluation
+  eventInsertNewNotifyEvalDate(monthTarget);
 
   //Ferme le popup de notification
   onHideEvalPopupNotify();
@@ -1000,11 +1002,11 @@ function onClickEvalNowFromNotify() {
 
 
 // Demande à évaluer plus tard via popup de notification
-function onClickEvalLaterFromNotify() {
+function onClickEvalLaterFromNotify(monthTarget) {
   console.log("click eval Later");
 
-  //lance la fonction adéquate
-
+  //traitement de la gestion des notifications evaluation
+  eventInsertNewNotifyEvalDate(monthTarget);
 
   //Ferme le popup de notification
   onHideEvalPopupNotify();
@@ -1015,15 +1017,47 @@ function onClickEvalLaterFromNotify() {
 
 
 // Demande la désactivation des notifications pour l'évaluation
-function onclickDisableNotifyFromNotify() {
+async function onclickDisableNotifyFromNotify() {
   console.log("click disable notify");
 
-  //lance la fonction adéquate
+  //lance la désactivation dans le menu paramètre et sauvegarde setting
+  userSetting.evaluationNotifyEnabled = false;
 
+  // Sauvegarde la modification
+  await updateDocumentInDB(settingStoreName, (doc) => {
+    doc.data = userSetting;
+    return doc;
+  });
+
+  // Popup notification
+  onShowNotifyPopup("saveSetting");
 
   //Ferme le popup de notification
   onHideEvalPopupNotify();
 }
+
+//Ajout que la notificatiop e été effectué pour ce mois et sauvegarde
+async function eventInsertNewNotifyEvalDate(monthTarget) {
+
+  if (evaluationReminders[monthTarget]) {
+    console.error("Erreur insertion notification evaluation date : ${monthTarget} exite déjà");
+    return
+  }
+
+  //Insertion des éléments dans l'objet
+  evaluationReminders[monthTarget] = {reminderShown : true};
+
+  // Sauvegarde la modification en base
+  await updateDocumentInDB(evaluationReminderStoreName, (doc) => {
+    doc.data = evaluationReminders;
+    return doc;
+  });
+
+  console.log("Evaluation reminders Sauvegarde des éléments");
+  console.log("Evaluation reminders : ", evaluationReminders);
+}
+
+
 
 
 //vérifie si au moins une activité antérieur au mois en cours
@@ -1079,6 +1113,6 @@ function getEvalNotifyPreviousMonthKey() {
 
 
 // Pour test à retirer à la fin du dev
-setTimeout(() => {
-  onCheckPopupEvaluationNotify();
-}, 3000);
+// setTimeout(() => {
+//   onCheckPopupEvaluationNotify();
+// }, 3000);
