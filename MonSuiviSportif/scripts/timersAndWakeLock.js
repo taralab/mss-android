@@ -146,6 +146,9 @@ async function releaseWakeLock() {
 //surveillance pour reprise automatique du wakelock si l'utilisateur change d'application
 async function handleVisibilityChange() {
     if (document.visibilityState === 'visible') {
+        //vérifie si besoin notification pour l'evaluation mensuel
+        onCheckPopupEvaluationNotify();
+
         //vérifie si un timer est toujours en cours d'utilisation
         let isTimerAlreadyInUse = onCheckIfTimerInUse();
 

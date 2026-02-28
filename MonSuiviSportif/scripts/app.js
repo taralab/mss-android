@@ -445,7 +445,7 @@ async function firstActualisation() {
     onUpdateTemplateList(false);
 
 
-    //Lancement de la gestion des timers et wakelock
+    //Lancement de la gestion des timers et wakelock et notification evaluation
     eventInitTimersAndWakeLock();
 
 
