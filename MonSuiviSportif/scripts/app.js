@@ -387,6 +387,7 @@ async function firstActualisation() {
 
 
     // CONDITION UTILISATION
+    let isUpdateDisplayRequired = false;
     console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
     console.log("userInfo" , userInfo);
     if (userInfo.conditionAccepted === false) {
@@ -396,7 +397,7 @@ async function firstActualisation() {
 
     }else{
         //vérification des évènements pour nouveauté
-        onCheckUpdateEvent();
+        isUpdateDisplayRequired = onCheckUpdateEvent();
     }
 
 
@@ -455,5 +456,15 @@ async function firstActualisation() {
     }, 500);
 
 
+    //si pas besoin d'afficher les nouveauté et que l'utilisateur accepter les conditions
+    //On peut lancer la vérification des notifications d'évaluation
+    if (!isUpdateDisplayRequired && userInfo.conditionAccepted) {
+        setTimeout(() => {
+            console.log("EVALUATION : Lancement vérification directe popup evaluation");
+            onCheckPopupEvaluationNotify();
+        }, 2000)
+    }
+    console.log(` UpdateDisplayRequiered : ${isUpdateDisplayRequired}, userConditionAccepted : ${userInfo.conditionAccepted}`)
+        
 }
 

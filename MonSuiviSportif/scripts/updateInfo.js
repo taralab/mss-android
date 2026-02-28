@@ -2,7 +2,7 @@
 //vérifie si l'utilisateur possède ce nom dans la base 
 //pour savoir si on doit lui afficher le popup des nouveautés ou non
 //l'information sera stocké dans userInfo.updateNameList[]
-const updateName = "Objectif_01-26";
+const updateName = "Objectif_01-27";
 
 //tableau des images pour les nouveautés
 const updateImageArray = [
@@ -34,6 +34,8 @@ function onCheckUpdateEvent(){
         onInitUpdateEvent();
         startUpdateEvent();
     }
+
+    return isUpdateDisplayRequiered;
 }
 
 
@@ -169,6 +171,13 @@ async function onCloseViewUpdate() {
 
     //lance la sauvegarde de l'information
     await eventSaveUpdateDisplayed();
+
+    console.log("Traitement notification evaluation après affichages des updates");
+    setTimeout(() => {
+        onCheckPopupEvaluationNotify();
+    }, 2000);
+
+
 }
 
 
