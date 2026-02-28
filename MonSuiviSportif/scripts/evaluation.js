@@ -883,7 +883,7 @@ function resetStatEvaluationGraph() {
 
 function onCheckPopupEvaluationNotify() {
   console.log("Evaluation, vérification condition affichage popup");
-
+onDisplayEvalPopupNotify();
   // Notification activée ?
   if (!userSetting.evaluationNotifyEnabled) {
     console.log("Evaluation notify : Notification désactivé");
@@ -934,11 +934,96 @@ function onCheckPopupEvaluationNotify() {
   }
 
   console.log("Toutes les conditions sont réunis pour affiche popup notification evaluation");
+  onDisplayEvalPopupNotify();
+
 
  
   
 }
 
+
+
+//affichage du popup de notification
+function onDisplayEvalPopupNotify() {
+  document.getElementById("divPopupNotifyEvaluation").style.display = "flex";
+
+  //ajoute les écouteurs d'évènements
+  //Evaluer maintenant
+  let btnEvalNowRef = document.getElementById("btnPopupEvalNotifyNow");
+  const clickEvalNow = () => onClickEvalNowFromNotify();
+  btnEvalNowRef.addEventListener("click",clickEvalNow);
+  onAddEventListenerInRegistry("evalPopupNotify",btnEvalNowRef,"click",clickEvalNow);
+
+  //Evaluer plus tard
+  let btnEvalLaterRef = document.getElementById("btnPopupEvalNotifyLater");
+  const clickEvalLater = () => onClickEvalLaterFromNotify();
+  btnEvalLaterRef.addEventListener("click",clickEvalLater);
+  onAddEventListenerInRegistry("evalPopupNotify",btnEvalLaterRef,"click",clickEvalLater);
+
+  //Ne plus proposer
+  let btnDisableEvalNotifyRef = document.getElementById("btnPopupDisableEvalNotify");
+  const clickDisableEvalNotify = () => onclickDisableNotifyFromNotify();
+  btnDisableEvalNotifyRef.addEventListener("click",clickDisableEvalNotify);
+  onAddEventListenerInRegistry("evalPopupNotify",btnDisableEvalNotifyRef,"click",clickDisableEvalNotify);
+
+  //met le boolean à true
+  isEvaluationNotifyOpen = true;
+}
+
+
+
+//ferme le popup de notification d'évaluation
+function onHideEvalPopupNotify() {
+  document.getElementById("divPopupNotifyEvaluation").style.display = "none";
+
+  //retire les écouteurs d'évènements
+  onRemoveEventListenerInRegistry(["evalPopupNotify"]);
+
+  //Met le boolean à false
+  isEvaluationNotifyOpen = false;
+}
+
+
+
+// Demande à évaluer maintenant via popup de notification
+function onClickEvalNowFromNotify() {
+  console.log("click eval now");
+
+  //lance la fonction adéquate
+
+
+  //Ferme le popup de notification
+  onHideEvalPopupNotify();
+}
+
+
+
+
+// Demande à évaluer plus tard via popup de notification
+function onClickEvalLaterFromNotify() {
+  console.log("click eval Later");
+
+  //lance la fonction adéquate
+
+
+  //Ferme le popup de notification
+  onHideEvalPopupNotify();
+}
+
+
+
+
+
+// Demande la désactivation des notifications pour l'évaluation
+function onclickDisableNotifyFromNotify() {
+  console.log("click disable notify");
+
+  //lance la fonction adéquate
+
+
+  //Ferme le popup de notification
+  onHideEvalPopupNotify();
+}
 
 
 //vérifie si au moins une activité antérieur au mois en cours
@@ -994,6 +1079,6 @@ function getEvalNotifyPreviousMonthKey() {
 
 
 // Pour test à retirer à la fin du dev
-// setTimeout(() => {
-//   onCheckPopupEvaluationNotify();
-// }, 3000);
+setTimeout(() => {
+  onCheckPopupEvaluationNotify();
+}, 3000);

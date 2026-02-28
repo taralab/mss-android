@@ -4203,6 +4203,7 @@ small.info-tag{
     align-items: flex-start;
     padding: 80px 20px;
     box-sizing: border-box;
+    z-index: 99;
 }
 
 .popup-eval-content {

@@ -650,7 +650,8 @@ const allEventListenerRegistry = {
     objectifEditor:[],
     objectifPopupModify:[],
     objectifKPI:[],
-    evaluationPopup:[]
+    evaluationPopup:[],
+    evalPopupNotify:[]
 }
 
 
