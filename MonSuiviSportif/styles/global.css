@@ -3220,6 +3220,11 @@ input:checked + .slider::before {
 
 
 /* Envoyer vers activité confirmation */
+div.confirm-send{
+    overflow-y: auto;
+    max-height: 100%;
+}
+
 div.button-confirm-send{
     display: inline-flex;
     margin-top: 20px;
