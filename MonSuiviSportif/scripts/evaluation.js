@@ -882,10 +882,12 @@ function resetStatEvaluationGraph() {
 
 
 function onCheckPopupEvaluationNotify() {
+
   console.log("Evaluation, vérification condition affichage popup");
 
   // Notification activée ?
   if (!userSetting.evaluationNotifyEnabled) {
+
     console.log("Evaluation notify : Notification désactivé");
     return
   } 
@@ -893,18 +895,21 @@ function onCheckPopupEvaluationNotify() {
   // Entre le 1 et le 7 ?
   let iSEvalDateInRange = onCheckEvalDatePopupNotifyRange();
   if (!iSEvalDateInRange) {
+  
     console.log("Evaluation notify : Pas dans le créneaux d'evaluation");
     return
   } 
 
   // Popup déjà ouvert ?
   if (isEvaluationPopupOpen) {
+  
     console.log("Evaluation notify : Popup d'évaluation déjà en cours d'affichage");
     return
   }
 
   // Notification déjà ouverte ?
   if (isEvaluationNotifyOpen) {
+  
     console.log("Evaluation notify : Popup de notification déjà en cours d'affichage");
     return
   }
@@ -920,7 +925,7 @@ function onCheckPopupEvaluationNotify() {
   }
 
   // Popup de notification déjà présenté une fois à l'utilisateur ?
-  if (evaluationReminders[previousMonthKey].reminderShown) {
+  if (evaluationReminders[previousMonthKey]) {
     console.log("Evaluation notify : Notification déjà présenté à l'utilisateur");
     return
   }
