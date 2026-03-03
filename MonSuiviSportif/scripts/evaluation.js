@@ -3,7 +3,7 @@ let evaluations = {
     evaluationDate: "2026-02-02",//Peut servir plus tard pour des statistiques
     modificationDate : "YYYY-MM-DD",//Peut servir pour des statistiques
     appreciation: 1,        // numéraire
-    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | noSet
+    marquant: "INJURY",    // SPECIAL | INJURY | GOAL | RESTART | OBSTACLE | VICTORY |noSet
     comment: "Je me suis cassé le pied"
   }
  
@@ -77,7 +77,7 @@ const EVAL_MARQUANT_DATA = {
     imgRef :"./Icons/icon_eval-marquant-contrainte.webp",
     precision :"Facteur extérieur limitant",
     placeholder : "Ex. : travail, météo, manque de temps…"
-  },
+  }
 };
 
 
@@ -451,12 +451,10 @@ async function onValideEval() {
 
   //Si modification, regarde si sauvegarde nécessaire
   if (evalEditorMode === "MODIFICATION") {
-    console.log("Traitement modification evaluation");
 
     let modifySaveRequired = onCheckIfEvalModifySaveRequired();
 
     if (modifySaveRequired) {
-      console.log("Modification effectué, sauvegarde justifiée");
     
       //formatage
       let dataToSave = onFormatEvalBeforeSave(evalEditorMode);
@@ -481,7 +479,7 @@ async function onValideEval() {
       onShowNotifyPopup("evaluationModify");
 
     }else{
-      console.log("Aucune modification. Traitement sauvegarde annulé");
+
     }
   }else{
     //traitement si création
@@ -527,7 +525,11 @@ function onCheckIfStatEvalUpdateRequired(monthTarget) {
     imgMarquantRef = document.getElementById(imgMarquantID);
 
   if (imgAppreciationRef !== null && imgMarquantRef !== null) {
-    console.log("Actualisation affichage requis");
+
+    if (devMode === true) {
+      console.log("Actualisation affichage requis");
+    }
+
 
     //Récupère les éléments
     let appreciationValue = evaluations[monthTarget].appreciation,
@@ -990,9 +992,6 @@ function onHideEvalPopupNotify() {
 // Demande à évaluer maintenant via popup de notification
 function onClickEvalNowFromNotify(monthTarget) {
 
-  console.log("click eval now");
-  console.log("Mois cible :" ,monthTarget);
-
   //lance la fonction adéquate
   onAskEvaluation(monthTarget);
 
@@ -1008,7 +1007,6 @@ function onClickEvalNowFromNotify(monthTarget) {
 
 // Demande à évaluer plus tard via popup de notification
 function onClickEvalLaterFromNotify(monthTarget) {
-  console.log("click eval Later");
 
   //traitement de la gestion des notifications evaluation
   eventInsertNewNotifyEvalDate(monthTarget);
@@ -1023,7 +1021,6 @@ function onClickEvalLaterFromNotify(monthTarget) {
 
 // Demande la désactivation des notifications pour l'évaluation
 async function onclickDisableNotifyFromNotify() {
-  console.log("click disable notify");
 
   //lance la désactivation dans le menu paramètre et sauvegarde setting
   userSetting.evaluationNotifyEnabled = false;
@@ -1058,8 +1055,7 @@ async function eventInsertNewNotifyEvalDate(monthTarget) {
     return doc;
   });
 
-  console.log("Evaluation reminders Sauvegarde des éléments");
-  console.log("Evaluation reminders : ", evaluationReminders);
+
 }
 
 
@@ -1110,8 +1106,6 @@ function getEvalNotifyPreviousMonthKey() {
 
   // Format YYYY-MM
   const locPreviousMonthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
-
-  console.log(locPreviousMonthKey);
 
   return locPreviousMonthKey;
 }
