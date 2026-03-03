@@ -4337,7 +4337,7 @@ div.eval-month-disabled{
     position: relative;
     padding: 12px 10px;
     text-align: center;
-    background-color: rgb(243, 243, 243);
+    background-color: white;
     margin-left: 0px; margin-right: 0px;
 }
 div.eval-month-disabled span{
