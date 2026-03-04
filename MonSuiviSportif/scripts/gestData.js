@@ -1165,52 +1165,39 @@ function eventActivateGestDataBtn(iDtarget) {
 
 
 async function onPurgeTAG() {
-    //récupère tous les tag utilisés dans les activités.
+    const tagsSet = new Set();
 
-    let allActivityKeys = Object.keys(allUserActivityArray);
-    const tagsInUseList = [];
-
-    allActivityKeys.forEach(key=>{
-        let activityTagList = allUserActivityArray[key].tagList
-
-        //ajoute dans un tableau les tags présents dans les activités 
-        activityTagList.forEach(tag=>{
-            if (!tagsInUseList.includes(tag)) {
-                tagsInUseList.push(tag);
-            }
-            
+    // 1️⃣ Tags des activités utilisateur
+    Object.values(allUserActivityArray).forEach(activity => {
+        activity?.tagList?.forEach(tag => {
+            tagsSet.add(tag);
         });
     });
 
-
-    //récupère tous les tags utilisé dans les templates
-    let allTemplates = {};
     try {
         const result = await db.allDocs({ include_docs: true });
 
         result.rows
             .map(row => row.doc)
-            .filter(doc => doc.type === templateStoreName)
             .forEach(doc => {
-                allTemplates[doc._id] = { ...doc }; // on garde tout
+
+                // 2️⃣ Templates
+                if (doc.type === templateStoreName) {
+                    doc.tagList?.forEach(tag => tagsSet.add(tag));
+                }
+
+                // 3️⃣ Items supprimés
+                if (doc.type === 'itemDeleted') {
+                    doc.tagList?.forEach(tag => tagsSet.add(tag));
+                }
+
             });
+
     } catch (err) {
-        console.error("[DATABASE] [TEMPLATE TAG] Erreur lors du chargement:", err);
+        console.error("[DATABASE] [TAG COLLECT] Erreur lors du chargement:", err);
     }
 
-    let allTemplateKeys = Object.keys(allTemplates);
-    allTemplateKeys.forEach(key=>{
-        let templateTagList= allTemplates[key].tagList;
-
-        //ajoute dans un tableau les tags présents dans les templates
-        templateTagList.forEach(tag=>{
-            if (!tagsInUseList.includes(tag)) {
-                tagsInUseList.push(tag);
-            }
-            
-        });
-    });
-
+    const tagsInUseList = [...tagsSet];
 
     let initialTagReferencielNbre = tagReferenciel.length;
 

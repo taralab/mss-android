@@ -901,7 +901,10 @@ function onFormatActivity() {
 // Sauvegarde uniquement si une modification a bien été effectuée dans les données
 function onCheckIfModifiedRequired(activityToInsertFormat) {
     
-    console.log(currentActivityDataInView.tagList);
+    if (devMode === true) {
+        console.log(currentActivityDataInView.tagList);
+    }
+
 
     // Création d'une liste de champs à comparer
     const fieldsToCompare = [
