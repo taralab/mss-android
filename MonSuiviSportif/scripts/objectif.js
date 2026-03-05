@@ -424,17 +424,21 @@ function eventTraiteKPI(){
 
 
     // Pas de traitement du kpi le lundi et le 1er jours du mois
-    console.log(kpiWeekContext);
 
     if (kpiWeekContext.passedDay === 0) {
-        console.log("Pas de traitement du kpi le lundi");
+        if (devMode === true) {
+            console.log("Pas de traitement du kpi le lundi");
+        }
+
     }else{
         //TRAITEMENT HEBDO
         weekKpiObject = traiteKPIRange(currentKPIWeekRange.monday,currentKPIWeekRange.endDay,"WEEK");
     }
 
     if (kpiMonthContext.passedDay === 0) {
-        console.log("Pas de traitement du kpi le 1er jours du mois");
+        if (devMode === true) {
+            console.log("Pas de traitement du kpi le 1er jours du mois");
+        }
     }else{
         // TRAITEMENT MENSUEL
         monthKpiObject = traiteKPIRange(currentKPIMonthRange.firstDay,currentKPIMonthRange.endDay,"MONTH");
@@ -602,7 +606,6 @@ function onDisplayKpiWeekDetail() {
 
     if (globalWeeklyKPIColor === "GREEN") {
         //KPI vert pas besoin de détail
-        console.log("affiche Detail kpi : Aucun détail car kpi vert");
 
         // insère la précision d'exemption hebdomadaire si dans le créneaux et si besoin
         if ( (kpiWeekContext.passedDay +1) <= kpiWeekExemptDay) {
@@ -621,18 +624,20 @@ function onDisplayKpiWeekDetail() {
         Object.entries(itemsListToDisplay)
             .slice(0, maxKpiORANGEItemToDisplay)
             .forEach(([key, value]) => {
-                console.log(key, value);
                 //injection des éléments
                 new KpiDetailItem(value.dataType,value.activity,value.explanation,parentRef);
         });
 
     }else if(globalWeeklyKPIColor === "RED"){
         //KPI rouge, récupère les éléments à afficher
-        console.log(weekKpiObject);
+
         itemsListToDisplay = Object.values(weekKpiObject).filter(item=>item.kpiValue === globalWeeklyKPIColor);
 
-        console.log(Object.keys(itemsListToDisplay).length);
-        console.log(itemsListToDisplay);
+        if (devMode === true) {
+            console.log(weekKpiObject);
+            console.log(Object.keys(itemsListToDisplay).length);
+            console.log(itemsListToDisplay);
+        }
 
 
         //affiche tous ceux en rouge
@@ -670,13 +675,16 @@ function onDisplayKpiMonthDetail() {
     let itemsListToDisplay = {};
 
     if (globalMonthlyKPIColor === "GREEN") {
-        //KPI vert pas besoin de détail
-        console.log("affiche Detail kpi : Aucun détail car kpi vert");
 
 
-        // insère la précision d'exemption mensuel
-        console.log("passedDay = ", kpiMonthContext.passedDay);
-        console.log("exemptDay = ",kpiMonthExemptDay);
+        if (devMode === true) {
+            //KPI vert pas besoin de détail
+            console.log("affiche Detail kpi : Aucun détail car kpi vert");
+            // insère la précision d'exemption mensuel
+            console.log("passedDay = ", kpiMonthContext.passedDay);
+            console.log("exemptDay = ",kpiMonthExemptDay);
+        }
+
 
         if ( (kpiMonthContext.passedDay +1) <= kpiMonthExemptDay) {
             let pExemption = document.createElement("p");
@@ -700,11 +708,16 @@ function onDisplayKpiMonthDetail() {
 
     }else if(globalMonthlyKPIColor === "RED"){
         //KPI jaune ou rouge, récupère les éléments à afficher
-        console.log(monthKpiObject);
+
         itemsListToDisplay = Object.values(monthKpiObject).filter(item=>item.kpiValue === globalMonthlyKPIColor);
 
-        console.log(Object.keys(itemsListToDisplay).length);
-        console.log(itemsListToDisplay);
+
+        if (devMode === true) {
+            console.log(monthKpiObject);
+            console.log(Object.keys(itemsListToDisplay).length);
+            console.log(itemsListToDisplay);
+        }
+
 
 
         //affiche tous ceux en rouge
@@ -784,14 +797,18 @@ function onInitKpiElement() {
     let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
     textWeekRef.innerHTML = `${kpiWeekContext.remainingDay} jours restants`;
 
-    console.log(kpiWeekContext);
+
 
     // Traitement jours restant pour le mois
     kpiMonthContext = getKPIMonthlyContext();
     let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
     textMonthRef.innerHTML = `${kpiMonthContext.remainingDay} jours restants`;
 
-    console.log(kpiMonthContext);
+    if (devMode === true) {
+        console.log(kpiWeekContext);
+        console.log(kpiMonthContext);
+    }
+
 
 }
 
@@ -931,7 +948,6 @@ function calculKpiForDurationAndDistance(
     // Cas de sécurité : aucun jour n'est encore passé
     // → impossible d'être en retard
     if (passedDay === 0) {
-        console.log("Aucun jour de passé. Retourne GREEN");
         return "GREEN";
     }
 
@@ -939,7 +955,6 @@ function calculKpiForDurationAndDistance(
     // si l'utilisateur n'a encore rien fait,
     // on ne le pénalise pas immédiatement
     if ((passedDay + 1) <= exemptDay && doneValue === 0) {
-        console.log("Encore dans les jours d'exemption et l'utilisateur n'a rien fait. Retourne GREEN");
         return "GREEN";
     }
 
