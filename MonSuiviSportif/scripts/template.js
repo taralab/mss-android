@@ -12,20 +12,55 @@ let userTemplateListItems = {
 
 
 // Reférencement
-let imgTemplateEditorPreviewRef = document.getElementById("imgEditorActivityPreview"),
-    pTemplateEditorInfoRef = document.getElementById("pTemplateEditorInfo"),
-    selectorTemplateCategoryChoiceRef = document.getElementById("selectorTemplateCategoryChoice"),
-    inputTemplateIsPlannedRef = document.getElementById("inputTemplateIsPlanned"),
-    inputTemplateTitleRef = document.getElementById("inputTemplateTitle"),
-    inputTemplateLocationRef = document.getElementById("inputTemplateLocation"),
-    inputTemplateDistanceRef = document.getElementById("inputTemplateDistance"),
-    inputDurationTemplateHoursRef = document.getElementById("inputDurationTemplateHours"),
-    inputDurationTemplateMinutesRef = document.getElementById("inputDurationTemplateMinutes"),
-    inputDurationTemplateSecondsRef = document.getElementById("inputDurationTemplateSeconds"),
-    textareaTemplateCommentRef = document.getElementById("textareaTemplateComment"),
-    inputTemplateTagRef = document.getElementById("inputTemplateTag"),
-    divTemplateTagSuggestionRef = document.getElementById("divTemplateTagSuggestion"),
+let imgTemplateEditorPreviewRef = null,
+    pTemplateEditorInfoRef = null,
+    selectorTemplateCategoryChoiceRef = null,
+    inputTemplateIsPlannedRef = null,
+    inputTemplateTitleRef = null,
+    inputTemplateLocationRef = null,
+    inputTemplateDistanceRef = null,
+    inputDurationTemplateHoursRef = null,
+    inputDurationTemplateMinutesRef = null,
+    inputDurationTemplateSecondsRef = null,
+    textareaTemplateCommentRef = null,
+    inputTemplateTagRef = null,
+    divTemplateTagSuggestionRef = null,
+    divTemplateSelectedTagsRef = null;
+
+function onReferenceTemplateItems(){
+    imgTemplateEditorPreviewRef = document.getElementById("imgEditorActivityPreview");
+    pTemplateEditorInfoRef = document.getElementById("pTemplateEditorInfo");
+    selectorTemplateCategoryChoiceRef = document.getElementById("selectorTemplateCategoryChoice");
+    inputTemplateIsPlannedRef = document.getElementById("inputTemplateIsPlanned");
+    inputTemplateTitleRef = document.getElementById("inputTemplateTitle");
+    inputTemplateLocationRef = document.getElementById("inputTemplateLocation");
+    inputTemplateDistanceRef = document.getElementById("inputTemplateDistance");
+    inputDurationTemplateHoursRef = document.getElementById("inputDurationTemplateHours");
+    inputDurationTemplateMinutesRef = document.getElementById("inputDurationTemplateMinutes");
+    inputDurationTemplateSecondsRef = document.getElementById("inputDurationTemplateSeconds");
+    textareaTemplateCommentRef = document.getElementById("textareaTemplateComment");
+    inputTemplateTagRef = document.getElementById("inputTemplateTag");
+    divTemplateTagSuggestionRef = document.getElementById("divTemplateTagSuggestion");
     divTemplateSelectedTagsRef = document.getElementById("divTemplateSelectedTags");
+}
+
+function onClearReferenceTemplateItems(){
+    imgTemplateEditorPreviewRef = null;
+    pTemplateEditorInfoRef = null;
+    selectorTemplateCategoryChoiceRef = null;
+    inputTemplateIsPlannedRef = null;
+    inputTemplateTitleRef = null;
+    inputTemplateLocationRef = null;
+    inputTemplateDistanceRef = null;
+    inputDurationTemplateHoursRef = null;
+    inputDurationTemplateMinutesRef = null;
+    inputDurationTemplateSecondsRef = null;
+    textareaTemplateCommentRef = null;
+    inputTemplateTagRef = null;
+    divTemplateTagSuggestionRef = null;
+    divTemplateSelectedTagsRef = null;
+}
+
 
 
 
@@ -345,6 +380,8 @@ function onTraiteBtnNewFromTemplateStatus() {
 
 // Ouvre le menu
 function onOpenMenuGestTemplate() {
+    //Lance le référencement
+    onReferenceTemplateItems();
 
     // Génération de la liste des modèles
     onCreateTemplateMenuList(userTemplateListKeys);
@@ -1112,6 +1149,9 @@ function onClickReturnFromGestTemplate() {
     //Vide les listes
     document.getElementById("divTemplateListMenu").innerHTML = "";
     document.getElementById("divActivityTemplateEndList").innerHTML = "";
+
+    //et vide les références
+    onClearReferenceTemplateItems();
 
     onLeaveMenu("GestTemplate");
 }
