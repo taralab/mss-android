@@ -1730,21 +1730,13 @@ div.rewards-grid {
 
 
 div.reward-card {
-    /* background-color: #fff; */
-    /* border: 2px solid #ddd; */
-    /* border-radius: 10px; */
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
     text-align: center;
     padding: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     max-width: 120px; 
+    content-visibility:auto;
+    contain-intrinsic-size: 150px 180px; /* hauteur x largeur estimée */
 }
-
-/* div.reward-card.unlocked {
-    border-color: var(--colorMainTheme1);
-    box-shadow: 0 4px 10px rgba(76, 142, 175, 0.3); 
-} */
-
 
 
 div.reward-card.locked {
@@ -1753,6 +1745,8 @@ div.reward-card.locked {
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 0.5;
+    content-visibility: auto;
+    contain-intrinsic-size: 150px 180px; /* même taille que les cartes normales */
 }
 
 div.reward-separator{
