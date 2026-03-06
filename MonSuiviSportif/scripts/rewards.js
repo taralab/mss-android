@@ -399,79 +399,163 @@ function onCreateMainMenuReward() {
    
    
 
-
-// Creation des récompenses de l'user dans la liste
 function onLoadUserRewardsList() {
 
-    // Reset
+    // ==========================================
+    // RESET DU DOM
+    // ==========================================
+
+    // vide les listes
     divRewardsListRef.innerHTML = "";
     divSpecialRewardsListRef.innerHTML = "";
+
+    // reset du tableau des catégories rencontrées
     rewardStdCategoryList = [];
 
-    if (devMode === true){console.log("[REWARDS] Création de la liste des récompenses");};
+    if (devMode === true){
+        console.log("[REWARDS] Création de la liste des récompenses");
+    }
 
-    // traitement special reward
-    // si au moins 1 sinon passe à la suite
-    
+    // ==========================================
+    // OPTIMISATIONS STRUCTURELLES
+    // ==========================================
+
+    // Set = recherche O(1) au lieu de O(n) avec includes()
+    const newRewardsSet = new Set(newRewardsToSee);
+    const userRewardsSet = new Set(userRewardsArray);
+
+    // cache des containers DOM des catégories
+    const categoryContainerMap = {};
+
+
+    // ==========================================
+    // SPECIAL REWARDS
+    // ==========================================
+
     if (userSpecialRewardsArray.length > 0) {
+
+        // tri alpha
         userSpecialRewardsArray.sort();
+
+        // fragment temporaire (insertion DOM unique)
+        const fragmentSpecial = document.createDocumentFragment();
+
         userSpecialRewardsArray.forEach((e,index)=>{
 
-            // Injection du reward
-            let isNewReward = newRewardsToSee.includes(e);
-            new RewardCardEnabled(e,allSpecialEventsRewardsObject[e].title,allSpecialEventsRewardsObject[e].imgRef,isNewReward,"special",divSpecialRewardsListRef,index,true);   
+            const reward = allSpecialEventsRewardsObject[e];
+
+            // vérifie si reward nouveau
+            const isNewReward = newRewardsSet.has(e);
+
+            // création de la carte dans le fragment
+            new RewardCardEnabled(
+                e,
+                reward.title,
+                reward.imgRef,
+                isNewReward,
+                "special",
+                fragmentSpecial, // insertion en mémoire
+                index,
+                true
+            );   
         });
-    }else{
+
+        // insertion finale dans le DOM
+        divSpecialRewardsListRef.appendChild(fragmentSpecial);
+
+    }
+    else {
+
+        // message si aucun special reward
         divSpecialRewardsListRef.innerHTML = "😅 Rien de spécial... pour l’instant !";
+
     }
 
 
+    // ==========================================
+    // REWARDS POSSÉDÉS PAR L'UTILISATEUR
+    // ==========================================
 
-
-
-    // Les Rewards que possède déjà l'utilisateur 
     userRewardsArray.sort();
 
     userRewardsArray.forEach((e,index)=>{
 
-        // Control et injection catégorie
-        if (!rewardStdCategoryList.includes(allRewardsObject[e].activityName)) {
-            rewardStdCategoryList.push(allRewardsObject[e].activityName);
+        const reward = allRewardsObject[e];
+        const activityName = reward.activityName;
 
-            //injection du séparateur
-            new RewardSeparator(allRewardsObject[e].activityName,divRewardsListRef);
+        // si la catégorie n'existe pas encore
+        if (!categoryContainerMap[activityName]) {
+
+            rewardStdCategoryList.push(activityName);
+
+            // création du séparateur de catégorie
+            new RewardSeparator(activityName,divRewardsListRef);
+
+            // récupération de la div de la catégorie
+            // (1 seule fois au lieu de plusieurs getElementById)
+            categoryContainerMap[activityName] =
+                document.getElementById(`divRewardGrid_${activityName}`);
         }
 
-        // recupère l'id de la div catégorie
-        let parentRef = document.getElementById(`divRewardGrid_${allRewardsObject[e].activityName}`);
+        const parentRef = categoryContainerMap[activityName];
 
-        let isNewReward = newRewardsToSee.includes(e);
-        new RewardCardEnabled(e,allRewardsObject[e].title,allRewardsObject[e].imgRef,isNewReward,"standard",parentRef,index,false);
-    });  
+        const isNewReward = newRewardsSet.has(e);
+
+        // création de la carte reward
+        new RewardCardEnabled(
+            e,
+            reward.title,
+            reward.imgRef,
+            isNewReward,
+            "standard",
+            parentRef,
+            index,
+            false
+        );
+
+    });
 
 
-    // le reste des rewards non possédé
-    let allRewardsKeys = Object.keys(allRewardsObject);
-    // Récupère les clés pour les classé ordre alpha
+    // ==========================================
+    // REWARDS LOCKED
+    // ==========================================
+
+    const allRewardsKeys = Object.keys(allRewardsObject);
+
+    // tri alpha
     allRewardsKeys.sort();
 
-    //injection du séparateur
+    // création du séparateur LOCKED
     new RewardSeparator("LOCKED",divRewardsListRef);
-    let parentRef = document.getElementById("divRewardGrid_LOCKED");
+
+    const parentRef = document.getElementById("divRewardGrid_LOCKED");
+
+    // fragment pour éviter insertions DOM multiples
+    const fragmentLocked = document.createDocumentFragment();
 
     allRewardsKeys.forEach(key=>{
 
-        let isPossessed = userRewardsArray.includes(key);
+        // vérifie si l'utilisateur possède déjà la reward
+        const isPossessed = userRewardsSet.has(key);
 
         if (!isPossessed) {
-            new RewardCardLocked(key,allRewardsObject[key].title,allRewardsObject[key].text,parentRef);
+
+            // création carte locked dans fragment
+            new RewardCardLocked(
+                key,
+                allRewardsObject[key].title,
+                allRewardsObject[key].text,
+                fragmentLocked
+            );
+
         }
+
     });
 
-};
+    // insertion finale des locked rewards
+    parentRef.appendChild(fragmentLocked);
 
-
-
+}
 
 // ---------------------------------------- VISUALISATION   GROS PLAN    --------------------------------
 
