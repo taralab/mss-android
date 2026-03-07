@@ -28,7 +28,7 @@ function onOpenMenuProfil() {
 function onCreateMainMenuProfil() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour

@@ -407,7 +407,7 @@ function onOpenMenuGestTemplate() {
 function onCreateMainMenuGestTemplate() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -430,9 +430,9 @@ function onCreateTemplateMenuList(templateKeysList) {
 
     // Référencement et reset
     let divTemplateListMenuRef = document.getElementById("divTemplateListMenu");
-    divTemplateListMenuRef.innerHTML = "";
+    divTemplateListMenuRef.replaceChildren();
     let divActivityTemplateEndListRef = document.getElementById("divActivityTemplateEndList");
-    divActivityTemplateEndListRef.innerHTML = "";
+    divActivityTemplateEndListRef.replaceChildren();
 
 
     // remonte le scroll
@@ -440,7 +440,7 @@ function onCreateTemplateMenuList(templateKeysList) {
 
     // Affichage en cas d'aucun modèle
     if (templateKeysList.length < 1) {
-        divTemplateListMenuRef.innerHTML = "Aucun modèle à afficher !";
+        divTemplateListMenuRef.textContent = "Aucun modèle à afficher !";
 
         // Insertion du bouton ajouter
         new Button_add("Ajouter un modèle", () => onChangeMenu('NewTemplate'), false,divActivityTemplateEndListRef);
@@ -468,7 +468,7 @@ function onCreateTemplateMenuList(templateKeysList) {
 
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Créez jusqu'à ${maxTemplate} modèles d'activités.`;
+            newClotureList.textContent = `ℹ️ Créez jusqu'à ${maxTemplate} modèles d'activités.`;
             divActivityTemplateEndListRef.appendChild(newClotureList);
         }
     });
@@ -537,7 +537,7 @@ function onSetTemplateItems(templateItem) {
 
     // l'image de prévisualisation 
     imgTemplateEditorPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
-    pTemplateEditorInfoRef.innerHTML = templateItem.isPlanned ? "📄Modèle d'activité.  🗓️Planifiée :":"📄Modèle d'activité : ";
+    pTemplateEditorInfoRef.textContent = templateItem.isPlanned ? "📄Modèle d'activité.  🗓️Planifiée :":"📄Modèle d'activité : ";
 
 
     //met les éléments du modèle dans une variable pour comparer les modifications par la suite
@@ -602,7 +602,7 @@ function onChangeTemplatePreview(activityName) {
 
 // Set l'icone "temporaire" dans la prévisualisation
 function onChangeTemplatePlanned(checkBoxValue) {
-    pTemplateEditorInfoRef.innerHTML = checkBoxValue ? " 📄Modèle d'activité.  🗓️Planifiée ":"📄Modèle d'activité : ";
+    pTemplateEditorInfoRef.textContent = checkBoxValue ? " 📄Modèle d'activité.  🗓️Planifiée ":"📄Modèle d'activité : ";
 }
 
 
@@ -793,15 +793,15 @@ function onResetTemplateInputs() {
     textareaTemplateCommentRef.value = "";
     inputTemplateIsPlannedRef.checked = false;
     inputTemplateTagRef.value = "";
-    divTemplateTagSuggestionRef.innerHTML = "";
-    divTemplateSelectedTagsRef.innerHTML = "";
+    divTemplateTagSuggestionRef.replaceChildren();
+    divTemplateSelectedTagsRef.replaceChildren();
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
     selectorTemplateCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C-A-P";
 
     // l'image de prévisualisation 
     imgTemplateEditorPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C-A-P"].imgRef;
-    pTemplateEditorInfoRef.innerHTML = "📄Modèle d'activité : ";
+    pTemplateEditorInfoRef.textContent = "📄Modèle d'activité : ";
 
     inputTemplateTitleRef.classList.remove("fieldRequired");
 
@@ -815,7 +815,7 @@ function onResetTemplateInputs() {
 function onCreateMainMenuTemplateEditor() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -963,7 +963,7 @@ function onCreateTemplateChoiceList() {
 
     let divTemplateChoiceListRef = document.getElementById("divTemplateChoiceList");
     // Reset
-    divTemplateChoiceListRef.innerHTML = "";
+    divTemplateChoiceListRef.replaceChildren();
 
     // Génère la liste
     userTemplateListKeys.forEach((key,index)=>{
@@ -990,7 +990,7 @@ function onCreateTemplateChoiceList() {
         newImg.src = activityChoiceArray[userTemplateListItems[key].activityName].imgRef;
 
         let newTitle = document.createElement("span");
-        newTitle.innerHTML = userTemplateListItems[key].title;
+        newTitle.textContent = userTemplateListItems[key].title;
         newTitle.classList.add("fake-opt-item");
 
 
@@ -1040,7 +1040,7 @@ function inputTemplateNumberToTime() {
 function onInputTemplateTag() {
     const normalizedTAG = normalizeTag(inputTemplateTagRef.value);
 
-    divTemplateTagSuggestionRef.innerHTML = "";
+    divTemplateTagSuggestionRef.replaceChildren();
 
     if (!normalizedTAG) return;
 
@@ -1124,7 +1124,7 @@ function onAddTemplateTag(tag,isTagSaveRequired = false) {
 
     // Reset de l’input et des suggestions
     inputTemplateTagRef.value = "";
-    divTemplateTagSuggestionRef.innerHTML = "";
+    divTemplateTagSuggestionRef.replaceChildren();
 }
 
 
@@ -1147,8 +1147,8 @@ function getTemplateSelectedTagsArray() {
 // Quitte le menu
 function onClickReturnFromGestTemplate() {
     //Vide les listes
-    document.getElementById("divTemplateListMenu").innerHTML = "";
-    document.getElementById("divActivityTemplateEndList").innerHTML = "";
+    document.getElementById("divTemplateListMenu").replaceChildren();
+    document.getElementById("divActivityTemplateEndList").replaceChildren();
 
     //et vide les références
     onClearReferenceTemplateItems();

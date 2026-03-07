@@ -181,7 +181,7 @@ async function onOpenMenuPlanning(){
 function onCreateMainMenuPlanning() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -196,7 +196,7 @@ function onCreateMainMenuPlanning() {
 function onCreatePlanningDays() {
     // Réference le parent et le vide
     let parentRef = document.getElementById("divPlanningGridList");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
     //Pour chaque jour
     planningDaysArray.forEach((day,index)=>{
@@ -230,7 +230,7 @@ function onSetPlanningItems(){
 
         // Référence le parent des contenus d'activité et reset ses éléments
         let parentActivityAreaRef = document.getElementById(`divPlanningContent_${key}`);
-        parentActivityAreaRef.innerHTML = "";
+        parentActivityAreaRef.replaceChildren();
 
         if (userPlanningArray[key].activityList.length > 0) {
             // pour chaque activité du jour concernée
@@ -250,7 +250,7 @@ function onSetPlanningItems(){
         }
 
         // Insertion du commentaire
-        document.getElementById(`pPlanningComment_${key}`).innerHTML = userPlanningArray[key].comment;
+        document.getElementById(`pPlanningComment_${key}`).textContent = userPlanningArray[key].comment;
     });
 
 
@@ -288,13 +288,13 @@ function onEditPlanning(keyTarget) {
 
     // Ajoute le bouton
     let btnEndListParentRef = document.getElementById("divPlanningEditorBtnAdd");
-    btnEndListParentRef.innerHTML = "";
+    btnEndListParentRef.replaceChildren();
     new Button_add("Ajouter une activité", () => onOpenPlanningActivityChoice(), false, btnEndListParentRef);
 
 
     // Traitement du titre
     let title = onSetFirstLetterUppercase(keyTarget);
-    document.getElementById("pPlanningEditorTitle").innerHTML = `Activités pour ${title}`;
+    document.getElementById("pPlanningEditorTitle").textContent = `Activités pour ${title}`;
 
     // stock les activités du jour séléctionné dans variable temporaire pour manipulation
     tempPlanningEditorDayItems = [...userPlanningArray[keyTarget].activityList],
@@ -312,7 +312,7 @@ function onEditPlanning(keyTarget) {
 function onCreateMainMenuPlanningEditor() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -331,7 +331,7 @@ function onUpdatePlanningDayEditor(keyTarget,activities) {
 
     let day = keyTarget,
     parentRef = document.getElementById("divPlanningActivityList");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
     if (activities.length > 0) {
         // pour chaque élément du jour
@@ -342,7 +342,7 @@ function onUpdatePlanningDayEditor(keyTarget,activities) {
 
     }else{
         // Aucune activité de jour
-        parentRef.innerHTML = "Aucune activité programmée !";
+        parentRef.textContent = "Aucune activité programmée !";
     }
 
 }
@@ -408,7 +408,7 @@ function onGenerateFakePlanningActivityList(idParentTarget) {
         console.log("[FAKE SELECTOR]Lancement de la generation des choix des activités");
     };
 
-    parentTargetRef.innerHTML = "";
+    parentTargetRef.replaceChildren();
     let firstFavorisName = "C-A-P"; // Utilisé pour que la première activité favorite, et l'activité identique dans le reste de la liste ai le meme bouton radio
 
 
@@ -432,7 +432,7 @@ function onGenerateFakePlanningActivityList(idParentTarget) {
         }
         
         let newFavoriteSymbol = document.createElement("span");
-        newFavoriteSymbol.innerHTML = "*";
+        newFavoriteSymbol.textContent = "*";
         newFavoriteSymbol.classList.add("favouriteSymbol");
 
 
@@ -441,7 +441,7 @@ function onGenerateFakePlanningActivityList(idParentTarget) {
         newImg.src = activityChoiceArray[e].imgRef;
     
         let newTitle = document.createElement("span");
-        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.textContent = activityChoiceArray[e].displayName;
         newTitle.classList.add("fake-opt-item","fake-opt-item-favoris");
     
     
@@ -494,7 +494,7 @@ function onGenerateFakePlanningActivityList(idParentTarget) {
         newImg.src = activityChoiceArray[e].imgRef;
     
         let newTitle = document.createElement("span");
-        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.textContent = activityChoiceArray[e].displayName;
         newTitle.classList.add("fake-opt-item");
     
     
@@ -563,8 +563,8 @@ function onClearPlanningEditor() {
     onRemoveEventListenerInRegistry(["planningEditor"]);
 
     // Vide les éléments
-    document.getElementById("divPlanningActivityList").innerHTML ="";
-    document.getElementById("divPlanningEditorBtnAdd").innerHTML ="";
+    document.getElementById("divPlanningActivityList").replaceChildren();
+    document.getElementById("divPlanningEditorBtnAdd").replaceChildren();
     
 }
 
@@ -622,7 +622,7 @@ function onClickReturnFromPlanningEditor(){
 // Retour depuis Info
 function onClickReturnFromPlanning() {
     //supprime les éléments
-    document.getElementById("divPlanningGridList").innerHTML = "";
+    document.getElementById("divPlanningGridList").replaceChildren();
 
     // ferme le menu
     onLeaveMenu("Planning");

@@ -124,20 +124,20 @@ function onGenerateDynamiqueFilter(allData) {
 // Génération des options d'activité pour le filtre avec tri
 function onGenerateActivityOptionFilter(dynamicFilterList) {
 
-    selectorRef.innerHTML = "";
+    selectorRef.replaceChildren();
 
 
     // Ajouter l'option "Tous" au début
     let allOption = document.createElement("option");
     allOption.value = "ALL";
-    allOption.innerHTML = "Tous";
+    allOption.textContent = "Tous";
     selectorRef.appendChild(allOption);
 
     // Ajouter l'option "Planifiées" juste après si existe
     if (isActivityPlannedExist) {
         let plannedOption = document.createElement("option");
         plannedOption.value = "PLANNED";
-        plannedOption.innerHTML = "Planifiées";
+        plannedOption.textContent = "Planifiées";
         selectorRef.appendChild(plannedOption);
     }
 
@@ -145,7 +145,7 @@ function onGenerateActivityOptionFilter(dynamicFilterList) {
     dynamicFilterList.forEach(activity => {
         let newOption = document.createElement("option");
         newOption.value = activity;
-        newOption.innerHTML = activityChoiceArray[activity].displayName;
+        newOption.textContent = activityChoiceArray[activity].displayName;
         selectorRef.appendChild(newOption);
     });
 
@@ -170,7 +170,7 @@ function onGenerateFakeActivityOptionFilter(dynamicFilterList) {
         console.log("[FAKE SELECTOR] ID Parent pour insertion : " + parentTargetRef);
     };
 
-    parentTargetRef.innerHTML = "";
+    parentTargetRef.replaceChildren();
 
 
     // Le bouton radio sera set par rapport au current filter
@@ -193,7 +193,7 @@ function onGenerateFakeActivityOptionFilter(dynamicFilterList) {
     newImg.src = "./images/icon-All.webp";
 
     let newTitle = document.createElement("span");
-    newTitle.innerHTML = "Tous";
+    newTitle.textContent = "Tous";
     newTitle.classList.add("fake-opt-item");
 
     // Bouton radio fake pour simuler le selecteur
@@ -231,7 +231,7 @@ function onGenerateFakeActivityOptionFilter(dynamicFilterList) {
         newImg.src = "./images/icon-isPlanned.webp";
 
         let newTitle = document.createElement("span");
-        newTitle.innerHTML = "Planifiées";
+        newTitle.textContent = "Planifiées";
         newTitle.classList.add("fake-opt-item");
 
         // Bouton radio fake pour simuler le selecteur
@@ -273,7 +273,7 @@ function onGenerateFakeActivityOptionFilter(dynamicFilterList) {
         newImg.src = activityChoiceArray[e].imgRef;
 
         let newTitle = document.createElement("span");
-        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.textContent = activityChoiceArray[e].displayName;
         newTitle.classList.add("fake-opt-item");
 
 
@@ -567,7 +567,7 @@ function normalizeString(str) {
  */
 function onUpdateSelectorFilterTAG() {
     //vide le selecteur
-    selectFilterTagRef.innerHTML = "";
+    selectFilterTagRef.replaceChildren();
 
     //met "TAG" du début
     let newOption = document.createElement("option");

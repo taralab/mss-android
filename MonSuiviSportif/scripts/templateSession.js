@@ -239,7 +239,7 @@ async function onOpenMenuTemplateSession() {
 function onCreateMainMenuTemplateSession() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -271,16 +271,16 @@ function onSetTemplateSessionNameList() {
     
     // Récupère le parent et le vide
     let parentRef = document.getElementById("divTemplateSessionListMenu");
-    parentRef.innerHTML = "";   
+    parentRef.replaceChildren();   
     let divSessionTemplateEndListRef = document.getElementById("divSessionTemplateEndList");
-    divSessionTemplateEndListRef.innerHTML = "";
+    divSessionTemplateEndListRef.replaceChildren();
 
     // remonte le scroll
     onResetScrollBarToTop("divMenuTemplateSession");
 
     //Affichage si aucun modèle de session
     if (templateSessionKeys.length === 0 ) {
-       parentRef.innerHTML = "Aucun modèle à afficher !";
+       parentRef.textContent = "Aucun modèle à afficher !";
 
         // Insertion du bouton ajouter
         new Button_add("Ajouter un modèle", () => onChangeMenu('NewTemplateSession'), false,divSessionTemplateEndListRef);
@@ -304,7 +304,7 @@ function onSetTemplateSessionNameList() {
             // Ligne de cloture
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxTemplateSession} modèles.`;
+            newClotureList.textContent = `ℹ️ Vous pouvez créer jusqu'à ${maxTemplateSession} modèles.`;
             divSessionTemplateEndListRef.appendChild(newClotureList);
         }
     });
@@ -319,11 +319,11 @@ function onSetTemplateSessionNameList() {
 function onClickReturnFromMenuTemplateSession() {
 
     //vide le tableau
-    document.getElementById("divGenerateTemplateSessionEditor").innerHTML = "";
+    document.getElementById("divGenerateTemplateSessionEditor").replaceChildren();
 
     // Vide les éléments
-    document.getElementById("divTemplateSessionListMenu").innerHTML = "";
-    document.getElementById("divSessionTemplateEndList").innerHTML = "";
+    document.getElementById("divTemplateSessionListMenu").replaceChildren();
+    document.getElementById("divSessionTemplateEndList").replaceChildren();
 
     onLeaveMenu("MenuTemplateSession");
 }
@@ -405,7 +405,7 @@ async function eventOpenTemplateSessionEditor(mode){
 function onCreateMainMenuTemplateSessionEditor(isModify) {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -430,7 +430,7 @@ async function onCreateTemplateSessionTableLine(isModification,templateData) {
         let parentRef = document.getElementById("divGenerateTemplateSessionEditor");
 
         // Reset le contenu du parent et le nom ou le set si modification
-        parentRef.innerHTML = "";
+        parentRef.replaceChildren();
         document.getElementById("inputTemplateSessionName").value = isModification ? templateData.sessionName : "";
 
         if (isModification) {
@@ -611,7 +611,7 @@ async function eventDeleteTemplateSessionModel() {
 function onClickReturnFromTemplateSessionEditor() {
 
     //vide le tableau
-    document.getElementById("divGenerateTemplateSessionEditor").innerHTML = "";
+    document.getElementById("divGenerateTemplateSessionEditor").replaceChildren();
 
     onLeaveMenu("TemplateSessionEditor");
     //vide l'instance pour le drag n drop

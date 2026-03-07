@@ -250,7 +250,7 @@ function onOpenMenuMemory(){
 function onCreateMainMenuMemory() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -1245,7 +1245,7 @@ function formatMemoryDuration({ heure = 0, minute = 0, seconde = 0, centieme = 0
 //dans la liste
 function onDisplayMemoryCardsList() {
     // Vide le parent et l'instance
-    divMemoryListRef.innerHTML = "";
+    divMemoryListRef.replaceChildren();
     memoryCardInstanceList = {};
 
     //pour chaque key

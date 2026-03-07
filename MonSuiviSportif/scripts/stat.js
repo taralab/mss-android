@@ -80,7 +80,7 @@ function onOpenMenuStat(){
 function onCreateMainMenuStat() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -123,13 +123,13 @@ function getNonPlannedActivitiesKeysForStat(nonPlannedActivitiesKeys) {
 // Génération des options d'activité pour le filtre avec tri
 function onGenerateStatOptionFilter(dynamicFilterList) {
 
-    selectorStatRef.innerHTML = "";
+    selectorStatRef.replaceChildren();
 
 
     // Ajouter l'option "Tous" au début
     let allOption = document.createElement("option");
     allOption.value = "GENERAL";
-    allOption.innerHTML = "Général";
+    allOption.textContent = "Général";
     selectorStatRef.appendChild(allOption);
 
 
@@ -139,7 +139,7 @@ function onGenerateStatOptionFilter(dynamicFilterList) {
 
         let newOption = document.createElement("option");
         newOption.value = activityType;
-        newOption.innerHTML = activityChoiceArray[activityType].displayName;
+        newOption.textContent = activityChoiceArray[activityType].displayName;
         selectorStatRef.appendChild(newOption);
     });
 
@@ -158,7 +158,7 @@ function onGenerateFakeStatOptionFilter(dynamicFilterList) {
         console.log("[FAKE SELECTOR STAT] ID Parent pour insertion : " + parentTargetRef);
     };
 
-    parentTargetRef.innerHTML = "";
+    parentTargetRef.replaceChildren();
 
 
     // Le bouton radio sera set sur générales
@@ -182,7 +182,7 @@ function onGenerateFakeStatOptionFilter(dynamicFilterList) {
     newImg.src = "./images/icon-All.webp";
 
     let newTitle = document.createElement("span");
-    newTitle.innerHTML = "Générales";
+    newTitle.textContent = "Générales";
     newTitle.classList.add("fake-opt-item");
 
     // Bouton radio fake pour simuler le selecteur
@@ -223,7 +223,7 @@ function onGenerateFakeStatOptionFilter(dynamicFilterList) {
         newImg.src = activityChoiceArray[e].imgRef;
 
         let newTitle = document.createElement("span");
-        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.textContent = activityChoiceArray[e].displayName;
         newTitle.classList.add("fake-opt-item");
 
 
@@ -441,12 +441,12 @@ function onTreateStatGraphic(activityKeysList) {
 
     // creation des options pour les années
     let selectRef = document.getElementById("selectStatGraphYear");
-    selectRef.innerHTML = "";
+    selectRef.replaceChildren();
     
     yearArray.forEach(e=>{
         let newOption = document.createElement("option");
         newOption.value = e;
-        newOption.innerHTML = e;    
+        newOption.textContent = e;    
         selectRef.appendChild(newOption);
     });
 
@@ -627,14 +627,14 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
         textStatCurrentMonthDistanceRef = document.getElementById("textStatCurrentMonthDistance");
 
     // Count
-    textStatCurrentMonthActivityRef.innerHTML = currentMonthData.count;
+    textStatCurrentMonthActivityRef.textContent = currentMonthData.count;
 
     // Duration
     let convertedDuration = formatMinutesToHoursForGraph(currentMonthData.duration);
-    textStatCurrentMonthDurationRef.innerHTML = convertedDuration;
+    textStatCurrentMonthDurationRef.textContent = convertedDuration;
 
     // Distance
-    textStatCurrentMonthDistanceRef.innerHTML = `${currentMonthData.distance} km`;
+    textStatCurrentMonthDistanceRef.textContent = `${currentMonthData.distance} km`;
 
     //si on est en janvier, pas de comparaison avec le mois précédent
     if (currentMonthIndex === 0) {
@@ -833,7 +833,7 @@ function onSetResumeByYear(count,distance,hour) {
     let pTarget = document.getElementById("pStatResumeByYear");
     distanceFormated = Math.round(distance * 100) / 100;
 
-    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated} km</b> - Durée :<b> ${hour}</b>`;
+    pTarget.textContent = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated} km</b> - Durée :<b> ${hour}</b>`;
 }
 
 // set les éléments graphiques après comptage
@@ -880,7 +880,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
 
     // COUNT
     monthStatNamesArray.forEach(e=>{
-        document.getElementById(`stat-number-${e}`).innerHTML = activityCount[e].count;
+        document.getElementById(`stat-number-${e}`).textContent = activityCount[e].count;
         document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
 
         // Traitement valeur la plus élevée (mise en gras) et l'image de la couronne
@@ -894,7 +894,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
 
     // DISTANCE
     monthStatNamesArray.forEach(e=>{
-        document.getElementById(`stat-distance-${e}`).innerHTML = activityCount[e].distance;
+        document.getElementById(`stat-distance-${e}`).textContent = activityCount[e].distance;
         document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
@@ -908,7 +908,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
 
     // DURATION
     monthStatNamesArray.forEach(e=>{
-        document.getElementById(`stat-duration-${e}`).innerHTML = formatMinutesToHoursForGraph(activityCount[e].duration);
+        document.getElementById(`stat-duration-${e}`).textContent = formatMinutesToHoursForGraph(activityCount[e].duration);
         document.getElementById(`stat-PB-Duration-${e}`).style = "--progress:" + onCalculStatPercent(higherDurationValue,activityCount[e].duration) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
@@ -1173,7 +1173,7 @@ function getMostPracticedActivity(dataKeys) {
 function onResetStatGraph() {
     if (devMode === true){console.log(`[STAT] Reset du tableau graphique` );};
     // Reset le tableau d'array
-    document.getElementById("selectStatGraphYear").innerHTML= "";
+    document.getElementById("selectStatGraphYear").replaceChildren();
 
     // Vide le tableau de toutes les activités non planifié
     statActivityNonPlannedKeys = [];
@@ -1183,15 +1183,15 @@ function onResetStatGraph() {
         // reset les progress bar et les nombres
 
         document.getElementById("stat-PB-" + e).style = "--progress: 0%;";
-        document.getElementById("stat-number-" + e).innerHTML = "0";
+        document.getElementById("stat-number-" + e).textContent = "0";
 
         // Pour les distances
         document.getElementById("stat-PB-Distance-" + e).style = "--progress: 0%;";
-        document.getElementById("stat-distance-" + e).innerHTML = "0";
+        document.getElementById("stat-distance-" + e).textContent = "0";
 
         // Pour les heures
         document.getElementById("stat-PB-Duration-" + e).style = "--progress: 0%;";
-        document.getElementById("stat-duration-" + e).innerHTML = "0";
+        document.getElementById("stat-duration-" + e).textContent = "0";
     });
 
 
@@ -1207,7 +1207,7 @@ function onClickReturnFromStat() {
     onResetStatGraph();
 
     //vide le fake selection
-    selectorStatRef.innerHTML = "";
+    selectorStatRef.replaceChildren();
 
     // ferme le menu
     onLeaveMenu("Stat");

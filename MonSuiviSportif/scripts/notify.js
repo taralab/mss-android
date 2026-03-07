@@ -51,11 +51,11 @@ function onShowNotifyPopup(key) {
 
     //emojie
     let popupImgRef = document.getElementById("divNotifyPopupEmoji");
-    popupImgRef.innerHTML = notifyTextArray[key].emoji;
+    popupImgRef.textContent = notifyTextArray[key].emoji;
 
     // Texte
     let popupTextRef = document.getElementById("spanPopupNotifyText");
-    popupTextRef.innerHTML = notifyTextArray[key].text;
+    popupTextRef.textContent = notifyTextArray[key].text;
 
     divPopup.classList.add('show');
     setTimeout(() => {
@@ -231,7 +231,7 @@ function onTraiteMobileNotify() {
 // Verification des notifications mobile au démarrage
 function onInitMobileNotify() {
     if (!window.Capacitor || !window.Capacitor.Plugins?.LocalNotifications) {
-        pMobileNotifyStatusRef.innerHTML = 'Notifications non disponibles';
+        pMobileNotifyStatusRef.textContent = 'Notifications non disponibles';
         return;
     }
 
@@ -255,11 +255,11 @@ function updateStatusDisplay() {
     const permission = localStorage.getItem('MSS_notifyPermission') || 'default';
 
     if (permission === 'granted') {
-        pMobileNotifyStatusRef.innerHTML = 'Activées';
+        pMobileNotifyStatusRef.textContent = 'Activées';
     } else if (permission === 'denied') {
-        pMobileNotifyStatusRef.innerHTML = 'Refusées';
+        pMobileNotifyStatusRef.textContent = 'Refusées';
     } else {
-        pMobileNotifyStatusRef.innerHTML = 'Non configurées';
+        pMobileNotifyStatusRef.textContent = 'Non configurées';
     }
 }
 

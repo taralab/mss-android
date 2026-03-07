@@ -90,7 +90,7 @@ function onOpenVisionneuse(key) {
 // Ferme la visionneuse
 function onCloseVisionneuse() {
     divVisionneuseRef.style.display = "none";
-    visionneuseSliderRef.innerHTML = "";
+    visionneuseSliderRef.replaceChildren();
 }
 
 // Met à jour la position du slider

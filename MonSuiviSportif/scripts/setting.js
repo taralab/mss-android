@@ -72,7 +72,7 @@ function onOpenMenuSetting() {
 function onCreateMainMenuSetting() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -171,7 +171,7 @@ function onSetSettingItems() {
     onChangeSettingSettionCommentMode(userSetting.fromSessionToActivityMode);
 
     // Set la date de la dernière sauvegarde auto
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
+    document.getElementById("pSettingLastAutoSaveDate").textContent = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
     
 };
 
@@ -394,25 +394,25 @@ function onChangeSettingSettionCommentMode(value) {
     
     switch (value) {
         case "MINIMAL":
-            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 36";
+            pSettingSessionCommentModeExempleRef.textContent = "Tractions: 36";
 
             break;
         case "NORMAL":
-            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 36 (Séries: 3*12 rép.)";
+            pSettingSessionCommentModeExempleRef.textContent = "Tractions: 36 (Séries: 3*12 rép.)";
 
             break;
         case "COMPLETE":
-            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 36 (Séries :3/5 - 12 Rép.)";
+            pSettingSessionCommentModeExempleRef.textContent = "Tractions: 36 (Séries :3/5 - 12 Rép.)";
 
             break;
 
         case "SERIES":
-            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 4*12";
+            pSettingSessionCommentModeExempleRef.textContent = "Tractions: 4*12";
             
             break;
 
         case "TITLE":
-            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions";
+            pSettingSessionCommentModeExempleRef.textContent = "Tractions";
             
             break;
 

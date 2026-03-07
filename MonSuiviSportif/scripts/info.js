@@ -52,7 +52,7 @@ function onOpenMenuInfo(){
 function onCreateMainMenuInfo() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -69,7 +69,7 @@ function onCreateMainMenuInfo() {
    // Retour depuis Info
    function onClickReturnFromInfo() {
     // Vide les conditions
-    document.getElementById("divConditionDynamicTextInfo").innerHTML = "";
+    document.getElementById("divConditionDynamicTextInfo").replaceChildren();
    
        // ferme le menu
        onLeaveMenu("Info");

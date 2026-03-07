@@ -343,7 +343,7 @@ async function onOpenMenuRewards(){
     // affiche le nombre de trophé débloqué dans le menu contextuel
     let textInfoToDisplay = `Standards : ${userRewardsArray.length} / ${Object.keys(allRewardsObject).length}`;
 
-    document.getElementById("customInfo").innerHTML = textInfoToDisplay;
+    document.getElementById("customInfo").textContent = textInfoToDisplay;
 
     //reset le tableau de keys pour les memory
     memoryCardKeysList = [];
@@ -389,7 +389,7 @@ async function onOpenMenuRewards(){
 function onCreateMainMenuReward() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -406,8 +406,8 @@ function onLoadUserRewardsList() {
     // ==========================================
 
     // vide les listes
-    divRewardsListRef.innerHTML = "";
-    divSpecialRewardsListRef.innerHTML = "";
+    divRewardsListRef.replaceChildren();
+    divSpecialRewardsListRef.replaceChildren();
 
     // reset du tableau des catégories rencontrées
     rewardStdCategoryList = [];
@@ -467,7 +467,7 @@ function onLoadUserRewardsList() {
     else {
 
         // message si aucun special reward
-        divSpecialRewardsListRef.innerHTML = "😅 Rien de spécial... pour l’instant !";
+        divSpecialRewardsListRef.textContent = "😅 Rien de spécial... pour l’instant !";
 
     }
 
@@ -634,22 +634,22 @@ function onSetRewardVisionneuseData(index) {
     // STANDARD REWARDS
     if (!isRewardVisionneuseModeSpecial) {
         // set les éléments et affiche
-        pRewardsFSActivityNameRef.innerHTML = allRewardsObject[rewardName].activityName;
+        pRewardsFSActivityNameRef.textContent = allRewardsObject[rewardName].activityName;
         imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
 
-        pRewardsFullScreenTitleRef.innerHTML = allRewardsObject[rewardName].title;
+        pRewardsFullScreenTitleRef.textContent = allRewardsObject[rewardName].title;
 
-        pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
+        pRewardsFullScreenTextRef.textContent = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
 
         // SPECIAL REWARDS
     }else{
         // set les éléments et affiche
         imgRewardsFullScreenRef.src = allSpecialEventsRewardsObject[rewardName].imgRef;
-        pRewardsFSActivityNameRef.innerHTML = "";
+        pRewardsFSActivityNameRef.replaceChildren();
 
-        pRewardsFullScreenTitleRef.innerHTML = allSpecialEventsRewardsObject[rewardName].title;
+        pRewardsFullScreenTitleRef.textContent = allSpecialEventsRewardsObject[rewardName].title;
 
-        pRewardsFullScreenTextRef.innerHTML = `Tu as ${allSpecialEventsRewardsObject[rewardName].text}.`;
+        pRewardsFullScreenTextRef.textContent = `Tu as ${allSpecialEventsRewardsObject[rewardName].text}.`;
     }
 }
 
@@ -1392,9 +1392,9 @@ function onResetRewardsMenu() {
     pRewardsFSActivityNameRef = "";
     pRewardsFullScreenTextRef = "";
     pRewardsFullScreenTitleRef = "";
-    divRewardsListRef.innerHTML = "";
-    divSpecialRewardsListRef.innerHTML = "";
-    divMemoryListRef.innerHTML = "";
+    divRewardsListRef.replaceChildren();
+    divSpecialRewardsListRef.replaceChildren();
+    divMemoryListRef.replaceChildren();
 
     //vide les références
     divRewardsListRef = null;

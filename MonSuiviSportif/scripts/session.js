@@ -389,7 +389,7 @@ async function onOpenMenuSession(){
     }
 
     // set l'heure d'initialisation de session dans le texte
-    document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
+    document.getElementById("customInfo").textContent = `<b>Début à : ${sessionStartTime}<b>`;
 
     await onDisplaySessionItems();
 
@@ -426,7 +426,7 @@ async function onOpenMenuSession(){
 function onCreateMainMenuSession() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -453,7 +453,7 @@ function onCreateMainMenuSession() {
 //lorsque reset all ou génénère la session
 function onSetSessionStartTime() {
     sessionStartTime = onGetCurrentTimeAndSecond();
-    document.getElementById("customInfo").innerHTML = `<b>Débutée à : ${sessionStartTime}<b>`;
+    document.getElementById("customInfo").textContent = `<b>Débutée à : ${sessionStartTime}<b>`;
 }
 
 
@@ -613,7 +613,7 @@ function eventCreateSessionItem() {
 
     //S'il n'y avait aucun élément avant, retire le texte "aucun élément...."
     if (Object.keys(userSessionItemsList).length < 1) {
-            parentRef.innerHTML = "";
+            parentRef.replaceChildren();
     }
 
 
@@ -1038,10 +1038,10 @@ async function onDisplaySessionItems() {
         }
 
         const divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
-        divSessionCompteurAreaRef.innerHTML = "";
+        divSessionCompteurAreaRef.replaceChildren();
 
         const divSessionEndListRef = document.getElementById("divSessionEndList");
-        divSessionEndListRef.innerHTML = "";
+        divSessionEndListRef.replaceChildren();
 
 
                     
@@ -1052,14 +1052,14 @@ async function onDisplaySessionItems() {
         //Création du texte fin de liste
         let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = getRandomSessionInfo(infoSessionTextArray);
+            newClotureList.textContent = getRandomSessionInfo(infoSessionTextArray);
             divSessionEndListRef.appendChild(newClotureList);
 
 
 
 
         if (Object.keys(userSessionItemsList).length < 1) {
-            divSessionCompteurAreaRef.innerHTML = "Aucun élément à afficher !";
+            divSessionCompteurAreaRef.textContent = "Aucun élément à afficher !";
             return resolve(); // ← important
         }
 
@@ -1258,7 +1258,7 @@ async function eventDeleteSessionItem(){
 
     //Si zero item affiche le message
     if (Object.keys(userSessionItemsList).length < 1) {
-        document.getElementById("divSessionCompteurArea").innerHTML = "Aucun élément à afficher !";
+        document.getElementById("divSessionCompteurArea").textContent = "Aucun élément à afficher !";
     }
 
     //gestion de l'affichage du bouton add new item
@@ -1500,7 +1500,7 @@ class fakeOptionSessionBasic {
             onDisplaySendToActivityCustomise(this.activityName);
             //Vide la liste
             let parentRef = document.getElementById("divFakeSelectSessionList");
-            parentRef.innerHTML = "";
+            parentRef.replaceChildren();
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
         });
@@ -1546,7 +1546,7 @@ class fakeOptionSessionFavourite {
             onDisplaySendToActivityCustomise(this.activityName);
             //Vide la liste
             let parentRef = document.getElementById("divFakeSelectSessionList");
-            parentRef.innerHTML = "";
+            parentRef.replaceChildren();
             // affichage
             document.getElementById("divFakeSelectSession").style.display = "none";
         });
@@ -1572,7 +1572,7 @@ class fakeOptionSessionFavourite {
 // génération du fake selection d'activité pour l'envoie des compteurs
 function onGenerateFakeSelectSession() {
     let parentRef = document.getElementById("divFakeSelectSessionList");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
 
     // Insert d'abord la liste des favoris
@@ -1612,7 +1612,7 @@ function onGenerateFakeSelectSession() {
 function onCloseFakeSelectSession(event) {
     //vide la liste
     let parentRef = document.getElementById("divFakeSelectSessionList");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
     //Masque la div
     document.getElementById("divFakeSelectSession").style.display = "none";
 }
@@ -1633,8 +1633,8 @@ function onDisplaySendToActivityCustomise(activityTarget) {
     document.getElementById("inputCBSendToActivityUseTimer").checked = false;
     //reset les éléments de tag 
     inputSessionSendTagRef.value = "";
-    divSessionSendTagSuggestionRef.innerHTML = "";
-    divSessionSendSelectedTagsRef.innerHTML = "";
+    divSessionSendTagSuggestionRef.replaceChildren();
+    divSessionSendSelectedTagsRef.replaceChildren();
 
     //affiche ou non le champ "timer détecté"
     if (checkIfTimerExist()) {
@@ -1758,7 +1758,7 @@ async function onOpenMenuEditSession() {
 function onCreateMainMenuEditSession() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -1911,7 +1911,7 @@ class DivGenItemSession{
     updateDynamicArea(type) {
 
         //reset
-        this.dynamicAreaRef.innerHTML = "";
+        this.dynamicAreaRef.replaceChildren();
 
         //génère
         this.dynamicAreaRef.innerHTML = this.dynamicContentData[type];
@@ -2025,7 +2025,7 @@ async function onGenerateSessionCanvas() {
         let parentRef = document.getElementById("divCanvasGenerateSession");
 
         // Reset le contenu du parent
-        parentRef.innerHTML = "";
+        parentRef.replaceChildren();
 
         // Génère le tableau
         for (let i = 0; i < maxSessionItems; i++) {
@@ -2137,12 +2137,12 @@ function onGenerateModelSelectList() {
     let parentRef = document.getElementById("selectSessionTableModelName");
     
     // Vide les enfants
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
     // Insert l'option "Personnalisé"
     let defaultOption = document.createElement("option");
         defaultOption.value = "CUSTOM";
-        defaultOption.innerHTML = "Personnalisée";
+        defaultOption.textContent = "Personnalisée";
 
     parentRef.appendChild(defaultOption);
 
@@ -2152,7 +2152,7 @@ function onGenerateModelSelectList() {
         // crée une option et l'insere
         let newOption = document.createElement("option");
         newOption.value = key;
-        newOption.innerHTML = templateSessionsNameList[key].name;
+        newOption.textContent = templateSessionsNameList[key].name;
 
         parentRef.appendChild(newOption);
     });
@@ -2189,7 +2189,7 @@ function eventGenerateSessionList(){
     onUpdateSessionTimeInStorage();
 
     //vide le tableau
-    document.getElementById("divCanvasGenerateSession").innerHTML = "";
+    document.getElementById("divCanvasGenerateSession").replaceChildren();
 
     //et les instance drag n drop
     onDestroySortableGenSession();
@@ -2297,7 +2297,7 @@ function onClickOnCreateSessionArea(event){
 function onclickReturnFromEditSession(event) {
 
     //vide le tableau
-    document.getElementById("divCanvasGenerateSession").innerHTML = "";
+    document.getElementById("divCanvasGenerateSession").replaceChildren();
 
     //et les instance drag n drop
     onDestroySortableGenSession();
@@ -2327,7 +2327,7 @@ async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
 
     // vide la liste
     let parentRef = document.getElementById("divCanvasGenerateSession");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
 
     // pour modèle "personnalisé" ne vas pas plus loin
@@ -2495,7 +2495,7 @@ async function onClearAllSessionElement() {
 
     // vide la div
     let divSessionCompteurAreaRef = document.getElementById("divSessionCompteurArea");
-    divSessionCompteurAreaRef.innerHTML = "";
+    divSessionCompteurAreaRef.replaceChildren();
 
     //vide le tableau des instances items
     sessionAllItemsInstance = {};
@@ -2688,7 +2688,7 @@ function onInputSessionSendTag() {
     const normalizedTAG = normalizeTag(inputSessionSendTagRef.value);
 
     // Réinitialise les suggestions à chaque frappe
-    divSessionSendTagSuggestionRef.innerHTML = "";
+    divSessionSendTagSuggestionRef.replaceChildren();
 
     // Si input vide après normalisation → rien à afficher
     if (!normalizedTAG) return;
@@ -2774,7 +2774,7 @@ function onAddSessionSendTag(tag,isTagSaveRequired = false) {
 
     // Reset de l’input et des suggestions
     inputSessionSendTagRef.value = "";
-    divSessionSendTagSuggestionRef.innerHTML = "";
+    divSessionSendTagSuggestionRef.replaceChildren();
 }
 
 
