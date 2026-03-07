@@ -96,6 +96,7 @@ function onDisplayDashboardItemsList() {
 
     if (weekObjectifKeys.length > 0) {
         // Pour chaque key hebdo "activé" 
+        const fragment = document.createDocumentFragment();
         weekObjectifKeys.forEach(key=>{
             let item = objectifUserList[key];
 
@@ -106,9 +107,10 @@ function onDisplayDashboardItemsList() {
             new ObjectifDashboardItem(
                 item.activity,item.rythmeType,item.dataType,
                 result.remainingValue,item.targetValue,
-                weekParentRef,
+                fragment,
             );
         });
+        weekParentRef.appendChild(fragment);
     }else{
         weekParentRef.textContent = "Aucun objectif hebdomadaire.";
     }
@@ -131,6 +133,7 @@ function onDisplayDashboardItemsList() {
 
     if (monthObjectifKeys.length > 0) {
         // Pour chaque key mensuel "activé" 
+        const fragment = document.createDocumentFragment();
         monthObjectifKeys.forEach(key=>{
             let item = objectifUserList[key];
 
@@ -141,9 +144,10 @@ function onDisplayDashboardItemsList() {
             new ObjectifDashboardItem(
                 item.activity,item.rythmeType,item.dataType,
                 result.remainingValue,item.targetValue,
-                monthParentRef,
+                fragment,
             );
         });
+        monthParentRef.appendChild(fragment);
     }else{
         monthParentRef.textContent = "Aucun objectif mensuel.";
     }
@@ -621,12 +625,14 @@ function onDisplayKpiWeekDetail() {
         itemsListToDisplay = Object.values(weekKpiObject).filter(item=>item.kpiValue === globalWeeklyKPIColor);
 
         //n'affiche que deux élement Orange max
+        const fragment = document.createDocumentFragment();
         Object.entries(itemsListToDisplay)
             .slice(0, maxKpiORANGEItemToDisplay)
             .forEach(([key, value]) => {
                 //injection des éléments
-                new KpiDetailItem(value.dataType,value.activity,value.explanation,parentRef);
+                new KpiDetailItem(value.dataType,value.activity,value.explanation,fragment);
         });
+        parentRef.appendChild(fragment);
 
     }else if(globalWeeklyKPIColor === "RED"){
         //KPI rouge, récupère les éléments à afficher
@@ -641,14 +647,16 @@ function onDisplayKpiWeekDetail() {
 
 
         //affiche tous ceux en rouge
+        const fragment = document.createDocumentFragment();
         Object.keys(itemsListToDisplay).forEach(key=>{
 
             let item = itemsListToDisplay[key];
 
             //injection des éléments
-            new KpiDetailItem(item.dataType,item.activity,item.explanation,parentRef);
+            new KpiDetailItem(item.dataType,item.activity,item.explanation,fragment);
 
         });
+        parentRef.appendChild(fragment);
     }else{
         console.warn("Erreur couleur kpi");
     }
@@ -699,13 +707,14 @@ function onDisplayKpiMonthDetail() {
         itemsListToDisplay = Object.values(monthKpiObject).filter(item=>item.kpiValue === globalMonthlyKPIColor);
 
         //n'affiche que deux élement jaune max
+        const fragment = document.createDocumentFragment();
         Object.entries(itemsListToDisplay)
             .slice(0, maxKpiORANGEItemToDisplay)
             .forEach(([key, value]) => {
                 //injection des éléments
-                new KpiDetailItem(value.dataType,value.activity,value.explanation,parentRef);
+                new KpiDetailItem(value.dataType,value.activity,value.explanation,fragment);
         });
-
+        parentRef.appendChild(fragment);
     }else if(globalMonthlyKPIColor === "RED"){
         //KPI jaune ou rouge, récupère les éléments à afficher
 
@@ -721,14 +730,16 @@ function onDisplayKpiMonthDetail() {
 
 
         //affiche tous ceux en rouge
+        const fragment = document.createDocumentFragment();
         Object.keys(itemsListToDisplay).forEach(key=>{
 
             let item = itemsListToDisplay[key];
 
             //injection des éléments
-            new KpiDetailItem(item.dataType,item.activity,item.explanation,parentRef);
+            new KpiDetailItem(item.dataType,item.activity,item.explanation,fragment);
 
         });
+        parentRef.appendChild(fragment);
     }else{
         console.warn("Erreur couleur kpi");
     }
