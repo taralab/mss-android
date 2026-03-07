@@ -968,6 +968,7 @@ function onCreateTemplateChoiceList() {
     divTemplateChoiceListRef.replaceChildren();
 
     // Génère la liste
+    const fragment = document.createDocumentFragment();
     userTemplateListKeys.forEach((key,index)=>{
 
         // Creation
@@ -1005,17 +1006,14 @@ function onCreateTemplateChoiceList() {
             newBtnRadioFake.classList.add("selected");
         }
 
-
-
-
         // Insertion
-
         newContainer.appendChild(newImg);
         newContainer.appendChild(newTitle);
         newContainer.appendChild(newBtnRadioFake);
 
-        divTemplateChoiceListRef.appendChild(newContainer);
+        fragment.appendChild(newContainer);
     });
+    divTemplateChoiceListRef.appendChild(fragment);
 }
 
 
@@ -1051,6 +1049,7 @@ function onInputTemplateTag() {
         .slice(0, 5);
 
     const exactMatchExists = tagReferenciel.includes(normalizedTAG);
+    const fragment = document.createDocumentFragment();
 
     // ✅ Toujours proposer la création si pas d'égalité exacte
     if (!exactMatchExists) {
@@ -1058,7 +1057,7 @@ function onInputTemplateTag() {
         newDiv.className = "tag-suggestion create";
         newDiv.textContent = `Créer ${normalizedTAG}`;
         newDiv.onclick = () =>  onAddTemplateTag(normalizedTAG, true);
-        divTemplateTagSuggestionRef.appendChild(newDiv);
+        fragment.appendChild(newDiv);
     }
 
     // Ensuite afficher les suggestions existantes
@@ -1067,8 +1066,9 @@ function onInputTemplateTag() {
         newDiv.className = "tag-suggestion";
         newDiv.textContent = tag;
         newDiv.onclick = () =>  onAddTemplateTag(tag, false);
-        divTemplateTagSuggestionRef.appendChild(newDiv);
+        fragment.appendChild(newDiv);
     });
+    divTemplateTagSuggestionRef.appendChild(fragment);
 }
 
 

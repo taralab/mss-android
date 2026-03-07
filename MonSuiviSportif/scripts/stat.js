@@ -135,14 +135,15 @@ function onGenerateStatOptionFilter(dynamicFilterList) {
 
 
     // Ajouter les autres options triées
+    const fragment = document.createDocumentFragment();
     dynamicFilterList.forEach(activityType => {
 
         let newOption = document.createElement("option");
         newOption.value = activityType;
         newOption.textContent = activityChoiceArray[activityType].displayName;
-        selectorStatRef.appendChild(newOption);
+        fragment.appendChild(newOption);
     });
-
+    selectorStatRef.appendChild(fragment);
 
 };
 
@@ -152,19 +153,18 @@ function onGenerateStatOptionFilter(dynamicFilterList) {
 function onGenerateFakeStatOptionFilter(dynamicFilterList) {
     let parentTargetRef = document.getElementById("divFakeSelectOptStatList");
 
-    // Traite d'abord les favoris
     if (devMode === true){
         console.log("[FAKE SELECTOR STAT] Lancement de la generation des choix des activités dans le filtre");
         console.log("[FAKE SELECTOR STAT] ID Parent pour insertion : " + parentTargetRef);
     };
 
     parentTargetRef.replaceChildren();
-
+    const fragment = document.createDocumentFragment();
 
     // Le bouton radio sera set sur générales
 
 
-    // Ajouter l'option "Tous" au début
+    // Ajouter l'option "GENERAL" au début
     let newContainer = document.createElement("div");
     newContainer.classList.add("fake-opt-item-container");
     newContainer.onclick = function (event){
@@ -195,7 +195,7 @@ function onGenerateFakeStatOptionFilter(dynamicFilterList) {
     newContainer.appendChild(newTitle);
     newContainer.appendChild(newBtnRadioFake);
 
-    parentTargetRef.appendChild(newContainer);
+    fragment.appendChild(newContainer);
 
 
     // Ajout de reste des activités
@@ -237,8 +237,9 @@ function onGenerateFakeStatOptionFilter(dynamicFilterList) {
         newContainer.appendChild(newTitle);
         newContainer.appendChild(newBtnRadioFake);
 
-        parentTargetRef.appendChild(newContainer);
-    })
+        fragment.appendChild(newContainer);
+    });
+    parentTargetRef.appendChild(fragment);
 
 }
 
@@ -443,12 +444,14 @@ function onTreateStatGraphic(activityKeysList) {
     let selectRef = document.getElementById("selectStatGraphYear");
     selectRef.replaceChildren();
     
+    const fragment = document.createDocumentFragment();
     yearArray.forEach(e=>{
         let newOption = document.createElement("option");
         newOption.value = e;
         newOption.textContent = e;    
-        selectRef.appendChild(newOption);
+        fragment.appendChild(newOption);
     });
+    selectRef.appendChild(fragment);
 
     // Lancement du comptage sur la première année du tableau
     getActivityStatCountByMonth(activityKeysList,yearArray[0]);

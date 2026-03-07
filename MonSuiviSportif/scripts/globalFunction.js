@@ -313,26 +313,29 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
     if (devMode === true){console.log(" ajout des favoris si présent = " + userFavoris.length);};
     userFavoris.sort();
 
+    const fragmentFavoris = document.createDocumentFragment();
     userFavoris.forEach(activity => {
         let newOption = document.createElement("option");
         newOption.value = activity;
         newOption.innerHTML = " * " +  activityChoiceArray[activity].displayName;
-        selectorChoiceRef.appendChild(newOption);
+        fragmentFavoris.appendChild(newOption);
         if (devMode === true){console.log("ajout de l'option" + activityChoiceArray[activity].displayName );};
     });
-
+    selectorChoiceRef.appendChild(fragmentFavoris);
 
     // Trier le tableau par ordre alphabétique 
     let activitySortedKey = Object.keys(activityChoiceArray);
     activitySortedKey.sort();
 
     // Ajouter les autres options triées
+    const fragmentActivity = document.createDocumentFragment();
     activitySortedKey.forEach(activity => {
         let newOption = document.createElement("option");
         newOption.value = activity;
         newOption.innerHTML = activityChoiceArray[activity].displayName;
-        selectorChoiceRef.appendChild(newOption);
+        fragmentActivity.appendChild(newOption);
     });
+    selectorChoiceRef.appendChild(fragmentActivity);
 
 };
 
@@ -356,6 +359,8 @@ function onGenerateFakeOptionList(idParentTarget) {
     if (devMode === true){console.log(" [FAKE SELECTOR] ajout des favoris si présent = " + userFavoris.length);};
     userFavoris.sort();
 
+
+    const fragmentFavoris = document.createDocumentFragment();
     userFavoris.forEach((e,index)=>{
 
         // Creation
@@ -404,9 +409,9 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.appendChild(newTitle);
         newContainer.appendChild(newBtnRadioFake);
     
-        parentTargetRef.appendChild(newContainer);
+        fragmentFavoris.appendChild(newContainer);
     });
-
+    parentTargetRef.appendChild(fragmentFavoris);
 
     if (devMode === true){console.log(" [FAKE SELECTOR] ajout du reste des types d'activités")};
 
@@ -414,7 +419,7 @@ function onGenerateFakeOptionList(idParentTarget) {
     let activitySortedKey = Object.keys(activityChoiceArray);
     activitySortedKey.sort();
 
-
+    const fragmentActivity = document.createDocumentFragment();
     activitySortedKey.forEach((e,index)=>{
 
         // Creation
@@ -456,8 +461,9 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.appendChild(newTitle);
         newContainer.appendChild(newBtnRadioFake);
     
-        parentTargetRef.appendChild(newContainer);
+        fragmentActivity.appendChild(newContainer);
     });
+    parentTargetRef.appendChild(fragmentActivity);
 
 
 }

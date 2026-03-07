@@ -2702,13 +2702,15 @@ function onInputSessionSendTag() {
 
     const exactMatchExists = tagReferenciel.includes(normalizedTAG);
 
+    const fragment = document.createDocumentFragment();
+
     // ✅ Toujours proposer la création si pas d'égalité exacte
     if (!exactMatchExists) {
         const newDiv = document.createElement("div");
         newDiv.className = "tag-suggestion create";
         newDiv.textContent = `Créer ${normalizedTAG}`;
         newDiv.onclick = () => onAddSessionSendTag(normalizedTAG, true);
-        divSessionSendTagSuggestionRef.appendChild(newDiv);
+        fragment.appendChild(newDiv);
     }
 
     // Ensuite afficher les suggestions existantes
@@ -2717,8 +2719,9 @@ function onInputSessionSendTag() {
         newDiv.className = "tag-suggestion";
         newDiv.textContent = tag;
         newDiv.onclick = () => onAddSessionSendTag(tag, false);
-        divSessionSendTagSuggestionRef.appendChild(newDiv);
+        fragment.appendChild(newDiv);
     });
+    divSessionSendTagSuggestionRef.appendChild(fragment);
 }
 
 

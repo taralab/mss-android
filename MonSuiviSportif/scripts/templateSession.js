@@ -289,25 +289,29 @@ function onSetTemplateSessionNameList() {
     }
 
     // Pour chaque ligne dans le tableau
+    const fragment = document.createDocumentFragment();
+    const fragmentEndList = document.createDocumentFragment();
     templateSessionKeys.forEach((key,index)=>{
         // Crée une div
         let delay = index * animCascadeDelay; // 60ms d’écart entre chaque élément : effet cascade
-        new TemplateSessionItemList(key,templateSessionsNameList[key].name,parentRef,delay,userSetting.animationEnabled);
+        new TemplateSessionItemList(key,templateSessionsNameList[key].name,fragment,delay,userSetting.animationEnabled);
 
         // Creation de la ligne de fin pour le dernier index
         if (index === (Object.keys(templateSessionsNameList).length - 1)) {
 
             // Insertion du bouton ajouter et traitement état désactivation
             let btnIsDisabled = templateSessionKeys.length >= maxTemplateSession;
-            new Button_add("Ajouter un modèle", () => onChangeMenu('NewTemplateSession'), btnIsDisabled, divSessionTemplateEndListRef);
+            new Button_add("Ajouter un modèle", () => onChangeMenu('NewTemplateSession'), btnIsDisabled, fragmentEndList);
 
             // Ligne de cloture
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
             newClotureList.textContent = `ℹ️ Vous pouvez créer jusqu'à ${maxTemplateSession} modèles.`;
-            divSessionTemplateEndListRef.appendChild(newClotureList);
+            fragmentEndList.appendChild(newClotureList);
         }
     });
+    parentRef.appendChild(fragment);
+    divSessionTemplateEndListRef.appendChild(fragmentEndList);
 
 }
 

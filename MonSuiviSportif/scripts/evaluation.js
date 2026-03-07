@@ -294,12 +294,13 @@ function onDisplayNewEvaluation(monthTarget) {
 function onGenerateEvalOptionMarquant() {
 
   //Vide le parent
-  selectEvalMarquantRef.innerHTML = "";
+  selectEvalMarquantRef.replaceChildren();
 
   // Génération des éléments pour marquants
   let marquantKeys = Object.keys(EVAL_MARQUANT_DATA);
 
   // Pour chaque clé
+  const fragment = document.createDocumentFragment();
   marquantKeys.forEach(key=>{
     let marquantData = EVAL_MARQUANT_DATA[key];
 
@@ -310,19 +311,21 @@ function onGenerateEvalOptionMarquant() {
 
     //et l'insère
 
-    selectEvalMarquantRef.appendChild(newOption);
+    fragment.appendChild(newOption);
   });
+  selectEvalMarquantRef.appendChild(fragment);
 }
 
 
 
 function onGenerateEvalOptionAppreciation() {
   //vide la parent
-  selectEvalAppreciationRef.innerHTML = "";
+  selectEvalAppreciationRef.replaceChildren();
 
   let appreciationKeys = Object.keys(EVAL_APPRECIATION_DATA);
 
   //Pour chaque clé
+  const fragment = document.createDocumentFragment();
   appreciationKeys.forEach(key=>{
     let evaluationData = EVAL_APPRECIATION_DATA[key];
 
@@ -332,9 +335,10 @@ function onGenerateEvalOptionAppreciation() {
     newOption.textContent = evaluationData.displayTitle;
 
     //Et l'insère
-    selectEvalAppreciationRef.appendChild(newOption);
+    fragment.appendChild(newOption);
 
   });
+  selectEvalAppreciationRef.appendChild(fragment);
 }
 
 
@@ -635,7 +639,7 @@ function onClickInsideEvalPopupContent(event) {
 function  onGenerateEvalMonthItem(yearTarget){
   //vide le parent
   let monthAreaParentRef = document.getElementById("divEvalStatMonth");
-    monthAreaParentRef.innerHTML = "";
+    monthAreaParentRef.replaceChildren();
 
   const monthNameArray = [
     "Jan","Fév","Mars","Avr","Mai","Juin","Jui",
@@ -849,7 +853,7 @@ function onDisplayEvalMonthItem(yearTarget) {
 function onHideEvalMonthItem() {
   //masque le div et vide le contenu des mois
   document.getElementById("divStatGraphiqueEvaluation").style.display = "none";
-  document.getElementById("divEvalStatMonth").innerHTML = "";
+  document.getElementById("divEvalStatMonth").replaceChildren();
 
 
 }
@@ -859,7 +863,7 @@ function onHideEvalMonthItem() {
 // Reset la partie stat evaluation graphique
 function resetStatEvaluationGraph() {
   document.getElementById("divStatGraphiqueEvaluation").style.display = "none";
-  document.getElementById("divEvalStatMonth").innerHTML = "";
+  document.getElementById("divEvalStatMonth").replaceChildren();
 }
 
 

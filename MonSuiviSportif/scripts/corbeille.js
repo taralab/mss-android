@@ -247,7 +247,8 @@ async function eventUpdateCorbeilleList(){
     corbeilleItemsList = await onLoadCorbeilleItemsListFromDB();
 
     if (Object.keys(corbeilleItemsList).length > 0) {
-            //Insertion des classes
+        //Insertion des classes
+        const fragment = document.createDocumentFragment();
         Object.keys(corbeilleItemsList).forEach((key,index)=>{
             let type = corbeilleItemsList[key].type,
                 displayType = corbeilleItemsList[key].displayType,
@@ -256,8 +257,10 @@ async function eventUpdateCorbeilleList(){
 
             let delay = index * animCascadeDelay;
 
-            new CorbeilleItem(key,type,displayType,name,deletedDate,parentRef,delay,userSetting.animationEnabled);
+            new CorbeilleItem(key,type,displayType,name,deletedDate,fragment,delay,userSetting.animationEnabled);
         });
+
+        parentRef.appendChild(fragment);
     }else{
         parentRef.textContent = "Aucun élément à afficher !";
     }

@@ -579,13 +579,15 @@ function onUpdateSelectorFilterTAG() {
     tagReferenciel.sort();
 
     // Pour chaque tag
+    const fragment = document.createDocumentFragment();
     tagReferenciel.forEach(tag=>{
         // Crée un option
         let newOption = document.createElement("option");
         newOption.value = tag;
         newOption.textContent = `#${tag}`;
-        selectFilterTagRef.appendChild(newOption);
+        fragment.appendChild(newOption);
     });
+    selectFilterTagRef.appendChild(fragment);
 
     //mais focus sur le tag toujours en cours
     selectFilterTagRef.value = currentTagFilter;

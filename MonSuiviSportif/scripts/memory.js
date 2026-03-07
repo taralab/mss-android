@@ -1249,11 +1249,13 @@ function onDisplayMemoryCardsList() {
     memoryCardInstanceList = {};
 
     //pour chaque key
+    const fragment = document.createDocumentFragment();
     memoryCardKeysList.forEach(key =>{
         // Crée un éléments
         let imageData = allMemoryObjectList[key].imageData;
-        memoryCardInstanceList[key] = new MemoryCard(key,imageData,divMemoryListRef);
+        memoryCardInstanceList[key] = new MemoryCard(key,imageData,fragment);
     });
+    divMemoryListRef.appendChild(fragment);
 }
 
 

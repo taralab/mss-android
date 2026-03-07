@@ -1176,6 +1176,7 @@ function onInputActivityTag() {
         .slice(0, 5);
 
     const exactMatchExists = tagReferenciel.includes(normalizedTAG);
+    const fragment = document.createDocumentFragment();
 
     // ✅ Toujours proposer la création si pas d'égalité exacte
     if (!exactMatchExists) {
@@ -1183,7 +1184,7 @@ function onInputActivityTag() {
         newDiv.className = "tag-suggestion create";
         newDiv.textContent = `Créer ${normalizedTAG}`;
         newDiv.onclick = () => onAddActivityTag(normalizedTAG, true);
-        divActivityTagSuggestionRef.appendChild(newDiv);
+        fragment.appendChild(newDiv);
     }
 
     // Ensuite afficher les suggestions existantes
@@ -1192,8 +1193,9 @@ function onInputActivityTag() {
         newDiv.className = "tag-suggestion";
         newDiv.textContent = tag;
         newDiv.onclick = () => onAddActivityTag(tag, false);
-        divActivityTagSuggestionRef.appendChild(newDiv);
+        fragment.appendChild(newDiv);
     });
+    divActivityTagSuggestionRef.appendChild(fragment);
 }
 
 
