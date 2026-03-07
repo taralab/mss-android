@@ -41,7 +41,8 @@ function onAddEventListenerForStatMenu() {
 // Ouverture du menu
 function onOpenMenuStat(){
     if (devMode === true){console.log("Ouverture menu STAT");};
-
+    //génération menu principal
+    onCreateMainMenuStat();
 
     // récupère les keys des activités non planifiées
     statActivityNonPlannedKeys = Object.entries(allUserActivityArray)
@@ -71,8 +72,7 @@ function onOpenMenuStat(){
         onConsoleLogEventListenerRegistry();
     }
 
-    //génération menu principal
-    onCreateMainMenuStat();
+
 }
 
 
@@ -833,7 +833,7 @@ function onSetResumeByYear(count,distance,hour) {
     let pTarget = document.getElementById("pStatResumeByYear");
     distanceFormated = Math.round(distance * 100) / 100;
 
-    pTarget.textContent = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated} km</b> - Durée :<b> ${hour}</b>`;
+    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated} km</b> - Durée :<b> ${hour}</b>`;
 }
 
 // set les éléments graphiques après comptage

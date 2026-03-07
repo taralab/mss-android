@@ -30,6 +30,9 @@
 
 
 function onOpenMenuInfo(){
+    // Creation du menu principal
+    onCreateMainMenuInfo();
+
     // Insert les conditions dynamique
     document.getElementById("divConditionDynamicTextInfo").innerHTML = conditionText;
 
@@ -38,8 +41,7 @@ function onOpenMenuInfo(){
     let version = document.getElementById("pInfoVersion").innerHTML;
     document.getElementById("customInfo").innerHTML = version;
 
-    // Creation du menu principal
-    onCreateMainMenuInfo();
+
 
 }
    

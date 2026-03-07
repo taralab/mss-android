@@ -380,6 +380,9 @@ function onTraiteBtnNewFromTemplateStatus() {
 
 // Ouvre le menu
 function onOpenMenuGestTemplate() {
+    //Création du menu principal
+    onCreateMainMenuGestTemplate();
+
     //Lance le référencement
     onReferenceTemplateItems();
 
@@ -393,8 +396,7 @@ function onOpenMenuGestTemplate() {
         onConsoleLogEventListenerRegistry();
     }
 
-    //Création du menu principal
-    onCreateMainMenuGestTemplate();
+
     
     // Génère la liste d'activité pour les modèles
     onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");

@@ -326,6 +326,9 @@ function onSearchVariousActivitiesNumber(allDataKeys,targetValue,currentActivity
 async function onOpenMenuRewards(){
     if (devMode === true){console.log("[REWARDS] Ouverture menu Rewards");};
 
+    //Création du menu principal
+    onCreateMainMenuReward();
+
     // Reference les éléments
     divTrophyFSAreaRef = document.getElementById("divTrophyFSArea");
     imgRewardsFullScreenRef = document.getElementById("imgRewardsFullScreen");
@@ -381,8 +384,7 @@ async function onOpenMenuRewards(){
         onConsoleLogEventListenerRegistry();
     }
 
-    //Création du menu principal
-    onCreateMainMenuReward();
+
 
 };
 

@@ -2,6 +2,8 @@
 let currentExportVersion = 9;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
+    //Création main menu
+    onCreateMainMenuGestData();
 
     // Set la version du fichier d'import autorisé
     document.getElementById("pGestDataVersionImportAccepted").innerHTML = `V${currentExportVersion}`;
@@ -24,8 +26,7 @@ function onOpenMenuGestData() {
         onConsoleLogEventListenerRegistry();
     }
 
-    //Création main menu
-    onCreateMainMenuGestData();
+
 
 };
 

@@ -14,14 +14,17 @@ textareaCustomNotesRef;
 
 // Ouverture du menu profil
 function onOpenMenuProfil() {
+    
+    //création menu principal
+    onCreateMainMenuProfil();
+
     // Lance le référencement des items
     onReferenceItemsProfils();
 
     // set les éléments du profils
     onSetProfilItems();
 
-    //création menu principal
-    onCreateMainMenuProfil()
+
 };
 
 // Génération du menu principal

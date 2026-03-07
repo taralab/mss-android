@@ -272,6 +272,10 @@ async function onInsertNoteModificationInDB(noteToUpdate, key) {
 
 
 async function onOpenMenuNotes(){
+
+    //Création du menu principal
+    onCreateMainMenuNotes();
+
     //affiche le champ de recherche
     onDisplaySearchNotesArea();
 
@@ -307,8 +311,7 @@ async function onOpenMenuNotes(){
     //Gestion du bouton "ADD new note"
     updateNoteBtnNewStatus();
 
-    //Création du menu principal
-    onCreateMainMenuNotes();
+
 
     //ajoute l'ecouteur pour l'editeur de note
     onAddEventListenerForNoteItemEditor();

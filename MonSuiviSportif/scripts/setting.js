@@ -48,6 +48,9 @@ function onAddEventListenerForSettingMenu(){
 
 
 function onOpenMenuSetting() {
+    // Création menu principal
+    onCreateMainMenuSetting();
+
     // Lance le référencement des items
     onReferenceItemsSetting();
 
@@ -62,8 +65,7 @@ function onOpenMenuSetting() {
         onConsoleLogEventListenerRegistry();
     }
     
-    // Création menu principal
-    onCreateMainMenuSetting();
+
 
 };
     

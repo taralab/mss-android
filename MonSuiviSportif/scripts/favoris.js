@@ -1,11 +1,13 @@
 
 function onOpenMenuFavoris() {
 
+    //création menu principal
+    onCreateMainMenuFavoris();
+
     // Chargement de la liste des activité pour visualisation
     onLoadingActivityList();
 
-    //création menu principal
-    onCreateMainMenuFavoris();
+
 };
 
 

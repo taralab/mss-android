@@ -155,6 +155,8 @@ async function onLoadUserPlanningFromDB() {
 
 
 async function onOpenMenuPlanning(){
+    // Creation du main menu
+    onCreateMainMenuPlanning();
 
     // La première fois, récupère les templates dans la base
     if (!isUserPlanningLoadedFromBase) {
@@ -169,8 +171,7 @@ async function onOpenMenuPlanning(){
     // Et le remplit
     onSetPlanningItems();
 
-    // Creation du main menu
-    onCreateMainMenuPlanning();
+
 
 
 };

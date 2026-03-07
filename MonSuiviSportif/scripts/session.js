@@ -364,6 +364,8 @@ function onClickReturnFromSendToActvityLocation() {
 
 async function onOpenMenuSession(){
 
+    //création menu principal
+    onCreateMainMenuSession();
 
     // Récupère les éléments
     getSessionItemListFromLocalStorage();
@@ -389,7 +391,7 @@ async function onOpenMenuSession(){
     }
 
     // set l'heure d'initialisation de session dans le texte
-    document.getElementById("customInfo").textContent = `<b>Début à : ${sessionStartTime}<b>`;
+    document.getElementById("customInfo").innerHTML = `<b>Début à : ${sessionStartTime}<b>`;
 
     await onDisplaySessionItems();
 
@@ -412,8 +414,7 @@ async function onOpenMenuSession(){
         await onLoadRecupDataFromDB();
     }
 
-    //création menu principal
-    onCreateMainMenuSession();
+
 
 
     if (devMode === true){
@@ -453,7 +454,7 @@ function onCreateMainMenuSession() {
 //lorsque reset all ou génénère la session
 function onSetSessionStartTime() {
     sessionStartTime = onGetCurrentTimeAndSecond();
-    document.getElementById("customInfo").textContent = `<b>Débutée à : ${sessionStartTime}<b>`;
+    document.getElementById("customInfo").innerHTML = `<b>Débutée à : ${sessionStartTime}<b>`;
 }
 
 
@@ -1726,6 +1727,9 @@ function checkIfTimerExist() {
 
 async function onOpenMenuEditSession() {    
 
+    //création du menu principal
+    onCreateMainMenuEditSession();
+
         // La première fois, récupère les templates dans la base
         if (!isTemplateSessionLoadedFromBase) {
             await onLoadTemplateSessionNameFromDB();
@@ -1744,8 +1748,7 @@ async function onOpenMenuEditSession() {
     // actualise la liste des modèles dans le tableau
     onGenerateModelSelectList(); 
 
-    //création du menu principal
-    onCreateMainMenuEditSession();
+
 
 
 

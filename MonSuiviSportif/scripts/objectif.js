@@ -1108,10 +1108,12 @@ function onLeaveMenuObjectifDashboard() {
 
 function onOpenMenuObjectifGestion() {
     
-    onDisplayObjectifList();
-
     // Génération du menu principal
     onCreateMainMenuObjectifGestion();
+
+    onDisplayObjectifList();
+
+
 
     //Ajout évènement pour le popup de modification d'objectif
     onAddEventListenerForObjectifGestion();
