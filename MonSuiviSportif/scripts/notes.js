@@ -277,10 +277,10 @@ async function onOpenMenuNotes(){
 
     //vide les éléments
     let divNoteListRef = document.getElementById("divNotesList");
-    divNoteListRef.innerHTML = "";
+    divNoteListRef.replaceChildren();
     //text fin de liste
     const divNoteEndListRef = document.getElementById("divNotesEndList");
-    divNoteEndListRef.innerHTML = "";
+    divNoteEndListRef.replaceChildren();
 
     //récupère la liste dans la base la première fois. Les suivantes, prend dans l'array
     if (!isNoteLoadedFromDB) {
@@ -301,7 +301,7 @@ async function onOpenMenuNotes(){
 
     let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouver créer jusqu'à ${maxNotes} notes.`;
+            newClotureList.textContent = `ℹ️ Vous pouver créer jusqu'à ${maxNotes} notes.`;
             divNoteEndListRef.appendChild(newClotureList);
 
     //Gestion du bouton "ADD new note"
@@ -325,7 +325,7 @@ async function onOpenMenuNotes(){
 function onCreateMainMenuNotes() {
     // Vide le précedent contenu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -338,7 +338,7 @@ function onCreateMainMenuNotes() {
 function eventUpdateNotesList() {
     //Vide le parent
     let divParentRef = document.getElementById("divNotesList");
-    divParentRef.innerHTML = "";
+    divParentRef.replaceChildren();
 
     //trie les clé par ordre de création
     allItemNotesSortedKey = getNoteSortedKeyByCreatedAt(allUserNotesArray);
@@ -355,10 +355,13 @@ function eventUpdateNotesList() {
         document.getElementById("pNoteListNoItem").style.display = "none";
     }
 
+
     //Séquence d'affichage
+    const fragment = document.createDocumentFragment();
     notesKeysToDisplay.forEach(key =>{
-        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,divParentRef,allUserNotesArray[key].color);
+        new itemNotes(key,allUserNotesArray[key].title,allUserNotesArray[key].detail,fragment,allUserNotesArray[key].color);
     }); 
+    divParentRef.appendChild(fragment);
 
 }
 
@@ -834,10 +837,10 @@ function searchNotes() {
 function onClickReturnFromNotes() {
     //reset des éléments
     let divParentRef = document.getElementById("divNotesList");
-    divParentRef.innerHTML = "";
+    divParentRef.replaceChildren();
 
     let divParentEndNoteRef = document.getElementById("divNotesEndList");
-    divParentEndNoteRef.innerHTML = "";
+    divParentEndNoteRef.replaceChildren();
 
 
     //vide les références pour l'éditeur de note
