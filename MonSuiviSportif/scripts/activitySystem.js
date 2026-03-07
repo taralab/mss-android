@@ -237,8 +237,8 @@ function onAddEventListenerForActivityEditor() {
 // ------------------------------Fonction générale pour activity ----------------------------------
 
 
-// fonction pour récupérer les activité et les modèles
-async function onLoadActivityFromDB() {
+// fonction pour récupérer les activité et les modèles. ACTUELLEMENT DESACTIVEE
+async function onLoadActivityFromDB_OLD() {
     allUserActivityArray = {}; // devient un objet
     try {
         const result = await db.allDocs({ include_docs: true });
@@ -261,6 +261,39 @@ async function onLoadActivityFromDB() {
 }
 
 
+//nouvelle fonction avec respiration pour eviter les frizes
+async function onLoadActivityFromDB() {
+    allUserActivityArray = {}; // objet principal en mémoire
+    const BATCH_SIZE = 500; // nombre d'activités entre chaque pause
+
+    try {
+        const result = await db.allDocs({ include_docs: true });
+
+        const docs = result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === activityStoreName);
+
+        // parcours avec respiration
+        for (let i = 0; i < docs.length; i++) {
+            const doc = docs[i];
+            allUserActivityArray[doc._id] = { ...doc }; // on garde tout
+
+            // pause tous les BATCH_SIZE objets pour laisser respirer l'UI
+            if (i % BATCH_SIZE === 0) {
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+        }
+
+        if (devMode === true && Object.keys(allUserActivityArray).length > 0) {
+            console.log("[DATABASE] [ACTIVITY] Activités chargées :", activityStoreName);
+            const firstKey = Object.keys(allUserActivityArray)[0];
+            console.log(allUserActivityArray[firstKey]);
+        }
+
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
+    }
+}
 
 
 // Insertion nouvelle activité (ID auto, )
