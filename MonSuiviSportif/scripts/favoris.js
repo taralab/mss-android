@@ -16,7 +16,7 @@ function onOpenMenuFavoris() {
 function onCreateMainMenuFavoris() {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -44,6 +44,7 @@ function onLoadingActivityList() {
     filteredKeyActivityList.sort();
 
 
+    const fragment = document.createDocumentFragment();//pour insertion unique dans le DOM
 
     filteredKeyActivityList.forEach(e=>{
 
@@ -52,7 +53,7 @@ function onLoadingActivityList() {
         newLi.classList.add("favoris-list");
 
         let newActivityName = document.createElement("p");
-        newActivityName.innerHTML =  activityChoiceArray[e].displayName;
+        newActivityName.textContent =  activityChoiceArray[e].displayName;
         newActivityName.classList.add("favoris-list");
 
         let newActivityImg = document.createElement("img");
@@ -78,9 +79,9 @@ function onLoadingActivityList() {
         newLi.appendChild(newActivityName);
         newLi.appendChild(newFavorisImg);
 
-        ulActivityListParentRef.appendChild(newLi);
-
+        fragment.appendChild(newLi);
     });
+    ulActivityListParentRef.appendChild(fragment);
 };
 
 
@@ -88,8 +89,7 @@ function onLoadingActivityList() {
 // Retour depuis Favoris
 function onClickReturnFromFavoris() {
     // Vide la liste :
-    document.getElementById("ulActivityListParent").innerHTML = "";
-
+    document.getElementById("ulActivityListParent").replaceChildren();
     // ferme le menu
     onLeaveMenu("Favoris");
 };

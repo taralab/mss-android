@@ -152,14 +152,17 @@ class ActivityItem {
 
 
     formatTags(container) {
-        container.innerHTML = "";
+        container.replaceChildren();
+
+        const fragment = document.createDocumentFragment();
 
         this.tagList.forEach(tag => {
             const span = document.createElement("span");
             span.className = "activity-tag";
             span.textContent = `#${tag}`;
-            container.appendChild(span);
+            fragment.appendChild(span);
         });
+        container.appendChild(fragment);
     }
 }
 
@@ -481,7 +484,7 @@ function onOpenNewActivityFromTemplate(templateItem) {
 
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
-    pEditorActivityPreviewPlannedIconRef.innerHTML = templateItem.isPlanned ? "🗓️ Cette activité est planifiée.":"";
+    pEditorActivityPreviewPlannedIconRef.textContent = templateItem.isPlanned ? "🗓️ Cette activité est planifiée.":"";
 }
 
 
@@ -490,7 +493,7 @@ function onOpenNewActivityFromTemplate(templateItem) {
 function onCreateMainMenuActivityEditor(isModify) {
     // Vide le précedent contenut
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -521,8 +524,8 @@ function onResetActivityInputs() {
     inputDurationActivitySecondsRef.value = "00";
     textareaCommentRef.value = "";
     inputActivityTagRef.value = ""; 
-    divActivityTagSuggestionRef.innerHTML = "";
-    divActivitySelectedTagsRef.innerHTML = "";
+    divActivityTagSuggestionRef.replaceChildren();
+    divActivitySelectedTagsRef.replaceChildren();
     inputIsPlannedRef.checked = false;
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
@@ -530,7 +533,7 @@ function onResetActivityInputs() {
    
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C-A-P"].imgRef;
-    pEditorActivityPreviewPlannedIconRef.innerHTML = "";
+    pEditorActivityPreviewPlannedIconRef.replaceChildren();
 
     inputDateRef.classList.remove("fieldRequired");
 
@@ -579,10 +582,10 @@ function onInsertActivityInList(activityKeysToDisplay) {
         console.log("[ACTIVITY] Vide la liste des activités");
     };
 
-    divItemListRef.innerHTML = "";
+    divItemListRef.replaceChildren();
 
     if (userActivityKeysListToDisplay.length === 0) {
-        divItemListRef.innerHTML = "Aucune activité à afficher !";
+        divItemListRef.textContent = "Aucune activité à afficher !";
         return
     }else{
         if (devMode === true){console.log("Demande d'insertion du premier cycle d'activité dans la liste");};
@@ -638,7 +641,7 @@ function onInsertActivityCycle() {
             if (isLastIndex) {
                 let newClotureList = document.createElement("span");
                 newClotureList.classList.add("last-container");
-                newClotureList.innerHTML = "ℹ️ Vos activités sont stockées dans votre appareil.";
+                newClotureList.textContent = "ℹ️ Vos activités sont stockées dans votre appareil.";
                 divItemListRef.appendChild(newClotureList);
             }
         };
@@ -663,7 +666,7 @@ function onCreateMoreActivityBtn() {
     });
 
 
-    newItemContainerBtnMore.innerHTML = "Afficher plus >";
+    newItemContainerBtnMore.textContent = "Afficher plus >";
 
 
     divItemListRef.appendChild(newItemContainerBtnMore);
@@ -741,7 +744,7 @@ function onChangeActivityPreview(dataName) {
 
 // Set l'icone "temporaire" dans la prévisualisation
 function onChangeActivityPlanned(checkBoxValue) {
-    pEditorActivityPreviewPlannedIconRef.innerHTML = checkBoxValue ? "🗓️ Cette activité est planifiée.":"";
+    pEditorActivityPreviewPlannedIconRef.textContent = checkBoxValue ? "🗓️ Cette activité est planifiée.":"";
 }
 
 
@@ -813,7 +816,7 @@ function onEditActivity(activityTarget) {
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[activityTarget.name].imgRef;
     // prévisualisation coché temporaire
-    pEditorActivityPreviewPlannedIconRef.innerHTML = activityTarget.isPlanned ? "🗓️ Cette activité est planifiée." : "";
+    pEditorActivityPreviewPlannedIconRef.textContent = activityTarget.isPlanned ? "🗓️ Cette activité est planifiée." : "";
 };
 
 
@@ -1130,7 +1133,7 @@ function onInputActivityTag() {
     const normalizedTAG = normalizeTag(inputActivityTagRef.value);
 
     // Réinitialise les suggestions à chaque frappe
-    divActivityTagSuggestionRef.innerHTML = "";
+    divActivityTagSuggestionRef.replaceChildren();
 
     // Si input vide après normalisation → rien à afficher
     if (!normalizedTAG) return;
@@ -1217,7 +1220,7 @@ function onAddActivityTag(tag,isTagSaveRequired = false) {
 
   // Reset de l’input et des suggestions
   inputActivityTagRef.value = "";
-  divActivityTagSuggestionRef.innerHTML = "";
+  divActivityTagSuggestionRef.replaceChildren();
 }
 
 

@@ -87,7 +87,7 @@ function onDisplayDashboardItemsList() {
 
     // Référence le parent et le vide
     let weekParentRef = document.getElementById("divDashboardListAreaWeek");
-    weekParentRef.innerHTML = "";
+    weekParentRef.replaceChildren();
 
     // Extrait les key nécessaires
     let weekObjectifKeys = getObjectifEnabledKeys("WEEK");
@@ -110,7 +110,7 @@ function onDisplayDashboardItemsList() {
             );
         });
     }else{
-        weekParentRef.innerHTML = "Aucun objectif hebdomadaire.";
+        weekParentRef.textContent = "Aucun objectif hebdomadaire.";
     }
 
 
@@ -122,7 +122,7 @@ function onDisplayDashboardItemsList() {
 
     // Référence le parent et le vide
     let monthParentRef = document.getElementById("divDashboardListAreaMonth");
-    monthParentRef.innerHTML = "";
+    monthParentRef.replaceChildren();
 
     // Récupère les keys
     let monthObjectifKeys = getObjectifEnabledKeys("MONTH");
@@ -145,7 +145,7 @@ function onDisplayDashboardItemsList() {
             );
         });
     }else{
-        monthParentRef.innerHTML = "Aucun objectif mensuel.";
+        monthParentRef.textContent = "Aucun objectif mensuel.";
     }
 }
 
@@ -247,7 +247,7 @@ function onCalculObjectifActivityCount(keys, activityArray, field) {
 function onCreateMainMenuObjectifDashbaord() {
     // Vide le précedent contenu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -594,7 +594,7 @@ function onDisplayKpiWeekDetail() {
 
     //référence le parent et le vide
     let parentRef = document.getElementById("divPopupKPIDetailContent");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
 
     //insere le texte principal
@@ -666,7 +666,7 @@ function onDisplayKpiMonthDetail() {
 
     //référence le parent et le vide
     let parentRef = document.getElementById("divPopupKPIDetailContent");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
 
     //insere le texte principal
@@ -795,14 +795,14 @@ function onInitKpiElement() {
     // Traitement jour restant pour la semaine
     kpiWeekContext = getKPIWeeklyContext();
     let textWeekRef = document.getElementById("textObjectifDayRemainingWeek");
-    textWeekRef.innerHTML = `${kpiWeekContext.remainingDay} jours restants`;
+    textWeekRef.textContent = `${kpiWeekContext.remainingDay} jours restants`;
 
 
 
     // Traitement jours restant pour le mois
     kpiMonthContext = getKPIMonthlyContext();
     let textMonthRef = document.getElementById("textObjectifDayRemainingMonth");
-    textMonthRef.innerHTML = `${kpiMonthContext.remainingDay} jours restants`;
+    textMonthRef.textContent = `${kpiMonthContext.remainingDay} jours restants`;
 
     if (devMode === true) {
         console.log(kpiWeekContext);
@@ -1062,7 +1062,7 @@ function onClickBtnMenuObjectifGestion(){
         "divDashboardListAreaMonth"
     ];
     divIDArray.forEach(id=>{
-        document.getElementById(id).innerHTML = "";
+        document.getElementById(id).replaceChildren();
     });
 
     onRemoveEventListenerInRegistry(["objectifKPI"]);
@@ -1112,7 +1112,7 @@ function onOpenMenuObjectifGestion() {
 function onCreateMainMenuObjectifGestion() {
     // Vide le précedent contenu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -1135,7 +1135,7 @@ function onDisplayObjectifList() {
 
     // Référence le parent et le vide
     let parentRef = document.getElementById("divObjectifGestionList");
-    parentRef.innerHTML = "";
+    parentRef.replaceChildren();
 
     //Vide l'objet des instance
     objectifItemListInstance = {};
@@ -1187,7 +1187,7 @@ function onDisplayObjectifList() {
             objectifItemListInstance[key] = newObjectifInstance; 
         });
     }else{
-        parentRef.innerHTML = "Nous n'avez pas encore défini d'objectif.";
+        parentRef.textContent = "Nous n'avez pas encore défini d'objectif.";
     }
 
 
@@ -1195,7 +1195,7 @@ function onDisplayObjectifList() {
 
     // Référence le parent et le vide
     let endListParentRef = document.getElementById("divObjectifListEndList");
-    endListParentRef.innerHTML = "";
+    endListParentRef.replaceChildren();
 
 
     // Gestion du bouton "ajouter un suivi"
@@ -1205,7 +1205,7 @@ function onDisplayObjectifList() {
     //Création du texte fin de liste
     let newClotureList = document.createElement("span");
         newClotureList.classList.add("last-container");
-        newClotureList.innerHTML = `ℹ️ Créez jusqu'à ${maxObjectif} types d'objectif.`;
+        newClotureList.textContent = `ℹ️ Créez jusqu'à ${maxObjectif} types d'objectif.`;
     endListParentRef.appendChild(newClotureList);
 
 
@@ -1326,7 +1326,7 @@ function onResetMenuObjectifGestion() {
         "divObjectifListEndList"
     ];
     divToEmpty.forEach(id=>{
-        document.getElementById(id).innerHTML = "";
+        document.getElementById(id).replaceChildren();
     });
 
     //Vide l'objet des instance
@@ -1436,7 +1436,8 @@ let selectObjectifEditorTypeRef = null,
     divObjectifEditorDynamicAreaDurationRef = null,
     imgEditorObjectifActivityPreviewRef = null,
     selectorObjectifCategoryChoiceRef = null,
-    inputObjectifEditorCheckBoxRef = null;
+    inputObjectifEditorCheckBoxRef = null,
+    imgEditorPreviewRef = null;
 
 
 
@@ -1481,6 +1482,7 @@ function onAddReferenceForObjectifEditor() {
     imgEditorObjectifActivityPreviewRef = document.getElementById("imgEditorActivityPreview");
     selectorObjectifCategoryChoiceRef = document.getElementById("selectorObjectifCategoryChoice");
     inputObjectifEditorCheckBoxRef = document.getElementById("inputObjectifEditorCheckBox");
+    imgEditorPreviewRef = document.getElementById("imgEditorActivityPreview");//image prévisualisation
 }
 
 
@@ -1546,7 +1548,7 @@ function onAddEventListenerForObjectifEditor() {
 function onCreateMainMenuObjectifEditor() {
     // Vide le précedent contenu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+    divMainMenuParentRef.replaceChildren();
 
     //crée les boutons
     //Retour
@@ -1602,7 +1604,7 @@ function onChangeObjectifEditorType(itemType) {
 // Pour changer la prévisualisation de l'activité sélectionné
 function onChangeObjectifPreview(activityName){
     if (devMode === true){console.log(activityName);};
-    imgTemplateEditorPreviewRef.src = activityChoiceArray[activityName].imgRef;
+    imgEditorPreviewRef.src = activityChoiceArray[activityName].imgRef;
 };
 
 
@@ -1822,7 +1824,7 @@ function onSetModifyObjectifPopupType(objectifData) {
 
             suiviText = `${dataType} / ${rythmeType}`;
             let textCountSuiviRef = document.getElementById("spanModifyObjectifCount");
-            textCountSuiviRef.innerHTML = suiviText;
+            textCountSuiviRef.textContent = suiviText;
             break;
         case "DISTANCE":
             // L'input de valeur
@@ -1834,7 +1836,7 @@ function onSetModifyObjectifPopupType(objectifData) {
 
             suiviText = `${dataType} / ${rythmeType}`;
             let textDistanceSuiviRef = document.getElementById("spanModifyObjectifDistance");
-            textDistanceSuiviRef.innerHTML = suiviText;
+            textDistanceSuiviRef.textContent = suiviText;
             break;
         case "DURATION":
 
@@ -1851,7 +1853,7 @@ function onSetModifyObjectifPopupType(objectifData) {
 
             suiviText = `${dataType} / ${rythmeType}`;
             let textdurationSuiviRef = document.getElementById("spanModifyObjectifDuration");
-            textdurationSuiviRef.innerHTML = suiviText;
+            textdurationSuiviRef.textContent = suiviText;
             break;
         default:
             console.log("Erreur Switch : ",objectifData.dataType);
@@ -2044,7 +2046,7 @@ async function eventDeleteObjectif() {
 function onClearReferenceForObjectifEditor() {
 
     // Vide la liste d'option dans le selecteur d'activité
-    selectorObjectifCategoryChoiceRef.innerHTML = "";
+    selectorObjectifCategoryChoiceRef.replaceChildren();
 
     // Vide les références
     selectObjectifEditorTypeRef = null;
@@ -2058,6 +2060,7 @@ function onClearReferenceForObjectifEditor() {
     divObjectifEditorDynamicAreaDurationRef = null;
     selectorObjectifCategoryChoiceRef = null;
     inputObjectifEditorCheckBoxRef = null;
+    imgEditorPreviewRef = null;
 }
 
 
