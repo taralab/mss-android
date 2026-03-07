@@ -1163,7 +1163,9 @@ function onDisplayObjectifList() {
 
     if (objectifUserKeysList.length > 0) {
         //boucle sur les keys pour générer la liste
-            // Pour chaque key
+        const fragment = document.createDocumentFragment();
+
+        // Pour chaque key
         objectifUserKeysList.forEach(key=>{
 
             let item = objectifUserList[key];
@@ -1185,18 +1187,19 @@ function onDisplayObjectifList() {
                         ? "- Hebdomadaires -"
                         : "- Mensuels -";
 
-                parentRef.appendChild(separatorSpan);
+                fragment.appendChild(separatorSpan);
 
                 separatorInserted[item.rythmeType] = true;
             }
 
 
             //genère une instance
-            let newObjectifInstance = new ObjectifListItem(key,item.activity,item.rythmeType,item.dataType,item.targetValue,item.isEnabled,parentRef);
+            let newObjectifInstance = new ObjectifListItem(key,item.activity,item.rythmeType,item.dataType,item.targetValue,item.isEnabled,fragment);
 
             //stocke l'instance
             objectifItemListInstance[key] = newObjectifInstance; 
         });
+        parentRef.appendChild(fragment);
     }else{
         parentRef.textContent = "Nous n'avez pas encore défini d'objectif.";
     }
