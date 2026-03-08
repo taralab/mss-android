@@ -1901,7 +1901,7 @@ let tagReferenciel = [];
 
 
 const MAX_TAG_LENGTH = 20;
-const MAX_SELECTED_TAG = 3;
+const MAX_SELECTED_TAG = 5;
 const DEFAULT_TAG_VALUE = "TAG";
 
 

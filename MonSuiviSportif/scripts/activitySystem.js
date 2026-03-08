@@ -483,7 +483,7 @@ function eventUpdateActivityList() {
         // 3 Puis lance le trie sur le resultat obtenue
         sortedKeys = onSortActivity(currentSortType,userSearchResultKeys);
     }else if (currentTagFilter!== DEFAULT_TAG_VALUE){
-        if (devMode === false) {console.log("[ACTUALISATION] TAG EN COURS. lance la recherche pour :",currentTagFilter);};
+        if (devMode === true) {console.log("[ACTUALISATION] TAG EN COURS. lance la recherche pour :",currentTagFilter);};
         userSelectedTagKeys = (filteredDataKeys && filteredDataKeys.length > 0)
             ? onSearchTagInActivities(filteredDataKeys,currentTagFilter)
             : onSearchTagInActivities(Object.keys(allUserActivityArray),currentTagFilter

@@ -597,7 +597,10 @@ function onUpdateSelectorFilterTAG() {
 
 //changement de tag dans le selecteur
 function onUserChangeFilterTAG(event) {
-    console.log(event.target.value);
+    if (devMode === true) {
+        console.log(event.target.value);
+    }
+
     //vide le champ recherche car c'est soit tag ou soit recherche
     document.getElementById("inputSearchActivity").value = "";
 
