@@ -82,7 +82,6 @@ function onCreateMainMenuStat() {
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
     divMainMenuParentRef.replaceChildren();
 
-    //crée les boutons
     //Retour
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromStat());
 

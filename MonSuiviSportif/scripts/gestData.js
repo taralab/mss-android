@@ -27,6 +27,8 @@ function onOpenMenuGestData() {
     }
 
 
+    //renseigne la valeur performance de chargement
+    document.getElementById("pInitialLoadingPerformanceResul").innerHTML = `Doc_count : ${intialDbCountInfo}</br> Durée : ${initialLoadingDuration}`;
 
 };
 

@@ -198,7 +198,12 @@ divItemListRef.addEventListener('scroll', () => {
 let  db = new PouchDB(dbName, { auto_compaction: true });//avec la suppression automatique des anciennes révisions
 
 // Vérifier si la base est bien créée
-db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
+let intialDbCountInfo = null;
+db.info().then(info => {
+    console.log(' [DATABASE] Base créée/ouverte :', info);
+    intialDbCountInfo = info.doc_count;
+    }
+);
 
 
 
@@ -453,10 +458,7 @@ async function firstActualisation() {
     //gestion ecran de chargement
     setTimeout(() => {
         eventLoadingScreen();
-        const mesureFinale = performance.now();
-
-        const duree = mesureFinale - mesureInitiale;
-        console.log(`MESURE : ${duree.toFixed(2)} ms`);
+        onCalculLoadingPerformance();
     }, 500);
 
 
@@ -472,3 +474,15 @@ async function firstActualisation() {
         
 }
 
+
+
+// MESURES LOADING PERFORMANCE
+let initialLoadingDuration = null;
+function onCalculLoadingPerformance() {
+    const mesureFinale = performance.now();
+    const duree = mesureFinale - mesureInitiale;
+
+    initialLoadingDuration = `${duree.toFixed(2)} ms`;
+
+    console.log(`LOADING PERFORMANCE : doc_count : ${intialDbCountInfo}. Durée : ${initialLoadingDuration}`);
+}
