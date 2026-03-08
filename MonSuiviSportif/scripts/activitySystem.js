@@ -238,7 +238,7 @@ function onAddEventListenerForActivityEditor() {
 
 
 // fonction pour récupérer les activité et les modèles. ACTUELLEMENT DESACTIVEE
-async function onLoadActivityFromDB_OLD() {
+async function onLoadActivityFromDB_OLD_1() {
     allUserActivityArray = {}; // devient un objet
     try {
         const result = await db.allDocs({ include_docs: true });
@@ -262,7 +262,7 @@ async function onLoadActivityFromDB_OLD() {
 
 
 //nouvelle fonction avec respiration pour eviter les frizes
-async function onLoadActivityFromDB() {
+async function onLoadActivityFromDB_old_2() {
     allUserActivityArray = {}; // objet principal en mémoire
     const BATCH_SIZE = 500; // nombre d'activités entre chaque pause
 
@@ -294,10 +294,55 @@ async function onLoadActivityFromDB() {
         console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
     }
 }
+// CHARGEMENT EN MODE TEST new ID
+async function onLoadActivityFromDB() {
+
+    allUserActivityArray = {};
+    const BATCH_SIZE = 500;
+
+    try {
+
+        const result = await db.allDocs({
+            include_docs: true,
+            startkey: `${activityStoreName}_`,
+            endkey: `${activityStoreName}_\uffff`
+        });
+
+        const rows = result.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+
+            const doc = rows[i].doc;
+
+            // filtrage pour ne garder que les activités valides
+            if (doc.type === activityStoreName) {
+                allUserActivityArray[doc._id] = doc;
+            }
+
+            if (i > 0 && i % BATCH_SIZE === 0) {
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        if (devMode && rows.length > 0) {
+
+            console.log("[DATABASE] [ACTIVITY] Activités chargées :", activityStoreName);
+
+            const firstKey = Object.keys(allUserActivityArray)[0];
+            console.log(allUserActivityArray[firstKey]);
+
+        }
+
+    } catch (err) {
+
+        console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
+
+    }
+}
 
 
 // Insertion nouvelle activité (ID auto, )
-async function onInsertNewActivityInDB(activityToInsertFormat) {
+async function onInsertNewActivityInDB_old(activityToInsertFormat) {
     try {
         const newActivity = {
             type: activityStoreName,
@@ -321,6 +366,31 @@ async function onInsertNewActivityInDB(activityToInsertFormat) {
     }
 }
 
+// Insertion nouvelle activité (ID auto avec préfixe)
+async function onInsertNewActivityInDB(activityToInsertFormat) {
+    try {
+        const newActivity = {
+            type: activityStoreName,
+            ...activityToInsertFormat,
+            _id: `${activityStoreName}_${crypto.randomUUID()}` // génération UUID côté JS
+        };
+
+        // Enregistrement dans la DB
+        const response = await db.put(newActivity);
+
+        // Mise à jour de l'objet avec _rev retourné
+        newActivity._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [ACTIVITY] Activité insérée :", newActivity);
+        }
+
+        return newActivity;
+
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors de l'insertion de l'activité :", err);
+    }
+}
 
 // Modification Activity
 async function onInsertActivityModificationInDB(activityToUpdate, key) {

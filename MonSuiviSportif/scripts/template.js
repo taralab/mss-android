@@ -195,7 +195,7 @@ function onAddEventListenerForTemplateEditor() {
 
 
 // Fonction pour récupérer les templates depuis la base
-async function onLoadTemplateFromDB() {
+async function onLoadTemplateFromDB_old() {
     userTemplateListItems = {}
     try {
         const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
@@ -216,6 +216,47 @@ async function onLoadTemplateFromDB() {
     }
 }
 
+
+async function onLoadTemplateFromDB() {
+
+    userTemplateListItems = {};
+    const BATCH_SIZE = 500; // pause UI pour éviter les freezes
+
+    try {
+
+        // Récupérer uniquement les docs dont l'ID commence par le préfixe templateStoreName_
+        const result = await db.allDocs({
+            include_docs: true,
+            startkey: `${templateStoreName}_`,
+            endkey: `${templateStoreName}_\uffff`
+        });
+
+        const rows = result.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+            const doc = rows[i].doc;
+
+            // filtrage par type pour exclure les documents déplacés ou corbeille
+            if (doc.type === templateStoreName) {
+                userTemplateListItems[doc._id] = {
+                    activityName: doc.activityName,
+                    title: doc.title
+                };
+            }
+
+            if (i > 0 && i % BATCH_SIZE === 0) {
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        if (devMode === true) {
+            console.log("[DATABASE] [TEMPLATE] userTemplateListItems chargés :", userTemplateListItems);
+        }
+
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] Erreur lors du chargement:", err);
+    }
+}
 
 // récupère les clé des modèles et les tries et gère le bouton d'affichage
 function onUpdateTemplateKeys() {
@@ -248,7 +289,7 @@ function onUpdateTemplateKeys() {
 }
 
 // Insertion nouveau template (avec ID auto)
-async function onInsertNewTemplateInDB(templateToInsertFormat) {
+async function onInsertNewTemplateInDB_old(templateToInsertFormat) {
     try {
         // Créer l'objet SANS _id (PouchDB va le générer)
         const newTemplate = {
@@ -268,6 +309,33 @@ async function onInsertNewTemplateInDB(templateToInsertFormat) {
         }
 
         return newTemplate;
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] Erreur lors de l'insertion du template :", err);
+    }
+}
+
+
+// Insertion nouveau template avec ID préfixé
+async function onInsertNewTemplateInDB(templateToInsertFormat) {
+    try {
+        const newTemplate = {
+            type: templateStoreName,
+            ...templateToInsertFormat,
+            _id: `${templateStoreName}_${crypto.randomUUID()}` // ID préfixé
+        };
+
+        // Insérer directement dans la DB avec put()
+        const response = await db.put(newTemplate);
+
+        // Mise à jour de l'objet avec _rev retourné
+        newTemplate._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [TEMPLATE] Template inséré :", newTemplate);
+        }
+
+        return newTemplate;
+
     } catch (err) {
         console.error("[DATABASE] [TEMPLATE] Erreur lors de l'insertion du template :", err);
     }

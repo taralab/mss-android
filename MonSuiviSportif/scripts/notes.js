@@ -188,7 +188,7 @@ class itemNotes{
 
 
 //chargement
-async function onLoadNoteFromDB() {
+async function onLoadNoteFromDB_old() {
     allUserNotesArray = {};
 
     try {
@@ -211,10 +211,45 @@ async function onLoadNoteFromDB() {
     }
 }
 
+async function onLoadNoteFromDB() {
+    allUserNotesArray = {};
+    const BATCH_SIZE = 500; // pause UI pour éviter les freezes
 
+    try {
+        const result = await db.allDocs({
+            include_docs: true,
+            startkey: `${noteStoreName}_`,
+            endkey: `${noteStoreName}_\uffff`
+        });
+
+        const rows = result.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+            const doc = rows[i].doc;
+
+            // filtrage par type pour exclure les documents déplacés ou corbeille
+            if (doc.type === noteStoreName) {
+                allUserNotesArray[doc._id] = doc;
+            }
+
+            if (i > 0 && i % BATCH_SIZE === 0) {
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        if (devMode === true && Object.keys(allUserNotesArray).length > 0) {
+            console.log("[DATABASE] [NOTE] notes chargées :", noteStoreName);
+            const firstKey = Object.keys(allUserNotesArray)[0];
+            console.log(allUserNotesArray[firstKey]);
+        }
+
+    } catch (err) {
+        console.error("[DATABASE] [NOTE] Erreur lors du chargement:", err);
+    }
+}
 
 // Insertion nouvelle note (ID défini manuellement avec put)
-async function onInsertnewNoteInDB(noteToInsert) {
+async function onInsertNewNoteInDB_old(noteToInsert) {
     try {
         const newNote = {
             type: noteStoreName,
@@ -235,6 +270,32 @@ async function onInsertnewNoteInDB(noteToInsert) {
         return newNote;
     } catch (err) {
         console.error("[DATABASE] [NOTE] Erreur lors de l'insertion de l'activité :", err);
+    }
+}
+
+
+async function onInsertNewNoteInDB(noteToInsert) {
+    try {
+        const newNote = {
+            type: noteStoreName,
+            ...noteToInsert,
+            _id: `${noteStoreName}_${crypto.randomUUID()}` // ID préfixé
+        };
+
+        // Enregistrement direct avec put()
+        const response = await db.put(newNote);
+
+        // Mise à jour de l'objet avec _rev
+        newNote._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [NOTE] Note insérée :", newNote);
+        }
+
+        return newNote;
+
+    } catch (err) {
+        console.error("[DATABASE] [NOTE] Erreur lors de l'insertion de la note :", err);
     }
 }
 
@@ -615,7 +676,7 @@ async function eventSaveNewNote(){
     let noteToSave = onFormatNote();
 
     //insertion dans la base et retour pour obtenir l'id généré
-    let newNoteAdded = await onInsertnewNoteInDB(noteToSave);
+    let newNoteAdded = await onInsertNewNoteInDB(noteToSave);
 
     //insertion dans l'array
     let noteKey = newNoteAdded._id;

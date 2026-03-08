@@ -115,7 +115,7 @@ class CorbeilleItem{
 
 
 
-async function onLoadCorbeilleItemsListFromDB() {
+async function onLoadCorbeilleItemsListFromDB_old() {
     let list = {};// Initialisation,reset
 
     try {
@@ -195,7 +195,58 @@ async function onLoadCorbeilleItemsListFromDB() {
 }
 
 
+async function onLoadCorbeilleItemsListFromDB() {
+    const list = {}; // Initialisation / reset
+    const BATCH_SIZE = 500;
 
+    // Mapping type → displayType + champ à utiliser pour le name
+    const typeMapping = {
+        "ActivityList": { displayType: "Activité", nameField: doc => `${activityChoiceArray[doc.name].displayName} du ${doc.date}` },
+        "Template": { displayType: "Modèle d'activité", nameField: doc => doc.title },
+        "TemplateSession": { displayType: "Modèle de séance", nameField: doc => doc.sessionName },
+        "Notes": { displayType: "Notes", nameField: doc => doc.title },
+        "Memory": { displayType: "Evènement", nameField: doc => doc.title },
+        "Objectif": { displayType: "Objectif", nameField: doc => doc.title }
+    };
+
+    try {
+        const result = await db.allDocs({ include_docs: true });
+        const rows = result.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+            const doc = rows[i].doc;
+
+            if (doc.type === "itemDeleted") {
+                const old = doc.oldItemInfo;
+                const mapping = typeMapping[old.type];
+
+                if (mapping) {
+                    list[doc._id] = {
+                        type: old.type,
+                        displayType: mapping.displayType,
+                        name: mapping.nameField(doc),
+                        deletedDate: old.deletedDate
+                    };
+                }
+            }
+
+            // Pause UI tous les BATCH_SIZE pour éviter freeze
+            if (i > 0 && i % BATCH_SIZE === 0) {
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        if (devMode === true) {
+            console.log("[DATABASE] [CORBEILLE] corbeilleItemsList :", list);
+        }
+
+        return list;
+
+    } catch (error) {
+        console.error("[DATABASE] [CORBEILLE] Erreur lors du chargement :", error);
+        return list;
+    }
+}
 
 
 

@@ -1,3 +1,7 @@
+
+const mesureInitiale = performance.now();
+
+
 const activityColorList = {
     blue_light:"#00A9F4",
     turquoise:"#17A2B8",

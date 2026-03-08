@@ -23,7 +23,7 @@ let templateSessionsNameList = {
 
 
 // Insertion nouveau activity (session de template) avec ID auto
-async function onInsertNewTemplateSessionInDB(templateSessionToInsert) {
+async function onInsertNewTemplateSessionInDB_old(templateSessionToInsert) {
     try {
         // Ajoute le "type" aux données
         const newTemplateSession = {
@@ -47,7 +47,30 @@ async function onInsertNewTemplateSessionInDB(templateSessionToInsert) {
         console.error("[DATABASE] [TEMPLATE] [SESSION] Erreur lors de l'insertion du modèle de session :", err);
     }
 }
+async function onInsertNewTemplateSessionInDB(templateSessionToInsert) {
+    try {
+        const newTemplateSession = {
+            type: templateSessionStoreName,
+            ...templateSessionToInsert,
+            _id: `${templateSessionStoreName}_${crypto.randomUUID()}` // ID préfixé
+        };
 
+        // Enregistrement direct avec put()
+        const response = await db.put(newTemplateSession);
+
+        // Mise à jour de l'objet avec _rev
+        newTemplateSession._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [TEMPLATE] [SESSION] modèle de session inséré :", newTemplateSession);
+        }
+
+        return newTemplateSession;
+
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] [SESSION] Erreur lors de l'insertion du modèle de session :", err);
+    }
+}
 
 // Modification template
 async function onInsertTemplateSessionModificationInDB(templateToUpdate, key) {
@@ -74,7 +97,7 @@ async function onInsertTemplateSessionModificationInDB(templateToUpdate, key) {
     }
 }
 
-async function onLoadTemplateSessionNameFromDB() {
+async function onLoadTemplateSessionNameFromDB_old() {
     templateSessionsNameList = {}; // Initialisation en objet
 
     try {
@@ -96,7 +119,40 @@ async function onLoadTemplateSessionNameFromDB() {
     }
 }
 
+async function onLoadTemplateSessionNameFromDB() {
+    templateSessionsNameList = {}; // Initialisation en objet
+    const BATCH_SIZE = 500;
 
+    try {
+        const result = await db.allDocs({
+            include_docs: true,
+            startkey: `${templateSessionStoreName}_`,
+            endkey: `${templateSessionStoreName}_\uffff`
+        });
+
+        const rows = result.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+            const doc = rows[i].doc;
+
+            if (doc.type === templateSessionStoreName) {
+                templateSessionsNameList[doc._id] = { name: doc.sessionName };
+            }
+
+            // Pause UI tous les BATCH_SIZE pour éviter freeze
+            if (i > 0 && i % BATCH_SIZE === 0) {
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        if (devMode === true && Object.keys(templateSessionsNameList).length > 0) {
+            console.log("[DATABASE] [TEMPLATE] [SESSION] templateSessionsNameList :", templateSessionsNameList);
+        }
+
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] [SESSION] Erreur lors du chargement:", err);
+    }
+}
 
 // Actualisation des keys et classement par ordre alpha selon le champ name
 function onUpdateAndSortTemplateSessionKey() {

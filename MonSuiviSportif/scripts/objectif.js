@@ -1391,7 +1391,7 @@ function onClickAddNewObjectif(){
 
 
 // Insertion nouvelle objectif (ID auto, )
-async function onInsertNewObjectifInDB(objectifToInsert) {
+async function onInsertNewObjectifInDB_old(objectifToInsert) {
     try {
         const newObjectif = {
             type: objectifStoreName,
@@ -1414,10 +1414,33 @@ async function onInsertNewObjectifInDB(objectifToInsert) {
         console.error("[DATABASE] [OBJECTIF] Erreur lors de l'insertion de l'objectif :", err);
     }
 }
+async function onInsertNewObjectifInDB(objectifToInsert) {
+    try {
+        const newObjectif = {
+            type: objectifStoreName,
+            ...objectifToInsert,
+            _id: `${objectifStoreName}_${crypto.randomUUID()}` // ID préfixé
+        };
 
+        // Enregistrement direct avec put()
+        const response = await db.put(newObjectif);
+
+        // Mise à jour de l'objet avec _rev
+        newObjectif._rev = response.rev;
+
+        if (devMode === true) {
+            console.log("[DATABASE] [OBJECTIF] Objectif inséré :", newObjectif);
+        }
+
+        return newObjectif;
+
+    } catch (err) {
+        console.error("[DATABASE] [OBJECTIF] Erreur lors de l'insertion de l'objectif :", err);
+    }
+}
 
 // Fonction pour récupérer les objectif depuis la base
-async function onLoadObjectifFromDB() {
+async function onLoadObjectifFromDB_old() {
     objectifUserList = {}
     try {
         const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
@@ -1439,7 +1462,42 @@ async function onLoadObjectifFromDB() {
         console.error("[DATABASE] [OBJECTIF] Erreur lors du chargement:", err);
     }
 }
+async function onLoadObjectifFromDB() {
+    objectifUserList = {};
+    const BATCH_SIZE = 500; // pause UI pour éviter les freezes
 
+    try {
+        const result = await db.allDocs({
+            include_docs: true,
+            startkey: `${objectifStoreName}_`,
+            endkey: `${objectifStoreName}_\uffff`
+        });
+
+        const rows = result.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+            const doc = rows[i].doc;
+
+            // filtrage par type pour exclure les documents déplacés ou corbeille
+            if (doc.type === objectifStoreName) {
+                objectifUserList[doc._id] = doc;
+            }
+
+            if (i > 0 && i % BATCH_SIZE === 0) {
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        if (devMode === true && Object.keys(objectifUserList).length > 0) {
+            console.log("[DATABASE] [OBJECTIF] objectifUserList chargés :", objectifUserList);
+            const firstKey = Object.keys(objectifUserList)[0];
+            console.log(objectifUserList[firstKey]);
+        }
+
+    } catch (err) {
+        console.error("[DATABASE] [OBJECTIF] Erreur lors du chargement:", err);
+    }
+}
 
 let selectObjectifEditorTypeRef = null,
     selectObjectifEditorRythmeRef = null,

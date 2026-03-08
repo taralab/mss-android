@@ -1,5 +1,5 @@
 
-let currentExportVersion = 9;//version actuel des fichers d'import/export
+let currentExportVersion = 10;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
     //Création main menu
@@ -685,6 +685,13 @@ async function eventImportBdD(inputRef) {
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
                         break;
+                    case 10:
+                        //Le fichier V10 contient le nouveau system d'ID incluant le type d'item, 
+                        console.log("[IMPORT] V10");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
 
                     default:
                         throw new Error("⚠️ Format de fichier inconnu.");
@@ -883,7 +890,7 @@ async function importBdD(dataToImport) {
                 createdAt: e.createdAt,
                 displayOrder: e.displayOrder
             };
-            await onInsertnewNoteInDB(newNoteToAdd);
+            await onInsertNewNoteInDB(newNoteToAdd);
 
         // RECUP
         } else if (e.type === recupStoreName){

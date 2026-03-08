@@ -453,6 +453,10 @@ async function firstActualisation() {
     //gestion ecran de chargement
     setTimeout(() => {
         eventLoadingScreen();
+        const mesureFinale = performance.now();
+
+        const duree = mesureFinale - mesureInitiale;
+        console.log(`MESURE : ${duree.toFixed(2)} ms`);
     }, 500);
 
 
