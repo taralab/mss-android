@@ -276,7 +276,8 @@ function onSetTemplateSessionNameList() {
     divSessionTemplateEndListRef.replaceChildren();
 
     // remonte le scroll
-    onResetScrollBarToTop("divMenuTemplateSession");
+    //Actuellement désactivé car géré depuis onChangeMenu
+    // onResetScrollBarToTop("divMenuTemplateSession");
 
     //Affichage si aucun modèle de session
     if (templateSessionKeys.length === 0 ) {

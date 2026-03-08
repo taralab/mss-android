@@ -461,10 +461,6 @@ function onOpenNewActivity() {
 
     //création menu principal
     onCreateMainMenuActivityEditor(false);
-
-
-
-
     
 };
 

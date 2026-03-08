@@ -854,18 +854,19 @@ function onRemoveFieldRequired(targetRef) {
 
 // Remet la scroll bar en haut
 function onResetScrollBarToTop(divParentID){
-    let targetRef = document.getElementById(divParentID);
 
-    // remonte le scroll dès que possible
+    const targetRef = document.getElementById(divParentID);
+
     const waitUntilVisible = () => {
-        const style = window.getComputedStyle(targetRef);
-        if (style.display === "none") {
-            // Retente après un court délai
+
+        if (!targetRef || !targetRef.offsetParent) {
             setTimeout(waitUntilVisible, 30);
-        } else {
-            // Maintenant visible, on peut scroller
-            targetRef.scrollTo({ top: 0, behavior: "auto" });
+            return;
         }
+
+        targetRef.scrollTop = 0;
+
+        // console.log(`scroll bar '${divParentID}' remontée`);
     };
 
     waitUntilVisible();
@@ -1103,6 +1104,7 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSession"],[],[],[],[]);
             onOpenMenuSession();
             onDisplayCustomInfo();
+            
         break;
         case "EditSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Edit Session");};
@@ -1110,6 +1112,8 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(["divSession"],[],["divEditSession"],[],[],[],[]);
             onOpenMenuEditSession();
             onHideCustomInfo();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Notes":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : notes");};
@@ -1117,6 +1121,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Notes";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divNotes"],[],[],[],[]);
             onOpenMenuNotes(true);
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
@@ -1125,6 +1131,8 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,[],["divStat"],[],[],[],[]);
             onOpenMenuStat();
             onDisplayImgActivityPreview();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
 
         case "Objectif_Dashboard":
@@ -1133,12 +1141,16 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Mes objectifs";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divObjectifDashboard"],[],[],[],[]);
             onOpenMenuObjectifDashboard();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Objectif_Gestion":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Gestion objectif");};
             pMenuTitleRef.innerHTML = "Gérer mes objectifs";
             onChangeDisplay(["divObjectifDashboard"],[],["divObjectifGestion"],[],[],[],[]);
             onOpenMenuObjectifGestion();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Objectif_Editor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Editeur objectif");};
@@ -1169,6 +1181,8 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onOpenNewActivity();
             onDisplayImgActivityPreview();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "NewActivityFromTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewActivityFromTemplate");};
@@ -1176,6 +1190,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Créer une activité";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "EditActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");};
@@ -1183,6 +1199,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Editer une activité";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divActivityEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "TemplateChoice":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateChoice");};
@@ -1200,6 +1218,8 @@ function onChangeMenu(menuTarget) {
 
             onDisplayCustomInfo();
             onOpenMenuRewards();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");};
@@ -1207,6 +1227,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Mon profil";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
@@ -1214,6 +1236,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Activités / Favoris";
             onChangeDisplay(allDivHomeToDisplayNone,["divFavoris"],[],[],[],[],[]);
             onOpenMenuFavoris();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Planning":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning Hebdomadaire");};
@@ -1221,10 +1245,14 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Planning hebdomadaire";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divPlanning"],[],[],[],[]);
             onOpenMenuPlanning();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "PlanningEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Planning editor");};
             onChangeDisplay(["divPlanning"],[],["divPlanningEditor"],[],[],[],[]);
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
@@ -1232,6 +1260,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Gestion des données";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divGestData"],[],[],[],[]);
             onOpenMenuGestData();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
@@ -1239,6 +1269,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Modèles d'activités";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divGestTemplate"],[],[],[],[]);
             onOpenMenuGestTemplate();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "NewTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewTemplate");};
@@ -1246,12 +1278,16 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(["divGestTemplate"],[],["divTemplateEditor"],[],[],[],[]);
             onClickBtnCreateTemplate();
             onDisplayImgActivityPreview();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "ModifyTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateEditor");};
             pMenuTitleRef.innerHTML = "Modification de modèle";
             onChangeDisplay(["divGestTemplate"],[],["divTemplateEditor"],[],[],[],[]);
             onDisplayImgActivityPreview();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : MenuTemplateSession");};
@@ -1259,17 +1295,23 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Modèle de séance";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divMenuTemplateSession"],[],[],[],[]);
             onOpenMenuTemplateSession();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "NewTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewTemplateSession");};
             pMenuTitleRef.innerHTML = "Création modèle de séance";
             onChangeDisplay(["divMenuTemplateSession"],[],["divTemplateSessionEditor"],[],[],[],[]);
             onClickBtnCreateTemplateSession();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "ModifyTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : ModifyTemplateSession");};
             pMenuTitleRef.innerHTML = "Modification de modèle";
             onChangeDisplay(["divMenuTemplateSession"],[],["divTemplateSessionEditor"],[],[],[],[]);
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
@@ -1277,6 +1319,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Paramètres";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Corbeille":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Corbeille");};
@@ -1284,6 +1328,8 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Corbeille";
             onChangeDisplay(allDivHomeToDisplayNone,[],["divCorbeille"],[],[],[],[]);
             onOpenMenuCorbeille();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
@@ -1292,6 +1338,8 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,[],["divInfo"],[],[],[],[]);
             onDisplayCustomInfo();
             onOpenMenuInfo();
+            //Remonte la scrollbar
+            onResetScrollBarToTop("mainDivScrollable"); 
         break;
 
         default:

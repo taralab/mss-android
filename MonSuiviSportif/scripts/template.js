@@ -438,7 +438,8 @@ function onCreateTemplateMenuList(templateKeysList) {
 
 
     // remonte le scroll
-    onResetScrollBarToTop("divGestTemplate");
+    //Actuellement désactivé car géré depuis onChangeMenu
+    // onResetScrollBarToTop("divGestTemplate");
 
     // Affichage en cas d'aucun modèle
     if (templateKeysList.length < 1) {
