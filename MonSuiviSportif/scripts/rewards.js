@@ -716,6 +716,16 @@ function onClickRewardLocked(itemRef) {
 
 
 
+
+
+
+
+
+
+
+
+
+
 // ---------------------------------    OBTENTION-------------------------------------
 
 
@@ -728,15 +738,15 @@ function onCheckReward(currentActivitySavedName,currentActivityComment) {
     //le commentaire permet de rechercher les évènements spéciaux via le code inclue dans le commentaire
     onInitRewardsVariable();
 
-    onSearchGeneralRewards(currentActivitySavedName);
+    // onSearchGeneralRewards(currentActivitySavedName);
 
 
     //Traitement des 1 ans
-    onCheckOneYearEligible(rewardAllActivityNonPlannedKeys);
+    // onCheckOneYearEligible(rewardAllActivityNonPlannedKeys);
 
 
     //Traitement "de retour"
-    onCheckDeRetour(rewardAllActivityNonPlannedKeys);
+    // onCheckDeRetour(rewardAllActivityNonPlannedKeys);
 
 
 
@@ -746,8 +756,8 @@ function onCheckReward(currentActivitySavedName,currentActivityComment) {
         .map(([key, value]) => key);
 
 
-    onSearchSpecifyRewards(currentActivitySavedName,specificActivitiesKeys);
-
+    // onSearchSpecifyRewards(currentActivitySavedName,specificActivitiesKeys);
+    onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys);
 
 
     // SPECIAL EVENTS
@@ -1428,3 +1438,185 @@ function onClickReturnFromRewards() {
 
 
 
+
+
+
+
+//* *   *   *   *   *   *   *    <TEST>*    *   *   *   *   *   *   *   *   </TEST>
+
+
+
+
+
+// Traitement leveling activities
+
+function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys) {
+    
+    //Total activity Count Distance and duration pour le type d'activité
+    let specificCumulValues = getSpecificActivityCumulValue(currentActivitySavedName);
+
+    console.log("specificCumulValues", specificCumulValues);
+
+    //récupère les keys des récompenses spécifiques à l'activité
+    const activityRewardDataKeys = Object.entries(allRewardsObject)
+        .filter(([key, value]) => value.activityName === currentActivitySavedName)
+        .map(([key, value]) => key);
+
+        console.log(activityRewardDataKeys);
+
+    //La key représente également le nom du rewards
+    activityRewardDataKeys.forEach(rewardKey =>{
+
+        //si l'utilisateur possede déjà le reward, ne traite pas
+        if (userRewardsArray.includes(rewardKey)) {
+            if (devMode === false){console.log(`[REWARDS] utilisateur possède déjà ${rewardKey}. Ne traite Pas.`);};
+            return;
+        }
+
+        //sinon traite
+        let currentRewardData = allRewardsObject[rewardKey];
+        console.log(currentRewardData);
+
+        switch (currentRewardData.category) {
+            case "LEVELING":
+                onTraiteRewardCount(rewardKey, specificCumulValues.count, currentRewardData.target.count);
+                break;
+            case "SPECIFIC-DISTANCE-CUMUL":
+                onTraiteRewardCount(rewardKey, specificCumulValues.distance,
+                    currentRewardData.target.count);
+                break;
+            case "PERFORMANCE-DISTANCE-SUP":
+                onTraiteRewardPerformanceSup(rewardKey,specificActivitiesKeys,"distance",currentRewardData.target.count);
+                break;
+            case "PERFORMANCE-DISTANCE-RANGE":
+                onTraiteRewardPerformanceWithRange(
+                    rewardKey,specificActivitiesKeys,"distance",
+                    currentRewardData.target.minValue,currentRewardData.target.maxValue);
+                break;
+
+            default:
+                    console.error(`[REWARD] [ERREUR]: pas de traitement pour ${rewardKey}`);
+
+                break;
+        }
+
+    });
+
+}
+
+
+//Traitement pour nombre spécifique égale ou plus
+function onTraiteRewardCount(rewardTarget, dataValue, targetValue) {
+    if (devMode === false){
+        console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);
+        console.log(`[REWARDS] dataValue : ${dataValue}. TargetValue : ${targetValue}`);
+    };
+    let isEligible = dataValue >= targetValue;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+    if (isEligible) {
+        rewardsEligibleArray.push(rewardTarget);
+    }
+    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+
+}
+
+
+function onTraiteRewardPerformanceWithRange(rewardTarget,filteredKeys,rangeType,minValue,maxValue) {
+    if (devMode === false){console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);};
+
+    let isEligible = onSearchActivityWithTypeRange(filteredKeys,rangeType,minValue,maxValue);
+    if (isEligible) {
+        rewardsEligibleArray.push(rewardTarget);
+    }
+    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+}
+
+
+// Fonction pour trouver une activité dont la distance ou la durée sont entre min et max
+function onSearchActivityWithTypeRange(dataKeys, rangeType, bottomTarget, topTarget) {
+    if (devMode === false){console.log(`[REWARDS] recherche d'une distance ou durée unique comprise entre : ${bottomTarget} et ${topTarget}`);};
+
+    for (let e of dataKeys){
+        const value = Number(allUserActivityArray[e][rangeType]);
+        if (value >= bottomTarget && value <= topTarget) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
+function onTraiteRewardPerformanceSup(rewardTarget,filteredKeys,targetType, targetValue) {
+    if (devMode === false){console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);};
+
+    let isEligible =  onSearchActivityWithValueSuperior(filteredKeys, targetType, targetValue);
+    if (isEligible) {
+        rewardsEligibleArray.push(rewardTarget);
+    }
+    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+
+}
+
+// DISTANCE // ou durée UNIQUE d'une activité spécifique. Est-ce que c'est supérieur ? 
+function onSearchActivityWithValueSuperior(dataKeys, targetType, targetValue) {
+
+    if (devMode === false){console.log(`[REWARDS] recherche d'une ${targetType} unique supérieures à : ${targetValue}`);};
+
+    for (let e of dataKeys){
+        if (Number(allUserActivityArray[e][targetType]) >= targetValue) { 
+            if (devMode === false){console.log(`[REWARDS] Valeur trouvée :  ${allUserActivityArray[e][targetType]}`);};
+            return true;
+        };
+    };
+
+    return false;
+}
+
+
+
+//Une Fonction pour récupérer les valeurs cumulé d'une activité spécifique
+function getSpecificActivityCumulValue(activityTarget) {
+    if (devMode === false) {
+        console.log(`[REWARDS] recupère les éléments pour le type d'activité : ${activityTarget}`);
+    }
+
+    
+    let duration = 0,
+    distance = 0,
+    count = 0;
+
+    //Ne récupère que les data du type d'activité concernée
+    let specificActivitiesArrayKeys = Object.entries(allUserActivityArray)
+        .filter(([key, value]) => value.name === activityTarget)
+        .map(([key, value]) => key);
+
+        let testBool = true;
+    //lance le traitement pour calculer le totaux
+    specificActivitiesArrayKeys.forEach(key=>{
+
+
+        let data = allUserActivityArray[key];
+
+
+        if (testBool) {
+            
+            console.log(data);
+            testBool = false;
+        }
+
+        duration += Number(data.duration) || 0;
+        distance += Number(data.distance) || 0;
+        count++;
+    });
+
+    let result = {
+        duration : duration,
+        distance : distance,
+        count : count
+    }
+
+
+    return result;
+
+}
