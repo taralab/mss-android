@@ -1607,7 +1607,8 @@ function getSpecificActivityCumulValue(activityTarget) {
         const activity = allUserActivityArray[key];
 
         // Ignore immédiatement si ce n'est pas le type recherché
-        if (activity.name !== activityTarget) {
+        // Et si activité planifiée
+        if (activity.name !== activityTarget || activity.isPlanned) {
             continue;
         }
 
