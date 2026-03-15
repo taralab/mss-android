@@ -1485,13 +1485,25 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
                 onTraiteRewardCount(rewardKey, specificCumulValues.distance,
                     currentRewardData.target.count);
                 break;
+            case "SPECIFIC-DURATION-CUMUL":
+                onTraiteRewardCount(rewardKey, specificCumulValues.duration,
+                    currentRewardData.target.count);
+                break;
             case "PERFORMANCE-DISTANCE-SUP":
                 onTraiteRewardPerformanceSup(rewardKey,specificActivitiesKeys,"distance",currentRewardData.target.count);
+                break;
+            case "PERFORMANCE-DURATION-SUP":
+                onTraiteRewardPerformanceSup(rewardKey,specificActivitiesKeys,"duration",currentRewardData.target.count);
                 break;
             case "PERFORMANCE-DISTANCE-RANGE":
                 onTraiteRewardPerformanceWithRange(
                     rewardKey,specificActivitiesKeys,"distance",
-                    currentRewardData.target.minValue,currentRewardData.target.maxValue);
+                    currentRewardData.target.minRange,currentRewardData.target.maxRange);
+                break;
+            case "PERFORMANCE-DURATION-RANGE":
+                onTraiteRewardPerformanceWithRange(
+                    rewardKey,specificActivitiesKeys,"duration",
+                    currentRewardData.target.minRange,currentRewardData.target.maxRange);
                 break;
 
             default:
@@ -1600,10 +1612,10 @@ function getSpecificActivityCumulValue(activityTarget) {
         }
 
         // Addition de la durée convertie en secondes
-        totalDuration += durationToSeconds(activity.duration) || 0;
+        totalDuration += activity.durationSeconds || 0;
 
         // Addition de la distance
-        totalDistance += Number(activity.distance) || 0;
+        totalDistance += activity.distance || 0;
 
         // Incrémentation du compteur
         totalCount++;
