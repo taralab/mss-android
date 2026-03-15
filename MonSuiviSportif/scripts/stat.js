@@ -321,6 +321,19 @@ function durationToMinutes(duration) {
     return (hours || 0) * 60 + (minutes || 0) + (seconds || 0) / 60; // Conversion totale en minutes
 }
 
+
+// Fonction pour convertir la durée au format hh:mm:ss en secondes
+function durationToSeconds(duration) {
+    if (!duration || typeof duration !== "string") {
+        duration = "00:00:00"; // Valeur par défaut si la durée est invalide
+    }
+
+    const [hours, minutes, seconds] = duration.split(":").map(Number);
+
+    return (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0);
+}
+
+
 // Fonction pour formater la durée en heures:minutes:secondes
 function formatDuration(totalMinutes) {
     if (isNaN(totalMinutes) || totalMinutes < 0) {

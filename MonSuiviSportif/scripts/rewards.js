@@ -1575,48 +1575,44 @@ function onSearchActivityWithValueSuperior(dataKeys, targetType, targetValue) {
 
 
 
-//Une Fonction pour récupérer les valeurs cumulé d'une activité spécifique
+// Fonction qui calcule les valeurs cumulées d'un type d'activité
 function getSpecificActivityCumulValue(activityTarget) {
+
+    // Log uniquement en mode debug
     if (devMode === false) {
-        console.log(`[REWARDS] recupère les éléments pour le type d'activité : ${activityTarget}`);
+        console.log(`[REWARDS] récupération des activités pour : ${activityTarget}`);
     }
 
-    
-    let duration = 0,
-    distance = 0,
-    count = 0;
+    // Variables d'accumulation
+    let totalDuration = 0;
+    let totalDistance = 0;
+    let totalCount = 0;
 
-    //Ne récupère que les data du type d'activité concernée
-    let specificActivitiesArrayKeys = Object.entries(allUserActivityArray)
-        .filter(([key, value]) => value.name === activityTarget)
-        .map(([key, value]) => key);
+    // Parcours de toutes les activités utilisateur
+    for (const key in allUserActivityArray) {
 
-        let testBool = true;
-    //lance le traitement pour calculer le totaux
-    specificActivitiesArrayKeys.forEach(key=>{
+        // Récupération directe de l'objet activité
+        const activity = allUserActivityArray[key];
 
-
-        let data = allUserActivityArray[key];
-
-
-        if (testBool) {
-            
-            console.log(data);
-            testBool = false;
+        // Ignore immédiatement si ce n'est pas le type recherché
+        if (activity.name !== activityTarget) {
+            continue;
         }
 
-        duration += Number(data.duration) || 0;
-        distance += Number(data.distance) || 0;
-        count++;
-    });
+        // Addition de la durée convertie en secondes
+        totalDuration += durationToSeconds(activity.duration) || 0;
 
-    let result = {
-        duration : duration,
-        distance : distance,
-        count : count
+        // Addition de la distance
+        totalDistance += Number(activity.distance) || 0;
+
+        // Incrémentation du compteur
+        totalCount++;
     }
 
-
-    return result;
-
+    // Retour des valeurs cumulées
+    return {
+        duration: totalDuration,
+        distance: totalDistance,
+        count: totalCount
+    };
 }
