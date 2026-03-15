@@ -1493,7 +1493,7 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
                 onTraiteRewardPerformanceSup(rewardKey,specificActivitiesKeys,"distance",currentRewardData.target.count);
                 break;
             case "PERFORMANCE-DURATION-SUP":
-                onTraiteRewardPerformanceSup(rewardKey,specificActivitiesKeys,"duration",currentRewardData.target.count);
+                onTraiteRewardPerformanceSup(rewardKey,specificActivitiesKeys,"durationSeconds",currentRewardData.target.count);
                 break;
             case "PERFORMANCE-DISTANCE-RANGE":
                 onTraiteRewardPerformanceWithRange(
@@ -1502,7 +1502,7 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
                 break;
             case "PERFORMANCE-DURATION-RANGE":
                 onTraiteRewardPerformanceWithRange(
-                    rewardKey,specificActivitiesKeys,"duration",
+                    rewardKey,specificActivitiesKeys,"durationSeconds",
                     currentRewardData.target.minRange,currentRewardData.target.maxRange);
                 break;
 
@@ -1548,7 +1548,7 @@ function onSearchActivityWithTypeRange(dataKeys, rangeType, bottomTarget, topTar
     if (devMode === false){console.log(`[REWARDS] recherche d'une distance ou durée unique comprise entre : ${bottomTarget} et ${topTarget}`);};
 
     for (let e of dataKeys){
-        const value = Number(allUserActivityArray[e][rangeType]);
+        const value = allUserActivityArray[e][rangeType];
         if (value >= bottomTarget && value <= topTarget) {
             return true;
         }
@@ -1576,7 +1576,7 @@ function onSearchActivityWithValueSuperior(dataKeys, targetType, targetValue) {
     if (devMode === false){console.log(`[REWARDS] recherche d'une ${targetType} unique supérieures à : ${targetValue}`);};
 
     for (let e of dataKeys){
-        if (Number(allUserActivityArray[e][targetType]) >= targetValue) { 
+        if (allUserActivityArray[e][targetType] >= targetValue) { 
             if (devMode === false){console.log(`[REWARDS] Valeur trouvée :  ${allUserActivityArray[e][targetType]}`);};
             return true;
         };
