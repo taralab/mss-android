@@ -1,5 +1,5 @@
 
-let currentExportVersion = 10;//version actuel des fichers d'import/export
+let currentExportVersion = 11;//version actuel des fichers d'import/export
 
 function onOpenMenuGestData() {
     //Création main menu
@@ -694,6 +694,14 @@ async function eventImportBdD(inputRef) {
                         importedUserSessionItemsList = jsonData.userSessionItemsList || {};
                         isSaveVersionValid = true;
                         break;
+                    case 11:
+                        //Le fichier V10 contient le nouveau format d'activité avec distance en number,
+                        //et une version second de la durée 
+                        console.log("[IMPORT] V11");
+                        importedDocs = jsonData.documents || [];
+                        importedUserSessionItemsList = jsonData.userSessionItemsList || {};
+                        isSaveVersionValid = true;
+                        break;
 
                     default:
                         throw new Error("⚠️ Format de fichier inconnu.");
@@ -768,22 +776,23 @@ async function importBdD(dataToImport) {
     for (const e of dataToImport) {
         // ACTIVITE
         if (e.type === activityStoreName) {
-            Object.assign(activityToInsertFormat, {
+            const tempActivityToInsertFormat = {
                 name: e.name,
                 date: e.date,
                 location: e.location,
-                distance: e.distance,
+                distance: typeof e.distance === "number" ? e.distance : Number(e.distance) || 0,
                 duration: e.duration,
+                durationSeconds : e.durationSeconds || durationToSeconds(e.duration),
                 comment: e.comment,
                 createdAt: e.createdAt,
                 isPlanned: e.isPlanned,
                 tagList: e.tagList || []
-            });
-            await onInsertNewActivityInDB(activityToInsertFormat);
+            };
+            await onInsertNewActivityInDB(tempActivityToInsertFormat);
 
         // TEMPLATE
         }else if (e.type === templateStoreName){
-            Object.assign(templateToInsertFormat, {
+             const temptemplateToInsertFormat = {
                 title: e.title,
                 activityName: e.activityName,
                 location: e.location,
@@ -792,8 +801,8 @@ async function importBdD(dataToImport) {
                 comment: e.comment,
                 isPlanned: e.isPlanned,
                 tagList: e.tagList || []
-            });
-            await onInsertNewTemplateInDB(templateToInsertFormat);
+            };
+            await onInsertNewTemplateInDB(temptemplateToInsertFormat);
 
         //REWARDS
         }else if (e.type === rewardsStoreName){
@@ -818,8 +827,7 @@ async function importBdD(dataToImport) {
 
         //SETTING
         }else if (e.type === settingStoreName){
-            let settingToUpdate = {};
-            Object.assign(settingToUpdate, {
+            const tempSettingToUpdate = {
                 agenda : e.data.agenda || defaultSetting.agenda,
                 agendaScheduleStart: e.data.agendaScheduleStart || defaultSetting.agendaScheduleStart,
                 agendaScheduleEnd: e.data.agendaScheduleEnd || defaultSetting.agendaScheduleEnd,
@@ -836,11 +844,11 @@ async function importBdD(dataToImport) {
                 animationEnabled: e.data.animationEnabled ?? defaultSetting.animationEnabled,
                 vibrationEnabled: e.data.vibrationEnabled ?? defaultSetting.vibrationEnabled,
                 evaluationNotifyEnabled : e.data.evaluationNotifyEnabled ?? defaultSetting.evaluationNotifyEnabled
-            });
+            };
 
             // Sauvegarde la modification
             await updateDocumentInDB(settingStoreName, (doc) => {
-                doc.data = settingToUpdate;
+                doc.data = tempSettingToUpdate;
                 return doc;
             });
 
@@ -855,16 +863,16 @@ async function importBdD(dataToImport) {
 
         // PROFILS 
         }else if (e.type === profilStoreName){
-            Object.assign(userInfo,{
+            const tempUserInfo = {
                 pseudo : e.data.pseudo,
                 customNotes : e.data.customNotes,
                 conditionAccepted: e.data.conditionAccepted,
                 updateNameList : e.data.updateNameList || []
-            });
+            };
             
             //Sauvegarde
             await updateDocumentInDB(profilStoreName, (doc) => {
-                doc.data = userInfo;
+                doc.data = tempUserInfo;
                 return doc;
             });
 
@@ -896,15 +904,14 @@ async function importBdD(dataToImport) {
 
         // RECUP
         } else if (e.type === recupStoreName){
-            Object.assign(userRecupData,{
+            const tempUserRecupData = {
                 isCustomMode : e.data.isCustomMode ?? defaultRecupData.isCustomMode,
                 predefinitValue : e.data.predefinitValue || defaultRecupData.predefinitValue,
                 customValue : e.data.customValue || defaultRecupData.customValue,
                 discretMode : e.data.discretMode ?? defaultRecupData.discretMode
-                }
-            );
+                };
             await updateDocumentInDB(recupStoreName, (doc) => {
-                doc.data = userRecupData;
+                doc.data = tempUserRecupData;
                 return doc;
             });
         

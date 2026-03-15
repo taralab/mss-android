@@ -5,8 +5,9 @@ let activityToInsertFormat = {
     name :"",
     date : "",
     location : "",
-    distance : "",
+    distance : 0,
     duration : "",
+    durationSeconds :0,
     comment : "",
     createdAt : "",
     isPlanned : false,
@@ -98,7 +99,7 @@ class ActivityItem {
     }
 
     render() {
-        const distance = this.distance ? `${this.distance} km` : "---";
+        const distance = this.distance === 0 ? "---" : `${this.distance} km`;
         const location = this.location ? highlightSearchTerm(this.location, userActivitySearchTerm) : "---";
         const date = onDisplayUserFriendlyDate(this.date);
         const distanceClass = this.isPlanned ? "item-data-distance-planned" : "item-data-distance";
@@ -960,10 +961,13 @@ function onFormatActivity() {
     //  met tous les éléments dans l'objet
     activityToInsertFormat.name = selectorCategoryChoiceRef.value;
     activityToInsertFormat.date = inputDateRef.value;
-    activityToInsertFormat.distance = inputDistanceRef.value;
+    activityToInsertFormat.distance = Number(inputDistanceRef.value);
     activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputActivityNumberToTime();
+
+    //la durée converti en secondes (pas de comparaison pour modification. elle se fait sur duration)
+    activityToInsertFormat.durationSeconds = durationToSeconds(activityToInsertFormat.duration);
 
     //Récupère les tag
     activityToInsertFormat.tagList = getActivitySelectedTagsArray();
