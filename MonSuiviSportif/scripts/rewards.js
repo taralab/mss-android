@@ -738,6 +738,11 @@ function onCheckReward(currentActivitySavedName,currentActivityComment) {
     //le commentaire permet de rechercher les évènements spéciaux via le code inclue dans le commentaire
     onInitRewardsVariable();
 
+
+    //Récupères les valeurs cumulées des activités (tout et type en cours)
+    let allActivitiesValues = getActivitiesCumulValue(currentActivitySavedName);
+
+
     // onSearchGeneralRewards(currentActivitySavedName);
 
 
@@ -757,7 +762,7 @@ function onCheckReward(currentActivitySavedName,currentActivityComment) {
 
 
     // onSearchSpecifyRewards(currentActivitySavedName,specificActivitiesKeys);
-    onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys);
+    onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys,allActivitiesValues.currentType);
 
 
     // SPECIAL EVENTS
@@ -1450,12 +1455,9 @@ function onClickReturnFromRewards() {
 
 // Traitement leveling activities
 
-function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys) {
+function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys,currentTypeValues) {
     
-    //Total activity Count Distance and duration pour le type d'activité
-    let specificCumulValues = getSpecificActivityCumulValue(currentActivitySavedName);
-
-    console.log("specificCumulValues", specificCumulValues);
+    console.log("currentTypeValues", currentTypeValues);
 
     //récupère les keys des récompenses spécifiques à l'activité
     const activityRewardDataKeys = Object.entries(allRewardsObject)
@@ -1479,14 +1481,14 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
 
         switch (currentRewardData.category) {
             case "LEVELING":
-                onTraiteRewardCount(rewardKey, specificCumulValues.count, currentRewardData.target.count);
+                onTraiteRewardCount(rewardKey, currentTypeValues.count, currentRewardData.target.count);
                 break;
             case "SPECIFIC-DISTANCE-CUMUL":
-                onTraiteRewardCount(rewardKey, specificCumulValues.distance,
+                onTraiteRewardCount(rewardKey, currentTypeValues.distance,
                     currentRewardData.target.count);
                 break;
             case "SPECIFIC-DURATION-CUMUL":
-                onTraiteRewardCount(rewardKey, specificCumulValues.duration,
+                onTraiteRewardCount(rewardKey, currentTypeValues.duration,
                     currentRewardData.target.count);
                 break;
             case "PERFORMANCE-DISTANCE-SUP":
@@ -1588,7 +1590,7 @@ function onSearchActivityWithValueSuperior(dataKeys, targetType, targetValue) {
 
 
 // Fonction qui calcule les valeurs cumulées d'un type d'activité
-function getSpecificActivityCumulValue(activityTarget) {
+function getActivitiesCumulValue(activityTarget) {
 
     // Log uniquement en mode debug
     if (devMode === false) {
@@ -1596,9 +1598,13 @@ function getSpecificActivityCumulValue(activityTarget) {
     }
 
     // Variables d'accumulation
-    let totalDuration = 0;
-    let totalDistance = 0;
-    let totalCount = 0;
+    let allTotalDuration = 0,
+        allTotalDistance = 0,
+        allTotalCount = 0,
+        specificTotalDuration = 0,
+        specificTotalDistance = 0,
+        specificTotalCount = 0;
+
 
     // Parcours de toutes les activités utilisateur
     for (const key in allUserActivityArray) {
@@ -1606,26 +1612,46 @@ function getSpecificActivityCumulValue(activityTarget) {
         // Récupération directe de l'objet activité
         const activity = allUserActivityArray[key];
 
-        // Ignore immédiatement si ce n'est pas le type recherché
-        // Et si activité planifiée
-        if (activity.name !== activityTarget || activity.isPlanned) {
+        // Ignore immédiatement si activité planifiée
+        if (activity.isPlanned) {
             continue;
         }
 
+        // Traitement activité concernée
+        if (activity.name === activityTarget) {
+            // Addition de la durée convertie en secondes
+            specificTotalDuration += activity.durationSeconds || 0;
+
+            // Addition de la distance
+            specificTotalDistance += activity.distance || 0;
+
+            // Incrémentation du compteur
+            specificTotalCount++;
+        }
+
+        //traitement de tous les activités (non planifiées évidement)
+
         // Addition de la durée convertie en secondes
-        totalDuration += activity.durationSeconds || 0;
+        allTotalDuration += activity.durationSeconds || 0;
 
         // Addition de la distance
-        totalDistance += activity.distance || 0;
+        allTotalDistance += activity.distance || 0;
 
         // Incrémentation du compteur
-        totalCount++;
+        allTotalCount++;
     }
 
     // Retour des valeurs cumulées
-    return {
-        duration: totalDuration,
-        distance: totalDistance,
-        count: totalCount
+    return { currentType : {
+            duration: specificTotalDuration,
+            distance: specificTotalDistance,
+            count: specificTotalCount
+        },
+        allActivity : {
+            duration: allTotalDuration,
+            distance: allTotalDistance,
+            count: allTotalCount
+        }
+        
     };
 }
