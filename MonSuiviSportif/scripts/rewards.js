@@ -5,8 +5,8 @@ let userRewardsArray = [],
     rewardsEligibleArray = [], //stockes les trophés auxquels l'utilisateur est éligible 
     specialRewardsEligibleArray = [],//les trophes special event auxquels l'utilisateur est éligible
     newRewardsToSee = [],//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
-    rewardAllActivityNonPlannedKeys = [],// tableau qui contient les clé des activités non planifiées
-    rewardStdCategoryList = [];//contient la liste des catégorie pour séparation
+    rewardAllActivityNonPlannedKeys = [];// tableau qui contient les clé des activités non planifiées
+
 
 
 // Reference 
@@ -50,6 +50,30 @@ class RewardSeparator{
         this.parentRef.appendChild(this.element);
     }
 }
+
+class RewardLockedSeparator{
+    constructor(text,parentRef){
+        this.text = text;
+        this.parentRef = parentRef;
+
+        // Conteneur principal
+        this.element = document.createElement("div");
+        this.element.classList.add("reward-separator");
+
+        // Fonction de rendu
+        this.render();
+    }
+
+    render(){
+        this.element.innerHTML = `
+            <p class="reward-separator-title">${this.text}</p>
+            <div id="divRewardGrid_Locked_${this.text}"></div>
+        `;
+        // Insertion dans le parent
+        this.parentRef.appendChild(this.element);
+    }
+}
+
 
 
 class RewardCardEnabled{
@@ -411,8 +435,7 @@ function onLoadUserRewardsList() {
     divRewardsListRef.replaceChildren();
     divSpecialRewardsListRef.replaceChildren();
 
-    // reset du tableau des catégories rencontrées
-    rewardStdCategoryList = [];
+
 
     if (devMode === true){
         console.log("[REWARDS] Création de la liste des récompenses");
@@ -496,8 +519,6 @@ function onLoadUserRewardsList() {
         // si la catégorie n'existe pas encore
         if (!categoryEnableContainerMap[activityName]) {
 
-            rewardStdCategoryList.push(activityName);
-
             // création du séparateur de catégorie
             new RewardSeparator(activityName,divRewardsListRef);
 
@@ -542,11 +563,6 @@ function onLoadUserRewardsList() {
     // création du séparateur LOCKED
     new RewardSeparator("LOCKED",divRewardsListRef);
 
-    const parentRef = document.getElementById("divRewardGrid_LOCKED");
-
-    // fragment pour éviter insertions DOM multiples
-    const fragmentLocked = document.createDocumentFragment();
-
     allRewardsKeys.forEach(key=>{
 
         // vérifie si l'utilisateur possède déjà la reward
@@ -554,20 +570,28 @@ function onLoadUserRewardsList() {
 
         if (!isPossessed) {
 
-            // création carte locked dans fragment
-            new RewardCardLocked(
-                key,
-                allRewardsObject[key].title,
-                allRewardsObject[key].text,
-                fragmentLocked
-            );
+            const reward = allRewardsObject[key];
+            const activityName = reward.activityName;
 
+            // si la catégorie n'existe pas encore
+            if (!categoryDisableContainerMap[activityName]) {
+                // création du séparateur de catégorie
+                new RewardLockedSeparator(`${activityName}`,divRewardsListRef);
+
+                // récupération de la div de la catégorie
+                // (1 seule fois au lieu de plusieurs getElementById)
+                categoryDisableContainerMap[activityName] =
+                    document.getElementById(`divRewardGrid_Locked_${activityName}`);
+            }
+
+            const parentRef = categoryDisableContainerMap[activityName];
+
+            let p = document.createElement("p");
+                p.textContent = reward.text.condition;
+
+                parentRef.appendChild(p);
         }
-
     });
-
-    // insertion finale des locked rewards
-    parentRef.appendChild(fragmentLocked);
 
 }
 
