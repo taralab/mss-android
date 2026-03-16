@@ -1163,7 +1163,7 @@ function onCheckDeRetour(activityKeys) {
 // Traite les trophés définitifs à affecter à l'utilisateur
 async function onAffectFinalRewardsToUser() {
     
-    if (devMode === true){
+    if (devMode === false){
         console.log("[REWARDS] Trouve les trophés réelle à affecter à l'USER ");
         console.log("[REWARDS] User éligible à : ",rewardsEligibleArray);
         console.log("[REWARDS] déjà possédé par l'user : ",userRewardsArray);

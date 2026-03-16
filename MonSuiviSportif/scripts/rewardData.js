@@ -33,7 +33,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "2 ans après la première activité",
-            "notify": null,
+            "notify": "2 ans",
             "underBadge": null
         }
     },
@@ -52,7 +52,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "3 ans après la première activité",
-            "notify": null,
+            "notify": "3 ans",
             "underBadge": null
         }
     },
@@ -71,7 +71,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "5 ans après la première activité",
-            "notify": null,
+            "notify": "5 ans",
             "underBadge": null
         }
     },
@@ -90,7 +90,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "7 ans après la première activité",
-            "notify": null,
+            "notify": "7 ans",
             "underBadge": null
         }
     },
@@ -109,7 +109,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "10 ans après la première activité",
-            "notify": null,
+            "notify": "10 ans",
             "underBadge": null
         }
     },
@@ -213,7 +213,7 @@ const allRewardsObject = {
         "displayOrder": 12,
         "activityName": "COMMUN",
         "target": {
-            "count": 25,
+            "count": 90000,
             "minRange": null,
             "maxRange": null
         },
@@ -232,7 +232,7 @@ const allRewardsObject = {
         "displayOrder": 13,
         "activityName": "COMMUN",
         "target": {
-            "count": 50,
+            "count": 180000,
             "minRange": null,
             "maxRange": null
         },
@@ -251,7 +251,7 @@ const allRewardsObject = {
         "displayOrder": 14,
         "activityName": "COMMUN",
         "target": {
-            "count": 100,
+            "count": 360000,
             "minRange": null,
             "maxRange": null
         },
@@ -270,7 +270,7 @@ const allRewardsObject = {
         "displayOrder": 15,
         "activityName": "COMMUN",
         "target": {
-            "count": 250,
+            "count": 900000,
             "minRange": null,
             "maxRange": null
         },
@@ -289,7 +289,7 @@ const allRewardsObject = {
         "displayOrder": 16,
         "activityName": "COMMUN",
         "target": {
-            "count": 500,
+            "count": 1800000,
             "minRange": null,
             "maxRange": null
         },
@@ -308,7 +308,7 @@ const allRewardsObject = {
         "displayOrder": 17,
         "activityName": "COMMUN",
         "target": {
-            "count": 1000,
+            "count": 3600000,
             "minRange": null,
             "maxRange": null
         },
@@ -327,7 +327,7 @@ const allRewardsObject = {
         "displayOrder": 18,
         "activityName": "COMMUN",
         "target": {
-            "count": 2500,
+            "count": 9000000,
             "minRange": null,
             "maxRange": null
         },
@@ -346,7 +346,7 @@ const allRewardsObject = {
         "displayOrder": 19,
         "activityName": "COMMUN",
         "target": {
-            "count": 5000,
+            "count": 18000000,
             "minRange": null,
             "maxRange": null
         },
@@ -5809,7 +5809,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 1000 km de vélo cumulés",
-            "notify": null,
+            "notify": "Vélo : 1 000 km",
             "underBadge": null
         }
     },
@@ -5828,7 +5828,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 3400 km de vélo cumulés",
-            "notify": "Tour de France",
+            "notify": "Tour de France (3 400 km)",
             "underBadge": null
         }
     },
@@ -5847,7 +5847,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 5000 km de vélo cumulés",
-            "notify": null,
+            "notify": "Vélo : 5 000 km",
             "underBadge": null
         }
     },
@@ -5866,7 +5866,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 10 000 km de vélo cumulés",
-            "notify": null,
+            "notify": "Vélo : 10 000 km",
             "underBadge": null
         }
     },
@@ -5885,7 +5885,7 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 40 000 km de vélo cumulés",
-            "notify": "Tour du monde",
+            "notify": "Tour du monde (40 000 km)",
             "underBadge": null
         }
     },

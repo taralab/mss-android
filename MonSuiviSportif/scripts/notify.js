@@ -171,9 +171,51 @@ const eventFirstMobileNotify = async (rewardsKeysArray) => {
 };
 
 
+function onTraiteMobileNotify() {
+
+    const rewardKey = rewardsKeyArrayToNotifyCue[0];
+
+    //tente de récupére dans l'un ou l'autre pour savoir c'est dans lequel
+    const reward = allRewardsObject[rewardKey];
+    const specialReward = allSpecialEventsRewardsObject[rewardKey];
+
+    //Si dans aucun des deux, erreur
+    if (!reward && !specialReward) {
+        console.error("ERREUR REWARDS :", rewardKey);
+        return;
+    }
+
+    if (devMode) console.log("[NOTIFY] [MOBILE] [REWARD] reward existant");
+
+    // Si dans reward //sinon
+    if (reward) {
+        sendRewardMobileNotify(`🏆 ${reward.text.notify}`);
+    } else {
+        sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", specialReward.title);
+    }
+
+    // Retire l'index zero de la file d'attente
+    rewardsKeyArrayToNotifyCue.shift();
+
+    if (devMode) {
+        console.log("[NOTIFY] [MOBILE] Traitement pour", rewardKey);
+        console.log("[NOTIFY] [MOBILE] File d'attente :", rewardsKeyArrayToNotifyCue);
+    }
+
+    setTimeout(() => {
+
+        if (rewardsKeyArrayToNotifyCue.length > 0) {
+            onTraiteMobileNotify();
+        } else {
+            if (devMode) console.log("[NOTIFY] [MOBILE] fin de traitement. Libération du boolean");
+            isMobileNotifyInProgress = false;
+        }
+
+    }, 2000);
+}
 
 //Boucle de traitement des notifications mobiles REWARDS
-function onTraiteMobileNotify() {
+function onTraiteMobileNotify_old() {
     // index zero de la file d'attente
     let rewardKey = rewardsKeyArrayToNotifyCue[0];
 
@@ -189,19 +231,9 @@ function onTraiteMobileNotify() {
 
     // Recherche dans quel objet se trouve la récompense (standard ou spécial)
     let isStandartReward = Object.keys(allRewardsObject).includes(rewardKey);
+
     if (isStandartReward) {
-
-        //récupère le texte de la catégorie de récompense
-        let categorie = allRewardsObject[rewardKey].activityName;
-
-        if (devMode === true) {
-            console.log("categorie : ", categorie);
-        }
-
-        //récupère le displayName de l'activité pour les récompenses non "commun"
-        let displayName = null;
-        displayName = categorie === "COMMUN" ? "COMMUN" : activityChoiceArray[categorie].displayName;
-        sendRewardMobileNotify(`🏆 ${displayName.toUpperCase()}`, allRewardsObject[rewardKey].title);
+        sendRewardMobileNotify(`🏆 ${allRewardsObject[rewardKey].text.notify}`);
     }else{
         sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", allSpecialEventsRewardsObject[rewardKey].title);
     };
