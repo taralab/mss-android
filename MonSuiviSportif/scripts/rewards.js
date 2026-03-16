@@ -427,7 +427,8 @@ function onLoadUserRewardsList() {
     const userRewardsSet = new Set(userRewardsArray);
 
     // cache des containers DOM des catégories
-    const categoryContainerMap = {};
+    const categoryEnableContainerMap = {};
+    const categoryDisableContainerMap = {};
 
 
     // ==========================================
@@ -478,7 +479,14 @@ function onLoadUserRewardsList() {
     // REWARDS POSSÉDÉS PAR L'UTILISATEUR
     // ==========================================
 
-    userRewardsArray.sort();
+    //Trie selon le display order
+    // Infinity = Les éléments qui n’ont pas de displayOrder auront une valeur 
+    // infiniment grande, et seront placés à la fin du tableau.
+    userRewardsArray.sort((a, b) => {
+        const orderA = allRewardsObject[a]?.displayOrder ?? Infinity;
+        const orderB = allRewardsObject[b]?.displayOrder ?? Infinity;
+        return orderA - orderB;
+    });
 
     userRewardsArray.forEach((e,index)=>{
 
@@ -486,7 +494,7 @@ function onLoadUserRewardsList() {
         const activityName = reward.activityName;
 
         // si la catégorie n'existe pas encore
-        if (!categoryContainerMap[activityName]) {
+        if (!categoryEnableContainerMap[activityName]) {
 
             rewardStdCategoryList.push(activityName);
 
@@ -495,11 +503,11 @@ function onLoadUserRewardsList() {
 
             // récupération de la div de la catégorie
             // (1 seule fois au lieu de plusieurs getElementById)
-            categoryContainerMap[activityName] =
+            categoryEnableContainerMap[activityName] =
                 document.getElementById(`divRewardGrid_${activityName}`);
         }
 
-        const parentRef = categoryContainerMap[activityName];
+        const parentRef = categoryEnableContainerMap[activityName];
 
         const isNewReward = newRewardsSet.has(e);
 
@@ -524,8 +532,12 @@ function onLoadUserRewardsList() {
 
     const allRewardsKeys = Object.keys(allRewardsObject);
 
-    // tri alpha
-    allRewardsKeys.sort();
+    // tri selon le display order
+    allRewardsKeys.sort((a, b) => {
+        const orderA = allRewardsObject[a]?.displayOrder ?? Infinity;
+        const orderB = allRewardsObject[b]?.displayOrder ?? Infinity;
+        return orderA - orderB;
+    });
 
     // création du séparateur LOCKED
     new RewardSeparator("LOCKED",divRewardsListRef);
