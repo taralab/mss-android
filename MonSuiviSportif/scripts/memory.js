@@ -166,6 +166,7 @@ function onAddEventListenerForMemoryEditor() {
 // fonction pour récupérer les memory
 async function onLoadMemoryFromDB() {
     allMemoryObjectList = {}; // devient un objet
+    isMemoryAlreadyLoaded = true;
     try {
         const result = await db.allDocs({ include_docs: true });
 

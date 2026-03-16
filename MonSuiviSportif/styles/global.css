@@ -1774,6 +1774,35 @@ img.rewardCard-B {
   object-fit: contain; /* garde les proportions */
 }
 
+
+
+/* Pour la visionneuse */
+div.rewardCard-imgArea-FS {
+    position: relative;
+    width: 180px;
+    height: 180px;
+}
+
+img.rewardCard-A-FS{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* garde les proportions */
+}
+
+img.rewardCard-B-FS {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  width: 60%;
+  height: 60%;
+  object-fit: contain; /* garde les proportions */
+}
+
+
+
 /* Texte sous la récompense */
 span.rewardCard-text {
   display: block;
@@ -1849,7 +1878,7 @@ img.rewardCardDisable {
     }
     50% {
         transform: scale(1.05);
-        box-shadow: 0 0 10px rgba(255, 87, 128, 1); /* Lumière dorée */
+        box-shadow: 0 0 10px rgb(255, 40, 94); /* Lumière dorée */
     }
     100% {
         transform: scale(1);

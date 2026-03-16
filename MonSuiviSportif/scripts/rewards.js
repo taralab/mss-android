@@ -11,7 +11,8 @@ let userRewardsArray = [],
 
 // Reference 
 let divTrophyFSAreaRef,
-    imgRewardsFullScreenRef,
+    imgRewardsFullScreenARef,
+    imgRewardsFullScreenBRef,
     pRewardsFSActivityNameRef,
     pRewardsFullScreenTitleRef,
     pRewardsFullScreenTextRef,
@@ -377,7 +378,8 @@ async function onOpenMenuRewards(){
 
     // Reference les éléments
     divTrophyFSAreaRef = document.getElementById("divTrophyFSArea");
-    imgRewardsFullScreenRef = document.getElementById("imgRewardsFullScreen");
+    imgRewardsFullScreenARef = document.getElementById("imgRewardsFullScreenA");
+    imgRewardsFullScreenBRef = document.getElementById("imgRewardsFullScreenB");
     pRewardsFSActivityNameRef = document.getElementById("pRewardsFSActivityName");
     pRewardsFullScreenTextRef = document.getElementById("pRewardsFullScreenText");
     pRewardsFullScreenTitleRef = document.getElementById("pRewardsFullScreenTitle");
@@ -401,6 +403,7 @@ async function onOpenMenuRewards(){
     if (!isMemoryAlreadyLoaded){
         await onLoadMemoryFromDB();
 
+        console.log("Chargement depuis la base");
         //récupère les keys
         memoryCardKeysList = Object.keys(allMemoryObjectList);
     }
@@ -697,16 +700,25 @@ function onSetRewardVisionneuseData(index) {
     if (!isRewardVisionneuseModeSpecial) {
         // set les éléments et affiche
         pRewardsFSActivityNameRef.textContent = allRewardsObject[rewardName].activityName;
-        imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
+        imgRewardsFullScreenARef.src = allRewardsObject[rewardName].assets.imgARef;
+
+        //Set l'image B si existe sinon la masque
+        let isImgBExist = allRewardsObject[rewardName].assets.imgBRef !== null;
+        if (isImgBExist) {
+            imgRewardsFullScreenBRef.src = allRewardsObject[rewardName].assets.imgBRef;
+            imgRewardsFullScreenBRef.style.display = "block";
+        }else{
+            imgRewardsFullScreenBRef.style.display = "none";
+        }
 
         pRewardsFullScreenTitleRef.textContent = allRewardsObject[rewardName].title;
 
-        pRewardsFullScreenTextRef.textContent = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
+        pRewardsFullScreenTextRef.textContent = `Tu as pratiqué ${allRewardsObject[rewardName].text.condition}.`;
 
         // SPECIAL REWARDS
     }else{
         // set les éléments et affiche
-        imgRewardsFullScreenRef.src = allSpecialEventsRewardsObject[rewardName].imgRef;
+        imgRewardsFullScreenARef.src = allSpecialEventsRewardsObject[rewardName].imgRef;
         pRewardsFSActivityNameRef.replaceChildren();
 
         pRewardsFullScreenTitleRef.textContent = allSpecialEventsRewardsObject[rewardName].title;
@@ -1348,7 +1360,8 @@ function onShowPopupReward(count = 1) {
 function onResetRewardsMenu() {
 
     //vide de contenu
-    imgRewardsFullScreenRef= "";
+    imgRewardsFullScreenARef = "";
+    imgRewardsFullScreenBRef = "";
     pRewardsFSActivityNameRef = "";
     pRewardsFullScreenTextRef = "";
     pRewardsFullScreenTitleRef = "";
