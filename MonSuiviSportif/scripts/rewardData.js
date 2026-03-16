@@ -9,7 +9,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-1-an.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_1-AN.webp",
             "imgBRef": null
         },
         "text": {
@@ -28,7 +28,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_2-ANS.webp",
             "imgBRef": null
         },
         "text": {
@@ -47,7 +47,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_3-ANS.webp",
             "imgBRef": null
         },
         "text": {
@@ -66,7 +66,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_5-ANS.webp",
             "imgBRef": null
         },
         "text": {
@@ -85,7 +85,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_7-ANS.webp",
             "imgBRef": null
         },
         "text": {
@@ -104,7 +104,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_10-ANS.webp",
             "imgBRef": null
         },
         "text": {
@@ -123,7 +123,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-ACTIVITE-100.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-100.webp",
             "imgBRef": null
         },
         "text": {
@@ -142,7 +142,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-250.webp",
             "imgBRef": null
         },
         "text": {
@@ -161,7 +161,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-ACTIVITE-B-500.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-500.webp",
             "imgBRef": null
         },
         "text": {
@@ -180,7 +180,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-ACTIVITE-C-1000.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-1000.webp",
             "imgBRef": null
         },
         "text": {
@@ -199,7 +199,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/BADGE-ACTIVITE-FIRST.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-1.webp",
             "imgBRef": null
         },
         "text": {
@@ -218,7 +218,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_25-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -237,7 +237,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_50-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -256,7 +256,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_100-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -275,7 +275,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_250-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -294,7 +294,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_500-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -313,7 +313,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_1000-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -332,7 +332,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_2500-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -351,7 +351,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_5000-HEURES.webp",
             "imgBRef": null
         },
         "text": {
@@ -370,7 +370,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-POLYVALENT.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_POLYVALENT-5.webp",
             "imgBRef": null
         },
         "text": {
@@ -389,7 +389,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-POLYVALENT-B.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_POLYVALENT-10.webp",
             "imgBRef": null
         },
         "text": {
@@ -408,7 +408,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_COMMUN_POLYVALENT-15.webp",
             "imgBRef": null
         },
         "text": {
@@ -427,7 +427,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-DE-RETOUR.webp",
+            "imgARef": "./Badges/MSS_Reward_COMMUN_DE-RETOUR.webp",
             "imgBRef": null
         },
         "text": {
@@ -446,8 +446,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "1 séance d'activité nautique",
@@ -465,8 +465,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "10 séances d'activité nautique",
@@ -484,8 +484,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "50 séances d'activité nautique",
@@ -503,8 +503,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "100 séances d'activité nautique",
@@ -522,8 +522,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "250 séances d'activité nautique",
@@ -541,8 +541,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "500 séances d'activité nautique",
@@ -560,8 +560,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
             "condition": "1000 séances d'activité nautique",
@@ -579,8 +579,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "1 séance d'arts martiaux",
@@ -598,8 +598,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "10 séances d'arts martiaux",
@@ -617,8 +617,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "50 séances d'arts martiaux",
@@ -636,8 +636,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "100 séances d'arts martiaux",
@@ -655,8 +655,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "250 séances d'arts martiaux",
@@ -674,8 +674,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "500 séances d'arts martiaux",
@@ -693,8 +693,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
             "condition": "1000 séances d'arts martiaux",
@@ -712,8 +712,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "1 séance d'athletisme",
@@ -731,8 +731,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "10 séances d'athletisme",
@@ -750,8 +750,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "50 séances d'athletisme",
@@ -769,8 +769,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "100 séances d'athletisme",
@@ -788,8 +788,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "250 séances d'athletisme",
@@ -807,8 +807,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "500 séances d'athletisme",
@@ -826,8 +826,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
             "condition": "1000 séances d'athletisme",
@@ -845,7 +845,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-AUTRE-A.webp",
+            "imgARef": "./Badges/MSS_Reward_AUTRE.webp",
             "imgBRef": null
         },
         "text": {
@@ -864,8 +864,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "1 séance de badminton",
@@ -883,8 +883,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "10 séances de badminton",
@@ -902,8 +902,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "50 séances de badminton",
@@ -921,8 +921,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "100 séances de badminton",
@@ -940,8 +940,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "250 séances de badminton",
@@ -959,8 +959,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "500 séances de badminton",
@@ -978,8 +978,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
             "condition": "1000 séances de badminton",
@@ -997,8 +997,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "1 séance de baseball",
@@ -1016,8 +1016,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "10 séances de baseball",
@@ -1035,8 +1035,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "50 séances de baseball",
@@ -1054,8 +1054,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "100 séances de baseball",
@@ -1073,8 +1073,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "250 séances de baseball",
@@ -1092,8 +1092,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "500 séances de baseball",
@@ -1111,8 +1111,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
             "condition": "1000 séances de baseball",
@@ -1130,8 +1130,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "1 séance de basketball",
@@ -1149,8 +1149,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "10 séances de basketball",
@@ -1168,8 +1168,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "50 séances de basketball",
@@ -1187,8 +1187,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "100 séances de basketball",
@@ -1206,8 +1206,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "250 séances de basketball",
@@ -1225,8 +1225,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "500 séances de basketball",
@@ -1244,8 +1244,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
             "condition": "1000 séances de basketball",
@@ -1263,8 +1263,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "1 séance de bowling",
@@ -1282,8 +1282,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "10 séances de bowling",
@@ -1301,8 +1301,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "50 séances de bowling",
@@ -1320,8 +1320,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "100 séances de bowling",
@@ -1339,8 +1339,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "250 séances de bowling",
@@ -1358,8 +1358,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "500 séances de bowling",
@@ -1377,8 +1377,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
             "condition": "1000 séances de bowling",
@@ -1396,8 +1396,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "1 séance de boxe",
@@ -1415,8 +1415,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "10 séances de boxe",
@@ -1434,8 +1434,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "50 séances de boxe",
@@ -1453,8 +1453,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "100 séances de boxe",
@@ -1472,8 +1472,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "250 séances de boxe",
@@ -1491,8 +1491,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "500 séances de boxe",
@@ -1510,8 +1510,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
             "condition": "1000 séances de boxe",
@@ -1529,8 +1529,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "1 séance de break-dance",
@@ -1548,8 +1548,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "10 séances de break-dance",
@@ -1567,8 +1567,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "50 séances de break-dance",
@@ -1586,8 +1586,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "100 séances de break-dance",
@@ -1605,8 +1605,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "250 séances de break-dance",
@@ -1624,8 +1624,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "500 séances de break-dance",
@@ -1643,8 +1643,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
             "condition": "1000 séances de break-dance",
@@ -1653,7 +1653,7 @@ const allRewardsObject = {
         }
     },
     "CAP-A-1-SEANCE": {
-        "category": "2 séance de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 88,
         "activityName": "C-A-P",
         "target": {
@@ -1662,17 +1662,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "1 séance de C.A.P",
-            "notify": "3 séance de C.A.P",
+            "notify": "Course à pied : Débutant",
             "underBadge": "4 séance de C.A.P"
         }
     },
     "CAP-B-10-SEANCES": {
-        "category": "10 séances de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 89,
         "activityName": "C-A-P",
         "target": {
@@ -1681,17 +1681,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "10 séances de C.A.P",
-            "notify": "10 séances de C.A.P",
+            "notify": "Course à pied : Apprenti",
             "underBadge": "10 séances de C.A.P"
         }
     },
     "CAP-C-50-SEANCES": {
-        "category": "50 séances de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 90,
         "activityName": "C-A-P",
         "target": {
@@ -1700,17 +1700,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "50 séances de C.A.P",
-            "notify": "50 séances de C.A.P",
+            "notify": "Course à pied : Confirmé",
             "underBadge": "50 séances de C.A.P"
         }
     },
     "CAP-D-100-SEANCES": {
-        "category": "100 séances de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 91,
         "activityName": "C-A-P",
         "target": {
@@ -1719,17 +1719,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "100 séances de C.A.P",
-            "notify": "100 séances de C.A.P",
+            "notify": "Course à pied : Expert",
             "underBadge": "100 séances de C.A.P"
         }
     },
     "CAP-D-250-SEANCES": {
-        "category": "250 séances de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 92,
         "activityName": "C-A-P",
         "target": {
@@ -1738,17 +1738,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "250 séances de C.A.P",
-            "notify": "250 séances de C.A.P",
+            "notify": "Course à pied : Maitre",
             "underBadge": "250 séances de C.A.P"
         }
     },
     "CAP-D-500-SEANCES": {
-        "category": "500 séances de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 93,
         "activityName": "C-A-P",
         "target": {
@@ -1757,17 +1757,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "500 séances de C.A.P",
-            "notify": "500 séances de C.A.P",
+            "notify": "Course à pied : Champion",
             "underBadge": "500 séances de C.A.P"
         }
     },
     "CAP-E-1000-SEANCES": {
-        "category": "1000 séances de C.A.P",
+        "category": "LEVELING",
         "displayOrder": 94,
         "activityName": "C-A-P",
         "target": {
@@ -1776,17 +1776,17 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
             "condition": "1000 séances de C.A.P",
-            "notify": "1000 séances de C.A.P",
+            "notify": "Course à pied : Légende",
             "underBadge": "1000 séances de C.A.P"
         }
     },
     "CAP-E-10-KM": {
-        "category": "une séance de C.A.P d'environ 10 km",
+        "category": "PERFORMANCE-DISTANCE-RANGE",
         "displayOrder": 95,
         "activityName": "C-A-P",
         "target": {
@@ -1795,7 +1795,7 @@ const allRewardsObject = {
             "maxRange": 10.999
         },
         "assets": {
-            "imgARef": "./Badges/Badge-CAP-E.webp",
+            "imgARef": "./Badges/MSS_Reward_CAP_10KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -1805,7 +1805,7 @@ const allRewardsObject = {
         }
     },
     "CAP-F-SEMI-MARATHON": {
-        "category": "une séance de C.A.P d'environ 21 km",
+        "category": "PERFORMANCE-DISTANCE-RANGE",
         "displayOrder": 96,
         "activityName": "C-A-P",
         "target": {
@@ -1814,7 +1814,7 @@ const allRewardsObject = {
             "maxRange": 21.999
         },
         "assets": {
-            "imgARef": "./Badges/Badge-CAP-F.webp",
+            "imgARef": "./Badges/MSS_Reward_CAP_SEMI-MARATHON.webp",
             "imgBRef": null
         },
         "text": {
@@ -1824,7 +1824,7 @@ const allRewardsObject = {
         }
     },
     "CAP-G-MARATHON": {
-        "category": "une séance de C.A.P d'environ 42 km",
+        "category": "PERFORMANCE-DISTANCE-RANGE",
         "displayOrder": 97,
         "activityName": "C-A-P",
         "target": {
@@ -1833,7 +1833,7 @@ const allRewardsObject = {
             "maxRange": 42.999
         },
         "assets": {
-            "imgARef": "./Badges/Badge-CAP-G.webp",
+            "imgARef": "./Badges/MSS_Reward_CAP_MARATHON.webp",
             "imgBRef": null
         },
         "text": {
@@ -1843,7 +1843,7 @@ const allRewardsObject = {
         }
     },
     "CAP-TRAIL": {
-        "category": "une séance de C.A.P supérieure à 50 km",
+        "category": "PERFORMANCE-DISTANCE-SUP",
         "displayOrder": 98,
         "activityName": "C-A-P",
         "target": {
@@ -1852,7 +1852,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_CAP_TRAIL.webp",
             "imgBRef": null
         },
         "text": {
@@ -1862,7 +1862,7 @@ const allRewardsObject = {
         }
     },
     "CAP-ULTRA-TRAIL": {
-        "category": "une séance de C.A.P supérieure à 100 km",
+        "category": "PERFORMANCE-DISTANCE-SUP",
         "displayOrder": 99,
         "activityName": "C-A-P",
         "target": {
@@ -1871,7 +1871,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-CAP-H.webp",
+            "imgARef": "./Badges/MSS_Reward_CAP_ULTRA-TRAIL.webp",
             "imgBRef": null
         },
         "text": {
@@ -1881,7 +1881,7 @@ const allRewardsObject = {
         }
     },
     "CAP-ULTRA-TRAIL-150": {
-        "category": "une séance de C.A.P supérieure à 150 km",
+        "category": "PERFORMANCE-DISTANCE-SUP",
         "displayOrder": 100,
         "activityName": "C-A-P",
         "target": {
@@ -1890,7 +1890,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_CAP_ULTRA-TRAIL-150.webp",
             "imgBRef": null
         },
         "text": {
@@ -1909,8 +1909,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "1 séance de crossfit",
@@ -1928,8 +1928,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "10 séances de crossfit",
@@ -1947,8 +1947,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "50 séances de crossfit",
@@ -1966,8 +1966,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "100 séances de crossfit",
@@ -1985,8 +1985,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "250 séances de crossfit",
@@ -2004,8 +2004,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "500 séances de crossfit",
@@ -2023,8 +2023,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
             "condition": "1000 séances de crossfit",
@@ -2042,8 +2042,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "1 séance de danse",
@@ -2061,8 +2061,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "10 séances de danse",
@@ -2080,8 +2080,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "50 séances de danse",
@@ -2099,8 +2099,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "100 séances de danse",
@@ -2118,8 +2118,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "250 séances de danse",
@@ -2137,8 +2137,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "500 séances de danse",
@@ -2156,8 +2156,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
             "condition": "1000 séances de danse",
@@ -2175,8 +2175,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "1 séance d'équitation",
@@ -2194,8 +2194,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "10 séances d'équitation",
@@ -2213,8 +2213,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "50 séances d'équitation",
@@ -2232,8 +2232,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "100 séances d'équitation",
@@ -2251,8 +2251,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "250 séances d'équitation",
@@ -2270,8 +2270,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "500 séances d'équitation",
@@ -2289,8 +2289,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
             "condition": "1000 séances d'équitation",
@@ -2308,8 +2308,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "1 séance d'escalade",
@@ -2327,8 +2327,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "10 séances d'escalade",
@@ -2346,8 +2346,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "50 séances d'escalade",
@@ -2365,8 +2365,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "100 séances d'escalade",
@@ -2384,8 +2384,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "250 séances d'escalade",
@@ -2403,8 +2403,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "500 séances d'escalade",
@@ -2422,8 +2422,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
             "condition": "1000 séances d'escalade",
@@ -2441,8 +2441,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "1 séance d'étirement",
@@ -2460,8 +2460,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "10 séances d'étirement",
@@ -2479,8 +2479,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "50 séances d'étirement",
@@ -2498,8 +2498,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "100 séances d'étirement",
@@ -2517,8 +2517,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "250 séances d'étirement",
@@ -2536,8 +2536,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "500 séances d'étirement",
@@ -2555,8 +2555,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
             "condition": "1000 séances d'étirement",
@@ -2574,8 +2574,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "1 séance de football",
@@ -2593,8 +2593,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "10 séances de football",
@@ -2612,8 +2612,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "50 séances de football",
@@ -2631,8 +2631,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "100 séances de football",
@@ -2650,8 +2650,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "250 séances de football",
@@ -2669,8 +2669,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "500 séances de football",
@@ -2688,8 +2688,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
             "condition": "1000 séances de football ",
@@ -2707,8 +2707,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "1 séance de fractionné",
@@ -2726,8 +2726,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "10 séances de fractionné",
@@ -2745,8 +2745,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "50 séances de fractionné",
@@ -2764,8 +2764,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "100 séances de fractionné",
@@ -2783,8 +2783,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "250 séances de fractionné",
@@ -2802,8 +2802,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "500 séances de fractionné",
@@ -2821,8 +2821,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
             "condition": "1000 séances de fractionné",
@@ -2840,8 +2840,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "1 séance de golf",
@@ -2859,8 +2859,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "10 séances de golf",
@@ -2878,8 +2878,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "50 séances de golf",
@@ -2897,8 +2897,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "100 séances de golf",
@@ -2916,8 +2916,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "250 séances de golf",
@@ -2935,8 +2935,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "500 séances de golf",
@@ -2954,8 +2954,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
             "condition": "1000 séances de golf",
@@ -2973,8 +2973,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "1 séance de gymnastique",
@@ -2992,8 +2992,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "10 séances de gymnastique",
@@ -3011,8 +3011,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "50 séances de gymnastique",
@@ -3030,8 +3030,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "100 séances de gymnastique",
@@ -3049,8 +3049,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "250 séances de gymnastique",
@@ -3068,8 +3068,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "500 séances de gymnastique",
@@ -3087,8 +3087,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
             "condition": "1000 séances de gymnastique",
@@ -3106,8 +3106,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "1 séance de handball",
@@ -3125,8 +3125,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "10 séances de handball",
@@ -3144,8 +3144,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "50 séances de handball",
@@ -3163,8 +3163,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "100 séances de handball",
@@ -3182,8 +3182,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "250 séances de handball",
@@ -3201,8 +3201,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "500 séances de handball",
@@ -3220,8 +3220,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
             "condition": "1000 séances de handball",
@@ -3239,8 +3239,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "1 séance de marche ou de randonnée",
@@ -3258,8 +3258,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "10 séances de marche ou de randonnée",
@@ -3277,8 +3277,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "50 séances de marche ou de randonnée",
@@ -3296,8 +3296,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "100 séances de marche ou de randonnée",
@@ -3315,8 +3315,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "250 séances de marche ou de randonnée",
@@ -3334,8 +3334,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "500 séances de marche ou de randonnée",
@@ -3353,8 +3353,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
             "condition": "1000 séances de marche ou de randonnée",
@@ -3372,7 +3372,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_MARCHE-RANDO_500-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3391,7 +3391,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-MARCHE-RANDO-E.webp",
+            "imgARef": "./Badges/MSS_Reward_MARCHE-RANDO_1000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3410,7 +3410,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_MARCHE-RANDO_2500-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3429,7 +3429,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_MARCHE-RANDO_5000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3448,7 +3448,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_MARCHE-RANDO_10000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3467,7 +3467,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_MARCHE-RANDO_40000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3486,8 +3486,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "1 séance de musculation",
@@ -3505,8 +3505,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "10 séances de musculation",
@@ -3524,8 +3524,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "50 séances de musculation",
@@ -3543,8 +3543,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "100 séances de musculation",
@@ -3562,8 +3562,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "250 séances de musculation",
@@ -3581,8 +3581,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "500 séances de musculation",
@@ -3600,8 +3600,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
             "condition": "1000 séances de musculation",
@@ -3619,8 +3619,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "1 séance de natation",
@@ -3638,8 +3638,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "10 séances de natation",
@@ -3657,8 +3657,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "50 séances de natation",
@@ -3676,8 +3676,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "100 séances de natation",
@@ -3695,8 +3695,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "250 séances de natation",
@@ -3714,8 +3714,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "500 séances de natation",
@@ -3733,8 +3733,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
             "condition": "1000 séances de natation",
@@ -3752,7 +3752,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_NATATION_25-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3771,7 +3771,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-NATATION-E.webp",
+            "imgARef": "./Badges/MSS_Reward_NATATION_50-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3790,7 +3790,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_NATATION_100-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3809,7 +3809,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_NATATION_250-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3828,7 +3828,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_NATATION_500-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3847,7 +3847,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_NATATION_1000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -3866,8 +3866,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "1 séance de parachute ou de parapente",
@@ -3885,8 +3885,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "10 séances de parachute ou de parapente",
@@ -3904,8 +3904,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "50 séances de parachute ou de parapente",
@@ -3923,8 +3923,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "100 séances de parachute ou de parapente",
@@ -3942,8 +3942,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "250 séances de parachute ou de parapente",
@@ -3961,8 +3961,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "500 séances de parachute ou de parapente",
@@ -3980,8 +3980,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
             "condition": "1000 séances de parachute ou de parapente",
@@ -3999,8 +3999,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "1 séance de patin ou de roller",
@@ -4018,8 +4018,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "10 séances de patin ou de roller",
@@ -4037,8 +4037,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "50 séances de patin ou de roller",
@@ -4056,8 +4056,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "100 séances de patin ou de roller",
@@ -4075,8 +4075,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "250 séances de patin ou de roller",
@@ -4094,8 +4094,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "500 séances de patin ou de roller",
@@ -4113,8 +4113,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
             "condition": "1000 séances de patin ou de roller",
@@ -4132,8 +4132,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "1 séance de parcours d'obstacles",
@@ -4151,8 +4151,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "10 séances de parcours d'obstacles",
@@ -4170,8 +4170,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "50 séances de parcours d'obstacles",
@@ -4189,8 +4189,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "100 séances de parcours d'obstacles",
@@ -4208,8 +4208,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "250 séances de parcours d'obstacles",
@@ -4227,8 +4227,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "500 séances de parcours d'obstacles",
@@ -4246,8 +4246,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_PO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
             "condition": "1000 séances de parcours d'obstacles",
@@ -4265,8 +4265,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "1 séance de renforcement",
@@ -4284,8 +4284,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "10 séances de renforcement",
@@ -4303,8 +4303,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "50 séances de renforcement",
@@ -4322,8 +4322,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "100 séances de renforcement",
@@ -4341,8 +4341,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "250 séances de renforcement",
@@ -4360,8 +4360,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "500 séances de renforcement",
@@ -4379,8 +4379,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
             "condition": "1000 séances de renforcement",
@@ -4398,8 +4398,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "1 séance de rugby",
@@ -4417,8 +4417,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "10 séances de rugby",
@@ -4436,8 +4436,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "50 séances de rugby",
@@ -4455,8 +4455,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "100 séances de rugby",
@@ -4474,8 +4474,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "250 séances de rugby",
@@ -4493,8 +4493,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "500 séances de rugby",
@@ -4512,8 +4512,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
             "condition": "1000 séances de rugby",
@@ -4531,8 +4531,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "1 séance de Run & Bike",
@@ -4550,8 +4550,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "10 séances de Run & Bike",
@@ -4569,8 +4569,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "50 séances de Run & Bike",
@@ -4588,8 +4588,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "100 séances de Run & Bike",
@@ -4607,8 +4607,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "250 séances de Run & Bike",
@@ -4626,8 +4626,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "500 séances de Run & Bike",
@@ -4645,8 +4645,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
             "condition": "1000 séances de Run & Bike",
@@ -4664,8 +4664,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "1 séance de skateboard",
@@ -4683,8 +4683,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "10 séances de skateboard",
@@ -4702,8 +4702,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "50 séances de skateboard",
@@ -4721,8 +4721,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "100 séances de skateboard",
@@ -4740,8 +4740,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "250 séances de skateboard",
@@ -4759,8 +4759,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "500 séances de skateboard",
@@ -4778,8 +4778,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
             "condition": "1000 séances de skateboard",
@@ -4797,8 +4797,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "1 séance de ski",
@@ -4816,8 +4816,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "10 séances de ski",
@@ -4835,8 +4835,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "50 séances de ski",
@@ -4854,8 +4854,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "100 séances de ski",
@@ -4873,8 +4873,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "250 séances de ski",
@@ -4892,8 +4892,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "500 séances de ski",
@@ -4911,8 +4911,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
             "condition": "1000 séances de ski",
@@ -4930,8 +4930,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "1 séance de snowboard",
@@ -4949,8 +4949,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "10 séances de snowboard",
@@ -4968,8 +4968,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "50 séances de snowboard",
@@ -4987,8 +4987,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "100 séances de snowboard",
@@ -5006,8 +5006,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "250 séances de snowboard",
@@ -5025,8 +5025,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "500 séances de snowboard",
@@ -5044,8 +5044,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
             "condition": "1000 séances de snowboard",
@@ -5063,8 +5063,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "1 séance de sport-co",
@@ -5082,8 +5082,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "10 séances de sport-co",
@@ -5101,8 +5101,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "50 séances de sport-co",
@@ -5120,8 +5120,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "100 séances de sport-co",
@@ -5139,8 +5139,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "250 séances de sport-co",
@@ -5158,8 +5158,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "500 séances de sport-co",
@@ -5177,8 +5177,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
             "condition": "1000 séances de sport-co",
@@ -5196,8 +5196,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "1 séance de tennis",
@@ -5215,8 +5215,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "10 séances de tennis",
@@ -5234,8 +5234,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "50 séances de tennis",
@@ -5253,8 +5253,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "100 séances de tennis",
@@ -5272,8 +5272,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "250 séances de tennis",
@@ -5291,8 +5291,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "500 séances de tennis",
@@ -5310,8 +5310,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
             "condition": "1000 séances de tennis",
@@ -5329,8 +5329,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "1 séance de tennis de table",
@@ -5348,8 +5348,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "10 séances de tennis de table",
@@ -5367,8 +5367,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "50 séances de tennis de table",
@@ -5386,8 +5386,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "100 séances de tennis de table",
@@ -5405,8 +5405,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "250 séances de tennis de table",
@@ -5424,8 +5424,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "500 séances de tennis de table",
@@ -5443,8 +5443,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
             "condition": "1000 séances de tennis de table",
@@ -5462,8 +5462,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "1 séance de tir",
@@ -5481,8 +5481,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "10 séances de tir",
@@ -5500,8 +5500,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "50 séances de tir",
@@ -5519,8 +5519,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "100 séances de tir",
@@ -5538,8 +5538,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "250 séances de tir",
@@ -5557,8 +5557,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "500 séances de tir",
@@ -5576,8 +5576,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
             "condition": "1000 séances de tir",
@@ -5595,8 +5595,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-TRIATHLON-A.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_TRIATHLON.webp.webp"
+            "imgARef": "./Badges/MSS_Reward_TRIATHLON.webp",
+            "imgBRef": null
         },
         "text": {
             "condition": "un triathlon",
@@ -5614,8 +5614,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "1 séance de vélo",
@@ -5633,8 +5633,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "10 séances de vélo",
@@ -5652,8 +5652,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "50 séances de vélo",
@@ -5671,8 +5671,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "100 séances de vélo",
@@ -5690,8 +5690,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "250 séances de vélo",
@@ -5709,8 +5709,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "500 séances de vélo",
@@ -5728,8 +5728,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
             "condition": "1000 séances de vélo",
@@ -5747,7 +5747,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_VELO_PERF_50-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5766,7 +5766,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-VELO-E.webp",
+            "imgARef": "./Badges/MSS_Reward_VELO_PERF_100-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5785,7 +5785,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_VELO_PERF_150-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5804,7 +5804,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_VELO_1000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5823,7 +5823,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/Badge-VELO-F.webp",
+            "imgARef": "./Badges/MSS_Reward_VELO_3400-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5842,7 +5842,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_VELO_5000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5861,7 +5861,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_VELO_10000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5880,7 +5880,7 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": null,
+            "imgARef": "./Badges/MSS_Reward_VELO_40000-KM.webp",
             "imgBRef": null
         },
         "text": {
@@ -5899,8 +5899,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "1 séance de volleyball",
@@ -5918,8 +5918,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "10 séances de volleyball",
@@ -5937,8 +5937,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "50 séances de volleyball",
@@ -5956,8 +5956,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "100 séances de volleyball",
@@ -5975,8 +5975,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "250 séances de volleyball",
@@ -5994,8 +5994,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "500 séances de volleyball",
@@ -6013,8 +6013,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
             "condition": "1000 séances de volleyball",
@@ -6032,8 +6032,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "1 séance de yoga",
@@ -6051,8 +6051,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "10 séances de yoga",
@@ -6070,8 +6070,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "50 séances de yoga",
@@ -6089,8 +6089,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "100 séances de yoga",
@@ -6108,8 +6108,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "250 séances de yoga",
@@ -6127,8 +6127,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "500 séances de yoga",
@@ -6146,8 +6146,8 @@ const allRewardsObject = {
             "maxRange": null
         },
         "assets": {
-            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp.webp",
-            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp.webp"
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
             "condition": "1000 séances de yoga",

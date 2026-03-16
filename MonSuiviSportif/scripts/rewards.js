@@ -77,10 +77,11 @@ class RewardLockedSeparator{
 
 
 class RewardCardEnabled{
-    constructor(rewardKey,rewardTitle,imgRef,isNewReward,shareMode,parentRef,currentIndex,isSpecialReward){
+    constructor(rewardKey,rewardText,imgARef,imgBRef = null,isNewReward,shareMode,parentRef,currentIndex,isSpecialReward){
         this.rewardKey = rewardKey;
-        this.rewardTitle = rewardTitle;
-        this.imgRef = imgRef;
+        this.rewardText = rewardText;
+        this.imgARef = imgARef;
+        this.imgBRef = imgBRef,
         this.isNewReward = isNewReward;
         this.shareMode = shareMode;
         this.parentRef = parentRef;
@@ -106,14 +107,35 @@ class RewardCardEnabled{
         });
 
 
-        // Fonction de rendu
-        this.render();
+        // Fonction de rendu selon s'il y a deux images ou non
+
+        if (this.imgBRef === null) {
+            this.renderA();
+        }else{
+            this.renderAB();
+        }
+
+        
     }
 
-    render(){
+    renderA(){
         this.element.innerHTML = `
-            <img class="rewardCardEnable" src="${this.imgRef}" loading="lazy">
-            <p class="reward-title">${this.rewardTitle}</p>
+            <div class="rewardCard-imgArea">
+                <img class="rewardCard-A" src="${this.imgARef}" alt="Activité">
+            </div>
+            <span class="rewardCard-text">${this.rewardText}</span>
+        `;
+        // Insertion dans le parent
+        this.parentRef.appendChild(this.element);
+    }
+
+    renderAB(){
+        this.element.innerHTML = `
+            <div class="rewardCard-imgArea">
+                <img class="rewardCard-A" src="${this.imgARef}" alt="Activité">
+                <img class="rewardCard-B" src="${this.imgBRef}" alt="Silhouette">
+            </div>
+            <span class="rewardCard-text">${this.rewardText}</span>
         `;
         // Insertion dans le parent
         this.parentRef.appendChild(this.element);
@@ -478,6 +500,7 @@ function onLoadUserRewardsList() {
                 e,
                 reward.title,
                 reward.imgRef,
+                null,
                 isNewReward,
                 "special",
                 fragmentSpecial, // insertion en mémoire
@@ -535,8 +558,9 @@ function onLoadUserRewardsList() {
         // création de la carte reward
         new RewardCardEnabled(
             e,
-            reward.title,
-            reward.imgRef,
+            reward.text.underBadge,
+            reward.assets.imgARef,
+            reward.assets.imgBRef,
             isNewReward,
             "standard",
             parentRef,

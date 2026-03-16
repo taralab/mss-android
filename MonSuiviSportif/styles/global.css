@@ -1749,6 +1749,42 @@ div.reward-card.locked {
     contain-intrinsic-size: 150px 180px; /* même taille que les cartes normales */
 }
 
+
+div.rewardCard-imgArea {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+img.rewardCard-A{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* garde les proportions */
+}
+
+img.rewardCard-B {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  width: 60%;
+  height: 60%;
+  object-fit: contain; /* garde les proportions */
+}
+
+/* Texte sous la récompense */
+span.rewardCard-text {
+  display: block;
+  margin-top: 0px;
+  color: #555;
+  font-size: 11px;
+  font-weight: bold;
+  }
+
+
+
 div.reward-separator{
     text-align: center;
     display: flex;
