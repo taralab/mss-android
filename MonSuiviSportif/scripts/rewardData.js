@@ -15,7 +15,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 an après la première activité",
             "notify": "1 ans déjà",
-            "underBadge": "1 an après la première activité"
+            "underBadge": "1 an"
         }
     },
     "2-ANS": {
@@ -33,8 +33,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "2 ans après la première activité",
-            "notify": "2 ans",
-            "underBadge": "2 ans après la première activité"
+            "notify": "2 ans ensemble",
+            "underBadge": "2 ans"
         }
     },
     "3-ANS": {
@@ -52,8 +52,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "3 ans après la première activité",
-            "notify": "3 ans",
-            "underBadge": "3 ans après la première activité"
+            "notify": "3 ans au compteur",
+            "underBadge": "3 ans"
         }
     },
     "5-ANS": {
@@ -71,8 +71,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "5 ans après la première activité",
-            "notify": "5 ans",
-            "underBadge": "5 ans après la première activité"
+            "notify": "Mes 5 ans",
+            "underBadge": "5 ans"
         }
     },
     "7-ANS": {
@@ -90,8 +90,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "7 ans après la première activité",
-            "notify": "7 ans",
-            "underBadge": "7 ans après la première activité"
+            "notify": "7 ans, impressionnant",
+            "underBadge": "7 ans"
         }
     },
     "10-ANS": {
@@ -109,89 +109,13 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "10 ans après la première activité",
-            "notify": "Une décennie",
-            "underBadge": "10 ans après la première activité"
-        }
-    },
-    "ACTIVITE-100": {
-        "category": "COMMUN-COUNT-CUMUL",
-        "displayOrder": 7,
-        "activityName": "COMMUN",
-        "target": {
-            "count": 100,
-            "minRange": null,
-            "maxRange": null
-        },
-        "assets": {
-            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-100.webp",
-            "imgBRef": null
-        },
-        "text": {
-            "condition": "100 activités, peu importe le type",
-            "notify": "La centième",
-            "underBadge": "100 activités, peu importe le type"
-        }
-    },
-    "ACTIVITE-250": {
-        "category": "COMMUN-COUNT-CUMUL",
-        "displayOrder": 8,
-        "activityName": "COMMUN",
-        "target": {
-            "count": 250,
-            "minRange": null,
-            "maxRange": null
-        },
-        "assets": {
-            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-250.webp",
-            "imgBRef": null
-        },
-        "text": {
-            "condition": "250 activités, peu importe le type",
-            "notify": null,
-            "underBadge": "250 activités, peu importe le type"
-        }
-    },
-    "ACTIVITE-B-500": {
-        "category": "COMMUN-COUNT-CUMUL",
-        "displayOrder": 9,
-        "activityName": "COMMUN",
-        "target": {
-            "count": 500,
-            "minRange": null,
-            "maxRange": null
-        },
-        "assets": {
-            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-500.webp",
-            "imgBRef": null
-        },
-        "text": {
-            "condition": "500 activités, peu importe le type",
-            "notify": "La cinq-centième",
-            "underBadge": "500 activités, peu importe le type"
-        }
-    },
-    "ACTIVITE-C-1000": {
-        "category": "COMMUN-COUNT-CUMUL",
-        "displayOrder": 10,
-        "activityName": "COMMUN",
-        "target": {
-            "count": 1000,
-            "minRange": null,
-            "maxRange": null
-        },
-        "assets": {
-            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-1000.webp",
-            "imgBRef": null
-        },
-        "text": {
-            "condition": "1000 activités, peu importe le type",
-            "notify": "Mille fois : Bravo !",
-            "underBadge": "1000 activités, peu importe le type"
+            "notify": "Une décennie d'activité",
+            "underBadge": "10 ans"
         }
     },
     "ACTIVITE-FIRST": {
         "category": "COMMUN-COUNT-CUMUL",
-        "displayOrder": 11,
+        "displayOrder": 7,
         "activityName": "COMMUN",
         "target": {
             "count": 1,
@@ -205,7 +129,83 @@ const allRewardsObject = {
         "text": {
             "condition": "une première activité",
             "notify": "Premiers pas",
-            "underBadge": "une première activité"
+            "underBadge": "Première activité"
+        }
+    },
+    "ACTIVITE-100": {
+        "category": "COMMUN-COUNT-CUMUL",
+        "displayOrder": 8,
+        "activityName": "COMMUN",
+        "target": {
+            "count": 100,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-100.webp",
+            "imgBRef": null
+        },
+        "text": {
+            "condition": "100 activités, peu importe le type",
+            "notify": "La centième",
+            "underBadge": "100 activités"
+        }
+    },
+    "ACTIVITE-250": {
+        "category": "COMMUN-COUNT-CUMUL",
+        "displayOrder": 9,
+        "activityName": "COMMUN",
+        "target": {
+            "count": 250,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-250.webp",
+            "imgBRef": null
+        },
+        "text": {
+            "condition": "250 activités, peu importe le type",
+            "notify": "250 fois actif",
+            "underBadge": "250 activités"
+        }
+    },
+    "ACTIVITE-B-500": {
+        "category": "COMMUN-COUNT-CUMUL",
+        "displayOrder": 10,
+        "activityName": "COMMUN",
+        "target": {
+            "count": 500,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-500.webp",
+            "imgBRef": null
+        },
+        "text": {
+            "condition": "500 activités, peu importe le type",
+            "notify": "La cinq-centième",
+            "underBadge": "500 activités"
+        }
+    },
+    "ACTIVITE-C-1000": {
+        "category": "COMMUN-COUNT-CUMUL",
+        "displayOrder": 11,
+        "activityName": "COMMUN",
+        "target": {
+            "count": 1000,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_Reward_COMMUN_ACTIVITE-1000.webp",
+            "imgBRef": null
+        },
+        "text": {
+            "condition": "1 000 activités, peu importe le type",
+            "notify": "Mille fois : Bravo !",
+            "underBadge": "1 000 activités"
         }
     },
     "COMMUN-25-HEURES": {
@@ -223,8 +223,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "25 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "25 heures d'activités physiques"
+            "notify": "25 heures de pratique",
+            "underBadge": "25 heures"
         }
     },
     "COMMUN-50-HEURES": {
@@ -242,8 +242,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "50 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "50 heures d'activités physiques"
+            "notify": "50 heures de pratique",
+            "underBadge": "50 heures"
         }
     },
     "COMMUN-100-HEURES": {
@@ -261,8 +261,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "100 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "100 heures d'activités physiques"
+            "notify": "100 heures : cap franchi",
+            "underBadge": "100 heures"
         }
     },
     "COMMUN-250-HEURES": {
@@ -280,8 +280,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "250 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "250 heures d'activités physiques"
+            "notify": "250 heures de pratique",
+            "underBadge": "250 heures"
         }
     },
     "COMMUN-500-HEURES": {
@@ -299,8 +299,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "500 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "500 heures d'activités physiques"
+            "notify": "500 heures de pratique",
+            "underBadge": "500 heures"
         }
     },
     "COMMUN-1000-HEURES": {
@@ -317,9 +317,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "1000 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "1000 heures d'activités physiques"
+            "condition": "1 000 heures d'activités physiques",
+            "notify": "1 000 heures :  impressionnant",
+            "underBadge": "1 000 heures"
         }
     },
     "COMMUN-2500-HEURES": {
@@ -336,9 +336,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "2500 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "2500 heures d'activités physiques"
+            "condition": "2 500 heures d'activités physiques",
+            "notify": "2 500 heures : remarquable",
+            "underBadge": "2 500 heures"
         }
     },
     "COMMUN-5000-HEURES": {
@@ -355,9 +355,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "5000 heures d'activités physiques",
-            "notify": null,
-            "underBadge": "5000 heures d'activités physiques"
+            "condition": "5 000 heures d'activités physiques",
+            "notify": "5 000 h : exceptionnel",
+            "underBadge": "5 000 heures"
         }
     },
     "POLYVALENT": {
@@ -376,7 +376,7 @@ const allRewardsObject = {
         "text": {
             "condition": "5 activités différentes",
             "notify": "Pluri-disciplinaire",
-            "underBadge": "5 activités différentes"
+            "underBadge": "Pluri-disciplinaire"
         }
     },
     "POLYVALENT-B-10": {
@@ -395,7 +395,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 activités différentes",
             "notify": "Esprit sportif",
-            "underBadge": "10 activités différentes"
+            "underBadge": "Esprit sportif"
         }
     },
     "POLYVALENT-B-15": {
@@ -413,8 +413,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "15 activités différentes",
-            "notify": null,
-            "underBadge": "15 activités différentes"
+            "notify": "Qui teste tout !",
+            "underBadge": "Qui teste tout"
         }
     },
     "DE-RETOUR": {
@@ -433,7 +433,7 @@ const allRewardsObject = {
         "text": {
             "condition": "une activité après un mois d'absence",
             "notify": "Home Sweet Home",
-            "underBadge": "une activité après un mois d'absence"
+            "underBadge": "Home Sweet Home"
         }
     },
     "ACTIVITE-NAUTIQUE-A-1-SEANCE": {
@@ -452,7 +452,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance d'activité nautique",
             "notify": "Activité nautique : Débutant",
-            "underBadge": "1 séance d'activité nautique"
+            "underBadge": "1 séance"
         }
     },
     "ACTIVITE-NAUTIQUE-B-10-SEANCES": {
@@ -471,7 +471,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances d'activité nautique",
             "notify": "Activité nautique : Apprenti",
-            "underBadge": "10 séances d'activité nautique"
+            "underBadge": "10 séances"
         }
     },
     "ACTIVITE-NAUTIQUE-C-50-SEANCES": {
@@ -490,7 +490,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances d'activité nautique",
             "notify": "Activité nautique : Confirmé",
-            "underBadge": "50 séances d'activité nautique"
+            "underBadge": "50 séances"
         }
     },
     "ACTIVITE-NAUTIQUE-D-100-SEANCES": {
@@ -509,7 +509,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances d'activité nautique",
             "notify": "Activité nautique : Expert",
-            "underBadge": "100 séances d'activité nautique"
+            "underBadge": "100 séances"
         }
     },
     "ACTIVITE-NAUTIQUE-D-250-SEANCES": {
@@ -528,7 +528,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances d'activité nautique",
             "notify": "Activité nautique : Maitre",
-            "underBadge": "250 séances d'activité nautique"
+            "underBadge": "250 séances"
         }
     },
     "ACTIVITE-NAUTIQUE-D-500-SEANCES": {
@@ -547,7 +547,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances d'activité nautique",
             "notify": "Activité nautique : Champion",
-            "underBadge": "500 séances d'activité nautique"
+            "underBadge": "500 séances"
         }
     },
     "ACTIVITE-NAUTIQUE-E-1000-SEANCES": {
@@ -564,9 +564,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_ACTIVITE-NAUTIQUE.webp"
         },
         "text": {
-            "condition": "1000 séances d'activité nautique",
+            "condition": "1 000 séances d'activité nautique",
             "notify": "Activité nautique : Légende",
-            "underBadge": "1000 séances d'activité nautique"
+            "underBadge": "1 000 séances"
         }
     },
     "ARTS-MARTIAUX-A-1-SEANCE": {
@@ -585,7 +585,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance d'arts martiaux",
             "notify": "Arts martiaux : Débutant",
-            "underBadge": "1 séance d'arts martiaux"
+            "underBadge": "1 séance"
         }
     },
     "ARTS-MARTIAUX-B-10-SEANCES": {
@@ -604,7 +604,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances d'arts martiaux",
             "notify": "Arts martiaux : Apprenti",
-            "underBadge": "10 séances d'arts martiaux"
+            "underBadge": "10 séances"
         }
     },
     "ARTS-MARTIAUX-C-50-SEANCES": {
@@ -623,7 +623,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances d'arts martiaux",
             "notify": "Arts martiaux : Confirmé",
-            "underBadge": "50 séances d'arts martiaux"
+            "underBadge": "50 séances"
         }
     },
     "ARTS-MARTIAUX-D-100-SEANCES": {
@@ -642,7 +642,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances d'arts martiaux",
             "notify": "Arts martiaux : Expert",
-            "underBadge": "100 séances d'arts martiaux"
+            "underBadge": "100 séances"
         }
     },
     "ARTS-MARTIAUX-D-250-SEANCES": {
@@ -661,7 +661,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances d'arts martiaux",
             "notify": "Arts martiaux : Maitre",
-            "underBadge": "250 séances d'arts martiaux"
+            "underBadge": "250 séances"
         }
     },
     "ARTS-MARTIAUX-D-500-SEANCES": {
@@ -680,7 +680,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances d'arts martiaux",
             "notify": "Arts martiaux : Champion",
-            "underBadge": "500 séances d'arts martiaux"
+            "underBadge": "500 séances"
         }
     },
     "ARTS-MARTIAUX-E-1000-SEANCES": {
@@ -697,9 +697,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_ARTS-MARTIAUX.webp"
         },
         "text": {
-            "condition": "1000 séances d'arts martiaux",
+            "condition": "1 000 séances d'arts martiaux",
             "notify": "Arts martiaux : Légende",
-            "underBadge": "1000 séances d'arts martiaux"
+            "underBadge": "1 000 séances"
         }
     },
     "ATHLETISME-A-1-SEANCE": {
@@ -718,7 +718,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance d'athletisme",
             "notify": "Athétisme : Débutant",
-            "underBadge": "1 séance d'athletisme"
+            "underBadge": "1 séance"
         }
     },
     "ATHLETISME-B-10-SEANCES": {
@@ -737,7 +737,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances d'athletisme",
             "notify": "Athétisme : Apprenti",
-            "underBadge": "10 séances d'athletisme"
+            "underBadge": "10 séances"
         }
     },
     "ATHLETISME-C-50-SEANCES": {
@@ -756,7 +756,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances d'athletisme",
             "notify": "Athétisme : Confirmé",
-            "underBadge": "50 séances d'athletisme"
+            "underBadge": "50 séances"
         }
     },
     "ATHLETISME-D-100-SEANCES": {
@@ -775,7 +775,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances d'athletisme",
             "notify": "Athétisme : Expert",
-            "underBadge": "100 séances d'athletisme"
+            "underBadge": "100 séances"
         }
     },
     "ATHLETISME-D-250-SEANCES": {
@@ -794,7 +794,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances d'athletisme",
             "notify": "Athétisme : Maitre",
-            "underBadge": "250 séances d'athletisme"
+            "underBadge": "250 séances"
         }
     },
     "ATHLETISME-D-500-SEANCES": {
@@ -813,7 +813,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances d'athletisme",
             "notify": "Athétisme : Champion",
-            "underBadge": "500 séances d'athletisme"
+            "underBadge": "500 séances"
         }
     },
     "ATHLETISME-E-1000-SEANCES": {
@@ -830,9 +830,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_ATHLETISME.webp"
         },
         "text": {
-            "condition": "1000 séances d'athletisme",
+            "condition": "1 000 séances d'athletisme",
             "notify": "Athétisme : Légende",
-            "underBadge": "1000 séances d'athletisme"
+            "underBadge": "1 000 séances"
         }
     },
     "AUTRE-A-1-SEANCE": {
@@ -851,7 +851,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séances d'activité autre",
             "notify": "C'est quoi ça ?",
-            "underBadge": "1 séances d'activité autre"
+            "underBadge": "C'est quoi ça ?"
         }
     },
     "BADMINTON-A-1-SEANCE": {
@@ -870,7 +870,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de badminton",
             "notify": "Badminton : Débutant",
-            "underBadge": "1 séance de badminton"
+            "underBadge": "1 séance"
         }
     },
     "BADMINTON-B-10-SEANCES": {
@@ -889,7 +889,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de badminton",
             "notify": "Badminton : Apprenti",
-            "underBadge": "10 séances de badminton"
+            "underBadge": "10 séances"
         }
     },
     "BADMINTON-C-50-SEANCES": {
@@ -908,7 +908,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de badminton",
             "notify": "Badminton : Confirmé",
-            "underBadge": "50 séances de badminton"
+            "underBadge": "50 séances"
         }
     },
     "BADMINTON-D-100-SEANCES": {
@@ -927,7 +927,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de badminton",
             "notify": "Badminton : Expert",
-            "underBadge": "100 séances de badminton"
+            "underBadge": "100 séances"
         }
     },
     "BADMINTON-D-250-SEANCES": {
@@ -946,7 +946,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de badminton",
             "notify": "Badminton : Maitre",
-            "underBadge": "250 séances de badminton"
+            "underBadge": "250 séances"
         }
     },
     "BADMINTON-D-500-SEANCES": {
@@ -965,7 +965,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de badminton",
             "notify": "Badminton : Champion",
-            "underBadge": "500 séances de badminton"
+            "underBadge": "500 séances"
         }
     },
     "BADMINTON-E-1000-SEANCES": {
@@ -982,9 +982,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_BADMINTON.webp"
         },
         "text": {
-            "condition": "1000 séances de badminton",
+            "condition": "1 000 séances de badminton",
             "notify": "Badminton : Légende",
-            "underBadge": "1000 séances de badminton"
+            "underBadge": "1 000 séances"
         }
     },
     "BASEBALL-A-1-SEANCE": {
@@ -1003,7 +1003,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de baseball",
             "notify": "Baseball : Débutant",
-            "underBadge": "1 séance de baseball"
+            "underBadge": "1 séance"
         }
     },
     "BASEBALL-B-10-SEANCES": {
@@ -1022,7 +1022,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de baseball",
             "notify": "Baseball : Apprenti",
-            "underBadge": "10 séances de baseball"
+            "underBadge": "10 séances"
         }
     },
     "BASEBALL-C-50-SEANCES": {
@@ -1041,7 +1041,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de baseball",
             "notify": "Baseball : Confirmé",
-            "underBadge": "50 séances de baseball"
+            "underBadge": "50 séances"
         }
     },
     "BASEBALL-D-100-SEANCES": {
@@ -1060,7 +1060,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de baseball",
             "notify": "Baseball : Expert",
-            "underBadge": "100 séances de baseball"
+            "underBadge": "100 séances"
         }
     },
     "BASEBALL-D-250-SEANCES": {
@@ -1079,7 +1079,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de baseball",
             "notify": "Baseball : Maitre",
-            "underBadge": "250 séances de baseball"
+            "underBadge": "250 séances"
         }
     },
     "BASEBALL-D-500-SEANCES": {
@@ -1098,7 +1098,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de baseball",
             "notify": "Baseball : Champion",
-            "underBadge": "500 séances de baseball"
+            "underBadge": "500 séances"
         }
     },
     "BASEBALL-E-1000-SEANCES": {
@@ -1115,9 +1115,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_BASEBALL.webp"
         },
         "text": {
-            "condition": "1000 séances de baseball",
+            "condition": "1 000 séances de baseball",
             "notify": "Baseball : Légende",
-            "underBadge": "1000 séances de baseball"
+            "underBadge": "1 000 séances"
         }
     },
     "BASKETBALL-A-1-SEANCE": {
@@ -1136,7 +1136,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de basketball",
             "notify": "Basketball : Débutant",
-            "underBadge": "1 séance de basketball"
+            "underBadge": "1 séance"
         }
     },
     "BASKETBALL-B-10-SEANCES": {
@@ -1155,7 +1155,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de basketball",
             "notify": "Basketball : Apprenti",
-            "underBadge": "10 séances de basketball"
+            "underBadge": "10 séances"
         }
     },
     "BASKETBALL-C-50-SEANCES": {
@@ -1174,7 +1174,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de basketball",
             "notify": "Basketball : Confirmé",
-            "underBadge": "50 séances de basketball"
+            "underBadge": "50 séances"
         }
     },
     "BASKETBALL-D-100-SEANCES": {
@@ -1193,7 +1193,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de basketball",
             "notify": "Basketball : Expert",
-            "underBadge": "100 séances de basketball"
+            "underBadge": "100 séances"
         }
     },
     "BASKETBALL-D-500-SEANCES": {
@@ -1212,7 +1212,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de basketball",
             "notify": "Basketball : Maitre",
-            "underBadge": "250 séances de basketball"
+            "underBadge": "250 séances"
         }
     },
     "BASKETBALL-D-250-SEANCES": {
@@ -1231,7 +1231,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de basketball",
             "notify": "Basketball : Champion",
-            "underBadge": "500 séances de basketball"
+            "underBadge": "500 séances"
         }
     },
     "BASKETBALL-E-1000-SEANCES": {
@@ -1248,9 +1248,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_BASKETBALL.webp"
         },
         "text": {
-            "condition": "1000 séances de basketball",
+            "condition": "1 000 séances de basketball",
             "notify": "Basketball : Légende",
-            "underBadge": "1000 séances de basketball"
+            "underBadge": "1 000 séances"
         }
     },
     "BOWLING-A-1-SEANCE": {
@@ -1269,7 +1269,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de bowling",
             "notify": "Bowling : Débutant",
-            "underBadge": "1 séance de bowling"
+            "underBadge": "1 séance"
         }
     },
     "BOWLING-B-10-SEANCES": {
@@ -1288,7 +1288,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de bowling",
             "notify": "Bowling : Apprenti",
-            "underBadge": "10 séances de bowling"
+            "underBadge": "10 séances"
         }
     },
     "BOWLING-C-50-SEANCES": {
@@ -1307,7 +1307,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de bowling",
             "notify": "Bowling : Confirmé",
-            "underBadge": "50 séances de bowling"
+            "underBadge": "50 séances"
         }
     },
     "BOWLING-D-100-SEANCES": {
@@ -1326,7 +1326,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de bowling",
             "notify": "Bowling : Expert",
-            "underBadge": "100 séances de bowling"
+            "underBadge": "100 séances"
         }
     },
     "BOWLING-D-250-SEANCES": {
@@ -1345,7 +1345,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de bowling",
             "notify": "Bowling : Maitre",
-            "underBadge": "250 séances de bowling"
+            "underBadge": "250 séances"
         }
     },
     "BOWLING-D-500-SEANCES": {
@@ -1364,7 +1364,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de bowling",
             "notify": "Bowling : Champion",
-            "underBadge": "500 séances de bowling"
+            "underBadge": "500 séances"
         }
     },
     "BOWLING-E-1000-SEANCES": {
@@ -1381,9 +1381,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_BOWLING.webp"
         },
         "text": {
-            "condition": "1000 séances de bowling",
+            "condition": "1 000 séances de bowling",
             "notify": "Bowling : Légende",
-            "underBadge": "1000 séances de bowling"
+            "underBadge": "1 000 séances"
         }
     },
     "BOXE-A-1-SEANCE": {
@@ -1402,7 +1402,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de boxe",
             "notify": "Boxe : Débutant",
-            "underBadge": "1 séance de boxe"
+            "underBadge": "1 séance"
         }
     },
     "BOXE-B-10-SEANCES": {
@@ -1421,7 +1421,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de boxe",
             "notify": "Boxe : Apprenti",
-            "underBadge": "10 séances de boxe"
+            "underBadge": "10 séances"
         }
     },
     "BOXE-C-50-SEANCES": {
@@ -1440,7 +1440,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de boxe",
             "notify": "Boxe : Confirmé",
-            "underBadge": "50 séances de boxe"
+            "underBadge": "50 séances"
         }
     },
     "BOXE-D-100-SEANCES": {
@@ -1459,7 +1459,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de boxe",
             "notify": "Boxe : Expert",
-            "underBadge": "100 séances de boxe"
+            "underBadge": "100 séances"
         }
     },
     "BOXE-D-250-SEANCES": {
@@ -1478,7 +1478,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de boxe",
             "notify": "Boxe : Maitre",
-            "underBadge": "250 séances de boxe"
+            "underBadge": "250 séances"
         }
     },
     "BOXE-D-500-SEANCES": {
@@ -1497,7 +1497,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de boxe",
             "notify": "Boxe : Champion",
-            "underBadge": "500 séances de boxe"
+            "underBadge": "500 séances"
         }
     },
     "BOXE-E-1000-SEANCES": {
@@ -1514,9 +1514,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_BOXE.webp"
         },
         "text": {
-            "condition": "1000 séances de boxe",
+            "condition": "1 000 séances de boxe",
             "notify": "Boxe : Légende",
-            "underBadge": "1000 séances de boxe"
+            "underBadge": "1 000 séances"
         }
     },
     "BREAK-DANCE-A-1-SEANCE": {
@@ -1535,7 +1535,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de break-dance",
             "notify": "Break-dance : Débutant",
-            "underBadge": "1 séance de break-dance"
+            "underBadge": "1 séance"
         }
     },
     "BREAK-DANCE-B-10-SEANCES": {
@@ -1554,7 +1554,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de break-dance",
             "notify": "Break-dance : Apprenti",
-            "underBadge": "10 séances de break-dance"
+            "underBadge": "10 séances"
         }
     },
     "BREAK-DANCE-C-50-SEANCES": {
@@ -1573,7 +1573,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de break-dance",
             "notify": "Break-dance : Confirmé",
-            "underBadge": "50 séances de break-dance"
+            "underBadge": "50 séances"
         }
     },
     "BREAK-DANCE-D-100-SEANCES": {
@@ -1592,7 +1592,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de break-dance",
             "notify": "Break-dance : Expert",
-            "underBadge": "100 séances de break-dance"
+            "underBadge": "100 séances"
         }
     },
     "BREAK-DANCE-D-250-SEANCES": {
@@ -1611,7 +1611,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de break-dance",
             "notify": "Break-dance : Maitre",
-            "underBadge": "250 séances de break-dance"
+            "underBadge": "250 séances"
         }
     },
     "BREAK-DANCE-D-500-SEANCES": {
@@ -1630,7 +1630,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de break-dance",
             "notify": "Break-dance : Champion",
-            "underBadge": "500 séances de break-dance"
+            "underBadge": "500 séances"
         }
     },
     "BREAK-DANCE-E-1000-SEANCES": {
@@ -1647,9 +1647,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_BREAK-DANCE.webp"
         },
         "text": {
-            "condition": "1000 séances de break-dance",
+            "condition": "1 000 séances de break-dance",
             "notify": "Break-dance : Légende",
-            "underBadge": "1000 séances de break-dance"
+            "underBadge": "1 000 séances"
         }
     },
     "CAP-A-1-SEANCE": {
@@ -1668,7 +1668,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de C.A.P",
             "notify": "Course à pied : Débutant",
-            "underBadge": "4 séance de C.A.P"
+            "underBadge": "1 séance"
         }
     },
     "CAP-B-10-SEANCES": {
@@ -1687,7 +1687,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de C.A.P",
             "notify": "Course à pied : Apprenti",
-            "underBadge": "10 séances de C.A.P"
+            "underBadge": "10 séances"
         }
     },
     "CAP-C-50-SEANCES": {
@@ -1706,7 +1706,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de C.A.P",
             "notify": "Course à pied : Confirmé",
-            "underBadge": "50 séances de C.A.P"
+            "underBadge": "50 séances"
         }
     },
     "CAP-D-100-SEANCES": {
@@ -1725,7 +1725,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de C.A.P",
             "notify": "Course à pied : Expert",
-            "underBadge": "100 séances de C.A.P"
+            "underBadge": "100 séances"
         }
     },
     "CAP-D-250-SEANCES": {
@@ -1744,7 +1744,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de C.A.P",
             "notify": "Course à pied : Maitre",
-            "underBadge": "250 séances de C.A.P"
+            "underBadge": "250 séances"
         }
     },
     "CAP-D-500-SEANCES": {
@@ -1763,7 +1763,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de C.A.P",
             "notify": "Course à pied : Champion",
-            "underBadge": "500 séances de C.A.P"
+            "underBadge": "500 séances"
         }
     },
     "CAP-E-1000-SEANCES": {
@@ -1780,9 +1780,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_C-A-P.webp"
         },
         "text": {
-            "condition": "1000 séances de C.A.P",
+            "condition": "1 000 séances de C.A.P",
             "notify": "Course à pied : Légende",
-            "underBadge": "1000 séances de C.A.P"
+            "underBadge": "1 000 séances"
         }
     },
     "CAP-E-10-KM": {
@@ -1800,8 +1800,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "une séance de C.A.P d'environ 10 km",
-            "notify": "une séance de C.A.P d'environ 10 km",
-            "underBadge": "une séance de C.A.P d'environ 10 km"
+            "notify": "Runner 10 km",
+            "underBadge": "10 km"
         }
     },
     "CAP-F-SEMI-MARATHON": {
@@ -1819,8 +1819,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "une séance de C.A.P d'environ 21 km",
-            "notify": "une séance de C.A.P d'environ 21 km",
-            "underBadge": "une séance de C.A.P d'environ 21 km"
+            "notify": "Semi-marathon !",
+            "underBadge": "21 km"
         }
     },
     "CAP-G-MARATHON": {
@@ -1838,8 +1838,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "une séance de C.A.P d'environ 42 km",
-            "notify": "une séance de C.A.P d'environ 42 km",
-            "underBadge": "une séance de C.A.P d'environ 42 km"
+            "notify": "Un marathon dans les jambes",
+            "underBadge": "42 km"
         }
     },
     "CAP-TRAIL": {
@@ -1857,8 +1857,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "une séance de C.A.P supérieure à 50 km",
-            "notify": "une séance de C.A.P supérieure à 50 km",
-            "underBadge": "une séance de C.A.P supérieure à 50 km"
+            "notify": "Trailer ",
+            "underBadge": "50 km"
         }
     },
     "CAP-ULTRA-TRAIL": {
@@ -1876,8 +1876,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "une séance de C.A.P supérieure à 100 km",
-            "notify": "une séance de C.A.P supérieure à 100 km",
-            "underBadge": "une séance de C.A.P supérieure à 100 km"
+            "notify": "Ultra-trailer",
+            "underBadge": "100 km"
         }
     },
     "CAP-ULTRA-TRAIL-150": {
@@ -1895,8 +1895,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "une séance de C.A.P supérieure à 150 km",
-            "notify": "une séance de C.A.P supérieure à 150 km",
-            "underBadge": "une séance de C.A.P supérieure à 150 km"
+            "notify": "Au-delà de l’ultra",
+            "underBadge": "150 km"
         }
     },
     "CROSSFIT-A-1-SEANCE": {
@@ -1915,7 +1915,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de crossfit",
             "notify": "Crossfit : Débutant",
-            "underBadge": "1 séance de crossfit"
+            "underBadge": "1 séance"
         }
     },
     "CROSSFIT-B-10-SEANCES": {
@@ -1934,7 +1934,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de crossfit",
             "notify": "Crossfit : Apprenti",
-            "underBadge": "10 séances de crossfit"
+            "underBadge": "10 séances"
         }
     },
     "CROSSFIT-C-50-SEANCES": {
@@ -1953,7 +1953,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de crossfit",
             "notify": "Crossfit : Confirmé",
-            "underBadge": "50 séances de crossfit"
+            "underBadge": "50 séances"
         }
     },
     "CROSSFIT-D-100-SEANCES": {
@@ -1972,7 +1972,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de crossfit",
             "notify": "Crossfit : Expert",
-            "underBadge": "100 séances de crossfit"
+            "underBadge": "100 séances"
         }
     },
     "CROSSFIT-D-250-SEANCES": {
@@ -1991,7 +1991,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de crossfit",
             "notify": "Crossfit : Maitre",
-            "underBadge": "250 séances de crossfit"
+            "underBadge": "250 séances"
         }
     },
     "CROSSFIT-D-500-SEANCES": {
@@ -2010,7 +2010,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de crossfit",
             "notify": "Crossfit : Champion",
-            "underBadge": "500 séances de crossfit"
+            "underBadge": "500 séances"
         }
     },
     "CROSSFIT-E-1000-SEANCES": {
@@ -2027,9 +2027,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_CROSSFIT.webp"
         },
         "text": {
-            "condition": "1000 séances de crossfit",
+            "condition": "1 000 séances de crossfit",
             "notify": "Crossfit : Légende",
-            "underBadge": "1000 séances de crossfit"
+            "underBadge": "1 000 séances"
         }
     },
     "DANSE-A-1-SEANCE": {
@@ -2048,7 +2048,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de danse",
             "notify": "Danse : Débutant",
-            "underBadge": "1 séance de danse"
+            "underBadge": "1 séance"
         }
     },
     "DANSE-B-10-SEANCES": {
@@ -2067,7 +2067,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de danse",
             "notify": "Danse : Apprenti",
-            "underBadge": "10 séances de danse"
+            "underBadge": "10 séances"
         }
     },
     "DANSE-C-50-SEANCES": {
@@ -2086,7 +2086,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de danse",
             "notify": "Danse : Confirmé",
-            "underBadge": "50 séances de danse"
+            "underBadge": "50 séances"
         }
     },
     "DANSE-D-100-SEANCES": {
@@ -2105,7 +2105,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de danse",
             "notify": "Danse : Expert",
-            "underBadge": "100 séances de danse"
+            "underBadge": "100 séances"
         }
     },
     "DANSE-D-250-SEANCES": {
@@ -2124,7 +2124,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de danse",
             "notify": "Danse : Maitre",
-            "underBadge": "250 séances de danse"
+            "underBadge": "250 séances"
         }
     },
     "DANSE-D-500-SEANCES": {
@@ -2143,7 +2143,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de danse",
             "notify": "Danse : Champion",
-            "underBadge": "500 séances de danse"
+            "underBadge": "500 séances"
         }
     },
     "DANSE-E-1000-SEANCES": {
@@ -2160,9 +2160,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_DANSE.webp"
         },
         "text": {
-            "condition": "1000 séances de danse",
+            "condition": "1 000 séances de danse",
             "notify": "Danse : Légende",
-            "underBadge": "1000 séances de danse"
+            "underBadge": "1 000 séances"
         }
     },
     "EQUITATION-A-1-SEANCE": {
@@ -2181,7 +2181,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance d'équitation",
             "notify": "Equitation : Débutant",
-            "underBadge": "1 séance d'équitation"
+            "underBadge": "1 séance"
         }
     },
     "EQUITATION-B-10-SEANCES": {
@@ -2200,7 +2200,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances d'équitation",
             "notify": "Equitation : Apprenti",
-            "underBadge": "10 séances d'équitation"
+            "underBadge": "10 séances"
         }
     },
     "EQUITATION-C-50-SEANCES": {
@@ -2219,7 +2219,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances d'équitation",
             "notify": "Equitation : Confirmé",
-            "underBadge": "50 séances d'équitation"
+            "underBadge": "50 séances"
         }
     },
     "EQUITATION-D-100-SEANCES": {
@@ -2238,7 +2238,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances d'équitation",
             "notify": "Equitation : Expert",
-            "underBadge": "100 séances d'équitation"
+            "underBadge": "100 séances"
         }
     },
     "EQUITATION-D-250-SEANCES": {
@@ -2257,7 +2257,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances d'équitation",
             "notify": "Equitation : Maitre",
-            "underBadge": "250 séances d'équitation"
+            "underBadge": "250 séances"
         }
     },
     "EQUITATION-D-500-SEANCES": {
@@ -2276,7 +2276,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances d'équitation",
             "notify": "Equitation : Champion",
-            "underBadge": "500 séances d'équitation"
+            "underBadge": "500 séances"
         }
     },
     "EQUITATION-E-1000-SEANCES": {
@@ -2293,9 +2293,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_EQUITATION.webp"
         },
         "text": {
-            "condition": "1000 séances d'équitation",
+            "condition": "1 000 séances d'équitation",
             "notify": "Equitation : Légende",
-            "underBadge": "1000 séances d'équitation"
+            "underBadge": "1 000 séances"
         }
     },
     "ESCALADE-A-1-SEANCE": {
@@ -2314,7 +2314,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance d'escalade",
             "notify": "Escalade : Débutant",
-            "underBadge": "1 séance d'escalade"
+            "underBadge": "1 séance"
         }
     },
     "ESCALADE-B-10-SEANCES": {
@@ -2333,7 +2333,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances d'escalade",
             "notify": "Escalade : Apprenti",
-            "underBadge": "10 séances d'escalade"
+            "underBadge": "10 séances"
         }
     },
     "ESCALADE-C-50-SEANCES": {
@@ -2352,7 +2352,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances d'escalade",
             "notify": "Escalade : Confirmé",
-            "underBadge": "50 séances d'escalade"
+            "underBadge": "50 séances"
         }
     },
     "ESCALADE-D-100-SEANCES": {
@@ -2371,7 +2371,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances d'escalade",
             "notify": "Escalade : Expert",
-            "underBadge": "100 séances d'escalade"
+            "underBadge": "100 séances"
         }
     },
     "ESCALADE-D-250-SEANCES": {
@@ -2390,7 +2390,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances d'escalade",
             "notify": "Escalade : Maitre",
-            "underBadge": "250 séances d'escalade"
+            "underBadge": "250 séances"
         }
     },
     "ESCALADE-D-500-SEANCES": {
@@ -2409,7 +2409,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances d'escalade",
             "notify": "Escalade : Champion",
-            "underBadge": "500 séances d'escalade"
+            "underBadge": "500 séances"
         }
     },
     "ESCALADE-E-1000-SEANCES": {
@@ -2426,9 +2426,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_ESCALADE.webp"
         },
         "text": {
-            "condition": "1000 séances d'escalade",
+            "condition": "1 000 séances d'escalade",
             "notify": "Escalade : Légende",
-            "underBadge": "1000 séances d'escalade"
+            "underBadge": "1 000 séances"
         }
     },
     "ETIREMENT-A-1-SEANCE": {
@@ -2447,7 +2447,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance d'étirement",
             "notify": "Etirement : Débutant",
-            "underBadge": "1 séance d'étirement"
+            "underBadge": "1 séance"
         }
     },
     "ETIREMENT-B-10-SEANCES": {
@@ -2466,7 +2466,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances d'étirement",
             "notify": "Etirement : Apprenti",
-            "underBadge": "10 séances d'étirement"
+            "underBadge": "10 séances"
         }
     },
     "ETIREMENT-C-50-SEANCES": {
@@ -2485,7 +2485,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances d'étirement",
             "notify": "Etirement : Confirmé",
-            "underBadge": "50 séances d'étirement"
+            "underBadge": "50 séances"
         }
     },
     "ETIREMENT-D-100-SEANCES": {
@@ -2504,7 +2504,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances d'étirement",
             "notify": "Etirement : Expert",
-            "underBadge": "100 séances d'étirement"
+            "underBadge": "100 séances"
         }
     },
     "ETIREMENT-D-250-SEANCES": {
@@ -2523,7 +2523,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances d'étirement",
             "notify": "Etirement : Maitre",
-            "underBadge": "250 séances d'étirement"
+            "underBadge": "250 séances"
         }
     },
     "ETIREMENT-D-500-SEANCES": {
@@ -2542,7 +2542,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances d'étirement",
             "notify": "Etirement : Champion",
-            "underBadge": "500 séances d'étirement"
+            "underBadge": "500 séances"
         }
     },
     "ETIREMENT-E-1000-SEANCES": {
@@ -2559,9 +2559,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_ETIREMENT.webp"
         },
         "text": {
-            "condition": "1000 séances d'étirement",
+            "condition": "1 000 séances d'étirement",
             "notify": "Etirement : Légende",
-            "underBadge": "1000 séances d'étirement"
+            "underBadge": "1 000 séances"
         }
     },
     "FOOTBALL-A-1-SEANCE": {
@@ -2580,7 +2580,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de football",
             "notify": "Football : Débutant",
-            "underBadge": "1 séance de football"
+            "underBadge": "1 séance"
         }
     },
     "FOOTBALL-B-10-SEANCES": {
@@ -2599,7 +2599,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de football",
             "notify": "Football : Apprenti",
-            "underBadge": "10 séances de football"
+            "underBadge": "10 séances"
         }
     },
     "FOOTBALL-C-50-SEANCES": {
@@ -2618,7 +2618,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de football",
             "notify": "Football : Confirmé",
-            "underBadge": "50 séances de football"
+            "underBadge": "50 séances"
         }
     },
     "FOOTBALL-D-100-SEANCES": {
@@ -2637,7 +2637,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de football",
             "notify": "Football : Expert",
-            "underBadge": "100 séances de football"
+            "underBadge": "100 séances"
         }
     },
     "FOOTBALL-D-250-SEANCES": {
@@ -2656,7 +2656,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de football",
             "notify": "Football : Maitre",
-            "underBadge": "250 séances de football"
+            "underBadge": "250 séances"
         }
     },
     "FOOTBALL-D-500-SEANCES": {
@@ -2675,7 +2675,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de football",
             "notify": "Football : Champion",
-            "underBadge": "500 séances de football"
+            "underBadge": "500 séances"
         }
     },
     "FOOTBALL-E-1000-SEANCES": {
@@ -2692,9 +2692,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_FOOTBALL.webp"
         },
         "text": {
-            "condition": "1000 séances de football ",
+            "condition": "1 000 séances de football ",
             "notify": "Football : Légende",
-            "underBadge": "1000 séances de football"
+            "underBadge": "1 000 séances"
         }
     },
     "FRACTIONNE-A-1-SEANCE": {
@@ -2713,7 +2713,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de fractionné",
             "notify": "Fractionné : Débutant",
-            "underBadge": "1 séance de fractionné"
+            "underBadge": "1 séance"
         }
     },
     "FRACTIONNE-B-10-SEANCES": {
@@ -2732,7 +2732,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de fractionné",
             "notify": "Fractionné : Apprenti",
-            "underBadge": "10 séances de fractionné"
+            "underBadge": "10 séances"
         }
     },
     "FRACTIONNE-C-50-SEANCES": {
@@ -2751,7 +2751,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de fractionné",
             "notify": "Fractionné : Confirmé",
-            "underBadge": "50 séances de fractionné"
+            "underBadge": "50 séances"
         }
     },
     "FRACTIONNE-D-100-SEANCES": {
@@ -2770,7 +2770,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de fractionné",
             "notify": "Fractionné : Expert",
-            "underBadge": "100 séances de fractionné"
+            "underBadge": "100 séances"
         }
     },
     "FRACTIONNE-D-250-SEANCES": {
@@ -2789,7 +2789,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de fractionné",
             "notify": "Fractionné : Maitre",
-            "underBadge": "250 séances de fractionné"
+            "underBadge": "250 séances"
         }
     },
     "FRACTIONNE-D-500-SEANCES": {
@@ -2808,7 +2808,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de fractionné",
             "notify": "Fractionné : Champion",
-            "underBadge": "500 séances de fractionné"
+            "underBadge": "500 séances"
         }
     },
     "FRACTIONNE-E-1000-SEANCES": {
@@ -2825,9 +2825,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_FRACTIONNE.webp"
         },
         "text": {
-            "condition": "1000 séances de fractionné",
+            "condition": "1 000 séances de fractionné",
             "notify": "Fractionné : Légende",
-            "underBadge": "1000 séances de fractionné"
+            "underBadge": "1 000 séances"
         }
     },
     "GOLF-A-1-SEANCE": {
@@ -2846,7 +2846,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de golf",
             "notify": "Golf : Débutant",
-            "underBadge": "1 séance de golf"
+            "underBadge": "1 séance"
         }
     },
     "GOLF-B-10-SEANCES": {
@@ -2865,7 +2865,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de golf",
             "notify": "Golf : Apprenti",
-            "underBadge": "10 séances de golf"
+            "underBadge": "10 séances"
         }
     },
     "GOLF-C-50-SEANCES": {
@@ -2884,7 +2884,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de golf",
             "notify": "Golf : Confirmé",
-            "underBadge": "50 séances de golf"
+            "underBadge": "50 séances"
         }
     },
     "GOLF-D-100-SEANCES": {
@@ -2903,7 +2903,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de golf",
             "notify": "Golf : Expert",
-            "underBadge": "100 séances de golf"
+            "underBadge": "100 séances"
         }
     },
     "GOLF-D-250-SEANCES": {
@@ -2922,7 +2922,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de golf",
             "notify": "Golf : Maitre",
-            "underBadge": "250 séances de golf"
+            "underBadge": "250 séances"
         }
     },
     "GOLF-D-500-SEANCES": {
@@ -2941,7 +2941,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de golf",
             "notify": "Golf : Champion",
-            "underBadge": "500 séances de golf"
+            "underBadge": "500 séances"
         }
     },
     "GOLF-E-1000-SEANCES": {
@@ -2958,9 +2958,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_GOLF.webp"
         },
         "text": {
-            "condition": "1000 séances de golf",
+            "condition": "1 000 séances de golf",
             "notify": "Golf : Légende",
-            "underBadge": "1000 séances de golf"
+            "underBadge": "1 000 séances"
         }
     },
     "GYMNASTIQUE-A-1-SEANCE": {
@@ -2979,7 +2979,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de gymnastique",
             "notify": "Gymnastique : Débutant",
-            "underBadge": "1 séance de gymnastique"
+            "underBadge": "1 séance"
         }
     },
     "GYMNASTIQUE-B-10-SEANCES": {
@@ -2998,7 +2998,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de gymnastique",
             "notify": "Gymnastique : Apprenti",
-            "underBadge": "10 séances de gymnastique"
+            "underBadge": "10 séances"
         }
     },
     "GYMNASTIQUE-C-50-SEANCES": {
@@ -3017,7 +3017,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de gymnastique",
             "notify": "Gymnastique : Confirmé",
-            "underBadge": "50 séances de gymnastique"
+            "underBadge": "50 séances"
         }
     },
     "GYMNASTIQUE-D-100-SEANCES": {
@@ -3036,7 +3036,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de gymnastique",
             "notify": "Gymnastique : Expert",
-            "underBadge": "100 séances de gymnastique"
+            "underBadge": "100 séances"
         }
     },
     "GYMNASTIQUE-D-250-SEANCES": {
@@ -3055,7 +3055,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de gymnastique",
             "notify": "Gymnastique : Maitre",
-            "underBadge": "250 séances de gymnastique"
+            "underBadge": "250 séances"
         }
     },
     "GYMNASTIQUE-D-500-SEANCES": {
@@ -3074,7 +3074,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de gymnastique",
             "notify": "Gymnastique : Champion",
-            "underBadge": "500 séances de gymnastique"
+            "underBadge": "500 séances"
         }
     },
     "GYMNASTIQUE-E-1000-SEANCES": {
@@ -3091,9 +3091,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_GYMNASTIQUE.webp"
         },
         "text": {
-            "condition": "1000 séances de gymnastique",
+            "condition": "1 000 séances de gymnastique",
             "notify": "Gymnastique : Légende",
-            "underBadge": "1000 séances de gymnastique"
+            "underBadge": "1 000 séances"
         }
     },
     "HANDBALL-A-1-SEANCE": {
@@ -3112,7 +3112,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de handball",
             "notify": "Handball : Débutant",
-            "underBadge": "1 séance de handball"
+            "underBadge": "1 séance"
         }
     },
     "HANDBALL-B-10-SEANCES": {
@@ -3131,7 +3131,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de handball",
             "notify": "Handball : Apprenti",
-            "underBadge": "10 séances de handball"
+            "underBadge": "10 séances"
         }
     },
     "HANDBALL-C-50-SEANCES": {
@@ -3150,7 +3150,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de handball",
             "notify": "Handball : Confirmé",
-            "underBadge": "50 séances de handball"
+            "underBadge": "50 séances"
         }
     },
     "HANDBALL-D-100-SEANCES": {
@@ -3169,7 +3169,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de handball",
             "notify": "Handball : Expert",
-            "underBadge": "100 séances de handball"
+            "underBadge": "100 séances"
         }
     },
     "HANDBALL-D-250-SEANCES": {
@@ -3188,7 +3188,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de handball",
             "notify": "Handball : Maitre",
-            "underBadge": "250 séances de handball"
+            "underBadge": "250 séances"
         }
     },
     "HANDBALL-D-500-SEANCES": {
@@ -3207,7 +3207,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de handball",
             "notify": "Handball : Champion",
-            "underBadge": "500 séances de handball"
+            "underBadge": "500 séances"
         }
     },
     "HANDBALL-E-1000-SEANCES": {
@@ -3224,9 +3224,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_HANDBALL.webp"
         },
         "text": {
-            "condition": "1000 séances de handball",
+            "condition": "1 000 séances de handball",
             "notify": "Handball : Légende",
-            "underBadge": "1000 séances de handball"
+            "underBadge": "1 000 séances"
         }
     },
     "MARCHE-RANDO-A-1-SEANCE": {
@@ -3245,7 +3245,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de marche ou de randonnée",
             "notify": "Marche/randonnée : Débutant",
-            "underBadge": "1 séance de marche ou de randonnée"
+            "underBadge": "1 séance"
         }
     },
     "MARCHE-RANDO-B-10-SEANCES": {
@@ -3264,7 +3264,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de marche ou de randonnée",
             "notify": "Marche/randonnée : Apprenti",
-            "underBadge": "10 séances de marche ou de randonnée"
+            "underBadge": "10 séances"
         }
     },
     "MARCHE-RANDO-C-50-SEANCES": {
@@ -3283,7 +3283,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de marche ou de randonnée",
             "notify": "Marche/randonnée : Confirmé",
-            "underBadge": "50 séances de marche ou de randonnée"
+            "underBadge": "50 séances"
         }
     },
     "MARCHE-RANDO-D-100-SEANCES": {
@@ -3302,7 +3302,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de marche ou de randonnée",
             "notify": "Marche/randonnée : Expert",
-            "underBadge": "100 séances de marche ou de randonnée"
+            "underBadge": "100 séances"
         }
     },
     "MARCHE-RANDO-D-250-SEANCES": {
@@ -3321,7 +3321,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de marche ou de randonnée",
             "notify": "Marche/randonnée : Maitre",
-            "underBadge": "250 séances de marche ou de randonnée"
+            "underBadge": "250 séances"
         }
     },
     "MARCHE-RANDO-D-500-SEANCES": {
@@ -3340,7 +3340,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de marche ou de randonnée",
             "notify": "Marche/randonnée : Champion",
-            "underBadge": "500 séances de marche ou de randonnée"
+            "underBadge": "500 séances"
         }
     },
     "MARCHE-RANDO-E-1000-SEANCES": {
@@ -3357,9 +3357,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_MARCHE-RANDO.webp"
         },
         "text": {
-            "condition": "1000 séances de marche ou de randonnée",
+            "condition": "1 000 séances de marche ou de randonnée",
             "notify": "Marche/randonnée : Légende",
-            "underBadge": "1000 séances de marche ou de randonnée"
+            "underBadge": "1 000 séances"
         }
     },
     "MARCHE-RANDO-E-500-KM": {
@@ -3377,8 +3377,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 500 km de marche cumulée",
-            "notify": null,
-            "underBadge": "plus de 500 km de marche cumulée"
+            "notify": "Marche / Randonnée : 500 km",
+            "underBadge": "500 km"
         }
     },
     "MARCHE-RANDO-E-1000-KM": {
@@ -3395,9 +3395,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "plus de 1000 km de marche cumulée",
-            "notify": "Globe-trotteur",
-            "underBadge": "plus de 1000 km de marche cumulée"
+            "condition": "plus de 1 000 km de marche cumulée",
+            "notify": "Marche / Randonnée : 1 000 km",
+            "underBadge": "1 000 km"
         }
     },
     "MARCHE-RANDO-E-2500-KM": {
@@ -3414,9 +3414,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "plus de 2500 km de marche cumulée",
-            "notify": null,
-            "underBadge": "plus de 2500 km de marche cumulée"
+            "condition": "plus de 2 500 km de marche cumulée",
+            "notify": "Marche / Randonnée : 2 500 km",
+            "underBadge": "2 500 km"
         }
     },
     "MARCHE-RANDO-E-5000-KM": {
@@ -3433,9 +3433,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "plus de 5000 km de marche cumulée",
-            "notify": null,
-            "underBadge": "plus de 5000 km de marche cumulée"
+            "condition": "plus de 5 000 km de marche cumulée",
+            "notify": "Marche / Randonnée : 5 000 km",
+            "underBadge": "5 000 km"
         }
     },
     "MARCHE-RANDO-F-10000-KM": {
@@ -3453,8 +3453,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 10 000 km de marche cumulée",
-            "notify": null,
-            "underBadge": "plus de 10 000 km de marche cumulée"
+            "notify": "Globe-trotter",
+            "underBadge": "10 000 km"
         }
     },
     "MARCHE-RANDO-F-40000-KM": {
@@ -3472,8 +3472,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 40 000 km de marche cumulée",
-            "notify": "Globe-trotteur",
-            "underBadge": "plus de 40 000 km de marche cumulée"
+            "notify": "Marche légendaire",
+            "underBadge": "40 000 km"
         }
     },
     "MUSCULATION-A-1-SEANCE": {
@@ -3492,7 +3492,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de musculation",
             "notify": "Musculation : Débutant",
-            "underBadge": "1 séance de musculation"
+            "underBadge": "1 séance"
         }
     },
     "MUSCULATION-B-10-SEANCES": {
@@ -3511,7 +3511,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de musculation",
             "notify": "Musculation : Apprenti",
-            "underBadge": "10 séances de musculation"
+            "underBadge": "10 séances"
         }
     },
     "MUSCULATION-C-50-SEANCES": {
@@ -3530,7 +3530,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de musculation",
             "notify": "Musculation : Confirmé",
-            "underBadge": "50 séances de musculation"
+            "underBadge": "50 séances"
         }
     },
     "MUSCULATION-D-100-SEANCES": {
@@ -3549,7 +3549,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de musculation",
             "notify": "Musculation : Expert",
-            "underBadge": "100 séances de musculation"
+            "underBadge": "100 séances"
         }
     },
     "MUSCULATION-D-250-SEANCES": {
@@ -3568,7 +3568,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de musculation",
             "notify": "Musculation : Maitre",
-            "underBadge": "250 séances de musculation"
+            "underBadge": "250 séances"
         }
     },
     "MUSCULATION-D-500-SEANCES": {
@@ -3587,7 +3587,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de musculation",
             "notify": "Musculation : Champion",
-            "underBadge": "500 séances de musculation"
+            "underBadge": "500 séances"
         }
     },
     "MUSCULATION-E-1000-SEANCES": {
@@ -3604,9 +3604,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_MUSCULATION.webp"
         },
         "text": {
-            "condition": "1000 séances de musculation",
+            "condition": "1 000 séances de musculation",
             "notify": "Musculation : Légende",
-            "underBadge": "1000 séances de musculation"
+            "underBadge": "1 000 séances"
         }
     },
     "NATATION-A-1-SEANCE": {
@@ -3625,7 +3625,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de natation",
             "notify": "Natation : Débutant",
-            "underBadge": "1 séance de natation"
+            "underBadge": "1 séance"
         }
     },
     "NATATION-B-10-SEANCES": {
@@ -3644,7 +3644,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de natation",
             "notify": "Natation : Apprenti",
-            "underBadge": "10 séances de natation"
+            "underBadge": "10 séances"
         }
     },
     "NATATION-C-50-SEANCES": {
@@ -3663,7 +3663,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de natation",
             "notify": "Natation : Confirmé",
-            "underBadge": "50 séances de natation"
+            "underBadge": "50 séances"
         }
     },
     "NATATION-D-100-SEANCES": {
@@ -3682,7 +3682,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de natation",
             "notify": "Natation : Expert",
-            "underBadge": "100 séances de natation"
+            "underBadge": "100 séances"
         }
     },
     "NATATION-D-250-SEANCES": {
@@ -3701,7 +3701,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de natation",
             "notify": "Natation : Maitre",
-            "underBadge": "250 séances de natation"
+            "underBadge": "250 séances"
         }
     },
     "NATATION-D-500-SEANCES": {
@@ -3720,7 +3720,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de natation",
             "notify": "Natation : Champion",
-            "underBadge": "500 séances de natation"
+            "underBadge": "500 séances"
         }
     },
     "NATATION-E-1000-SEANCES": {
@@ -3737,9 +3737,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_NATATION.webp"
         },
         "text": {
-            "condition": "1000 séances de natation",
+            "condition": "1 000 séances de natation",
             "notify": "Natation : Légende",
-            "underBadge": "1000 séances de natation"
+            "underBadge": "1 000 séances"
         }
     },
     "NATATION-E-25-KM": {
@@ -3757,8 +3757,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 25 km de natation cumulé",
-            "notify": null,
-            "underBadge": "plus de 25 km de natation cumulé"
+            "notify": "Natation : 25 km",
+            "underBadge": "25 km"
         }
     },
     "NATATION-E-50-KM": {
@@ -3776,8 +3776,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 50 km de natation cumulé",
-            "notify": null,
-            "underBadge": "plus de 50 km de natation cumulé"
+            "notify": "Natation : 50 km",
+            "underBadge": "50 km"
         }
     },
     "NATATION-E-100-KM": {
@@ -3795,8 +3795,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 100 km de natation cumulé",
-            "notify": null,
-            "underBadge": "plus de 100 km de natation cumulé"
+            "notify": "Comme un poisson dans l'eau",
+            "underBadge": "100 km"
         }
     },
     "NATATION-E-250-KM": {
@@ -3814,8 +3814,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 250 km de natation cumulé",
-            "notify": null,
-            "underBadge": "plus de 250 km de natation cumulé"
+            "notify": "Natation : 250 km",
+            "underBadge": "250 km"
         }
     },
     "NATATION-E-500-KM": {
@@ -3833,8 +3833,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 500 km de natation cumulé",
-            "notify": null,
-            "underBadge": "plus de 500 km de natation cumulé"
+            "notify": "Natation : 500 km",
+            "underBadge": "500 km"
         }
     },
     "NATATION-E-1000-KM": {
@@ -3851,9 +3851,9 @@ const allRewardsObject = {
             "imgBRef": null
         },
         "text": {
-            "condition": "plus de 1000 km de natation cumulé",
-            "notify": null,
-            "underBadge": "plus de 1000 km de natation cumulé"
+            "condition": "plus de 1 000 km de natation cumulé",
+            "notify": "Natation : 1 000 km",
+            "underBadge": "1 000 km"
         }
     },
     "PARACHUTE-PARAPENTE-A-1-SEANCE": {
@@ -3872,7 +3872,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de parachute ou de parapente",
             "notify": "Parachute/parapente : Débutant",
-            "underBadge": "1 séance de parachute ou de parapente"
+            "underBadge": "1 séance"
         }
     },
     "PARACHUTE-PARAPENTE-B-10-SEANCES": {
@@ -3891,7 +3891,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de parachute ou de parapente",
             "notify": "Parachute/parapente : Apprenti",
-            "underBadge": "10 séances de parachute ou de parapente"
+            "underBadge": "10 séances"
         }
     },
     "PARACHUTE-PARAPENTE-C-50-SEANCES": {
@@ -3910,7 +3910,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de parachute ou de parapente",
             "notify": "Parachute/parapente : Confirmé",
-            "underBadge": "50 séances de parachute ou de parapente"
+            "underBadge": "50 séances"
         }
     },
     "PARACHUTE-PARAPENTE-D-100-SEANCES": {
@@ -3929,7 +3929,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de parachute ou de parapente",
             "notify": "Parachute/parapente : Expert",
-            "underBadge": "100 séances de parachute ou de parapente"
+            "underBadge": "100 séances"
         }
     },
     "PARACHUTE-PARAPENTE-D-250-SEANCES": {
@@ -3948,7 +3948,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de parachute ou de parapente",
             "notify": "Parachute/parapente : Maitre",
-            "underBadge": "250 séances de parachute ou de parapente"
+            "underBadge": "250 séances"
         }
     },
     "PARACHUTE-PARAPENTE-D-500-SEANCES": {
@@ -3967,7 +3967,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de parachute ou de parapente",
             "notify": "Parachute/parapente : Champion",
-            "underBadge": "500 séances de parachute ou de parapente"
+            "underBadge": "500 séances"
         }
     },
     "PARACHUTE-PARAPENTE-E-1000-SEANCES": {
@@ -3984,9 +3984,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_PARACHUTE-PARAPENTE.webp"
         },
         "text": {
-            "condition": "1000 séances de parachute ou de parapente",
+            "condition": "1 000 séances de parachute ou de parapente",
             "notify": "Parachute/parapente : Légende",
-            "underBadge": "1000 séances de parachute ou de parapente"
+            "underBadge": "1 000 séances"
         }
     },
     "PATIN-ROLLER-A-1-SEANCE": {
@@ -4005,7 +4005,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de patin ou de roller",
             "notify": "Patin/roller : Débutant",
-            "underBadge": "1 séance de patin ou de roller"
+            "underBadge": "1 séance"
         }
     },
     "PATIN-ROLLER-B-10-SEANCES": {
@@ -4024,7 +4024,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de patin ou de roller",
             "notify": "Patin/roller : Apprenti",
-            "underBadge": "10 séances de patin ou de roller"
+            "underBadge": "10 séances"
         }
     },
     "PATIN-ROLLER-C-50-SEANCES": {
@@ -4043,7 +4043,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de patin ou de roller",
             "notify": "Patin/roller : Confirmé",
-            "underBadge": "50 séances de patin ou de roller"
+            "underBadge": "50 séances"
         }
     },
     "PATIN-ROLLER-D-100-SEANCES": {
@@ -4062,7 +4062,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de patin ou de roller",
             "notify": "Patin/roller : Expert",
-            "underBadge": "100 séances de patin ou de roller"
+            "underBadge": "100 séances"
         }
     },
     "PATIN-ROLLER-D-250-SEANCES": {
@@ -4081,7 +4081,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de patin ou de roller",
             "notify": "Patin/roller : Maitre",
-            "underBadge": "250 séances de patin ou de roller"
+            "underBadge": "250 séances"
         }
     },
     "PATIN-ROLLER-D-500-SEANCES": {
@@ -4100,7 +4100,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de patin ou de roller",
             "notify": "Patin/roller : Champion",
-            "underBadge": "500 séances de patin ou de roller"
+            "underBadge": "500 séances"
         }
     },
     "PATIN-ROLLER-E-1000-SEANCES": {
@@ -4117,9 +4117,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_PATIN-ROLLER.webp"
         },
         "text": {
-            "condition": "1000 séances de patin ou de roller",
+            "condition": "1 000 séances de patin ou de roller",
             "notify": "Patin/roller : Légende",
-            "underBadge": "1000 séances de patin ou de roller"
+            "underBadge": "1 000 séances"
         }
     },
     "PO-A-1-SEANCE": {
@@ -4138,7 +4138,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Débutant",
-            "underBadge": "1 séance de parcours d'obstacles"
+            "underBadge": "1 séance"
         }
     },
     "PO-B-10-SEANCES": {
@@ -4157,7 +4157,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Apprenti",
-            "underBadge": "10 séances de parcours d'obstacles"
+            "underBadge": "10 séances"
         }
     },
     "PO-C-50-SEANCES": {
@@ -4176,7 +4176,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Confirmé",
-            "underBadge": "50 séances de parcours d'obstacles"
+            "underBadge": "50 séances"
         }
     },
     "PO-D-100-SEANCES": {
@@ -4195,7 +4195,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Expert",
-            "underBadge": "100 séances de parcours d'obstacles"
+            "underBadge": "100 séances"
         }
     },
     "PO-D-250-SEANCES": {
@@ -4214,7 +4214,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Maitre",
-            "underBadge": "250 séances de parcours d'obstacles"
+            "underBadge": "250 séances"
         }
     },
     "PO-D-500-SEANCES": {
@@ -4233,7 +4233,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Champion",
-            "underBadge": "500 séances de parcours d'obstacles"
+            "underBadge": "500 séances"
         }
     },
     "PO-E-1000-SEANCES": {
@@ -4250,9 +4250,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_PO.webp"
         },
         "text": {
-            "condition": "1000 séances de parcours d'obstacles",
+            "condition": "1 000 séances de parcours d'obstacles",
             "notify": "Parcours d'obstacles : Légende",
-            "underBadge": "1000 séances de parcours d'obstacles"
+            "underBadge": "1 000 séances"
         }
     },
     "RENFORCEMENT-A-1-SEANCE": {
@@ -4271,7 +4271,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de renforcement",
             "notify": "Renforcement : Débutant",
-            "underBadge": "1 séance de renforcement"
+            "underBadge": "1 séance"
         }
     },
     "RENFORCEMENT-B-10-SEANCES": {
@@ -4290,7 +4290,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de renforcement",
             "notify": "Renforcement : Apprenti",
-            "underBadge": "10 séances de renforcement"
+            "underBadge": "10 séances"
         }
     },
     "RENFORCEMENT-C-50-SEANCES": {
@@ -4309,7 +4309,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de renforcement",
             "notify": "Renforcement : Confirmé",
-            "underBadge": "50 séances de renforcement"
+            "underBadge": "50 séances"
         }
     },
     "RENFORCEMENT-D-100-SEANCES": {
@@ -4328,7 +4328,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de renforcement",
             "notify": "Renforcement : Expert",
-            "underBadge": "100 séances de renforcement"
+            "underBadge": "100 séances"
         }
     },
     "RENFORCEMENT-D-250-SEANCES": {
@@ -4347,7 +4347,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de renforcement",
             "notify": "Renforcement : Maitre",
-            "underBadge": "250 séances de renforcement"
+            "underBadge": "250 séances"
         }
     },
     "RENFORCEMENT-D-500-SEANCES": {
@@ -4366,7 +4366,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de renforcement",
             "notify": "Renforcement : Champion",
-            "underBadge": "500 séances de renforcement"
+            "underBadge": "500 séances"
         }
     },
     "RENFORCEMENT-E-1000-SEANCES": {
@@ -4383,9 +4383,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_RENFORCEMENT.webp"
         },
         "text": {
-            "condition": "1000 séances de renforcement",
+            "condition": "1 000 séances de renforcement",
             "notify": "Renforcement : Légende",
-            "underBadge": "1000 séances de renforcement"
+            "underBadge": "1 000 séances"
         }
     },
     "RUGBY-A-1-SEANCE": {
@@ -4404,7 +4404,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de rugby",
             "notify": "Rugby : Débutant",
-            "underBadge": "1 séance de rugby"
+            "underBadge": "1 séance"
         }
     },
     "RUGBY-B-10-SEANCES": {
@@ -4423,7 +4423,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de rugby",
             "notify": "Rugby : Apprenti",
-            "underBadge": "10 séances de rugby"
+            "underBadge": "10 séances"
         }
     },
     "RUGBY-C-50-SEANCES": {
@@ -4442,7 +4442,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de rugby",
             "notify": "Rugby : Confirmé",
-            "underBadge": "50 séances de rugby"
+            "underBadge": "50 séances"
         }
     },
     "RUGBY-D-100-SEANCES": {
@@ -4461,7 +4461,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de rugby",
             "notify": "Rugby : Expert",
-            "underBadge": "100 séances de rugby"
+            "underBadge": "100 séances"
         }
     },
     "RUGBY-D-250-SEANCES": {
@@ -4480,7 +4480,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de rugby",
             "notify": "Rugby : Maitre",
-            "underBadge": "250 séances de rugby"
+            "underBadge": "250 séances"
         }
     },
     "RUGBY-D-500-SEANCES": {
@@ -4499,7 +4499,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de rugby",
             "notify": "Rugby : Champion",
-            "underBadge": "500 séances de rugby"
+            "underBadge": "500 séances"
         }
     },
     "RUGBY-E-1000-SEANCES": {
@@ -4516,9 +4516,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_RUGBY.webp"
         },
         "text": {
-            "condition": "1000 séances de rugby",
+            "condition": "1 000 séances de rugby",
             "notify": "Rugby : Légende",
-            "underBadge": "1000 séances de rugby"
+            "underBadge": "1 000 séances"
         }
     },
     "RUN-AND-BIKE-A-1-SEANCE": {
@@ -4537,7 +4537,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de Run & Bike",
             "notify": "Run & Bike : Débutant",
-            "underBadge": "1 séance de Run & Bike"
+            "underBadge": "1 séance"
         }
     },
     "RUN-AND-BIKE-B-10-SEANCES": {
@@ -4556,7 +4556,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de Run & Bike",
             "notify": "Run & Bike : Apprenti",
-            "underBadge": "10 séances de Run & Bike"
+            "underBadge": "10 séances"
         }
     },
     "RUN-AND-BIKE-C-50-SEANCES": {
@@ -4575,7 +4575,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de Run & Bike",
             "notify": "Run & Bike : Confirmé",
-            "underBadge": "50 séances de Run & Bike"
+            "underBadge": "50 séances"
         }
     },
     "RUN-AND-BIKE-D-100-SEANCES": {
@@ -4594,7 +4594,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de Run & Bike",
             "notify": "Run & Bike : Expert",
-            "underBadge": "100 séances de Run & Bike"
+            "underBadge": "100 séances"
         }
     },
     "RUN-AND-BIKE-D-250-SEANCES": {
@@ -4613,7 +4613,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de Run & Bike",
             "notify": "Run & Bike : Maitre",
-            "underBadge": "250 séances de Run & Bike"
+            "underBadge": "250 séances"
         }
     },
     "RUN-AND-BIKE-D-500-SEANCES": {
@@ -4632,7 +4632,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de Run & Bike",
             "notify": "Run & Bike : Champion",
-            "underBadge": "500 séances de Run & Bike"
+            "underBadge": "500 séances"
         }
     },
     "RUN-AND-BIKE-E-1000-SEANCES": {
@@ -4649,9 +4649,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_RUN-AND-BIKE.webp"
         },
         "text": {
-            "condition": "1000 séances de Run & Bike",
+            "condition": "1 000 séances de Run & Bike",
             "notify": "Run & Bike : Légende",
-            "underBadge": "1000 séances de Run & Bike"
+            "underBadge": "1 000 séances"
         }
     },
     "SKATEBOARD-A-1-SEANCE": {
@@ -4670,7 +4670,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de skateboard",
             "notify": "Skateboard : Débutant",
-            "underBadge": "1 séance de skateboard"
+            "underBadge": "1 séance"
         }
     },
     "SKATEBOARD-B-10-SEANCES": {
@@ -4689,7 +4689,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de skateboard",
             "notify": "Skateboard : Apprenti",
-            "underBadge": "10 séances de skateboard"
+            "underBadge": "10 séances"
         }
     },
     "SKATEBOARD-C-50-SEANCES": {
@@ -4708,7 +4708,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de skateboard",
             "notify": "Skateboard : Confirmé",
-            "underBadge": "50 séances de skateboard"
+            "underBadge": "50 séances"
         }
     },
     "SKATEBOARD-D-100-SEANCES": {
@@ -4727,7 +4727,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de skateboard",
             "notify": "Skateboard : Expert",
-            "underBadge": "100 séances de skateboard"
+            "underBadge": "100 séances"
         }
     },
     "SKATEBOARD-D-250-SEANCES": {
@@ -4746,7 +4746,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de skateboard",
             "notify": "Skateboard : Maitre",
-            "underBadge": "250 séances de skateboard"
+            "underBadge": "250 séances"
         }
     },
     "SKATEBOARD-D-500-SEANCES": {
@@ -4765,7 +4765,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de skateboard",
             "notify": "Skateboard : Champion",
-            "underBadge": "500 séances de skateboard"
+            "underBadge": "500 séances"
         }
     },
     "SKATEBOARD-E-1000-SEANCES": {
@@ -4782,9 +4782,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_SKATEBOARD.webp"
         },
         "text": {
-            "condition": "1000 séances de skateboard",
+            "condition": "1 000 séances de skateboard",
             "notify": "Skateboard : Légende",
-            "underBadge": "1000 séances de skateboard"
+            "underBadge": "1 000 séances"
         }
     },
     "SKI-A-1-SEANCE": {
@@ -4803,7 +4803,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de ski",
             "notify": "Ski : Débutant",
-            "underBadge": "1 séance de ski"
+            "underBadge": "1 séance"
         }
     },
     "SKI-B-10-SEANCES": {
@@ -4822,7 +4822,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de ski",
             "notify": "Ski : Apprenti",
-            "underBadge": "10 séances de ski"
+            "underBadge": "10 séances"
         }
     },
     "SKI-C-50-SEANCES": {
@@ -4841,7 +4841,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de ski",
             "notify": "Ski : Confirmé",
-            "underBadge": "50 séances de ski"
+            "underBadge": "50 séances"
         }
     },
     "SKI-D-100-SEANCES": {
@@ -4860,7 +4860,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de ski",
             "notify": "Ski : Expert",
-            "underBadge": "100 séances de ski"
+            "underBadge": "100 séances"
         }
     },
     "SKI-D-250-SEANCES": {
@@ -4879,7 +4879,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de ski",
             "notify": "Ski : Maitre",
-            "underBadge": "250 séances de ski"
+            "underBadge": "250 séances"
         }
     },
     "SKI-D-500-SEANCES": {
@@ -4898,7 +4898,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de ski",
             "notify": "Ski : Champion",
-            "underBadge": "500 séances de ski"
+            "underBadge": "500 séances"
         }
     },
     "SKI-E-1000-SEANCES": {
@@ -4915,9 +4915,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_SKI.webp"
         },
         "text": {
-            "condition": "1000 séances de ski",
+            "condition": "1 000 séances de ski",
             "notify": "Ski : Légende",
-            "underBadge": "1000 séances de ski"
+            "underBadge": "1 000 séances"
         }
     },
     "SNOWBOARD-A-1-SEANCE": {
@@ -4936,7 +4936,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de snowboard",
             "notify": "Snowboard : Débutant",
-            "underBadge": "1 séance de snowboard"
+            "underBadge": "1 séance"
         }
     },
     "SNOWBOARD-B-10-SEANCES": {
@@ -4955,7 +4955,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de snowboard",
             "notify": "Snowboard : Apprenti",
-            "underBadge": "10 séances de snowboard"
+            "underBadge": "10 séances"
         }
     },
     "SNOWBOARD-C-50-SEANCES": {
@@ -4974,7 +4974,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de snowboard",
             "notify": "Snowboard : Confirmé",
-            "underBadge": "50 séances de snowboard"
+            "underBadge": "50 séances"
         }
     },
     "SNOWBOARD-D-100-SEANCES": {
@@ -4993,7 +4993,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de snowboard",
             "notify": "Snowboard : Expert",
-            "underBadge": "100 séances de snowboard"
+            "underBadge": "100 séances"
         }
     },
     "SNOWBOARD-D-250-SEANCES": {
@@ -5012,7 +5012,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de snowboard",
             "notify": "Snowboard : Maitre",
-            "underBadge": "250 séances de snowboard"
+            "underBadge": "250 séances"
         }
     },
     "SNOWBOARD-D-500-SEANCES": {
@@ -5031,7 +5031,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de snowboard",
             "notify": "Snowboard : Champion",
-            "underBadge": "500 séances de snowboard"
+            "underBadge": "500 séances"
         }
     },
     "SNOWBOARD-E-1000-SEANCES": {
@@ -5048,9 +5048,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_SNOWBOARD.webp"
         },
         "text": {
-            "condition": "1000 séances de snowboard",
+            "condition": "1 000 séances de snowboard",
             "notify": "Snowboard : Légende",
-            "underBadge": "1000 séances de snowboard"
+            "underBadge": "1 000 séances"
         }
     },
     "SPORT-CO-A-1-SEANCE": {
@@ -5069,7 +5069,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de sport-co",
             "notify": "Sport-co : Débutant",
-            "underBadge": "1 séance de sport-co"
+            "underBadge": "1 séance"
         }
     },
     "SPORT-CO-B-10-SEANCES": {
@@ -5088,7 +5088,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de sport-co",
             "notify": "Sport-co : Apprenti",
-            "underBadge": "10 séances de sport-co"
+            "underBadge": "10 séances"
         }
     },
     "SPORT-CO-C-50-SEANCES": {
@@ -5107,7 +5107,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de sport-co",
             "notify": "Sport-co : Confirmé",
-            "underBadge": "50 séances de sport-co"
+            "underBadge": "50 séances"
         }
     },
     "SPORT-CO-D-100-SEANCES": {
@@ -5126,7 +5126,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de sport-co",
             "notify": "Sport-co : Expert",
-            "underBadge": "100 séances de sport-co"
+            "underBadge": "100 séances"
         }
     },
     "SPORT-CO-D-250-SEANCES": {
@@ -5145,7 +5145,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de sport-co",
             "notify": "Sport-co : Maitre",
-            "underBadge": "250 séances de sport-co"
+            "underBadge": "250 séances"
         }
     },
     "SPORT-CO-D-500-SEANCES": {
@@ -5164,7 +5164,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de sport-co",
             "notify": "Sport-co : Champion",
-            "underBadge": "500 séances de sport-co"
+            "underBadge": "500 séances"
         }
     },
     "SPORT-CO-E-1000-SEANCES": {
@@ -5181,9 +5181,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_SPORT-CO.webp"
         },
         "text": {
-            "condition": "1000 séances de sport-co",
+            "condition": "1 000 séances de sport-co",
             "notify": "Sport-co : Légende",
-            "underBadge": "1000 séances de sport-co"
+            "underBadge": "1 000 séances"
         }
     },
     "TENNIS-A-1-SEANCE": {
@@ -5202,7 +5202,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de tennis",
             "notify": "Tennis : Débutant",
-            "underBadge": "1 séance de tennis"
+            "underBadge": "1 séance"
         }
     },
     "TENNIS-B-10-SEANCES": {
@@ -5221,7 +5221,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de tennis",
             "notify": "Tennis : Apprenti",
-            "underBadge": "10 séances de tennis"
+            "underBadge": "10 séances"
         }
     },
     "TENNIS-C-50-SEANCES": {
@@ -5240,7 +5240,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de tennis",
             "notify": "Tennis : Confirmé",
-            "underBadge": "50 séances de tennis"
+            "underBadge": "50 séances"
         }
     },
     "TENNIS-D-100-SEANCES": {
@@ -5259,7 +5259,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de tennis",
             "notify": "Tennis : Expert",
-            "underBadge": "100 séances de tennis"
+            "underBadge": "100 séances"
         }
     },
     "TENNIS-D-250-SEANCES": {
@@ -5278,7 +5278,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de tennis",
             "notify": "Tennis : Maitre",
-            "underBadge": "250 séances de tennis"
+            "underBadge": "250 séances"
         }
     },
     "TENNIS-D-500-SEANCES": {
@@ -5297,7 +5297,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de tennis",
             "notify": "Tennis : Champion",
-            "underBadge": "500 séances de tennis"
+            "underBadge": "500 séances"
         }
     },
     "TENNIS-E-1000-SEANCES": {
@@ -5314,9 +5314,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_TENNIS.webp"
         },
         "text": {
-            "condition": "1000 séances de tennis",
+            "condition": "1 000 séances de tennis",
             "notify": "Tennis : Légende",
-            "underBadge": "1000 séances de tennis"
+            "underBadge": "1 000 séances"
         }
     },
     "TENNIS-DE-TABLE-A-1-SEANCE": {
@@ -5335,7 +5335,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de tennis de table",
             "notify": "Tennis de table : Débutant",
-            "underBadge": "1 séance de tennis de table"
+            "underBadge": "1 séance"
         }
     },
     "TENNIS-DE-TABLE-B-10-SEANCES": {
@@ -5354,7 +5354,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de tennis de table",
             "notify": "Tennis de table : Apprenti",
-            "underBadge": "10 séances de tennis de table"
+            "underBadge": "10 séances"
         }
     },
     "TENNIS-DE-TABLE-C-50-SEANCES": {
@@ -5373,7 +5373,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de tennis de table",
             "notify": "Tennis de table : Confirmé",
-            "underBadge": "50 séances de tennis de table"
+            "underBadge": "50 séances"
         }
     },
     "TENNIS-DE-TABLE-D-100-SEANCES": {
@@ -5392,7 +5392,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de tennis de table",
             "notify": "Tennis de table : Expert",
-            "underBadge": "100 séances de tennis de table"
+            "underBadge": "100 séances"
         }
     },
     "TENNIS-DE-TABLE-D-250-SEANCES": {
@@ -5411,7 +5411,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de tennis de table",
             "notify": "Tennis de table : Maitre",
-            "underBadge": "250 séances de tennis de table"
+            "underBadge": "250 séances"
         }
     },
     "TENNIS-DE-TABLE-D-500-SEANCES": {
@@ -5430,7 +5430,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de tennis de table",
             "notify": "Tennis de table : Champion",
-            "underBadge": "500 séances de tennis de table"
+            "underBadge": "500 séances"
         }
     },
     "TENNIS-DE-TABLE-E-1000-SEANCES": {
@@ -5447,9 +5447,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_TENNIS-TABLE.webp"
         },
         "text": {
-            "condition": "1000 séances de tennis de table",
+            "condition": "1 000 séances de tennis de table",
             "notify": "Tennis de table : Légende",
-            "underBadge": "1000 séances de tennis de table"
+            "underBadge": "1 000 séances"
         }
     },
     "TIR-A-1-SEANCE": {
@@ -5468,7 +5468,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de tir",
             "notify": "Tir : Débutant",
-            "underBadge": "1 séance de tir"
+            "underBadge": "1 séance"
         }
     },
     "TIR-B-10-SEANCES": {
@@ -5487,7 +5487,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de tir",
             "notify": "Tir : Apprenti",
-            "underBadge": "10 séances de tir"
+            "underBadge": "10 séances"
         }
     },
     "TIR-C-50-SEANCES": {
@@ -5506,7 +5506,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de tir",
             "notify": "Tir : Confirmé",
-            "underBadge": "50 séances de tir"
+            "underBadge": "50 séances"
         }
     },
     "TIR-D-100-SEANCES": {
@@ -5525,7 +5525,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de tir",
             "notify": "Tir : Expert",
-            "underBadge": "100 séances de tir"
+            "underBadge": "100 séances"
         }
     },
     "TIR-D-250-SEANCES": {
@@ -5544,7 +5544,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de tir",
             "notify": "Tir : Maitre",
-            "underBadge": "250 séances de tir"
+            "underBadge": "250 séances"
         }
     },
     "TIR-D-500-SEANCES": {
@@ -5563,7 +5563,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de tir",
             "notify": "Tir : Champion",
-            "underBadge": "500 séances de tir"
+            "underBadge": "500 séances"
         }
     },
     "TIR-E-1000-SEANCES": {
@@ -5580,9 +5580,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_TIR.webp"
         },
         "text": {
-            "condition": "1000 séances de tir",
+            "condition": "1 000 séances de tir",
             "notify": "Tir : Légende",
-            "underBadge": "1000 séances de tir"
+            "underBadge": "1 000 séances"
         }
     },
     "TRIATHLON-1-SEANCE": {
@@ -5601,7 +5601,7 @@ const allRewardsObject = {
         "text": {
             "condition": "un triathlon",
             "notify": "Jamais deux sans trois",
-            "underBadge": "un triathlon"
+            "underBadge": "Jamais deux sans trois"
         }
     },
     "VELO-A-1-SEANCE": {
@@ -5620,7 +5620,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de vélo",
             "notify": "Vélo : Débutant",
-            "underBadge": "1 séance de vélo"
+            "underBadge": "1 séance"
         }
     },
     "VELO-B-10-SEANCES": {
@@ -5639,7 +5639,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de vélo",
             "notify": "Vélo : Apprenti",
-            "underBadge": "10 séances de vélo"
+            "underBadge": "10 séances"
         }
     },
     "VELO-C-50-SEANCES": {
@@ -5658,7 +5658,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de vélo",
             "notify": "Vélo : Confirmé",
-            "underBadge": "50 séances de vélo"
+            "underBadge": "50 séances"
         }
     },
     "VELO-D-100-SEANCES": {
@@ -5677,7 +5677,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de vélo",
             "notify": "Vélo : Expert",
-            "underBadge": "100 séances de vélo"
+            "underBadge": "100 séances"
         }
     },
     "VELO-D-250-SEANCES": {
@@ -5696,7 +5696,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de vélo",
             "notify": "Vélo : Maitre",
-            "underBadge": "250 séances de vélo"
+            "underBadge": "250 séances"
         }
     },
     "VELO-D-500-SEANCES": {
@@ -5715,7 +5715,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de vélo",
             "notify": "Vélo : Champion",
-            "underBadge": "500 séances de vélo"
+            "underBadge": "500 séances"
         }
     },
     "VELO-E-1000-SEANCES": {
@@ -5732,9 +5732,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_VELO.webp"
         },
         "text": {
-            "condition": "1000 séances de vélo",
+            "condition": "1 000 séances de vélo",
             "notify": "Vélo : Légende",
-            "underBadge": "1000 séances de vélo"
+            "underBadge": "1 000 séances"
         }
     },
     "VELO-E-50-KM": {
@@ -5753,7 +5753,7 @@ const allRewardsObject = {
         "text": {
             "condition": "une séance de vélo supérieure à 50 km",
             "notify": "Rouleur",
-            "underBadge": "une séance de vélo supérieure à 50 km"
+            "underBadge": "50 km"
         }
     },
     "VELO-E-100-KM": {
@@ -5772,7 +5772,7 @@ const allRewardsObject = {
         "text": {
             "condition": "une séance de vélo supérieure à 100 km",
             "notify": "Cycliste longue distance",
-            "underBadge": "une séance de vélo supérieure à 100 km"
+            "underBadge": "100 km"
         }
     },
     "VELO-E-150-KM": {
@@ -5791,7 +5791,7 @@ const allRewardsObject = {
         "text": {
             "condition": "une séance de vélo supérieure à 150 km",
             "notify": "Cycliste d’endurance",
-            "underBadge": "une séance de vélo supérieure à 150 km"
+            "underBadge": "150 km"
         }
     },
     "VELO-F-1000-KM": {
@@ -5810,7 +5810,7 @@ const allRewardsObject = {
         "text": {
             "condition": "plus de 1000 km de vélo cumulés",
             "notify": "Vélo : 1 000 km",
-            "underBadge": "plus de 1000 km de vélo cumulés"
+            "underBadge": "1 000 km"
         }
     },
     "VELO-F-3400-KM": {
@@ -5828,8 +5828,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 3400 km de vélo cumulés",
-            "notify": "Tour de France (3 400 km)",
-            "underBadge": "plus de 3400 km de vélo cumulés"
+            "notify": "Tour de France",
+            "underBadge": "3 400 km"
         }
     },
     "VELO-F-5000-KM": {
@@ -5848,7 +5848,7 @@ const allRewardsObject = {
         "text": {
             "condition": "plus de 5000 km de vélo cumulés",
             "notify": "Vélo : 5 000 km",
-            "underBadge": "plus de 5000 km de vélo cumulés"
+            "underBadge": "5 000 km"
         }
     },
     "VELO-F-10000-KM": {
@@ -5867,7 +5867,7 @@ const allRewardsObject = {
         "text": {
             "condition": "plus de 10 000 km de vélo cumulés",
             "notify": "Vélo : 10 000 km",
-            "underBadge": "plus de 10 000 km de vélo cumulés"
+            "underBadge": "10 000 km"
         }
     },
     "VELO-F-40000-KM": {
@@ -5885,8 +5885,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "plus de 40 000 km de vélo cumulés",
-            "notify": "Tour du monde (40 000 km)",
-            "underBadge": "plus de 40 000 km de vélo cumulés"
+            "notify": "Tour du monde",
+            "underBadge": "40 000 km"
         }
     },
     "VOLLEYBALL-A-1-SEANCE": {
@@ -5905,7 +5905,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de volleyball",
             "notify": "Volleyball : Débutant",
-            "underBadge": "1 séance de volleyball"
+            "underBadge": "1 séance"
         }
     },
     "VOLLEYBALL-B-10-SEANCES": {
@@ -5924,7 +5924,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de volleyball",
             "notify": "Volleyball : Apprenti",
-            "underBadge": "10 séances de volleyball"
+            "underBadge": "10 séances"
         }
     },
     "VOLLEYBALL-C-50-SEANCES": {
@@ -5943,7 +5943,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de volleyball",
             "notify": "Volleyball : Confirmé",
-            "underBadge": "50 séances de volleyball"
+            "underBadge": "50 séances"
         }
     },
     "VOLLEYBALL-D-100-SEANCES": {
@@ -5962,7 +5962,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de volleyball",
             "notify": "Volleyball : Expert",
-            "underBadge": "100 séances de volleyball"
+            "underBadge": "100 séances"
         }
     },
     "VOLLEYBALL-D-250-SEANCES": {
@@ -5981,7 +5981,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de volleyball",
             "notify": "Volleyball : Maitre",
-            "underBadge": "250 séances de volleyball"
+            "underBadge": "250 séances"
         }
     },
     "VOLLEYBALL-D-500-SEANCES": {
@@ -6000,7 +6000,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de volleyball",
             "notify": "Volleyball : Champion",
-            "underBadge": "500 séances de volleyball"
+            "underBadge": "500 séances"
         }
     },
     "VOLLEYBALL-E-1000-SEANCES": {
@@ -6017,9 +6017,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_VOLLEYBALL.webp"
         },
         "text": {
-            "condition": "1000 séances de volleyball",
+            "condition": "1 000 séances de volleyball",
             "notify": "Volleyball : Légende",
-            "underBadge": "1000 séances de volleyball"
+            "underBadge": "1 000 séances"
         }
     },
     "YOGA-A-1-SEANCE": {
@@ -6038,7 +6038,7 @@ const allRewardsObject = {
         "text": {
             "condition": "1 séance de yoga",
             "notify": "Yoga : Débutant",
-            "underBadge": "1 séance de yoga"
+            "underBadge": "1 séance"
         }
     },
     "YOGA-B-10-SEANCES": {
@@ -6057,7 +6057,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 séances de yoga",
             "notify": "Yoga : Apprenti",
-            "underBadge": "10 séances de yoga"
+            "underBadge": "10 séances"
         }
     },
     "YOGA-C-50-SEANCES": {
@@ -6076,7 +6076,7 @@ const allRewardsObject = {
         "text": {
             "condition": "50 séances de yoga",
             "notify": "Yoga : Confirmé",
-            "underBadge": "50 séances de yoga"
+            "underBadge": "50 séances"
         }
     },
     "YOGA-D-100-SEANCES": {
@@ -6095,7 +6095,7 @@ const allRewardsObject = {
         "text": {
             "condition": "100 séances de yoga",
             "notify": "Yoga : Expert",
-            "underBadge": "100 séances de yoga"
+            "underBadge": "100 séances"
         }
     },
     "YOGA-D-250-SEANCES": {
@@ -6114,7 +6114,7 @@ const allRewardsObject = {
         "text": {
             "condition": "250 séances de yoga",
             "notify": "Yoga : Maitre",
-            "underBadge": "250 séances de yoga"
+            "underBadge": "250 séances"
         }
     },
     "YOGA-D-500-SEANCES": {
@@ -6133,7 +6133,7 @@ const allRewardsObject = {
         "text": {
             "condition": "500 séances de yoga",
             "notify": "Yoga : Champion",
-            "underBadge": "500 séances de yoga"
+            "underBadge": "500 séances"
         }
     },
     "YOGA-E-1000-SEANCES": {
@@ -6150,9 +6150,9 @@ const allRewardsObject = {
             "imgBRef": "./Badges/MSS_Reward-256_YOGA.webp"
         },
         "text": {
-            "condition": "1000 séances de yoga",
+            "condition": "1 000 séances de yoga",
             "notify": "Yoga : Légende",
-            "underBadge": "1000 séances de yoga"
+            "underBadge": "1 000 séances"
         }
     }
 };

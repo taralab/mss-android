@@ -1767,10 +1767,10 @@ img.rewardCard-A{
 
 img.rewardCard-B {
   position: absolute;
-  top: 10px;
-  left: 20px;
-  width: 60%;
-  height: 60%;
+  top: 15px;
+  left: 25px;
+  width: 50%;
+  height: 50%;
   object-fit: contain; /* garde les proportions */
 }
 
@@ -1794,10 +1794,10 @@ img.rewardCard-A-FS{
 
 img.rewardCard-B-FS {
   position: absolute;
-  top: 20px;
-  left: 40px;
-  width: 60%;
-  height: 60%;
+  top: 25px;
+  left: 45px;
+  width: 50%;
+  height: 50%;
   object-fit: contain; /* garde les proportions */
 }
 
