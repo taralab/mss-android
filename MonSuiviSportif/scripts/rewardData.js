@@ -394,8 +394,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "5 activités différentes",
-            "notify": "Pluri-disciplinaire",
-            "underBadge": "Pluri-disciplinaire"
+            "notify": "Poly-Valent",
+            "underBadge": "5 types"
         }
     },
     "POLYVALENT-B-10": {
@@ -414,7 +414,7 @@ const allRewardsObject = {
         "text": {
             "condition": "10 activités différentes",
             "notify": "Esprit sportif",
-            "underBadge": "Esprit sportif"
+            "underBadge": "10 types"
         }
     },
     "POLYVALENT-B-15": {
@@ -432,8 +432,8 @@ const allRewardsObject = {
         },
         "text": {
             "condition": "15 activités différentes",
-            "notify": "Qui teste tout !",
-            "underBadge": "Qui teste tout"
+            "notify": "Pluri-disciplinaire",
+            "underBadge": "15 types"
         }
     },
     "DE-RETOUR": {
