@@ -78,7 +78,8 @@ let infoSessionTextArray = [
     `ℹ️ Créer jusqu'à ${maxSessionItems} éléments.`,
     `ℹ️ Un seul chrono ou minuteur peut être actif.`,
     `ℹ️ L’écran reste allumé lorsqu'un timer est en cours.`,
-    `ℹ️ Vous pouvez envoyer ces résultats vers une activité.`
+    `ℹ️ Vous pouvez envoyer ces résultats vers une activité.`,
+    `ℹ️ Un appui long sur "Récup" pour le configurer.`
 ];
 
 
