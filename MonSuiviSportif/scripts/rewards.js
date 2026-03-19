@@ -824,7 +824,7 @@ function onCheckReward(currentActivitySavedName,currentActivityComment) {
 
 
     //Traitement "de retour"
-    // onCheckDeRetour(rewardAllActivityNonPlannedKeys);
+    onCheckDeRetour(rewardAllActivityNonPlannedKeys);
 
 
 
@@ -920,7 +920,7 @@ function onTraiteCommunRewards(allActivitiesValues,variousCount,oldestDate) {
     communRewardDataKeys.forEach(rewardKey =>{
         //si l'utilisateur possede déjà le reward, ne traite pas
         if (userRewardsArray.includes(rewardKey)) {
-            if (devMode === false){console.log(`[REWARDS] utilisateur possède déjà ${rewardKey}. Ne traite Pas.`);};
+            if (devMode === true){console.log(`[REWARDS] utilisateur possède déjà ${rewardKey}. Ne traite Pas.`);};
             return;
         }
 
@@ -955,7 +955,7 @@ function onTraiteCommunRewards(allActivitiesValues,variousCount,oldestDate) {
 //Traitement anniversaire
 function hasReachedAnniversary(rewardTarget,oldestDate, targetYears) {
 
-    if (devMode === false){
+    if (devMode === true){
         console.log(`[REWARDS] Test anniversaire pour : ${targetYears} ans`);
         console.log(`[REWARDS] Prémière date : ${oldestDate}. TargetValue : ${targetYears}`);
     };
@@ -969,7 +969,7 @@ function hasReachedAnniversary(rewardTarget,oldestDate, targetYears) {
     if (isEligible) {
         rewardsEligibleArray.push(rewardTarget);
     }
-    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+    if (devMode === true){console.log("[REWARDS] Resultat : " + isEligible);};
 };
 
 // Traitement leveling activities
@@ -989,7 +989,7 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
 
         //si l'utilisateur possede déjà le reward, ne traite pas
         if (userRewardsArray.includes(rewardKey)) {
-            if (devMode === false){console.log(`[REWARDS] utilisateur possède déjà ${rewardKey}. Ne traite Pas.`);};
+            if (devMode === true){console.log(`[REWARDS] utilisateur possède déjà ${rewardKey}. Ne traite Pas.`);};
             return;
         }
 
@@ -1039,7 +1039,7 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
 
 //Traitement pour nombre spécifique égale ou plus
 function onTraiteRewardCount(rewardTarget, dataValue, targetValue) {
-    if (devMode === false){
+    if (devMode === true){
         console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);
         console.log(`[REWARDS] dataValue : ${dataValue}. TargetValue : ${targetValue}`);
     };
@@ -1047,25 +1047,25 @@ function onTraiteRewardCount(rewardTarget, dataValue, targetValue) {
     if (isEligible) {
         rewardsEligibleArray.push(rewardTarget);
     }
-    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+    if (devMode === true){console.log("[REWARDS] Resultat : " + isEligible);};
 
 }
 
 
 function onTraiteRewardPerformanceWithRange(rewardTarget,filteredKeys,rangeType,minValue,maxValue) {
-    if (devMode === false){console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);};
+    if (devMode === true){console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);};
 
     let isEligible = onSearchActivityWithTypeRange(filteredKeys,rangeType,minValue,maxValue);
     if (isEligible) {
         rewardsEligibleArray.push(rewardTarget);
     }
-    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+    if (devMode === true){console.log("[REWARDS] Resultat : " + isEligible);};
 }
 
 
 // Fonction pour trouver une activité dont la distance ou la durée sont entre min et max
 function onSearchActivityWithTypeRange(dataKeys, rangeType, bottomTarget, topTarget) {
-    if (devMode === false){console.log(`[REWARDS] recherche d'une distance ou durée unique comprise entre : ${bottomTarget} et ${topTarget}`);};
+    if (devMode === true){console.log(`[REWARDS] recherche d'une distance ou durée unique comprise entre : ${bottomTarget} et ${topTarget}`);};
 
     for (let e of dataKeys){
         const value = allUserActivityArray[e][rangeType];
@@ -1080,24 +1080,24 @@ function onSearchActivityWithTypeRange(dataKeys, rangeType, bottomTarget, topTar
 
 
 function onTraiteRewardPerformanceSup(rewardTarget,filteredKeys,targetType, targetValue) {
-    if (devMode === false){console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);};
+    if (devMode === true){console.log(`[REWARDS] Test eligibilité pour : ${rewardTarget}`);};
 
     let isEligible =  onSearchActivityWithValueSuperior(filteredKeys, targetType, targetValue);
     if (isEligible) {
         rewardsEligibleArray.push(rewardTarget);
     }
-    if (devMode === false){console.log("[REWARDS] Resultat : " + isEligible);};
+    if (devMode === true){console.log("[REWARDS] Resultat : " + isEligible);};
 
 }
 
 // DISTANCE // ou durée UNIQUE d'une activité spécifique. Est-ce que c'est supérieur ? 
 function onSearchActivityWithValueSuperior(dataKeys, targetType, targetValue) {
 
-    if (devMode === false){console.log(`[REWARDS] recherche d'une ${targetType} unique supérieures à : ${targetValue}`);};
+    if (devMode === true){console.log(`[REWARDS] recherche d'une ${targetType} unique supérieures à : ${targetValue}`);};
 
     for (let e of dataKeys){
         if (allUserActivityArray[e][targetType] >= targetValue) { 
-            if (devMode === false){console.log(`[REWARDS] Valeur trouvée :  ${allUserActivityArray[e][targetType]}`);};
+            if (devMode === true){console.log(`[REWARDS] Valeur trouvée :  ${allUserActivityArray[e][targetType]}`);};
             return true;
         };
     };
@@ -1111,7 +1111,7 @@ function onSearchActivityWithValueSuperior(dataKeys, targetType, targetValue) {
 function getActivitiesCumulValue(activityTarget) {
 
     // Log uniquement en mode debug
-    if (devMode === false) {
+    if (devMode === true) {
         console.log(`[REWARDS] récupération des activités pour : ${activityTarget}`);
     }
 
@@ -1235,7 +1235,7 @@ function onCheckDeRetour(activityKeys) {
 // Traite les trophés définitifs à affecter à l'utilisateur
 async function onAffectFinalRewardsToUser() {
     
-    if (devMode === false){
+    if (devMode === true){
         console.log("[REWARDS] Trouve les trophés réelle à affecter à l'USER ");
         console.log("[REWARDS] User éligible à : ",rewardsEligibleArray);
         console.log("[REWARDS] déjà possédé par l'user : ",userRewardsArray);
