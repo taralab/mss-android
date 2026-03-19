@@ -264,7 +264,11 @@ let btnMainMenuData = {
     generateMemory:{
         imgRef:"./Icons/Icon-Recup-Disable.webp",
         text:"Générer"
-    }
+    },
+    clearCorbeille:{
+        imgRef:"./Icons/Icon-Delete-color.webp",
+        text:"Vider"
+    },
 }
 
 let isInMainMenu = true;//pour la gestion du keyboard pour masquer ou non les deux boutons flottant

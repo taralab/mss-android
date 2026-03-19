@@ -251,13 +251,14 @@ async function onLoadCorbeilleItemsListFromDB() {
 
 
 async function onOpenMenuCorbeille() {
-
+    // Vide le précedent main menu
+    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
+    divMainMenuParentRef.innerHTML = "";
     
-    //Création menu principal
-    onCreateMainMenuCorbeille();
+
 
     //actualise l'affichage
-    eventUpdateCorbeilleList();
+    await eventUpdateCorbeilleList();
 
 
 
@@ -269,6 +270,10 @@ async function onOpenMenuCorbeille() {
         newClotureList.classList.add("last-container");
         newClotureList.innerHTML = `ℹ️ Un élément est supprimé après ${dayBeforeDelete} jours.`;
         divCorbeilleEndListRef.appendChild(newClotureList);
+
+
+    //Création menu principal
+    onCreateMainMenuCorbeille();
 }
 
 
@@ -276,13 +281,14 @@ async function onOpenMenuCorbeille() {
 
 // Génération du menu principal
 function onCreateMainMenuCorbeille() {
-    // Vide le précedent contenut
-    let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
-    divMainMenuParentRef.innerHTML = "";
+
 
     //crée les boutons
     //Retour
     new Button_main_menu(btnMainMenuData.return.imgRef,btnMainMenuData.return.text,() => onClickReturnFromCorbeille());
+
+    //Retour
+    new Button_main_menu(btnMainMenuData.clearCorbeille.imgRef,btnMainMenuData.clearCorbeille.text,() => onClickClearCorbeille());
 }
    
 
@@ -576,6 +582,37 @@ function onObjectifWasRestaured(itemRestaured){
 
 // *    *   *   *   *   *   *   SUPPRESSION DEFINITIVE *    *   *   *   *   *   *
 
+
+function onClickClearCorbeille() {
+    
+
+    let confirmText = "Vider la corbeille ?";
+    addEventForGlobalPopupConfirmation(removeEventForGlobalPopupConfirmation,onConfirmClearCorbeille,confirmText,"delete");
+}
+
+
+
+async function onConfirmClearCorbeille() {
+    
+    //vérifie s'il y a des éléments dans la corbeille 
+
+    if(Object.keys(corbeilleItemsList).length === 0){
+
+        alert("Tu n'as rien à supprimer");
+        return
+    }    
+
+    await onClearCorbeille();
+
+    onShowNotifyPopup("clearCorbeille");
+
+    //réactualise l'affichage de la corbeille
+    eventUpdateCorbeilleList();
+
+
+}
+
+
 async function onClearCorbeille() {
     console.log("[CORBEILLE] suppression complète de la corbeille");
 
@@ -601,7 +638,7 @@ async function onClearCorbeille() {
             await db.bulkDocs(docsToDelete);
             console.log(`[CORBEILLE] ${docsToDelete.length} éléments supprimés`);
         } else {
-            console.log("[CORBEILLE] Aucun élément à supprimer");
+            if (devMode) {console.log("[CORBEILLE] Aucun élément à supprimer");};
         }
 
         return docsToDelete;
