@@ -576,49 +576,41 @@ function onObjectifWasRestaured(itemRestaured){
 
 // *    *   *   *   *   *   *   SUPPRESSION DEFINITIVE *    *   *   *   *   *   *
 
-async function onCheckItemCorbeilleToDelete() {
-    console.log("[CORBEILLE] vérification des éléments à supprimer");
-    let docListToDelete = [],
-        dateToday = Date.now();
-        const limitDaysInMs = dayBeforeDelete * 24 * 60 * 60 * 1000;
+async function onClearCorbeille() {
+    console.log("[CORBEILLE] suppression complète de la corbeille");
+
+    const docsToDelete = [];
 
     try {
-        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
+        const result = await db.allDocs({ include_docs: true });
+        const rows = result.rows;
 
-        // Filtrer et extraire uniquement les champs nécessaires sous forme de tableau
-        result.rows
-            .map(row => row.doc)
-            .filter(doc => doc.type === "itemDeleted")
-            .forEach(doc => {
-                //si la date est supérieur à "dayBeforeDelete" 
-                if (dateToday - doc.oldItemInfo.deletedDate > limitDaysInMs) {
-                    docListToDelete.push(doc);
-                }
-            });
+        for (let i = 0; i < rows.length; i++) {
+            const doc = rows[i].doc;
 
-            //pour chaque document
-            for (const doc of docListToDelete){
-                //supprime de la base
-                await db.remove(doc);
+            if (doc.type === "itemDeleted") {
+                docsToDelete.push({
+                    _id: doc._id,
+                    _rev: doc._rev,
+                    _deleted: true
+                });
             }
+        }
 
-            if (docListToDelete.length > 0) {
-                console.log(`[CORBEILLE] ${docListToDelete.length} supprimés automatiquement`);
-            }else{
-                console.log(`[CORBEILLE] Aucun élément de la corbeille à supprimer`);
-            }
-            
-        return docListToDelete;
+        if (docsToDelete.length > 0) {
+            await db.bulkDocs(docsToDelete);
+            console.log(`[CORBEILLE] ${docsToDelete.length} éléments supprimés`);
+        } else {
+            console.log("[CORBEILLE] Aucun élément à supprimer");
+        }
+
+        return docsToDelete;
 
     } catch (error) {
-        
+        console.error("[CORBEILLE] Erreur :", error);
+        return [];
     }
-
 }
-
-
-
-
 
 
 // Quitte le menu corbeille
