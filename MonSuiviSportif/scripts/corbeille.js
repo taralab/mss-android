@@ -250,6 +250,16 @@ async function onLoadCorbeilleItemsListFromDB() {
 
 
 
+
+
+
+// *    *   *   *   *   *   *   * LANCEMENT *   *   *   *   *   *   *   *
+
+
+
+
+
+
 async function onOpenMenuCorbeille() {
     // Vide le précedent main menu
     let divMainMenuParentRef = document.getElementById("divMainBtnMenu");
@@ -298,7 +308,7 @@ async function eventUpdateCorbeilleList(){
     //reset les éléments
     corbeilleItemsList = {};
     let parentRef = document.getElementById("divCorbeilleList");
-    parentRef.textContent = "";
+    parentRef.textContent = "Veuillez patienter...";
 
     //Récupère les éléments dans la base
     corbeilleItemsList = await onLoadCorbeilleItemsListFromDB();
@@ -317,6 +327,7 @@ async function eventUpdateCorbeilleList(){
             new CorbeilleItem(key,type,displayType,name,deletedDate,fragment,delay,userSetting.animationEnabled);
         });
 
+        parentRef.textContent = "";
         parentRef.appendChild(fragment);
     }else{
         parentRef.textContent = "Aucun élément à afficher !";
