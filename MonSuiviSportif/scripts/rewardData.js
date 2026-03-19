@@ -5620,7 +5620,7 @@ const allRewardsObject = {
         "text": {
             "condition": "un triathlon",
             "notify": "Jamais deux sans trois",
-            "underBadge": "Jamais deux sans trois"
+            "underBadge": "Un triathlon"
         }
     },
     "VELO-A-1-SEANCE": {
