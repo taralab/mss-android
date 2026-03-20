@@ -813,7 +813,6 @@ function onCheckReward(currentActivitySavedName,currentActivityComment) {
 
     //Récupères les valeurs cumulées des activités (tout et type en cours)
     let allActivitiesValues = getActivitiesCumulValue(currentActivitySavedName);
-    console.log(allActivitiesValues);
 
 
     onTraiteCommunRewards(
@@ -915,8 +914,6 @@ function onTraiteCommunRewards(allActivitiesValues,variousCount,oldestDate) {
         .filter(([key, value]) => value.activityName === "COMMUN")
         .map(([key, value]) => key);
     
-    console.log(communRewardDataKeys);
-    
     communRewardDataKeys.forEach(rewardKey =>{
         //si l'utilisateur possede déjà le reward, ne traite pas
         if (userRewardsArray.includes(rewardKey)) {
@@ -926,8 +923,6 @@ function onTraiteCommunRewards(allActivitiesValues,variousCount,oldestDate) {
 
         //sinon traite
         let currentRewardData = allRewardsObject[rewardKey];
-        console.log(currentRewardData);
-
 
         switch (currentRewardData.category) {
             case "COMMUN-DURATION-CUMUL":
@@ -975,14 +970,12 @@ function hasReachedAnniversary(rewardTarget,oldestDate, targetYears) {
 // Traitement leveling activities
 function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKeys,currentTypeValues) {
     
-    console.log("currentTypeValues", currentTypeValues);
 
     //récupère les keys des récompenses spécifiques à l'activité
     const activityRewardDataKeys = Object.entries(allRewardsObject)
         .filter(([key, value]) => value.activityName === currentActivitySavedName)
         .map(([key, value]) => key);
 
-        console.log(activityRewardDataKeys);
 
     //La key représente également le nom du rewards
     activityRewardDataKeys.forEach(rewardKey =>{
