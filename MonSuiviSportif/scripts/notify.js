@@ -79,8 +79,8 @@ function onShowNotifyPopup(key) {
 // Gestion des éléments DOM
 let pMobileNotifyStatusRef = document.getElementById("pMobileNotifyStatus"),
     rewardsKeyArrayToNotifyCue = [],//tableau vidé par la boucle de notification au fur et à mesure
-    isMobileNotifyInProgress = false; // pour ne pas lancer la boucle en doublon si traitement en cours
-
+    isMobileNotifyInProgress = false, // pour ne pas lancer la boucle en doublon si traitement en cours
+    maxRewardMobileNotify = 3;//nbre max pour laquelle on fait des notifications individuels. Sinon une seule groupée
 
 
 // Fonction utilitaire pour accéder au plugin de notifications en toute sécurité
@@ -174,6 +174,22 @@ const eventFirstMobileNotify = async (rewardsKeysArray) => {
 
 function onTraiteMobileNotify() {
 
+    //Si moins de 3 récompenses : notification individuel. Sinon une seule groupée
+    let rewardCount = rewardsKeyArrayToNotifyCue.length;
+
+    if (rewardCount > maxRewardMobileNotify) {
+        if (devMode) console.log(`[NOTIFY] [MOBILE] [REWARD] notification supérieure à ${rewardCount}`);
+
+        sendRewardMobileNotify(`🏆 Vous avez obtenu ${rewardCount} récompenses 🎉`);
+
+        rewardsKeyArrayToNotifyCue = [];
+        isMobileNotifyInProgress = false;
+
+        return;
+    }
+
+    //sinon Traite la boucle
+
     const rewardKey = rewardsKeyArrayToNotifyCue[0];
 
     //tente de récupére dans l'un ou l'autre pour savoir c'est dans lequel
@@ -212,51 +228,7 @@ function onTraiteMobileNotify() {
             isMobileNotifyInProgress = false;
         }
 
-    }, 2000);
-}
-
-//Boucle de traitement des notifications mobiles REWARDS
-function onTraiteMobileNotify_old() {
-    // index zero de la file d'attente
-    let rewardKey = rewardsKeyArrayToNotifyCue[0];
-
-
-
-    //Je m'assure que le reward existe dans un des deux objets
-    if (Object.keys(allRewardsObject).includes(rewardKey) || Object.keys(allSpecialEventsRewardsObject).includes(rewardKey)){
-        if (devMode === true){console.log("[NOTIFY] [MOBILE] [REWARD] reward existant");};
-    }else{
-        console.error("ERREUR REWARDS : ",rewardKey);
-        return
-    }
-
-    // Recherche dans quel objet se trouve la récompense (standard ou spécial)
-    let isStandartReward = Object.keys(allRewardsObject).includes(rewardKey);
-
-    if (isStandartReward) {
-        sendRewardMobileNotify(`🏆 ${allRewardsObject[rewardKey].text.notify}`);
-    }else{
-        sendRewardMobileNotify("⭐ SPECIAL EVENT ⭐", allSpecialEventsRewardsObject[rewardKey].title);
-    };
-
-    
-    // Retire l'index zero de la file d'attente
-    rewardsKeyArrayToNotifyCue.shift();
-
-    if (devMode === true){
-        console.log("[NOTIFY] [MOBILE] Traitement pour " + rewardKey);
-        console.log("[NOTIFY] [MOBILE] File d'attente :" + rewardsKeyArrayToNotifyCue);
-    };
-    
-
-    setTimeout(() => {
-        if (rewardsKeyArrayToNotifyCue.length > 0) {            
-            onTraiteMobileNotify();
-        } else {
-            if (devMode === true){console.log("[NOTIFY] [MOBILE] fin de traitement. Libération du boolean");};
-            isMobileNotifyInProgress = false;
-        }
-    }, 2000);
+    }, 1200);
 }
 
 
