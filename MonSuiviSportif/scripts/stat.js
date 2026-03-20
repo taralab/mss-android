@@ -406,7 +406,7 @@ function getStats(activityTargetKeysList, days = null) {
     const totalDistance = filteredKeys.reduce((sum, key) => {
         const activity = allUserActivityArray[key];
         if (activity && activity.distance) {
-            return sum + parseFloat(activity.distance);
+            return sum + activity.distance;
         }
         return sum;
     }, 0);
@@ -488,7 +488,6 @@ const monthStatNamesArray = [
 
 function getActivityStatCountByMonth(activityKeysList,yearTarget) {
 
-
     // Objet qui stocke les comptes des activité classé
     let countActivityByMonth = {
         january : {count : 0, distance: 0 , duration : 0},
@@ -509,47 +508,28 @@ function getActivityStatCountByMonth(activityKeysList,yearTarget) {
         totalDistanceYear = 0,
         totalDurationYear = 0;
 
-    activityKeysList.forEach(key=>{
+     activityKeysList.forEach(key => {
+        const activity = allUserActivityArray[key];
 
-        const dateObject = new Date(allUserActivityArray[key].date);
+        const dateObject = new Date(activity.date);
         const year = dateObject.getFullYear();
-        const month = dateObject.getMonth();
-        const monthName = monthStatNamesArray[month];
 
+        if (year !== yearTarget) return;
 
-        // Si l'année correspond, ajoute + 1 dans le mois de l'activité
-        if (year === yearTarget) { 
-            countActivityByMonth[monthName].count++;
+        const monthName = monthStatNamesArray[dateObject.getMonth()];
+        const bucket = countActivityByMonth[monthName];
 
+        const newDistance = Number(activity.distance) || 0;
+        const newDuration = activity.durationSeconds || 0;
 
-            // ancienne valeur
-            let oldDistance = Number(countActivityByMonth[monthName].distance) || 0;
-            // Valeur à ajouter
-            let newDistance = parseFloat(allUserActivityArray[key].distance) ||0 ;
-            // addition
-            let distanceToAdd = oldDistance + newDistance;
-            distanceToAdd = Math.round(distanceToAdd * 10) / 10;//arrondi 1 décimale
-            countActivityByMonth[monthName].distance = distanceToAdd;
+        // Accumulation propre (sans arrondi)
+        bucket.count++;
+        bucket.distance += newDistance;
+        bucket.duration += newDuration;
 
-
-
-            // Additionne les durée
-            // ancienne valeur
-            let oldDuration = Number(countActivityByMonth[monthName].duration) || 0;
-
-            // Valeur à ajouter
-            let newDuration = allUserActivityArray[key].durationSeconds || 0;
-
-
-            let durationToAdd = oldDuration + newDuration;
-
-            countActivityByMonth[monthName].duration = durationToAdd;
-
-            // calcul également le total sur l'année
-            totalCountYear++;
-            totalDistanceYear += newDistance;
-            totalDurationYear += newDuration;
-        }
+        totalCountYear++;
+        totalDistanceYear += newDistance;
+        totalDurationYear += newDuration;
     });
 
 
@@ -572,7 +552,7 @@ function getActivityStatCountByMonth(activityKeysList,yearTarget) {
 
     // Trouve le mois avec la durée la plus élevé (mois de référence pour les 100%)
     const maxDurationMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].duration > countActivityByMonth[b].duration ? a : b);
-    if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
+    if (devMode === true){console.log("[STAT] " + maxDurationMonth);};
 
 
     onSetResumeByYear(totalCountYear,totalDistanceYear,formatDurationFromSeconds(totalDurationYear));
@@ -584,7 +564,6 @@ function getActivityStatCountByMonth(activityKeysList,yearTarget) {
     // traitement information mois en cours
     onSetStatMonthInformation(countActivityByMonth,yearTarget);
 
-    console.log(countActivityByMonth);
 }
 
 
@@ -659,7 +638,7 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     textStatCurrentMonthDurationRef.textContent = convertedDuration;
 
     // Distance
-    textStatCurrentMonthDistanceRef.textContent = `${currentMonthData.distance} km`;
+    textStatCurrentMonthDistanceRef.textContent = `${currentMonthData.distance.toFixed(1)} km`;
 
     //si on est en janvier, pas de comparaison avec le mois précédent
     if (currentMonthIndex === 0) {
@@ -927,8 +906,8 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
 
     // DISTANCE
     monthStatNamesArray.forEach(e=>{
-        document.getElementById(`stat-distance-${e}`).textContent = activityCount[e].distance;
-        document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
+        document.getElementById(`stat-distance-${e}`).textContent = activityCount[e].distance.toFixed(1);
+        document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance.toFixed(1)) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
         if (activityCount[e].distance === higherDistanceValue && higherDistanceValue!== 0) {
@@ -1123,7 +1102,7 @@ function displayGeneralStats(nonPlannedActivitiesKeys) {
     const totalDistance = nonPlannedActivitiesKeys.reduce((sum, key) => {
         const activity = allUserActivityArray[key];
         if (activity && activity.distance) {
-            return sum + parseFloat(activity.distance || 0);
+            return sum + activity.distance || 0;
         }
         return sum;
     }, 0);
