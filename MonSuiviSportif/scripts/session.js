@@ -336,7 +336,7 @@ function onAddEventListenerForSendToActivity() {
 function eventSendToSessionToActivity() {
     //récupère le lieu
     let sessionLocation = document.getElementById("inputSendSessionToActivityLocation").value;
-    let formatedSessionLocation = onSetToUppercase(sessionLocation);
+    let formatedSessionLocation = sessionLocation;
 
     //récupère le boolean d'utilisateur de la valeur des timers
     let isUseTimerReference = document.getElementById("inputCBSendToActivityUseTimer").checked;
@@ -1445,8 +1445,9 @@ async function onSendSessionToActivity(activityTarget,sessionLocation,isUseTimer
         name : activityTarget,
         date : onFindDateTodayUS(),
         location : sessionLocation,
-        distance : "",
+        distance : 0,
         duration : sessionDuration,
+        durationSeconds : durationToSeconds(sessionDuration) || 0,
         comment : sessionText,
         createdAt : new Date().toISOString(),
         isPlanned : false,

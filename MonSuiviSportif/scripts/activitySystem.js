@@ -62,7 +62,7 @@ class ActivityItem {
         this.distance = parseFloat(distance);
         this.duration = duration;
         this.date = date;
-        this.location = location;
+        this.location = location.toUpperCase();
         this.comment = comment;
         this.parentRef = parentRef;
         this.isPlanned = isPlanned;
@@ -962,7 +962,7 @@ function onFormatActivity() {
     activityToInsertFormat.name = selectorCategoryChoiceRef.value;
     activityToInsertFormat.date = inputDateRef.value;
     activityToInsertFormat.distance = Number(inputDistanceRef.value);
-    activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
+    activityToInsertFormat.location = inputLocationRef.value;
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputActivityNumberToTime();
 
