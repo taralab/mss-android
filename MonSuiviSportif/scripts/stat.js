@@ -348,7 +348,20 @@ function formatDuration(totalMinutes) {
 }
 
 
+// Fonction pour formater la durée en heures:minutes:secondes à partir de secondes
+function formatDurationFromSeconds(totalSeconds) {
+    if (isNaN(totalSeconds) || totalSeconds < 0) {
+        return "00:00:00";
+    }
 
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    return `${String(hours).padStart(2, '0')}:` +
+           `${String(minutes).padStart(2, '0')}:` +
+           `${String(seconds).padStart(2, '0')}`;
+}
 
 
 
@@ -381,22 +394,14 @@ function getStats(activityTargetKeysList, days = null) {
     // Calculer les statistiques
     const totalSessions = filteredKeys.length;
 
-    // const totalDuration = filteredSessions.reduce((sum, session) =>
-    //     sum + durationToMinutes(session.duration || "00:00:00"), 0
-    // ); // En minutes
-
     const totalDuration = filteredKeys.reduce((sum, key) => {
         const activity = allUserActivityArray[key];
-        if (activity && activity.duration) {
-            return sum + durationToMinutes(activity.duration || "00:00:00");
+        if (activity && activity.durationSeconds) {
+            return sum + activity.durationSeconds || 0;
         }
         return sum;
     }, 0);
 
-
-    // const totalDistance = filteredSessions.reduce((sum, session) =>
-    //     sum + parseFloat(session.distance || 0), 0
-    // );
 
     const totalDistance = filteredKeys.reduce((sum, key) => {
         const activity = allUserActivityArray[key];
@@ -533,7 +538,7 @@ function getActivityStatCountByMonth(activityKeysList,yearTarget) {
             let oldDuration = Number(countActivityByMonth[monthName].duration) || 0;
 
             // Valeur à ajouter
-            let newDuration = durationToMinutes(allUserActivityArray[key].duration || "00:00:00");
+            let newDuration = allUserActivityArray[key].durationSeconds || 0;
 
 
             let durationToAdd = oldDuration + newDuration;
@@ -570,11 +575,16 @@ function getActivityStatCountByMonth(activityKeysList,yearTarget) {
     if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
 
-    onSetResumeByYear(totalCountYear,totalDistanceYear,formatDuration(totalDurationYear));
-    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxDurationMonth].duration);
+    onSetResumeByYear(totalCountYear,totalDistanceYear,formatDurationFromSeconds(totalDurationYear));
+    onSetGraphicItems(
+        countActivityByMonth,countActivityByMonth[maxCountMonth].count,
+        countActivityByMonth[maxDistanceMonth].distance,
+        countActivityByMonth[maxDurationMonth].duration);
 
     // traitement information mois en cours
     onSetStatMonthInformation(countActivityByMonth,yearTarget);
+
+    console.log(countActivityByMonth);
 }
 
 
@@ -645,7 +655,7 @@ function onSetStatMonthInformation(statDataArray,yearFilterTarget) {
     textStatCurrentMonthActivityRef.textContent = currentMonthData.count;
 
     // Duration
-    let convertedDuration = formatMinutesToHoursForGraph(currentMonthData.duration);
+    let convertedDuration = formatSecondsToHoursForGraph(currentMonthData.duration);
     textStatCurrentMonthDurationRef.textContent = convertedDuration;
 
     // Distance
@@ -754,7 +764,7 @@ function onCalculStatEvolution(previousMonthValue,currentMonthValue) {
     }
     
 
-    let durationConvertedValue = formatMinutesToHoursForGraph(Math.abs(durationEvolutionValue)),
+    let durationConvertedValue = formatSecondsToHoursForGraph(Math.abs(durationEvolutionValue)),
         durationText = "";
 
     if (Math.abs(durationEvolutionValue) === 0) {
@@ -841,7 +851,15 @@ function formatMinutesToHoursForGraph(minutes) {
      
     return `${hours}h${roundMins.toString().padStart(2, "0")}`; // Ajout du "0" si nécessaire
 }
+// convertir les secondes au format 2h45
+function formatSecondsToHoursForGraph(seconds) {
+    if (isNaN(seconds) || seconds <= 0) return "0h00";
 
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+
+    return `${hours}h${mins.toString().padStart(2, "0")}`;
+}
 
 // set le résumé par année
 function onSetResumeByYear(count,distance,hour) {
@@ -923,7 +941,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
 
     // DURATION
     monthStatNamesArray.forEach(e=>{
-        document.getElementById(`stat-duration-${e}`).textContent = formatMinutesToHoursForGraph(activityCount[e].duration);
+        document.getElementById(`stat-duration-${e}`).textContent = formatSecondsToHoursForGraph(activityCount[e].duration);
         document.getElementById(`stat-PB-Duration-${e}`).style = "--progress:" + onCalculStatPercent(higherDurationValue,activityCount[e].duration) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
@@ -1016,7 +1034,7 @@ function displayActivityStats(activityName) {
 
     // Calcul des informations générales
     const totalKm = statsAllTime.totalDistance.toFixed(2);
-    const totalDurationFormatted = formatDuration(statsAllTime.totalDuration);
+    const totalDurationFormatted = formatDurationFromSeconds(statsAllTime.totalDuration);
 
     // Texte convivial pour l'utilisateur (si distance > 0 ou non)
     const generalText1 = statsAllTime.totalDistance > 0 
@@ -1031,10 +1049,10 @@ function displayActivityStats(activityName) {
         ? "<p>Il semble que tu n'aies pas pratiqué cette activité ces derniers jours.</p>" 
         : stats7Days.totalDistance > 0
             ? `
-                <p>${stats7Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats7Days.totalDuration)} - 🚶${stats7Days.totalDistance.toFixed(2)} km</p>
+                <p>${stats7Days.totalSessions} séance(s) - ⏱️ ${formatDurationFromSeconds(stats7Days.totalDuration)} - 🚶${stats7Days.totalDistance.toFixed(2)} km</p>
             `
             : `
-                <p>${stats7Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats7Days.totalDuration)} - 🤷 0 km</p>
+                <p>${stats7Days.totalSessions} séance(s) - ⏱️ ${formatDurationFromSeconds(stats7Days.totalDuration)} - 🤷 0 km</p>
             `;
 
     // Vérification pour les 30 derniers jours
@@ -1042,10 +1060,10 @@ function displayActivityStats(activityName) {
         ? "<p>Cela fait un certain temps que tu n'as pas pratiqué cette activité.</p>" 
         : stats30Days.totalDistance > 0
             ? `
-                <p>${stats30Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats30Days.totalDuration)} - 🚶 ${stats30Days.totalDistance.toFixed(2)} km</p>
+                <p>${stats30Days.totalSessions} séance(s) - ⏱️ ${formatDurationFromSeconds(stats30Days.totalDuration)} - 🚶 ${stats30Days.totalDistance.toFixed(2)} km</p>
             `
             : `
-                <p>${stats30Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats30Days.totalDuration)} - 🤷 0 km</p>
+                <p>${stats30Days.totalSessions} séance(s) - ⏱️ ${formatDurationFromSeconds(stats30Days.totalDuration)} - 🤷 0 km</p>
             `;
 
     // Afficher les résultats
@@ -1094,8 +1112,8 @@ function displayGeneralStats(nonPlannedActivitiesKeys) {
 
     const totalDuration = nonPlannedActivitiesKeys.reduce((sum, key) => {
         const activity = allUserActivityArray[key];
-        if (activity && activity.duration) {
-            return sum + durationToMinutes(activity.duration || "00:00:00");
+        if (activity && activity.durationSeconds) {
+            return sum + activity.durationSeconds || 0;
         }
         return sum
     },0);
@@ -1135,7 +1153,7 @@ function displayGeneralStats(nonPlannedActivitiesKeys) {
         <section class="stat">
             <p>
                 Depuis le <b>${formattedDate}</b>, tu as pratiqué <b>${totalActivities} activité(s)</b>, 
-                parcouru environ <b>${totalDistance.toFixed(2)} km</b> et accumulé un total de <b>${formatDuration(totalDuration)} heure(s)</b> de sport. 
+                parcouru environ <b>${totalDistance.toFixed(2)} km</b> et accumulé un total de <b>${formatDurationFromSeconds(totalDuration)} heure(s)</b> de sport. 
             </p>
             <p>Activité la plus pratiquée : <b>${displayName}</b>.</p>
 

@@ -995,7 +995,6 @@ function onTraiteRewardActivities(currentActivitySavedName,specificActivitiesKey
 
         //sinon traite
         let currentRewardData = allRewardsObject[rewardKey];
-        console.log(currentRewardData);
 
         switch (currentRewardData.category) {
             case "LEVELING":
