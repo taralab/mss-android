@@ -1943,13 +1943,14 @@ function eventAddNewTag(tagToAdd) {
     if (!tagReferenciel.includes(tagToAdd)) {
         tagReferenciel.push(tagToAdd);
 
-        console.log('Ajout du tag : ',tagToAdd);
+        if (devMode === true) {
+            console.log('Ajout du tag : ',tagToAdd);
+        }
         //actualise les options du selecteur de tag dans la liste d'affiche d'activité
         onUpdateSelectorFilterTAG();
 
         // Insertion des TAG dans la base de donnée
         onSaveTagInDB();
 
-        console.log("Sauvegarde de la liste des tag");
     }
 }

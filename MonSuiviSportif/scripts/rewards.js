@@ -719,6 +719,7 @@ function onSetRewardVisionneuseData(index) {
     }else{
         // set les éléments et affiche
         imgRewardsFullScreenARef.src = allSpecialEventsRewardsObject[rewardName].imgRef;
+        imgRewardsFullScreenBRef.style.display = "none";
         pRewardsFSActivityNameRef.replaceChildren();
 
         pRewardsFullScreenTitleRef.textContent = allSpecialEventsRewardsObject[rewardName].title;
