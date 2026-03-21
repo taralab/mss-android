@@ -928,6 +928,23 @@ function onFormatDateToFr(dateString) {
 };
 
 
+//format complet
+//Exemple : 2 juillet 2025
+//Ou si true : mardi 2 juillet 2025
+function formatDateFRComplet(dateStr, withDayName = false) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+
+  const date = new Date(year, month - 1, day);
+
+  const options = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    ...(withDayName && { weekday: 'long' })
+  };
+
+  return new Intl.DateTimeFormat('fr-FR', options).format(date);
+}
 
 //Pour les informations aléatoires
 //permet d'obtenir un index

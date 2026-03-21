@@ -115,93 +115,13 @@ class CorbeilleItem{
 
 
 
-async function onLoadCorbeilleItemsListFromDB_old() {
-    let list = {};// Initialisation,reset
-
-    try {
-        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
-
-        // Filtrer et extraire uniquement les champs nécessaires sous forme de tableau
-        result.rows
-            .map(row => row.doc)
-            .filter(doc => doc.type === "itemDeleted")
-            .forEach(doc => {
-
-                //set selon le type d'élément
-                switch (doc.oldItemInfo.type) {
-                    case "ActivityList":
-                        list[doc._id] = {
-                            type : doc.oldItemInfo.type,
-                            displayType : "Activité",
-                            name : `${activityChoiceArray[doc.name].displayName} du ${doc.date}`,
-                            deletedDate : doc.oldItemInfo.deletedDate
-                        };
-                        break;
-                    case "Template":
-                        list[doc._id] = {
-                            type : doc.oldItemInfo.type,
-                            displayType : "Modèle d'activité",
-                            name : doc.title,
-                            deletedDate : doc.oldItemInfo.deletedDate
-                        };
-                        break;
-                    case "TemplateSession":
-                        list[doc._id] = {
-                            type : doc.oldItemInfo.type,
-                            displayType : "Modèle de séance",
-                            name : doc.sessionName,
-                            deletedDate : doc.oldItemInfo.deletedDate
-                        };
-                        break;
-                    case "Notes":
-                        list[doc._id] = {
-                            type : doc.oldItemInfo.type,
-                            displayType : "Notes",
-                            name : doc.title,
-                            deletedDate : doc.oldItemInfo.deletedDate
-                        };
-                        break;
-                    case "Memory":
-                        list[doc._id] = {
-                            type : doc.oldItemInfo.type,
-                            displayType : "Evènement",
-                            name : doc.title,
-                            deletedDate : doc.oldItemInfo.deletedDate
-                        };
-                        break;   
-                    case "Objectif":
-                        list[doc._id] = {
-                            type : doc.oldItemInfo.type,
-                            displayType : "Objectif",
-                            name : doc.title,
-                            deletedDate : doc.oldItemInfo.deletedDate
-                        };
-                        break;            
-                    default:
-                        break;
-                }
-
-            });
-
-        if (devMode === true) {
-            console.log("[DATABASE] [CORBEILLE] loading corbeilleItemsList :", corbeilleItemsList);
-        }
-
-        return list;
-
-    } catch (error) {
-        
-    }
-}
-
-
 async function onLoadCorbeilleItemsListFromDB() {
     const list = {}; // Initialisation / reset
     const BATCH_SIZE = 500;
 
     // Mapping type → displayType + champ à utiliser pour le name
     const typeMapping = {
-        "ActivityList": { displayType: "Activité", nameField: doc => `${activityChoiceArray[doc.name].displayName} du ${doc.date}` },
+        "ActivityList": { displayType: "Activité", nameField: doc => `${activityChoiceArray[doc.name].displayName} du ${formatDateFRComplet(doc.date)}` },
         "Template": { displayType: "Modèle d'activité", nameField: doc => doc.title },
         "TemplateSession": { displayType: "Modèle de séance", nameField: doc => doc.sessionName },
         "Notes": { displayType: "Notes", nameField: doc => doc.title },
