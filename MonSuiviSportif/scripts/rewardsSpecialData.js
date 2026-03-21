@@ -12,6 +12,11 @@ const allSpecialEventsRewardsObject = {
         imgRef :"./Badges-special/Badge-special-the-best.webp",
         title : "Collaboratrice d'exception !",
         text: " contribué au projet de cette application",
+    },
+    "TRAVERSE-974":{
+        imgRef :"./Badges-special/Badge-special-Traverse-974.webp",
+        title : "En diagonale",
+        text: "traversé l'ile de la Réunion",
     }
 };
 
@@ -21,5 +26,9 @@ const allSpecialEventsRewardsObject = {
 const specialEventKey = {
     COLLAB_25_B: [
         "COLLAB-EXCEPTION",
-    ]
+    ],
+    GRR_974_26: [
+        "TRAVERSE-974",
+    ],
+
 };
