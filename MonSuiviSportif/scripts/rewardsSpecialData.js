@@ -29,6 +29,5 @@ const specialEventKey = {
     ],
     GRR_974_26: [
         "TRAVERSE-974",
-    ],
-
+    ]
 };

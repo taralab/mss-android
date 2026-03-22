@@ -52,6 +52,31 @@ class RewardSeparator{
     }
 }
 
+
+class SeparatorRewardLocked{
+    constructor(parentRef){
+        this.parentRef = parentRef;
+
+        // Conteneur principal
+        this.element = document.createElement("div");
+        this.element.classList.add("reward-separator");
+
+        // Fonction de rendu
+        this.render();
+    }
+
+    render(){
+        this.element.innerHTML = `
+            <p class="reward-separator-title">A débloquer</p>
+            <p class="reward-separator-title">
+                <img class="badge-locked-separator" src="./Icons/badge-locked.webp" alt="Activité">
+            </p>       
+        `;
+        // Insertion dans le parent
+        this.parentRef.appendChild(this.element);
+    }
+}
+
 class RewardLockedSeparator{
     constructor(text,parentRef){
         this.text = text;
@@ -588,7 +613,7 @@ function onLoadUserRewardsList() {
     });
 
     // création du séparateur LOCKED
-    new RewardSeparator("LOCKED",divRewardsListRef);
+    new SeparatorRewardLocked(divRewardsListRef);
 
     allRewardsKeys.forEach(key=>{
 

@@ -1828,6 +1828,15 @@ p.reward-separator-title{
     font-weight: bold;
 }
 
+
+img.badge-locked-separator{
+    width: 50px;
+    text-align: center;
+}
+
+
+
+
 /* Tremblement pour les récompenses verrouillées */
 div.reward-card.locked.tremble {
     animation: shake 0.4s;
@@ -1904,7 +1913,6 @@ img.rewardsListDisable {
     background-color: rgb(246, 246, 246);
     opacity: 0.1;
 }
-
 
 
 
