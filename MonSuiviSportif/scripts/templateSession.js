@@ -5,7 +5,7 @@ let templateSessionsNameList = {
     },
     templateSessionKeys = [],
     isTemplateSessionLoadedFromBase = false,//pour une premier chargement via la base de donnée
-    maxTemplateSession = 20,
+    maxTemplateSession = 30,
     templateSessionEditorMode = "", // le mode d'ouverture de l'éditeur (creation,modification)
     currentTemplateSessionID = "",
     currentTemplateSessionData;//pour comparer si ça a été modifié ou non

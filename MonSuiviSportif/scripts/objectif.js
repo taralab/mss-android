@@ -16,7 +16,7 @@ let objectifUserList = {
         // }
     },
     objectifUserKeysList = [],
-    maxObjectif = 20,
+    maxObjectif = 30,
     currentObjectifModifyID = "",
     objectifItemListInstance = {};
 
