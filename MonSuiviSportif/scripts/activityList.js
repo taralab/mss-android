@@ -245,6 +245,12 @@ let activityChoiceArray = {
         colorNuanceClass : "nuance-marron",
         imgRef : "./images/icon-po.webp",
         categoryColor:"brown"
+    },
+    "SURF": {
+        displayName : "Surf",
+        colorNuanceClass : "nuance-turquoise",
+        imgRef : "./images/icon-surf.webp",
+        categoryColor:"turquoise"
     }
 };
 

@@ -5205,9 +5205,142 @@ const allRewardsObject = {
             "underBadge": "1 000 séances"
         }
     },
-    "TENNIS-A-1-SEANCE": {
+    "SURF-A-1-SEANCE": {
         "category": "LEVELING",
         "displayOrder": 275,
+        "activityName": "SURF",
+        "target": {
+            "count": 1,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_1.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "1 séance de surf",
+            "notify": "Surf : Débutant",
+            "underBadge": "1 séance"
+        }
+    },
+    "SURF-B-10-SEANCES": {
+        "category": "LEVELING",
+        "displayOrder": 276,
+        "activityName": "SURF",
+        "target": {
+            "count": 10,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_2.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "10 séances de surf",
+            "notify": "Surf : Apprenti",
+            "underBadge": "10 séances"
+        }
+    },
+    "SURF-C-50-SEANCES": {
+        "category": "LEVELING",
+        "displayOrder": 277,
+        "activityName": "SURF",
+        "target": {
+            "count": 50,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_3.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "50 séances de surf",
+            "notify": "Surf : Confirmé",
+            "underBadge": "50 séances"
+        }
+    },
+    "SURF-D-100-SEANCES": {
+        "category": "LEVELING",
+        "displayOrder": 278,
+        "activityName": "SURF",
+        "target": {
+            "count": 100,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_4.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "100 séances de surf",
+            "notify": "Surf : Expert",
+            "underBadge": "100 séances"
+        }
+    },
+    "SURF-D-250-SEANCES": {
+        "category": "LEVELING",
+        "displayOrder": 279,
+        "activityName": "SURF",
+        "target": {
+            "count": 250,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_5.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "250 séances de surf",
+            "notify": "Surf : Maitre",
+            "underBadge": "250 séances"
+        }
+    },
+    "SURF-D-500-SEANCES": {
+        "category": "LEVELING",
+        "displayOrder": 280,
+        "activityName": "SURF",
+        "target": {
+            "count": 500,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_6.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "500 séances de surf",
+            "notify": "Surf : Champion",
+            "underBadge": "500 séances"
+        }
+    },
+    "SURF-E-1000-SEANCES": {
+        "category": "LEVELING",
+        "displayOrder": 281,
+        "activityName": "SURF",
+        "target": {
+            "count": 1000,
+            "minRange": null,
+            "maxRange": null
+        },
+        "assets": {
+            "imgARef": "./Badges/MSS_RewardV4-256_Contour-LVL_7.webp",
+            "imgBRef": "./Badges/MSS_Reward-256_SURF.webp"
+        },
+        "text": {
+            "condition": "1 000 séances de surf",
+            "notify": "Surf : Légende",
+            "underBadge": "1 000 séances"
+        }
+    },
+    "TENNIS-A-1-SEANCE": {
+        "category": "LEVELING",
+        "displayOrder": 282,
         "activityName": "TENNIS",
         "target": {
             "count": 1,
@@ -5226,7 +5359,7 @@ const allRewardsObject = {
     },
     "TENNIS-B-10-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 276,
+        "displayOrder": 283,
         "activityName": "TENNIS",
         "target": {
             "count": 10,
@@ -5245,7 +5378,7 @@ const allRewardsObject = {
     },
     "TENNIS-C-50-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 277,
+        "displayOrder": 284,
         "activityName": "TENNIS",
         "target": {
             "count": 50,
@@ -5264,7 +5397,7 @@ const allRewardsObject = {
     },
     "TENNIS-D-100-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 278,
+        "displayOrder": 285,
         "activityName": "TENNIS",
         "target": {
             "count": 100,
@@ -5283,7 +5416,7 @@ const allRewardsObject = {
     },
     "TENNIS-D-250-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 279,
+        "displayOrder": 286,
         "activityName": "TENNIS",
         "target": {
             "count": 250,
@@ -5302,7 +5435,7 @@ const allRewardsObject = {
     },
     "TENNIS-D-500-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 280,
+        "displayOrder": 287,
         "activityName": "TENNIS",
         "target": {
             "count": 500,
@@ -5321,7 +5454,7 @@ const allRewardsObject = {
     },
     "TENNIS-E-1000-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 281,
+        "displayOrder": 288,
         "activityName": "TENNIS",
         "target": {
             "count": 1000,
@@ -5340,7 +5473,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-A-1-SEANCE": {
         "category": "LEVELING",
-        "displayOrder": 282,
+        "displayOrder": 289,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 1,
@@ -5359,7 +5492,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-B-10-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 283,
+        "displayOrder": 290,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 10,
@@ -5378,7 +5511,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-C-50-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 284,
+        "displayOrder": 291,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 50,
@@ -5397,7 +5530,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-D-100-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 285,
+        "displayOrder": 292,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 100,
@@ -5416,7 +5549,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-D-250-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 286,
+        "displayOrder": 293,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 250,
@@ -5435,7 +5568,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-D-500-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 287,
+        "displayOrder": 294,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 500,
@@ -5454,7 +5587,7 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-E-1000-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 288,
+        "displayOrder": 295,
         "activityName": "TENNIS-TABLE",
         "target": {
             "count": 1000,
@@ -5473,7 +5606,7 @@ const allRewardsObject = {
     },
     "TIR-A-1-SEANCE": {
         "category": "LEVELING",
-        "displayOrder": 289,
+        "displayOrder": 296,
         "activityName": "TIR",
         "target": {
             "count": 1,
@@ -5492,7 +5625,7 @@ const allRewardsObject = {
     },
     "TIR-B-10-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 290,
+        "displayOrder": 297,
         "activityName": "TIR",
         "target": {
             "count": 10,
@@ -5511,7 +5644,7 @@ const allRewardsObject = {
     },
     "TIR-C-50-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 291,
+        "displayOrder": 298,
         "activityName": "TIR",
         "target": {
             "count": 50,
@@ -5530,7 +5663,7 @@ const allRewardsObject = {
     },
     "TIR-D-100-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 292,
+        "displayOrder": 299,
         "activityName": "TIR",
         "target": {
             "count": 100,
@@ -5549,7 +5682,7 @@ const allRewardsObject = {
     },
     "TIR-D-250-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 293,
+        "displayOrder": 300,
         "activityName": "TIR",
         "target": {
             "count": 250,
@@ -5568,7 +5701,7 @@ const allRewardsObject = {
     },
     "TIR-D-500-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 294,
+        "displayOrder": 301,
         "activityName": "TIR",
         "target": {
             "count": 500,
@@ -5587,7 +5720,7 @@ const allRewardsObject = {
     },
     "TIR-E-1000-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 295,
+        "displayOrder": 302,
         "activityName": "TIR",
         "target": {
             "count": 1000,
@@ -5606,7 +5739,7 @@ const allRewardsObject = {
     },
     "TRIATHLON-1-SEANCE": {
         "category": "LEVELING",
-        "displayOrder": 296,
+        "displayOrder": 303,
         "activityName": "TRIATHLON",
         "target": {
             "count": 1,
@@ -5625,7 +5758,7 @@ const allRewardsObject = {
     },
     "VELO-A-1-SEANCE": {
         "category": "LEVELING",
-        "displayOrder": 297,
+        "displayOrder": 304,
         "activityName": "VELO",
         "target": {
             "count": 1,
@@ -5644,7 +5777,7 @@ const allRewardsObject = {
     },
     "VELO-B-10-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 298,
+        "displayOrder": 305,
         "activityName": "VELO",
         "target": {
             "count": 10,
@@ -5663,7 +5796,7 @@ const allRewardsObject = {
     },
     "VELO-C-50-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 299,
+        "displayOrder": 306,
         "activityName": "VELO",
         "target": {
             "count": 50,
@@ -5682,7 +5815,7 @@ const allRewardsObject = {
     },
     "VELO-D-100-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 300,
+        "displayOrder": 307,
         "activityName": "VELO",
         "target": {
             "count": 100,
@@ -5701,7 +5834,7 @@ const allRewardsObject = {
     },
     "VELO-D-250-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 301,
+        "displayOrder": 308,
         "activityName": "VELO",
         "target": {
             "count": 250,
@@ -5720,7 +5853,7 @@ const allRewardsObject = {
     },
     "VELO-D-500-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 302,
+        "displayOrder": 309,
         "activityName": "VELO",
         "target": {
             "count": 500,
@@ -5739,7 +5872,7 @@ const allRewardsObject = {
     },
     "VELO-E-1000-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 303,
+        "displayOrder": 310,
         "activityName": "VELO",
         "target": {
             "count": 1000,
@@ -5758,7 +5891,7 @@ const allRewardsObject = {
     },
     "VELO-E-50-KM": {
         "category": "PERFORMANCE-DISTANCE-SUP",
-        "displayOrder": 304,
+        "displayOrder": 311,
         "activityName": "VELO",
         "target": {
             "count": 50,
@@ -5777,7 +5910,7 @@ const allRewardsObject = {
     },
     "VELO-E-100-KM": {
         "category": "PERFORMANCE-DISTANCE-SUP",
-        "displayOrder": 305,
+        "displayOrder": 312,
         "activityName": "VELO",
         "target": {
             "count": 100,
@@ -5796,7 +5929,7 @@ const allRewardsObject = {
     },
     "VELO-E-150-KM": {
         "category": "PERFORMANCE-DISTANCE-SUP",
-        "displayOrder": 306,
+        "displayOrder": 313,
         "activityName": "VELO",
         "target": {
             "count": 150,
@@ -5815,7 +5948,7 @@ const allRewardsObject = {
     },
     "VELO-F-1000-KM": {
         "category": "SPECIFIC-DISTANCE-CUMUL",
-        "displayOrder": 307,
+        "displayOrder": 314,
         "activityName": "VELO",
         "target": {
             "count": 1000,
@@ -5834,7 +5967,7 @@ const allRewardsObject = {
     },
     "VELO-F-3400-KM": {
         "category": "SPECIFIC-DISTANCE-CUMUL",
-        "displayOrder": 308,
+        "displayOrder": 315,
         "activityName": "VELO",
         "target": {
             "count": 3400,
@@ -5853,7 +5986,7 @@ const allRewardsObject = {
     },
     "VELO-F-5000-KM": {
         "category": "SPECIFIC-DISTANCE-CUMUL",
-        "displayOrder": 309,
+        "displayOrder": 316,
         "activityName": "VELO",
         "target": {
             "count": 5000,
@@ -5872,7 +6005,7 @@ const allRewardsObject = {
     },
     "VELO-F-10000-KM": {
         "category": "SPECIFIC-DISTANCE-CUMUL",
-        "displayOrder": 310,
+        "displayOrder": 317,
         "activityName": "VELO",
         "target": {
             "count": 10000,
@@ -5891,7 +6024,7 @@ const allRewardsObject = {
     },
     "VELO-F-40000-KM": {
         "category": "SPECIFIC-DISTANCE-CUMUL",
-        "displayOrder": 311,
+        "displayOrder": 318,
         "activityName": "VELO",
         "target": {
             "count": 40000,
@@ -5910,7 +6043,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-A-1-SEANCE": {
         "category": "LEVELING",
-        "displayOrder": 312,
+        "displayOrder": 319,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 1,
@@ -5929,7 +6062,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-B-10-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 313,
+        "displayOrder": 320,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 10,
@@ -5948,7 +6081,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-C-50-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 314,
+        "displayOrder": 321,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 50,
@@ -5967,7 +6100,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-D-100-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 315,
+        "displayOrder": 322,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 100,
@@ -5986,7 +6119,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-D-250-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 316,
+        "displayOrder": 323,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 250,
@@ -6005,7 +6138,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-D-500-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 317,
+        "displayOrder": 324,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 500,
@@ -6024,7 +6157,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-E-1000-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 318,
+        "displayOrder": 325,
         "activityName": "VOLLEYBALL",
         "target": {
             "count": 1000,
@@ -6043,7 +6176,7 @@ const allRewardsObject = {
     },
     "YOGA-A-1-SEANCE": {
         "category": "LEVELING",
-        "displayOrder": 319,
+        "displayOrder": 326,
         "activityName": "YOGA",
         "target": {
             "count": 1,
@@ -6062,7 +6195,7 @@ const allRewardsObject = {
     },
     "YOGA-B-10-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 320,
+        "displayOrder": 327,
         "activityName": "YOGA",
         "target": {
             "count": 10,
@@ -6081,7 +6214,7 @@ const allRewardsObject = {
     },
     "YOGA-C-50-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 321,
+        "displayOrder": 328,
         "activityName": "YOGA",
         "target": {
             "count": 50,
@@ -6100,7 +6233,7 @@ const allRewardsObject = {
     },
     "YOGA-D-100-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 322,
+        "displayOrder": 329,
         "activityName": "YOGA",
         "target": {
             "count": 100,
@@ -6119,7 +6252,7 @@ const allRewardsObject = {
     },
     "YOGA-D-250-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 323,
+        "displayOrder": 330,
         "activityName": "YOGA",
         "target": {
             "count": 250,
@@ -6138,7 +6271,7 @@ const allRewardsObject = {
     },
     "YOGA-D-500-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 324,
+        "displayOrder": 331,
         "activityName": "YOGA",
         "target": {
             "count": 500,
@@ -6157,7 +6290,7 @@ const allRewardsObject = {
     },
     "YOGA-E-1000-SEANCES": {
         "category": "LEVELING",
-        "displayOrder": 325,
+        "displayOrder": 332,
         "activityName": "YOGA",
         "target": {
             "count": 1000,
