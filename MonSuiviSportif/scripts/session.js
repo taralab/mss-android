@@ -1688,26 +1688,27 @@ function onGetSessionDuration(heureDebut, heureFin) {
 
 //récupère le temps total des timers de la session
 function onGetAllSessionTimersDuration() {
-    let totalDuration = 0;
+    let totalDurationMs = 0;
 
     Object.values(userSessionItemsList).forEach((data) => {
         if (data.type === "MINUTEUR") {
-            // durée déjà en secondes
-            totalDuration += data.duration;
+            // secondes → ms
+            totalDurationMs += data.duration * 1000;
         } else if (data.type === "CHRONO") {
-            // convertir ms en secondes (arrondi à l'entier inférieur)
-            totalDuration += Math.floor(data.elapsedTime / 1000);
+            totalDurationMs += data.elapsedTime;
         }
     });
 
-    // Convertir les secondes en HH:MM:SS
-    let heures = String(Math.floor(totalDuration / 3600)).padStart(2, '0');
-    let minutes = String(Math.floor((totalDuration % 3600) / 60)).padStart(2, '0');
-    let secondes = String(totalDuration % 60).padStart(2, '0');
+    // Conversion en secondes (une seule fois)
+    let totalSeconds = Math.floor(totalDurationMs / 1000);
+
+    // Format HH:MM:SS
+    let heures = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+    let minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+    let secondes = String(totalSeconds % 60).padStart(2, '0');
 
     return `${heures}:${minutes}:${secondes}`;
 }
-
 
 
 //vérifie si au moins un timer existe
