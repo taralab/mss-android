@@ -716,7 +716,7 @@ function onFormatTemplate() {
 
     templateToInsertFormat.activityName = selectorTemplateCategoryChoiceRef.value;
     templateToInsertFormat.title = onSetFirstLetterUppercase(inputTemplateTitleRef.value);
-    templateToInsertFormat.distance = inputTemplateDistanceRef.value;
+    templateToInsertFormat.distance = Number(inputTemplateDistanceRef.value);
     templateToInsertFormat.location = inputTemplateLocationRef.value;
     templateToInsertFormat.comment = textareaTemplateCommentRef.value;
     templateToInsertFormat.duration = inputTemplateNumberToTime();

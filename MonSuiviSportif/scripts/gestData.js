@@ -784,7 +784,7 @@ async function importBdD(dataToImport) {
                 duration: e.duration,
                 durationSeconds : e.durationSeconds || durationToSeconds(e.duration),
                 comment: e.comment,
-                createdAt: e.createdAt,
+                createdAt: e.createdAt || new Date().toISOString(),
                 isPlanned: e.isPlanned,
                 tagList: e.tagList || []
             };
@@ -796,7 +796,7 @@ async function importBdD(dataToImport) {
                 title: e.title,
                 activityName: e.activityName,
                 location: e.location,
-                distance: e.distance,
+                distance: typeof e.distance === "number" ? e.distance : Number(e.distance) || 0,
                 duration: e.duration,
                 comment: e.comment,
                 isPlanned: e.isPlanned,

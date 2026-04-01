@@ -27,7 +27,7 @@ const specialEventKey = {
     COLLAB_25_B: [
         "COLLAB-EXCEPTION",
     ],
-    GRR_974_26: [
+    TRV_974_26: [
         "TRAVERSE-974",
     ]
 };

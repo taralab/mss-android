@@ -8,8 +8,8 @@ android {
         applicationId "fr.taralab.monsuivisportif"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "2.6.0"
+        versionCode 10
+        versionName "2.6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
             // Files and dirs to omit from packaged assets, adapted for modern web apps
